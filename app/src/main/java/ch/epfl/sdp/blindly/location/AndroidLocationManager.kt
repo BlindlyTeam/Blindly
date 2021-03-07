@@ -6,7 +6,6 @@ import android.location.LocationProvider
 
 data class AndroidLocationManager(val locationManager: LocationManager, val locationProvider: LocationProvider, val locationCriteria: Criteria): LocationService {
 
-
     override fun getCurrentLocation() {
     }
 }
