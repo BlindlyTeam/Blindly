@@ -19,4 +19,11 @@
     <string name="continue_str">CONTINUE</string>
     <string name="my_birthday_is">My birthday is</string>
     <string name="continue_str3">CONTINUE</string>
+    <string name="i_am_a">I am a</string>
+    <string name="man">MAN</string>
+    <string name="woman">WOMAN</string>
+    <string name="other">OTHER</string>
+    <string name="more">MORE</string>
+    <string name="please_specify">Please specify.</string>
+    <string name="please_specify_gender">Please specify gender.</string>
 </resources>
