@@ -7,10 +7,22 @@
     tools:context=".recording.RecordingActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/recordingText"
+        android:layout_width="262dp"
+        android:layout_height="82dp"
+        android:text="Present yourself by recording an audio file"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.289" />
+
+    <Button
+        android:id="@+id/recordingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Audio Recording"
+        android:text="Start recording"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
