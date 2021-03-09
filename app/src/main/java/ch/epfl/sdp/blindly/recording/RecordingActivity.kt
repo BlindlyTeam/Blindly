@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.recording
 
+import android.media.MediaPlayer
 import android.media.MediaRecorder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,11 +9,11 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import ch.epfl.sdp.blindly.R
-import java.io.File
 import java.io.IOException
 
 class RecordingActivity : AppCompatActivity() {
     private lateinit var mediaRecorder: MediaRecorder
+    private lateinit var mediaPlayer: MediaPlayer
 
     private var fileName: String = ""
 
@@ -59,7 +60,7 @@ class RecordingActivity : AppCompatActivity() {
 
     }
 
-    fun recordButtonClick() {
+    fun recordButtonClick(view: View) {
         if (!isRecording) {
             startRecording()
             recordButton.text = "Stop recording"
@@ -69,7 +70,7 @@ class RecordingActivity : AppCompatActivity() {
         }
     }
 
-    fun listenButtonClick() {
+    fun listenButtonClick(view: View) {
         if (!isListening) {
             startListening()
             listenButton.text = "Stop listening"
@@ -80,11 +81,16 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     fun startListening() {
-
-    }
-
-    fun stopListening() {
-
+        mediaPlayer = MediaPlayer().apply {
+            try {
+                setDataSource(fileName)
+                prepare()
+                start()
+            } catch (e: IOException) {
+                e.printStackTrace()
+                // TODO
+            }
+        }
     }
 
     fun startRecording() {
