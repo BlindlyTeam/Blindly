@@ -28,32 +28,21 @@
         android:layout_marginBottom="33dp"
         android:onClick="recordButtonClick"
         android:text="Start recording"
-        app:layout_constraintBottom_toTopOf="@+id/listeningButton"
+        app:layout_constraintBottom_toTopOf="@+id/playingButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/listeningButton"
+        android:id="@+id/playingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
-        android:onClick="listenButtonClick"
-        android:text="Start listening"
+        android:onClick="playButtonClick"
+        android:text="Start playing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recordingButton" />
 
-    <TextView
-        android:id="@+id/validationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="178dp"
-        android:text="Your audio has been saved"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listeningButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package ch.epfl.sdp.blindly.recording
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import androidx.appcompat.app.AppCompatActivity
@@ -8,8 +10,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import ch.epfl.sdp.blindly.R
 import java.io.IOException
+
+private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class RecordingActivity : AppCompatActivity() {
     private lateinit var mediaRecorder: MediaRecorder
@@ -18,46 +23,41 @@ class RecordingActivity : AppCompatActivity() {
     private var fileName: String = ""
 
     private var isRecording = false
-    private var isListening = false
+    private var isPlaying = false
 
     private lateinit var recordButton: Button
-    private lateinit var listenButton: Button
-    private lateinit var recordText: TextView
+    private lateinit var playButton: Button
+
+    var permissionToRecordAccepted = false
+    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording)
 
         recordButton = findViewById(R.id.recordingButton)
-        listenButton = findViewById(R.id.listeningButton)
-        recordText = findViewById(R.id.validationText)
+        playButton = findViewById(R.id.playingButton)
+        playButton.isEnabled = false
 
-        mediaRecorder = createRecorder()
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
         // Record to the external cache for now
         fileName = "${externalCacheDir?.absolutePath}/audioRecordTest.3gp"
     }
 
-    private fun createRecorder(): MediaRecorder {
-        val recorder = MediaRecorder().apply {
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-            setOutputFile(fileName)
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        permissionToRecordAccepted = if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
+        } else {
+            false
         }
-
-        return recorder
+        if (!permissionToRecordAccepted) finish()
     }
 
-    fun prepareRecording() {
-        try {
-            mediaRecorder.prepare()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Toast.makeText(this, "File creation failed : ${e.message}",
-                    Toast.LENGTH_SHORT).show()
-        }
-
+    override fun onStop() {
+        super.onStop()
+        mediaRecorder.release()
+        mediaPlayer.release()
     }
 
     fun recordButtonClick(view: View) {
@@ -70,39 +70,76 @@ class RecordingActivity : AppCompatActivity() {
         }
     }
 
-    fun listenButtonClick(view: View) {
-        if (!isListening) {
-            startListening()
-            listenButton.text = "Stop listening"
+    fun playButtonClick(view: View) {
+        if (!isPlaying) {
+            startPlaying()
+            playButton.text = "Stop playing"
         } else {
-            stopRecording()
-            listenButton.text = "Start listening"
+            stopPlaying()
+            playButton.text = "Start playing"
         }
     }
 
-    fun startListening() {
-        mediaPlayer = MediaPlayer().apply {
-            try {
-                setDataSource(fileName)
-                prepare()
-                start()
-            } catch (e: IOException) {
-                e.printStackTrace()
-                // TODO
-            }
+    private fun createRecorder(): MediaRecorder {
+        val recorder = MediaRecorder().apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            setOutputFile(fileName)
         }
+        return recorder
     }
 
-    fun startRecording() {
+    private fun prepareRecording() {
+        try {
+            mediaRecorder.prepare()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(this, "File creation failed : ${e.message}",
+                    Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun startRecording() {
+        mediaRecorder = createRecorder()
         isRecording = true
         prepareRecording()
         mediaRecorder.start()
     }
 
-    fun stopRecording() {
+    private fun stopRecording() {
         isRecording = false
         mediaRecorder.stop()
-        mediaRecorder.reset()
+        mediaRecorder.release()
+        playButton.isEnabled = true
+    }
+
+    private fun createPlayer(): MediaPlayer {
+        val player = MediaPlayer()
+        player.setDataSource(fileName)
+        return player
+    }
+
+    private fun preparePlaying() {
+        try {
+            mediaPlayer.prepare()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(this, "MediaPlayer preparation failed : ${e.message}",
+                    Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun startPlaying() {
+        mediaPlayer = createPlayer()
+        isPlaying = true
+        preparePlaying()
+        mediaPlayer.start()
+    }
+
+    private fun stopPlaying() {
+        mediaPlayer.release()
     }
 
 }
