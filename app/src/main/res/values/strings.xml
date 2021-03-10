@@ -26,4 +26,17 @@
     <string name="more">MORE</string>
     <string name="please_specify">Please specify.</string>
     <string name="please_specify_gender">Please specify gender.</string>
+    <string name="queer">Queer</string>
+    <string name="pansexual">Pansexual</string>
+    <string name="select_up_to_3">Select up to 3.</string>
+    <string name="my_sexual_orientation_is">My sexual orientation is</string>
+    <string name="questioning">Questioning</string>
+    <string name="asexual">Asexual</string>
+    <string name="bisexual">Bisexual</string>
+    <string name="demisexual">Demisexual</string>
+    <string name="lesbian">Lesbian</string>
+    <string name="straight">Straight</string>
+    <string name="gay">Gay</string>
+    <string name="everyone">EVERYONE</string>
+    <string name="show_me">Show me</string>
 </resources>
