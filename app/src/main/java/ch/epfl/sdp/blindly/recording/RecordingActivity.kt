@@ -90,7 +90,7 @@ class RecordingActivity : AppCompatActivity() {
         val recorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
             setOutputFile(fileName)
         }
         return recorder
