@@ -1,7 +1,13 @@
-package ch.epfl.sdp.blindly.location
+package ch.epfl.sdp.blindly
 
+import android.content.Context
+import android.location.Criteria
+import android.location.Location
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ch.epfl.sdp.blindly.location.AndroidLocationService
+import ch.epfl.sdp.blindly.location.LocationService
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -13,14 +19,25 @@ import com.google.android.gms.maps.model.MarkerOptions
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private var location: Location? = null
+    private lateinit var locService: LocationService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val criteria = Criteria()
+        locService = AndroidLocationService(this.getSystemService(Context.LOCATION_SERVICE) as LocationManager, null, criteria)
+        location = locService.getCurrentLocation()
+
+
+
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        
+
     }
 
     /**
@@ -36,8 +53,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val loc: LatLng = if(location != null) {
+            LatLng(location!!.latitude, location!!.longitude)
+        } else {
+            LatLng(46.5, 6.6)
+        }
+        mMap.addMarker(MarkerOptions().position(loc).title("My position"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc))
     }
 }
