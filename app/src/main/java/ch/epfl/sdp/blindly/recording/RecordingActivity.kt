@@ -11,14 +11,15 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import ch.epfl.sdp.blindly.R
 import java.io.IOException
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class RecordingActivity : AppCompatActivity() {
-    private lateinit var mediaRecorder: MediaRecorder
-    private lateinit var mediaPlayer: MediaPlayer
+    private var mediaRecorder: MediaRecorder? = null
+    private var mediaPlayer: MediaPlayer? = null
 
     private var fileName: String = ""
 
@@ -27,6 +28,7 @@ class RecordingActivity : AppCompatActivity() {
 
     private lateinit var recordButton: Button
     private lateinit var playButton: Button
+    private lateinit var recordText: TextView
 
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -38,6 +40,8 @@ class RecordingActivity : AppCompatActivity() {
         recordButton = findViewById(R.id.recordingButton)
         playButton = findViewById(R.id.playingButton)
         playButton.isEnabled = false
+        recordText = findViewById(R.id.recordingText)
+        recordText.isVisible = false
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
@@ -56,8 +60,10 @@ class RecordingActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        mediaRecorder.release()
-        mediaPlayer.release()
+        mediaRecorder?.release()
+        mediaRecorder = null
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
     fun recordButtonClick(view: View) {
@@ -92,27 +98,28 @@ class RecordingActivity : AppCompatActivity() {
 
     private fun prepareRecording() {
         try {
-            mediaRecorder.prepare()
+            mediaRecorder?.prepare()
         } catch (e: IOException) {
             e.printStackTrace()
             Toast.makeText(this, "File creation failed : ${e.message}",
                     Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun startRecording() {
         mediaRecorder = createRecorder()
         isRecording = true
         prepareRecording()
-        mediaRecorder.start()
+        mediaRecorder?.start()
+        recordText.isVisible = true
     }
 
     private fun stopRecording() {
         isRecording = false
-        mediaRecorder.stop()
-        mediaRecorder.release()
+        mediaRecorder?.stop()
+        mediaRecorder?.release()
         playButton.isEnabled = true
+        recordText.text = "Done !"
     }
 
     private fun createPlayer(): MediaPlayer {
@@ -123,7 +130,7 @@ class RecordingActivity : AppCompatActivity() {
 
     private fun preparePlaying() {
         try {
-            mediaPlayer.prepare()
+            mediaPlayer?.prepare()
         } catch (e: IOException) {
             e.printStackTrace()
             Toast.makeText(this, "MediaPlayer preparation failed : ${e.message}",
@@ -135,11 +142,11 @@ class RecordingActivity : AppCompatActivity() {
         mediaPlayer = createPlayer()
         isPlaying = true
         preparePlaying()
-        mediaPlayer.start()
+        mediaPlayer?.start()
     }
 
     private fun stopPlaying() {
-        mediaPlayer.release()
+        mediaPlayer?.release()
     }
 
 }
