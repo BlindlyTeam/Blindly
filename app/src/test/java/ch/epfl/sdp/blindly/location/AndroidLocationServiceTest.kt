@@ -1,13 +1,8 @@
 package ch.epfl.sdp.blindly.location
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
-import org.junit.Assert.*
 import org.junit.Test
 
 class AndroidLocationServiceTest {
-
-    val context = ApplicationProvider.getApplicationContext<Context>()
 
     @Test
     fun buildWithContextAndProvider() {
