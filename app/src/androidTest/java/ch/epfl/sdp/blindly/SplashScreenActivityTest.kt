@@ -17,9 +17,7 @@ class SplashScreenActivityTest {
     val activityRule = ActivityScenarioRule(SplashScreen::class.java)
     @Test
     fun mainActivityAppearsAfterDelay(){
-        init()
-        onView(withId(R.id.splash_screen_bckg))
-        release()
+
     }
 
 }
