@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile5">
+
+    <ProgressBar
+        android:id="@+id/progressBar_p5"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="413dp"
+        android:layout_height="62dp"
+        android:progress="80"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/button_p5"
+        android:layout_width="231dp"
+        android:layout_height="61dp"
+        android:onClick="start_profile_6"
+        android:text="@string/continue_str"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955" />
+
+
+    <TextView
+        android:id="@+id/text_p5"
+        android:layout_width="230dp"
+        android:layout_height="117dp"
+        android:text="@string/my_sexual_orientation_is"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.246"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.191" />
+
+
+    <TextView
+        android:id="@+id/guideline_p5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_up_to_3"
+        app:layout_constraintBottom_toTopOf="@+id/chip1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_p5"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip7"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:checkable="true"
+        android:text="@string/pansexual"
+        android:textAlignment="center"
+        app:checkedIconEnabled="false"
+        app:chipBackgroundColor="@color/chip_state_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chip8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.72" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip8"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:checkable="true"
+        android:text="@string/queer"
+        android:textAlignment="center"
+        app:checkedIconEnabled="false"
+        app:chipBackgroundColor="@color/chip_state_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/chip7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.72" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip9"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:checkable="true"
+        android:text="@string/questioning"
+        android:textAlignment="center"
+        app:checkedIconEnabled="false"
+        app:chipBackgroundColor="@color/chip_state_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.794" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip5"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:checkable="true"
+        android:text="@string/asexual"
+        android:textAlignment="center"
+        app:checkedIconEnabled="false"
+        app:chipBackgroundColor="@color/chip_state_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/chip4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.574" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip4"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:checkable="true"
+        android:text="@string/bisexual"
+        android:textAlignment="center"
+        app:checkedIconEnabled="false"
+        app:chipBackgroundColor="@color/chip_state_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chip5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.574" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip6"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:checkable="true"
+        android:text="@string/demisexual"
+        android:textAlignment="center"
+        app:checkedIconEnabled="false"
+        app:chipBackgroundColor="@color/chip_state_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.647" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip3"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:checkable="true"
+        android:text="@string/lesbian"
+        android:textAlignment="center"
+        app:checkedIconEnabled="false"
+        app:chipBackgroundColor="@color/chip_state_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip1"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:checkable="true"
+        android:focusable="true"
+        android:text="@string/straight"
+        android:textAlignment="center"
+        app:checkedIconEnabled="false"
+        app:chipBackgroundColor="@color/chip_state_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chip2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.427" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip2"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:checkable="true"
+        android:text="@string/gay"
+        android:textAlignment="center"
+        app:checkedIconEnabled="false"
+        app:chipBackgroundColor="@color/chip_state_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/chip1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.427" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
