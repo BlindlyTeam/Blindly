@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splash_screen_bckg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashScreen"
-    android:background="@drawable/splashscreen">
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:background="@drawable/splashscreen"
+    tools:context=".SplashScreen"></androidx.constraintlayout.widget.ConstraintLayout>
