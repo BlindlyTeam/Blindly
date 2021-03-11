@@ -23,38 +23,6 @@ class RecordingActivityTest {
     val activityRule = ActivityScenarioRule(RecordingActivity::class.java)
 
     @Test
-    fun onCreateWorks() {
-        // TODO
-    }
-
-    // Permissions test seem to not pass I don't know why
-    /*@Test
-    fun onRequestPermissionsResultGrantsPermissionCorrectly() {
-        val recordingActivity = RecordingActivity()
-        val permissions = arrayOf<String>()
-        val grantResults = IntArray(2)
-        recordingActivity.onRequestPermissionsResult(REQUEST_RECORD_AUDIO_PERMISSION, permissions,
-                grantResults)
-        assertThat(recordingActivity.permissionToRecordAccepted,
-                equalTo(grantResults[0] == PackageManager.PERMISSION_GRANTED))
-    }
-
-    @Test
-    fun onRequestPermissionResultDeniesPermissionCorrectly() {
-        val recordingActivity = RecordingActivity()
-        val permissions = arrayOf<String>()
-        val grantResults = IntArray(2)
-        recordingActivity.onRequestPermissionsResult(0, permissions,
-                grantResults)
-        assertThat(recordingActivity.permissionToRecordAccepted, equalTo(false))
-    }*/
-
-    @Test
-    fun onStopWorks() {
-        // TODO
-    }
-
-    @Test
     fun recordingTextIsCorrectlyDisplayed() {
         val recordButton = Espresso.onView(withId(R.id.recordingButton))
         val recordingText = Espresso.onView(withId(R.id.recordingText))
