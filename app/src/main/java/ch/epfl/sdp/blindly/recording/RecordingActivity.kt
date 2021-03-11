@@ -146,7 +146,7 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     private fun stopPlaying() {
-        mediaPlayer?.release()
+        mediaPlayer?.stop()
     }
 
 }
