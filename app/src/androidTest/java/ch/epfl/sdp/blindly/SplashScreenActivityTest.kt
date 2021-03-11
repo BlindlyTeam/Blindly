@@ -11,7 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 
-@RunWith(AndroidJUnit4::class)
+/*@RunWith(AndroidJUnit4::class)
 class SplashScreenActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(SplashScreen::class.java)
@@ -20,4 +20,4 @@ class SplashScreenActivityTest {
 
     }
 
-}
+}*/
