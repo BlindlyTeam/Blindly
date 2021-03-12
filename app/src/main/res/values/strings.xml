@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Blindly</string>
+    <string name="title_activity_splash_screen">FullscreenActivity</string>
     <string name="blindly_app_logo">Blindly App Logo</string>
     <string name="welcome_to_blindly">Welcome to Blindly.</string>
     <string name="start">Start</string>
