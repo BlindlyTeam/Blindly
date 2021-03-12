@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
-val SPLASH_SCREEN_DELAY : Long = 2500
+val MAIN_SCREEN_DELAY : Long = 2500
 class SplashScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +22,6 @@ class SplashScreen : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this@SplashScreen, MainActivity::class.java))
-            finish()
-        }, SPLASH_SCREEN_DELAY)
+        }, MAIN_SCREEN_DELAY)
     }
 }
