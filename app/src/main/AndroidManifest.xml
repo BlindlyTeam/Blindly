@@ -9,17 +9,24 @@
         android:roundIcon="@mipmap/blindly_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly">
+        <activity android:name=".Profile4_2"></activity>
+        <activity android:name=".Profile6" />
+        <activity android:name=".Profile5" />
+        <activity android:name=".Profile4" />
+        <activity android:name=".Profile3" />
+        <activity android:name=".Profile2" />
+        <activity android:name=".Profile1" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+              
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+              
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
