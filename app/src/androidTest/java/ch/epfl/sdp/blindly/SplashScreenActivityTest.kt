@@ -49,7 +49,6 @@ class SplashScreenActivityTest {
     }
 
     private fun areBitmapsEqual(bitmap1: Bitmap, bitmap2: Bitmap): Boolean {
-        // compare two bitmaps by their bytes
         val array1 = bitmapToByteArray(bitmap1)
         val array2 = bitmapToByteArray(bitmap2)
         return array1.contentEquals(array2)
