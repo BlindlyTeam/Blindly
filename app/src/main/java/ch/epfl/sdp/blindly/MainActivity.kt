@@ -28,7 +28,9 @@ class MainActivity : AppCompatActivity() {
             button.setOnClickListener { startActivity(Intent(this, MyAccountActivity::class.java)) }
         } else {
             button.setText(R.string.home_button_user_loggedout)
-            button.setOnClickListener { UserHelper.startSignInActivity(this) }
+            button.setOnClickListener {
+                startActivityForResult(UserHelper.getSignInIntent(), UserHelper.RC_SIGN_IN )
+            }
         }
     }
 
@@ -38,22 +40,8 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == UserHelper.RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-
-            if (resultCode == Activity.RESULT_OK) {
-                // Successfully signed in
-                val user = FirebaseAuth.getInstance().currentUser
-                setupButton()
-                // ...
-            } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-                if (response != null) {
-                    Toast.makeText(applicationContext, getString(R.string.login_err, response.error?.errorCode ?: -1), Toast.LENGTH_LONG).show();
-                }
-            }
+            if (UserHelper.handleAuthResult(this, resultCode, data) )
+                setupButton();
         }
     }
 }

@@ -1,16 +1,14 @@
 package ch.epfl.sdp.blindly.utils
 
-import android.Manifest
 import android.app.Activity
 import android.content.ContentValues.TAG
-import android.content.Context
-import android.content.pm.PackageManager
-import android.telephony.TelephonyManager
+import android.content.Intent
 import android.util.Log
-import androidx.core.app.ActivityCompat
+import android.widget.Toast
 import androidx.core.app.ActivityCompat.startActivityForResult
 import ch.epfl.sdp.blindly.R
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -21,7 +19,7 @@ class UserHelper {
 
     companion object {
 
-        public fun startSignInActivity(activity: Activity) {
+        public fun getSignInIntent(): Intent {
             // Optionnaly get phone number to set default in login form
             val phoneProvider = AuthUI.IdpConfig.PhoneBuilder()
             /*
@@ -34,9 +32,9 @@ class UserHelper {
                     phoneProvider.build(),
                     AuthUI.IdpConfig.GoogleBuilder().build()
             )
-            startActivityForResult(
-                    activity,
-                    AuthUI.getInstance()
+
+
+            return AuthUI.getInstance()
                             .createSignInIntentBuilder()
                             .setAvailableProviders(providers)
                             //.setLogo(R.drawable.my_great_logo) // Set logo drawable
@@ -44,9 +42,8 @@ class UserHelper {
                             /*.setTosAndPrivacyPolicyUrls(
                     "https://example.com/terms.html",
                     "https://example.com/privacy.html")*/
-                            .build(),
-                    UserHelper.RC_SIGN_IN, null
-            )
+                            .build();
+
         }
 
         public fun signOut(activity: Activity, onComplete: OnCompleteListener<Void>) {
@@ -83,6 +80,32 @@ class UserHelper {
                     .addOnFailureListener { exception ->
                         Log.w(TAG, "Error getting documents.", exception)
                     }
+        }
+
+        public fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Boolean {
+            val response = IdpResponse.fromResultIntent(data)
+
+            if (resultCode == Activity.RESULT_OK) {
+                // Successfully signed in
+                val user = FirebaseAuth.getInstance().currentUser
+                return true;
+                // ...
+            } else {
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+                if (response != null) {
+                    Toast.makeText(activity.applicationContext,
+                        activity.getString(
+                            R.string.login_err,
+                            response.error?.errorCode ?: -1
+                        ),
+                        Toast.LENGTH_LONG
+                    ).show();
+                }
+                return false;
+            }
         }
 
 
