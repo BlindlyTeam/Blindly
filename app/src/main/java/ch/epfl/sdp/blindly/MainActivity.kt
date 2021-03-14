@@ -18,5 +18,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun start_main_screen(view:View) {
+        startActivity(Intent(this, MainScreen::class.java))
+    }
+
 
 }

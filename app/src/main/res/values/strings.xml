@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Blindly</string>
-    <string name="title_activity_splash_screen">FullscreenActivity</string>
+    <string name="splash_screen">Blindly Splash Screen</string>
     <string name="blindly_app_logo">Blindly App Logo</string>
     <string name="welcome_to_blindly">Welcome to Blindly.</string>
     <string name="start">Start</string>
@@ -40,4 +40,13 @@
     <string name="gay">Gay</string>
     <string name="everyone">EVERYONE</string>
     <string name="show_me">Show me</string>
+    <string name="edit_profile_info">Edit Info</string>
+    <string name="settings_profile">Settings</string>
+    <string name="record_audio_profile">Record Audio</string>
+    <string name="audio_library">AUDIO LIBRARY</string>
+    <string name="main_page">Main</string>
+    <string name="profile_page">Profile</string>
+    <string name="match_page">Match</string>
+    <string name="message_page">Message</string>
+    <string name="goto_main_screen">Main Screen</string>
 </resources>
