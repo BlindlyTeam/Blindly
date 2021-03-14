@@ -8,4 +8,36 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
+
+    <style name="Widget.Theme.Blindly.Audio.Library.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/pill_shape_button_blindly</item>
+        <item name="textAllCaps">true</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="Widget.Theme.Blindly.Record.Audio.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/record_audio_button_bckg</item>
+        <item name="textAllCaps">true</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="Widget.Theme.Blindly.Edit.Info.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/record_audio_button_bckg</item>
+        <item name="textAllCaps">true</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="Widget.Theme.Blindly.Settings.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/record_audio_button_bckg</item>
+        <item name="textAllCaps">true</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
 </resources>

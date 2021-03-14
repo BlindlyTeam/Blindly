@@ -6,46 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".MainScreen">
 
-    <ImageButton
+    <Button
         android:id="@+id/record_audio_profile_button"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="49dp"
-        android:layout_marginEnd="28dp"
-        android:background="@color/transparent"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="25dp"
+        style="@style/Widget.Theme.Blindly.Record.Audio.Button"
         android:padding="8dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/record_audio_button"
         app:layout_constraintEnd_toStartOf="@+id/settings_profile_button"
         app:layout_constraintStart_toEndOf="@+id/edit_info_profile_button"
         app:layout_constraintTop_toBottomOf="@+id/user_description_text" />
 
-    <ImageButton
+    <Button
         android:id="@+id/edit_info_profile_button"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="49dp"
-        android:layout_marginTop="49dp"
-        android:background="@color/transparent"
+        android:layout_marginTop="58dp"
+        style="@style/Widget.Theme.Blindly.Edit.Info.Button"
         android:padding="8dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/record_audio_button"
         app:layout_constraintBottom_toTopOf="@+id/edit_profile_info_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_description_text" />
 
-    <ImageButton
+    <Button
         android:id="@+id/settings_profile_button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="49dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="1dp"
-        android:background="@color/transparent"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginEnd="49dp"
+        style="@style/Widget.Theme.Blindly.Settings.Button"
         android:padding="8dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/record_audio_button"
         app:layout_constraintBottom_toTopOf="@+id/settings_profile_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_description_text" />
@@ -56,13 +49,13 @@
         android:layout_height="50dp"
         android:layout_marginStart="65dp"
         android:layout_marginEnd="66dp"
-        android:layout_marginBottom="83dp"
-        android:background="@drawable/audio_library_button"
+        android:layout_marginBottom="116dp"
+        style="@style/Widget.Theme.Blindly.Audio.Library.Button"
         android:text="@string/audio_library"
+        android:textColor="@color/white"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -83,8 +76,11 @@
         android:layout_height="45dp"
         android:layout_marginStart="85dp"
         android:layout_marginTop="52dp"
+        android:layout_marginEnd="86dp"
         android:textAlignment="center"
         android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -92,47 +88,44 @@
         android:id="@+id/record_audio_profile_text"
         android:layout_width="98dp"
         android:layout_height="59dp"
-        android:layout_marginStart="155dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="158dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="191dp"
         android:text="@string/record_audio_profile"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_audio_profile_button" />
+        app:layout_constraintBottom_toTopOf="@+id/audio_library_profile_button"
+        app:layout_constraintEnd_toStartOf="@+id/settings_profile_text"
+        app:layout_constraintStart_toEndOf="@+id/edit_profile_info_text"
+        app:layout_constraintTop_toBottomOf="@+id/record_audio_profile_button"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/settings_profile_text"
         android:layout_width="80dp"
         android:layout_height="22dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="252dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="237dp"
         android:text="@string/settings_profile"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/audio_library_profile_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/record_audio_profile_button"
         app:layout_constraintTop_toBottomOf="@+id/settings_profile_button" />
 
     <TextView
         android:id="@+id/edit_profile_info_text"
         android:layout_width="78dp"
         android:layout_height="22dp"
-        android:layout_marginStart="51dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="253dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginBottom="237dp"
         android:text="@string/edit_profile_info"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/audio_library_profile_button"
-        app:layout_constraintEnd_toStartOf="@+id/record_audio_profile_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_info_profile_button" />
 
