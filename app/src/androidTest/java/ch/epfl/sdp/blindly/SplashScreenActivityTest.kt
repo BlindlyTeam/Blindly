@@ -65,10 +65,10 @@ class SplashScreenActivityTest {
         init()
         var imageView: ImageView? = null
         activityRule.scenario.onActivity {activity ->
-            imageView = activity.findViewById(R.id.splash_screen)
+            imageView = activity.findViewById(R.id.splashscreen_heart)
         }
 
-        val resIdImage: Int = R.drawable.splashscreen
+        val resIdImage: Int = R.drawable.splash_screen_foreground
 
         if (!imageView?.let { isImageEqualToRes(it, resIdImage) }!!) {
             fail("Expected to find splashscreen.png for splash_screen")
