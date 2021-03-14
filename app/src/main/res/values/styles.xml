@@ -18,7 +18,7 @@
     </style>
 
     <style name="Widget.Theme.Blindly.Record.Audio.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@drawable/record_audio_button_bckg</item>
+        <item name="android:background">@drawable/audio_record_button</item>
         <item name="textAllCaps">true</item>
         <item name="backgroundTint">@null</item>
         <item name="android:insetTop">0dp</item>
@@ -26,7 +26,7 @@
     </style>
 
     <style name="Widget.Theme.Blindly.Edit.Info.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@drawable/record_audio_button_bckg</item>
+        <item name="android:background">@drawable/edit_button</item>
         <item name="textAllCaps">true</item>
         <item name="backgroundTint">@null</item>
         <item name="android:insetTop">0dp</item>
@@ -34,7 +34,7 @@
     </style>
 
     <style name="Widget.Theme.Blindly.Settings.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@drawable/record_audio_button_bckg</item>
+        <item name="android:background">@drawable/settings_button</item>
         <item name="textAllCaps">true</item>
         <item name="backgroundTint">@null</item>
         <item name="android:insetTop">0dp</item>
