@@ -40,4 +40,6 @@
     <string name="gay">Gay</string>
     <string name="everyone">EVERYONE</string>
     <string name="show_me">Show me</string>
+    <string name="logout_button_text">Log out</string>
+    <string name="login_err">Login failed,error code: %1$d</string>
 </resources>
