@@ -13,7 +13,6 @@
         android:theme="@style/Theme.Blindly">
         <activity android:name=".SettingsLocation"></activity>
         <activity android:name=".SettingsShowMe" />
-        <activity android:name=".Settings_Location" />
         <activity android:name=".AudioLibrary" />
         <activity android:name=".EditProfile" />
         <activity android:name=".Settings" />
