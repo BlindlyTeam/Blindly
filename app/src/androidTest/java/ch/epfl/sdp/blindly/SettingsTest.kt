@@ -67,4 +67,8 @@ class SettingsTest {
         radiusText.check(ViewAssertions.matches(ViewMatchers.withText("80km")))
         release()
     }
+
+    /*TODO: need to check that the value modified by the children (SettingsLocation and
+            SeetingsShowMe) propagate to the parent activity
+     */
 }

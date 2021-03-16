@@ -50,27 +50,35 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:gravity="center"/>
-
             <TextView
                 android:id="@+id/email_text"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="49dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:gravity="center"
                 android:text="@string/email"
-                android:textAlignment="textStart"
                 android:textSize="15sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"/>
 
             <TextView
                 android:id="@+id/email_address_text"
-                android:layout_width="2dp"
+                android:layout_width="wrap_content"
                 android:layout_height="49dp"
-                android:layout_weight="2"
+                android:layout_weight="0"
                 android:gravity="center"
-                android:textAlignment="textEnd"
                 android:textSize="15sp"
                 android:clickable="true"
                 android:focusable="true" />
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center"/>
 
             <Button
                 android:id="@+id/modify_email_address_button"
@@ -79,6 +87,11 @@
                 android:layout_height="15dp"
                 android:layout_weight="0"
                 android:padding="8dp" />
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center"/>
         </LinearLayout>
 
         <View
@@ -116,27 +129,33 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:gravity="center"/>
-
             <TextView
                 android:id="@+id/location_text"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="49dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:gravity="center"
                 android:text="@string/location"
-                android:textAlignment="textStart"
                 android:textSize="15sp" />
-
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"/>
             <TextView
                 android:id="@+id/current_location_text"
-                android:layout_width="2dp"
+                android:layout_width="wrap_content"
                 android:layout_height="49dp"
-                android:layout_weight="2"
+                android:layout_weight="0"
                 android:gravity="center"
-                android:textAlignment="textEnd"
                 android:textSize="15sp"
                 android:clickable="true"
                 android:focusable="true"/>
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center"/>
             <Button
                 android:id="@+id/modify_location_button"
                 style="@style/Widget.Theme.Blindly.Arrow.Button"
@@ -144,6 +163,11 @@
                 android:layout_height="15dp"
                 android:layout_weight="0"
                 android:padding="8dp"/>
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center"/>
         </LinearLayout>
 
         <View
@@ -167,24 +191,28 @@
 
             <TextView
                 android:id="@+id/maximu_distance_text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_weight="0"
                 android:gravity="center"
                 android:text="@string/maximum_distance"
-                android:textAlignment="textStart"
                 android:textSize="15sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"/>
 
             <TextView
                 android:id="@+id/radius_text"
-                android:layout_width="2dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_weight="2"
+                android:layout_weight="0"
                 android:gravity="center"
-                android:textAlignment="textEnd"
                 android:textSize="15sp" />
             <Space
-                android:layout_width="10dp"
+                android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:gravity="center"/>
@@ -233,33 +261,38 @@
             android:orientation="horizontal"
             android:layout_weight="1"
             android:gravity="center">
-
             <Space
                 android:layout_width="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:gravity="center"/>
-
             <TextView
                 android:id="@+id/looking_for_text"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="49dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:gravity="center"
                 android:text="@string/looking_for"
-                android:textAlignment="textStart"
                 android:textSize="15sp" />
-
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"/>
             <TextView
                 android:id="@+id/show_me_text"
-                android:layout_width="2dp"
+                android:layout_width="wrap_content"
                 android:layout_height="49dp"
-                android:layout_weight="2"
+                android:layout_weight="0"
                 android:gravity="center"
-                android:textAlignment="textEnd"
                 android:textSize="15sp"
                 android:clickable="true"
                 android:focusable="true"/>
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center"/>
 
             <Button
                 android:id="@+id/modify_genre_button"
@@ -268,6 +301,11 @@
                 android:layout_height="15dp"
                 android:layout_weight="0"
                 android:padding="8dp" />
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center"/>
         </LinearLayout>
 
         <View
