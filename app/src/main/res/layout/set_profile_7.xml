@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip43"
+                    android:id="@+id/chip10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -79,7 +79,7 @@
                     app:chipEndPadding="6dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip36"
+                    android:id="@+id/chip11"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -91,7 +91,7 @@
                     app:chipEndPadding="6dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip38"
+                    android:id="@+id/chip12"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -109,19 +109,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip15"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:text="Running"
-                    android:textAlignment="center"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip16"
+                    android:id="@+id/chip13"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -131,6 +119,17 @@
                     app:checkedIconEnabled="false"
                     app:chipBackgroundColor="@color/chip_state_colors"
                     app:chipEndPadding="6dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip14"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:text="Running"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
             </TableRow>
 
@@ -159,8 +158,7 @@
                     android:text="Coffee"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip17"
@@ -180,7 +178,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip11"
+                    android:id="@+id/chip18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -188,11 +186,10 @@
                     android:text="Walking"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip41"
+                    android:id="@+id/chip19"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -210,7 +207,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip18"
+                    android:id="@+id/chip20"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -218,11 +215,10 @@
                     android:text="Yoga"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip19"
+                    android:id="@+id/chip21"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -230,11 +226,10 @@
                     android:text="Karaoke"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip16"
+                    android:id="@+id/chip22"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -242,8 +237,8 @@
                     android:text="Dog Lover"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
+
             </TableRow>
 
             <TableRow
@@ -251,7 +246,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip15"
+                    android:id="@+id/chip23"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -259,11 +254,10 @@
                     android:text="Gamer"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip17"
+                    android:id="@+id/chip24"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -271,8 +265,7 @@
                     android:text="Art"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
             </TableRow>
 
             <TableRow
@@ -281,31 +274,19 @@
                 android:layout_weight="1">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip44"
+                    android:id="@+id/chip25"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checkable="true"
-                    android:text="Fashion"
+                    android:text="Cocktails"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
                     app:chipBackgroundColor="@color/chip_state_colors"
                     app:chipEndPadding="6dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip23"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:text="Photography"
-                    android:textAlignment="center"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip33"
+                    android:id="@+id/chip26"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -315,6 +296,17 @@
                     app:checkedIconEnabled="false"
                     app:chipBackgroundColor="@color/chip_state_colors"
                     app:chipEndPadding="6dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip27"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:text="Photography"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
             </TableRow>
 
             <TableRow
@@ -323,7 +315,7 @@
                 android:layout_weight="1">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip12"
+                    android:id="@+id/chip28"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -331,11 +323,10 @@
                     android:text="Writer"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip40"
+                    android:id="@+id/chip29"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -352,7 +343,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip10"
+                    android:id="@+id/chip30"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -360,11 +351,10 @@
                     android:text="Baking"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip39"
+                    android:id="@+id/chip31"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -393,7 +383,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip42"
+                    android:id="@+id/chip33"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -423,41 +413,31 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip30"
+                    android:id="@+id/chip35"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:checkable="true"
                     android:text="Movies"
                     android:textAlignment="center"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip45"
+                    android:id="@+id/chip36"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:checkable="true"
-                    android:text="Swimming"
+                    android:text="Climbing"
                     android:textAlignment="center"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip14"
+                    android:id="@+id/chip37"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:checkable="true"
-                    android:text="Cat Lover"
+                    android:text="Fishing"
                     android:textAlignment="center"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
-
+                    app:chipBackgroundColor="@color/chip_state_colors" />
             </TableRow>
 
             <TableRow
@@ -465,19 +445,18 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip37"
+                    android:id="@+id/chip38"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checkable="true"
-                    android:text="Climbing"
+                    android:text="Cat Lover"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip29"
+                    android:id="@+id/chip39"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -485,8 +464,8 @@
                     android:text="Reading"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
+
             </TableRow>
 
             <TableRow
@@ -494,40 +473,37 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip31"
+                    android:id="@+id/chip40"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checkable="true"
-                    android:text="Sports"
+                    android:text="Football"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip13"
+                    android:id="@+id/chip41"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checkable="true"
-                    android:text="Politics"
+                    android:text="Spirituality"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip35"
+                    android:id="@+id/chip42"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checkable="true"
-                    android:text="Hiking"
+                    android:text="Gardening"
                     android:textAlignment="center"
                     app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/chip_state_colors"
-                    app:chipEndPadding="6dp" />
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
             </TableRow>
 
