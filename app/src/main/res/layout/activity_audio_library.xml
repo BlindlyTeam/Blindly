@@ -6,13 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".AudioLibrary">
 
-    <EditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/audio_library_toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/audio_library"
-        tools:layout_editor_absoluteX="93dp"
-        tools:layout_editor_absoluteY="351dp" />
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/audio_library_toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

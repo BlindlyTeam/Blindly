@@ -57,4 +57,5 @@
     <string name="looking_for">Looking for</string>
     <string name="settings_location">Location</string>
     <string name="settings_show_me">Show Me</string>
+    <string name="audio_library_toolbar">Audio Library</string>
 </resources>
