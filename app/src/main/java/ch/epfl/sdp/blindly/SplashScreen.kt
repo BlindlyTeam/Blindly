@@ -19,9 +19,6 @@ class SplashScreen : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
         supportActionBar?.hide()
-        window.decorView.apply {
-            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-        }
 
         val heart = findViewById<ImageView>(R.id.splashscreen_heart)
         val beating = AnimationUtils.loadAnimation(this, R.anim.beating_heart)
@@ -29,7 +26,7 @@ class SplashScreen : AppCompatActivity() {
         // Use bounce interpolator with amplitude 0.2 and frequency 20
 
         // Use bounce interpolator with amplitude 0.2 and frequency 20
-        val interpolator = BounceInterpolator(0.2, 20.0)
+        val interpolator = BounceInterpolator(0.3, 20.0)
         beating.interpolator = interpolator
 
         heart.startAnimation(beating)

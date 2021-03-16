@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Mainpage Fragment"
+        android:text="@string/main_page"
         android:textColor="#0F9D58"
         android:textSize="25sp"
         android:textStyle="bold" />

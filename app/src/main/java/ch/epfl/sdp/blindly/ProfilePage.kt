@@ -12,7 +12,9 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import ch.epfl.sdp.blindly.recording.RecordingActivity
 
 const val BOUNCE_DURATION : Long = 100
 class ProfilePage : Fragment() {
@@ -40,11 +42,14 @@ class ProfilePage : Fragment() {
             }, BOUNCE_DURATION)
         }
 
-        /*val recordAudioButton = view.findViewById<Button>(R.id.record_audio_profile_button)
-        settingsButton.setOnClickListener {
-            val intent = Intent(this@ProfilePage.context, RecordAudio::class.java)
-            startActivity(intent)
-        }*/
+        val recordAudioButton = view.findViewById<Button>(R.id.record_audio_profile_button)
+        recordAudioButton.setOnClickListener {
+            val intent = Intent(context, RecordingActivity::class.java)
+            recordAudioButton.startAnimation(bounce)
+            Handler(Looper.getMainLooper()).postDelayed({
+                startActivity(intent)
+            }, BOUNCE_DURATION)
+        }
 
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
         settingsButton.setOnClickListener {

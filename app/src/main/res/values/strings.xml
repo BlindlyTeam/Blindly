@@ -49,4 +49,12 @@
     <string name="match_page">Match</string>
     <string name="message_page">Message</string>
     <string name="goto_main_screen">Main Screen</string>
+    <string name="account_settings">ACCOUNT SETTINGS</string>
+    <string name="email">Email</string>
+    <string name="discovery_settings">DISCOVERY SETTINGS</string>
+    <string name="location">Location</string>
+    <string name="maximum_distance">Maximum Distance</string>
+    <string name="looking_for">Looking for</string>
+    <string name="settings_location">Location</string>
+    <string name="settings_show_me">Show Me</string>
 </resources>
