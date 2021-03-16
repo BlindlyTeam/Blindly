@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/settings_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
@@ -210,9 +210,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:max="200"
-                android:progressTint="#B62972"
+                android:progressTint="#6F44BA"
                 android:scrollbarSize="4dp"
-                android:thumbTint="#9C40CD" />
+                android:thumbTint="#673AB7" />
 
             <Space
                 android:layout_width="10dp"
@@ -222,7 +222,7 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/divider6"
+            android:id="@+id/divider4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider" />

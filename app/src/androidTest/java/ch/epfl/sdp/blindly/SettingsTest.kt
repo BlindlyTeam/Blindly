@@ -42,7 +42,7 @@ class SettingsTest {
         release()
     }
 
-    fun setProgress(progress: Int): ViewAction? {
+    private fun setProgress(progress: Int): ViewAction? {
         return object : ViewAction {
             override fun perform(uiController: UiController?, view: View) {
                 val seekBar = view as SeekBar
