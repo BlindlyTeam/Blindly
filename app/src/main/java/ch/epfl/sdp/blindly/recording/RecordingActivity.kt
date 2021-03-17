@@ -28,7 +28,6 @@ class RecordingActivity : AppCompatActivity() {
     private var fileName: String = ""
 
     private var isRecording = false
-    private var isPlaying = false
 
     private lateinit var recordButton: Button
     private lateinit var playPauseButton: Button
@@ -86,11 +85,15 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     fun playPauseButtonClick(view: View) {
-        if (!isPlaying) {
+        if (!mediaPlayer!!.isPlaying) {
             startPlaying()
             playPauseButton.text = "Pause"
         } else {
             pausePlaying()
+            playPauseButton.text = "Play"
+        }
+
+        mediaPlayer?.setOnCompletionListener {
             playPauseButton.text = "Play"
         }
     }
@@ -149,14 +152,12 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     private fun startPlaying() {
-        isPlaying = true
         recordButton.isEnabled = false
         mediaPlayer?.start()
         updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
     }
 
     private fun pausePlaying() {
-        isPlaying = false
         recordButton.isEnabled = true
         mediaPlayer?.pause()
     }
