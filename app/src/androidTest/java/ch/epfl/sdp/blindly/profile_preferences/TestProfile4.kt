@@ -8,8 +8,9 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.Profile4
-import ch.epfl.sdp.blindly.Profile5
+import ch.epfl.sdp.blindly.Profile.Profile4
+import ch.epfl.sdp.blindly.Profile.Profile4_2
+import ch.epfl.sdp.blindly.Profile.Profile5
 import ch.epfl.sdp.blindly.R
 import org.junit.Rule
 import org.junit.Test
@@ -32,5 +33,16 @@ class TestProfile4 {
         intended(hasComponent(Profile5::class.java.name))
         Intents.release()
     }
+
+    @Test
+    fun testProfile4FiresProfile4_2() {
+        Intents.init()
+        val buttonStart = Espresso.onView(withId(R.id.sex3_pref))
+        buttonStart.perform(click())
+        intended(hasComponent(Profile4_2::class.java.name))
+        Intents.release()
+    }
+
+
 
 }

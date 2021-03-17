@@ -8,8 +8,8 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.Profile3
-import ch.epfl.sdp.blindly.Profile4
+import ch.epfl.sdp.blindly.Profile.Profile3
+import ch.epfl.sdp.blindly.Profile.Profile4
 import ch.epfl.sdp.blindly.R
 import org.junit.Rule
 import org.junit.Test

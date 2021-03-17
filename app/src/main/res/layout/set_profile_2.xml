@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".Profile2"
-    tools:visibility="visible">
+    tools:context=".Profile.Profile2">
 
     <Button
         android:id="@+id/button_p2"
         android:layout_width="231dp"
         android:layout_height="61dp"
+        android:clickable="false"
         android:onClick="start_profile_3"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:labelFor="@id/text_p2"
-        android:maxLength="25"
+        android:maxLength="24"
         android:text="@string/first_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,6 +64,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/warning1_p2"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:text="Name can't be less than 2 characters!"
+        android:textColor="#FA0000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/warning2_p2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/warning2_p2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/warning2_p2"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:text="Name can't be more than 20 characters!"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.623" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

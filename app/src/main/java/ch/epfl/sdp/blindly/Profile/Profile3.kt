@@ -1,9 +1,10 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.Profile
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import ch.epfl.sdp.blindly.R
 
 class Profile3 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,7 +13,6 @@ class Profile3 : AppCompatActivity() {
     }
 
     fun start_profile_4(view: View) {
-        // Do something in response to button
         val intent = Intent(this, Profile4::class.java)
         startActivity(intent)
     }

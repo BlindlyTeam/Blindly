@@ -1,6 +1,8 @@
 package ch.epfl.sdp.blindly.profile_preferences
 
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -9,8 +11,8 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.Profile4_2
-import ch.epfl.sdp.blindly.Profile5
+import ch.epfl.sdp.blindly.Profile.Profile4_2
+import ch.epfl.sdp.blindly.Profile.Profile5
 import ch.epfl.sdp.blindly.R
 import org.junit.Rule
 import org.junit.Test
@@ -34,15 +36,15 @@ class TestProfile4_2 {
         Intents.release()
     }
 
-//    @Test
-//    fun testProfile4_2FireProfile5() {
-//        Intents.init()
-//        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(TEST_NAME));
-//        closeSoftKeyboard();
-//        val buttonStart = Espresso.onView(withId(R.id.button_p4_2))
-//        buttonStart.perform(click())
-//        intended(hasComponent(Profile5::class.java.name))
-//        Intents.release()
-//    }
+    @Test
+    fun testProfile4_2FireProfile5() {
+        Intents.init()
+        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(TEST_NAME));
+        closeSoftKeyboard();
+        val buttonStart = Espresso.onView(withId(R.id.button_p4_2))
+        buttonStart.perform(click())
+        intended(hasComponent(Profile5::class.java.name))
+        Intents.release()
+    }
 
 }
