@@ -58,4 +58,7 @@
     <string name="settings_location">Location</string>
     <string name="settings_show_me">Show Me</string>
     <string name="audio_library_toolbar">Audio Library</string>
+    <string name="current_location">CURRENT LOCATION</string>
+    <string name="my_current_location">My Current Location</string>
+    <string name="add_new_location">Add New Location</string>
 </resources>

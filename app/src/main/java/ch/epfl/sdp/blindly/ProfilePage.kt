@@ -31,44 +31,29 @@ class ProfilePage : Fragment() {
         userDescriptionText.text = "Student"
 
         val context = this@ProfilePage.context
-        val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button);
 
         val editButton = view.findViewById<Button>(R.id.edit_info_profile_button)
-        editButton.setOnClickListener {
-            val intent = Intent(context, EditProfile::class.java)
-            editButton.startAnimation(bounce)
-            Handler(Looper.getMainLooper()).postDelayed({
-                startActivity(intent)
-            }, BOUNCE_DURATION)
-        }
+        setOnClickListener(editButton, Intent(context, EditProfile::class.java))
 
         val recordAudioButton = view.findViewById<Button>(R.id.record_audio_profile_button)
-        recordAudioButton.setOnClickListener {
-            val intent = Intent(context, RecordingActivity::class.java)
-            recordAudioButton.startAnimation(bounce)
-            Handler(Looper.getMainLooper()).postDelayed({
-                startActivity(intent)
-            }, BOUNCE_DURATION)
-        }
+        setOnClickListener(recordAudioButton, Intent(context, RecordingActivity::class.java))
 
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
-        settingsButton.setOnClickListener {
-            val intent = Intent(context, Settings::class.java)
-            settingsButton.startAnimation(bounce)
-            Handler(Looper.getMainLooper()).postDelayed({
-                startActivity(intent)
-            }, BOUNCE_DURATION)
-        }
+        setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
         val audioLibraryButton = view.findViewById<Button>(R.id.audio_library_profile_button)
-        audioLibraryButton.setOnClickListener {
-            val intent = Intent(context, AudioLibrary::class.java)
-            audioLibraryButton.startAnimation(bounce)
+        setOnClickListener(audioLibraryButton, Intent(context, AudioLibrary::class.java))
+
+        return view
+    }
+
+    private fun setOnClickListener(button: Button, intent: Intent) {
+        val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button);
+        button.setOnClickListener {
+            button.startAnimation(bounce)
             Handler(Looper.getMainLooper()).postDelayed({
                 startActivity(intent)
             }, BOUNCE_DURATION)
         }
-
-        return view
     }
 }

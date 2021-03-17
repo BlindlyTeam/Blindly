@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".settings.SettingsLocation">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/location_toolbar"
@@ -20,6 +21,94 @@
             android:theme="?attr/actionBarTheme"
             app:title="@string/settings_location" />
 
-    </LinearLayout>
+        <Space
+            android:id="@+id/location_settings_space"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_toolbar"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/current_location_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_toolbar"
+            android:layout_toEndOf="@id/location_settings_space"
+            android:text="@string/current_location"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/current_location_text"
+            android:background="?android:attr/listDivider" />
+
+        <Space
+            android:id="@+id/location_space_1"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_below="@+id/current_location_text"/>
+
+        <ImageView
+            android:id="@+id/google_location_img"
+            android:layout_width="25dp"
+            android:layout_height="49dp"
+            android:layout_below="@+id/divider"
+            android:layout_toEndOf="@id/location_space_1"
+            app:srcCompat="@drawable/google_location_img"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="278dp" />
+
+        <Space
+            android:id="@+id/location_space_2"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_below="@+id/current_location_text"
+            android:layout_toEndOf="@id/google_location_img"/>
+
+        <TextView
+            android:id="@+id/my_current_location_text"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/current_location_text"
+            android:layout_toEndOf="@+id/location_space_2"
+            android:gravity="center"
+            android:text="@string/my_current_location"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/my_current"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/my_current_location_text"
+            android:layout_toEndOf="@+id/location_space_2"
+            android:gravity="center"
+            android:textSize="15sp" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/location_space_1"
+            android:background="?android:attr/listDivider" />
+
+        <Space
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_below="@+id/divider2"/>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_below="@+id/google_location_img"
+            android:text="@string/add_new_location"
+            android:textAllCaps="false"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
