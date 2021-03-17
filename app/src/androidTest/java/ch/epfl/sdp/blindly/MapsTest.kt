@@ -28,4 +28,4 @@ class MapsTest {
         buttonStart.perform(click())
         intended(hasComponent(MapsActivity::class.java.name))
     }
-}
+} 
