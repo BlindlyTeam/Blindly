@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/discovery_settings_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="false">
@@ -168,17 +167,19 @@
             android:gravity="center"
             android:text="@string/location"
             android:textSize="15sp" />
+
         <TextView
             android:id="@+id/current_location_text"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/discovery_settings_text"
             android:layout_toLeftOf="@id/location_space_3"
-            android:gravity="center"
-            android:textSize="15sp"
+            android:layout_weight="0"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:gravity="center"
+            android:onClick="startLocationSettings"
+            android:textSize="15sp" />
         <Space
             android:id="@+id/location_space_3"
             android:layout_width="10dp"
@@ -195,16 +196,18 @@
             android:layout_below="@+id/discovery_settings_text"
             android:layout_toLeftOf="@+id/email_space_3"
             android:gravity="center"/>
+
         <Button
             android:id="@+id/modify_location_button"
             style="@style/Widget.Theme.Blindly.Arrow.Button"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_weight="0"
             android:layout_below="@+id/location_button_space"
             android:layout_toLeftOf="@id/location_space_4"
+            android:layout_weight="0"
             android:gravity="center"
-            android:padding="8dp"/>
+            android:onClick="startLocationSettings"
+            android:padding="8dp" />
         <Space
             android:id="@+id/location_space_4"
             android:layout_width="10dp"
@@ -306,17 +309,19 @@
             android:gravity="center"
             android:text="@string/looking_for"
             android:textSize="15sp" />
+
         <TextView
             android:id="@+id/show_me_text"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/divider4"
             android:layout_toLeftOf="@id/looking_space_3"
-            android:gravity="center"
-            android:textSize="15sp"
+            android:layout_weight="0"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:gravity="center"
+            android:onClick="startShowMeSettings"
+            android:textSize="15sp" />
         <Space
             android:id="@+id/looking_space_3"
             android:layout_width="10dp"
@@ -333,16 +338,18 @@
             android:layout_below="@+id/seekBar"
             android:layout_toLeftOf="@+id/email_space_3"
             android:gravity="center"/>
+
         <Button
             android:id="@+id/modify_genre_button"
             style="@style/Widget.Theme.Blindly.Arrow.Button"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_weight="0"
             android:layout_below="@+id/genre_button_space"
             android:layout_toLeftOf="@id/looking_space_4"
-            android:padding="8dp"
-            android:gravity="center"/>
+            android:layout_weight="0"
+            android:gravity="center"
+            android:onClick="startShowMeSettings"
+            android:padding="8dp" />
         <Space
             android:id="@+id/looking_space_4"
             android:layout_width="10dp"

@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -20,16 +21,6 @@ class Settings : AppCompatActivity() {
 
         val locationText = findViewById<TextView>(R.id.current_location_text)
         locationText.text = "Lausanne, Switzerland"
-        locationText.setOnClickListener {
-            val intent = Intent(context, SettingsLocation::class.java)
-            startActivity(intent)
-        }
-
-        val locationButton = findViewById<Button>(R.id.modify_location_button)
-        locationButton.setOnClickListener {
-            val intent = Intent(context, SettingsLocation::class.java)
-            startActivity(intent)
-        }
 
         val radiusText = findViewById<TextView>(R.id.radius_text)
         val radiusSeekBar = findViewById<SeekBar>(R.id.seekBar)
@@ -45,17 +36,17 @@ class Settings : AppCompatActivity() {
 
         val showMe = findViewById<TextView>(R.id.show_me_text)
         showMe.text = "Women"
-        showMe.setOnClickListener {
-            val intent = Intent(context, SettingsShowMe::class.java)
-            startActivity(intent)
-        }
 
-        val showMeButton = findViewById<Button>(R.id.modify_genre_button)
-        showMeButton.setOnClickListener {
-            val intent = Intent(context, SettingsShowMe::class.java)
-            startActivity(intent)
-        }
+    }
 
+    fun startLocationSettings(view: View) {
+        val intent = Intent(this, SettingsLocation::class.java)
+        startActivity(intent)
+    }
+
+    fun startShowMeSettings(view: View) {
+        val intent = Intent(this, SettingsShowMe::class.java)
+        startActivity(intent)
     }
 
 }
