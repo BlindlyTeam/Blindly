@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/blindly_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly">
-        <activity android:name=".SettingsLocation"></activity>
-        <activity android:name=".SettingsShowMe" />
+        <activity android:name=".settings.SettingsLocation"></activity>
+        <activity android:name=".settings.SettingsShowMe" />
         <activity android:name=".AudioLibrary" />
         <activity android:name=".EditProfile" />
-        <activity android:name=".Settings" />
+        <activity android:name=".settings.Settings" />
         <activity
             android:name=".MainScreen"
             android:theme="@style/Theme.Blindly.NoActionBar" />

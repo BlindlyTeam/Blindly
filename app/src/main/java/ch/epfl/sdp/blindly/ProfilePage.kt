@@ -12,9 +12,9 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.recording.RecordingActivity
+import ch.epfl.sdp.blindly.settings.Settings
 
 const val BOUNCE_DURATION : Long = 100
 class ProfilePage : Fragment() {

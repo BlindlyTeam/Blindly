@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fillViewport="false">
+    android:fillViewport="false"
+    tools:context=".settings.Settings">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +26,6 @@
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/settings_toolbar"
-            android:layout_weight="0"
             android:gravity="center" />
 
         <TextView
@@ -50,15 +50,14 @@
             android:layout_width="10dp"
             android:layout_height="49dp"
             android:layout_below="@+id/divider"
-            android:layout_weight="0"
             android:gravity="center" />
+
         <TextView
             android:id="@+id/email_text"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
             android:layout_below="@+id/account_settings_text"
             android:layout_toRightOf="@+id/email_space"
-            android:layout_weight="0"
             android:gravity="center"
             android:text="@string/email"
             android:textSize="15sp" />
@@ -67,18 +66,17 @@
             android:id="@+id/email_address_text"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/account_settings_text"
             android:layout_toLeftOf="@+id/email_space_2"
             android:gravity="center"
             android:textSize="15sp"
             android:clickable="true"
             android:focusable="true" />
+
         <Space
             android:id="@+id/email_space_2"
             android:layout_width="10dp"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/account_settings_text"
             android:layout_toLeftOf="@+id/modify_email_address_button"
             android:gravity="center"/>
@@ -87,7 +85,6 @@
             android:id="@+id/email_button_space"
             android:layout_width="15dp"
             android:layout_height="18dp"
-            android:layout_weight="0"
             android:layout_below="@+id/account_settings_text"
             android:layout_toLeftOf="@+id/email_space_3"
             android:gravity="center"/>
@@ -97,16 +94,15 @@
             style="@style/Widget.Theme.Blindly.Arrow.Button"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_weight="0"
             android:layout_below="@+id/email_button_space"
             android:layout_toLeftOf="@+id/email_space_3"
             android:gravity="center"
             android:padding="8dp" />
+
         <Space
             android:id="@+id/email_space_3"
             android:layout_width="10dp"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/account_settings_text"
             android:layout_alignParentRight="true"
             android:gravity="center"/>
@@ -118,7 +114,6 @@
             android:layout_below="@+id/email_text"
             android:background="?android:attr/listDivider" />
 
-
         <Space
             android:id="@+id/space"
             android:layout_width="match_parent"
@@ -129,7 +124,6 @@
             android:id="@+id/discovery_settings_space"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:layout_below="@+id/space"
             android:gravity="center"/>
 
@@ -154,14 +148,13 @@
             android:id="@+id/location_space_1"
             android:layout_width="10dp"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/discovery_settings_text"
             android:gravity="center"/>
+
         <TextView
             android:id="@+id/location_text"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/discovery_settings_text"
             android:layout_toRightOf="@id/location_space_1"
             android:gravity="center"
@@ -174,25 +167,24 @@
             android:layout_height="49dp"
             android:layout_below="@+id/discovery_settings_text"
             android:layout_toLeftOf="@id/location_space_3"
-            android:layout_weight="0"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:onClick="startLocationSettings"
             android:textSize="15sp" />
+
         <Space
             android:id="@+id/location_space_3"
             android:layout_width="10dp"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/discovery_settings_text"
             android:layout_toLeftOf="@+id/modify_location_button"
             android:gravity="center"/>
+
         <Space
             android:id="@+id/location_button_space"
             android:layout_width="15dp"
             android:layout_height="18dp"
-            android:layout_weight="0"
             android:layout_below="@+id/discovery_settings_text"
             android:layout_toLeftOf="@+id/email_space_3"
             android:gravity="center"/>
@@ -204,19 +196,17 @@
             android:layout_height="15dp"
             android:layout_below="@+id/location_button_space"
             android:layout_toLeftOf="@id/location_space_4"
-            android:layout_weight="0"
             android:gravity="center"
             android:onClick="startLocationSettings"
             android:padding="8dp" />
+
         <Space
             android:id="@+id/location_space_4"
             android:layout_width="10dp"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/discovery_settings_text"
             android:layout_alignParentRight="true"
             android:gravity="center"/>
-
 
         <View
             android:id="@+id/divider3"
@@ -225,12 +215,10 @@
             android:layout_below="@+id/location_text"
             android:background="?android:attr/listDivider" />
 
-
         <Space
             android:id="@+id/distance_space_1"
             android:layout_width="10dp"
             android:layout_height="30dp"
-            android:layout_weight="0"
             android:layout_below="@+id/location_text"
             android:gravity="center"/>
 
@@ -238,36 +226,33 @@
             android:id="@+id/maximum_distance_text"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_weight="0"
             android:layout_below="@+id/location_text"
             android:layout_toRightOf="@id/distance_space_1"
             android:gravity="center"
             android:text="@string/maximum_distance"
             android:textSize="15sp" />
+
         <TextView
             android:id="@+id/radius_text"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_weight="0"
             android:layout_below="@+id/location_text"
             android:layout_toLeftOf="@id/distance_space_3"
             android:gravity="center"
             android:textSize="15sp" />
+
         <Space
             android:id="@+id/distance_space_3"
             android:layout_width="35dp"
             android:layout_height="30dp"
-            android:layout_weight="0"
             android:layout_below="@+id/location_text"
             android:layout_alignParentRight="true"
             android:gravity="center"/>
-
 
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_weight="1"
             android:layout_below="@+id/maximum_distance_text"
             android:gravity="center"
             android:max="200"
@@ -278,32 +263,28 @@
         <Space
             android:layout_width="10dp"
             android:layout_height="40dp"
-            android:layout_weight="0"
             android:layout_below="@+id/maximum_distance_text"
             android:layout_alignParentRight="true"
             android:gravity="center"/>
 
-
         <View
             android:id="@+id/divider4"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="match_parent"
             android:layout_below="@+id/seekBar"
-            android:background="?android:attr/listDivider" />
-
+            android:background="?android:attr/listDivider"/>
 
         <Space
             android:id="@+id/looking_space_1"
             android:layout_width="10dp"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/divider4"
             android:gravity="center"/>
+
         <TextView
             android:id="@+id/looking_for_text"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/divider4"
             android:layout_toRightOf="@id/looking_space_1"
             android:gravity="center"
@@ -316,25 +297,24 @@
             android:layout_height="49dp"
             android:layout_below="@+id/divider4"
             android:layout_toLeftOf="@id/looking_space_3"
-            android:layout_weight="0"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:onClick="startShowMeSettings"
             android:textSize="15sp" />
+
         <Space
             android:id="@+id/looking_space_3"
             android:layout_width="10dp"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/divider4"
             android:layout_toLeftOf="@id/modify_genre_button"
             android:gravity="center"/>
+
         <Space
             android:id="@+id/genre_button_space"
             android:layout_width="15dp"
             android:layout_height="18dp"
-            android:layout_weight="0"
             android:layout_below="@+id/seekBar"
             android:layout_toLeftOf="@+id/email_space_3"
             android:gravity="center"/>
@@ -346,19 +326,17 @@
             android:layout_height="15dp"
             android:layout_below="@+id/genre_button_space"
             android:layout_toLeftOf="@id/looking_space_4"
-            android:layout_weight="0"
             android:gravity="center"
             android:onClick="startShowMeSettings"
             android:padding="8dp" />
+
         <Space
             android:id="@+id/looking_space_4"
             android:layout_width="10dp"
             android:layout_height="49dp"
-            android:layout_weight="0"
             android:layout_below="@+id/divider4"
             android:layout_alignParentRight="true"
             android:gravity="center"/>
-
 
         <View
             android:id="@+id/divider5"
