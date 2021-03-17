@@ -58,10 +58,10 @@ class RecordingActivityTest {
         val recordButton = Espresso.onView(withId(R.id.recordingButton))
         val playButton = Espresso.onView(withId(R.id.playingButton))
         recordButton.perform(click(), click())
-        playButton.check(matches(withText("Start playing")))
+        playButton.check(matches(withText("Play")))
         playButton.perform(click())
-        playButton.check(matches(withText("Stop playing")))
+        playButton.check(matches(withText("Pause")))
         playButton.perform(click())
-        playButton.check(matches(withText("Start playing")))
+        playButton.check(matches(withText("Plays")))
     }
 }
