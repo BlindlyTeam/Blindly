@@ -95,6 +95,8 @@ class RecordingActivity : AppCompatActivity() {
 
         mediaPlayer?.setOnCompletionListener {
             playPauseButton.text = "Play"
+            recordButton.isEnabled = true
+            mediaPlayer?.stop()
         }
     }
 
@@ -115,12 +117,16 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     private fun startRecording() {
+        mediaPlayer?.stop()
+
         prepareRecording()
         isRecording = true
         mediaRecorder.start()
+
         recordText.isVisible = true
         recordText.text = "Recording..."
         playPauseButton.isEnabled = false
+        playBar.progress = 0
     }
 
     private fun stopRecording() {
