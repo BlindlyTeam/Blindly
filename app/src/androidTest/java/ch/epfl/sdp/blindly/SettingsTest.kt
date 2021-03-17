@@ -35,9 +35,25 @@ class SettingsTest {
     }
 
     @Test
+    fun clickingOnLocationButtonFiresSettingsLocationActivity() {
+        init()
+        onView(withId(R.id.modify_location_button)).perform(click())
+        intended(hasComponent(SettingsLocation::class.java.name))
+        release()
+    }
+
+    @Test
     fun clickingOnShowMeTextFiresSettingsShowMeActivity() {
         init()
         onView(withId(R.id.show_me_text)).perform(click())
+        intended(hasComponent(SettingsShowMe::class.java.name))
+        release()
+    }
+
+    @Test
+    fun clickingOnShowMeButtonFiresSettingsShowMeActivity() {
+        init()
+        onView(withId(R.id.modify_genre_button)).perform(click())
         intended(hasComponent(SettingsShowMe::class.java.name))
         release()
     }

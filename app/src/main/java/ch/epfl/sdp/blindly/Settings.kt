@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,12 @@ class Settings : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val locationButton = findViewById<Button>(R.id.modify_location_button)
+        locationButton.setOnClickListener {
+            val intent = Intent(context, SettingsLocation::class.java)
+            startActivity(intent)
+        }
+
         val radiusText = findViewById<TextView>(R.id.radius_text)
         val radiusSeekBar = findViewById<SeekBar>(R.id.seekBar)
 
@@ -39,6 +46,12 @@ class Settings : AppCompatActivity() {
         val showMe = findViewById<TextView>(R.id.show_me_text)
         showMe.text = "Women"
         showMe.setOnClickListener {
+            val intent = Intent(context, SettingsShowMe::class.java)
+            startActivity(intent)
+        }
+
+        val showMeButton = findViewById<Button>(R.id.modify_genre_button)
+        showMeButton.setOnClickListener {
             val intent = Intent(context, SettingsShowMe::class.java)
             startActivity(intent)
         }

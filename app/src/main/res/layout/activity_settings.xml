@@ -7,9 +7,9 @@
     android:layout_height="wrap_content"
     android:fillViewport="false">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -20,299 +20,345 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:title="@string/settings_profile" />
+
         <Space
-            android:layout_width="match_parent"
-            android:layout_height="5dp" />
+            android:id="@+id/account_settings_space"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/settings_toolbar"
+            android:layout_weight="0"
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/account_settings_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/settings_toolbar"
+            android:layout_toRightOf="@id/account_settings_space"
             android:text="@string/account_settings"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_below="@+id/account_settings_text"
             android:background="?android:attr/listDivider" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center">
+        <Space
+            android:id="@+id/email_space"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_below="@+id/divider"
+            android:layout_weight="0"
+            android:gravity="center" />
+        <TextView
+            android:id="@+id/email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_below="@+id/account_settings_text"
+            android:layout_toRightOf="@+id/email_space"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:text="@string/email"
+            android:textSize="15sp" />
 
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/email_text"
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:text="@string/email"
-                android:textSize="15sp" />
+        <TextView
+            android:id="@+id/email_address_text"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/account_settings_text"
+            android:layout_toLeftOf="@+id/email_space_2"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:clickable="true"
+            android:focusable="true" />
+        <Space
+            android:id="@+id/email_space_2"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/account_settings_text"
+            android:layout_toLeftOf="@+id/modify_email_address_button"
+            android:gravity="center"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"/>
+        <Space
+            android:id="@+id/email_button_space"
+            android:layout_width="15dp"
+            android:layout_height="18dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/account_settings_text"
+            android:layout_toLeftOf="@+id/email_space_3"
+            android:gravity="center"/>
 
-            <TextView
-                android:id="@+id/email_address_text"
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:clickable="true"
-                android:focusable="true" />
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-
-            <Button
-                android:id="@+id/modify_email_address_button"
-                style="@style/Widget.Theme.Blindly.Arrow.Button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_weight="0"
-                android:padding="8dp" />
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-        </LinearLayout>
+        <Button
+            android:id="@+id/modify_email_address_button"
+            style="@style/Widget.Theme.Blindly.Arrow.Button"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/email_button_space"
+            android:layout_toLeftOf="@+id/email_space_3"
+            android:gravity="center"
+            android:padding="8dp" />
+        <Space
+            android:id="@+id/email_space_3"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/account_settings_text"
+            android:layout_alignParentRight="true"
+            android:gravity="center"/>
 
         <View
             android:id="@+id/divider1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_below="@+id/email_text"
             android:background="?android:attr/listDivider" />
 
+
         <Space
+            android:id="@+id/space"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:layout_below="@+id/divider1"/>
+
+        <Space
+            android:id="@+id/discovery_settings_space"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_below="@+id/space"
+            android:gravity="center"/>
 
         <TextView
-            android:id="@+id/account_settings_text3"
+            android:id="@+id/discovery_settings_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/space"
+            android:layout_toRightOf="@id/discovery_settings_space"
             android:text="@string/discovery_settings"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <View
             android:id="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_below="@+id/discovery_settings_text"
             android:background="?android:attr/listDivider" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center">
 
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/location_text"
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:text="@string/location"
-                android:textSize="15sp" />
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/current_location_text"
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:clickable="true"
-                android:focusable="true"/>
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-            <Button
-                android:id="@+id/modify_location_button"
-                style="@style/Widget.Theme.Blindly.Arrow.Button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_weight="0"
-                android:padding="8dp"/>
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-        </LinearLayout>
+        <Space
+            android:id="@+id/location_space_1"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/discovery_settings_text"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/location_text"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/discovery_settings_text"
+            android:layout_toRightOf="@id/location_space_1"
+            android:gravity="center"
+            android:text="@string/location"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/current_location_text"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/discovery_settings_text"
+            android:layout_toLeftOf="@id/location_space_3"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:clickable="true"
+            android:focusable="true"/>
+        <Space
+            android:id="@+id/location_space_3"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/discovery_settings_text"
+            android:layout_toLeftOf="@+id/modify_location_button"
+            android:gravity="center"/>
+        <Space
+            android:id="@+id/location_button_space"
+            android:layout_width="15dp"
+            android:layout_height="18dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/discovery_settings_text"
+            android:layout_toLeftOf="@+id/email_space_3"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/modify_location_button"
+            style="@style/Widget.Theme.Blindly.Arrow.Button"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/location_button_space"
+            android:layout_toLeftOf="@id/location_space_4"
+            android:gravity="center"
+            android:padding="8dp"/>
+        <Space
+            android:id="@+id/location_space_4"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/discovery_settings_text"
+            android:layout_alignParentRight="true"
+            android:gravity="center"/>
+
 
         <View
             android:id="@+id/divider3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_below="@+id/location_text"
             android:background="?android:attr/listDivider" />
 
-        <LinearLayout
+
+        <Space
+            android:id="@+id/distance_space_1"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/location_text"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/maximum_distance_text"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/location_text"
+            android:layout_toRightOf="@id/distance_space_1"
+            android:gravity="center"
+            android:text="@string/maximum_distance"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/radius_text"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/location_text"
+            android:layout_toLeftOf="@id/distance_space_3"
+            android:gravity="center"
+            android:textSize="15sp" />
+        <Space
+            android:id="@+id/distance_space_3"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/location_text"
+            android:layout_alignParentRight="true"
+            android:gravity="center"/>
+
+
+        <SeekBar
+            android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_below="@+id/maximum_distance_text"
+            android:gravity="center"
+            android:max="200"
+            android:progressTint="#6F44BA"
+            android:scrollbarSize="4dp"
+            android:thumbTint="#673AB7" />
 
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="40dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/maximum_distance_text"
+            android:layout_alignParentRight="true"
+            android:gravity="center"/>
 
-            <TextView
-                android:id="@+id/maximu_distance_text"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:text="@string/maximum_distance"
-                android:textSize="15sp" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/radius_text"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:textSize="15sp" />
-            <Space
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:max="200"
-                android:progressTint="#6F44BA"
-                android:scrollbarSize="4dp"
-                android:thumbTint="#673AB7" />
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-        </LinearLayout>
 
         <View
             android:id="@+id/divider4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_below="@+id/seekBar"
             android:background="?android:attr/listDivider" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center">
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/looking_for_text"
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:text="@string/looking_for"
-                android:textSize="15sp" />
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/show_me_text"
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:clickable="true"
-                android:focusable="true"/>
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
 
-            <Button
-                android:id="@+id/modify_genre_button"
-                style="@style/Widget.Theme.Blindly.Arrow.Button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_weight="0"
-                android:padding="8dp" />
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"/>
-        </LinearLayout>
+        <Space
+            android:id="@+id/looking_space_1"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/divider4"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/looking_for_text"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/divider4"
+            android:layout_toRightOf="@id/looking_space_1"
+            android:gravity="center"
+            android:text="@string/looking_for"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/show_me_text"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/divider4"
+            android:layout_toLeftOf="@id/looking_space_3"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:clickable="true"
+            android:focusable="true"/>
+        <Space
+            android:id="@+id/looking_space_3"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/divider4"
+            android:layout_toLeftOf="@id/modify_genre_button"
+            android:gravity="center"/>
+        <Space
+            android:id="@+id/genre_button_space"
+            android:layout_width="15dp"
+            android:layout_height="18dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/seekBar"
+            android:layout_toLeftOf="@+id/email_space_3"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/modify_genre_button"
+            style="@style/Widget.Theme.Blindly.Arrow.Button"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/genre_button_space"
+            android:layout_toLeftOf="@id/looking_space_4"
+            android:padding="8dp"
+            android:gravity="center"/>
+        <Space
+            android:id="@+id/looking_space_4"
+            android:layout_width="10dp"
+            android:layout_height="49dp"
+            android:layout_weight="0"
+            android:layout_below="@+id/divider4"
+            android:layout_alignParentRight="true"
+            android:gravity="center"/>
+
 
         <View
             android:id="@+id/divider5"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_below="@+id/looking_for_text"
             android:background="?android:attr/listDivider" />
 
-    </LinearLayout>
+    </RelativeLayout>
 </ScrollView>
