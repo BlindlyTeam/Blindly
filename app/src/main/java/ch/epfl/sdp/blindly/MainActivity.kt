@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             val intent = Intent(
-                this, MapsActivity::class.java)
+                this, LocationPermissionActivity::class.java)
             startActivity (intent)
         }
     }

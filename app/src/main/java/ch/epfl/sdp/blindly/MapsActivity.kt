@@ -1,10 +1,12 @@
 package ch.epfl.sdp.blindly
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.location.LocationPermission
 import ch.epfl.sdp.blindly.location.LocationService
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,28 +21,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var location: Location? = null
     private lateinit var locSer: LocationService
-    private var canLocate = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val locPer = LocationPermission()
+        locSer = AndroidLocationService(this)
+        location = locSer.getCurrentLocation()
 
-        if(!locPer.permission) {
-            locPer.checkAndRequestLocationPermission(this, this)
-        }
-        canLocate = locPer.permission
-        if(canLocate) {
-            locSer = AndroidLocationService(this)
-            location = locSer.getCurrentLocation()
-        }
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        
-
     }
 
     /**
@@ -56,7 +48,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        val loc: LatLng = if(location != null && canLocate) {
+        val loc: LatLng = if(location != null) {
             LatLng(location!!.latitude, location!!.longitude)
         } else {
             LatLng(46.5, 6.6)
