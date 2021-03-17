@@ -22,7 +22,7 @@
             app:title="@string/settings_profile" />
 
         <Space
-            android:id="@+id/account_settings_space"
+            android:id="@+id/left_margin"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/settings_toolbar"
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/settings_toolbar"
-            android:layout_toEndOf="@id/account_settings_space"
+            android:layout_toEndOf="@id/left_margin"
             android:text="@string/account_settings"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -45,19 +45,20 @@
             android:layout_below="@+id/account_settings_text"
             android:background="?android:attr/listDivider" />
 
-        <Space
-            android:id="@+id/email_space"
-            android:layout_width="10dp"
+        <Button
+            android:id="@+id/email_button"
+            android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:layout_below="@+id/divider"
-            android:gravity="center" />
+            android:layout_below="@+id/account_settings_text"
+            android:layout_marginTop="0dp"
+            android:background="@color/transparent" />
 
         <TextView
             android:id="@+id/email_text"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
             android:layout_below="@+id/account_settings_text"
-            android:layout_toEndOf="@+id/email_space"
+            android:layout_toEndOf="@+id/left_margin"
             android:gravity="center"
             android:text="@string/email"
             android:textSize="15sp" />
@@ -69,16 +70,14 @@
             android:layout_below="@+id/account_settings_text"
             android:layout_toStartOf="@+id/email_space_2"
             android:gravity="center"
-            android:textSize="15sp"
-            android:clickable="true"
-            android:focusable="true" />
+            android:textSize="15sp" />
 
         <Space
             android:id="@+id/email_space_2"
             android:layout_width="10dp"
             android:layout_height="49dp"
             android:layout_below="@+id/account_settings_text"
-            android:layout_toStartOf="@+id/modify_email_address_button"
+            android:layout_toStartOf="@+id/email_arrow"
             android:gravity="center"/>
 
         <Space
@@ -86,21 +85,19 @@
             android:layout_width="15dp"
             android:layout_height="18dp"
             android:layout_below="@+id/account_settings_text"
-            android:layout_toStartOf="@+id/email_space_3"
+            android:layout_toStartOf="@+id/right_margin"
             android:gravity="center"/>
 
-        <Button
-            android:id="@+id/modify_email_address_button"
-            style="@style/Widget.Theme.Blindly.Arrow.Button"
+        <ImageView
+            android:id="@+id/email_arrow"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_below="@+id/email_button_space"
-            android:layout_toStartOf="@+id/email_space_3"
-            android:gravity="center"
-            android:padding="8dp" />
+            android:layout_toStartOf="@+id/right_margin"
+            app:srcCompat="@drawable/arrow_button" />
 
         <Space
-            android:id="@+id/email_space_3"
+            android:id="@+id/right_margin"
             android:layout_width="10dp"
             android:layout_height="49dp"
             android:layout_below="@+id/account_settings_text"
@@ -120,19 +117,12 @@
             android:layout_height="50dp"
             android:layout_below="@+id/divider1"/>
 
-        <Space
-            android:id="@+id/discovery_settings_space"
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/space"
-            android:gravity="center"/>
-
         <TextView
             android:id="@+id/discovery_settings_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/space"
-            android:layout_toEndOf="@id/discovery_settings_space"
+            android:layout_toEndOf="@id/left_margin"
             android:text="@string/discovery_settings"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -151,6 +141,16 @@
             android:layout_below="@+id/discovery_settings_text"
             android:gravity="center"/>
 
+
+        <Button
+            android:id="@+id/location_button"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_below="@+id/discovery_settings_text"
+            android:layout_marginTop="0dp"
+            android:background="@color/transparent"
+            android:onClick="startLocationSettings" />
+
         <TextView
             android:id="@+id/location_text"
             android:layout_width="wrap_content"
@@ -167,10 +167,8 @@
             android:layout_height="49dp"
             android:layout_below="@+id/discovery_settings_text"
             android:layout_toStartOf="@id/location_space_3"
-            android:clickable="true"
             android:focusable="true"
             android:gravity="center"
-            android:onClick="startLocationSettings"
             android:textSize="15sp" />
 
         <Space
@@ -178,7 +176,7 @@
             android:layout_width="10dp"
             android:layout_height="49dp"
             android:layout_below="@+id/discovery_settings_text"
-            android:layout_toStartOf="@+id/modify_location_button"
+            android:layout_toStartOf="@+id/location_arrow"
             android:gravity="center"/>
 
         <Space
@@ -186,27 +184,16 @@
             android:layout_width="15dp"
             android:layout_height="18dp"
             android:layout_below="@+id/discovery_settings_text"
-            android:layout_toStartOf="@+id/email_space_3"
+            android:layout_toStartOf="@+id/right_margin"
             android:gravity="center"/>
 
-        <Button
-            android:id="@+id/modify_location_button"
-            style="@style/Widget.Theme.Blindly.Arrow.Button"
+        <ImageView
+            android:id="@+id/location_arrow"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_below="@+id/location_button_space"
-            android:layout_toStartOf="@id/location_space_4"
-            android:gravity="center"
-            android:onClick="startLocationSettings"
-            android:padding="8dp" />
-
-        <Space
-            android:id="@+id/location_space_4"
-            android:layout_width="10dp"
-            android:layout_height="49dp"
-            android:layout_below="@+id/discovery_settings_text"
-            android:layout_alignParentEnd="true"
-            android:gravity="center"/>
+            android:layout_toStartOf="@id/right_margin"
+            app:srcCompat="@drawable/arrow_button" />
 
         <View
             android:id="@+id/divider3"
@@ -215,19 +202,12 @@
             android:layout_below="@+id/location_text"
             android:background="?android:attr/listDivider" />
 
-        <Space
-            android:id="@+id/distance_space_1"
-            android:layout_width="10dp"
-            android:layout_height="30dp"
-            android:layout_below="@+id/location_text"
-            android:gravity="center"/>
-
         <TextView
             android:id="@+id/maximum_distance_text"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_below="@+id/location_text"
-            android:layout_toEndOf="@id/distance_space_1"
+            android:layout_toEndOf="@id/left_margin"
             android:gravity="center"
             android:text="@string/maximum_distance"
             android:textSize="15sp" />
@@ -274,19 +254,21 @@
             android:layout_below="@+id/seekBar"
             android:background="?android:attr/listDivider"/>
 
-        <Space
-            android:id="@+id/looking_space_1"
-            android:layout_width="10dp"
+        <Button
+            android:id="@+id/show_me_button"
+            android:layout_width="match_parent"
             android:layout_height="49dp"
             android:layout_below="@+id/divider4"
-            android:gravity="center"/>
+            android:layout_marginTop="0dp"
+            android:background="@color/transparent"
+            android:onClick="startShowMeSettings" />
 
         <TextView
             android:id="@+id/looking_for_text"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
             android:layout_below="@+id/divider4"
-            android:layout_toEndOf="@id/looking_space_1"
+            android:layout_toEndOf="@id/left_margin"
             android:gravity="center"
             android:text="@string/looking_for"
             android:textSize="15sp" />
@@ -297,10 +279,8 @@
             android:layout_height="49dp"
             android:layout_below="@+id/divider4"
             android:layout_toStartOf="@id/looking_space_3"
-            android:clickable="true"
             android:focusable="true"
             android:gravity="center"
-            android:onClick="startShowMeSettings"
             android:textSize="15sp" />
 
         <Space
@@ -308,7 +288,7 @@
             android:layout_width="10dp"
             android:layout_height="49dp"
             android:layout_below="@+id/divider4"
-            android:layout_toStartOf="@id/modify_genre_button"
+            android:layout_toStartOf="@id/show_me_arrow"
             android:gravity="center"/>
 
         <Space
@@ -316,27 +296,16 @@
             android:layout_width="15dp"
             android:layout_height="18dp"
             android:layout_below="@+id/seekBar"
-            android:layout_toStartOf="@+id/email_space_3"
+            android:layout_toStartOf="@+id/right_margin"
             android:gravity="center"/>
 
-        <Button
-            android:id="@+id/modify_genre_button"
-            style="@style/Widget.Theme.Blindly.Arrow.Button"
+        <ImageView
+            android:id="@+id/show_me_arrow"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_below="@+id/genre_button_space"
-            android:layout_toStartOf="@id/looking_space_4"
-            android:gravity="center"
-            android:onClick="startShowMeSettings"
-            android:padding="8dp" />
-
-        <Space
-            android:id="@+id/looking_space_4"
-            android:layout_width="10dp"
-            android:layout_height="49dp"
-            android:layout_below="@+id/divider4"
-            android:layout_alignParentEnd="true"
-            android:gravity="center"/>
+            android:layout_toStartOf="@id/right_margin"
+            app:srcCompat="@drawable/arrow_button" />
 
         <View
             android:id="@+id/divider5"

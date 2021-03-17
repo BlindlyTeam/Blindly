@@ -12,5 +12,10 @@ class SettingsLocation : AppCompatActivity() {
         setContentView(R.layout.activity_settings_location)
 
         supportActionBar?.hide()
+
+        val currentLocation = intent.getStringExtra(EXTRA_LOCATION)
+        findViewById<TextView>(R.id.my_current).apply {
+            text = currentLocation
+        }
     }
 }

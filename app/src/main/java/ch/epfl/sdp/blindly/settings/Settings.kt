@@ -5,10 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 
 const val EXTRA_LOCATION = "user_location"
+const val EXTRA_SHOW_ME = "user_show_me"
+const val REQUEST_LOCATION = 1
+const val REQUEST_SHOW_ME = 2
 
 class Settings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,24 +45,32 @@ class Settings : AppCompatActivity() {
     }
 
     fun startLocationSettings(view: View) {
-        val intent = Intent(this, SettingsLocation::class.java)
+        val currentLocation = findViewById<TextView>(R.id.current_location_text).text.toString()
+        val intent = Intent(this, SettingsLocation::class.java).apply {
+            putExtra(EXTRA_LOCATION, currentLocation)
+        }
         startActivity(intent)
     }
 
     fun startShowMeSettings(view: View) {
-        val intent = Intent(this, SettingsShowMe::class.java)
-        startActivity(intent)
+
+        val currentShowMe = findViewById<TextView>(R.id.show_me_text).text.toString()
+        val intent = Intent(this, SettingsShowMe::class.java).apply {
+            putExtra(EXTRA_SHOW_ME, currentShowMe)
+        }
+
+        startActivityForResult(intent, REQUEST_SHOW_ME)
     }
 
-    /*override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (resultCode == RESULT_OK) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_SHOW_ME) {
             if (intent != null) {
-                if (intent.hasExtra(EXTRA_LOCATION)) {
-                    val locationText = findViewById<TextView>(R.id.current_location_text)
-                    locationText.text = intent.getStringExtra(EXTRA_LOCATION) //This is the updated one
+                if (intent.hasExtra(EXTRA_SHOW_ME)) {
+                    val showMe = findViewById<TextView>(R.id.show_me_text)
+                    showMe.text = intent.getStringExtra(EXTRA_SHOW_ME) //This is the updated one
                 }
             }
         }
-    }*/
+    }
 
 }
