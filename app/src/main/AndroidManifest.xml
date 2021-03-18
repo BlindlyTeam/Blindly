@@ -29,6 +29,14 @@
         android:supportsRtl="true"
         tools:ignore="ExtraText"
         android:theme="@style/Theme.Blindly">
+        <activity android:name=".settings.SettingsLocation"></activity>
+        <activity android:name=".settings.SettingsShowMe" />
+        <activity android:name=".AudioLibrary" />
+        <activity android:name=".EditProfile" />
+        <activity android:name=".settings.Settings" />
+        <activity
+            android:name=".MainScreen"
+            android:theme="@style/Theme.Blindly.NoActionBar" />
         <activity android:name=".LocationPermissionActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

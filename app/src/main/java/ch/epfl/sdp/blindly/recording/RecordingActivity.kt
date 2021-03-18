@@ -45,6 +45,7 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionToRecordAccepted = if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             grantResults[0] == PackageManager.PERMISSION_GRANTED
