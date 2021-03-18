@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Blindly</string>
+    <string name="title_activity_maps">Map</string>
     <string name="title_activity_splash_screen">FullscreenActivity</string>
     <string name="blindly_app_logo">Blindly App Logo</string>
     <string name="welcome_to_blindly">Welcome to Blindly.</string>
@@ -37,4 +38,6 @@
     <string name="gay">Gay</string>
     <string name="everyone">EVERYONE</string>
     <string name="show_me">Show me</string>
+    <string name="require_locaiton_permission">You should allow the localisation for the app to work properly</string>
+    <string name="accept">Accept</string>
 </resources>
