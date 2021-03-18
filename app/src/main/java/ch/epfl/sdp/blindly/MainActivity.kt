@@ -9,13 +9,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val button: Button = findViewById(R.id.goButton)
-
-        button.setOnClickListener {
-            val intent = Intent(
-                this, LocationPermissionActivity::class.java)
-            startActivity (intent)
-        }
     }
+
 }
