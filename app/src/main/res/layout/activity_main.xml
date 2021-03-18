@@ -13,7 +13,7 @@
         android:layout_marginTop="139dp"
         android:layout_marginBottom="245dp"
         android:text="Hello World!"
-        app:layout_constraintBottom_toTopOf="@+id/goButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
