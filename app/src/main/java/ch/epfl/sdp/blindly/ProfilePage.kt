@@ -48,7 +48,7 @@ class ProfilePage : Fragment() {
     }
 
     private fun setOnClickListener(button: Button, intent: Intent) {
-        val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button);
+        val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button)
         button.setOnClickListener {
             button.startAnimation(bounce)
             Handler(Looper.getMainLooper()).postDelayed({

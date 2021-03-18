@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.settings
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
@@ -21,7 +20,7 @@ class SettingsLocationTest {
     @Test
     fun showMeFromIntentIsDisplayedProperly() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
-        intent.putExtra(EXTRA_LOCATION, TEST_LOCATION);
+        intent.putExtra(EXTRA_LOCATION, TEST_LOCATION)
 
         ActivityScenario.launch<SettingsLocation>(intent)
         onView(withId(R.id.my_current))

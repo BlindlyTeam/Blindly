@@ -63,7 +63,7 @@ class SettingsTest {
     @Test
     fun clickingOnDoneFiresBackToParentTheNewIntent() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
-        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME);
+        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME)
         ActivityScenario.launch<SettingsShowMe>(intent)
 
         onView((withId(R.id.show_me_men_button))).perform(click())
@@ -73,7 +73,7 @@ class SettingsTest {
         assertEquals(TEST_SHOW_ME_MEN, activityRule.scenario.result.resultData.getStringExtra(EXTRA_SHOW_ME))
     }
 
-    private fun setProgress(progress: Int): ViewAction? {
+    private fun setProgress(progress: Int): ViewAction {
         return object : ViewAction {
             override fun perform(uiController: UiController?, view: View) {
                 val seekBar = view as SeekBar

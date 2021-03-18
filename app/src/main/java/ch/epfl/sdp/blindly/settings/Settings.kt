@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+
 
 const val EXTRA_LOCATION = "user_location"
 const val EXTRA_SHOW_ME = "user_show_me"
@@ -25,7 +27,7 @@ class Settings : AppCompatActivity() {
         emailAddressText.text = "random@epfl.ch"
 
         val locationText = findViewById<TextView>(R.id.current_location_text)
-        locationText.text = "Lausanne, Switzerland" //This is the saved one, from the database
+        locationText.text = "Lausanne, Switzerland"
 
         val radiusText = findViewById<TextView>(R.id.radius_text)
         val radiusSeekBar = findViewById<SeekBar>(R.id.seekBar)
@@ -53,13 +55,28 @@ class Settings : AppCompatActivity() {
     }
 
     fun startShowMeSettings(view: View) {
-
         val currentShowMe = findViewById<TextView>(R.id.show_me_text).text.toString()
         val intent = Intent(this, SettingsShowMe::class.java).apply {
             putExtra(EXTRA_SHOW_ME, currentShowMe)
         }
 
+        //startActivityForResult(EXTRA_SHOW_ME).launch(intent)
         startActivityForResult(intent, REQUEST_SHOW_ME)
+    }
+
+    // This is the non depracated version but it crashes for the moment
+    private fun startActivityForResult(extra: String): ActivityResultLauncher<Intent> {
+        return registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data = result.data
+                if (data != null) {
+                    if (data.hasExtra(EXTRA_SHOW_ME) && extra == EXTRA_SHOW_ME) {
+                        val showMe = findViewById<TextView>(R.id.show_me_text)
+                        showMe.text = data.getStringExtra(EXTRA_SHOW_ME)
+                    }
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -67,7 +84,7 @@ class Settings : AppCompatActivity() {
             if (intent != null) {
                 if (intent.hasExtra(EXTRA_SHOW_ME)) {
                     val showMe = findViewById<TextView>(R.id.show_me_text)
-                    showMe.text = intent.getStringExtra(EXTRA_SHOW_ME) //This is the updated one
+                    showMe.text = intent.getStringExtra(EXTRA_SHOW_ME)
                 }
             }
         }

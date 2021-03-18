@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -22,8 +20,6 @@ class SplashScreen : AppCompatActivity() {
 
         val heart = findViewById<ImageView>(R.id.splashscreen_heart)
         val beating = AnimationUtils.loadAnimation(this, R.anim.beating_heart)
-
-        // Use bounce interpolator with amplitude 0.2 and frequency 20
 
         // Use bounce interpolator with amplitude 0.2 and frequency 20
         val interpolator = BounceInterpolator(0.3, 20.0)

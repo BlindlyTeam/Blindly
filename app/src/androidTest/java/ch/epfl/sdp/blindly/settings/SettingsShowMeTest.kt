@@ -21,7 +21,7 @@ class SettingsShowMeTest {
     @Test
     fun showMeFromIntentIsDisplayedProperly() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
-        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME);
+        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME)
 
         ActivityScenario.launch<SettingsShowMe>(intent)
         onView(withId(R.id.checkmark_img_women))
@@ -35,7 +35,7 @@ class SettingsShowMeTest {
     @Test
     fun onButtonClickShowMeCheckChanges() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
-        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME);
+        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME)
         ActivityScenario.launch<SettingsShowMe>(intent)
 
         onView((withId(R.id.show_me_everyone_button)))

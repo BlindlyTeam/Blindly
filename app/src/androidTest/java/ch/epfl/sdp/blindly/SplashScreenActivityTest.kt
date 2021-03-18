@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.service.autofill.FieldClassification
 import android.widget.ImageView
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
