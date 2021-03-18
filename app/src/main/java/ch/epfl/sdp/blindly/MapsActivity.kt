@@ -1,11 +1,8 @@
 package ch.epfl.sdp.blindly
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.LocationService
 
@@ -47,7 +44,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
         val loc: LatLng = if(location != null) {
             LatLng(location!!.latitude, location!!.longitude)
         } else {
