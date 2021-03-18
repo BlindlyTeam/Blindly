@@ -24,6 +24,9 @@ class RecordingActivity : AppCompatActivity() {
     private var fileName: String = ""
 
     private var isRecording = false
+    private var isPlayerPaused = false
+
+    private var numberOfRecords = 0
 
     private lateinit var recordButton: Button
     private lateinit var playPauseButton: Button
@@ -67,6 +70,7 @@ class RecordingActivity : AppCompatActivity() {
         if (!isRecording) {
             startRecording()
             setRecordView()
+            numberOfRecords++
         } else {
             stopRecording()
             setFinishedRecordView()
@@ -74,7 +78,8 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     fun playPauseButtonClick(view: View) {
-        if (isPlayerStopped) preparePlaying()
+        if (isPlayerStopped)
+            preparePlaying()
         if (!mediaPlayer!!.isPlaying) {
             mediaPlayer?.start()
             setPlayView()
@@ -100,47 +105,50 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     private fun setPlayView() {
-        isPlayerStopped = false
-        playTimer.base = SystemClock.elapsedRealtime()
+        if (!isPlayerPaused)
+            playTimer.base = SystemClock.elapsedRealtime()
         playTimer.start()
+        isPlayerPaused = false
+        isPlayerStopped = false
         playPauseButton.text = "Pause"
         recordButton.isEnabled = false
         updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
     }
 
     private fun setPauseView() {
-        recordButton.isEnabled = true
         playTimer.stop()
+        isPlayerPaused = true
+        recordButton.isEnabled = true
         playPauseButton.text = "Play"
     }
 
     private fun setFinishedPlayView() {
+        playTimer.stop()
         playPauseButton.text = "Play"
         recordButton.isEnabled = true
-        playTimer.stop()
         playBar.progress = 0
         isPlayerStopped = true
     }
 
     private fun setRecordView() {
+        recordTimer.base = SystemClock.elapsedRealtime()
+        recordTimer.start()
         isRecording = true
         recordButton.isVisible = true
         recordText.isVisible = true
         recordText.text = "Recording..."
         playPauseButton.isEnabled = false
         playBar.progress = 0
-        recordTimer.base = SystemClock.elapsedRealtime()
-        recordTimer.start()
         recordButton.text = "Stop recording"
     }
 
     private fun setFinishedRecordView() {
+        recordTimer.stop()
         isRecording = false
         playPauseButton.isEnabled = true
         recordText.text = "Done !"
         playBar.isVisible = true
         recordButton.text = "Start recording"
-        recordTimer.stop()
         playPauseButton.isEnabled = true
     }
 
