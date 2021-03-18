@@ -37,7 +37,6 @@
         <activity
             android:name=".MainScreen"
             android:theme="@style/Theme.Blindly.NoActionBar" />
-        <activity android:name=".Profile4_2" />
         <activity android:name=".LocationPermissionActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
