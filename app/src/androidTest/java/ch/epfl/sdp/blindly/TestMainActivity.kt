@@ -29,12 +29,4 @@ class TestMainActivity {
         Intents.release()
     }
 
-    @Test
-    fun testMainScreenButton() {
-        Intents.init()
-        Espresso.onView(withId(R.id.button)).perform(click())
-        intended(hasComponent(MainScreen::class.java.name))
-        Intents.release()
-    }
-
 }
