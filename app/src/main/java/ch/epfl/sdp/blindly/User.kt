@@ -1,6 +1,5 @@
 package ch.epfl.sdp.blindly
 
-import android.graphics.drawable.GradientDrawable
 import java.util.*
 
 /**
@@ -27,46 +26,52 @@ class User(private val name: String, private val email: String){
      * User birthdate
      */
     private var birthDate: Date
-        get() {
-            return birthDate
+        get() { return birthDate }
+        set(value: Date) {
+           birthDate = value
         }
-        set(value) {}
 
     /**
      * User gender
      */
     private var gender: String
-        get() {
-            return gender
+        get() { return gender }
+        set(value: String) {
+            gender = value
         }
-        set(value) {}
 
     /**
      * User sexual orientation, up to 3
      */
     private var sexualOrientation: Array<String>
-        get() {
-            return sexualOrientation
+        get() { return sexualOrientation }
+        set(value: Array<String>) {
+            //Argument check
+            require(value.size <= 3)
+
+            sexualOrientation = value.copyOf()
         }
-        set(value) {}
 
     /**
      * Gender user wants to be matched with
      */
     private var desiredGender: DesiredGender
-        get() {
-            return desiredGender
+        get() { return desiredGender }
+        set(value: DesiredGender) {
+            desiredGender = value
         }
-        set(value) {}
 
     /**
      * User passions, up to 5
      */
     private var passions: Array<Passions>
-        get() {
-            return passions
+        get() { return passions }
+        set(value: Array<Passions>) {
+            //Argument check
+            require(value.size <= 5)
+
+            passions = value.copyOf()
         }
-        set(value) {}
 
     /**
      * TODO Builder ?
@@ -79,6 +84,10 @@ class User(private val name: String, private val email: String){
      */
     fun fillProfile(birthDate: Date, gender:String, sexualOrientation: Array<String>,
                     desiredGender: DesiredGender, passions: Array<Passions>){
+        //Argument check
+        require(sexualOrientation.size <= 3)
+        require(passions.size <= 5)
+
         this.birthDate = birthDate
         this.gender = gender
         this.sexualOrientation = sexualOrientation
