@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import ch.epfl.sdp.blindly.R
 
 class SettingsShowMe : AppCompatActivity() {
@@ -59,9 +60,9 @@ class SettingsShowMe : AppCompatActivity() {
         }
         checks.forEach { imageView ->
             if (imageView == checkmark) {
-                checkmark.setImageResource(R.drawable.checkmark_img)
+                checkmark.isVisible = true
             } else {
-                imageView.setImageDrawable(null)
+                imageView.isVisible = false
             }
         }
     }

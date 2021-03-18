@@ -11,7 +11,7 @@ import ch.epfl.sdp.blindly.R
 
 const val EXTRA_LOCATION = "user_location"
 const val EXTRA_SHOW_ME = "user_show_me"
-const val REQUEST_LOCATION = 1
+//const val REQUEST_LOCATION = 1
 const val REQUEST_SHOW_ME = 2
 
 class Settings : AppCompatActivity() {

@@ -88,6 +88,7 @@
             android:layout_height="25dp"
             android:layout_below="@+id/show_me_space_3"
             android:layout_toStartOf="@id/show_me_space_2"
+            app:srcCompat="@drawable/checkmark_img"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="278dp" />
 
@@ -130,6 +131,7 @@
             android:layout_height="25dp"
             android:layout_below="@+id/show_me_space_4"
             android:layout_toStartOf="@id/show_me_space_2"
+            app:srcCompat="@drawable/checkmark_img"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="278dp" />
 
@@ -174,6 +176,7 @@
             android:layout_height="25dp"
             android:layout_below="@+id/show_me_space_5"
             android:layout_toStartOf="@id/show_me_space_2"
+            app:srcCompat="@drawable/checkmark_img"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="278dp" />
 
