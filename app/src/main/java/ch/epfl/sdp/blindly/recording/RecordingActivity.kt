@@ -66,37 +66,21 @@ class RecordingActivity : AppCompatActivity() {
     fun recordButtonClick(view: View) {
         if (!isRecording) {
             startRecording()
-            recordTimer.base = SystemClock.elapsedRealtime()
-            recordTimer.start()
-            recordButton.text = "Stop recording"
+            setRecordView()
         } else {
             stopRecording()
-            recordTimer.stop()
-            recordButton.text = "Start recording"
+            setFinishedRecordView()
         }
     }
 
     fun playPauseButtonClick(view: View) {
         if (isPlayerStopped) preparePlaying()
         if (!mediaPlayer!!.isPlaying) {
-            startPlaying()
-            isPlayerStopped = false
-            playTimer.base = SystemClock.elapsedRealtime()
-            playTimer.start()
-            playPauseButton.text = "Pause"
+            mediaPlayer?.start()
+            setPlayView()
         } else {
-            pausePlaying()
-            playTimer.stop()
-            playPauseButton.text = "Play"
-        }
-
-        mediaPlayer?.setOnCompletionListener {
-            playPauseButton.text = "Play"
-            recordButton.isEnabled = true
-            mediaPlayer?.stop()
-            playTimer.stop()
-            playBar.progress = 0
-            isPlayerStopped = true
+            mediaPlayer?.pause()
+            setPauseView()
         }
     }
 
@@ -113,6 +97,51 @@ class RecordingActivity : AppCompatActivity() {
 
         recordTimer = findViewById(R.id.recordTimer)
         playTimer = findViewById(R.id.playTimer)
+    }
+
+    private fun setPlayView() {
+        isPlayerStopped = false
+        playTimer.base = SystemClock.elapsedRealtime()
+        playTimer.start()
+        playPauseButton.text = "Pause"
+        recordButton.isEnabled = false
+        updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
+    }
+
+    private fun setPauseView() {
+        recordButton.isEnabled = true
+        playTimer.stop()
+        playPauseButton.text = "Play"
+    }
+
+    private fun setFinishedPlayView() {
+        playPauseButton.text = "Play"
+        recordButton.isEnabled = true
+        playTimer.stop()
+        playBar.progress = 0
+        isPlayerStopped = true
+    }
+
+    private fun setRecordView() {
+        isRecording = true
+        recordButton.isVisible = true
+        recordText.isVisible = true
+        recordText.text = "Recording..."
+        playPauseButton.isEnabled = false
+        playBar.progress = 0
+        recordTimer.base = SystemClock.elapsedRealtime()
+        recordTimer.start()
+        recordButton.text = "Stop recording"
+    }
+
+    private fun setFinishedRecordView() {
+        isRecording = false
+        playPauseButton.isEnabled = true
+        recordText.text = "Done !"
+        playBar.isVisible = true
+        recordButton.text = "Start recording"
+        recordTimer.stop()
+        playPauseButton.isEnabled = true
     }
 
     private fun prepareRecording() {
@@ -133,32 +162,26 @@ class RecordingActivity : AppCompatActivity() {
 
     private fun startRecording() {
         mediaPlayer?.stop()
-
         prepareRecording()
-        isRecording = true
         mediaRecorder.start()
-
-        recordButton.isVisible = true
-        recordText.text = "Recording..."
-        playPauseButton.isEnabled = false
-        playBar.progress = 0
     }
 
     private fun stopRecording() {
-        isRecording = false
         mediaRecorder.stop()
-        playPauseButton.isEnabled = true
-        recordText.text = "Done !"
-        playBar.isVisible = true
+        setFinishedRecordView()
 
         if (mediaPlayer == null) mediaPlayer = createPlayer()
-        playPauseButton.isEnabled = true
     }
 
     private fun createPlayer(): MediaPlayer {
-        return MediaPlayer().apply {
+        val player = MediaPlayer().apply {
             setDataSource(fileName)
         }
+        player.setOnCompletionListener {
+            mediaPlayer?.stop()
+            setFinishedPlayView()
+        }
+        return player
     }
 
     private fun preparePlaying() {
@@ -169,17 +192,6 @@ class RecordingActivity : AppCompatActivity() {
             Toast.makeText(this, "MediaPlayer preparation failed : ${e.message}",
                     Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun startPlaying() {
-        recordButton.isEnabled = false
-        mediaPlayer?.start()
-        updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
-    }
-
-    private fun pausePlaying() {
-        recordButton.isEnabled = true
-        mediaPlayer?.pause()
     }
 
     private fun updatePlayBar(duration: Int, position: Int) {
