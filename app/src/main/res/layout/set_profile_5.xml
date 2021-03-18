@@ -11,7 +11,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="413dp"
         android:layout_height="62dp"
-        android:progress="80"
+        android:progress="68"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -62,7 +62,7 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip7"
-        android:layout_width="109dp"
+        android:layout_width="110dp"
         android:layout_height="50dp"
         android:checkable="true"
         android:text="@string/pansexual"
@@ -78,7 +78,7 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip8"
-        android:layout_width="109dp"
+        android:layout_width="110dp"
         android:layout_height="50dp"
         android:checkable="true"
         android:text="@string/queer"
@@ -94,7 +94,7 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip9"
-        android:layout_width="109dp"
+        android:layout_width="110dp"
         android:layout_height="50dp"
         android:checkable="true"
         android:text="@string/questioning"
@@ -109,7 +109,7 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip5"
-        android:layout_width="109dp"
+        android:layout_width="110dp"
         android:layout_height="50dp"
         android:checkable="true"
         android:text="@string/asexual"
@@ -125,7 +125,7 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip4"
-        android:layout_width="109dp"
+        android:layout_width="110dp"
         android:layout_height="50dp"
         android:checkable="true"
         android:text="@string/bisexual"
@@ -141,7 +141,7 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip6"
-        android:layout_width="109dp"
+        android:layout_width="110dp"
         android:layout_height="50dp"
         android:checkable="true"
         android:text="@string/demisexual"
@@ -156,7 +156,7 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip3"
-        android:layout_width="109dp"
+        android:layout_width="110dp"
         android:layout_height="50dp"
         android:checkable="true"
         android:text="@string/lesbian"
@@ -171,7 +171,7 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip1"
-        android:layout_width="109dp"
+        android:layout_width="110dp"
         android:layout_height="50dp"
         android:checkable="true"
         android:focusable="true"
@@ -188,7 +188,7 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip2"
-        android:layout_width="109dp"
+        android:layout_width="110dp"
         android:layout_height="50dp"
         android:checkable="true"
         android:text="@string/gay"
