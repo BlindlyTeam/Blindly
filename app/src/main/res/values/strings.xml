@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">Blindly</string>
-<<<<<<< HEAD
     <string name="splash_screen">Blindly Splash Screen</string>
-=======
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_splash_screen">FullscreenActivity</string>
->>>>>>> main
     <string name="blindly_app_logo">Blindly App Logo</string>
     <string name="welcome_to_blindly">Welcome to Blindly.</string>
     <string name="start">Start</string>
@@ -42,7 +39,6 @@
     <string name="gay">Gay</string>
     <string name="everyone">EVERYONE</string>
     <string name="show_me">Show me</string>
-<<<<<<< HEAD
     <string name="edit_profile_info">Edit Info</string>
     <string name="settings_profile">Settings</string>
     <string name="record_audio_profile">Record Audio</string>
@@ -67,7 +63,8 @@
     <string name="men_show_me">Men</string>
     <string name="women_show_me">Women</string>
     <string name="everyone_show_me">Everyone</string>
-=======
+    <string name="logout_button_text">Log out</string>
+    <string name="login_err">Login failed,error code: %1$d</string>
     <string name="present_yourself_record">Present yourself by recording an audio file</string>
     <string name="play">Play</string>
     <string name="recording">Recording...</string>
@@ -75,5 +72,4 @@
     <string name="initialised_timer">00:00</string>
     <string name="require_locaiton_permission">You should allow the localisation for the app to work properly</string>
     <string name="accept">Accept</string>
->>>>>>> main
 </resources>
