@@ -18,7 +18,7 @@
         <activity android:name=".Profile3" />
         <activity android:name=".Profile2" />
         <activity android:name=".Profile1" />
-        <activity android:name=".recording.RecordingActivity">
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
               
@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SplashScreen" />
+        <activity android:name=".recording.RecordingActivity" />
     </application>
 
 </manifest>
