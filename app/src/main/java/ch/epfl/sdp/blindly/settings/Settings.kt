@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 
@@ -65,7 +63,7 @@ class Settings : AppCompatActivity() {
     }
 
     // This is the non depracated version but it crashes for the moment
-    private fun startActivityForResult(extra: String): ActivityResultLauncher<Intent> {
+    /*private fun startActivityForResult(extra: String): ActivityResultLauncher<Intent> {
         return registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data = result.data
@@ -77,7 +75,7 @@ class Settings : AppCompatActivity() {
                 }
             }
         }
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_SHOW_ME) {
