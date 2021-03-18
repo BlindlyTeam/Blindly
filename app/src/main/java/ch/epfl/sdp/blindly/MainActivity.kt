@@ -1,11 +1,11 @@
 package ch.epfl.sdp.blindly
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.Profile.Profile1
-
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,5 +19,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-
+    fun start_main_screen(view:View) {
+        val intent = Intent(this, MainScreen::class.java)
+        startActivity(intent)
+    }
 }

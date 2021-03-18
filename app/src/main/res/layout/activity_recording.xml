@@ -10,11 +10,9 @@
         android:id="@+id/presentationText"
         android:layout_width="262dp"
         android:layout_height="82dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginBottom="90dp"
-        android:text="Present yourself by recording an audio file"
+        android:layout_marginTop="34dp"
+        android:text="@string/present_yourself_record"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/recordingButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,34 +22,65 @@
         android:id="@+id/recordingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="332dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginTop="77dp"
         android:onClick="recordButtonClick"
-        android:text="Start recording"
-        app:layout_constraintBottom_toTopOf="@+id/playingButton"
+        android:text="@string/start_recording"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/playingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:onClick="playButtonClick"
-        android:text="Start playing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recordingButton" />
+        app:layout_constraintTop_toBottomOf="@+id/presentationText" />
 
     <TextView
         android:id="@+id/recordingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="93dp"
-        android:text="Recording..."
+        android:layout_marginTop="20dp"
+        android:text="@string/recording"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordTimer" />
+
+    <Chronometer
+        android:id="@+id/recordTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:text="@string/initialised_timer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordingButton" />
+
+    <Button
+        android:id="@+id/playingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:onClick="playPauseButtonClick"
+        android:text="@string/play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordingButton" />
+
+    <SeekBar
+        android:id="@+id/playBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playingButton" />
+
+    <Chronometer
+        android:id="@+id/playTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/initialised_timer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playingButton" />
 

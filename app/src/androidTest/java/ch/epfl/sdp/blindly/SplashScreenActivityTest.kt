@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.service.autofill.FieldClassification
 import android.widget.ImageView
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
@@ -65,10 +64,9 @@ class SplashScreenActivityTest {
         init()
         var imageView: ImageView? = null
         activityRule.scenario.onActivity {activity ->
-            imageView = activity.findViewById(R.id.splash_screen)
+            imageView = activity.findViewById(R.id.splashscreen_heart)
         }
-
-        val resIdImage: Int = R.drawable.splashscreen
+        val resIdImage: Int = R.drawable.splash_screen_foreground
 
         if (!imageView?.let { isImageEqualToRes(it, resIdImage) }!!) {
             fail("Expected to find splashscreen.png for splash_screen")
