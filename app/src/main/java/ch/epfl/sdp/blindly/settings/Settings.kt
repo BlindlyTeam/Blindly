@@ -78,6 +78,7 @@ class Settings : AppCompatActivity() {
     }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode == RESULT_OK && requestCode == REQUEST_SHOW_ME) {
             if (intent != null) {
                 if (intent.hasExtra(EXTRA_SHOW_ME)) {
