@@ -21,7 +21,6 @@ class SplashScreen : AppCompatActivity() {
         val heart = findViewById<ImageView>(R.id.splashscreen_heart)
         val beating = AnimationUtils.loadAnimation(this, R.anim.beating_heart)
 
-        // Use bounce interpolator with amplitude 0.2 and frequency 20
         val interpolator = BounceInterpolator(0.3, 20.0)
         beating.interpolator = interpolator
 
