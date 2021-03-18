@@ -21,12 +21,10 @@ class RecordingActivity : AppCompatActivity() {
 
     private var isPlayerStopped = true
 
-    private var fileName: String = ""
+    private var filePath: String = ""
 
     private var isRecording = false
     private var isPlayerPaused = false
-
-    private var numberOfRecords = 0
 
     private lateinit var recordButton: Button
     private lateinit var playPauseButton: Button
@@ -42,10 +40,7 @@ class RecordingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording)
         setBaseView()
-
-        // Record to the external cache for now
-        fileName = "${externalCacheDir?.absolutePath}/audioRecordTest.3gp"
-
+        createNewFilePath()
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
     }
 
@@ -70,7 +65,6 @@ class RecordingActivity : AppCompatActivity() {
         if (!isRecording) {
             startRecording()
             setRecordView()
-            numberOfRecords++
         } else {
             stopRecording()
             setFinishedRecordView()
@@ -79,6 +73,7 @@ class RecordingActivity : AppCompatActivity() {
 
     fun playPauseButtonClick(view: View) {
         if (isPlayerStopped)
+            createPlayer()
             preparePlaying()
         if (!mediaPlayer!!.isPlaying) {
             mediaPlayer?.start()
@@ -153,11 +148,12 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     private fun prepareRecording() {
+        createNewFilePath()
         mediaRecorder.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
-            setOutputFile(fileName)
+            setOutputFile(filePath)
         }
         try {
             mediaRecorder.prepare()
@@ -177,19 +173,16 @@ class RecordingActivity : AppCompatActivity() {
     private fun stopRecording() {
         mediaRecorder.stop()
         setFinishedRecordView()
-
-        if (mediaPlayer == null) mediaPlayer = createPlayer()
     }
 
-    private fun createPlayer(): MediaPlayer {
-        val player = MediaPlayer().apply {
-            setDataSource(fileName)
+    private fun createPlayer() {
+        mediaPlayer = MediaPlayer().apply {
+            setDataSource(filePath)
         }
-        player.setOnCompletionListener {
+        mediaPlayer?.setOnCompletionListener {
             mediaPlayer?.stop()
             setFinishedPlayView()
         }
-        return player
     }
 
     private fun preparePlaying() {
@@ -200,6 +193,11 @@ class RecordingActivity : AppCompatActivity() {
             Toast.makeText(this, "MediaPlayer preparation failed : ${e.message}",
                     Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun createNewFilePath() {
+        // Record to the external cache for now
+        filePath = "${externalCacheDir?.absolutePath}/audioRecordTest_${System.currentTimeMillis()}.3gp"
     }
 
     private fun updatePlayBar(duration: Int, position: Int) {
