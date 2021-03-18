@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly
 
+import java.text.DateFormat
 import java.util.*
 
 /**
@@ -25,56 +26,29 @@ class User(private val name: String, private val email: String){
     /**
      * User birthdate
      */
-    private var birthDate: Date
-        get() { return birthDate }
-        set(value: Date) {
-           birthDate = value
-        }
+    var birthDate: String = DateFormat.getDateInstance().format(Calendar.getInstance().time) //Today
 
     /**
      * User gender
      */
-    private var gender: String
-        get() { return gender }
-        set(value: String) {
-            gender = value
-        }
+    var gender: String = ""
 
     /**
      * User sexual orientation, up to 3
      */
-    private var sexualOrientation: Array<String>
-        get() { return sexualOrientation }
-        set(value: Array<String>) {
-            //Argument check
-            require(value.size <= 3)
-
-            sexualOrientation = value.copyOf()
-        }
+    var sexualOrientation: Array<String> = emptyArray()
 
     /**
      * Gender user wants to be matched with
      */
-    private var desiredGender: DesiredGender
-        get() { return desiredGender }
-        set(value: DesiredGender) {
-            desiredGender = value
-        }
+    var desiredGender: DesiredGender = DesiredGender.MEN
 
     /**
      * User passions, up to 5
      */
-    private var passions: Array<Passions>
-        get() { return passions }
-        set(value: Array<Passions>) {
-            //Argument check
-            require(value.size <= 5)
-
-            passions = value.copyOf()
-        }
+    var passions: Array<Passions> = emptyArray()
 
     /**
-     * TODO Builder ?
      * Sets the different attributes with the values of the User
      * @param birthDate the User birthday
      * @param gender the User gender
@@ -82,7 +56,7 @@ class User(private val name: String, private val email: String){
      * @param desiredGender the genders the User wants to be match with
      * @param passions the passions of the User
      */
-    fun fillProfile(birthDate: Date, gender:String, sexualOrientation: Array<String>,
+    fun fillProfile(birthDate: String, gender:String, sexualOrientation: Array<String>,
                     desiredGender: DesiredGender, passions: Array<Passions>){
         //Argument check
         require(sexualOrientation.size <= 3)
