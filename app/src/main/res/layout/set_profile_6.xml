@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sex3_pref"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile6">
+
+    <ProgressBar
+        android:id="@+id/progressBar_p6"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="413dp"
+        android:layout_height="62dp"
+        android:progress="83"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/button_p6"
+        android:layout_width="231dp"
+        android:layout_height="61dp"
+        android:onClick="start_profile_7"
+        android:text="@string/continue_str"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955" />
+
+    <RadioGroup
+        android:layout_width="319dp"
+        android:layout_height="143dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.615">
+
+        <RadioButton
+            android:id="@+id/sex1_pref"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/woman" />
+
+        <RadioButton
+            android:id="@+id/sex2_pref"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/man" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/everyone" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/text_p6"
+        android:layout_width="230dp"
+        android:layout_height="117dp"
+        android:text="@string/show_me"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.246"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.191" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
