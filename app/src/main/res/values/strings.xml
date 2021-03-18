@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Blindly</string>
+    <string name="title_activity_maps">Map</string>
     <string name="title_activity_splash_screen">FullscreenActivity</string>
     <string name="blindly_app_logo">Blindly App Logo</string>
     <string name="welcome_to_blindly">Welcome to Blindly.</string>
@@ -42,4 +43,6 @@
     <string name="recording">Recording...</string>
     <string name="start_recording">Start recording</string>
     <string name="initialised_timer">00:00</string>
+    <string name="require_locaiton_permission">You should allow the localisation for the app to work properly</string>
+    <string name="accept">Accept</string>
 </resources>
