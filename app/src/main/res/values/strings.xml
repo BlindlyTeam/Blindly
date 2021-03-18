@@ -40,4 +40,9 @@
     <string name="gay">Gay</string>
     <string name="everyone">EVERYONE</string>
     <string name="show_me">Show me</string>
+    <string name="present_yourself_record">Present yourself by recording an audio file</string>
+    <string name="play">Play</string>
+    <string name="recording">Recording...</string>
+    <string name="start_recording">Start recording</string>
+    <string name="initialised_timer">00:00</string>
 </resources>

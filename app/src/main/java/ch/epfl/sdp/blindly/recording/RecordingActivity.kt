@@ -72,9 +72,10 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     fun playPauseButtonClick(view: View) {
-        if (isPlayerStopped)
+        if (isPlayerStopped) {
             createPlayer()
             preparePlaying()
+        }
         if (!mediaPlayer!!.isPlaying) {
             mediaPlayer?.start()
             setPlayView()
