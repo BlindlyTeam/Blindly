@@ -62,6 +62,6 @@ class RecordingActivityTest {
         playButton.perform(click())
         playButton.check(matches(withText("Pause")))
         playButton.perform(click())
-        playButton.check(matches(withText("Plays")))
+        playButton.check(matches(withText("Play")))
     }
 }

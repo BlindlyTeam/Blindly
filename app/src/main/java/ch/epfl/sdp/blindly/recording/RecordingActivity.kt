@@ -4,20 +4,14 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.view.View
-import android.widget.Button
-import android.widget.SeekBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import ch.epfl.sdp.blindly.R
 import java.io.IOException
-import java.util.*
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
@@ -25,14 +19,18 @@ class RecordingActivity : AppCompatActivity() {
     private val mediaRecorder = MediaRecorder()
     private var mediaPlayer: MediaPlayer? = null
 
+    private var isPlayerStopped = true
+
     private var fileName: String = ""
 
     private var isRecording = false
 
     private lateinit var recordButton: Button
     private lateinit var playPauseButton: Button
-    private lateinit var recordText: TextView
     private lateinit var playBar: SeekBar
+    private lateinit var recordText: TextView
+    private lateinit var recordTimer: Chronometer
+    private lateinit var playTimer: Chronometer
 
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -40,16 +38,7 @@ class RecordingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording)
-
-        recordButton = findViewById(R.id.recordingButton)
-        playPauseButton = findViewById(R.id.playingButton)
-        playPauseButton.isEnabled = false
-
-        recordText = findViewById(R.id.recordingText)
-        recordText.isVisible = false
-
-        playBar = findViewById(R.id.playBar)
-        playBar.isVisible = false
+        setBaseView()
 
         // Record to the external cache for now
         fileName = "${externalCacheDir?.absolutePath}/audioRecordTest.3gp"
@@ -77,19 +66,27 @@ class RecordingActivity : AppCompatActivity() {
     fun recordButtonClick(view: View) {
         if (!isRecording) {
             startRecording()
+            recordTimer.base = SystemClock.elapsedRealtime()
+            recordTimer.start()
             recordButton.text = "Stop recording"
         } else {
             stopRecording()
+            recordTimer.stop()
             recordButton.text = "Start recording"
         }
     }
 
     fun playPauseButtonClick(view: View) {
+        if (isPlayerStopped) preparePlaying()
         if (!mediaPlayer!!.isPlaying) {
             startPlaying()
+            isPlayerStopped = false
+            playTimer.base = SystemClock.elapsedRealtime()
+            playTimer.start()
             playPauseButton.text = "Pause"
         } else {
             pausePlaying()
+            playTimer.stop()
             playPauseButton.text = "Play"
         }
 
@@ -97,7 +94,25 @@ class RecordingActivity : AppCompatActivity() {
             playPauseButton.text = "Play"
             recordButton.isEnabled = true
             mediaPlayer?.stop()
+            playTimer.stop()
+            playBar.progress = 0
+            isPlayerStopped = true
         }
+    }
+
+    private fun setBaseView() {
+        recordButton = findViewById(R.id.recordingButton)
+        playPauseButton = findViewById(R.id.playingButton)
+        playPauseButton.isEnabled = false
+
+        playBar = findViewById(R.id.playBar)
+        playBar.isVisible = false
+
+        recordText = findViewById(R.id.recordingText)
+        recordText.isVisible = false
+
+        recordTimer = findViewById(R.id.recordTimer)
+        playTimer = findViewById(R.id.playTimer)
     }
 
     private fun prepareRecording() {
@@ -123,7 +138,7 @@ class RecordingActivity : AppCompatActivity() {
         isRecording = true
         mediaRecorder.start()
 
-        recordText.isVisible = true
+        recordButton.isVisible = true
         recordText.text = "Recording..."
         playPauseButton.isEnabled = false
         playBar.progress = 0
@@ -137,7 +152,6 @@ class RecordingActivity : AppCompatActivity() {
         playBar.isVisible = true
 
         if (mediaPlayer == null) mediaPlayer = createPlayer()
-        preparePlaying()
         playPauseButton.isEnabled = true
     }
 
