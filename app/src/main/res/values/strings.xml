@@ -38,4 +38,6 @@
     <string name="gay">Gay</string>
     <string name="everyone">EVERYONE</string>
     <string name="show_me">Show me</string>
+    <string name="require_locaiton_permission">You should allow the localisation for the app to work properly</string>
+    <string name="accept">Accept</string>
 </resources>
