@@ -27,5 +27,6 @@ class MapsTest {
         val buttonStart = Espresso.onView(withId(R.id.button))
         buttonStart.perform(click())
         intended(hasComponent(MapsActivity::class.java.name))
+        Intents.release()
     }
 } 
