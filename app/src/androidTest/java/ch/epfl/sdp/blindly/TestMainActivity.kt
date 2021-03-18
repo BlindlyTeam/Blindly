@@ -34,6 +34,7 @@ class TestMainActivity {
         Intents.init()
         Espresso.onView(withId(R.id.button)).perform(click())
         intended(hasComponent(MainScreen::class.java.name))
+        Intents.release()
     }
 
 }
