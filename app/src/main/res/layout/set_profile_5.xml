@@ -23,7 +23,7 @@
         android:id="@+id/button_p5"
         android:layout_width="231dp"
         android:layout_height="61dp"
-        android:onClick="start_profile_6"
+        android:onClick="startProfile6"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,16 +52,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select_up_to_3"
-        app:layout_constraintBottom_toTopOf="@+id/chip1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.139"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_p5"
-        app:layout_constraintVertical_bias="0.0" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.328" />
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
+        android:id="@+id/chipGroup_p5"
         android:layout_width="334dp"
         android:layout_height="311dp"
         app:chipSpacingVertical="12dp"
@@ -268,5 +267,31 @@
         </LinearLayout>
 
     </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/warning_p5_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_select_at_least_one"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/chipGroup_p5"
+        app:layout_constraintStart_toStartOf="@+id/warning_p5_2"
+        app:layout_constraintTop_toBottomOf="@+id/text_p5"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/warning_p5_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/you_can_t_select_more_than_3"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/chipGroup_p5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_p5"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

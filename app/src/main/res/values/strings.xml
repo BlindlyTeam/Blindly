@@ -112,4 +112,6 @@
     <string name="name_can_t_be_more_than_20_characters">Name can\'t be more than 20 characters!</string>
     <string name="please_select_one">Please select one!</string>
     <string name="please_specify">Please specify!</string>
+    <string name="please_select_at_least_one">Please select at least one!</string>
+    <string name="you_can_t_select_more_than_3">You can not select more than 3!</string>
 </resources>
