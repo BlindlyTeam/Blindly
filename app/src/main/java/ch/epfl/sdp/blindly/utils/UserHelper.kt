@@ -62,17 +62,18 @@ class UserHelper {
             return FirebaseAuth.getInstance().currentUser != null
         }
 
-        public fun getEmail(): String {
-            return FirebaseAuth.getInstance().currentUser.email
+        public open fun getEmail(): String? {
+            return FirebaseAuth.getInstance()?.currentUser?.email
         }
 
-        private fun getUserId(): String {
-            return FirebaseAuth.getInstance().currentUser.uid
+        private fun getUserId(): String? {
+            return FirebaseAuth.getInstance()?.currentUser?.uid
         }
 
         private fun getMeta() {
             val db = Firebase.firestore
-            db.collection("usersMeta").document(getUserId())
+            if (getUserId() != null) {
+                db.collection("usersMeta").document(getUserId()!!)
                     .get()
                     .addOnSuccessListener { document ->
                         Log.d(TAG, "${document.id} => ${document.data}")
@@ -80,6 +81,7 @@ class UserHelper {
                     .addOnFailureListener { exception ->
                         Log.w(TAG, "Error getting documents.", exception)
                     }
+            }
         }
 
         public fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Boolean {
