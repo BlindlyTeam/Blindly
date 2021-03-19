@@ -32,14 +32,12 @@
                 android:id="@+id/left_margin"
                 android:layout_width="10dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/settings_toolbar"
                 android:gravity="center" />
 
             <TextView
                 android:id="@+id/account_settings_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/settings_toolbar"
                 android:layout_toEndOf="@id/left_margin"
                 android:text="@string/account_settings"
                 android:textSize="16sp"
