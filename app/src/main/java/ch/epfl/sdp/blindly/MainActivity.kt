@@ -22,9 +22,4 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, MainScreen::class.java)
         startActivity(intent)
     }
-
-    fun start_maps(view:View) {
-        val intent = Intent(this, MapsActivity::class.java)
-        startActivity(intent)
-    }
 }
