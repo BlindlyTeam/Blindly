@@ -44,6 +44,7 @@
         android:inputType="textPersonName"
         android:labelFor="@id/text_p2"
         android:maxLength="24"
+        android:selectAllOnFocus="true"
         android:text="@string/first_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
