@@ -33,8 +33,8 @@ class TestProfile4 {
     @Test
     fun noInputOutputsError() {
         Intents.init()
-        val buttonStart = Espresso.onView(withId(R.id.button_p4))
-        buttonStart.perform(click())
+        val buttonContinue = Espresso.onView(withId(R.id.button_p4))
+        buttonContinue.perform(click())
         intended(hasComponent(Profile5::class.java.name), times(0))
         intended(hasComponent(Profile4_2::class.java.name), times(0))
         Espresso.onView(withId(R.id.warning_p4))

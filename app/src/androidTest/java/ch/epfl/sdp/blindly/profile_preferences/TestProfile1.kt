@@ -27,8 +27,8 @@ class TestProfile1 {
     @Test
     fun testProfile1FiresProfile2() {
         Intents.init()
-        val buttonStart = Espresso.onView(withId(R.id.button_p1))
-        buttonStart.perform(click())
+        val buttonContinue = Espresso.onView(withId(R.id.button_p1))
+        buttonContinue.perform(click())
         intended(hasComponent(Profile2::class.java.name))
         Intents.release()
     }

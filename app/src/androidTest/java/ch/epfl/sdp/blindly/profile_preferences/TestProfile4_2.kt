@@ -38,8 +38,8 @@ class TestProfile4_2 {
         Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(NO_INPUT));
         closeSoftKeyboard();
-        val buttonStart = Espresso.onView(withId(R.id.button_p4_2))
-        buttonStart.perform(click())
+        val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
+        buttonContinue.perform(click())
         Espresso.onView(withId(R.id.warning_p4_2))
             .check(
                 ViewAssertions.matches(
@@ -60,8 +60,8 @@ class TestProfile4_2 {
         Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(BLANK_SPECIFICATION));
         closeSoftKeyboard();
-        val buttonStart = Espresso.onView(withId(R.id.button_p4_2))
-        buttonStart.perform(click())
+        val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
+        buttonContinue.perform(click())
         Espresso.onView(withId(R.id.warning_p4_2))
             .check(
                 ViewAssertions.matches(
@@ -81,8 +81,8 @@ class TestProfile4_2 {
         Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(CORRECT_SPECIFICATION));
         closeSoftKeyboard();
-        val buttonStart = Espresso.onView(withId(R.id.button_p4_2))
-        buttonStart.perform(click())
+        val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
+        buttonContinue.perform(click())
         intended(hasComponent(Profile5::class.java.name))
         Intents.release()
     }

@@ -41,8 +41,8 @@ class TestProfile2 {
         Espresso.onView(withId(R.id.text_first_name))
             .perform(ViewActions.clearText(), ViewActions.typeText(CORRECT_NAME));
         Espresso.closeSoftKeyboard();
-        val buttonStart = Espresso.onView(withId(R.id.button_p2))
-        buttonStart.perform(click())
+        val buttonContinue = Espresso.onView(withId(R.id.button_p2))
+        buttonContinue.perform(click())
         intended(hasComponent(Profile3::class.java.name))
         Intents.release()
     }
@@ -53,8 +53,8 @@ class TestProfile2 {
         Espresso.onView(withId(R.id.text_first_name))
             .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_SHORT_NAME));
         Espresso.closeSoftKeyboard();
-        val buttonStart = Espresso.onView(withId(R.id.button_p2))
-        buttonStart.perform(click())
+        val buttonContinue = Espresso.onView(withId(R.id.button_p2))
+        buttonContinue.perform(click())
         onView(withId(R.id.warning1_p2)).check(
             ViewAssertions.matches(
                 ViewMatchers.withText(
@@ -74,8 +74,8 @@ class TestProfile2 {
         Espresso.onView(withId(R.id.text_first_name))
             .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_LONG_NAME));
         Espresso.closeSoftKeyboard();
-        val buttonStart = Espresso.onView(withId(R.id.button_p2))
-        buttonStart.perform(click())
+        val buttonContinue = Espresso.onView(withId(R.id.button_p2))
+        buttonContinue.perform(click())
         onView(withId(R.id.warning2_p2)).check(
             ViewAssertions.matches(
                 ViewMatchers.withText(
