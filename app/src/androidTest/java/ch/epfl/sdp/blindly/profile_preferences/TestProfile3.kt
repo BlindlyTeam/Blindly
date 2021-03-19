@@ -1,8 +1,6 @@
 package ch.epfl.sdp.blindly.profile_preferences
 
-import android.widget.DatePicker
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.PickerActions
@@ -11,7 +9,7 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
@@ -30,7 +28,7 @@ class TestProfile3 {
     @get:Rule
     val activityRule = ActivityScenarioRule(Profile3::class.java)
 
-    private val errorAge = "The minimum age requirement is 18 years old."
+    private val ERROR_AGE = "The minimum age requirement is 18 years old."
 
     @Test
     fun minorAgeOutputsError() {
@@ -39,7 +37,15 @@ class TestProfile3 {
         val buttonContinue = onView(withId(R.id.button_p3))
         buttonContinue.perform(click())
         intended(hasComponent(Profile4::class.java.name), times(0))
-        onView(withId(R.id.warning_p3)).check(ViewAssertions.matches(ViewMatchers.withText(Matchers.containsString(errorAge))));
+        onView(withId(R.id.warning_p3)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withText(
+                    Matchers.containsString(
+                        ERROR_AGE
+                    )
+                )
+            )
+        );
         Intents.release()
     }
 
@@ -52,7 +58,6 @@ class TestProfile3 {
         intended(hasComponent(Profile4::class.java.name))
         Intents.release()
     }
-
 
 
 }

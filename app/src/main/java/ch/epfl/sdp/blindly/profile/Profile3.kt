@@ -27,9 +27,9 @@ class Profile3 : AppCompatActivity() {
         val month: Int = datePicker.month + 1
         val year: Int = datePicker.year
         val age = getAge(year, month, day)
-        if(age < 18){
+        if (age < 18) {
             findViewById<TextView>(R.id.warning_p3).visibility = View.VISIBLE
-        }else{
+        } else {
             val intent = Intent(this, Profile4::class.java)
             startActivity(intent)
         }
@@ -38,8 +38,8 @@ class Profile3 : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getAge(year: Int, month: Int, dayOfMonth: Int): Int {
         return Period.between(
-                LocalDate.of(year, month, dayOfMonth),
-                LocalDate.now()
+            LocalDate.of(year, month, dayOfMonth),
+            LocalDate.now()
         ).years
     }
 

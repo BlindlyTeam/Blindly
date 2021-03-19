@@ -107,4 +107,9 @@
     <string name="gardening">Gardening</string>
     <string name="up_to_5">(Up to 5)</string>
     <string name="board_games">Board Games</string>
+    <string name="the_minimum_age_requirement_is_18_years_old">The minimum age requirement is 18 years old.</string>
+    <string name="name_can_t_be_less_than_2_characters">Name can\'t be less than 2 characters!</string>
+    <string name="name_can_t_be_more_than_20_characters">Name can\'t be more than 20 characters!</string>
+    <string name="please_select_one">Please select one!</string>
+    <string name="please_specify">Please specify!</string>
 </resources>

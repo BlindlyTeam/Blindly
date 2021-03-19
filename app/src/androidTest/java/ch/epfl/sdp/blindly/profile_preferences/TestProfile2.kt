@@ -13,9 +13,9 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile.Profile2
 import ch.epfl.sdp.blindly.profile.Profile3
-import ch.epfl.sdp.blindly.R
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
@@ -29,16 +29,17 @@ class TestProfile2 {
     @get:Rule
     val activityRule = ActivityScenarioRule(Profile2::class.java)
 
-    private val correctName = "Alice"
-    private val incorrectShortName = "A"
-    private val incorrectLongName = "abcdefabcdefabcdefabcdef"
-    private val errorLongName = "Name can't be more than 20 characters!"
-    private val errorShortName = "Name can't be less than 2 characters!"
+    private val CORRECT_NAME = "Alice"
+    private val INCORRECT_SHORT_NAME = "A"
+    private val INCORRECT_LONG_NAME = "abcdefabcdefabcdefabcdef"
+    private val ERROR_LONG_NAME = "Name can't be more than 20 characters!"
+    private val ERROR_SHORT_NAME = "Name can't be less than 2 characters!"
 
     @Test
     fun testProfile2FiresProfile3() {
         Intents.init()
-        Espresso.onView(withId(R.id.text_first_name)).perform(ViewActions.clearText(), ViewActions.typeText(correctName));
+        Espresso.onView(withId(R.id.text_first_name))
+            .perform(ViewActions.clearText(), ViewActions.typeText(CORRECT_NAME));
         Espresso.closeSoftKeyboard();
         val buttonStart = Espresso.onView(withId(R.id.button_p2))
         buttonStart.perform(click())
@@ -49,11 +50,20 @@ class TestProfile2 {
     @Test
     fun shortNameOutputsError() {
         Intents.init()
-        Espresso.onView(withId(R.id.text_first_name)).perform(ViewActions.clearText(), ViewActions.typeText(incorrectShortName));
+        Espresso.onView(withId(R.id.text_first_name))
+            .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_SHORT_NAME));
         Espresso.closeSoftKeyboard();
         val buttonStart = Espresso.onView(withId(R.id.button_p2))
         buttonStart.perform(click())
-        onView(withId(R.id.warning1_p2)).check(ViewAssertions.matches(ViewMatchers.withText(Matchers.containsString(errorShortName))));
+        onView(withId(R.id.warning1_p2)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withText(
+                    Matchers.containsString(
+                        ERROR_SHORT_NAME
+                    )
+                )
+            )
+        );
         intended(hasComponent(Profile3::class.java.name), times(0))
         Intents.release()
     }
@@ -61,11 +71,20 @@ class TestProfile2 {
     @Test
     fun longNameOutputsError() {
         Intents.init()
-        Espresso.onView(withId(R.id.text_first_name)).perform(ViewActions.clearText(), ViewActions.typeText(incorrectLongName));
+        Espresso.onView(withId(R.id.text_first_name))
+            .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_LONG_NAME));
         Espresso.closeSoftKeyboard();
         val buttonStart = Espresso.onView(withId(R.id.button_p2))
         buttonStart.perform(click())
-        onView(withId(R.id.warning2_p2)).check(ViewAssertions.matches(ViewMatchers.withText(Matchers.containsString(errorLongName))));
+        onView(withId(R.id.warning2_p2)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withText(
+                    Matchers.containsString(
+                        ERROR_LONG_NAME
+                    )
+                )
+            )
+        );
         intended(hasComponent(Profile3::class.java.name), times(0))
         Intents.release()
     }

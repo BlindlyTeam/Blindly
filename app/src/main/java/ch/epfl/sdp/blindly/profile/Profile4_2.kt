@@ -13,14 +13,19 @@ class Profile4_2 : AppCompatActivity() {
         setContentView(R.layout.set_profile_4_2)
     }
 
-    fun start_profile_5(view: View) {
-        val genderOther = findViewById<TextView>(R.id.text_p4_2)
-        if (genderOther.length() > 0) {
+    fun startProfile5(view: View) {
+        findViewById<TextView>(R.id.warning_p4_2).visibility = View.INVISIBLE
+
+        val name = findViewById<TextView>(R.id.text_p4_2).text.toString().trim()
+        val len = name.length
+
+        if (len > 0) {
             val intent = Intent(this, Profile5::class.java)
             startActivity(intent)
+        } else {
+            //empty text, output error
+            findViewById<TextView>(R.id.warning_p4_2).visibility = View.VISIBLE
         }
-
-
     }
 
 }
