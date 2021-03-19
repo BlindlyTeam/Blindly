@@ -290,7 +290,7 @@
                 android:id="@+id/logout_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/divider5"
+                android:layout_below="@+id/divider6"
                 android:gravity="center"
                 android:text="@string/logout_button_text"
                 android:textSize="15sp"
@@ -331,7 +331,7 @@
                 app:srcCompat="@drawable/arrow_button" />
 
             <View
-                android:id="@+id/divider5"
+                android:id="@+id/divider6"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/looking_for_text"
