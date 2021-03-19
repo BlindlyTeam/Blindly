@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile.Profile3">
+    tools:context=".profile.Profile3">
 
     <Button
         android:id="@+id/button_p3"
         android:layout_width="231dp"
         android:layout_height="61dp"
-        android:onClick="start_profile_4"
+        android:onClick="startProfile4"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,15 +47,29 @@
 
 
     <DatePicker
-        android:id="@+id/datePicker1"
+        android:id="@+id/datePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_p3" />
+
+    <TextView
+        android:id="@+id/warning_p3"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:text="The minimum age requirement is 18 years old."
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.581"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.653" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

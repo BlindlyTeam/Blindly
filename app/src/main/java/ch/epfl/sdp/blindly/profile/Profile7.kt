@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.Profile
+package ch.epfl.sdp.blindly.profile
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

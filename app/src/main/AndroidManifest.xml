@@ -30,14 +30,14 @@
         tools:ignore="ExtraText"
         android:theme="@style/Theme.Blindly">
 
-        <activity android:name=".Profile.Profile7"></activity>
-        <activity android:name=".Profile.Profile6" />
-        <activity android:name=".Profile.Profile5" />
-        <activity android:name=".Profile.Profile4_2" />
-        <activity android:name=".Profile.Profile4" />
-        <activity android:name=".Profile.Profile3" />
-        <activity android:name=".Profile.Profile2" />
-        <activity android:name=".Profile.Profile1" />
+        <activity android:name=".profile.Profile7"></activity>
+        <activity android:name=".profile.Profile6" />
+        <activity android:name=".profile.Profile5" />
+        <activity android:name=".profile.Profile4_2" />
+        <activity android:name=".profile.Profile4" />
+        <activity android:name=".profile.Profile3" />
+        <activity android:name=".profile.Profile2" />
+        <activity android:name=".profile.Profile1" />
         <activity android:name=".settings.SettingsLocation"></activity>
         <activity android:name=".settings.SettingsShowMe" />
         <activity android:name=".AudioLibrary" />

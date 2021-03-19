@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.Profile
+package ch.epfl.sdp.blindly.profile
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ class Profile1 : AppCompatActivity() {
         setContentView(R.layout.set_profile_1)
     }
 
-    fun start_profile_2(view: View) {
+    fun startProfile2(view: View) {
         val intent = Intent(this, Profile2::class.java)
         startActivity(intent)
     }

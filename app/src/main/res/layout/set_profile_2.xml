@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".Profile.Profile2">
+    tools:context=".profile.Profile2">
 
     <Button
         android:id="@+id/button_p2"
         android:layout_width="231dp"
         android:layout_height="61dp"
         android:clickable="false"
-        android:onClick="start_profile_3"
+        android:onClick="startProfile3"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

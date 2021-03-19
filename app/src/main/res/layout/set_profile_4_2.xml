@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile.Profile4_2">
+    tools:context=".profile.Profile4_2">
 
     <ProgressBar
         android:id="@+id/progressBar_p4_2"

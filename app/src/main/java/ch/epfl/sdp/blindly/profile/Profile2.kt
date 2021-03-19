@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.Profile
+package ch.epfl.sdp.blindly.profile
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,7 +17,7 @@ class Profile2 : AppCompatActivity() {
         setContentView(R.layout.set_profile_2)
     }
 
-    fun start_profile_3(view: View) {
+    fun startProfile3(view: View) {
         findViewById<TextView>(R.id.warning1_p2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning2_p2).visibility = View.INVISIBLE
 
