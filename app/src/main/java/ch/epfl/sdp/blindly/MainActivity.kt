@@ -5,9 +5,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.utils.UserHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var user: UserHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)    }
@@ -17,13 +22,13 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun openLogin() {
-        startActivityForResult(UserHelper.getSignInIntent(), UserHelper.RC_SIGN_IN);
+    fun openLogin(view: View) {
+        startActivityForResult(user.getSignInIntent(), UserHelper.RC_SIGN_IN);
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val success = UserHelper.handleAuthResult(this, resultCode, data)
+        val success = user.handleAuthResult(this, resultCode, data)
         // Open the rest if the login is successful
         if (success) {
             val intent = Intent(this, Profile1::class.java)

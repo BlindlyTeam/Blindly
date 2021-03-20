@@ -12,14 +12,21 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.utils.UserHelper
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 const val EXTRA_LOCATION = "user_location"
 const val EXTRA_SHOW_ME = "user_show_me"
 //const val REQUEST_LOCATION = 1
 const val REQUEST_SHOW_ME = 2
 
+@AndroidEntryPoint
 class Settings : AppCompatActivity() {
+
+    @Inject
+    lateinit var user: UserHelper
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -27,7 +34,7 @@ class Settings : AppCompatActivity() {
         supportActionBar?.hide()
 
         val emailAddressText = findViewById<TextView>(R.id.email_address_text)
-        emailAddressText.text = UserHelper.getEmail() ?: "NOT LOGGED-IN";
+        emailAddressText.text = user.getEmail() ?: "NOT LOGGED-IN";
 
         val locationText = findViewById<TextView>(R.id.current_location_text)
         locationText.text = "Lausanne, Switzerland"
@@ -68,7 +75,7 @@ class Settings : AppCompatActivity() {
     }
 
     fun logout(view: View) {
-        UserHelper.signOut(this, OnCompleteListener { object: OnCompleteListener<Void>{
+        user.signOut(this, OnCompleteListener { object: OnCompleteListener<Void>{
             override fun onComplete(p0: Task<Void>) {
                 if (p0.isComplete)
                     startActivity(Intent(this@Settings, MainActivity::class.java))
