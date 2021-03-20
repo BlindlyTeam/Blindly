@@ -14,6 +14,9 @@ import java.time.Period
 
 
 class Profile3 : AppCompatActivity() {
+
+    private val MAJORITY_AGE = 18;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.set_profile_3)
@@ -24,10 +27,10 @@ class Profile3 : AppCompatActivity() {
         findViewById<TextView>(R.id.warning_p3).visibility = View.INVISIBLE
         val datePicker: DatePicker = findViewById<View>(R.id.datePicker) as DatePicker
         val day: Int = datePicker.dayOfMonth
-        val month: Int = datePicker.month + 1
+        val month: Int = datePicker.month + 1 //month correction
         val year: Int = datePicker.year
         val age = getAge(year, month, day)
-        if (age < 18) {
+        if (age < MAJORITY_AGE) {
             findViewById<TextView>(R.id.warning_p3).visibility = View.VISIBLE
         } else {
             val intent = Intent(this, Profile4::class.java)

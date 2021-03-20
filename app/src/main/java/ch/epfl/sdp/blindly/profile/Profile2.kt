@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 
 
-private const val min_length = 2
-private const val max_length = 20
+private const val MIN_LENGTH = 2
+private const val MAX_LENGTH = 20
 
 class Profile2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +24,10 @@ class Profile2 : AppCompatActivity() {
         val name = findViewById<TextView>(R.id.text_first_name).text.toString().trim()
         val len = name.length
         when {
-            len < min_length -> {
+            len < MIN_LENGTH -> {
                 findViewById<TextView>(R.id.warning1_p2).visibility = View.VISIBLE
             }
-            len > max_length -> {
+            len > MAX_LENGTH -> {
                 findViewById<TextView>(R.id.warning2_p2).visibility = View.VISIBLE
             }
             else -> {

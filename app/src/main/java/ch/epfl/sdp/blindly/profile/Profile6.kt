@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 
 class Profile6 : AppCompatActivity() {
+
+    private val NONE_CHECKED = -1;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.set_profile_6)
@@ -19,7 +22,7 @@ class Profile6 : AppCompatActivity() {
         findViewById<TextView>(R.id.warning_p6).visibility = View.INVISIBLE
 
         //nothing is checked
-        if (radioGroup.checkedRadioButtonId == -1) {
+        if (radioGroup.checkedRadioButtonId == NONE_CHECKED) {
             findViewById<TextView>(R.id.warning_p6).visibility = View.VISIBLE
         } else {
             val intent = Intent(this, Profile7::class.java)

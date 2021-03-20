@@ -11,7 +11,7 @@ import com.google.android.material.chip.ChipGroup
 
 class Profile5 : AppCompatActivity() {
 
-    private val limitSelection = 3
+    private val SELECTION_LIMIT = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class Profile5 : AppCompatActivity() {
                 findViewById<TextView>(R.id.guideline_p5).visibility = View.INVISIBLE
                 findViewById<TextView>(R.id.warning_p5_1).visibility = View.VISIBLE
             }
-            size > limitSelection -> {
+            size > SELECTION_LIMIT -> {
                 findViewById<TextView>(R.id.guideline_p5).visibility = View.INVISIBLE
                 findViewById<TextView>(R.id.warning_p5_2).visibility = View.VISIBLE
             }
