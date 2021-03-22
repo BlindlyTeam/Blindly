@@ -1,97 +1,95 @@
 package ch.epfl.sdp.blindly
 
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.core.IsCollectionContaining.hasItems
 import org.junit.Test
 
 import org.junit.Assert.*
-import java.text.DateFormat
-import java.util.*
+import java.time.LocalDate
+import java.time.Period
 
 /**
  * Tests for the User.kt class
  */
 class UserTest {
-    @Test
-    fun initialBirthDateIsToday() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
-        val today = DateFormat.getDateInstance().format(Calendar.getInstance().time)
-        assertEquals(today, jane.birthDate)
+    @Test(expected = UninitializedPropertyAccessException::class)
+    fun accessUninitializedBirthDateFails() {
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
+        jane.birthDate
     }
 
-    @Test
-    fun initialGenderIsEmpty() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
-        assertEquals("", jane.gender)
+    @Test(expected = UninitializedPropertyAccessException::class)
+    fun accessUninitializedGenderFails() {
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
+        jane.gender
     }
 
-    @Test
-    fun initialSexualOrientationIsEmptyArray() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
-        assertArrayEquals(emptyArray(), jane.sexualOrientation)
+    @Test(expected = UninitializedPropertyAccessException::class)
+    fun accessUninitializedSexualOrientationFails() {
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
+        jane.sexualOrientation
     }
 
-    @Test
-    fun initialDesiredGenderIsMen() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
-        assertEquals(DesiredGender.MEN, jane.desiredGender)
+    @Test(expected = UninitializedPropertyAccessException::class)
+    fun accessUninitializedDesiredGenderFails() {
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
+        jane.desiredGender
     }
 
-    @Test
-    fun initialPassionsIsEmptyArray() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
-        assertArrayEquals(emptyArray(), jane.passions)
+    @Test(expected = UninitializedPropertyAccessException::class)
+    fun accessUninitializedPassionsFails() {
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
+        jane.passions
     }
 
     @Test
     fun birthDateSetThenGetIsCorrect() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
-        val birthday = "16.07.96"
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
+        val birthday = LocalDate.of(1996, 7, 16)
         jane.birthDate = birthday
-        assertEquals(birthday, jane.birthDate)
+        assertThat(jane.birthDate, equalTo(birthday))
     }
 
     @Test
     fun genderSetThenGetIsCorrect() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
         jane.gender = "Woman"
-        assertEquals("Woman", jane.gender)
+        assertThat(jane.gender, equalTo("Woman"))
     }
 
     @Test
     fun sexualOrientationSetThenGetIsCorrect() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
-        val sexualOrientation = arrayOf("Bisexual")
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
+        val sexualOrientation = arrayOf("Bisexual", "Questioning")
         jane.sexualOrientation = sexualOrientation
-        assertArrayEquals(sexualOrientation, jane.sexualOrientation)
+        assertThat(jane.sexualOrientation, equalTo(sexualOrientation))
     }
 
     @Test
     fun desiredGenderSetThenGetIsCorrect() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
         jane.desiredGender = DesiredGender.EVERYONE
-        assertEquals(DesiredGender.EVERYONE, jane.desiredGender)
+        assertThat(jane.desiredGender, equalTo(DesiredGender.EVERYONE))
     }
 
     @Test
     fun passionsSetThenGetIsCorrect() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
         val passions = arrayOf(Passions.ART, Passions.CAT_LOVER, Passions.COCKTAILS)
         jane.passions = passions
-        assertArrayEquals(passions, jane.passions)
+        assertThat(jane.passions, equalTo(passions))
+    }
+
+    @Test(expected = UninitializedPropertyAccessException::class)
+    fun getAgeThrowsExceptionWhenBirthDateUninitialized() {
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
+        jane.getAge()
     }
 
     @Test
-    fun fillProfileWorks() {
-        val jane = User("Jane Doe", "jane.doe@epl.ch")
-        val birthday = "16-07-96"
-        val gender = "Woman"
-        val sexualOrientation = arrayOf("Bisexual")
-        val desiredGender = DesiredGender.EVERYONE
-        val passions = arrayOf(Passions.ART, Passions.CAT_LOVER, Passions.COCKTAILS)
-        jane.fillProfile(birthday, gender, sexualOrientation, desiredGender, passions)
-        assertEquals(birthday, jane.birthDate)
-        assertEquals(gender, jane.gender)
-        assertArrayEquals(sexualOrientation, jane.sexualOrientation)
-        assertEquals(desiredGender, jane.desiredGender)
-        assertArrayEquals(passions, jane.passions)
+    fun getAgeWorksWhenBirthDateInitialized() {
+        val jane = User("Jane Doe", "jane.doe@epfl.ch")
+        jane.birthDate = LocalDate.of(1996, 7, 16)
+        assertThat(jane.getAge(), equalTo(Period.between(jane.birthDate, LocalDate.now()).years))
     }
 }

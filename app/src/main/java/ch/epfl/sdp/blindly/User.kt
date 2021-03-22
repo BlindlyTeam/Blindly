@@ -1,6 +1,11 @@
 package ch.epfl.sdp.blindly
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.lang.IllegalStateException
 import java.text.DateFormat
+import java.time.LocalDate
+import java.time.Period
 import java.util.*
 
 /**
@@ -23,50 +28,18 @@ MOVIES, CLIMBING, FISHING, CAT_LOVER, READING, FOOTBALL, SPRITUALITY, GARDENING}
  * @param email the User email
  */
 class User(private val name: String, private val email: String){
-    /**
-     * User birthdate
-     */
-    var birthDate: String = DateFormat.getDateInstance().format(Calendar.getInstance().time) //Today
+    //Attributes
+    lateinit var birthDate: LocalDate
+    lateinit var gender: String
+    lateinit var sexualOrientation: Array<String>
+    lateinit var desiredGender: DesiredGender
+    lateinit var passions: Array<Passions>
 
     /**
-     * User gender
+     * Computes the age of the User
      */
-    var gender: String = ""
-
-    /**
-     * User sexual orientation, up to 3
-     */
-    var sexualOrientation: Array<String> = emptyArray()
-
-    /**
-     * Gender user wants to be matched with
-     */
-    var desiredGender: DesiredGender = DesiredGender.MEN
-
-    /**
-     * User passions, up to 5
-     */
-    var passions: Array<Passions> = emptyArray()
-
-    /**
-     * Sets the different attributes with the values of the User
-     * @param birthDate the User birthday
-     * @param gender the User gender
-     * @param sexualOrientation the User sexual orientation
-     * @param desiredGender the genders the User wants to be match with
-     * @param passions the passions of the User
-     */
-    fun fillProfile(birthDate: String, gender:String, sexualOrientation: Array<String>,
-                    desiredGender: DesiredGender, passions: Array<Passions>){
-        //Argument check
-        require(sexualOrientation.size <= 3)
-        require(passions.size <= 5)
-
-        this.birthDate = birthDate
-        this.gender = gender
-        this.sexualOrientation = sexualOrientation
-        this.desiredGender = desiredGender
-        this.passions = passions
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getAge(): Int{
+        return Period.between(birthDate, LocalDate.now()).years
     }
-
 }
