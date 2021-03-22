@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile4">
+    tools:context=".profile.Profile4">
 
     <Button
         android:id="@+id/button_p4"
         android:layout_width="231dp"
         android:layout_height="61dp"
-        android:onClick="start_profile_5"
+        android:onClick="startProfile4_2Or5"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,13 +71,26 @@
             android:textSize="18sp" />
 
         <RadioButton
-            android:id="@+id/sex3_pref"
+            android:id="@+id/sex3_more"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="start_profile_4_2"
             android:text="@string/more"
             android:textSize="18sp" />
 
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/warning_p4"
+        android:layout_width="234dp"
+        android:layout_height="32dp"
+        android:text="@string/please_select_one"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.299"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.773" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

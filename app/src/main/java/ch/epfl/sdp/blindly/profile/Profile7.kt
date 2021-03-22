@@ -1,7 +1,8 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.profile
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import ch.epfl.sdp.blindly.R
 
 class Profile7 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

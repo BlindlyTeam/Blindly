@@ -29,6 +29,15 @@
         android:supportsRtl="true"
         tools:ignore="ExtraText"
         android:theme="@style/Theme.Blindly">
+
+        <activity android:name=".profile.Profile7"></activity>
+        <activity android:name=".profile.Profile6" />
+        <activity android:name=".profile.Profile5" />
+        <activity android:name=".profile.Profile4_2" />
+        <activity android:name=".profile.Profile4" />
+        <activity android:name=".profile.Profile3" />
+        <activity android:name=".profile.Profile2" />
+        <activity android:name=".profile.Profile1" />
         <activity android:name=".settings.SettingsLocation"></activity>
         <activity android:name=".settings.SettingsShowMe" />
         <activity android:name=".AudioLibrary" />
@@ -53,14 +62,6 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".Profile7" />
-        <activity android:name=".Profile6" />
-        <activity android:name=".Profile5" />
-        <activity android:name=".Profile4_2" />
-        <activity android:name=".Profile4" />
-        <activity android:name=".Profile3" />
-        <activity android:name=".Profile2" />
-        <activity android:name=".Profile1" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
