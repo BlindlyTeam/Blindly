@@ -12,8 +12,9 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
     private lateinit var recordingList: RecyclerView
     private lateinit var adapter: RecordingAdapter
 
-    private lateinit var recordingsSet: Array<MediaPlayer?>
     private lateinit var recordingsNames: Array<String>
+
+    private var mediaPlayer: MediaPlayer? = null
 
     private var isPlayingStopped = true
     private var currentlyPlayedRecording = -1
@@ -26,61 +27,55 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
 
         recordingsNames = applicationContext.filesDir.list()
         recordingsNames.sort() // Get recording names in alphabetical order
-        recordingsSet = loadRecordings(recordingsNames)
 
         recordingList = findViewById(R.id.recordingList)
         recordingList.layoutManager = LinearLayoutManager(this)
-        adapter = RecordingAdapter(recordingsNames, recordingsSet, this)
+        adapter = RecordingAdapter(recordingsNames.toCollection(ArrayList()), this)
         recordingList.adapter = adapter
     }
 
     override fun onItemClick(position: Int) {
-        //Toast.makeText(this, "You clicked item $position", Toast.LENGTH_SHORT).show()
-        //recordingsNames[position] += " | playing";
         if(isPlayingStopped || position == currentlyPlayedRecording) {
-            playPauseRecording(recordingsSet[position], position)
+            playPauseRecording(position)
         }
         adapter.notifyItemChanged(position)
     }
 
-    private fun playPauseRecording(recording: MediaPlayer?, position: Int){
+    private fun playPauseRecording(position: Int){
         // Preparation
         if(isPlayingStopped){
-            preparePlaying(recording)
+            mediaPlayer = initNewMediaPlayer(recordingsNames[position])
+            preparePlaying(mediaPlayer)
             currentlyPlayedRecording = position
+            isPlayingStopped = false
         }
 
-        if(!recording!!.isPlaying){
-            isPlayingStopped = false
-            recording.start()
+        if(!mediaPlayer!!.isPlaying){
+            mediaPlayer?.start()
         } else{
-            recording.pause()
+            mediaPlayer?.pause()
         }
     }
 
-    private fun preparePlaying(recording: MediaPlayer?) {
+    private fun initNewMediaPlayer(name: String): MediaPlayer?{
+        var mediaPlayer: MediaPlayer? = MediaPlayer().apply {
+            setDataSource("${applicationContext.filesDir.absolutePath}/$name")
+        }
+        mediaPlayer?.setOnCompletionListener {
+            mediaPlayer?.stop()
+            isPlayingStopped = true
+            currentlyPlayedRecording = -1
+        }
+        return mediaPlayer
+    }
+
+    private fun preparePlaying(mediaPlayer: MediaPlayer?) {
         try {
-            recording?.prepare()
+            mediaPlayer?.prepare()
         } catch (e: IOException) {
             e.printStackTrace()
             Toast.makeText(this, "MediaPlayer preparation failed : ${e.message}",
                 Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun loadRecordings(recordingsNames: Array<String>): Array<MediaPlayer?> {
-        var recordingsSet: Array<MediaPlayer?> = arrayOfNulls<MediaPlayer>(recordingsNames.size)
-        for((count, name) in recordingsNames.withIndex()){
-            var recording: MediaPlayer = MediaPlayer().apply {
-                setDataSource("${applicationContext.filesDir.absolutePath}/$name")
-            }
-            recording.setOnCompletionListener {
-                recording.stop()
-                isPlayingStopped = true
-                currentlyPlayedRecording = -1
-            }
-            recordingsSet[count] = recording
-        }
-        return recordingsSet
     }
 }

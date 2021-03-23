@@ -10,15 +10,21 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.RecordingAdapter
 import java.io.File
 import java.io.IOException
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
-class RecordingActivity : AppCompatActivity() {
+class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
     private val mediaRecorder = MediaRecorder()
     private var mediaPlayer: MediaPlayer? = null
+
+    private lateinit var recordingList: RecyclerView
+    private lateinit var adapter: RecordingAdapter
 
     private var isPlayerStopped = true
     private var isRecording = false
@@ -44,6 +50,12 @@ class RecordingActivity : AppCompatActivity() {
         setBaseView()
         createFilePath(totalNumberOfRec)
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
+
+        // For the recording list
+        recordingList = findViewById(R.id.recordingList)
+        recordingList.layoutManager = LinearLayoutManager(this)
+        adapter = RecordingAdapter(ArrayList<String>(), this)
+        recordingList.adapter = adapter
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -62,7 +74,8 @@ class RecordingActivity : AppCompatActivity() {
         mediaRecorder.release()
         mediaPlayer?.release()
         mediaPlayer = null
-        //deleteTempRecordings() TODO
+
+        deleteTempRecordings()
         totalNumberOfRec = 0
     }
 
@@ -177,6 +190,10 @@ class RecordingActivity : AppCompatActivity() {
 
     private fun stopRecording() {
         mediaRecorder.stop()
+
+        adapter.recordingsNames.add("audioRecording_${totalNumberOfRec}.3gp")
+        adapter.notifyDataSetChanged()
+
         totalNumberOfRec++
         setFinishedRecordView()
     }
@@ -232,5 +249,9 @@ class RecordingActivity : AppCompatActivity() {
                 Handler(Looper.getMainLooper()).postDelayed(this, 100)
             }
         }
+    }
+
+    override fun onItemClick(position: Int) {
+        TODO("Not yet implemented")
     }
 }

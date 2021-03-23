@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Serves as an adapter to add audio recordings in a RecyclerView
  */
-class RecordingAdapter(private val recordingsNames: Array<String>, private val recordingsSet: Array<MediaPlayer?>, private val listener: OnItemClickListener): RecyclerView.Adapter<RecordingAdapter.ViewHolder>(){
+class RecordingAdapter(var recordingsNames: ArrayList<String>, private val listener: OnItemClickListener): RecyclerView.Adapter<RecordingAdapter.ViewHolder>(){
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -49,7 +49,7 @@ class RecordingAdapter(private val recordingsNames: Array<String>, private val r
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = recordingsSet.size
+    override fun getItemCount() = recordingsNames.size
 
     /**
      * Used to handle clicks in the activity
