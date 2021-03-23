@@ -25,6 +25,7 @@
         android:layout_height="50dp"
         android:contentDescription="@string/please_specify_gender"
         android:ems="10"
+        android:hint="@string/more_hint"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
