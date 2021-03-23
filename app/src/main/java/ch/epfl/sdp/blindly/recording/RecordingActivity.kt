@@ -62,7 +62,7 @@ class RecordingActivity : AppCompatActivity() {
         mediaRecorder.release()
         mediaPlayer?.release()
         mediaPlayer = null
-        //deleteTempRecordings()
+        //deleteTempRecordings() TODO
         totalNumberOfRec = 0
     }
 
@@ -146,7 +146,6 @@ class RecordingActivity : AppCompatActivity() {
     private fun setFinishedRecordView() {
         recordTimer.stop()
         isRecording = false
-        playPauseButton.isEnabled = true
         recordText.text = "Done !"
         playBar.isVisible = true
         recordButton.text = "Start recording"
@@ -204,7 +203,7 @@ class RecordingActivity : AppCompatActivity() {
 
     private fun createFilePath(recordNumber: Int) {
         // Recordings are stored in the internal storage of the app, only accessible by the app itself
-        filePath = "${applicationContext.filesDir.absolutePath}/audioRecording_${totalNumberOfRec}.3gp"
+        filePath = "${applicationContext.filesDir.absolutePath}/audioRecording_${recordNumber}.3gp"
     }
 
     private fun updatePlayBar(duration: Int, position: Int) {

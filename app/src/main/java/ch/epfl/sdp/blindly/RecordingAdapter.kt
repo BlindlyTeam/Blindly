@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly
 
+import android.media.MediaPlayer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Serves as an adapter to add audio recordings in a RecyclerView
  */
-class RecordingAdapter(private val dataSet: Array<String>, private val listener: OnItemClickListener): RecyclerView.Adapter<RecordingAdapter.ViewHolder>(){
+class RecordingAdapter(private val recordingsNames: Array<String>, private val recordingsSet: Array<MediaPlayer?>, private val listener: OnItemClickListener): RecyclerView.Adapter<RecordingAdapter.ViewHolder>(){
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -44,11 +45,11 @@ class RecordingAdapter(private val dataSet: Array<String>, private val listener:
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.recording.text = dataSet[position]
+        viewHolder.recording.text = recordingsNames[position]
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = recordingsSet.size
 
     /**
      * Used to handle clicks in the activity
