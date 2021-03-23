@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import ch.epfl.sdp.blindly.R
+import java.io.File
 import java.io.IOException
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
@@ -20,11 +21,12 @@ class RecordingActivity : AppCompatActivity() {
     private var mediaPlayer: MediaPlayer? = null
 
     private var isPlayerStopped = true
+    private var isRecording = false
+    private var isPlayerPaused = false
 
     private var filePath: String = ""
 
-    private var isRecording = false
-    private var isPlayerPaused = false
+    private var totalNumberOfRec = 0
 
     private lateinit var recordButton: Button
     private lateinit var playPauseButton: Button
@@ -40,7 +42,7 @@ class RecordingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording)
         setBaseView()
-        createNewFilePath()
+        createFilePath(totalNumberOfRec)
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
     }
 
@@ -60,6 +62,8 @@ class RecordingActivity : AppCompatActivity() {
         mediaRecorder.release()
         mediaPlayer?.release()
         mediaPlayer = null
+        //deleteTempRecordings()
+        totalNumberOfRec = 0
     }
 
     fun recordButtonClick(view: View) {
@@ -150,7 +154,7 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     private fun prepareRecording() {
-        createNewFilePath()
+        createFilePath(totalNumberOfRec)
         mediaRecorder.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
@@ -174,6 +178,7 @@ class RecordingActivity : AppCompatActivity() {
 
     private fun stopRecording() {
         mediaRecorder.stop()
+        totalNumberOfRec++
         setFinishedRecordView()
     }
 
@@ -197,9 +202,9 @@ class RecordingActivity : AppCompatActivity() {
         }
     }
 
-    private fun createNewFilePath() {
-        // Record to the external cache for now
-        filePath = "${externalCacheDir?.absolutePath}/audioRecordTest_${System.currentTimeMillis()}.3gp"
+    private fun createFilePath(recordNumber: Int) {
+        // Recordings are stored in the internal storage of the app, only accessible by the app itself
+        filePath = "${applicationContext.filesDir.absolutePath}/audioRecording_${totalNumberOfRec}.3gp"
     }
 
     private fun updatePlayBar(duration: Int, position: Int) {
@@ -209,6 +214,13 @@ class RecordingActivity : AppCompatActivity() {
         val handler = Handler(Looper.getMainLooper())
         handler.removeCallbacks(movePlayBarThread);
         handler.postDelayed(movePlayBarThread, 100);
+    }
+
+    private fun deleteTempRecordings(){
+        for(i in 0..totalNumberOfRec){
+            createFilePath(i)
+            File(filePath).delete()
+        }
     }
 
     private val movePlayBarThread: Runnable = object : Runnable {
