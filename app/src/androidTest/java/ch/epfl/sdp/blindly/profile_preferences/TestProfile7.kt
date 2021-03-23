@@ -35,7 +35,7 @@ class TestProfile7 {
     yet, Profile7 for now sends back to MainActivity.
     */
     @Test
-    fun noInputOutputsError() {
+    fun noInputShowsError() {
         Intents.init()
         val buttonContinue = Espresso.onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
@@ -60,16 +60,17 @@ class TestProfile7 {
     yet, Profile7 for now sends back to MainActivity.
     */
     @Test
-    fun moreThanAllowedInputOutputsError() {
+    fun moreThanAllowedInputShowsError() {
         Intents.init()
-        val chip10 = Espresso.onView(withId(R.id.chip10))
+
         val chip11 = Espresso.onView(withId(R.id.chip11))
         val chip12 = Espresso.onView(withId(R.id.chip12))
         val chip13 = Espresso.onView(withId(R.id.chip13))
         val chip14 = Espresso.onView(withId(R.id.chip14))
         val chip15 = Espresso.onView(withId(R.id.chip15))
+        val chip16 = Espresso.onView(withId(R.id.chip10))
 
-        chip10.perform(click())
+        chip16.perform(click())
         chip11.perform(click())
         chip12.perform(click())
         chip13.perform(click())
@@ -100,7 +101,7 @@ class TestProfile7 {
     yet, Profile7 for now sends back to MainActivity.
      */
     @Test
-    fun correctInputFiresMainActivity() {
+    fun correctInputsFireMainActivity() {
         Intents.init()
         val chip10 = Espresso.onView(withId(R.id.chip10))
         val chip20 = Espresso.onView(withId(R.id.chip20))
