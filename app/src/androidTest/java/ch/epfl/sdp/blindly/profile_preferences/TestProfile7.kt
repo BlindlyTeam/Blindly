@@ -10,9 +10,9 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.Profile8
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile.Profile7
+import ch.epfl.sdp.blindly.profile.Profile8
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
@@ -57,6 +57,8 @@ class TestProfile7 {
         val chip19 = Espresso.onView(withId(R.id.chip19))
         val chip20 = Espresso.onView(withId(R.id.chip20))
         val chip23 = Espresso.onView(withId(R.id.chip23))
+
+
         chip14.perform(click())
         chip16.perform(click())
         chip17.perform(click())
@@ -83,11 +85,13 @@ class TestProfile7 {
     }
 
     @Test
-    fun correctInputsFireMainActivity() {
+    fun correctInputsFiresProfile8() {
         Intents.init()
         val chip18 = Espresso.onView(withId(R.id.chip18))
         val chip28 = Espresso.onView(withId(R.id.chip28))
         val chip38 = Espresso.onView(withId(R.id.chip38))
+
+
         chip18.perform(click())
         chip28.perform(click())
         chip38.perform(click())
@@ -97,6 +101,5 @@ class TestProfile7 {
 
         intended(hasComponent(Profile8::class.java.name))
         Intents.release()
-
     }
 }

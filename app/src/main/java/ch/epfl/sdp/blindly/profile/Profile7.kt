@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import ch.epfl.sdp.blindly.Profile8
 import ch.epfl.sdp.blindly.R
 import com.google.android.material.chip.ChipGroup
 
