@@ -29,6 +29,7 @@
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
         <activity android:name=".SignUp"></activity>
+        <activity android:name=".profile.Profile8"></activity>
         <activity android:name=".profile.Profile7" />
         <activity android:name=".profile.Profile6" />
         <activity android:name=".profile.Profile5" />
