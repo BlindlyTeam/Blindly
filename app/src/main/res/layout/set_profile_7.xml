@@ -351,6 +351,7 @@
             android:id="@+id/chip35"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkable="true"
             android:text="@string/movies"
             android:textAlignment="center"
             app:chipBackgroundColor="@color/chip_state_colors" />
@@ -359,6 +360,7 @@
             android:id="@+id/chip36"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkable="true"
             android:text="@string/climbing"
             android:textAlignment="center"
             app:chipBackgroundColor="@color/chip_state_colors" />
@@ -367,6 +369,7 @@
             android:id="@+id/chip37"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkable="true"
             android:text="@string/fishing"
             android:textAlignment="center"
             app:chipBackgroundColor="@color/chip_state_colors" />
