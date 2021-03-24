@@ -63,20 +63,20 @@ class TestProfile7 {
     fun moreThanAllowedInputShowsError() {
         Intents.init()
 
-        val chip11 = Espresso.onView(withId(R.id.chip11))
-        val chip12 = Espresso.onView(withId(R.id.chip12))
-        val chip13 = Espresso.onView(withId(R.id.chip13))
         val chip14 = Espresso.onView(withId(R.id.chip14))
-        val chip15 = Espresso.onView(withId(R.id.chip15))
-        val chip16 = Espresso.onView(withId(R.id.chip10))
+        val chip16 = Espresso.onView(withId(R.id.chip16))
+        val chip17 = Espresso.onView(withId(R.id.chip17))
+        val chip19 = Espresso.onView(withId(R.id.chip19))
+        val chip20 = Espresso.onView(withId(R.id.chip20))
+        val chip23 = Espresso.onView(withId(R.id.chip23))
 
 
-        chip11.perform(click())
-        chip12.perform(click())
-        chip13.perform(click())
         chip14.perform(click())
-        chip15.perform(click())
         chip16.perform(click())
+        chip17.perform(click())
+        chip19.perform(click())
+        chip20.perform(click())
+        chip23.perform(click())
 
         val buttonContinue = Espresso.onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
@@ -104,9 +104,9 @@ class TestProfile7 {
     @Test
     fun correctInputsFireMainActivity() {
         Intents.init()
-        val chip18 = Espresso.onView(withId(R.id.chip10))
-        val chip28 = Espresso.onView(withId(R.id.chip20))
-        val chip38 = Espresso.onView(withId(R.id.chip30))
+        val chip18 = Espresso.onView(withId(R.id.chip18))
+        val chip28 = Espresso.onView(withId(R.id.chip28))
+        val chip38 = Espresso.onView(withId(R.id.chip38))
 
         chip18.perform(click())
         chip28.perform(click())
