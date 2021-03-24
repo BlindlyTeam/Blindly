@@ -12,7 +12,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="416dp"
         android:layout_height="66dp"
-        android:progress="100"
+        android:progress="78"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
