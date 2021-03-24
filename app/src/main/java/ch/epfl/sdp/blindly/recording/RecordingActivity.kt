@@ -40,7 +40,6 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     private lateinit var recordButton: Button
     private lateinit var playPauseButton: Button
     private lateinit var playBar: SeekBar
-    private lateinit var recordText: TextView
     private lateinit var recordTimer: Chronometer
     private lateinit var playTimer: Chronometer
 
@@ -109,7 +108,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
 
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
-        playPauseButton = findViewById(R.id.playingButton)
+        playPauseButton = findViewById(R.id.playPauseButton1)
         playPauseButton.isEnabled = false
         setBounceButton(recordButton)
         setBounceButton(playPauseButton)
@@ -117,11 +116,8 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         playBar = findViewById(R.id.playBar)
         playBar.isVisible = false
 
-        recordText = findViewById(R.id.recordingText)
-        recordText.isVisible = false
-
         recordTimer = findViewById(R.id.recordTimer)
-        playTimer = findViewById(R.id.playTimer)
+        playTimer = findViewById(R.id.audioTimer)
     }
 
     private fun setPlayView() {
@@ -155,19 +151,14 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         recordTimer.start()
         isRecording = true
         recordButton.isVisible = true
-        recordText.isVisible = true
-        recordText.text = "Recording..."
         playPauseButton.isEnabled = false
         playBar.progress = 0
-        recordButton.text = "Stop recording"
     }
 
     private fun setFinishedRecordView() {
         recordTimer.stop()
         isRecording = false
-        recordText.text = "Done !"
         playBar.isVisible = true
-        recordButton.text = "Start recording"
         playPauseButton.isEnabled = true
     }
 

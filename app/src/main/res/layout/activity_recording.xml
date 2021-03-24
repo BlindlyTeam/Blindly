@@ -6,95 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".recording.RecordingActivity">
 
-    <Button
-        android:id="@+id/recordingButton"
-        style="@style/Widget.Theme.Blindly.Record.Button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="39dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider6"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/recordingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/recording"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recordTimer" />
-
-    <Chronometer
-        android:id="@+id/recordTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/initialised_timer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="262dp" />
-
-    <Button
-        android:id="@+id/playingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="playPauseButtonClick"
-        android:text="@string/play"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="401dp" />
-
-    <SeekBar
-        android:id="@+id/playBar"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playingButton" />
-
-    <Chronometer
-        android:id="@+id/playTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/initialised_timer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playingButton" />
-
-    <ScrollView
-        android:id="@+id/audioLibraryView"
-        android:layout_width="409dp"
-        android:layout_height="603dp"
-        android:layout_marginBottom="37dp"
-        app:layout_constraintBottom_toTopOf="@+id/recordingButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <View
+            android:id="@+id/recordDivider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:layout_height="1dp"
+            android:layout_below="@id/recordingList"
+            android:background="?android:attr/listDivider" />
 
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/audioLibraryView" />
+        <Button
+            android:id="@+id/recordingButton"
+            style="@style/Widget.Theme.Blindly.Record.Button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/recordDivider"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="208dp"
+            android:layout_marginTop="13dp"
+            android:onClick="recordButtonClick" />
+
+        <Chronometer
+            android:id="@+id/recordTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/initialised_timer"
+            android:visibility="invisible" />
+
+        <SeekBar
+            android:id="@+id/playBar"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:visibility="invisible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recordingList"
+            android:layout_width="match_parent"
+            android:layout_height="643dp" />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

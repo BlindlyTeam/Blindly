@@ -19,7 +19,7 @@ class RecordingAdapter(var recordingsNames: ArrayList<String>, private val liste
     var currentSelectionPos = -1
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        val recording: TextView = view.findViewById(R.id.recording)
+        val recording: TextView = view.findViewById(R.id.recordName)
         val recordingSelected: ImageView = view.findViewById(R.id.recordingSelected)
 
         init {

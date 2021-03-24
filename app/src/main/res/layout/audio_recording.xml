@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="10dp">
 
-    <TextView
-        android:id="@+id/recording"
-        android:layout_width="652dp"
-        android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/singleRecordView"
+    android:layout_width="match_parent"
+    android:layout_height="150dp">
+
+    <View
+        android:id="@+id/recordsDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
         android:layout_weight="50"
-        android:textSize="20sp" />
+        android:background="?android:attr/listDivider" />
 
     <ImageView
         android:id="@+id/recordingSelected"
@@ -22,4 +23,72 @@
         android:visibility="invisible"
         app:srcCompat="@drawable/checkmark_img" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/recordName"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="50"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+    <SeekBar
+        android:id="@+id/singlePlayBar"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recordName"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="10dp" />
+
+    <TextView
+        android:id="@+id/recordDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="39dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/recordName"
+        android:text="00:00"
+        android:textColor="#716E6E"
+        android:textSize="14sp" />
+
+    <ImageButton
+        android:id="@+id/playPauseButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/audioTimer"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <Chronometer
+        android:id="@+id/audioTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/singlePlayBar"
+        android:layout_marginLeft="30dp"
+        android:textColor="#716E6E" />
+
+    <Chronometer
+        android:id="@+id/remainingTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/singlePlayBar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:textColor="#716E6E" />
+
+    <Button
+        android:id="@+id/selectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/remainingTimer"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="10dp"
+        android:text="Select" />
+</RelativeLayout>
