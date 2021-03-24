@@ -75,7 +75,8 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         mediaPlayer?.release()
         mediaPlayer = null
 
-        deleteTempRecordings()
+        //deleteTempRecordings()
+        // TODO Delete Temp recordings when link with AudioLibrary
         totalNumberOfRec = 0
     }
 
@@ -191,7 +192,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     private fun stopRecording() {
         mediaRecorder.stop()
 
-        adapter.recordingsNames.add("audioRecording_${totalNumberOfRec}.3gp")
+        adapter.recordingsNames.add("TEMPaudioRecording_${totalNumberOfRec}.3gp")
         adapter.notifyDataSetChanged()
 
         totalNumberOfRec++
@@ -220,7 +221,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
 
     private fun createFilePath(recordNumber: Int) {
         // Recordings are stored in the internal storage of the app, only accessible by the app itself
-        filePath = "${applicationContext.filesDir.absolutePath}/audioRecording_${recordNumber}.3gp"
+        filePath = "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.3gp"
     }
 
     private fun updatePlayBar(duration: Int, position: Int) {

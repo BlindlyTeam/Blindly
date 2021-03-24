@@ -1,10 +1,11 @@
 package ch.epfl.sdp.blindly
 
-import android.media.MediaPlayer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -15,8 +16,11 @@ class RecordingAdapter(var recordingsNames: ArrayList<String>, private val liste
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
+    var currentSelectionPos = -1
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val recording: TextView = view.findViewById(R.id.recording)
+        val recordingSelected: ImageView = view.findViewById(R.id.recordingSelected)
 
         init {
             // Define click listener for the ViewHolder's View.
@@ -42,10 +46,11 @@ class RecordingAdapter(var recordingsNames: ArrayList<String>, private val liste
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.recording.text = recordingsNames[position]
+        // Show / Hide selection
+        viewHolder.recordingSelected.isVisible = position == currentSelectionPos
     }
 
     // Return the size of your dataset (invoked by the layout manager)
