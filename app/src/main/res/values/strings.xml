@@ -114,4 +114,7 @@
     <string name="please_specify">Please specify!</string>
     <string name="please_select_at_least_one">Please select at least one!</string>
     <string name="you_can_t_select_more_than_3">You can not select more than 3!</string>
+    <string name="set_password">Enter Password</string>
+    <string name="set_email">Enter Email Address</string>
+    <string name="create_account">Create Account</string>
 </resources>
