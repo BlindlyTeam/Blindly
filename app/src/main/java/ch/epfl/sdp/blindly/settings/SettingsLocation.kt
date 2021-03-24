@@ -17,6 +17,7 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private var location: Location? = null
     private lateinit var locSer: LocationService
+    private val LAUSANNE = LatLng(46.5, 6.6)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +43,7 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
         val loc: LatLng = if (location != null) {
             LatLng(location!!.latitude, location!!.longitude)
         } else {
-            LatLng(46.5, 6.6)
+            LAUSANNE
         }
         googleMap.addMarker(MarkerOptions().position(loc).title("My position"))
         googleMap.moveCamera(CameraUpdateFactory.zoomTo(14f))
