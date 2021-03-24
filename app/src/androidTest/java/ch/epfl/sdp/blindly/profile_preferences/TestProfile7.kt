@@ -10,14 +10,13 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.MainActivity
+import ch.epfl.sdp.blindly.Profile8
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile.Profile7
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
 
 @RunWith(AndroidJUnit4::class)
 class TestProfile7 {
@@ -28,12 +27,7 @@ class TestProfile7 {
 
     private val ERROR_MESSAGE_1 = "Please select at least one!"
     private val ERROR_MESSAGE_2 = "You can not select more than 5!"
-
-    /*
-    TODO
-    As the linking between profile preferences and the other activities are not done
-    yet, Profile7 for now sends back to MainActivity.
-    */
+  
     @Test
     fun noInputShowsError() {
         Intents.init()
@@ -50,15 +44,9 @@ class TestProfile7 {
                                 )
                         )
                 );
-        intended(hasComponent(MainActivity::class.java.name), Intents.times(0))
+        intended(hasComponent(Profile8::class.java.name), Intents.times(0))
         Intents.release()
     }
-
-    /*
-    TODO
-    As the linking between profile preferences and the other activities are not done
-    yet, Profile7 for now sends back to MainActivity.
-    */
     @Test
     fun moreThanAllowedInputShowsError() {
         Intents.init()
@@ -89,16 +77,11 @@ class TestProfile7 {
                                 )
                         )
                 );
-        intended(hasComponent(MainActivity::class.java.name), Intents.times(0))
+        intended(hasComponent(Profile8::class.java.name), Intents.times(0))
         Intents.release()
 
     }
 
-    /*
-    TODO
-    As the linking between profile preferences and the other activities are not done
-    yet, Profile7 for now sends back to MainActivity.
-     */
     @Test
     fun correctInputsFireMainActivity() {
         Intents.init()
@@ -112,10 +95,8 @@ class TestProfile7 {
         val buttonContinue = Espresso.onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
 
-        intended(hasComponent(MainActivity::class.java.name))
+        intended(hasComponent(Profile8::class.java.name))
         Intents.release()
 
     }
-
-
 }

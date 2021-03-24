@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import ch.epfl.sdp.blindly.MainActivity
+import ch.epfl.sdp.blindly.Profile8
 import ch.epfl.sdp.blindly.R
 import com.google.android.material.chip.ChipGroup
 
@@ -18,12 +18,7 @@ class Profile7 : AppCompatActivity() {
         setContentView(R.layout.set_profile_7)
     }
 
-    /*
-    TODO
-    As the linking between profile preferences and the other activities are not done
-    yet, Profile7 for now sends back to MainActivity.
-    */
-    fun startMainActivity(view: View) {
+    fun startProfile8(view: View) {
         findViewById<TextView>(R.id.warning_p7_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p7_2).visibility = View.INVISIBLE
 
@@ -41,10 +36,9 @@ class Profile7 : AppCompatActivity() {
             }
             //correct numbers of selection
             else -> {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, Profile8::class.java)
                 startActivity(intent)
             }
         }
-
     }
 }
