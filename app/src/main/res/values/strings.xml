@@ -116,4 +116,5 @@
     <string name="more_hint">More...</string>
     <string name="you_can_not_select_more_than_5">You can not select more than 5!</string>
     <string name="select_up_to_5">Select up to 5.</string>
+    <string name="please_use_only_letters">Please use only letters.</string>
 </resources>
