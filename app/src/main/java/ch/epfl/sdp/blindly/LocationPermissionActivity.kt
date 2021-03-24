@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import androidx.core.app.ActivityCompat
+import ch.epfl.sdp.blindly.profile.Profile2
 
 class LocationPermissionActivity : AppCompatActivity() {
 
@@ -25,7 +26,7 @@ class LocationPermissionActivity : AppCompatActivity() {
                 permitted = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
             }
             val intent = Intent(
-                this, MapsActivity::class.java)
+                this, Profile2::class.java)
             startActivity (intent)
         }
     }
