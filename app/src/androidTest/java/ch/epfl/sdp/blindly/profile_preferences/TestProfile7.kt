@@ -70,12 +70,13 @@ class TestProfile7 {
         val chip15 = Espresso.onView(withId(R.id.chip15))
         val chip16 = Espresso.onView(withId(R.id.chip10))
 
-        chip16.perform(click())
+
         chip11.perform(click())
         chip12.perform(click())
         chip13.perform(click())
         chip14.perform(click())
         chip15.perform(click())
+        chip16.perform(click())
 
         val buttonContinue = Espresso.onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
@@ -103,13 +104,13 @@ class TestProfile7 {
     @Test
     fun correctInputsFireMainActivity() {
         Intents.init()
-        val chip10 = Espresso.onView(withId(R.id.chip10))
-        val chip20 = Espresso.onView(withId(R.id.chip20))
-        val chip30 = Espresso.onView(withId(R.id.chip30))
+        val chip18 = Espresso.onView(withId(R.id.chip10))
+        val chip28 = Espresso.onView(withId(R.id.chip20))
+        val chip38 = Espresso.onView(withId(R.id.chip30))
 
-        chip10.perform(click())
-        chip20.perform(click())
-        chip30.perform(click())
+        chip18.perform(click())
+        chip28.perform(click())
+        chip38.perform(click())
 
         val buttonContinue = Espresso.onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
