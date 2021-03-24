@@ -48,4 +48,12 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
     </style>
+
+    <style name="Widget.Theme.Blindly.Record.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/record</item>
+        <item name="textAllCaps">true</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
 </resources>

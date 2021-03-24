@@ -30,16 +30,6 @@ class RecordingActivityTest {
     }
 
     @Test
-    fun recordingButtonTextIsCorrectlyDisplayed() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
-        recordButton.check(matches(withText("Start recording")))
-        recordButton.perform(click())
-        recordButton.check(matches(withText("Stop recording")))
-        recordButton.perform(click())
-        recordButton.check(matches(withText("Start recording")))
-    }
-
-    @Test
     fun playingButtonIsCorrectlyDisabled() {
         val playButton = Espresso.onView(withId(R.id.playingButton))
         playButton.check(matches(not(isEnabled())))

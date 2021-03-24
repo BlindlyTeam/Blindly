@@ -1,17 +1,20 @@
 package ch.epfl.sdp.blindly.recording
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.*
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ch.epfl.sdp.blindly.BOUNCE_DURATION
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.RecordingAdapter
 import java.io.File
@@ -108,6 +111,8 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         recordButton = findViewById(R.id.recordingButton)
         playPauseButton = findViewById(R.id.playingButton)
         playPauseButton.isEnabled = false
+        setBounceButton(recordButton)
+        setBounceButton(playPauseButton)
 
         playBar = findViewById(R.id.playBar)
         playBar.isVisible = false
@@ -237,6 +242,13 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         for(i in 0..totalNumberOfRec){
             createFilePath(i)
             File(filePath).delete()
+        }
+    }
+
+    private fun setBounceButton(button: Button) {
+        val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
+        button.setOnClickListener {
+            button.startAnimation(bounce)
         }
     }
 
