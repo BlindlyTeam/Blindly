@@ -75,7 +75,7 @@ class UserHelper {
         return FirebaseAuth.getInstance().currentUser != null
     }
 
-    open fun getEmail(): String? {
+    fun getEmail(): String? {
         return FirebaseAuth.getInstance()?.currentUser?.email
     }
 

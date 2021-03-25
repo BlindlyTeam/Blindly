@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import ch.epfl.sdp.blindly.profile.Profile1
 import ch.epfl.sdp.blindly.utils.UserHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -15,7 +16,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)    }
+        setContentView(R.layout.activity_main)    
+    }
 
     fun start_profile_1(view: View) {
         val intent = Intent(this, Profile1::class.java)

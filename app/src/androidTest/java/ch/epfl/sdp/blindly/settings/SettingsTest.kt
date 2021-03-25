@@ -68,7 +68,7 @@ class SettingsTest {
     fun clickingOnLocationButtonFiresSettingsLocationActivity() {
         init()
         onView(withId(R.id.location_button)).perform(click())
-        var myLocation: TextView ?= null
+        var myLocation: TextView? = null
         activityRule.scenario.onActivity { activity ->
             myLocation = activity.findViewById(R.id.current_location_text)
         }
