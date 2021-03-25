@@ -29,11 +29,7 @@
         tools:ignore="ExtraText"
         android:theme="@style/Theme.Blindly"
         android:name=".BlindlyApplication">
-        <activity 
-            android:name=".settings.SettingsLocation">
-            android:theme="@style/Theme.Blindly"
-            tools:ignore="ExtraText">
-        </activity>
+       
         <activity android:name=".profile.Profile8"></activity>
         <activity android:name=".profile.Profile7" />
         <activity android:name=".profile.Profile6" />
