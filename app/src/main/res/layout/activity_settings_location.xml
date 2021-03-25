@@ -47,6 +47,7 @@
             android:background="?android:attr/listDivider" />
 
         <ImageView
+            android:contentDescription="@string/pointer"
             android:id="@+id/google_location_img"
             android:layout_width="25dp"
             android:layout_height="49dp"
@@ -90,6 +91,7 @@
             android:layout_toStartOf="@id/location_space_3" />
 
         <ImageView
+            android:contentDescription="@string/check_mark"
             android:id="@+id/checkmark_img"
             android:layout_width="25dp"
             android:layout_height="25dp"

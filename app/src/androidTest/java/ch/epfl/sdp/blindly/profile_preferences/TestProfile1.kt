@@ -25,7 +25,7 @@ class TestProfile1 {
 
 
     @Test
-    fun testProfile1FiresProfile2() {
+    fun testProfile1FiresLocationPermissionActivity() {
         Intents.init()
         val buttonContinue = Espresso.onView(withId(R.id.button_p1))
         buttonContinue.perform(click())
