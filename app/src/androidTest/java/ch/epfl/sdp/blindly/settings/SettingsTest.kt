@@ -10,7 +10,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents.*
@@ -19,26 +18,16 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.BlindlyApplication
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.utils.UserHelper
-import ch.epfl.sdp.blindly.utils.UserHelperModule
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
-import dagger.hilt.components.SingletonComponent
 import org.hamcrest.Matchers
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import javax.inject.Inject
-import org.mockito.Mockito
 
 
 private const val TEST_SHOW_ME_MEN = "Men"
@@ -155,6 +144,19 @@ class SettingsTest {
                     user.getEmail()
                 )
             )
+        )
+        release()
+    }
+
+    @Test
+    fun checkEmailOpens() {
+        init()
+        onView(withId(R.id.email_button)).perform(click())
+
+        intended(
+                Matchers.allOf(
+                        hasComponent(SettingsUpdateEmailTest::class.java.name)
+                )
         )
         release()
     }

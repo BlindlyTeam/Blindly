@@ -53,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="49dp"
                     android:background="@color/transparent"
+                    android:onClick="startUpdateEmail"
                     />
 
                 <TextView
@@ -70,8 +71,7 @@
                     android:layout_toStartOf="@id/email_arrow"
                     android:gravity="center"
                     android:textSize="15sp"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/email"/>
+                    android:layout_marginRight="10dp"/>
 
                 <ImageView
                     android:id="@+id/email_arrow"
@@ -87,6 +87,7 @@
                     android:layout_alignParentBottom="true"
                     android:background="?android:attr/listDivider" />
             </RelativeLayout>
+
 
             <Space
                 android:id="@+id/space"
@@ -135,8 +136,7 @@
                     android:layout_toStartOf="@id/location_arrow"
                     android:gravity="center"
                     android:textSize="15sp"
-                    android:layout_marginEnd="10dp"
-                    android:text="@string/email"/>
+                    android:layout_marginEnd="10dp"/>
 
                 <ImageView
                     android:id="@+id/location_arrow"
@@ -176,8 +176,7 @@
                     android:layout_alignParentEnd="true"
                     android:gravity="top"
                     android:textSize="15sp"
-                    android:layout_marginEnd="25dp"
-                    android:text="@string/email"/>
+                    android:layout_marginEnd="25dp"/>
 
                 <SeekBar
                     android:id="@+id/seekBar"
@@ -228,8 +227,7 @@
                     android:layout_toStartOf="@id/show_me_arrow"
                     android:gravity="center"
                     android:textSize="15sp"
-                    android:layout_marginEnd="10dp"
-                    android:text="@string/email"/>
+                    android:layout_marginEnd="10dp"/>
 
                 <ImageView
                     android:id="@+id/show_me_arrow"
