@@ -10,15 +10,20 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class ProfilePageTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(MainScreen::class.java)
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     private fun gotoProfileScreen() {
         onView(withId(R.id.view_pager)).perform(swipeLeft())

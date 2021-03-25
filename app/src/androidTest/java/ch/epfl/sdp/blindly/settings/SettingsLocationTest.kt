@@ -11,14 +11,19 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 private const val TEST_LOCATION = "Lausanne, Switzerland"
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 
 class SettingsLocationTest {
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @Test
     fun showMeFromIntentIsDisplayedProperly() {

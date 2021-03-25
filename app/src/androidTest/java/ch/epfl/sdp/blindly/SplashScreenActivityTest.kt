@@ -12,6 +12,8 @@ import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.fail
 import org.hamcrest.Matchers
 import org.junit.Rule
@@ -20,10 +22,13 @@ import org.junit.runner.RunWith
 import java.io.ByteArrayOutputStream
 
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class SplashScreenActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(SplashScreen::class.java)
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     private fun isImageEqualToRes(actualImageView: ImageView, expectedDrawable: Int): Boolean {
         var activity: Activity? = null
