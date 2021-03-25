@@ -7,10 +7,10 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile.EXTRA_SHOW_ME
 
 
 const val EXTRA_LOCATION = "user_location"
-const val EXTRA_SHOW_ME = "user_show_me"
 //const val REQUEST_LOCATION = 1
 const val REQUEST_SHOW_ME = 2
 

@@ -118,4 +118,5 @@
     <string name="set_password">Enter Password</string>
     <string name="set_email">Enter Email Address</string>
     <string name="create_account">Create Account</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

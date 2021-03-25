@@ -12,14 +12,16 @@ import ch.epfl.sdp.blindly.R
 import java.time.LocalDate
 import java.time.Period
 
-
+const val EXTRA_BIRTHDAY = "age"
 class Profile3 : AppCompatActivity() {
 
-    private val MAJORITY_AGE = 18;
+    private val MAJORITY_AGE = 18
+    private var username: String ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.set_profile_3)
+        username = intent.getStringExtra(EXTRA_USERNAME)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -30,10 +32,16 @@ class Profile3 : AppCompatActivity() {
         val month: Int = datePicker.month + 1 //month correction
         val year: Int = datePicker.year
         val age = getAge(year, month, day)
+
         if (age < MAJORITY_AGE) {
             findViewById<TextView>(R.id.warning_p3).visibility = View.VISIBLE
         } else {
+            val ageExtra = "$day.$month.$year"
+            val extras = Bundle()
+            extras.putString(EXTRA_USERNAME, username)
+            extras.putString(EXTRA_BIRTHDAY, ageExtra)
             val intent = Intent(this, Profile4::class.java)
+            intent.putExtras(extras)
             startActivity(intent)
         }
     }

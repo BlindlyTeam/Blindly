@@ -5,12 +5,15 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.BundleMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile.EXTRA_SEXUAL_ORIENTATIONS
 import ch.epfl.sdp.blindly.profile.Profile5
 import ch.epfl.sdp.blindly.profile.Profile6
 import org.hamcrest.Matchers
@@ -19,9 +22,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 
+
 @RunWith(AndroidJUnit4::class)
 class TestProfile5 {
-
 
     @get:Rule
     val activityRule = ActivityScenarioRule(Profile5::class.java)
@@ -92,7 +95,13 @@ class TestProfile5 {
         val buttonContinue = Espresso.onView(withId(R.id.button_p5))
         buttonContinue.perform(click())
 
-        intended(hasComponent(Profile6::class.java.name))
+        val TEST_SEXUAL_ORIENTATIONS: ArrayList<String> = ArrayList()
+        TEST_SEXUAL_ORIENTATIONS.add("Straight")
+        TEST_SEXUAL_ORIENTATIONS.add("Lesbian")
+        TEST_SEXUAL_ORIENTATIONS.add("Gay")
+
+        intended(Matchers.allOf(hasComponent(Profile6::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_SEXUAL_ORIENTATIONS, TEST_SEXUAL_ORIENTATIONS))))
         Intents.release()
 
     }

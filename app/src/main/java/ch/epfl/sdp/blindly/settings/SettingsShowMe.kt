@@ -7,7 +7,10 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.core.view.isVisible
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile.EXTRA_SHOW_ME
 
+//TODO: Change currentShowMe to a lateinit at the top of the class, so that
+// the private function can be moved outsid eof onCreate...
 class SettingsShowMe : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

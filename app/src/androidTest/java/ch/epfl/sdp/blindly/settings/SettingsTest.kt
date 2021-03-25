@@ -20,6 +20,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile.EXTRA_SHOW_ME
+import ch.epfl.sdp.blindly.profile_preferences.TEST_SHOW_ME
 import org.hamcrest.Matchers
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -28,7 +30,6 @@ import org.junit.runner.RunWith
 
 
 private const val TEST_SHOW_ME_MEN = "Men"
-private const val TEST_SHOW_ME = "Women"
 private const val TEST_RADIUS = "80km"
 @RunWith(AndroidJUnit4::class)
 class SettingsTest {

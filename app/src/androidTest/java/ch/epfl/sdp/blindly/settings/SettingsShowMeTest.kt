@@ -9,11 +9,11 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile.EXTRA_SHOW_ME
+import ch.epfl.sdp.blindly.profile_preferences.TEST_SHOW_ME
 import org.hamcrest.Matchers.not
 import org.junit.Test
 import org.junit.runner.RunWith
-
-private const val TEST_SHOW_ME = "Women"
 
 @RunWith(AndroidJUnit4::class)
 class SettingsShowMeTest {
