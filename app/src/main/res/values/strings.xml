@@ -59,6 +59,8 @@
     <string name="audio_library_toolbar">Audio Library</string>
     <string name="current_location">CURRENT LOCATION</string>
     <string name="my_current_location">My Current Location</string>
+    <string name="check_mark">check_mark </string>
+    <string name="pointer">pointer</string>
     <string name="add_new_location">Add New Location</string>
     <string name="men_show_me">Men</string>
     <string name="women_show_me">Women</string>
@@ -106,7 +108,6 @@
     <string name="football">Football</string>
     <string name="spirituality">Spirituality</string>
     <string name="gardening">Gardening</string>
-    <string name="up_to_5">(Up to 5)</string>
     <string name="board_games">Board Games</string>
     <string name="the_minimum_age_requirement_is_18_years_old">The minimum age requirement is 18 years old.</string>
     <string name="name_can_t_be_less_than_2_characters">Name can\'t be less than 2 characters!</string>
@@ -115,8 +116,15 @@
     <string name="please_specify">Please specify!</string>
     <string name="please_select_at_least_one">Please select at least one!</string>
     <string name="you_can_t_select_more_than_3">You can not select more than 3!</string>
+<<<<<<< HEAD
     <string name="set_password">Enter Password</string>
     <string name="set_email">Enter Email Address</string>
     <string name="create_account">Create Account</string>
     <string name="sign_up">Sign Up</string>
+=======
+    <string name="more_hint">More...</string>
+    <string name="you_can_not_select_more_than_5">You can not select more than 5!</string>
+    <string name="select_up_to_5">Select up to 5.</string>
+    <string name="please_use_only_letters">Please use only letters.</string>
+>>>>>>> origin/main
 </resources>

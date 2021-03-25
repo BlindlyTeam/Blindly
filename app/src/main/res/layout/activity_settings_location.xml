@@ -7,6 +7,7 @@
     tools:context=".settings.SettingsLocation">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -46,6 +47,7 @@
             android:background="?android:attr/listDivider" />
 
         <ImageView
+            android:contentDescription="@string/pointer"
             android:id="@+id/google_location_img"
             android:layout_width="25dp"
             android:layout_height="49dp"
@@ -60,7 +62,7 @@
             android:layout_width="20dp"
             android:layout_height="49dp"
             android:layout_below="@+id/current_location_text"
-            android:layout_toEndOf="@id/google_location_img"/>
+            android:layout_toEndOf="@id/google_location_img" />
 
         <TextView
             android:id="@+id/my_current_location_text"
@@ -89,6 +91,7 @@
             android:layout_toStartOf="@id/location_space_3" />
 
         <ImageView
+            android:contentDescription="@string/check_mark"
             android:id="@+id/checkmark_img"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -103,7 +106,7 @@
             android:layout_width="10dp"
             android:layout_height="49dp"
             android:layout_below="@+id/current_location_text"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true" />
 
         <View
             android:id="@+id/divider2"
@@ -116,7 +119,7 @@
             android:id="@+id/space"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:layout_below="@+id/divider2"/>
+            android:layout_below="@+id/divider2" />
 
         <Button
             android:id="@+id/button2"
@@ -128,5 +131,14 @@
             android:textSize="16sp" />
 
     </RelativeLayout>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="405dp"
+        android:layout_height="464dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

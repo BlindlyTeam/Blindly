@@ -33,8 +33,31 @@ class TestProfile4_2 {
 
     private val CORRECT_SPECIFICATION = "Abcde"
     private val BLANK_SPECIFICATION = "   "
+    private val INCORRECT_CHARS_SPECIFICATION = "Abc;;de"
     private val NO_INPUT = ""
     private val ERROR_MESSAGE = "Please specify!"
+    private val ERROR_CHARACTERS = "Please use only letters."
+
+    @Test
+    fun incorrectCharOutputsError() {
+        Intents.init()
+        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(INCORRECT_CHARS_SPECIFICATION));
+        closeSoftKeyboard();
+        val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
+        buttonContinue.perform(click())
+        Espresso.onView(withId(R.id.warning2_p4_2))
+                .check(
+                        ViewAssertions.matches(
+                                ViewMatchers.withText(
+                                        Matchers.containsString(
+                                                ERROR_CHARACTERS
+                                        )
+                                )
+                        )
+                );
+        intended(hasComponent(Profile5::class.java.name), times(0))
+        Intents.release()
+    }
 
     @Test
     fun noInputOutputsError() {
@@ -43,7 +66,7 @@ class TestProfile4_2 {
         closeSoftKeyboard();
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        onView(withId(R.id.warning_p4_2))
+        onView(withId(R.id.warning1_p4_2))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
@@ -65,7 +88,7 @@ class TestProfile4_2 {
         closeSoftKeyboard();
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        onView(withId(R.id.warning_p4_2))
+        onView(withId(R.id.warning1_p4_2))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
