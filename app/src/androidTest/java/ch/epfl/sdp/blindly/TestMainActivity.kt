@@ -10,6 +10,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import ch.epfl.sdp.blindly.profile.Profile1
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

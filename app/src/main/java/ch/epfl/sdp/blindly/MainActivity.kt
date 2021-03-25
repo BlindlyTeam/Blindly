@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.utils.UserHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import ch.epfl.sdp.blindly.profile.Profile1
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

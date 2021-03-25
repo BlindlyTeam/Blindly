@@ -18,7 +18,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -30,7 +29,24 @@
         tools:ignore="ExtraText"
         android:theme="@style/Theme.Blindly"
         android:name=".BlindlyApplication">
-        <activity android:name=".settings.SettingsLocation"></activity>
+        <activity 
+            android:name=".settings.SettingsLocation">
+            android:theme="@style/Theme.Blindly"
+            tools:ignore="ExtraText">
+        </activity>
+        <activity android:name=".profile.Profile8"></activity>
+        <activity android:name=".profile.Profile7" />
+        <activity android:name=".profile.Profile6" />
+        <activity android:name=".profile.Profile5" />
+        <activity android:name=".profile.Profile4_2" />
+        <activity android:name=".profile.Profile4" />
+        <activity android:name=".profile.Profile3" />
+        <activity android:name=".profile.Profile2" />
+        <activity android:name=".profile.Profile1" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key" />
+        <activity android:name=".settings.SettingsLocation" />
         <activity android:name=".settings.SettingsShowMe" />
         <activity android:name=".AudioLibrary" />
         <activity android:name=".EditProfile" />
@@ -38,30 +54,7 @@
         <activity
             android:name=".MainScreen"
             android:theme="@style/Theme.Blindly.NoActionBar" />
-        <activity android:name=".LocationPermissionActivity"></activity>
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".Profile7" />
-        <activity android:name=".Profile6" />
-        <activity android:name=".Profile5" />
-        <activity android:name=".Profile4_2" />
-        <activity android:name=".Profile4" />
-        <activity android:name=".Profile3" />
-        <activity android:name=".Profile2" />
-        <activity android:name=".Profile1" />
+        <activity android:name=".LocationPermissionActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,6 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MyAccountActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
