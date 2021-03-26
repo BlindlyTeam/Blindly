@@ -23,16 +23,15 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     private val mediaRecorder = MediaRecorder()
     private var mediaPlayer: MediaPlayer? = null
 
-    private lateinit var recordingList: RecyclerView
+    private lateinit var recordingRecyclerView: RecyclerView
     private lateinit var adapter: RecordingAdapter
+    //private var audioRecordList: List<AudioRecord> = ArrayList()
 
     private var isPlayerStopped = true
     private var isRecording = false
     private var isPlayerPaused = false
 
-    private var filePath: String = ""
-
-    private var totalNumberOfRec = 0
+    private var filePath = ""
 
     private lateinit var recordButton: Button
     private lateinit var playPauseButton: Button
@@ -40,21 +39,24 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     private lateinit var recordTimer: Chronometer
     private lateinit var playTimer: Chronometer
 
+    private var totalNumberOfRec = 0
+
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording)
+
         setBaseView()
         createFilePath(totalNumberOfRec)
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
         // For the recording list
-        recordingList = findViewById(R.id.recordingList)
-        recordingList.layoutManager = LinearLayoutManager(this)
-        adapter = RecordingAdapter(ArrayList<AudioRecord>(), this)
-        recordingList.adapter = adapter
+        recordingRecyclerView = findViewById(R.id.recordingList)
+        recordingRecyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = RecordingAdapter(ArrayList<AudioRecord>(), this, this)
+        recordingRecyclerView.adapter = adapter
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -76,7 +78,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
 
         //deleteTempRecordings()
         // TODO Delete Temp recordings when link with AudioLibrary
-        totalNumberOfRec = 0
+        adapter.recordList = ArrayList()
     }
 
     fun recordButtonClick(view: View) {
@@ -105,7 +107,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
 
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
-        playPauseButton = findViewById(R.id.playPauseButton1)
+        playPauseButton = findViewById(R.id.playPauseButton)
         playPauseButton.isEnabled = false
         setBounceButton(recordButton)
         setBounceButton(playPauseButton)
@@ -113,7 +115,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         playBar = findViewById(R.id.playBar)
         playBar.isVisible = false
 
-        recordTimer = findViewById(R.id.recordTimer)
+        recordTimer = findViewById(R.id.audioTimer)
         playTimer = findViewById(R.id.audioTimer)
     }
 
@@ -144,8 +146,6 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         recordTimer.base = SystemClock.elapsedRealtime()
         recordTimer.start()
         isRecording = true
-        recordButton.isVisible = true
-        playPauseButton.isEnabled = false
         playBar.progress = 0
     }
 
@@ -182,7 +182,9 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     private fun stopRecording() {
         mediaRecorder.stop()
 
-        adapter.recordingsNames.add("TEMPaudioRecording_${totalNumberOfRec}.3gp")
+        val newAudio = AudioRecord("TEMPaudioRecording_${totalNumberOfRec}.3gp",
+            recordTimer.text as String, filePath, false)
+        adapter.recordList.add(newAudio)
         adapter.notifyDataSetChanged()
 
         totalNumberOfRec++

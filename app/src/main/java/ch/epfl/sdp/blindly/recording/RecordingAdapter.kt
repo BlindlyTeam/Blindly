@@ -5,19 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.NonNull
-import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 
 /**
  * Serves as an adapter to add audio recordings in a RecyclerView
  */
-class RecordingAdapter(var recordings: List<AudioRecord>,
+class RecordingAdapter(var recordList: ArrayList<AudioRecord>,
                        var context: Context,
                        private val listener: OnItemClickListener)
     : RecyclerView.Adapter<RecordingAdapter.ViewHolder>() {
@@ -58,8 +55,8 @@ class RecordingAdapter(var recordings: List<AudioRecord>,
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.recordName.text = recordings[position].name
-        viewHolder.recordDuration.text = recordings.get
+        viewHolder.recordName.text = recordList[position].name
+        viewHolder.recordDuration.text = recordList[position].durationText
         // Show / Hide selection
         if (position == currentSelectionPos) {
 
@@ -67,7 +64,7 @@ class RecordingAdapter(var recordings: List<AudioRecord>,
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = recordings.size
+    override fun getItemCount() = recordList.size
 
     /**
      * Used to handle clicks in the activity

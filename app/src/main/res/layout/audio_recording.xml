@@ -51,7 +51,7 @@
         android:layout_below="@id/nameDurationLayout">
 
         <SeekBar
-            android:id="@+id/singlePlayBar"
+            android:id="@+id/playBar"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/recordName"
@@ -60,7 +60,7 @@
             android:paddingTop="10dp" />
 
         <ImageButton
-            android:id="@+id/playPauseButton1"
+            android:id="@+id/playPauseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/audioTimer"
@@ -74,7 +74,7 @@
             android:id="@+id/audioTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/singlePlayBar"
+            android:layout_below="@id/playBar"
             android:layout_marginLeft="30dp"
             android:textColor="#716E6E" />
 
@@ -82,7 +82,7 @@
             android:id="@+id/remainingTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/singlePlayBar"
+            android:layout_below="@id/playBar"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
             android:textColor="#716E6E" />

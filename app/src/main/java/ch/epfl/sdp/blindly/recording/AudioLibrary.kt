@@ -15,7 +15,7 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
     private lateinit var recordingList: RecyclerView
     private lateinit var adapter: RecordingAdapter
 
-    private lateinit var recordingsNames: Array<String>
+    private lateinit var recordings: Array<AudioRecord>
 
     private var mediaPlayer: MediaPlayer? = null
 
@@ -28,12 +28,12 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
 
         supportActionBar?.hide()
 
-        recordingsNames = applicationContext.filesDir.list()
-        recordingsNames.sort() // Get recording names in alphabetical order
+        recordings = applicationContext.filesDir.list()
+        recordings.sort() // Get recording names in alphabetical order
 
         recordingList = findViewById(R.id.recordingList)
         recordingList.layoutManager = LinearLayoutManager(this)
-        adapter = RecordingAdapter(recordingsNames.toCollection(ArrayList()), this)
+        adapter = RecordingAdapter(recordings.toCollection(ArrayList()), this, this)
         recordingList.adapter = adapter
     }
 
@@ -53,7 +53,7 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
         }
         // No recording is playing
         if(currentlyPlayedRecording == -1){
-            mediaPlayer = initNewMediaPlayer(recordingsNames[position])
+            mediaPlayer = initNewMediaPlayer(recordings[position].name)
             preparePlaying(mediaPlayer)
             currentlyPlayedRecording = position
         }
@@ -68,17 +68,17 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
     private fun selectDeselectRecording(position: Int){
         // Logic behind (De)selection of recordings
         adapter.currentSelectionPos = position
-        if(lastSelectionPos == -1) {
-            lastSelectionPos = adapter.currentSelectionPos
-        } else{
+        lastSelectionPos = if(lastSelectionPos == -1) {
+            adapter.currentSelectionPos
+        } else {
             adapter.notifyItemChanged(lastSelectionPos)
-            lastSelectionPos = adapter.currentSelectionPos
+            adapter.currentSelectionPos
         }
         adapter.notifyItemChanged(adapter.currentSelectionPos)
     }
 
     private fun initNewMediaPlayer(name: String): MediaPlayer?{
-        var mediaPlayer: MediaPlayer? = MediaPlayer().apply {
+        val mediaPlayer: MediaPlayer? = MediaPlayer().apply {
             setDataSource("${applicationContext.filesDir.absolutePath}/$name")
         }
         mediaPlayer?.setOnCompletionListener {
@@ -104,9 +104,9 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
 
     private fun saveCurrentRecording(){
         if(adapter.currentSelectionPos != -1) {
-            var tempName = recordingsNames[currentlyPlayedRecording]
-            var newName = "PRINCIPALaudioRecording.3gp"
-            var currentRecording = File("${applicationContext.filesDir.absolutePath}/$tempName")
+            val tempName = recordings[currentlyPlayedRecording].name
+            val newName = "PRINCIPALaudioRecording.3gp"
+            val currentRecording = File("${applicationContext.filesDir.absolutePath}/$tempName")
             currentRecording.copyTo(File("${applicationContext.filesDir.absolutePath}/$newName"), overwrite = true)
         } else {
             Toast.makeText(this, "Select a recording !", Toast.LENGTH_SHORT).show()
