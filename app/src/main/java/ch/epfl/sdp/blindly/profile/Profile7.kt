@@ -60,7 +60,7 @@ class Profile7 : AppCompatActivity() {
     }
 
     private fun getCheckedChip() {
-        val chipGroup = findViewById<ChipGroup>(R.id.chipGroup_p5)
+        val chipGroup = findViewById<ChipGroup>(R.id.chipGroup_p7)
         val ids = chipGroup.checkedChipIds
         ids.forEach { id ->
             val chipText = findViewById<Chip>(id).text.toString()
