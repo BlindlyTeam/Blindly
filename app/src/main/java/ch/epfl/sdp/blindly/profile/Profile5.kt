@@ -29,11 +29,9 @@ class Profile5 : AppCompatActivity() {
         when {
             //none selected
             size < 1 -> {
-                findViewById<TextView>(R.id.guideline_p5).visibility = View.INVISIBLE
                 findViewById<TextView>(R.id.warning_p5_1).visibility = View.VISIBLE
             }
             size > SELECTION_LIMIT -> {
-                findViewById<TextView>(R.id.guideline_p5).visibility = View.INVISIBLE
                 findViewById<TextView>(R.id.warning_p5_2).visibility = View.VISIBLE
             }
             //correct numbers of selection

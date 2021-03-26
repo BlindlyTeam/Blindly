@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import ch.epfl.sdp.blindly.LocationPermissionActivity
 import ch.epfl.sdp.blindly.R
 
 class Profile1 : AppCompatActivity() {
@@ -13,7 +14,7 @@ class Profile1 : AppCompatActivity() {
     }
 
     fun startProfile2(view: View) {
-        val intent = Intent(this, Profile2::class.java)
+        val intent = Intent(this, LocationPermissionActivity::class.java)
         startActivity(intent)
     }
 

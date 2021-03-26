@@ -10,6 +10,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents.*
@@ -19,32 +20,66 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import ch.epfl.sdp.blindly.BlindlyApplication
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.utils.UserHelper
+import ch.epfl.sdp.blindly.utils.UserHelperModule
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import dagger.hilt.components.SingletonComponent
 import org.hamcrest.Matchers
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
+import org.mockito.Mockito
 
 
 private const val TEST_SHOW_ME_MEN = "Men"
 private const val TEST_SHOW_ME = "Women"
 private const val TEST_RADIUS = "80km"
-@RunWith(AndroidJUnit4::class)
+
+@HiltAndroidTest
 class SettingsTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(Settings::class.java)
 
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    lateinit var mainScenario: ActivityScenario<Settings>
+
+    @Inject
+    lateinit var user: UserHelper
+
+    @Before
+    fun setup() {
+        hiltRule.inject()
+    }
+
     @Test
     fun clickingOnLocationButtonFiresSettingsLocationActivity() {
         init()
         onView(withId(R.id.location_button)).perform(click())
-        var myLocation: TextView ?= null
+        var myLocation: TextView? = null
         activityRule.scenario.onActivity { activity ->
             myLocation = activity.findViewById(R.id.current_location_text)
         }
-        intended(Matchers.allOf(hasComponent(SettingsLocation::class.java.name), IntentMatchers.hasExtra(EXTRA_LOCATION, myLocation?.text)))
+        intended(
+            Matchers.allOf(
+                hasComponent(SettingsLocation::class.java.name), IntentMatchers.hasExtra(
+                    EXTRA_LOCATION,
+                    myLocation?.text
+                )
+            )
+        )
         release()
     }
 
@@ -56,7 +91,14 @@ class SettingsTest {
         activityRule.scenario.onActivity { activity ->
             showMe = activity.findViewById(R.id.show_me_text)
         }
-        intended(Matchers.allOf(hasComponent(SettingsShowMe::class.java.name), IntentMatchers.hasExtra(EXTRA_SHOW_ME, showMe?.text)))
+        intended(
+            Matchers.allOf(
+                hasComponent(SettingsShowMe::class.java.name), IntentMatchers.hasExtra(
+                    EXTRA_SHOW_ME,
+                    showMe?.text
+                )
+            )
+        )
         release()
     }
 
@@ -70,7 +112,11 @@ class SettingsTest {
         onView(withId(R.id.done_button)).perform(click())
 
         assertEquals(RESULT_OK, activityRule.scenario.result.resultCode)
-        assertEquals(TEST_SHOW_ME_MEN, activityRule.scenario.result.resultData.getStringExtra(EXTRA_SHOW_ME))
+        assertEquals(
+            TEST_SHOW_ME_MEN, activityRule.scenario.result.resultData.getStringExtra(
+                EXTRA_SHOW_ME
+            )
+        )
     }
 
     private fun setProgress(progress: Int): ViewAction {
@@ -98,4 +144,19 @@ class SettingsTest {
         radiusText.check(ViewAssertions.matches(ViewMatchers.withText(TEST_RADIUS)))
         release()
     }
+
+    @Test
+    fun checkEmailCorrect() {
+        init()
+
+        onView(withId(R.id.email_address_text)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withText(
+                    user.getEmail()
+                )
+            )
+        )
+        release()
+    }
+
 }
