@@ -126,7 +126,6 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         playTimer.start()
         isPlayerPaused = false
         isPlayerStopped = false
-        playPauseButton.text = "Pause"
         recordButton.isEnabled = false
         updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
     }
@@ -135,12 +134,10 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         playTimer.stop()
         isPlayerPaused = true
         recordButton.isEnabled = true
-        playPauseButton.text = "Play"
     }
 
     private fun setFinishedPlayView() {
         playTimer.stop()
-        playPauseButton.text = "Play"
         recordButton.isEnabled = true
         playBar.progress = 0
         isPlayerStopped = true
