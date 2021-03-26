@@ -1,6 +1,8 @@
 package ch.epfl.sdp.blindly.recording
 
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -65,5 +67,21 @@ class RecordingActivityTest {
         playButton.check(matches(withText("Pause")))
         playButton.perform(click())
         playButton.check(matches(withText("Play")))
+    }
+
+    // RecyclerView comes into view
+    @Test
+    fun isListVisibleOnLauch(){
+        onView(withId(R.id.recordingList)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun recordingIsDisplayedInRecyclerView() {
+        val recordButton = Espresso.onView(withId(R.id.recordingButton))
+
+        recordButton.perform(click())
+        Thread.sleep(2000)
+        recordButton.perform(click())
+
     }
 }
