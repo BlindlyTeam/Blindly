@@ -47,6 +47,8 @@
         <activity android:name=".AudioLibrary" />
         <activity android:name=".EditProfile" />
         <activity android:name=".settings.Settings" />
+        <activity android:name=".settings.SettingsUpdateEmail" />
+
         <activity
             android:name=".MainScreen"
             android:theme="@style/Theme.Blindly.NoActionBar" />
