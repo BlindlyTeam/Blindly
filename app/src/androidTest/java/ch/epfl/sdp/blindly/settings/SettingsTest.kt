@@ -155,7 +155,7 @@ class SettingsTest {
 
         intended(
                 Matchers.allOf(
-                        hasComponent(SettingsUpdateEmailTest::class.java.name)
+                        hasComponent(SettingsUpdateEmail::class.java.name)
                 )
         )
         release()
