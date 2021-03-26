@@ -27,6 +27,7 @@
         android:roundIcon="@mipmap/blindly_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
+        android:name=".BlindlyApplication"
         tools:ignore="ExtraText">
         <activity android:name=".SignUp"></activity>
         <activity android:name=".profile.Profile8"></activity>
@@ -58,7 +59,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyAccountActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

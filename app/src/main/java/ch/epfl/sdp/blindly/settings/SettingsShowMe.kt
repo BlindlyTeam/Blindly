@@ -39,8 +39,8 @@ class SettingsShowMe : AppCompatActivity() {
 
         if (currentShowMe != null) {
             displayCheckmark(currentShowMe!!, checks)
-            setOnClickListener(showMeMen, "Men", checks)
-            setOnClickListener(showMeWomen, "Women", checks)
+            setOnClickListener(showMeMen, "Man", checks)
+            setOnClickListener(showMeWomen, "Woman", checks)
             setOnClickListener(showMeEveryone, "Everyone", checks)
         }
 
@@ -57,8 +57,8 @@ class SettingsShowMe : AppCompatActivity() {
 
     private fun displayCheckmark(showMe: String, checks:List<ImageView>) {
         val checkmark = when (showMe) {
-            "Men" -> checks[0]
-            "Women" -> checks[1]
+            "Man" -> checks[0]
+            "Woman" -> checks[1]
             else -> checks[2]
         }
         checks.forEach { imageView ->
