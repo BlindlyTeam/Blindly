@@ -53,7 +53,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         // For the recording list
         recordingList = findViewById(R.id.recordingList)
         recordingList.layoutManager = LinearLayoutManager(this)
-        adapter = RecordingAdapter(ArrayList<String>(), this)
+        adapter = RecordingAdapter(ArrayList<AudioRecord>(), this)
         recordingList.adapter = adapter
     }
 

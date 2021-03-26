@@ -4,9 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 
@@ -24,12 +28,14 @@ class RecordingAdapter(var recordings: List<AudioRecord>,
     var currentSelectionPos = -1
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        val recording: TextView = view.findViewById(R.id.recordName)
-        val recordingSelected: ImageView = view.findViewById(R.id.recordingSelected)
+        var recordName: TextView = view.findViewById(R.id.recordName)
+        val recordDuration: TextView = view.findViewById(R.id.recordDuration)
+        val selectButton: Button = view.findViewById(R.id.selectButton)
+        private val nameDurationLayout: LinearLayout = view.findViewById(R.id.nameDurationLayout)
 
         init {
             // Define click listener for the ViewHolder's View.
-            recording.setOnClickListener(this)
+            nameDurationLayout.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
@@ -42,10 +48,9 @@ class RecordingAdapter(var recordings: List<AudioRecord>,
     }
 
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(@NonNull viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.audio_recording, viewGroup, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.audio_recording, null)
         return ViewHolder(view)
     }
 
@@ -53,9 +58,12 @@ class RecordingAdapter(var recordings: List<AudioRecord>,
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.recording.text = recordings[position].name
+        viewHolder.recordName.text = recordings[position].name
+        viewHolder.recordDuration.text = recordings.get
         // Show / Hide selection
-        viewHolder.recordingSelected.isVisible = position == currentSelectionPos
+        if (position == currentSelectionPos) {
+
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
