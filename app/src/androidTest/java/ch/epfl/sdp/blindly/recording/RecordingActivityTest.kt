@@ -25,6 +25,7 @@ class RecordingActivityTest {
         recordButton.perform(click())
         recordingText.check(matches(isDisplayed()))
         recordingText.check(matches(withText("Recording...")))
+        Thread.sleep(500)
         recordButton.perform(click())
         recordingText.check(matches(withText("Done !")))
     }
