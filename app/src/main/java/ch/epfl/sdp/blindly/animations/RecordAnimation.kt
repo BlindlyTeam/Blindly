@@ -32,7 +32,7 @@ class RecordAnimation {
 
     fun collapse(view: View) {
         val actualHeight: Int = view.measuredHeight
-        val animation: Animation = object : Animation() {
+        val animation = object : Animation() {
             override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
                 if (interpolatedTime == 1f) {
                     view.visibility = View.GONE

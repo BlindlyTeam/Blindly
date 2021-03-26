@@ -25,7 +25,6 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
 
     private lateinit var recordingRecyclerView: RecyclerView
     private lateinit var adapter: RecordingAdapter
-    //private var audioRecordList: List<AudioRecord> = ArrayList()
 
     private var isPlayerStopped = true
     private var isRecording = false

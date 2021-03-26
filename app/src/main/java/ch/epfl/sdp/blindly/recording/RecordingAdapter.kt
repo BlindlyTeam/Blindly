@@ -27,7 +27,6 @@ class RecordingAdapter(var recordList: ArrayList<AudioRecord>,
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         var recordName: TextView = view.findViewById(R.id.recordName)
         val recordDuration: TextView = view.findViewById(R.id.recordDuration)
-        val selectButton: Button = view.findViewById(R.id.selectButton)
         private val nameDurationLayout: LinearLayout = view.findViewById(R.id.nameDurationLayout)
 
         init {
@@ -38,14 +37,14 @@ class RecordingAdapter(var recordList: ArrayList<AudioRecord>,
         override fun onClick(v: View?) {
             // Forward the click to the main activity
             val position = adapterPosition
-            if(position != RecyclerView.NO_POSITION) {
+            if (position != RecyclerView.NO_POSITION) {
                 listener.onItemClick(position)
             }
         }
     }
 
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(@NonNull viewGroup: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(context).inflate(R.layout.audio_recording, null)
         return ViewHolder(view)
@@ -57,10 +56,6 @@ class RecordingAdapter(var recordList: ArrayList<AudioRecord>,
         // contents of the view with that element
         viewHolder.recordName.text = recordList[position].name
         viewHolder.recordDuration.text = recordList[position].durationText
-        // Show / Hide selection
-        if (position == currentSelectionPos) {
-
-        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

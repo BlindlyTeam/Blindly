@@ -15,7 +15,7 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
     private lateinit var recordingList: RecyclerView
     private lateinit var adapter: RecordingAdapter
 
-    private lateinit var recordings: Array<AudioRecord>
+    private lateinit var recordings: ArrayList<AudioRecord>
 
     private var mediaPlayer: MediaPlayer? = null
 
@@ -28,8 +28,8 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
 
         supportActionBar?.hide()
 
-        recordings = applicationContext.filesDir.list()
-        recordings.sort() // Get recording names in alphabetical order
+        //recordings = applicationContext.filesDir.list()
+        //recordings.sort() // Get recording names in alphabetical order
 
         recordingList = findViewById(R.id.recordingList)
         recordingList.layoutManager = LinearLayoutManager(this)
