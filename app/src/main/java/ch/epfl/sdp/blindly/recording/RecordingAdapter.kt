@@ -1,5 +1,6 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.recording
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,11 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import ch.epfl.sdp.blindly.R
 
 /**
  * Serves as an adapter to add audio recordings in a RecyclerView
  */
-class RecordingAdapter(var recordingsNames: ArrayList<String>, private val listener: OnItemClickListener): RecyclerView.Adapter<RecordingAdapter.ViewHolder>(){
+class RecordingAdapter(var recordings: List<AudioRecord>,
+                       var context: Context,
+                       private val listener: OnItemClickListener)
+    : RecyclerView.Adapter<RecordingAdapter.ViewHolder>() {
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -48,13 +53,13 @@ class RecordingAdapter(var recordingsNames: ArrayList<String>, private val liste
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.recording.text = recordingsNames[position]
+        viewHolder.recording.text = recordings[position].name
         // Show / Hide selection
         viewHolder.recordingSelected.isVisible = position == currentSelectionPos
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = recordingsNames.size
+    override fun getItemCount() = recordings.size
 
     /**
      * Used to handle clicks in the activity

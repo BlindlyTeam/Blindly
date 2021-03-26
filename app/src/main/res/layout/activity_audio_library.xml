@@ -5,7 +5,7 @@
     android:id="@+id/selectRecording"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AudioLibrary">
+    tools:context=".recording.AudioLibrary">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/audio_library_toolbar"
