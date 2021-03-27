@@ -16,7 +16,8 @@ import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 
-const val BOUNCE_DURATION : Long = 100
+const val BOUNCE_DURATION: Long = 100
+
 class ProfilePage : Fragment() {
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

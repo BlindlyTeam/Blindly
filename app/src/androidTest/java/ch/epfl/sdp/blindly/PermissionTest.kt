@@ -9,7 +9,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.profile.ProfileName
+import ch.epfl.sdp.blindly.profile_setup.ProfileName
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

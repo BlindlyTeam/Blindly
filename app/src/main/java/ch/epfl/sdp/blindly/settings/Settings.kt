@@ -17,6 +17,7 @@ import javax.inject.Inject
 
 const val EXTRA_LOCATION = "user_location"
 const val EXTRA_SHOW_ME = "user_show_me"
+
 //const val REQUEST_LOCATION = 1
 const val REQUEST_SHOW_ME = 2
 
@@ -75,15 +76,17 @@ class Settings : AppCompatActivity() {
     }
 
     fun logout(view: View) {
-        user.signOut(this, OnCompleteListener { object: OnCompleteListener<Void>{
-            override fun onComplete(p0: Task<Void>) {
-                if (p0.isComplete)
-                    startActivity(Intent(this@Settings, MainActivity::class.java))
-                else
-                // TODO fixme
-                    Toast.makeText(applicationContext, "LOGOUT ERROR", Toast.LENGTH_LONG).show()
+        user.signOut(this, OnCompleteListener {
+            object : OnCompleteListener<Void> {
+                override fun onComplete(p0: Task<Void>) {
+                    if (p0.isComplete)
+                        startActivity(Intent(this@Settings, MainActivity::class.java))
+                    else
+                    // TODO fixme
+                        Toast.makeText(applicationContext, "LOGOUT ERROR", Toast.LENGTH_LONG).show()
+                }
             }
-        } })
+        })
     }
 
     // This is the non depracated version but it crashes for the moment

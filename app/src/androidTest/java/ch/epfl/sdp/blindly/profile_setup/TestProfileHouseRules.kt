@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_preferences
+package ch.epfl.sdp.blindly.profile_setup
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions.click
@@ -10,7 +10,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.LocationPermissionActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.ProfileHouseRules
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

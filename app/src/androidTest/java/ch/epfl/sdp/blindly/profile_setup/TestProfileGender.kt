@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_preferences
+package ch.epfl.sdp.blindly.profile_setup
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions.click
@@ -12,9 +12,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.ProfileGender
-import ch.epfl.sdp.blindly.profile.ProfileGenderMore
-import ch.epfl.sdp.blindly.profile.ProfileOrientation
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
