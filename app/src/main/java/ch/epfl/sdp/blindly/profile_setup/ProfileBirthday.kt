@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile
+package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.os.Build
