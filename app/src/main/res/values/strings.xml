@@ -122,9 +122,10 @@
     <string name="select_up_to_5">Select up to 5.</string>
     <string name="please_use_only_letters">Please use only letters.</string>
     <string name="update_email">Update E-mail</string>
-    <string name="email_update_success">Email sucessfully updated</string>
+    <string name="email_update_success">Email successfully updated</string>
     <string name="try_to_logout">Something wrong happened, please try to log out first.</string>
     <string name="email_taken">This email is already used by another account</string>
     <string name="invalid_email">Please enter a valid e-mail</string>
     <string name="update_email_unknown_error">An unknown error happened, please try again later</string>
+    <string name="new_e_mail">New E-mail.</string>
 </resources>
