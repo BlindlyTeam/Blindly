@@ -110,7 +110,7 @@ class RecordingActivity : AppCompatActivity() {
         playTimer.start()
         isPlayerPaused = false
         isPlayerStopped = false
-        playPauseButton.text = "Pause"
+        playPauseButton.text = getString(R.string.pause)
         recordButton.isEnabled = false
         updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
     }
@@ -119,13 +119,13 @@ class RecordingActivity : AppCompatActivity() {
         playTimer.stop()
         isPlayerPaused = true
         recordButton.isEnabled = true
-        playPauseButton.text = "Play"
+        playPauseButton.text = getString(R.string.play)
 
     }
 
     private fun setFinishedPlayView() {
         playTimer.stop()
-        playPauseButton.text = "Play"
+        playPauseButton.text = getString(R.string.play)
         recordButton.isEnabled = true
         playBar.progress = 0
         isPlayerStopped = true
@@ -137,19 +137,19 @@ class RecordingActivity : AppCompatActivity() {
         isRecording = true
         recordButton.isVisible = true
         recordText.isVisible = true
-        recordText.text = "Recording..."
+        recordText.text = getString(R.string.recording)
         playPauseButton.isEnabled = false
         playBar.progress = 0
-        recordButton.text = "Stop recording"
+        recordButton.text = getString(R.string.stop_recording)
     }
 
     private fun setFinishedRecordView() {
         recordTimer.stop()
         isRecording = false
         playPauseButton.isEnabled = true
-        recordText.text = "Done !"
+        recordText.text = getString(R.string.done_exclamation)
         playBar.isVisible = true
-        recordButton.text = "Start recording"
+        recordButton.text = getString(R.string.start_recording)
         playPauseButton.isEnabled = true
     }
 

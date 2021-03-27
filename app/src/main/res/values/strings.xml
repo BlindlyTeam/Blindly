@@ -65,9 +65,7 @@
     <string name="login_button">Login</string>
     <string name="present_yourself_record">Present yourself by recording an audio file</string>
     <string name="additional_records_possible_profile">It will be possible to record other files later</string>
-    <string name="play">Play</string>
     <string name="recording">Recording...</string>
-    <string name="start_recording">Start recording</string>
     <string name="initialised_timer">00:00</string>
     <string name="require_locaiton_permission">You should allow the localisation for the app to work properly</string>
     <string name="accept">Accept</string>
@@ -128,4 +126,13 @@
     <string name="check_mark_for_the_choice_women">Check mark for the choice Women.</string>
     <string name="check_mark_for_the_choice_men">Check mark for the choice Men.</string>
     <string name="check_mark_for_the_choice_everyone">Check mark for the choice Everyone.</string>
+    <string name="pause">Pause</string>
+    <string name="play">Play</string>
+    <string name="stop_recording">Stop recording</string>
+    <string name="done_exclamation">Done !</string>
+    <string name="start_recording">Start recording</string>
+    <string name="lausanne_switzerland">Lausanne, Switzerland</string>
+    <string name="km">km</string>
+    <string name="not_logged_in">NOT LOGGED-IN</string>
+    <string name="logout_error">LOGOUT ERROR</string>
 </resources>
