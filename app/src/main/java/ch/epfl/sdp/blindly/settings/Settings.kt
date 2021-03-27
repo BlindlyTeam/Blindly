@@ -44,7 +44,7 @@ class Settings : AppCompatActivity() {
 
         radiusSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {
-                radiusText.text = progress.toString() + getString(R.string.km)
+                radiusText.text = getString(R.string.progress_km, progress)
             }
 
             override fun onStartTrackingTouch(seek: SeekBar) {}
