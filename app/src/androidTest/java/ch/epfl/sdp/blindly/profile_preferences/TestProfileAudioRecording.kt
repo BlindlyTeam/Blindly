@@ -8,16 +8,16 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.Profile8
+import ch.epfl.sdp.blindly.profile.ProfileAudioRecording
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class TestProfile8 {
+class TestProfileAudioRecording {
     @get:Rule
-    val activityRule = ActivityScenarioRule(Profile8::class.java)
+    val activityRule = ActivityScenarioRule(ProfileAudioRecording::class.java)
 
     @Test
     fun testProfile8FiresRecordingActivity() {

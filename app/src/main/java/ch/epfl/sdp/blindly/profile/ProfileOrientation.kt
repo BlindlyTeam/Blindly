@@ -9,7 +9,7 @@ import ch.epfl.sdp.blindly.R
 import com.google.android.material.chip.ChipGroup
 
 
-class Profile5 : AppCompatActivity() {
+class ProfileOrientation : AppCompatActivity() {
 
     private val SELECTION_LIMIT = 3
 
@@ -36,7 +36,7 @@ class Profile5 : AppCompatActivity() {
             }
             //correct numbers of selection
             else -> {
-                val intent = Intent(this, Profile6::class.java)
+                val intent = Intent(this, ProfileShowMe::class.java)
                 startActivity(intent)
             }
         }

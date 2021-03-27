@@ -12,9 +12,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.Profile4
-import ch.epfl.sdp.blindly.profile.Profile4_2
-import ch.epfl.sdp.blindly.profile.Profile5
+import ch.epfl.sdp.blindly.profile.ProfileGender
+import ch.epfl.sdp.blindly.profile.ProfileGenderMore
+import ch.epfl.sdp.blindly.profile.ProfileOrientation
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
@@ -22,11 +22,11 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class TestProfile4 {
+class TestProfileGender {
 
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(Profile4::class.java)
+    val activityRule = ActivityScenarioRule(ProfileGender::class.java)
 
     private val NO_INPUT_ERROR = "Please select one!"
 
@@ -35,18 +35,18 @@ class TestProfile4 {
         Intents.init()
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(hasComponent(Profile5::class.java.name), times(0))
-        intended(hasComponent(Profile4_2::class.java.name), times(0))
+        intended(hasComponent(ProfileOrientation::class.java.name), times(0))
+        intended(hasComponent(ProfileGenderMore::class.java.name), times(0))
         Espresso.onView(withId(R.id.warning_p4))
-            .check(
-                ViewAssertions.matches(
-                    ViewMatchers.withText(
-                        Matchers.containsString(
-                            NO_INPUT_ERROR
+                .check(
+                        ViewAssertions.matches(
+                                ViewMatchers.withText(
+                                        Matchers.containsString(
+                                                NO_INPUT_ERROR
+                                        )
+                                )
                         )
-                    )
-                )
-            );
+                );
         Intents.release()
     }
 
@@ -57,7 +57,7 @@ class TestProfile4 {
         buttonWoman.perform(click())
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(hasComponent(Profile5::class.java.name))
+        intended(hasComponent(ProfileOrientation::class.java.name))
         Intents.release()
     }
 
@@ -68,7 +68,7 @@ class TestProfile4 {
         buttonWoman.perform(click())
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(hasComponent(Profile5::class.java.name))
+        intended(hasComponent(ProfileOrientation::class.java.name))
         Intents.release()
     }
 
@@ -79,7 +79,7 @@ class TestProfile4 {
         buttonMore.perform(click())
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(hasComponent(Profile4_2::class.java.name))
+        intended(hasComponent(ProfileGenderMore::class.java.name))
         Intents.release()
     }
 

@@ -5,7 +5,7 @@
     android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.Profile4_2">
+    tools:context=".profile.ProfileGenderMore">
 
     <ProgressBar
         android:id="@+id/progressBar_p4_2"

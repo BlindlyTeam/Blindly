@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import com.google.android.material.chip.ChipGroup
 
-class Profile7 : AppCompatActivity() {
+class ProfilePassions : AppCompatActivity() {
 
     private val SELECTION_LIMIT = 5
 
@@ -35,7 +35,7 @@ class Profile7 : AppCompatActivity() {
             }
             //correct numbers of selection
             else -> {
-                val intent = Intent(this, Profile8::class.java)
+                val intent = Intent(this, ProfileAudioRecording::class.java)
                 startActivity(intent)
             }
         }

@@ -7,13 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.LocationPermissionActivity
 import ch.epfl.sdp.blindly.R
 
-class Profile1 : AppCompatActivity() {
+class ProfileHouseRules : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.set_profile_1)
     }
 
-    fun startProfile2(view: View) {
+    fun startPermissionActivity(view: View) {
         val intent = Intent(this, LocationPermissionActivity::class.java)
         startActivity(intent)
     }

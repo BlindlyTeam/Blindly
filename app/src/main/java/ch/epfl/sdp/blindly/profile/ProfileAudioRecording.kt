@@ -7,7 +7,7 @@ import android.view.View
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 
-class Profile8 : AppCompatActivity() {
+class ProfileAudioRecording : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.set_profile_8)

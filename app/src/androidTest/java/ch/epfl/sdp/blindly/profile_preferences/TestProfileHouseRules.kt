@@ -10,18 +10,18 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.LocationPermissionActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.Profile1
+import ch.epfl.sdp.blindly.profile.ProfileHouseRules
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class TestProfile1 {
+class TestProfileHouseRules {
 
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(Profile1::class.java)
+    val activityRule = ActivityScenarioRule(ProfileHouseRules::class.java)
 
 
     @Test

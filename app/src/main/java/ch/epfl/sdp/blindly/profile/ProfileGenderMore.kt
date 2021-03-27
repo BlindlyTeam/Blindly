@@ -9,7 +9,7 @@ import ch.epfl.sdp.blindly.R
 
 private val REGEX = Regex("^[a-zA-Z]*$")
 
-class Profile4_2 : AppCompatActivity() {
+class ProfileGenderMore : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.set_profile_4_2)
@@ -26,7 +26,7 @@ class Profile4_2 : AppCompatActivity() {
         } else {
             val len = name.length
             if (len > 0) {
-                val intent = Intent(this, Profile5::class.java)
+                val intent = Intent(this, ProfileOrientation::class.java)
                 startActivity(intent)
             } else {
                 //empty text, output error

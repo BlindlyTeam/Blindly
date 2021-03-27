@@ -9,7 +9,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.profile.Profile2
+import ch.epfl.sdp.blindly.profile.ProfileName
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,7 +26,7 @@ class PermissionTest {
         init()
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.button))
         buttonContinue.perform(ViewActions.click())
-        Intents.intended(IntentMatchers.hasComponent(Profile2::class.java.name))
+        Intents.intended(IntentMatchers.hasComponent(ProfileName::class.java.name))
         release()
     }
 

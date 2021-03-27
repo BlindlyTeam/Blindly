@@ -13,7 +13,7 @@ import java.time.LocalDate
 import java.time.Period
 
 
-class Profile3 : AppCompatActivity() {
+class ProfileBirthday : AppCompatActivity() {
 
     private val MAJORITY_AGE = 18;
 
@@ -33,7 +33,7 @@ class Profile3 : AppCompatActivity() {
         if (age < MAJORITY_AGE) {
             findViewById<TextView>(R.id.warning_p3).visibility = View.VISIBLE
         } else {
-            val intent = Intent(this, Profile4::class.java)
+            val intent = Intent(this, ProfileGender::class.java)
             startActivity(intent)
         }
     }

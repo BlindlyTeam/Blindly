@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 
-class Profile6 : AppCompatActivity() {
+class ProfileShowMe : AppCompatActivity() {
 
     private val NONE_CHECKED = -1;
 
@@ -25,7 +25,7 @@ class Profile6 : AppCompatActivity() {
         if (radioGroup.checkedRadioButtonId == NONE_CHECKED) {
             findViewById<TextView>(R.id.warning_p6).visibility = View.VISIBLE
         } else {
-            val intent = Intent(this, Profile7::class.java)
+            val intent = Intent(this, ProfilePassions::class.java)
             startActivity(intent)
         }
     }
