@@ -10,7 +10,7 @@ import ch.epfl.sdp.blindly.R
 class ProfileHouseRules : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_1)
+        setContentView(R.layout.profile_setup_house_rules)
     }
 
     fun startPermissionActivity(view: View) {

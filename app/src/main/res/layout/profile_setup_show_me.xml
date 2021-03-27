@@ -5,7 +5,7 @@
     android:id="@+id/sex3_more"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.ProfileShowMe">
+    tools:context=".profile_setup.ProfileShowMe">
 
     <ProgressBar
         android:id="@+id/progressBar_p6"

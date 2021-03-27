@@ -16,7 +16,7 @@ class ProfileName : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_2)
+        setContentView(R.layout.profile_setup_name)
     }
 
     fun startProfile3(view: View) {
@@ -26,9 +26,9 @@ class ProfileName : AppCompatActivity() {
 
         val name = findViewById<TextView>(R.id.text_first_name).text.toString().trim()
 
-        if(!name.matches(REGEX)){
+        if (!name.matches(REGEX)) {
             findViewById<TextView>(R.id.warning3_p2).visibility = View.VISIBLE
-        }else {
+        } else {
             val len = name.length
             when {
                 len < MIN_LENGTH -> {

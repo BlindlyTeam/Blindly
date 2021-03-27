@@ -19,7 +19,7 @@ class ProfileBirthday : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_3)
+        setContentView(R.layout.profile_setup_birthday)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -41,8 +41,8 @@ class ProfileBirthday : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getAge(year: Int, month: Int, dayOfMonth: Int): Int {
         return Period.between(
-            LocalDate.of(year, month, dayOfMonth),
-            LocalDate.now()
+                LocalDate.of(year, month, dayOfMonth),
+                LocalDate.now()
         ).years
     }
 

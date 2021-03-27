@@ -12,7 +12,7 @@ import ch.epfl.sdp.blindly.R
 class ProfileGender : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_4)
+        setContentView(R.layout.profile_setup_gender)
     }
 
     fun startProfile4_2Or5(view: View) {

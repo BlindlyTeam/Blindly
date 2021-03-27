@@ -12,7 +12,7 @@ private val REGEX = Regex("^[a-zA-Z]*$")
 class ProfileGenderMore : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_4_2)
+        setContentView(R.layout.profile_setup_gender_more)
     }
 
     fun startProfile5(view: View) {

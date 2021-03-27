@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.ProfileOrientation">
+    tools:context=".profile_setup.ProfileOrientation">
 
     <ProgressBar
         android:id="@+id/progressBar_p5"

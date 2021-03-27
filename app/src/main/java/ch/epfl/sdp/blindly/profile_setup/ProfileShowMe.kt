@@ -14,7 +14,7 @@ class ProfileShowMe : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_6)
+        setContentView(R.layout.profile_setup_show_me)
     }
 
     fun startProfile7(view: View) {
