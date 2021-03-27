@@ -38,7 +38,6 @@
         android:id="@+id/text_first_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/your_profile_name_goes_here"
         android:ems="10"
         android:hint="@string/first_name"
         android:importantForAutofill="no"

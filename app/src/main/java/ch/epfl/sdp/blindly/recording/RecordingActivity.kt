@@ -117,6 +117,7 @@ class RecordingActivity : AppCompatActivity() {
         isPlayerPaused = true
         recordButton.isEnabled = true
         playPauseButton.text = "Play"
+
     }
 
     private fun setFinishedPlayView() {

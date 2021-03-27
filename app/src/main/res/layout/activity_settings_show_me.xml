@@ -27,7 +27,7 @@
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:background="@color/transparent"
-            android:text="Done" />
+            android:text="@string/done" />
 
         <Space
             android:id="@+id/show_me_space"
@@ -89,6 +89,7 @@
             android:layout_height="25dp"
             android:layout_below="@+id/show_me_space_3"
             android:layout_toStartOf="@id/show_me_space_2"
+            android:contentDescription="@string/check_mark_for_the_choice_men"
             app:srcCompat="@drawable/checkmark_img"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="278dp" />
@@ -132,6 +133,7 @@
             android:layout_height="25dp"
             android:layout_below="@+id/show_me_space_4"
             android:layout_toStartOf="@id/show_me_space_2"
+            android:contentDescription="@string/check_mark_for_the_choice_women"
             app:srcCompat="@drawable/checkmark_img"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="278dp" />
@@ -177,6 +179,7 @@
             android:layout_height="25dp"
             android:layout_below="@+id/show_me_space_5"
             android:layout_toStartOf="@id/show_me_space_2"
+            android:contentDescription="@string/check_mark_for_the_choice_everyone"
             app:srcCompat="@drawable/checkmark_img"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="278dp" />

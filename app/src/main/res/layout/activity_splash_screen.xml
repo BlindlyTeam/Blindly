@@ -13,6 +13,7 @@
         android:layout_width="412dp"
         android:layout_height="251dp"
         android:layout_marginTop="160dp"
+        android:contentDescription="@string/the_logo_of_blindly_app_a_heart_with_sound_waves_inside"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
