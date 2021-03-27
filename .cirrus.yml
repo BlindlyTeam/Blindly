@@ -1,7 +1,7 @@
 check_android_task:
   name: Run Android tests
   env:
-    API_LEVEL: 29
+    API_LEVEL: 30
     TARGET: google_apis
     ARCH: x86
     CC_TEST_REPORTER_ID: ENCRYPTED[34b218be3c6d106c32f6b1bcfa283f6dd5bada3d144f2d2bc05df6d3e255efa92750804c4d203c44dc23811ea72905d3]
