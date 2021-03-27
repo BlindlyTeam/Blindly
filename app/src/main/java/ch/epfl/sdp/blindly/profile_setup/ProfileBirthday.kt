@@ -23,7 +23,7 @@ class ProfileBirthday : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun startProfile4(view: View) {
+    fun startProfileGender(view: View) {
         findViewById<TextView>(R.id.warning_p3).visibility = View.INVISIBLE
         val datePicker: DatePicker = findViewById<View>(R.id.datePicker) as DatePicker
         val day: Int = datePicker.dayOfMonth

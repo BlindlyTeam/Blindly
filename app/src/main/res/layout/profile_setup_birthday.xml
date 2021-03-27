@@ -10,7 +10,7 @@
         android:id="@+id/button_p3"
         android:layout_width="231dp"
         android:layout_height="61dp"
-        android:onClick="startProfile4"
+        android:onClick="startProfileGender"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

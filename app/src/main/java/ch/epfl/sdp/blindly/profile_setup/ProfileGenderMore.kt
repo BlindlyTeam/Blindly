@@ -15,7 +15,7 @@ class ProfileGenderMore : AppCompatActivity() {
         setContentView(R.layout.profile_setup_gender_more)
     }
 
-    fun startProfile5(view: View) {
+    fun startProfileOrientation(view: View) {
         findViewById<TextView>(R.id.warning1_p4_2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning2_p4_2).visibility = View.INVISIBLE
 

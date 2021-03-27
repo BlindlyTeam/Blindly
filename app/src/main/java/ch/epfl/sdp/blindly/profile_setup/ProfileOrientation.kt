@@ -18,7 +18,7 @@ class ProfileOrientation : AppCompatActivity() {
         setContentView(R.layout.profile_setup_orientation)
     }
 
-    fun startProfile6(view: View) {
+    fun startProfileShowMe(view: View) {
         findViewById<TextView>(R.id.warning_p5_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p5_2).visibility = View.INVISIBLE
 

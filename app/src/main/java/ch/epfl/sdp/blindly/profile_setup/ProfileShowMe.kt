@@ -17,7 +17,7 @@ class ProfileShowMe : AppCompatActivity() {
         setContentView(R.layout.profile_setup_show_me)
     }
 
-    fun startProfile7(view: View) {
+    fun startProfilePassions(view: View) {
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup_p6)
         findViewById<TextView>(R.id.warning_p6).visibility = View.INVISIBLE
 

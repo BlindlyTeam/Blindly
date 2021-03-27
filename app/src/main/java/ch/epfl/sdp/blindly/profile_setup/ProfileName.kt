@@ -19,7 +19,7 @@ class ProfileName : AppCompatActivity() {
         setContentView(R.layout.profile_setup_name)
     }
 
-    fun startProfile3(view: View) {
+    fun startProfileBirthday(view: View) {
         findViewById<TextView>(R.id.warning1_p2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning2_p2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning3_p2).visibility = View.INVISIBLE

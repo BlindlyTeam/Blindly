@@ -15,7 +15,7 @@ class ProfileGender : AppCompatActivity() {
         setContentView(R.layout.profile_setup_gender)
     }
 
-    fun startProfile4_2Or5(view: View) {
+    fun startProfileOrientationOrGenderMore(view: View) {
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
         val radioButtonMore = findViewById<RadioButton>(R.id.sex3_more)
 

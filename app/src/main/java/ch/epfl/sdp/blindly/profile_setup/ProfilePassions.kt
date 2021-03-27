@@ -17,7 +17,7 @@ class ProfilePassions : AppCompatActivity() {
         setContentView(R.layout.profile_setup_passions)
     }
 
-    fun startProfile8(view: View) {
+    fun startProfileAudioRecording(view: View) {
         findViewById<TextView>(R.id.warning_p7_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p7_2).visibility = View.INVISIBLE
 

@@ -12,7 +12,7 @@
         android:layout_width="231dp"
         android:layout_height="61dp"
         android:clickable="false"
-        android:onClick="startProfile3"
+        android:onClick="startProfileBirthday"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

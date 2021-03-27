@@ -38,7 +38,7 @@
         android:id="@+id/button_p4_2"
         android:layout_width="231dp"
         android:layout_height="61dp"
-        android:onClick="startProfile5"
+        android:onClick="startProfileOrientation"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
