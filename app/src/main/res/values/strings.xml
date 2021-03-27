@@ -135,4 +135,9 @@
     <string name="km">km</string>
     <string name="not_logged_in">NOT LOGGED-IN</string>
     <string name="logout_error">LOGOUT ERROR</string>
+    <string name="arrow_button_to_show_show_me_settings">Arrow button to show Show Me settings.</string>
+    <string name="arrow_button_to_show_location">Arrow button to show location.</string>
+    <string name="arrow_button_to_show_e_mail">Arrow button to show e-mail.</string>
+    <string name="user_example_name_and_age">Jane Doe, 24</string>
+    <string name="student">Student</string>
 </resources>

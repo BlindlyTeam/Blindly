@@ -26,10 +26,10 @@ class ProfilePage : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile_page, container, false)
 
         val userInfoText = view.findViewById<TextView>(R.id.user_info_text)
-        userInfoText.text = "Jane Doe, 24"
+        userInfoText.text = getString(R.string.user_example_name_and_age)
 
         val userDescriptionText = view.findViewById<TextView>(R.id.user_description_text)
-        userDescriptionText.text = "Student"
+        userDescriptionText.text = getString(R.string.student)
 
         val context = this@ProfilePage.context
 
