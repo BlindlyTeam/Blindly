@@ -4,12 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.animations.RecordAnimations
 
 /**
  * Serves as an adapter to add audio recordings in a RecyclerView
@@ -27,7 +26,8 @@ class RecordingAdapter(var recordList: ArrayList<AudioRecord>,
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         var recordName: TextView = view.findViewById(R.id.recordName)
         val recordDuration: TextView = view.findViewById(R.id.recordDuration)
-        private val nameDurationLayout: LinearLayout = view.findViewById(R.id.nameDurationLayout)
+        val nameDurationLayout: LinearLayout = view.findViewById(R.id.nameDurationLayout)
+        val expandableLayout: LinearLayout = view.findViewById(R.id.audioPlayLayout)
 
         init {
             // Define click listener for the ViewHolder's View.
@@ -43,6 +43,15 @@ class RecordingAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
+    private fun toggleLayout(isExpanded: Boolean, v: View, layoutExpand: LinearLayout): Boolean {
+        if (isExpanded) {
+            RecordAnimations.expand(layoutExpand)
+        } else {
+            RecordAnimations.collapse(layoutExpand)
+        }
+        return isExpanded
+    }
+
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
@@ -56,6 +65,10 @@ class RecordingAdapter(var recordList: ArrayList<AudioRecord>,
         // contents of the view with that element
         viewHolder.recordName.text = recordList[position].name
         viewHolder.recordDuration.text = recordList[position].durationText
+        viewHolder.nameDurationLayout.setOnClickListener {
+            val show: Boolean = toggleLayout(!recordList[position].isExpanded, it, viewHolder.expandableLayout)
+            recordList[position].isExpanded = show
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

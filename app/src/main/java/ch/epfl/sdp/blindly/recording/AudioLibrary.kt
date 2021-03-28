@@ -28,6 +28,7 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
 
         supportActionBar?.hide()
 
+        // TODO: Problem to be solved there
         //recordings = applicationContext.filesDir.list()
         //recordings.sort() // Get recording names in alphabetical order
 

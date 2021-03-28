@@ -54,7 +54,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         // For the recording list
         recordingRecyclerView = findViewById(R.id.recordingList)
         recordingRecyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = RecordingAdapter(ArrayList<AudioRecord>(), this, this)
+        adapter = RecordingAdapter(ArrayList(), this, this)
         recordingRecyclerView.adapter = adapter
     }
 
@@ -107,7 +107,6 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
         playPauseButton = findViewById(R.id.playPauseButton)
-        playPauseButton.isEnabled = false
         setBounceButton(recordButton)
         setBounceButton(playPauseButton)
 
@@ -251,6 +250,6 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        adapter.notifyItemChanged(position)
     }
 }
