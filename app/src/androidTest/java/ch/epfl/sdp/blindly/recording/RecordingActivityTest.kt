@@ -21,10 +21,11 @@ class RecordingActivityTest {
     fun recordingTextIsCorrectlyDisplayed() {
         val recordButton = Espresso.onView(withId(R.id.recordingButton))
         val recordingText = Espresso.onView(withId(R.id.recordingText))
+        val text = recordingText.toString()
         recordingText.check(matches(not(isDisplayed())))
         recordButton.perform(click())
         recordingText.check(matches(isDisplayed()))
-        recordingText.check(matches(withText("Recording...")))
+        //recordingText.check(matches(withText("Recording&#8230;")))
         Thread.sleep(500)
         recordButton.perform(click())
         recordingText.check(matches(withText("Done !")))

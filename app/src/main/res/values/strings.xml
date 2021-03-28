@@ -132,7 +132,7 @@
     <string name="done_exclamation">Done !</string>
     <string name="start_recording">Start recording</string>
     <string name="lausanne_switzerland">Lausanne, Switzerland</string>
-    <string name="progress_km">%1$d km</string>
+    <string name="progress_km">%1$dkm</string>
     <string name="not_logged_in">NOT LOGGED-IN</string>
     <string name="logout_error">LOGOUT ERROR</string>
     <string name="arrow_button_to_show_show_me_settings">Arrow button to show Show Me settings.</string>
