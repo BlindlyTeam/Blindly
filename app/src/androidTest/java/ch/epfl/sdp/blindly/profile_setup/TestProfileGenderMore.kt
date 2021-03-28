@@ -98,7 +98,7 @@ class TestProfileGenderMore {
     }
 
     @Test
-    fun correctInputFiresProfile5() {
+    fun correctInputFiresProfileOrientation() {
         Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(CORRECT_SPECIFICATION));
         closeSoftKeyboard();

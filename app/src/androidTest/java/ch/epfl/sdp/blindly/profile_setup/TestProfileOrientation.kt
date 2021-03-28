@@ -78,7 +78,7 @@ class TestProfileOrientation {
     }
 
     @Test
-    fun correctInputFiresProfile6() {
+    fun correctInputFiresProfileShowMe() {
         Intents.init()
         val chip1 = onView(withId(R.id.chip1))
         val chip2 = onView(withId(R.id.chip2))

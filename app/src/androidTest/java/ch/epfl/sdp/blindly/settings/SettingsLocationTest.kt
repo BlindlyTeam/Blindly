@@ -29,8 +29,7 @@ class SettingsLocationTest {
         intent.putExtra(EXTRA_LOCATION, TEST_LOCATION)
 
         ActivityScenario.launch<SettingsLocation>(intent)
-        onView(withId(R.id.my_current))
-                .check(ViewAssertions.matches(ViewMatchers.withText(Matchers.containsString(TEST_LOCATION))))
+        onView(withId(R.id.my_current)).check(ViewAssertions.matches(ViewMatchers.withText(Matchers.containsString(TEST_LOCATION))))
     }
 
     @Test
@@ -40,10 +39,7 @@ class SettingsLocationTest {
 
         ActivityScenario.launch<SettingsLocation>(intent)
         Thread.sleep(1000)
-        onView(withId(R.id.map)).perform(
-                click(),
-                click()
-        )
+        onView(withId(R.id.map)).perform(click(), click())
         Thread.sleep(1000)
     }
 }

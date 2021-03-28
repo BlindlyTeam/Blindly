@@ -89,7 +89,7 @@ class TestProfilePassions {
     }
 
     @Test
-    fun correctInputsFiresProfile8() {
+    fun correctInputsFiresProfileAudioRecording() {
         Intents.init()
         val chip18 = onView(withId(R.id.chip18))
         val chip28 = onView(withId(R.id.chip28))

@@ -36,7 +36,7 @@ class TestProfileName {
     private val ERROR_CHARACTERS = "Please use only letters."
 
     @Test
-    fun testProfile2FiresProfile3() {
+    fun testProfileNameFiresProfileBirthday() {
         Intents.init()
         onView(withId(R.id.text_first_name))
                 .perform(ViewActions.clearText(), ViewActions.typeText(CORRECT_NAME));

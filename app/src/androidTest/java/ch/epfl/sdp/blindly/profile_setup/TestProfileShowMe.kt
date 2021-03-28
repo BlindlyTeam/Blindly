@@ -46,7 +46,7 @@ class TestProfileShowMe {
     }
 
     @Test
-    fun anyChoiceFiresProfile7() {
+    fun anyChoiceFiresProfilePassions() {
         Intents.init()
         val buttonPref = onView(withId(R.id.sex1_pref))
         buttonPref.perform(click())

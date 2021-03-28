@@ -48,7 +48,7 @@ class TestProfileGender {
     }
 
     @Test
-    fun womanFiresProfile5() {
+    fun womanFiresProfileOrientation() {
         Intents.init()
         val buttonWoman = Espresso.onView(withId(R.id.sex1_user))
         buttonWoman.perform(click())
@@ -59,7 +59,7 @@ class TestProfileGender {
     }
 
     @Test
-    fun manFiresProfile5() {
+    fun manFiresProfileOrientation() {
         Intents.init()
         val buttonWoman = Espresso.onView(withId(R.id.sex2_user))
         buttonWoman.perform(click())
@@ -70,7 +70,7 @@ class TestProfileGender {
     }
 
     @Test
-    fun moreFiresProfile4_2() {
+    fun moreFiresProfileGenderMore() {
         Intents.init()
         val buttonMore = Espresso.onView(withId(R.id.sex3_more))
         buttonMore.perform(click())

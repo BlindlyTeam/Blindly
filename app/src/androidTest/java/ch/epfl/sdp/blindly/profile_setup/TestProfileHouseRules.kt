@@ -24,7 +24,7 @@ class TestProfileHouseRules {
 
 
     @Test
-    fun testProfile1FiresLocationPermissionActivity() {
+    fun testProfileHouseRulesFiresLocationPermissionActivity() {
         Intents.init()
         val buttonContinue = Espresso.onView(withId(R.id.button_p1))
         buttonContinue.perform(click())

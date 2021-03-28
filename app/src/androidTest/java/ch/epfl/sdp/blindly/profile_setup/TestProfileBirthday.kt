@@ -48,7 +48,7 @@ class TestProfileBirthday {
     }
 
     @Test
-    fun adultAgeFiresProfile4() {
+    fun adultAgeFiresProfileGender() {
         Intents.init()
         onView(withId(R.id.datePicker)).perform(PickerActions.setDate(2003, 3, 18));
         val buttonContinue = onView(withId(R.id.button_p3))

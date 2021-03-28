@@ -19,7 +19,7 @@ class TestProfileAudioRecording {
     val activityRule = ActivityScenarioRule(ProfileAudioRecording::class.java)
 
     @Test
-    fun testProfile8FiresRecordingActivity() {
+    fun testProfileAudioRecordingFiresRecordingActivity() {
         Intents.init()
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.button_p8))
         buttonContinue.perform(ViewActions.click())

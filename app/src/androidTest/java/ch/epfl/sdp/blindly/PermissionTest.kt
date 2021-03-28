@@ -22,7 +22,7 @@ class PermissionTest {
     val activityRule = ActivityScenarioRule(LocationPermissionActivity::class.java)
 
     @Test
-    fun testLocationPermissionFiresProfile2() {
+    fun testLocationPermissionFiresProfileName() {
         init()
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.button))
         buttonContinue.perform(ViewActions.click())
