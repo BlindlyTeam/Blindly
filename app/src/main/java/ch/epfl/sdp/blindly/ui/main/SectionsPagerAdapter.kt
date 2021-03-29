@@ -7,10 +7,10 @@ import androidx.fragment.app.FragmentPagerAdapter
 import ch.epfl.sdp.blindly.*
 
 private val TAB_TITLES = arrayOf(
-    R.string.main_page,
-    R.string.match_page,
-    R.string.message_page,
-    R.string.profile_page
+        R.string.main_page,
+        R.string.match_page,
+        R.string.message_page,
+        R.string.profile_page
 )
 
 /**
@@ -18,16 +18,24 @@ private val TAB_TITLES = arrayOf(
  * one of the sections/tabs/pages.
  */
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
-    FragmentPagerAdapter(fm) {
+        FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
         return when (position) {
-            0 -> {MainPage()}
-            1 -> {MatchPage()}
-            2 -> {MessagePage()}
-            else -> {ProfilePage()}
+            0 -> {
+                MainPage()
+            }
+            1 -> {
+                MatchPage()
+            }
+            2 -> {
+                MessagePage()
+            }
+            else -> {
+                ProfilePage()
+            }
         }
     }
 

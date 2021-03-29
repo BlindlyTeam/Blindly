@@ -20,25 +20,16 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.BlindlyApplication
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.EXTRA_SHOW_ME
-import ch.epfl.sdp.blindly.profile_preferences.TEST_SHOW_ME
+import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 import ch.epfl.sdp.blindly.utils.UserHelper
-import ch.epfl.sdp.blindly.utils.UserHelperModule
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
-import dagger.hilt.components.SingletonComponent
 import org.hamcrest.Matchers
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import javax.inject.Inject
-import org.mockito.Mockito
 
 
 private const val TEST_SHOW_ME_MEN = "Man"
@@ -72,12 +63,12 @@ class SettingsTest {
             myLocation = activity.findViewById(R.id.current_location_text)
         }
         intended(
-            Matchers.allOf(
-                hasComponent(SettingsLocation::class.java.name), IntentMatchers.hasExtra(
-                    EXTRA_LOCATION,
-                    myLocation?.text
+                Matchers.allOf(
+                        hasComponent(SettingsLocation::class.java.name), IntentMatchers.hasExtra(
+                        EXTRA_LOCATION,
+                        myLocation?.text
                 )
-            )
+                )
         )
         release()
     }
@@ -86,17 +77,17 @@ class SettingsTest {
     fun clickingOnShowMeButtonFiresSettingsShowMeActivity() {
         init()
         onView(withId(R.id.show_me_button)).perform(click())
-        var showMe: TextView ?= null
+        var showMe: TextView? = null
         activityRule.scenario.onActivity { activity ->
             showMe = activity.findViewById(R.id.show_me_text)
         }
         intended(
-            Matchers.allOf(
-                hasComponent(SettingsShowMe::class.java.name), IntentMatchers.hasExtra(
-                    EXTRA_SHOW_ME,
-                    showMe?.text
+                Matchers.allOf(
+                        hasComponent(SettingsShowMe::class.java.name), IntentMatchers.hasExtra(
+                        EXTRA_SHOW_ME,
+                        showMe?.text
                 )
-            )
+                )
         )
         release()
     }
@@ -104,17 +95,15 @@ class SettingsTest {
     @Test
     fun clickingOnDoneFiresBackToParentTheNewIntent() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
-        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME)
+        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME_MEN)
         ActivityScenario.launch<SettingsShowMe>(intent)
 
         onView((withId(R.id.show_me_men_button))).perform(click())
         onView(withId(R.id.done_button)).perform(click())
 
         assertEquals(RESULT_OK, activityRule.scenario.result.resultCode)
-        assertEquals(
-            TEST_SHOW_ME_MEN, activityRule.scenario.result.resultData.getStringExtra(
-                EXTRA_SHOW_ME
-            )
+        assertEquals(TEST_SHOW_ME_MEN,
+            activityRule.scenario.result.resultData.getStringExtra(EXTRA_SHOW_ME)
         )
     }
 
@@ -149,11 +138,24 @@ class SettingsTest {
         init()
 
         onView(withId(R.id.email_address_text)).check(
-            ViewAssertions.matches(
-                ViewMatchers.withText(
-                    user.getEmail()
+                ViewAssertions.matches(
+                        ViewMatchers.withText(
+                                user.getEmail()
+                        )
                 )
-            )
+        )
+        release()
+    }
+
+    @Test
+    fun checkEmailOpens() {
+        init()
+        onView(withId(R.id.email_button)).perform(click())
+
+        intended(
+                Matchers.allOf(
+                        hasComponent(SettingsUpdateEmail::class.java.name)
+                )
         )
         release()
     }

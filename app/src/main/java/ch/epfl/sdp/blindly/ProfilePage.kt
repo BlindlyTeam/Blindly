@@ -16,7 +16,8 @@ import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 
-const val BOUNCE_DURATION : Long = 100
+const val BOUNCE_DURATION: Long = 100
+
 class ProfilePage : Fragment() {
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -25,10 +26,10 @@ class ProfilePage : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile_page, container, false)
 
         val userInfoText = view.findViewById<TextView>(R.id.user_info_text)
-        userInfoText.text = "Jane Doe, 24"
+        userInfoText.text = getString(R.string.user_example_name_and_age)
 
         val userDescriptionText = view.findViewById<TextView>(R.id.user_description_text)
-        userDescriptionText.text = "Student"
+        userDescriptionText.text = getString(R.string.student)
 
         val context = this@ProfilePage.context
 

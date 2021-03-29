@@ -7,13 +7,11 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.profile.Profile1
+import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
 
 @HiltAndroidTest
@@ -30,7 +28,7 @@ class TestMainActivity {
         Intents.init()
         val buttonStart = Espresso.onView(withId(R.id.button_start))
         buttonStart.perform(click())
-        intended(hasComponent(Profile1::class.java.name))
+        intended(hasComponent(ProfileHouseRules::class.java.name))
         Intents.release()
     }
 

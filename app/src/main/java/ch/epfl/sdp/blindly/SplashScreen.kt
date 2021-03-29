@@ -9,7 +9,8 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 
-const val MAIN_SCREEN_DELAY : Long = 2500
+const val MAIN_SCREEN_DELAY: Long = 2500
+
 class SplashScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
