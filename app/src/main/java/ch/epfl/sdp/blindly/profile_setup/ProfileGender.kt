@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile
+package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,13 +9,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 
-class Profile4 : AppCompatActivity() {
+class ProfileGender : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_4)
+        setContentView(R.layout.profile_setup_gender)
     }
 
-    fun startProfile4_2Or5(view: View) {
+    fun startProfileOrientationOrGenderMore(view: View) {
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
         val radioButtonMore = findViewById<RadioButton>(R.id.sex3_more)
 
@@ -26,12 +26,12 @@ class Profile4 : AppCompatActivity() {
             }
             //more option is checked
             radioButtonMore.isChecked -> {
-                val intent = Intent(this, Profile4_2::class.java)
+                val intent = Intent(this, ProfileGenderMore::class.java)
                 startActivity(intent)
             }
             //man or woman is checked
             else -> {
-                val intent = Intent(this, Profile5::class.java)
+                val intent = Intent(this, ProfileOrientation::class.java)
                 startActivity(intent)
             }
         }

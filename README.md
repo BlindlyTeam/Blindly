@@ -1,4 +1,10 @@
-# SDP Proposal - Team 3
+# SDP Team 3
+
+[![Build Status](https://api.cirrus-ci.com/github/BlindlyTeam/Blindly.svg)](https://cirrus-ci.com/github/BlindlyTeam/Blindly)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e05cc8fea21231b94568/maintainability)](https://codeclimate.com/github/BlindlyTeam/Blindly/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/e05cc8fea21231b94568/test_coverage)](https://codeclimate.com/github/BlindlyTeam/Blindly/test_coverage)
+
+
 ## Team / App name:
 Blindly
 

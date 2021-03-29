@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_preferences
+package ch.epfl.sdp.blindly.profile_setup
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -13,8 +13,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.Profile3
-import ch.epfl.sdp.blindly.profile.Profile4
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
@@ -22,11 +20,11 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class TestProfile3 {
+class TestProfileBirthday {
 
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(Profile3::class.java)
+    val activityRule = ActivityScenarioRule(ProfileBirthday::class.java)
 
     private val ERROR_AGE = "The minimum age requirement is 18 years old."
 
@@ -36,26 +34,26 @@ class TestProfile3 {
         onView(withId(R.id.datePicker)).perform(PickerActions.setDate(2005, 3, 20));
         val buttonContinue = onView(withId(R.id.button_p3))
         buttonContinue.perform(click())
-        intended(hasComponent(Profile4::class.java.name), times(0))
+        intended(hasComponent(ProfileGender::class.java.name), times(0))
         onView(withId(R.id.warning_p3)).check(
-            ViewAssertions.matches(
-                ViewMatchers.withText(
-                    Matchers.containsString(
-                        ERROR_AGE
-                    )
+                ViewAssertions.matches(
+                        ViewMatchers.withText(
+                                Matchers.containsString(
+                                        ERROR_AGE
+                                )
+                        )
                 )
-            )
         );
         Intents.release()
     }
 
     @Test
-    fun adultAgeFiresProfile4() {
+    fun adultAgeFiresProfileGender() {
         Intents.init()
         onView(withId(R.id.datePicker)).perform(PickerActions.setDate(2003, 3, 18));
         val buttonContinue = onView(withId(R.id.button_p3))
         buttonContinue.perform(click())
-        intended(hasComponent(Profile4::class.java.name))
+        intended(hasComponent(ProfileGender::class.java.name))
         Intents.release()
     }
 

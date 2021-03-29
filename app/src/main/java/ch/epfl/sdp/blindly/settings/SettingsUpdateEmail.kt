@@ -11,13 +11,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingsUpdateEmail: AppCompatActivity() {
+class SettingsUpdateEmail : AppCompatActivity() {
     @Inject
     lateinit var user: UserHelper
 

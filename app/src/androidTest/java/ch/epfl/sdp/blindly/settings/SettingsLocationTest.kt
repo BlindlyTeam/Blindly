@@ -4,21 +4,19 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
 private const val TEST_LOCATION = "Lausanne, Switzerland"
+
 @HiltAndroidTest
 
 class SettingsLocationTest {
@@ -31,8 +29,7 @@ class SettingsLocationTest {
         intent.putExtra(EXTRA_LOCATION, TEST_LOCATION)
 
         ActivityScenario.launch<SettingsLocation>(intent)
-        onView(withId(R.id.my_current))
-                .check(ViewAssertions.matches(ViewMatchers.withText(Matchers.containsString(TEST_LOCATION))))
+        onView(withId(R.id.my_current)).check(ViewAssertions.matches(ViewMatchers.withText(Matchers.containsString(TEST_LOCATION))))
     }
 
     @Test
@@ -42,10 +39,7 @@ class SettingsLocationTest {
 
         ActivityScenario.launch<SettingsLocation>(intent)
         Thread.sleep(1000)
-        onView(withId(R.id.map)).perform(
-            click(),
-            click()
-        )
+        onView(withId(R.id.map)).perform(click(), click())
         Thread.sleep(1000)
     }
 }

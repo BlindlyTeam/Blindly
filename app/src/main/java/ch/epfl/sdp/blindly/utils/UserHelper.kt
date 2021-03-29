@@ -5,8 +5,6 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
-import ch.epfl.sdp.blindly.BlindlyApplication
 import ch.epfl.sdp.blindly.R
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -19,10 +17,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 
 // Module to be installed in Activities
-@Module @InstallIn(SingletonComponent::class)
+@Module
+@InstallIn(SingletonComponent::class)
 class UserHelperModule {
     @Provides
     fun provideUserHelper(): UserHelper = UserHelper()
@@ -42,34 +40,34 @@ class UserHelper {
             phoneProvider.setDefaultNumber(tMgr.line1Number)
         }*/
         val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
-            phoneProvider.build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
+                AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
+                phoneProvider.build(),
+                AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
 
         return AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            //.setLogo(R.drawable.my_great_logo) // Set logo drawable
-            .setTheme(R.style.Theme_Blindly) // Set theme
-            /*.setTosAndPrivacyPolicyUrls(
-    "https://example.com/terms.html",
-    "https://example.com/privacy.html")*/
-            .build();
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                //.setLogo(R.drawable.my_great_logo) // Set logo drawable
+                .setTheme(R.style.Theme_Blindly) // Set theme
+                /*.setTosAndPrivacyPolicyUrls(
+        "https://example.com/terms.html",
+        "https://example.com/privacy.html")*/
+                .build();
 
     }
 
     public fun signOut(activity: Activity, onComplete: OnCompleteListener<Void>) {
         AuthUI.getInstance()
-            .signOut(activity)
-            .addOnCompleteListener(onComplete);
+                .signOut(activity)
+                .addOnCompleteListener(onComplete);
     }
 
     public fun delete(activity: Activity, onComplete: OnCompleteListener<Void>) {
         AuthUI.getInstance()
-            .delete(activity)
-            .addOnCompleteListener(onComplete)
+                .delete(activity)
+                .addOnCompleteListener(onComplete)
     }
 
     public fun isLoggedIn(): Boolean {
@@ -92,13 +90,13 @@ class UserHelper {
         val db = Firebase.firestore
         if (getUserId() != null) {
             db.collection("usersMeta").document(getUserId()!!)
-                .get()
-                .addOnSuccessListener { document ->
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                }
-                .addOnFailureListener { exception ->
-                    Log.w(TAG, "Error getting documents.", exception)
-                }
+                    .get()
+                    .addOnSuccessListener { document ->
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w(TAG, "Error getting documents.", exception)
+                    }
         }
     }
 
@@ -117,12 +115,12 @@ class UserHelper {
             // ...
             if (response != null) {
                 Toast.makeText(
-                    activity.applicationContext,
-                    activity.getString(
-                        R.string.login_err,
-                        response.error?.errorCode ?: -1
-                    ),
-                    Toast.LENGTH_LONG
+                        activity.applicationContext,
+                        activity.getString(
+                                R.string.login_err,
+                                response.error?.errorCode ?: -1
+                        ),
+                        Toast.LENGTH_LONG
                 ).show();
             }
             return false;

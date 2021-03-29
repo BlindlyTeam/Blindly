@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.Profile1">
+    tools:context=".profile_setup.ProfileHouseRules">
 
     <TextView
         android:id="@+id/guideline_3_text"
@@ -150,7 +150,7 @@
         android:layout_width="230dp"
         android:layout_height="53dp"
         android:ellipsize="none"
-        android:onClick="startProfile2"
+        android:onClick="startPermissionActivity"
         android:text="@string/i_agree"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

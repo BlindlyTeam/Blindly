@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile
+package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,16 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import com.google.android.material.chip.ChipGroup
 
-class Profile7 : AppCompatActivity() {
+class ProfilePassions : AppCompatActivity() {
 
     private val SELECTION_LIMIT = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_7)
+        setContentView(R.layout.profile_setup_passions)
     }
 
-    fun startProfile8(view: View) {
+    fun startProfileAudioRecording(view: View) {
         findViewById<TextView>(R.id.warning_p7_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p7_2).visibility = View.INVISIBLE
 
@@ -35,7 +35,7 @@ class Profile7 : AppCompatActivity() {
             }
             //correct numbers of selection
             else -> {
-                val intent = Intent(this, Profile8::class.java)
+                val intent = Intent(this, ProfileAudioRecording::class.java)
                 startActivity(intent)
             }
         }

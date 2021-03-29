@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.Profile5">
+    tools:context=".profile_setup.ProfileOrientation">
 
     <ProgressBar
         android:id="@+id/progressBar_p5"
@@ -23,7 +23,7 @@
         android:id="@+id/button_p5"
         android:layout_width="231dp"
         android:layout_height="61dp"
-        android:onClick="startProfile6"
+        android:onClick="startProfileShowMe"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

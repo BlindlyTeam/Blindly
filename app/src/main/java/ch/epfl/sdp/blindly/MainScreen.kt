@@ -1,10 +1,10 @@
 package ch.epfl.sdp.blindly
 
 import android.os.Bundle
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import ch.epfl.sdp.blindly.ui.main.SectionsPagerAdapter
+import com.google.android.material.tabs.TabLayout
 
 class MainScreen : AppCompatActivity() {
 

@@ -29,15 +29,15 @@
         android:theme="@style/Theme.Blindly"
         android:name=".BlindlyApplication"
         tools:ignore="ExtraText">
-        <activity android:name=".profile.Profile8"></activity>
-        <activity android:name=".profile.Profile7" />
-        <activity android:name=".profile.Profile6" />
-        <activity android:name=".profile.Profile5" />
-        <activity android:name=".profile.Profile4_2" />
-        <activity android:name=".profile.Profile4" />
-        <activity android:name=".profile.Profile3" />
-        <activity android:name=".profile.Profile2" />
-        <activity android:name=".profile.Profile1" />
+        <activity android:name=".profile_setup.ProfileAudioRecording"></activity>
+        <activity android:name=".profile_setup.ProfilePassions" />
+        <activity android:name=".profile_setup.ProfileShowMe" />
+        <activity android:name=".profile_setup.ProfileOrientation" />
+        <activity android:name=".profile_setup.ProfileGenderMore" />
+        <activity android:name=".profile_setup.ProfileGender" />
+        <activity android:name=".profile_setup.ProfileBirthday" />
+        <activity android:name=".profile_setup.ProfileName" />
+        <activity android:name=".profile_setup.ProfileHouseRules" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />

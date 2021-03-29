@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly.location
 
-import android.location.Location
 import android.content.Context
+import android.location.Location
 import android.location.LocationManager
 
 class AndroidLocationService(private var context: Context) : LocationService {
@@ -30,21 +30,21 @@ class AndroidLocationService(private var context: Context) : LocationService {
             //check for network
             isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
-            if((isGPSEnable) || (isNetworkEnable)) {
+            if ((isGPSEnable) || (isNetworkEnable)) {
                 canGetLocation = true
-                location = if(isGPSEnable) {
+                location = if (isGPSEnable) {
                     //get location from GPS
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDTAE, this)
                     locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 } else {
                     //get location from Network
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE,  MIN_DISTANCE_FOR_UPDTAE, this)
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDTAE, this)
                     locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER))
                 }
 
             }
 
-        } catch(e: SecurityException) {
+        } catch (e: SecurityException) {
             throw e
         }
         return location

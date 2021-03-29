@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile
+package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.os.Build
@@ -13,17 +13,17 @@ import java.time.LocalDate
 import java.time.Period
 
 
-class Profile3 : AppCompatActivity() {
+class ProfileBirthday : AppCompatActivity() {
 
     private val MAJORITY_AGE = 18;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_3)
+        setContentView(R.layout.profile_setup_birthday)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun startProfile4(view: View) {
+    fun startProfileGender(view: View) {
         findViewById<TextView>(R.id.warning_p3).visibility = View.INVISIBLE
         val datePicker: DatePicker = findViewById<View>(R.id.datePicker) as DatePicker
         val day: Int = datePicker.dayOfMonth
@@ -33,7 +33,7 @@ class Profile3 : AppCompatActivity() {
         if (age < MAJORITY_AGE) {
             findViewById<TextView>(R.id.warning_p3).visibility = View.VISIBLE
         } else {
-            val intent = Intent(this, Profile4::class.java)
+            val intent = Intent(this, ProfileGender::class.java)
             startActivity(intent)
         }
     }
@@ -41,8 +41,8 @@ class Profile3 : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getAge(year: Int, month: Int, dayOfMonth: Int): Int {
         return Period.between(
-            LocalDate.of(year, month, dayOfMonth),
-            LocalDate.now()
+                LocalDate.of(year, month, dayOfMonth),
+                LocalDate.now()
         ).years
     }
 

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.Profile4">
+    tools:context=".profile_setup.ProfileGender">
 
     <Button
         android:id="@+id/button_p4"
         android:layout_width="231dp"
         android:layout_height="61dp"
-        android:onClick="startProfile4_2Or5"
+        android:onClick="startProfileOrientationOrGenderMore"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

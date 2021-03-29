@@ -62,12 +62,12 @@ class SettingsTest {
             myLocation = activity.findViewById(R.id.current_location_text)
         }
         intended(
-            Matchers.allOf(
-                hasComponent(SettingsLocation::class.java.name), IntentMatchers.hasExtra(
-                    EXTRA_LOCATION,
-                    myLocation?.text
+                Matchers.allOf(
+                        hasComponent(SettingsLocation::class.java.name), IntentMatchers.hasExtra(
+                        EXTRA_LOCATION,
+                        myLocation?.text
                 )
-            )
+                )
         )
         release()
     }
@@ -76,17 +76,17 @@ class SettingsTest {
     fun clickingOnShowMeButtonFiresSettingsShowMeActivity() {
         init()
         onView(withId(R.id.show_me_button)).perform(click())
-        var showMe: TextView ?= null
+        var showMe: TextView? = null
         activityRule.scenario.onActivity { activity ->
             showMe = activity.findViewById(R.id.show_me_text)
         }
         intended(
-            Matchers.allOf(
-                hasComponent(SettingsShowMe::class.java.name), IntentMatchers.hasExtra(
-                    EXTRA_SHOW_ME,
-                    showMe?.text
+                Matchers.allOf(
+                        hasComponent(SettingsShowMe::class.java.name), IntentMatchers.hasExtra(
+                        EXTRA_SHOW_ME,
+                        showMe?.text
                 )
-            )
+                )
         )
         release()
     }
@@ -102,9 +102,9 @@ class SettingsTest {
 
         assertEquals(RESULT_OK, activityRule.scenario.result.resultCode)
         assertEquals(
-            TEST_SHOW_ME_MEN, activityRule.scenario.result.resultData.getStringExtra(
+                TEST_SHOW_ME_MEN, activityRule.scenario.result.resultData.getStringExtra(
                 EXTRA_SHOW_ME
-            )
+        )
         )
     }
 
@@ -139,11 +139,11 @@ class SettingsTest {
         init()
 
         onView(withId(R.id.email_address_text)).check(
-            ViewAssertions.matches(
-                ViewMatchers.withText(
-                    user.getEmail()
+                ViewAssertions.matches(
+                        ViewMatchers.withText(
+                                user.getEmail()
+                        )
                 )
-            )
         )
         release()
     }

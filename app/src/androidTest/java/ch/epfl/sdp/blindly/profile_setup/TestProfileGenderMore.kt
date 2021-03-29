@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_preferences
+package ch.epfl.sdp.blindly.profile_setup
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.closeSoftKeyboard
@@ -14,8 +14,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.Profile4_2
-import ch.epfl.sdp.blindly.profile.Profile5
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
@@ -23,10 +21,10 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class TestProfile4_2 {
+class TestProfileGenderMore {
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(Profile4_2::class.java)
+    val activityRule = ActivityScenarioRule(ProfileGenderMore::class.java)
 
     private val CORRECT_SPECIFICATION = "Abcde"
     private val BLANK_SPECIFICATION = "   "
@@ -52,7 +50,7 @@ class TestProfile4_2 {
                                 )
                         )
                 );
-        intended(hasComponent(Profile5::class.java.name), times(0))
+        intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }
 
@@ -64,16 +62,16 @@ class TestProfile4_2 {
         val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
         Espresso.onView(withId(R.id.warning1_p4_2))
-            .check(
-                ViewAssertions.matches(
-                    ViewMatchers.withText(
-                        Matchers.containsString(
-                            ERROR_MESSAGE
+                .check(
+                        ViewAssertions.matches(
+                                ViewMatchers.withText(
+                                        Matchers.containsString(
+                                                ERROR_MESSAGE
+                                        )
+                                )
                         )
-                    )
-                )
-            );
-        intended(hasComponent(Profile5::class.java.name), times(0))
+                );
+        intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }
 
@@ -86,27 +84,27 @@ class TestProfile4_2 {
         val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
         Espresso.onView(withId(R.id.warning1_p4_2))
-            .check(
-                ViewAssertions.matches(
-                    ViewMatchers.withText(
-                        Matchers.containsString(
-                            ERROR_MESSAGE
+                .check(
+                        ViewAssertions.matches(
+                                ViewMatchers.withText(
+                                        Matchers.containsString(
+                                                ERROR_MESSAGE
+                                        )
+                                )
                         )
-                    )
-                )
-            );
-        intended(hasComponent(Profile5::class.java.name), times(0))
+                );
+        intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }
 
     @Test
-    fun correctInputFiresProfile5() {
+    fun correctInputFiresProfileOrientation() {
         Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(CORRECT_SPECIFICATION));
         closeSoftKeyboard();
         val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        intended(hasComponent(Profile5::class.java.name))
+        intended(hasComponent(ProfileOrientation::class.java.name))
         Intents.release()
     }
 

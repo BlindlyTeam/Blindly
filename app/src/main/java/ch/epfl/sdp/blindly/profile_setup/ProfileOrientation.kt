@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile
+package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,16 +9,16 @@ import ch.epfl.sdp.blindly.R
 import com.google.android.material.chip.ChipGroup
 
 
-class Profile5 : AppCompatActivity() {
+class ProfileOrientation : AppCompatActivity() {
 
     private val SELECTION_LIMIT = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_5)
+        setContentView(R.layout.profile_setup_orientation)
     }
 
-    fun startProfile6(view: View) {
+    fun startProfileShowMe(view: View) {
         findViewById<TextView>(R.id.warning_p5_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p5_2).visibility = View.INVISIBLE
 
@@ -36,7 +36,7 @@ class Profile5 : AppCompatActivity() {
             }
             //correct numbers of selection
             else -> {
-                val intent = Intent(this, Profile6::class.java)
+                val intent = Intent(this, ProfileShowMe::class.java)
                 startActivity(intent)
             }
         }

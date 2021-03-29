@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile
+package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,23 +12,23 @@ private const val MIN_LENGTH = 2
 private const val MAX_LENGTH = 20
 private val REGEX = Regex("^[a-zA-Z]*$")
 
-class Profile2 : AppCompatActivity() {
+class ProfileName : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_2)
+        setContentView(R.layout.profile_setup_name)
     }
 
-    fun startProfile3(view: View) {
+    fun startProfileBirthday(view: View) {
         findViewById<TextView>(R.id.warning1_p2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning2_p2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning3_p2).visibility = View.INVISIBLE
 
         val name = findViewById<TextView>(R.id.text_first_name).text.toString().trim()
 
-        if(!name.matches(REGEX)){
+        if (!name.matches(REGEX)) {
             findViewById<TextView>(R.id.warning3_p2).visibility = View.VISIBLE
-        }else {
+        } else {
             val len = name.length
             when {
                 len < MIN_LENGTH -> {
@@ -38,7 +38,7 @@ class Profile2 : AppCompatActivity() {
                     findViewById<TextView>(R.id.warning2_p2).visibility = View.VISIBLE
                 }
                 else -> {
-                    val intent = Intent(this, Profile3::class.java)
+                    val intent = Intent(this, ProfileBirthday::class.java)
                     startActivity(intent)
                 }
             }

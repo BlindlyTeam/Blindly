@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile
+package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,13 +9,13 @@ import ch.epfl.sdp.blindly.R
 
 private val REGEX = Regex("^[a-zA-Z]*$")
 
-class Profile4_2 : AppCompatActivity() {
+class ProfileGenderMore : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.set_profile_4_2)
+        setContentView(R.layout.profile_setup_gender_more)
     }
 
-    fun startProfile5(view: View) {
+    fun startProfileOrientation(view: View) {
         findViewById<TextView>(R.id.warning1_p4_2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning2_p4_2).visibility = View.INVISIBLE
 
@@ -26,7 +26,7 @@ class Profile4_2 : AppCompatActivity() {
         } else {
             val len = name.length
             if (len > 0) {
-                val intent = Intent(this, Profile5::class.java)
+                val intent = Intent(this, ProfileOrientation::class.java)
                 startActivity(intent)
             } else {
                 //empty text, output error

@@ -5,7 +5,7 @@
     android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.Profile4_2">
+    tools:context=".profile_setup.ProfileGenderMore">
 
     <ProgressBar
         android:id="@+id/progressBar_p4_2"
@@ -23,7 +23,6 @@
         android:id="@+id/text_p4_2"
         android:layout_width="336dp"
         android:layout_height="50dp"
-        android:contentDescription="@string/please_specify_gender"
         android:ems="10"
         android:hint="@string/more_hint"
         android:importantForAutofill="no"
@@ -39,7 +38,7 @@
         android:id="@+id/button_p4_2"
         android:layout_width="231dp"
         android:layout_height="61dp"
-        android:onClick="startProfile5"
+        android:onClick="startProfileOrientation"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

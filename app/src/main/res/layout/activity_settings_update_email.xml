@@ -40,11 +40,14 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     android:textColor="@color/design_default_color_error"/>
+
             <EditText
                 android:id="@+id/update_email_field"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"/>
+                android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
+                android:hint="@string/new_e_mail"
+                android:inputType="textWebEmailAddress" />
             <Button
                 android:id="@+id/update_email_button"
                 android:layout_width="match_parent"

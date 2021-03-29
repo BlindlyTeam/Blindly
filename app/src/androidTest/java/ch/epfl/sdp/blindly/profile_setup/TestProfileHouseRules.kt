@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_preferences
+package ch.epfl.sdp.blindly.profile_setup
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions.click
@@ -10,22 +10,21 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.LocationPermissionActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.Profile1
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class TestProfile1 {
+class TestProfileHouseRules {
 
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(Profile1::class.java)
+    val activityRule = ActivityScenarioRule(ProfileHouseRules::class.java)
 
 
     @Test
-    fun testProfile1FiresLocationPermissionActivity() {
+    fun testProfileHouseRulesFiresLocationPermissionActivity() {
         Intents.init()
         val buttonContinue = Espresso.onView(withId(R.id.button_p1))
         buttonContinue.perform(click())
