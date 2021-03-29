@@ -54,7 +54,7 @@ class Profile7 : AppCompatActivity() {
             else -> {
                 getCheckedChip()
                 val intent = Intent(this, Profile8::class.java)
-                //TODO:Call setUserProfile, but need localissation.
+                //TODO:Call setUserProfile, but need localisation.
             }
         }
     }
