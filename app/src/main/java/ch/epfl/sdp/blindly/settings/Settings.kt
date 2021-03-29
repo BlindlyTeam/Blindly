@@ -113,4 +113,8 @@ class Settings : AppCompatActivity() {
         }
     }
 
+    fun startUpdateEmail(view: View) {
+        startActivity(Intent(this, SettingsUpdateEmail::class.java))
+    }
+
 }
