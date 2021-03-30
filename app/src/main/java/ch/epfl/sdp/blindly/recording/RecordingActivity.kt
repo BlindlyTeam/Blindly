@@ -43,6 +43,21 @@ class RecordingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording)
         setBaseView()
+        playBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(playBar: SeekBar,
+                                           progress: Int, fromUser: Boolean) {
+            }
+
+            override fun onStartTrackingTouch(playBar: SeekBar) {
+                mediaPlayer?.pause()
+            }
+
+            override fun onStopTrackingTouch(playBar: SeekBar) {
+                updatePlayBar(playBar.max, playBar.progress)
+                mediaPlayer?.seekTo(playBar.progress)
+                mediaPlayer?.start()
+            }
+        })
         createNewFilePath()
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
     }
@@ -211,8 +226,8 @@ class RecordingActivity : AppCompatActivity() {
         playBar.progress = position
 
         val handler = Handler(Looper.getMainLooper())
-        handler.removeCallbacks(movePlayBarThread);
-        handler.postDelayed(movePlayBarThread, 100);
+        handler.removeCallbacks(movePlayBarThread)
+        handler.postDelayed(movePlayBarThread, 10)
     }
 
     private val movePlayBarThread: Runnable = object : Runnable {
@@ -222,7 +237,7 @@ class RecordingActivity : AppCompatActivity() {
                 val newMediaMax = mediaPlayer!!.duration
                 playBar.max = newMediaMax
                 playBar.progress = newMediaPos
-                Handler(Looper.getMainLooper()).postDelayed(this, 100)
+                Handler(Looper.getMainLooper()).postDelayed(this, 10)
             }
         }
     }
