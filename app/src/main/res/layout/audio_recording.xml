@@ -38,12 +38,6 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/nameDurationDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-
     <RelativeLayout
         android:id="@+id/audioPlayLayout"
         android:layout_width="match_parent"
@@ -102,9 +96,9 @@
     </RelativeLayout>
 
     <View
-        android:id="@+id/recordsDivider"
+        android:id="@+id/recordDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+        android:background="?android:attr/listDivider" />
 
 </LinearLayout>

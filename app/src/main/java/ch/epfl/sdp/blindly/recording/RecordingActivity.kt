@@ -10,7 +10,6 @@ import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
@@ -34,6 +33,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
 
     private lateinit var recordButton: Button
     private lateinit var playPauseButton: Button
+    private lateinit var selectButton: Button
     private lateinit var playBar: SeekBar
     private lateinit var recordTimer: Chronometer
     private lateinit var playTimer: Chronometer
@@ -50,6 +50,8 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         setBaseView()
         createFilePath(totalNumberOfRec)
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
+
+        recordTimer = findViewById(R.id.recordTimer)
 
         // For the recording list
         recordingRecyclerView = findViewById(R.id.recordingList)
@@ -106,37 +108,26 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
 
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
-        playPauseButton = findViewById(R.id.playPauseButton)
-        setBounceButton(recordButton)
-        setBounceButton(playPauseButton)
-
-        playBar = findViewById(R.id.playBar)
-        playBar.isVisible = false
-
-        recordTimer = findViewById(R.id.audioTimer)
-        playTimer = findViewById(R.id.audioTimer)
+        //setBounceButton(recordButton)
     }
 
     private fun setPlayView() {
-        if (!isPlayerPaused)
-            playTimer.base = SystemClock.elapsedRealtime()
-        playTimer.start()
+        //if (!isPlayerPaused)
+            //playTimer.base = SystemClock.elapsedRealtime()
+        //playTimer.start()
         isPlayerPaused = false
         isPlayerStopped = false
-        recordButton.isEnabled = false
-        updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
+        //updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
     }
 
     private fun setPauseView() {
-        playTimer.stop()
+        //playTimer.stop()
         isPlayerPaused = true
-        recordButton.isEnabled = true
     }
 
     private fun setFinishedPlayView() {
-        playTimer.stop()
-        recordButton.isEnabled = true
-        playBar.progress = 0
+        //playTimer.stop()
+        //playBar.progress = 0
         isPlayerStopped = true
     }
 
@@ -144,14 +135,21 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         recordTimer.base = SystemClock.elapsedRealtime()
         recordTimer.start()
         isRecording = true
-        playBar.progress = 0
+        //playBar.progress = 0
     }
 
     private fun setFinishedRecordView() {
         recordTimer.stop()
         isRecording = false
-        playBar.isVisible = true
-        playPauseButton.isEnabled = true
+
+        //playPauseButton = findViewById(R.id.playPauseButton)
+        //setBounceButton(playPauseButton)
+        //selectButton = findViewById(R.id.selectRecording)
+
+        //playBar = findViewById(R.id.playBar)
+
+        //recordTimer = findViewById(R.id.audioTimer)
+        //playTimer = findViewById(R.id.audioTimer)
     }
 
     private fun prepareRecording() {
@@ -180,7 +178,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     private fun stopRecording() {
         mediaRecorder.stop()
 
-        val newAudio = AudioRecord("TEMPaudioRecording_${totalNumberOfRec}.3gp",
+        val newAudio = AudioRecord("Audio file ${totalNumberOfRec + 1}",
             recordTimer.text as String, filePath, false)
         adapter.recordList.add(newAudio)
         adapter.notifyDataSetChanged()

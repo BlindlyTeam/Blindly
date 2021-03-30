@@ -1,10 +1,12 @@
 package ch.epfl.sdp.blindly.recording
 
 import android.content.Context
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
@@ -24,14 +26,15 @@ class RecordingAdapter(var recordList: ArrayList<AudioRecord>,
     var currentSelectionPos = -1
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        var recordName: TextView = view.findViewById(R.id.recordName)
+        val recordName: TextView = view.findViewById(R.id.recordName)
         val recordDuration: TextView = view.findViewById(R.id.recordDuration)
         val nameDurationLayout: LinearLayout = view.findViewById(R.id.nameDurationLayout)
-        val expandableLayout: LinearLayout = view.findViewById(R.id.audioPlayLayout)
+        val expandableLayout: RelativeLayout = view.findViewById(R.id.audioPlayLayout)
 
         init {
             // Define click listener for the ViewHolder's View.
             nameDurationLayout.setOnClickListener(this)
+            expandableLayout.visibility = View.GONE
         }
 
         override fun onClick(v: View?) {
@@ -43,7 +46,7 @@ class RecordingAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
-    private fun toggleLayout(isExpanded: Boolean, v: View, layoutExpand: LinearLayout): Boolean {
+    private fun toggleLayout(isExpanded: Boolean, v: View, layoutExpand: RelativeLayout): Boolean {
         if (isExpanded) {
             RecordAnimations.expand(layoutExpand)
         } else {

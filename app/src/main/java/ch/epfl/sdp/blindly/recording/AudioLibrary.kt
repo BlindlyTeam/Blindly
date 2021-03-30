@@ -45,7 +45,7 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
         adapter.notifyItemChanged(position)
     }
 
-    private fun playPauseRecording(position: Int){
+    private fun playPauseRecording(position: Int) {
         // We select another recording when another one is already playing
         if(currentlyPlayedRecording != position && currentlyPlayedRecording != -1){
             // Stop the current recording
@@ -54,7 +54,7 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
         }
         // No recording is playing
         if(currentlyPlayedRecording == -1){
-            mediaPlayer = initNewMediaPlayer(recordings[position].name)
+            mediaPlayer = initNewMediaPlayer(recordings[position].filePath)
             preparePlaying(mediaPlayer)
             currentlyPlayedRecording = position
         }
@@ -66,7 +66,7 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
         }
     }
 
-    private fun selectDeselectRecording(position: Int){
+    private fun selectDeselectRecording(position: Int) {
         // Logic behind (De)selection of recordings
         adapter.currentSelectionPos = position
         lastSelectionPos = if(lastSelectionPos == -1) {
@@ -78,12 +78,12 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
         adapter.notifyItemChanged(adapter.currentSelectionPos)
     }
 
-    private fun initNewMediaPlayer(name: String): MediaPlayer?{
-        val mediaPlayer: MediaPlayer? = MediaPlayer().apply {
-            setDataSource("${applicationContext.filesDir.absolutePath}/$name")
+    private fun initNewMediaPlayer(filePath: String): MediaPlayer {
+        val mediaPlayer: MediaPlayer = MediaPlayer().apply {
+            setDataSource(filePath)
         }
-        mediaPlayer?.setOnCompletionListener {
-            mediaPlayer?.stop()
+        mediaPlayer.setOnCompletionListener {
+            mediaPlayer.stop()
             currentlyPlayedRecording = -1
         }
         return mediaPlayer
@@ -99,11 +99,11 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
         }
     }
 
-    fun sendMessage(view: View){
+    fun sendMessage(view: View) {
         saveCurrentRecording()
     }
 
-    private fun saveCurrentRecording(){
+    private fun saveCurrentRecording() {
         if(adapter.currentSelectionPos != -1) {
             val tempName = recordings[currentlyPlayedRecording].name
             val newName = "PRINCIPALaudioRecording.3gp"

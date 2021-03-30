@@ -12,10 +12,10 @@
     app:layout_constraintTop_toTopOf="parent"
     tools:context=".recording.RecordingActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recordingList"
-            android:layout_width="match_parent"
-            android:layout_height="643dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recordingList"
+        android:layout_width="match_parent"
+        android:layout_height="500dp" />
 
         <View
             android:id="@+id/recordDivider"
@@ -32,5 +32,11 @@
         android:layout_below="@id/recordDivider"
         android:layout_gravity="center"
         android:onClick="recordButtonClick" />
+
+    <Chronometer
+        android:id="@+id/recordTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
 </LinearLayout>

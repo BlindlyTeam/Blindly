@@ -17,43 +17,5 @@ class RecordingActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(RecordingActivity::class.java)
 
-    @Test
-    fun recordingTextIsCorrectlyDisplayed() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
-        val recordingText = Espresso.onView(withId(R.id.recordingText))
-        recordingText.check(matches(not(isDisplayed())))
-        recordButton.perform(click())
-        recordingText.check(matches(isDisplayed()))
-        recordingText.check(matches(withText("Recording...")))
-        recordButton.perform(click())
-        recordingText.check(matches(withText("Done !")))
-    }
-
-    @Test
-    fun playingButtonIsCorrectlyDisabled() {
-        val playButton = Espresso.onView(withId(R.id.playingButton))
-        playButton.check(matches(not(isEnabled())))
-    }
-
-    @Test
-    fun playingButtonIsCorrectlyEnabled() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
-        val playButton = Espresso.onView(withId(R.id.playingButton))
-        recordButton.perform(click(), click())
-        playButton.check(matches(isEnabled()))
-    }
-
-    @Test
-    fun playingButtonTextIsCorrectlyDisplayed() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
-        val playButton = Espresso.onView(withId(R.id.playingButton))
-        recordButton.perform(click())
-        Thread.sleep(2000)
-        recordButton.perform(click())
-        playButton.check(matches(withText("Play")))
-        playButton.perform(click())
-        playButton.check(matches(withText("Pause")))
-        playButton.perform(click())
-        playButton.check(matches(withText("Play")))
-    }
+    // TODO
 }
