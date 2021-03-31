@@ -29,7 +29,7 @@ class TestProfileShowMe {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(ProfileShowMe::class.java)
-    
+
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
