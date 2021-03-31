@@ -14,10 +14,10 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-@HiltAndroidTest
+//@HiltAndroidTest
 class TestSetUserProfile {
 
-    @get:Rule
+/*    @get:Rule
     val activityRule = ActivityScenarioRule(ProfilePassions::class.java)
 
     @get:Rule
@@ -33,9 +33,10 @@ class TestSetUserProfile {
 
     @Test
     fun userMetasAreSetCorectly() {
-        /*Intents.init()
+        Intents.init()
         onView(withId(R.id.button_p7)).perform(click())
 
-        Intents.release()*/
+        Intents.release()
     }
+    */
 }

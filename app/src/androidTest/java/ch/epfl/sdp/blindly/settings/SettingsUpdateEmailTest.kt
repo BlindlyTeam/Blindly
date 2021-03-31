@@ -74,7 +74,7 @@ class SettingsUpdateEmailTest {
                                 withText(R.string.email_update_success),
                                 withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
                         ))
-        );
+        )
         release()
     }
 

@@ -62,9 +62,6 @@ class TestProfilePassions {
         Intents.release()
     }
 
-    //Commented out chip click tests as they seem to fail in Cirrus for
-    //whatever reason. Might want to check later
-
     @Test
     fun moreThanAllowedInputShowsError() {
         Intents.init()
