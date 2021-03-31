@@ -11,9 +11,9 @@ import ch.epfl.sdp.blindly.R
 import java.io.File
 import java.io.IOException
 
-class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
+class AudioLibrary : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
     private lateinit var recordingList: RecyclerView
-    private lateinit var adapter: RecordingAdapter
+    private lateinit var adapter: AudioLibraryAdapter
 
     private lateinit var recordings: ArrayList<AudioRecord>
 
@@ -34,7 +34,7 @@ class AudioLibrary : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
 
         recordingList = findViewById(R.id.recordingList)
         recordingList.layoutManager = LinearLayoutManager(this)
-        adapter = RecordingAdapter(recordings.toCollection(ArrayList()), this, this)
+        adapter = AudioLibraryAdapter(recordings.toCollection(ArrayList()), this, this)
         recordingList.adapter = adapter
     }
 

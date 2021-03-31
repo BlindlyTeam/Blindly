@@ -18,18 +18,19 @@ import java.io.IOException
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
-class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListener {
+class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
     private val mediaRecorder = MediaRecorder()
     private var mediaPlayer: MediaPlayer? = null
 
     private lateinit var recordingRecyclerView: RecyclerView
-    private lateinit var adapter: RecordingAdapter
+    private lateinit var adapter: AudioLibraryAdapter
 
     private var isPlayerStopped = true
     private var isRecording = false
     private var isPlayerPaused = false
 
-    private var filePath = ""
+    private var recordFilePath = ""
+    private var playFilePath = ""
 
     private lateinit var recordButton: Button
     private lateinit var playPauseButton: Button
@@ -39,6 +40,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     private lateinit var playTimer: Chronometer
 
     private var totalNumberOfRec = 0
+    private var currentlyPlayedRecording = -1
 
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -48,7 +50,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         setContentView(R.layout.activity_recording)
 
         setBaseView()
-        createFilePath(totalNumberOfRec)
+        changeRecordFilePath(totalNumberOfRec)
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
         recordTimer = findViewById(R.id.recordTimer)
@@ -56,7 +58,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         // For the recording list
         recordingRecyclerView = findViewById(R.id.recordingList)
         recordingRecyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = RecordingAdapter(ArrayList(), this, this)
+        adapter = AudioLibraryAdapter(ArrayList(), this, this)
         recordingRecyclerView.adapter = adapter
     }
 
@@ -92,29 +94,14 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         }
     }
 
-    fun playPauseButtonClick(view: View) {
-        if (isPlayerStopped) {
-            createPlayer()
-            preparePlaying()
-        }
-        if (!mediaPlayer!!.isPlaying) {
-            mediaPlayer?.start()
-            setPlayView()
-        } else {
-            mediaPlayer?.pause()
-            setPauseView()
-        }
-    }
-
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
-        //setBounceButton(recordButton)
     }
 
     private fun setPlayView() {
-        //if (!isPlayerPaused)
-            //playTimer.base = SystemClock.elapsedRealtime()
-        //playTimer.start()
+        /*if (!isPlayerPaused)
+            playTimer.base = SystemClock.elapsedRealtime()
+        playTimer.start()*/
         isPlayerPaused = false
         isPlayerStopped = false
         //updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
@@ -141,24 +128,15 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
     private fun setFinishedRecordView() {
         recordTimer.stop()
         isRecording = false
-
-        //playPauseButton = findViewById(R.id.playPauseButton)
-        //setBounceButton(playPauseButton)
-        //selectButton = findViewById(R.id.selectRecording)
-
-        //playBar = findViewById(R.id.playBar)
-
-        //recordTimer = findViewById(R.id.audioTimer)
-        //playTimer = findViewById(R.id.audioTimer)
     }
 
     private fun prepareRecording() {
-        createFilePath(totalNumberOfRec)
+        changeRecordFilePath(totalNumberOfRec)
         mediaRecorder.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
-            setOutputFile(filePath)
+            setOutputFile(recordFilePath)
         }
         try {
             mediaRecorder.prepare()
@@ -179,7 +157,7 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         mediaRecorder.stop()
 
         val newAudio = AudioRecord("Audio file ${totalNumberOfRec + 1}",
-            recordTimer.text as String, filePath, false)
+            recordTimer.text as String, recordFilePath, false)
         adapter.recordList.add(newAudio)
         adapter.notifyDataSetChanged()
 
@@ -187,44 +165,15 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         setFinishedRecordView()
     }
 
-    private fun createPlayer() {
-        mediaPlayer = MediaPlayer().apply {
-            setDataSource(filePath)
-        }
-        mediaPlayer?.setOnCompletionListener {
-            mediaPlayer?.stop()
-            setFinishedPlayView()
-        }
-    }
-
-    private fun preparePlaying() {
-        try {
-            mediaPlayer?.prepare()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Toast.makeText(this, "MediaPlayer preparation failed : ${e.message}",
-                    Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun createFilePath(recordNumber: Int) {
+    private fun changeRecordFilePath(recordNumber: Int) {
         // Recordings are stored in the internal storage of the app, only accessible by the app itself
-        filePath = "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.3gp"
+        recordFilePath = "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.3gp"
     }
 
-    private fun updatePlayBar(duration: Int, position: Int) {
-        playBar.max = duration
-        playBar.progress = position
-
-        val handler = Handler(Looper.getMainLooper())
-        handler.removeCallbacks(movePlayBarThread);
-        handler.postDelayed(movePlayBarThread, 100);
-    }
-
-    private fun deleteTempRecordings(){
-        for(i in 0..totalNumberOfRec){
-            createFilePath(i)
-            File(filePath).delete()
+    private fun deleteTempRecordings() {
+        for(i in 0..totalNumberOfRec) {
+            changeRecordFilePath(i)
+            File(recordFilePath).delete()
         }
     }
 
@@ -232,18 +181,6 @@ class RecordingActivity : AppCompatActivity(), RecordingAdapter.OnItemClickListe
         val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
         button.setOnClickListener {
             button.startAnimation(bounce)
-        }
-    }
-
-    private val movePlayBarThread: Runnable = object : Runnable {
-        override fun run() {
-            if (mediaPlayer?.isPlaying == true) {
-                val newMediaPos = mediaPlayer!!.currentPosition
-                val newMediaMax = mediaPlayer!!.duration
-                playBar.max = newMediaMax
-                playBar.progress = newMediaPos
-                Handler(Looper.getMainLooper()).postDelayed(this, 100)
-            }
         }
     }
 
