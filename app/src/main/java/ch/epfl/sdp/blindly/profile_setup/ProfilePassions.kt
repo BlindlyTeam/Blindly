@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -10,10 +11,12 @@ import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.utils.UserHelper
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 const val EXTRA_PASSIONS = "passions"
 
+@AndroidEntryPoint
 class ProfilePassions : AppCompatActivity() {
     @Inject
     lateinit var user: UserHelper
@@ -76,7 +79,7 @@ class ProfilePassions : AppCompatActivity() {
     }
 
     private fun setUser() {
-        val location = AndroidLocationService(this).getCurrentLocation().toString()
+        val location = getUserLocation()
         username?.let { birthday?.let { it1 ->
             genre?.let { it2 ->
                 showMe?.let { it3 ->
@@ -85,5 +88,19 @@ class ProfilePassions : AppCompatActivity() {
                 }
             }
         } }
+    }
+
+    private fun getUserLocation(): String {
+        val currentLocation = AndroidLocationService(this).getCurrentLocation()
+        val latitude = currentLocation?.latitude
+        val longitude = currentLocation?.longitude
+        val geocoder = Geocoder(this)
+        if(latitude != null && longitude != null) {
+            val address = geocoder.getFromLocation(latitude, longitude, 5)
+            val country = address[0].countryName
+            val city = address[0].locality
+            return "$city, $country"
+        }
+        return "Location not found"
     }
 }

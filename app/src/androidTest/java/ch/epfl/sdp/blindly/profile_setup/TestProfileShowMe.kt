@@ -54,7 +54,8 @@ class TestProfileShowMe {
         buttonPref.perform(click())
         val buttonContinue = onView(withId(R.id.button_p6))
         buttonContinue.perform(click())
-        intended(Matchers.allOf(hasComponent(ProfilePassions::class.java.name), IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_SHOW_ME, TEST_SHOW_ME))))
+        intended(Matchers.allOf(hasComponent(ProfilePassions::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_SHOW_ME, TEST_SHOW_ME))))
         Intents.release()
     }
 }

@@ -1,7 +1,6 @@
 package ch.epfl.sdp.blindly.utils
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
@@ -11,8 +10,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
@@ -30,9 +28,20 @@ class UserHelperModule {
 
 class UserHelper {
     companion object {
-        public const val RC_SIGN_IN = 123
+        const val RC_SIGN_IN = 123
+        private const val DEFAULT_RADIUS = 80
         private const val TAG = "User"
-        private const val USER_PATH: String = "users"
+        private const val USER_PATH: String = "usersMeta"
+        val userFields = arrayListOf(
+                "username",
+                "location",
+                "birthday",
+                "genre",
+                "sexual_orientations",
+                "show_me",
+                "passions",
+                "radius")
+
     }
 
     fun getSignInIntent(): Intent {
@@ -79,21 +88,34 @@ class UserHelper {
     }
 
     fun getEmail(): String? {
-        return FirebaseAuth.getInstance()?.currentUser?.email
+        return FirebaseAuth.getInstance().currentUser?.email
     }
 
-    fun setEmail(email: String): Task<Void> {
-        return FirebaseAuth.getInstance().currentUser.updateEmail(email)
+    fun setEmail(email: String): Task<Void>? {
+        return FirebaseAuth.getInstance().currentUser?.updateEmail(email)
+    }
+
+    fun updatePassword(password: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+
+        user!!.updatePassword(password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(Companion.TAG, "User password updated.")
+                    } else {
+                        Log.d(Companion.TAG, "Error: Could not update password.")
+                    }
+                }
     }
 
     private fun getUserId(): String? {
-        return FirebaseAuth.getInstance()?.currentUser?.uid
+        return FirebaseAuth.getInstance().currentUser?.uid
     }
 
     private fun getMeta() {
         val db = Firebase.firestore
         if (getUserId() != null) {
-            db.collection("usersMeta").document(getUserId()!!)
+            db.collection(USER_PATH).document(getUserId()!!)
                     .get()
                     .addOnSuccessListener { document ->
                         Log.d(Companion.TAG, "${document.id} => ${document.data}")
@@ -131,83 +153,88 @@ class UserHelper {
         }
     }
 
-    //Set User's information after set_profile
+    //Set User's information in firestore after user entered his information in set_profile
     fun setUserProfile(name: String, location: String, birthday: String, genre: String,
                        sexualOrientations: List<String>, showMe: String,
                        passions: List<String>) {
 
-        val database = Firebase.database
-        val user = Firebase.auth.currentUser
+        val database = Firebase.firestore
 
-        if (user != null) {
+        if (getUserId() != null) {
+            //Update username in Firebase Auth
             updateName(name)
-            val newUser = mapOf("name" to name,
-                "email" to user.email,
-                "location" to location,
-                "birthday" to birthday,
-                "genre" to genre,
-                "sexual_orientation" to sexualOrientations,
-                "show_me" to showMe,
-                "passions" to passions)
+            val information = arrayListOf(name,
+                location,
+                birthday,
+                genre,
+                sexualOrientations,
+                showMe,
+                passions,
+                DEFAULT_RADIUS)
+            val newUser = userFields.zip(information).toMap()
 
-            database.reference.child(Companion.USER_PATH).child(user.uid).setValue(newUser)
+            database.collection(USER_PATH).add(newUser)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "User's profile was set: ${documentReference.id}")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error setting the user's profile", e)
+                    }
         }
     }
 
-    fun updateName(name: String) {
-        /*val user = Firebase.auth.currentUser
+    private fun updateName(name: String) {
+        /*val user = FirebaseAuth.getInstance().currentUser
 
-    val profileUpdates = userProfileChangeRequest {
-        displayName = name
-    }
+        val profileUpdates = userProfileChangeRequest {
+            displayName = name
+        }
 
-    user!!.updateProfile(profileUpdates)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "User profile updated.")
-                }
-            }
-
-     */
-    }
-
-    fun updateEmail(email: String) {
-        val user = Firebase.auth.currentUser
-
-        user!!.updateEmail(email)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(Companion.TAG, "User email address updated.")
-                }
-            }
-    }
-
-    fun updatePassword(password: String) {
-        val user = Firebase.auth.currentUser
-
-        user!!.updatePassword(password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(Companion.TAG, "User password updated.")
-                }
-            }
+        user!!.updateProfile(profileUpdates)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "Username updated.")
+                    } else {
+                        Log.d(TAG, "Error: Could not update username.")
+                    }
+                }*/
     }
 
     /**
-     * path: the path of the value to change inside the database
-     * newValue: should either be a String or a List<String>
+     * field: the filed of the value to change inside the database
+     * newValue: the new value to set for the user
      */
-    fun <T> updateProfile(path: String, newValue: T) {
-        val database = Firebase.database
-        val user = Firebase.auth.currentUser
-        if (newValue !is String || newValue !is List<*>) {
-            throw IllegalArgumentException("newValue must be a String or a List of Strings")
-        }
-
+    fun <T> updateProfile(field: String, newValue: T) {
+        if(!userFields.contains(field))
+            throw IllegalArgumentException("Path must be one of $userFields")
+        if(newValue !is String || newValue !is ArrayList<*>)
+            throw IllegalArgumentException("Expected String or ArrayList<String>")
+        val database = Firebase.firestore
+        val user = getUserId()
         if (user != null)
-            database.reference.child(Companion.USER_PATH)
-                .child(user.uid)
-                .child(path)
-                .setValue(newValue)
+            database.collection(USER_PATH)
+                    .document(user)
+                    .update(field, newValue)
+            if(field == userFields[0])
+                updateName(newValue)
     }
+
+    fun getAuthenticatedUser() {
+        val database = Firebase.firestore
+        val user = getUserId()
+        if(user != null) {
+            database.collection(USER_PATH).document(user).get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                        } else {
+                            Log.d(TAG, "No such document")
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "Get failed with ", exception)
+                    }
+        }
+    }
+
 }
