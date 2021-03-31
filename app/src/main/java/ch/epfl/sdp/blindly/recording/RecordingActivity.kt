@@ -25,22 +25,14 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     private lateinit var recordingRecyclerView: RecyclerView
     private lateinit var adapter: AudioLibraryAdapter
 
-    private var isPlayerStopped = true
     private var isRecording = false
-    private var isPlayerPaused = false
 
     private var recordFilePath = ""
-    private var playFilePath = ""
 
     private lateinit var recordButton: Button
-    private lateinit var playPauseButton: Button
-    private lateinit var selectButton: Button
-    private lateinit var playBar: SeekBar
     private lateinit var recordTimer: Chronometer
-    private lateinit var playTimer: Chronometer
 
     private var totalNumberOfRec = 0
-    private var currentlyPlayedRecording = -1
 
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -96,33 +88,14 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
 
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
-    }
-
-    private fun setPlayView() {
-        /*if (!isPlayerPaused)
-            playTimer.base = SystemClock.elapsedRealtime()
-        playTimer.start()*/
-        isPlayerPaused = false
-        isPlayerStopped = false
-        //updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
-    }
-
-    private fun setPauseView() {
-        //playTimer.stop()
-        isPlayerPaused = true
-    }
-
-    private fun setFinishedPlayView() {
-        //playTimer.stop()
-        //playBar.progress = 0
-        isPlayerStopped = true
+        recordTimer = findViewById(R.id.recordTimer)
+        // TODO: Make the timer show milliseconds
     }
 
     private fun setRecordView() {
         recordTimer.base = SystemClock.elapsedRealtime()
         recordTimer.start()
         isRecording = true
-        //playBar.progress = 0
     }
 
     private fun setFinishedRecordView() {

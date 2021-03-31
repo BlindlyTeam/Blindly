@@ -2,6 +2,7 @@ package ch.epfl.sdp.blindly.recording
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
@@ -28,6 +30,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
     var currentSelectionPos = -1
     private var mediaPlayer: MediaPlayer? = null
     private var isPlayerPaused = false
+    private var isPlayerStopped = true
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val recordName: TextView = view.findViewById(R.id.recordName)
@@ -89,41 +92,47 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         val playPauseButton = viewHolder.playPauseButton
         val movePlayBarThread = createPlayBarThread(playBar)
 
-        remainingTimer.format = "-%s"
+        // TODO: Remaining timer should count down
 
         viewHolder.playPauseButton.setOnClickListener {
-            createMediaPlayer(recordList[position].filePath, playTimer)
-            if (mediaPlayer!!.isPlaying) {
-                playTimer.stop()
-                remainingTimer.stop()
-                mediaPlayer!!.pause()
-                isPlayerPaused = true
-                // Changing images doesn't seem to work
-                playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
-            } else {
+            if (isPlayerStopped) {
+                createMediaPlayer(recordList[position].filePath)
+                remainingTimer.base = SystemClock.elapsedRealtime() - mediaPlayer!!.duration.toLong()
+                mediaPlayer?.setOnCompletionListener {
+                    mediaPlayer?.stop()
+                    playTimer.stop()
+                    remainingTimer.stop()
+                    isPlayerStopped = true
+                    playPauseButton.setImageResource(android.R.drawable.ic_media_play)
+                }
+            }
+            if (!mediaPlayer!!.isPlaying) {
+                mediaPlayer?.start()
+
                 if (!isPlayerPaused) {
                     playTimer.base = SystemClock.elapsedRealtime()
                 }
                 playTimer.start()
                 remainingTimer.start()
-                mediaPlayer!!.start()
-                updatePlayBar(playBar, movePlayBarThread, mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
                 isPlayerPaused = false
-                // Changing images doesn't seem to work
+                isPlayerStopped = false
+                updatePlayBar(playBar, movePlayBarThread, mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
+                playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
+            } else {
+                mediaPlayer?.pause()
+
+                playTimer.stop()
+                remainingTimer.stop()
+                isPlayerPaused = true
                 playPauseButton.setImageResource(android.R.drawable.ic_media_play)
             }
         }
     }
 
-    private fun createMediaPlayer(filePath: String, timer: Chronometer) {
+    private fun createMediaPlayer(filePath: String) {
         mediaPlayer = MediaPlayer().apply {
             setDataSource(filePath)
             prepare()
-        }
-        mediaPlayer?.setOnCompletionListener {
-            mediaPlayer?.stop()
-            timer.stop()
-            timer.base = SystemClock.elapsedRealtime()
         }
     }
 
