@@ -13,17 +13,25 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.utils.UserHelper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
 
 const val TEST_SHOW_ME = "Woman"
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class TestProfileShowMe {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(ProfileShowMe::class.java)
+    
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     private val NO_INPUT_ERROR = "Please select one!"
 

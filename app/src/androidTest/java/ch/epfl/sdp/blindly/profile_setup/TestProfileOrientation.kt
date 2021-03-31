@@ -91,7 +91,7 @@ class TestProfileOrientation {
         val buttonContinue = onView(withId(R.id.button_p5))
         buttonContinue.perform(click())
 
-        val TEST_SEXUAL_ORIENTATIONS = arrayListOf<String>("Straight", "Gay", "Lesbian")
+        val TEST_SEXUAL_ORIENTATIONS = arrayListOf<String>("Straight", "Lesbian", "Gay")
 
         intended(Matchers.allOf(hasComponent(ProfileShowMe::class.java.name),
                 IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_SEXUAL_ORIENTATIONS, TEST_SEXUAL_ORIENTATIONS))))
