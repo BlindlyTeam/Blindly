@@ -47,20 +47,24 @@ class ProfileOrientation : AppCompatActivity() {
             }
             //correct numbers of selection
             else -> {
-                ids.forEach { i ->
-                    val chipText =  chipGroup.findViewById<Chip>(i).text.toString()
-                    sexualOriantations.add(chipText)
-                }
-                val intent = Intent(this, ProfileShowMe::class.java)
-                val extras = Bundle()
-                extras.putString(EXTRA_USERNAME, username)
-                extras.putString(EXTRA_BIRTHDAY, birthday)
-                extras.putString(EXTRA_GENRE, genre)
-                extras.putStringArrayList(EXTRA_SEXUAL_ORIENTATIONS, sexualOriantations)
-                intent.putExtras(extras)
-                startActivity(intent)
+                bundleExtrasAndStartProfileShowMe(ids, chipGroup)
             }
         }
 
+    }
+
+    private fun bundleExtrasAndStartProfileShowMe(ids: MutableList<Int>, chipGroup: ChipGroup) {
+        ids.forEach { i ->
+            val chipText =  chipGroup.findViewById<Chip>(i).text.toString()
+            sexualOriantations.add(chipText)
+        }
+        val intent = Intent(this, ProfileShowMe::class.java)
+        val extras = Bundle()
+        extras.putString(EXTRA_USERNAME, username)
+        extras.putString(EXTRA_BIRTHDAY, birthday)
+        extras.putString(EXTRA_GENRE, genre)
+        extras.putStringArrayList(EXTRA_SEXUAL_ORIENTATIONS, sexualOriantations)
+        intent.putExtras(extras)
+        startActivity(intent)
     }
 }

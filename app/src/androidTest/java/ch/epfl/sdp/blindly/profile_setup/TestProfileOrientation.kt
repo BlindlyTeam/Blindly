@@ -44,7 +44,7 @@ class TestProfileOrientation {
                                         )
                                 )
                         )
-                );
+                )
         intended(hasComponent(ProfileShowMe::class.java.name), Intents.times(0))
         Intents.release()
     }
@@ -73,10 +73,9 @@ class TestProfileOrientation {
                                         )
                                 )
                         )
-                );
+                )
         intended(hasComponent(ProfileShowMe::class.java.name), Intents.times(0))
         Intents.release()
-
     }
 
     @Test
@@ -97,8 +96,5 @@ class TestProfileOrientation {
         intended(Matchers.allOf(hasComponent(ProfileShowMe::class.java.name),
                 IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_SEXUAL_ORIENTATIONS, TEST_SEXUAL_ORIENTATIONS))))
         Intents.release()
-
     }
-
-
 }

@@ -51,7 +51,7 @@ class TestProfileGenderMore {
                                         )
                                 )
                         )
-                );
+                )
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }

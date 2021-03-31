@@ -43,7 +43,7 @@ class TestProfileShowMe {
                                         )
                                 )
                         )
-                );
+                )
         Intents.release()
     }
 

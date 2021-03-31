@@ -48,7 +48,7 @@ class TestProfileGender {
                                         )
                                 )
                         )
-                );
+                )
         Intents.release()
     }
 

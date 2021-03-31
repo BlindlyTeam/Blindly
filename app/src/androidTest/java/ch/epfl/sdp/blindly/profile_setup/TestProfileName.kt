@@ -65,7 +65,7 @@ class TestProfileName {
                                 )
                         )
                 )
-        );
+        )
         intended(hasComponent(ProfileBirthday::class.java.name), times(0))
         Intents.release()
     }
@@ -86,7 +86,7 @@ class TestProfileName {
                                 )
                         )
                 )
-        );
+        )
         intended(hasComponent(ProfileBirthday::class.java.name), times(0))
         Intents.release()
     }
@@ -107,7 +107,7 @@ class TestProfileName {
                                 )
                         )
                 )
-        );
+        )
         intended(hasComponent(ProfileBirthday::class.java.name), times(0))
         Intents.release()
     }
