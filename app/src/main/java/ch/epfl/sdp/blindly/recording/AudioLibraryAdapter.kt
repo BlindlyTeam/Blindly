@@ -81,7 +81,6 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         // contents of the view with that element
         viewHolder.recordName.text = recordList[position].name
         viewHolder.recordDuration.text = recordList[position].durationText
-
         viewHolder.nameDurationLayout.setOnClickListener {
             val show: Boolean = toggleLayout(!recordList[position].isExpanded, it, viewHolder.expandableLayout)
             recordList[position].isExpanded = show
@@ -93,19 +92,17 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         val playPauseButton = viewHolder.playPauseButton
         val movePlayBarThread = createPlayBarThread(playBar)
 
-        remainingTimer.isCountDown = true
-        remainingTimer.format = "-%s"
+        setCountDownTimer(remainingTimer)
 
         viewHolder.playPauseButton.setOnClickListener {
             if (isPlayerStopped) {
                 createMediaPlayer(recordList[position].filePath)
                 remainingTimer.base = SystemClock.elapsedRealtime() + mediaPlayer!!.duration.toLong()
+
                 mediaPlayer?.setOnCompletionListener {
                     mediaPlayer?.stop()
-                    playTimer.stop()
-                    remainingTimer.stop()
-                    isPlayerStopped = true
-                    playPauseButton.setImageResource(android.R.drawable.ic_media_play)
+
+                    setCompletedAudioView(playTimer, remainingTimer, playPauseButton)
                 }
             }
             if (!mediaPlayer!!.isPlaying) {
@@ -114,19 +111,11 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
                 if (!isPlayerPaused) {
                     playTimer.base = SystemClock.elapsedRealtime()
                 }
-                playTimer.start()
-                remainingTimer.start()
-                isPlayerPaused = false
-                isPlayerStopped = false
-                updatePlayBar(playBar, movePlayBarThread, mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
-                playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
+                setPlayView(playTimer, remainingTimer, playBar, movePlayBarThread, playPauseButton)
             } else {
                 mediaPlayer?.pause()
 
-                playTimer.stop()
-                remainingTimer.stop()
-                isPlayerPaused = true
-                playPauseButton.setImageResource(android.R.drawable.ic_media_play)
+                setPauseView(playTimer, remainingTimer, playPauseButton)
             }
         }
     }
@@ -159,6 +148,39 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         val handler = Handler(Looper.getMainLooper())
         handler.removeCallbacks(thread);
         handler.postDelayed(thread, 100);
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun setCountDownTimer(timer: Chronometer) {
+        timer.isCountDown = true
+        timer.format = "-%s"
+    }
+
+    private fun setCompletedAudioView(playTimer: Chronometer, remainingTimer: Chronometer,
+                                      playPauseButton: AppCompatImageButton) {
+        playTimer.stop()
+        remainingTimer.stop()
+        isPlayerStopped = true
+        playPauseButton.setImageResource(android.R.drawable.ic_media_play)
+    }
+
+    private fun setPlayView(playTimer: Chronometer, remainingTimer: Chronometer,
+                            playBar: SeekBar, movePlayBarThread: Runnable,
+                            playPauseButton: AppCompatImageButton) {
+        playTimer.start()
+        remainingTimer.start()
+        isPlayerPaused = false
+        isPlayerStopped = false
+        updatePlayBar(playBar, movePlayBarThread, mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
+        playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
+    }
+
+    private fun setPauseView(playTimer: Chronometer, remainingTimer: Chronometer,
+                             playPauseButton: AppCompatImageButton) {
+        playTimer.stop()
+        remainingTimer.stop()
+        isPlayerPaused = true
+        playPauseButton.setImageResource(android.R.drawable.ic_media_play)
     }
 
     // Return the size of your dataset (invoked by the layout manager)
