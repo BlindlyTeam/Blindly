@@ -48,7 +48,6 @@
             android:id="@+id/playBar"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/recordName"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="2dp"
             android:paddingTop="10dp" />
