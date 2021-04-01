@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_gravity="center_vertical"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -17,26 +16,35 @@
         android:layout_width="match_parent"
         android:layout_height="500dp" />
 
-        <View
-            android:id="@+id/recordDivider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/recordingList"
-            android:background="?android:attr/listDivider" />
-
-    <Button
-        android:id="@+id/recordingButton"
-        style="@style/Widget.Theme.Blindly.Record.Button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/recordDivider"
-        android:layout_gravity="center"
-        android:onClick="recordButtonClick" />
-
-    <Chronometer
-        android:id="@+id/recordTimer"
+    <View
+        android:id="@+id/recordDivider"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_height="1dp"
+        android:layout_below="@id/recordingList"
+        android:background="?android:attr/listDivider" />
+
+    <RelativeLayout
+        android:id="@+id/recordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <Button
+            android:id="@+id/recordingButton"
+            style="@style/Widget.Theme.Blindly.Record.Button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/recordDivider"
+            android:layout_centerInParent="true"
+            android:onClick="recordButtonClick" />
+
+        <Chronometer
+            android:id="@+id/recordTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_toRightOf="@id/recordingButton"
+            android:text="TextView"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 
 </LinearLayout>
