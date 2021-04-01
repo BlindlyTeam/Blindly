@@ -17,7 +17,7 @@ import javax.inject.Inject
 //@HiltAndroidTest
 class TestSetUserProfile {
 
-/*    @get:Rule
+    @get:Rule
     val activityRule = ActivityScenarioRule(ProfilePassions::class.java)
 
     @get:Rule
@@ -38,5 +38,5 @@ class TestSetUserProfile {
 
         Intents.release()
     }
-    */
+
 }

@@ -10,7 +10,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
@@ -112,20 +112,6 @@ class UserHelper {
         return FirebaseAuth.getInstance().currentUser?.uid
     }
 
-    private fun getMeta() {
-        val db = Firebase.firestore
-        if (getUserId() != null) {
-            db.collection(USER_PATH).document(getUserId()!!)
-                    .get()
-                    .addOnSuccessListener { document ->
-                        Log.d(Companion.TAG, "${document.id} => ${document.data}")
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.w(Companion.TAG, "Error getting documents.", exception)
-                    }
-        }
-    }
-
     fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Boolean {
         val response = IdpResponse.fromResultIntent(data)
 
@@ -161,8 +147,6 @@ class UserHelper {
         val database = Firebase.firestore
 
         if (getUserId() != null) {
-            //Update username in Firebase Auth
-            updateName(name)
             val information = arrayListOf(name,
                 location,
                 birthday,
@@ -183,23 +167,6 @@ class UserHelper {
         }
     }
 
-    private fun updateName(name: String) {
-        /*val user = FirebaseAuth.getInstance().currentUser
-
-        val profileUpdates = userProfileChangeRequest {
-            displayName = name
-        }
-
-        user!!.updateProfile(profileUpdates)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "Username updated.")
-                    } else {
-                        Log.d(TAG, "Error: Could not update username.")
-                    }
-                }*/
-    }
-
     /**
      * field: the filed of the value to change inside the database
      * newValue: the new value to set for the user
@@ -215,26 +182,6 @@ class UserHelper {
             database.collection(USER_PATH)
                     .document(user)
                     .update(field, newValue)
-            if(field == userFields[0])
-                updateName(newValue)
-    }
-
-    fun getAuthenticatedUser() {
-        val database = Firebase.firestore
-        val user = getUserId()
-        if(user != null) {
-            database.collection(USER_PATH).document(user).get()
-                    .addOnSuccessListener { document ->
-                        if (document != null) {
-                            Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                        } else {
-                            Log.d(TAG, "No such document")
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.d(TAG, "Get failed with ", exception)
-                    }
-        }
     }
 
 }
