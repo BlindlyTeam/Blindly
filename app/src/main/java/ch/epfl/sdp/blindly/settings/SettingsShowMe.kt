@@ -1,10 +1,10 @@
 package ch.epfl.sdp.blindly.settings
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import ch.epfl.sdp.blindly.R
 
@@ -24,9 +24,9 @@ class SettingsShowMe : AppCompatActivity() {
         val checks = listOf<ImageView>(menCheckmark, womenCheckmark, everyoneCheckmark)
         var currentShowMe = intent.getStringExtra(EXTRA_SHOW_ME)
 
-        fun setOnClickListener(button: Button, newShowMe: String, checks:List<ImageView>) {
+        fun setOnClickListener(button: Button, newShowMe: String, checks: List<ImageView>) {
             button.setOnClickListener {
-                if(newShowMe != currentShowMe) {
+                if (newShowMe != currentShowMe) {
                     currentShowMe = newShowMe
                     displayCheckmark(currentShowMe!!, checks)
                 }
@@ -52,7 +52,7 @@ class SettingsShowMe : AppCompatActivity() {
 
     }
 
-    private fun displayCheckmark(showMe: String, checks:List<ImageView>) {
+    private fun displayCheckmark(showMe: String, checks: List<ImageView>) {
         val checkmark = when (showMe) {
             "Men" -> checks[0]
             "Women" -> checks[1]

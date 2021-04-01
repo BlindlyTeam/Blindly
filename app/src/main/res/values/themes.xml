@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.Blindly.Fullscreen" parent="Theme.Blindly">
+    <!-- <style name="Theme.Blindly.Fullscreen" parent="Theme.Blindly">
         <item name="android:actionBarStyle">@style/Widget.Theme.Blindly.ActionBar.Fullscreen</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowBackground">@null</item>
@@ -25,12 +25,13 @@
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
 
+    <style name="Theme.Blindly.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.Blindly.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" /> -->
+
     <style name="Theme.Blindly.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Blindly.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.Blindly.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

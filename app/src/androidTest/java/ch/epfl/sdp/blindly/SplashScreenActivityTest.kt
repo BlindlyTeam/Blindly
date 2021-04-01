@@ -11,23 +11,26 @@ import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.fail
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.io.ByteArrayOutputStream
 
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class SplashScreenActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(SplashScreen::class.java)
 
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
     private fun isImageEqualToRes(actualImageView: ImageView, expectedDrawable: Int): Boolean {
         var activity: Activity? = null
-        activityRule.scenario.onActivity {a ->
+        activityRule.scenario.onActivity { a ->
             activity = a
         }
 
@@ -63,7 +66,7 @@ class SplashScreenActivityTest {
     fun splashScreenDisplaysSplashscreenDotPNG() {
         init()
         var imageView: ImageView? = null
-        activityRule.scenario.onActivity {activity ->
+        activityRule.scenario.onActivity { activity ->
             imageView = activity.findViewById(R.id.splashscreen_heart)
         }
         val resIdImage: Int = R.drawable.splash_screen_foreground
@@ -73,11 +76,12 @@ class SplashScreenActivityTest {
         }
         release()
     }
+
     @Test
-    fun splashScreenDisappearsMainActivityStarts(){
+    fun splashScreenDisappearsMainActivityStarts() {
         init()
-        activityRule.scenario.onActivity {activity ->
-            if(activity.isFinishing) {
+        activityRule.scenario.onActivity { activity ->
+            if (activity.isFinishing) {
                 Intents.intended(Matchers.allOf(IntentMatchers.hasComponent(MainActivity::class.java.name)))
             }
         }

@@ -5,16 +5,28 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
-
+import ch.epfl.sdp.blindly.utils.UserHelper
+import com.google.android.gms.tasks.OnCompleteListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 const val EXTRA_LOCATION = "user_location"
 const val EXTRA_SHOW_ME = "user_show_me"
+
 //const val REQUEST_LOCATION = 1
 const val REQUEST_SHOW_ME = 2
 
+@AndroidEntryPoint
 class Settings : AppCompatActivity() {
+
+    @Inject
+    lateinit var user: UserHelper
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -22,17 +34,17 @@ class Settings : AppCompatActivity() {
         supportActionBar?.hide()
 
         val emailAddressText = findViewById<TextView>(R.id.email_address_text)
-        emailAddressText.text = "random@epfl.ch"
+        emailAddressText.text = user.getEmail() ?: getString(R.string.not_logged_in);
 
         val locationText = findViewById<TextView>(R.id.current_location_text)
-        locationText.text = "Lausanne, Switzerland"
+        locationText.text = getString(R.string.lausanne_switzerland)
 
         val radiusText = findViewById<TextView>(R.id.radius_text)
         val radiusSeekBar = findViewById<SeekBar>(R.id.seekBar)
 
         radiusSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {
-                radiusText.text = progress.toString() + "km"
+                radiusText.text = getString(R.string.progress_km, progress)
             }
 
             override fun onStartTrackingTouch(seek: SeekBar) {}
@@ -40,7 +52,7 @@ class Settings : AppCompatActivity() {
         })
 
         val showMe = findViewById<TextView>(R.id.show_me_text)
-        showMe.text = "Women"
+        showMe.text = getString(R.string.women_show_me)
 
     }
 
@@ -60,6 +72,18 @@ class Settings : AppCompatActivity() {
 
         //startActivityForResult(EXTRA_SHOW_ME).launch(intent)
         startActivityForResult(intent, REQUEST_SHOW_ME)
+    }
+
+    fun logout(view: View) {
+        user.signOut(this, OnCompleteListener {
+            OnCompleteListener<Void> { p0 ->
+                if (p0.isComplete)
+                    startActivity(Intent(this@Settings, MainActivity::class.java))
+                else
+                // TODO fixme
+                    Toast.makeText(applicationContext, getString(R.string.logout_error), Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     // This is the non depracated version but it crashes for the moment
@@ -87,6 +111,10 @@ class Settings : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun startUpdateEmail(view: View) {
+        startActivity(Intent(this, SettingsUpdateEmail::class.java))
     }
 
 }
