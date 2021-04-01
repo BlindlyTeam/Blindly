@@ -168,7 +168,7 @@ class UserHelper {
     }
 
     /**
-     * field: the filed of the value to change inside the database
+     * field: the field of the value to change inside the database
      * newValue: the new value to set for the user
      */
     fun <T> updateProfile(field: String, newValue: T) {
