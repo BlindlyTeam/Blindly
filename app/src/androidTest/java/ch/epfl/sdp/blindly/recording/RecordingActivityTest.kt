@@ -2,19 +2,16 @@ package ch.epfl.sdp.blindly.recording
 
 import android.view.View
 import android.widget.SeekBar
-import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
-import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.not
 import org.junit.Rule
