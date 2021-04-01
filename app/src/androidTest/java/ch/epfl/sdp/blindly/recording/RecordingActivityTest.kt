@@ -24,7 +24,7 @@ class RecordingActivityTest {
         val recordButton = Espresso.onView(withId(R.id.recordingButton))
         val recordTimer = Espresso.onView(withId(R.id.recordTimer))
         recordButton.perform(click())
-        Thread.sleep(5000)
+        Thread.sleep(5200)
         recordButton.perform(click())
         recordTimer.check(matches(withText(FIVE_SECONDS_TEXT)))
     }
@@ -34,7 +34,7 @@ class RecordingActivityTest {
         val recordButton = Espresso.onView(withId(R.id.recordingButton))
         val recordName = Espresso.onView(withId(R.id.recordName))
         recordButton.perform(click())
-        Thread.sleep(1000)
+        Thread.sleep(1200)
         recordButton.perform(click())
         recordName.check(matches(withText(AUDIO_FILE_ONE)))
     }
@@ -44,7 +44,7 @@ class RecordingActivityTest {
         val recordButton = Espresso.onView(withId(R.id.recordingButton))
         val recordDuration = Espresso.onView(withId(R.id.recordDuration))
         recordButton.perform(click())
-        Thread.sleep(5000)
+        Thread.sleep(5200)
         recordButton.perform(click())
         recordDuration.check(matches(withText(FIVE_SECONDS_TEXT)))
     }
