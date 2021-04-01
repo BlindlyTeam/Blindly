@@ -31,13 +31,13 @@ class TestProfilePassions {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-    @Inject
+    /*@Inject
     lateinit var user: UserHelper
 
     @Before
     fun setup() {
         hiltRule.inject()
-    }
+    }*/
 
     private val ERROR_MESSAGE_1 = "Please select at least one!"
     private val ERROR_MESSAGE_2 = "You can not select more than 5!"
@@ -61,6 +61,10 @@ class TestProfilePassions {
         intended(hasComponent(ProfileAudioRecording::class.java.name), Intents.times(0))
         Intents.release()
     }
+
+    //TODO
+    // androidx.test.espresso.PerformException:
+    // Error performing 'single click' on view 'with id is <ch.epfl.sdp.blindly:id/chip18>'
 
     @Test
     fun moreThanAllowedInputShowsError() {
@@ -93,20 +97,18 @@ class TestProfilePassions {
                                         )
                                 )
                         )
-                );
+                )
         intended(hasComponent(ProfileAudioRecording::class.java.name), Intents.times(0))
         Intents.release()
 
     }
-    //androidx.test.espresso.PerformException: Error performing 'single click' on view 'with id is <ch.epfl.sdp.blindly:id/chip18>'
-    /*
+
     @Test
     fun correctInputsFiresProfileAudioRecording() {
         Intents.init()
         val chip18 = onView(withId(R.id.chip18))
         val chip28 = onView(withId(R.id.chip28))
         val chip38 = onView(withId(R.id.chip38))
-
 
         chip18.perform(click())
         chip28.perform(click())
@@ -118,6 +120,5 @@ class TestProfilePassions {
         intended(hasComponent(ProfileAudioRecording::class.java.name))
         Intents.release()
     }
-     */
-
+    
 }
