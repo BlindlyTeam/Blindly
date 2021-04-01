@@ -9,7 +9,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.MainScreen
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile.Profile1
+import ch.epfl.sdp.blindly.profile.ProfileFinished
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,12 +18,12 @@ import org.junit.runner.RunWith
 class TestProfileFinished {
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(Profile1::class.java)
+    val activityRule = ActivityScenarioRule(ProfileFinished::class.java)
 
     @Test
     fun profileFinishedFiresMainScreen() {
         Intents.init()
-        val buttonMainScreen = Espresso.onView(ViewMatchers.withId(R.id.button_p9))
+        val buttonMainScreen = Espresso.onView(ViewMatchers.withId(R.id.buttonMainScreen))
         buttonMainScreen.perform(ViewActions.click())
         Intents.intended(IntentMatchers.hasComponent(MainScreen::class.java.name))
         Intents.release()
