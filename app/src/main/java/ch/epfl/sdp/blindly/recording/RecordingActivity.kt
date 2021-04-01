@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.recording
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
@@ -13,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile.ProfileFinished
 import java.io.File
 import java.io.IOException
 
@@ -71,6 +73,11 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         //deleteTempRecordings()
         // TODO Delete Temp recordings when link with AudioLibrary
         adapter.recordList = ArrayList()
+    }
+
+    fun startProfileFinished(v: View) {
+        val intent = Intent(this, ProfileFinished::class.java)
+        startActivity(intent)
     }
 
     private fun recordButtonClick(view: View) {

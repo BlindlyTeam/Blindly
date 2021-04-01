@@ -28,7 +28,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
-        <activity android:name=".profile.Profile8"></activity>
+        <activity android:name=".profile.ProfileFinished"></activity>
+        <activity android:name=".profile.Profile8" />
         <activity android:name=".profile.Profile7" />
         <activity android:name=".profile.Profile6" />
         <activity android:name=".profile.Profile5" />
@@ -68,7 +69,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyAccountActivity"></activity>
+        <activity android:name=".MyAccountActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
