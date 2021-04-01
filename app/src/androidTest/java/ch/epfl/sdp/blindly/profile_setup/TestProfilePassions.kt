@@ -9,7 +9,6 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.utils.UserHelper
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -18,7 +17,6 @@ import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -66,24 +64,17 @@ class TestProfilePassions {
     // androidx.test.espresso.PerformException:
     // Error performing 'single click' on view 'with id is <ch.epfl.sdp.blindly:id/chip18>'
 
-    /*@Test
+    @Test
     fun moreThanAllowedInputShowsError() {
         Intents.init()
 
-        val chip14 = onView(withId(R.id.chip14))
-        val chip16 = onView(withId(R.id.chip16))
-        val chip17 = onView(withId(R.id.chip17))
-        val chip19 = onView(withId(R.id.chip19))
-        val chip20 = onView(withId(R.id.chip20))
-        val chip23 = onView(withId(R.id.chip23))
+        onView(withId(R.id.chip14)).perform(click())
+        onView(withId(R.id.chip16)).perform(click())
+        onView(withId(R.id.chip17)).perform(click())
+        onView(withId(R.id.chip19)).perform(click())
+        onView(withId(R.id.chip20)).perform(click())
+        onView(withId(R.id.chip23)).perform(click())
 
-
-        chip14.perform(click())
-        chip16.perform(click())
-        chip17.perform(click())
-        chip19.perform(click())
-        chip20.perform(click())
-        chip23.perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
@@ -98,11 +89,11 @@ class TestProfilePassions {
                                 )
                         )
                 )
-        intended(hasComponent(ProfileAudioRecording::class.java.name), Intents.times(0))
+        //intended(hasComponent(ProfileAudioRecording::class.java.name), Intents.times(0))
         Intents.release()
 
     }
-
+/*
     @Test
     fun correctInputsFiresProfileAudioRecording() {
         Intents.init()
