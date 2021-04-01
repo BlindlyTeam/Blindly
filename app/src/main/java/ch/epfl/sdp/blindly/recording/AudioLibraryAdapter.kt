@@ -28,7 +28,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
      * (custom ViewHolder).
      */
     var currentSelectionPos = -1
-    private var mediaPlayer: MediaPlayer? = null
+    var mediaPlayer: MediaPlayer? = null
     private var isPlayerPaused = false
     private var isPlayerStopped = true
 
@@ -75,6 +75,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
@@ -92,12 +93,13 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         val playPauseButton = viewHolder.playPauseButton
         val movePlayBarThread = createPlayBarThread(playBar)
 
-        // TODO: Remaining timer should count down
+        remainingTimer.isCountDown = true
+        remainingTimer.format = "-%s"
 
         viewHolder.playPauseButton.setOnClickListener {
             if (isPlayerStopped) {
                 createMediaPlayer(recordList[position].filePath)
-                remainingTimer.base = SystemClock.elapsedRealtime() - mediaPlayer!!.duration.toLong()
+                remainingTimer.base = SystemClock.elapsedRealtime() + mediaPlayer!!.duration.toLong()
                 mediaPlayer?.setOnCompletionListener {
                     mediaPlayer?.stop()
                     playTimer.stop()

@@ -20,7 +20,6 @@ private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
     private val mediaRecorder = MediaRecorder()
-    private var mediaPlayer: MediaPlayer? = null
 
     private lateinit var recordingRecyclerView: RecyclerView
     private lateinit var adapter: AudioLibraryAdapter
@@ -68,15 +67,13 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     override fun onStop() {
         super.onStop()
         mediaRecorder.release()
-        mediaPlayer?.release()
-        mediaPlayer = null
 
         //deleteTempRecordings()
         // TODO Delete Temp recordings when link with AudioLibrary
         adapter.recordList = ArrayList()
     }
 
-    fun recordButtonClick(view: View) {
+    private fun recordButtonClick(view: View) {
         if (!isRecording) {
             startRecording()
             setRecordView()
@@ -89,6 +86,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
         recordTimer = findViewById(R.id.recordTimer)
+        bindRecordButton(recordButton)
         // TODO: Make the timer show milliseconds
     }
 
@@ -121,7 +119,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     }
 
     private fun startRecording() {
-        mediaPlayer?.stop()
+        adapter.mediaPlayer?.stop()
         prepareRecording()
         mediaRecorder.start()
     }
@@ -150,10 +148,11 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         }
     }
 
-    private fun setBounceButton(button: Button) {
+    private fun bindRecordButton(button: Button) {
         val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
         button.setOnClickListener {
             button.startAnimation(bounce)
+            recordButtonClick(it)
         }
     }
 
