@@ -14,7 +14,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recordingList"
         android:layout_width="match_parent"
-        android:layout_height="500dp" />
+        android:layout_height="460dp" />
 
     <View
         android:id="@+id/recordDivider"
@@ -26,7 +26,7 @@
     <RelativeLayout
         android:id="@+id/recordLayout"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="140dp">
 
         <Button
             android:id="@+id/recordingButton"
@@ -40,10 +40,10 @@
             android:id="@+id/recordTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="60dp"
             android:layout_toRightOf="@id/recordingButton"
-            android:text="TextView"
-            android:layout_centerVertical="true" />
+            android:text="TextView" />
     </RelativeLayout>
 
 </LinearLayout>
