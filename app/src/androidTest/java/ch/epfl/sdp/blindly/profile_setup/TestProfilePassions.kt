@@ -68,12 +68,12 @@ class TestProfilePassions {
     fun moreThanAllowedInputShowsError() {
         Intents.init()
 
+        onView(withId(R.id.chip10)).perform(click())
+        onView(withId(R.id.chip11)).perform(click())
+        onView(withId(R.id.chip12)).perform(click())
+        onView(withId(R.id.chip13)).perform(click())
         onView(withId(R.id.chip14)).perform(click())
-        onView(withId(R.id.chip16)).perform(click())
-        onView(withId(R.id.chip17)).perform(click())
-        onView(withId(R.id.chip19)).perform(click())
-        onView(withId(R.id.chip20)).perform(click())
-        onView(withId(R.id.chip23)).perform(click())
+        onView(withId(R.id.chip15)).perform(click())
 
 
         val buttonContinue = onView(withId(R.id.button_p7))
@@ -89,21 +89,17 @@ class TestProfilePassions {
                                 )
                         )
                 )
-        //intended(hasComponent(ProfileAudioRecording::class.java.name), Intents.times(0))
+        intended(hasComponent(ProfileAudioRecording::class.java.name), Intents.times(0))
         Intents.release()
 
     }
-/*
+
     @Test
     fun correctInputsFiresProfileAudioRecording() {
         Intents.init()
-        val chip18 = onView(withId(R.id.chip18))
-        val chip28 = onView(withId(R.id.chip28))
-        val chip38 = onView(withId(R.id.chip38))
-
-        chip18.perform(click())
-        chip28.perform(click())
-        chip38.perform(click())
+        onView(withId(R.id.chip10)).perform(click())
+        onView(withId(R.id.chip11)).perform(click())
+        onView(withId(R.id.chip12)).perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
@@ -111,5 +107,5 @@ class TestProfilePassions {
         intended(hasComponent(ProfileAudioRecording::class.java.name))
         Intents.release()
     }
-    */
+
 }
