@@ -49,12 +49,20 @@ class RecordingActivity : AppCompatActivity() {
             }
 
             override fun onStartTrackingTouch(playBar: SeekBar) {
-                mediaPlayer?.pause()
+                if (isPlayerStopped) {
+                    createPlayer()
+                    preparePlaying()
+                } else {
+                    mediaPlayer?.pause()
+                    setPauseView()
+                }
             }
 
             override fun onStopTrackingTouch(playBar: SeekBar) {
                 updatePlayBar(playBar.max, playBar.progress)
                 mediaPlayer?.seekTo(playBar.progress)
+                playTimer.base = SystemClock.elapsedRealtime() - mediaPlayer!!.currentPosition
+                setPlayView()
                 mediaPlayer?.start()
             }
         })
