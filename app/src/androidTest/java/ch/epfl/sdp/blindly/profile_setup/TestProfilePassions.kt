@@ -21,7 +21,6 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 class TestProfilePassions {
 
-
     @get:Rule
     val activityRule = ActivityScenarioRule(ProfilePassions::class.java)
 
