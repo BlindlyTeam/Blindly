@@ -60,11 +60,17 @@
             android:layout_below="@id/text_p7"
             android:paddingHorizontal="25dp"/>
 
+        <Space
+            android:id="@+id/space_7_0"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/warning_p7_1"/>
+
         <ScrollView
             android:id="@+id/scrollview_7"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_below="@id/warning_p7_1"
+            android:layout_height="350dp"
+            android:layout_below="@id/space_7_0"
             android:paddingHorizontal="25dp">
 
             <LinearLayout
@@ -74,8 +80,8 @@
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroup_p7"
-                    android:layout_width="348dp"
-                    android:layout_height="462dp">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip10"
@@ -494,7 +500,7 @@
         <Space
             android:id="@+id/space_7"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="30dp"
             android:layout_below="@id/scrollview_7"/>
 
         <Button
