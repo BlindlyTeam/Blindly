@@ -11,17 +11,22 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class TestProfilePassions {
 
 
     @get:Rule
     val activityRule = ActivityScenarioRule(ProfilePassions::class.java)
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     private val ERROR_MESSAGE_1 = "Please select at least one!"
     private val ERROR_MESSAGE_2 = "You can not select more than 5!"
@@ -45,11 +50,6 @@ class TestProfilePassions {
         intended(hasComponent(ProfileAudioRecording::class.java.name), Intents.times(0))
         Intents.release()
     }
-
-    /*
-    TODO
-    Commented out chip click tests as they seem to fail in Cirrus for
-    whatever reason. Might want to check later
 
     @Test
     fun moreThanAllowedInputShowsError() {
@@ -106,5 +106,4 @@ class TestProfilePassions {
         intended(hasComponent(ProfileAudioRecording::class.java.name))
         Intents.release()
     }
-     */
 }
