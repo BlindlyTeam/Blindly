@@ -14,7 +14,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-private const val FIVE_SECONDS_TEXT = "00:05"
+private const val TWO_SECONDS_TEXT = "00:02"
 private const val AUDIO_FILE_ONE = "Audio file 1"
 
 @RunWith(AndroidJUnit4::class)
@@ -24,40 +24,28 @@ class RecordingActivityTest {
 
     @Test
     fun recordDurationTextIsCorrectlyDisplayed() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
         val recordTimer = Espresso.onView(withId(R.id.recordTimer))
-        recordButton.perform(click())
-        Thread.sleep(5200)
-        recordButton.perform(click())
-        recordTimer.check(matches(withText(FIVE_SECONDS_TEXT)))
+        createRecord(2200L)
+        recordTimer.check(matches(withText(TWO_SECONDS_TEXT)))
     }
 
     @Test
     fun recordNameIsCorrectlyDisplayed() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
+        createRecord(200L)
         val recordName = Espresso.onView(withId(R.id.recordName))
-        recordButton.perform(click())
-        Thread.sleep(1200)
-        recordButton.perform(click())
         recordName.check(matches(withText(AUDIO_FILE_ONE)))
     }
 
     @Test
     fun audioDurationTextIsCorrectlyDisplayed() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
+        createRecord(2200L)
         val recordDuration = Espresso.onView(withId(R.id.recordDuration))
-        recordButton.perform(click())
-        Thread.sleep(5200)
-        recordButton.perform(click())
-        recordDuration.check(matches(withText(FIVE_SECONDS_TEXT)))
+        recordDuration.check(matches(withText(TWO_SECONDS_TEXT)))
     }
 
     @Test
     fun recordingActivityFiresProfileFinished() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
-        recordButton.perform(click())
-        Thread.sleep(1000)
-        recordButton.perform(click())
+        createRecord(200L)
         Espresso.onView(withId(R.id.nameDurationLayout))
             .perform(click())
 
@@ -66,5 +54,25 @@ class RecordingActivityTest {
             .perform(click())
         Intents.intended(IntentMatchers.hasComponent(ProfileFinished::class.java.name))
         Intents.release()
+    }
+
+    @Test
+    fun playPauseButtonChangesBackgroundWhenClicked() {
+        createRecord(500L)
+        Espresso.onView(withId(R.id.nameDurationLayout))
+                .perform(click())
+        Espresso.onView(withId(R.id.playPauseButton))
+                .perform(click())
+        Espresso.onView(withId(R.id.playPauseButton))
+                .check(
+
+                )
+    }
+
+    private fun createRecord(duration: Long) {
+        val recordButton = Espresso.onView(withId(R.id.recordingButton))
+        recordButton.perform(click())
+        Thread.sleep(duration)
+        recordButton.perform(click())
     }
 }
