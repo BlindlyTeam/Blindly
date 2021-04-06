@@ -21,15 +21,21 @@
             android:layout_height="66dp"
             android:progress="78" />
 
+        <Space
+            android:id="@+id/space_7_1"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@id/progressBar_p7"/>
+
         <TextView
             android:id="@+id/text_p7"
-            android:layout_width="221dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/passions"
             android:textColor="#000000"
             android:textSize="36sp"
-            android:layout_below="@id/progressBar_p7"
-            android:paddingHorizontal="25dp"/>
+            android:layout_below="@id/space_7_1"
+            android:paddingHorizontal="50dp"/>
 
         <TextView
             android:id="@+id/guideline_p7"
@@ -63,13 +69,13 @@
         <Space
             android:id="@+id/space_7_0"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:layout_below="@id/warning_p7_1"/>
 
         <ScrollView
             android:id="@+id/scrollview_7"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="290dp"
             android:layout_below="@id/space_7_0"
             android:paddingHorizontal="25dp">
 
@@ -493,7 +499,6 @@
                         app:checkedIconVisible="false"
                         app:chipBackgroundColor="@color/chip_state_colors" />
                 </com.google.android.material.chip.ChipGroup>
-
             </LinearLayout>
         </ScrollView>
 

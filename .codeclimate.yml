@@ -2,4 +2,4 @@ exclude_patterns:
 - "**/test/"
 - "**/androidTest/"
 - "**test"
-- "**/main/java/ch.epfl.sdp.blindly/utils/UserHelper"
+- "**/main/java/ch.epfl.sdp.blindly/utils/"
