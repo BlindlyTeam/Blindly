@@ -140,4 +140,6 @@
     <string name="arrow_button_to_show_e_mail">Arrow button to show e-mail.</string>
     <string name="user_example_name_and_age">Jane Doe, 24</string>
     <string name="student">Student</string>
+    <string name="facebook_app_id">[2887339711533767]</string>
+    <string name="fb_login_protocol_scheme">fb[2887339711533767]</string>
 </resources>
