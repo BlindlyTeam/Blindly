@@ -10,16 +10,21 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class PermissionTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(LocationPermissionActivity::class.java)
+    
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @Test
     fun testLocationPermissionFiresProfileName() {
