@@ -10,32 +10,20 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.utils.UserHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
 
 @HiltAndroidTest
 class TestProfilePassions {
-
 
     @get:Rule
     val activityRule = ActivityScenarioRule(ProfilePassions::class.java)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
-
-    @Inject
-    lateinit var user: UserHelper
-
-    @Before
-    fun setup() {
-        hiltRule.inject()
-    }
 
     private val ERROR_MESSAGE_1 = "Please select at least one!"
     private val ERROR_MESSAGE_2 = "You can not select more than 5!"
@@ -60,11 +48,7 @@ class TestProfilePassions {
         Intents.release()
     }
 
-    //TODO
-    // androidx.test.espresso.PerformException:
-    // Error performing 'single click' on view 'with id is <ch.epfl.sdp.blindly:id/chip18>'
-
-    /*@Test
+    @Test
     fun moreThanAllowedInputShowsError() {
         Intents.init()
 
@@ -74,7 +58,6 @@ class TestProfilePassions {
         onView(withId(R.id.chip13)).perform(click())
         onView(withId(R.id.chip14)).perform(click())
         onView(withId(R.id.chip15)).perform(click())
-
 
         val buttonContinue = onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
@@ -88,18 +71,19 @@ class TestProfilePassions {
                                         )
                                 )
                         )
-                )
+                );
         intended(hasComponent(ProfileAudioRecording::class.java.name), Intents.times(0))
         Intents.release()
 
-    }*/
+    }
 
     @Test
     fun correctInputsFiresProfileAudioRecording() {
         Intents.init()
+
         onView(withId(R.id.chip10)).perform(click())
-        //onView(withId(R.id.chip11)).perform(click())
-        //onView(withId(R.id.chip12)).perform(click())
+        onView(withId(R.id.chip11)).perform(click())
+        onView(withId(R.id.chip12)).perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
