@@ -4,3 +4,11 @@ exclude_patterns:
 - "**test"
 - "**/UserHelper.kt"
 - "**HiltComponents"
+
+plugins:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        kotlin:
+          mass_threshold: 40
