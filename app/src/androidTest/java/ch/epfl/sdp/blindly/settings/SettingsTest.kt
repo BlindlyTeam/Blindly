@@ -32,7 +32,7 @@ import org.junit.Test
 import javax.inject.Inject
 
 
-private const val TEST_SHOW_ME_MEN = "Man"
+private const val TEST_SHOW_ME_MEN = "Men"
 private const val TEST_RADIUS = "80km"
 
 @HiltAndroidTest

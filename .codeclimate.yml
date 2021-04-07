@@ -10,7 +10,7 @@ checks:
       threshold: 60
     identical-code:
       config:
-        threshold: 60
+        threshold: 80
 
 exclude_patterns:
 - "**/test/"

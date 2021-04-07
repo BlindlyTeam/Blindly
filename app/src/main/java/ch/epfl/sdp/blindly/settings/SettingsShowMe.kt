@@ -10,7 +10,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 
 //TODO: Change currentShowMe to a lateinit at the top of the class, so that
-// the private function can be moved outsid eof onCreate...
+// the private function can be moved outside of onCreate...
 class SettingsShowMe : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +39,8 @@ class SettingsShowMe : AppCompatActivity() {
 
         if (currentShowMe != null) {
             displayCheckmark(currentShowMe!!, checks)
-            setOnClickListener(showMeMen, "Man", checks)
-            setOnClickListener(showMeWomen, "Woman", checks)
+            setOnClickListener(showMeMen, "Men", checks)
+            setOnClickListener(showMeWomen, "Women", checks)
             setOnClickListener(showMeEveryone, "Everyone", checks)
         }
 
@@ -57,8 +57,8 @@ class SettingsShowMe : AppCompatActivity() {
 
     private fun displayCheckmark(showMe: String, checks: List<ImageView>) {
         val checkmark = when (showMe) {
-            "Man" -> checks[0]
-            "Woman" -> checks[1]
+            "Men" -> checks[0]
+            "Women" -> checks[1]
             else -> checks[2]
         }
         checks.forEach { imageView ->

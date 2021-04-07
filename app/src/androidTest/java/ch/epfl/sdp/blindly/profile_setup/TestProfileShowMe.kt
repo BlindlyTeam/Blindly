@@ -23,7 +23,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
 
-const val TEST_SHOW_ME = "Woman"
+const val TEST_SHOW_ME = "Women"
+private const val NO_INPUT_ERROR = "Please select one!"
+
 @HiltAndroidTest
 class TestProfileShowMe {
 
@@ -32,9 +34,6 @@ class TestProfileShowMe {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
-
-    private val NO_INPUT_ERROR = "Please select one!"
-
 
     @Test
     fun noInputOutputsError() {

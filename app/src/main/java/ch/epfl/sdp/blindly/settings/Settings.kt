@@ -69,8 +69,7 @@ class Settings : AppCompatActivity() {
         val intent = Intent(this, SettingsShowMe::class.java).apply {
             putExtra(EXTRA_SHOW_ME, currentShowMe)
         }
-
-        //startActivityForResult(EXTRA_SHOW_ME).launch(intent)
+        //TODO fix me
         startActivityForResult(intent, REQUEST_SHOW_ME)
     }
 

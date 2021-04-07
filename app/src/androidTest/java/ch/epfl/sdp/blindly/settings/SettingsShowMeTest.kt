@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.text.Typography.dagger
 
-private const val TEST_SHOW_ME = "Woman"
+private const val TEST_SHOW_ME = "Women"
 
 @HiltAndroidTest
 class SettingsShowMeTest {
