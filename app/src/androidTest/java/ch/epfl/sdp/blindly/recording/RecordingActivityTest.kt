@@ -25,13 +25,6 @@ class RecordingActivityTest {
     val activityRule = ActivityScenarioRule(RecordingActivity::class.java)
 
     @Test
-    fun recordDurationTextIsCorrectlyDisplayed() {
-        val recordTimer = Espresso.onView(withId(R.id.recordTimer))
-        createRecord(500L)
-        recordTimer.check(matches(withText(ONE_SECOND_TEXT)))
-    }
-
-    @Test
     fun recordNameIsCorrectlyDisplayed() {
         createRecord(200L)
         val recordName = Espresso.onView(withId(R.id.recordName))
