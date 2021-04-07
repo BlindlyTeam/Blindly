@@ -42,11 +42,6 @@ class ProfilePage : Fragment() {
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
-        // AudioLibrary is disabled for now
-
-        // val audioLibraryButton = view.findViewById<Button>(R.id.audio_library_profile_button)
-        // setOnClickListener(audioLibraryButton, Intent(context, AudioLibrary::class.java))
-
         return view
     }
 

@@ -85,7 +85,6 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         recordButton = findViewById(R.id.recordingButton)
         recordTimer = findViewById(R.id.recordTimer)
         bindRecordButton(recordButton)
-        // TODO: Make the timer show milliseconds
     }
 
     private fun setRecordView() {
