@@ -3,11 +3,8 @@ package ch.epfl.sdp.blindly.recording
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.os.SystemClock
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -72,9 +69,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     override fun onStop() {
         super.onStop()
         mediaRecorder.release()
-
-        //deleteTempRecordings()
-        // TODO Delete Temp recordings when link with AudioLibrary
+        deleteTempRecordings()
         adapter.recordList = ArrayList()
     }
 

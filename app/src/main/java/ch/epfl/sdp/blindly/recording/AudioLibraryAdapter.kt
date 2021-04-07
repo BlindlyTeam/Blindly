@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.recording
 
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Handler
@@ -12,9 +13,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
+import ch.epfl.sdp.blindly.profile.ProfileFinished
+import java.io.File
 
 /**
  * Serves as an adapter to add audio recordings in a RecyclerView
@@ -41,6 +45,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         val playBar: SeekBar = view.findViewById(R.id.playBar)
         val playTimer: Chronometer = view.findViewById(R.id.audioTimer)
         val remainingTimer: Chronometer = view.findViewById(R.id.remainingTimer)
+        val selectButton: Button = view.findViewById(R.id.selectButton)
 
         init {
             // Define click listener for the ViewHolder's View.
@@ -118,6 +123,19 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
                 setPauseView(playTimer, remainingTimer, playPauseButton)
             }
         }
+
+        viewHolder.selectButton.setOnClickListener {
+            mediaPlayer?.release()
+            saveRecording(position)
+            startProfileFinished()
+        }
+    }
+
+    private fun saveRecording(position: Int) {
+        val filePath = recordList[position].filePath
+        val newName = "PresentationAudio.3gp"
+        val currentRecording = File(filePath)
+        currentRecording.copyTo(File("${context.filesDir.absolutePath}/$newName"), overwrite = true)
     }
 
     private fun createMediaPlayer(filePath: String) {
@@ -139,6 +157,11 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
                 }
             }
         }
+    }
+
+    private fun startProfileFinished() {
+        val intent = Intent(context, ProfileFinished::class.java)
+        startActivity(context, intent, null)
     }
 
     private fun updatePlayBar(playBar: SeekBar, thread: Runnable, duration: Int, position: Int) {
