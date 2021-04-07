@@ -8,6 +8,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.times
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -19,6 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+const val CORRECT_NAME = "Alice"
 
 @RunWith(AndroidJUnit4::class)
 class TestProfileName {
@@ -39,11 +41,11 @@ class TestProfileName {
     fun testProfileNameFiresProfileBirthday() {
         Intents.init()
         onView(withId(R.id.text_first_name))
-                .perform(ViewActions.clearText(), ViewActions.typeText(CORRECT_NAME));
+            .perform(ViewActions.clearText(), ViewActions.typeText(CORRECT_NAME));
         closeSoftKeyboard();
         val buttonContinue = onView(withId(R.id.button_p2))
         buttonContinue.perform(click())
-        intended(hasComponent(ProfileBirthday::class.java.name))
+        intended(Matchers.allOf(hasComponent(ProfileBirthday::class.java.name), IntentMatchers.hasExtra(EXTRA_USERNAME, CORRECT_NAME)))
         Intents.release()
     }
 
@@ -63,7 +65,7 @@ class TestProfileName {
                                 )
                         )
                 )
-        );
+        )
         intended(hasComponent(ProfileBirthday::class.java.name), times(0))
         Intents.release()
     }
@@ -84,7 +86,7 @@ class TestProfileName {
                                 )
                         )
                 )
-        );
+        )
         intended(hasComponent(ProfileBirthday::class.java.name), times(0))
         Intents.release()
     }
@@ -105,10 +107,8 @@ class TestProfileName {
                                 )
                         )
                 )
-        );
+        )
         intended(hasComponent(ProfileBirthday::class.java.name), times(0))
         Intents.release()
     }
-
-
 }

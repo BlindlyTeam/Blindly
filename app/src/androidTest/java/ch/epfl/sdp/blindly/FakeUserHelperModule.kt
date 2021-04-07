@@ -21,6 +21,14 @@ open class FakeUserHelperModule {
     companion object {
         const val PRIMARY_EMAIL = "test@example.com";
         const val SECOND_EMAIL = "test2@example.com";
+
+        const val USERNAME = "Jane Doe"
+        const val BIRTHDAY = "28.03.2003"
+        const val LOCATION = "EPFL, Ecublens"
+        const val GENRE = "Woman"
+        val SEXUAL_ORIENTATIONS = arrayListOf("Straight", "Gay", "Lesbian")
+        const val SHOW_ME = "Woman"
+        val PASSIONS = arrayListOf("Brunch", "Running", "Wine", "Tea")
     }
 
     @Singleton

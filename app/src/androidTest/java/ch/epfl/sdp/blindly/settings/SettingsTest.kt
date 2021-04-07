@@ -18,7 +18,9 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import ch.epfl.sdp.blindly.BlindlyApplication
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 import ch.epfl.sdp.blindly.utils.UserHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -31,7 +33,6 @@ import javax.inject.Inject
 
 
 private const val TEST_SHOW_ME_MEN = "Men"
-private const val TEST_SHOW_ME = "Women"
 private const val TEST_RADIUS = "80km"
 
 @HiltAndroidTest
@@ -94,17 +95,15 @@ class SettingsTest {
     @Test
     fun clickingOnDoneFiresBackToParentTheNewIntent() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
-        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME)
+        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME_MEN)
         ActivityScenario.launch<SettingsShowMe>(intent)
 
         onView((withId(R.id.show_me_men_button))).perform(click())
         onView(withId(R.id.done_button)).perform(click())
 
         assertEquals(RESULT_OK, activityRule.scenario.result.resultCode)
-        assertEquals(
-                TEST_SHOW_ME_MEN, activityRule.scenario.result.resultData.getStringExtra(
-                EXTRA_SHOW_ME
-        )
+        assertEquals(TEST_SHOW_ME_MEN,
+            activityRule.scenario.result.resultData.getStringExtra(EXTRA_SHOW_ME)
         )
     }
 
