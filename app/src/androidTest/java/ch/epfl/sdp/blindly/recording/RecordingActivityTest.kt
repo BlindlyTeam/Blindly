@@ -15,7 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-private const val TWO_SECONDS_TEXT = "00:02"
+private const val ZERO_SECONDS_TEXT = "00:00"
+private const val ONE_SECOND_TEXT = "00:01"
 private const val AUDIO_FILE_ONE = "Audio file 1"
 
 @RunWith(AndroidJUnit4::class)
@@ -26,8 +27,8 @@ class RecordingActivityTest {
     @Test
     fun recordDurationTextIsCorrectlyDisplayed() {
         val recordTimer = Espresso.onView(withId(R.id.recordTimer))
-        createRecord(2000L)
-        recordTimer.check(matches(withText(TWO_SECONDS_TEXT)))
+        createRecord(500L)
+        recordTimer.check(matches(withText(ONE_SECOND_TEXT)))
     }
 
     @Test
@@ -39,9 +40,9 @@ class RecordingActivityTest {
 
     @Test
     fun audioDurationTextIsCorrectlyDisplayed() {
-        createRecord(2000L)
+        createRecord(200L)
         val recordDuration = Espresso.onView(withId(R.id.recordDuration))
-        recordDuration.check(matches(withText(TWO_SECONDS_TEXT)))
+        recordDuration.check(matches(withText(ZERO_SECONDS_TEXT)))
     }
 
     @Test
@@ -72,6 +73,7 @@ class RecordingActivityTest {
                 )
     }
 
+    @Test
     fun playPauseButtonChangesBackgroundWhenClickedTwice() {
         createRecord(500L)
         Espresso.onView(withId(R.id.nameDurationLayout))
