@@ -125,7 +125,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         mediaRecorder.stop()
 
         val newAudio = AudioRecord("Audio file ${totalNumberOfRec + 1}",
-            recordTimer.text as String, recordFilePath, false)
+                recordTimer.text as String, recordFilePath, false)
         adapter.recordList.add(newAudio)
         adapter.notifyDataSetChanged()
 
@@ -139,7 +139,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     }
 
     private fun deleteTempRecordings() {
-        for(i in 0..totalNumberOfRec) {
+        for (i in 0..totalNumberOfRec) {
             changeRecordFilePath(i)
             File(recordFilePath).delete()
         }

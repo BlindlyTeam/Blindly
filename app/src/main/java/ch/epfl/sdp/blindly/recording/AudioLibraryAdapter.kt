@@ -31,7 +31,6 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    var currentSelectionPos = -1
     var mediaPlayer: MediaPlayer? = null
     private var isPlayerPaused = false
     private var isPlayerStopped = true

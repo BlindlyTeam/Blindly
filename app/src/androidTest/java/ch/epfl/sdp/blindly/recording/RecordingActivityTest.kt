@@ -49,11 +49,11 @@ class RecordingActivityTest {
     fun recordingActivityFiresProfileFinished() {
         createRecord(200L)
         Espresso.onView(withId(R.id.nameDurationLayout))
-            .perform(click())
+                .perform(click())
 
         Intents.init()
         Espresso.onView(withId(R.id.selectButton))
-            .perform(click())
+                .perform(click())
         Intents.intended(IntentMatchers.hasComponent(ProfileFinished::class.java.name))
         Intents.release()
     }
@@ -67,9 +67,9 @@ class RecordingActivityTest {
                 .perform(click())
         Espresso.onView(withId(R.id.playPauseButton))
                 .check(
-                    matches(
-                        withDrawable(android.R.drawable.ic_media_pause)
-                    )
+                        matches(
+                                withDrawable(android.R.drawable.ic_media_pause)
+                        )
                 )
     }
 
@@ -77,33 +77,33 @@ class RecordingActivityTest {
     fun playPauseButtonChangesBackgroundWhenClickedTwice() {
         createRecord(500L)
         Espresso.onView(withId(R.id.nameDurationLayout))
-            .perform(click())
+                .perform(click())
         Espresso.onView(withId(R.id.playPauseButton))
-            .perform(click())
+                .perform(click())
         Espresso.onView(withId(R.id.playPauseButton))
-            .perform(click())
+                .perform(click())
         Espresso.onView(withId(R.id.playPauseButton))
-            .check(
-                matches(
-                    withDrawable(android.R.drawable.ic_media_play)
+                .check(
+                        matches(
+                                withDrawable(android.R.drawable.ic_media_play)
+                        )
                 )
-            )
     }
 
     @Test
     fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
         createRecord(500L)
         Espresso.onView(withId(R.id.nameDurationLayout))
-            .perform(click())
+                .perform(click())
         Espresso.onView(withId(R.id.playPauseButton))
-            .perform(click())
+                .perform(click())
         Thread.sleep(2000L)
         Espresso.onView(withId(R.id.playPauseButton))
-            .check(
-                matches(
-                    withDrawable(android.R.drawable.ic_media_play)
+                .check(
+                        matches(
+                                withDrawable(android.R.drawable.ic_media_play)
+                        )
                 )
-            )
     }
 
     private fun createRecord(duration: Long) {
