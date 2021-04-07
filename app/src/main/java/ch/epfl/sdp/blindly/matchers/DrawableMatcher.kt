@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.matchers
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
@@ -11,16 +12,16 @@ import org.hamcrest.TypeSafeMatcher
 
 class DrawableMatcher internal constructor(private val expectedId: Int) : TypeSafeMatcher<View?>(View::class.java) {
     private var resourceName: String? = null
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun matchesSafely(target: View?): Boolean {
         if (target !is ImageView) {
             return false
         }
-        val imageView = target
         if (expectedId == EMPTY) {
-            return imageView.drawable == null
+            return target.drawable == null
         }
         if (expectedId == ANY) {
-            return imageView.drawable != null
+            return target.drawable != null
         }
         val resources = target.getContext().resources
         val expectedDrawable = resources.getDrawable(expectedId)
@@ -28,7 +29,7 @@ class DrawableMatcher internal constructor(private val expectedId: Int) : TypeSa
         if (expectedDrawable == null) {
             return false
         }
-        val bitmap = getBitmap(imageView.drawable)
+        val bitmap = getBitmap(target.drawable)
         val otherBitmap = getBitmap(expectedDrawable)
         return bitmap.sameAs(otherBitmap)
     }

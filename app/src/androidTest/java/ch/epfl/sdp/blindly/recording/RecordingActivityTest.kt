@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.profile.ProfileFinished
 import org.junit.Rule
 import org.junit.Test
@@ -25,7 +26,7 @@ class RecordingActivityTest {
     @Test
     fun recordDurationTextIsCorrectlyDisplayed() {
         val recordTimer = Espresso.onView(withId(R.id.recordTimer))
-        createRecord(2200L)
+        createRecord(2000L)
         recordTimer.check(matches(withText(TWO_SECONDS_TEXT)))
     }
 
@@ -38,7 +39,7 @@ class RecordingActivityTest {
 
     @Test
     fun audioDurationTextIsCorrectlyDisplayed() {
-        createRecord(2200L)
+        createRecord(2000L)
         val recordDuration = Espresso.onView(withId(R.id.recordDuration))
         recordDuration.check(matches(withText(TWO_SECONDS_TEXT)))
     }
@@ -57,7 +58,7 @@ class RecordingActivityTest {
     }
 
     @Test
-    fun playPauseButtonChangesBackgroundWhenClicked() {
+    fun playPauseButtonChangesBackgroundWhenClickedOnce() {
         createRecord(500L)
         Espresso.onView(withId(R.id.nameDurationLayout))
                 .perform(click())
@@ -65,8 +66,42 @@ class RecordingActivityTest {
                 .perform(click())
         Espresso.onView(withId(R.id.playPauseButton))
                 .check(
-
+                    matches(
+                        withDrawable(android.R.drawable.ic_media_pause)
+                    )
                 )
+    }
+
+    fun playPauseButtonChangesBackgroundWhenClickedTwice() {
+        createRecord(500L)
+        Espresso.onView(withId(R.id.nameDurationLayout))
+            .perform(click())
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(click())
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(click())
+        Espresso.onView(withId(R.id.playPauseButton))
+            .check(
+                matches(
+                    withDrawable(android.R.drawable.ic_media_play)
+                )
+            )
+    }
+
+    @Test
+    fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
+        createRecord(500L)
+        Espresso.onView(withId(R.id.nameDurationLayout))
+            .perform(click())
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(click())
+        Thread.sleep(2000L)
+        Espresso.onView(withId(R.id.playPauseButton))
+            .check(
+                matches(
+                    withDrawable(android.R.drawable.ic_media_play)
+                )
+            )
     }
 
     private fun createRecord(duration: Long) {
