@@ -40,7 +40,7 @@
         android:layout_marginStart="156dp"
         android:layout_marginEnd="162dp"
         android:layout_marginBottom="156dp"
-        android:onClick="start_main_screen"
+        android:onClick="startMainScreen"
         android:text="@string/goto_main_screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -6,21 +6,26 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.times
+import androidx.test.espresso.intent.matcher.BundleMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+const val TEST_GENRE_MORE = "More"
+const val TEST_GENRE_MEN = "Man"
+const val TEST_GENRE_WOMEN = "Woman"
 
 @RunWith(AndroidJUnit4::class)
 class TestProfileGender {
-
 
     @get:Rule
     val activityRule = ActivityScenarioRule(ProfileGender::class.java)
@@ -43,7 +48,7 @@ class TestProfileGender {
                                         )
                                 )
                         )
-                );
+                )
         Intents.release()
     }
 
@@ -54,7 +59,8 @@ class TestProfileGender {
         buttonWoman.perform(click())
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(hasComponent(ProfileOrientation::class.java.name))
+        intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, TEST_GENRE_WOMEN))))
         Intents.release()
     }
 
@@ -65,7 +71,8 @@ class TestProfileGender {
         buttonWoman.perform(click())
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(hasComponent(ProfileOrientation::class.java.name))
+        intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, TEST_GENRE_MEN))))
         Intents.release()
     }
 
@@ -76,7 +83,8 @@ class TestProfileGender {
         buttonMore.perform(click())
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(hasComponent(ProfileGenderMore::class.java.name))
+        intended(Matchers.allOf(hasComponent(ProfileGenderMore::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, TEST_GENRE_MORE))))
         Intents.release()
     }
 

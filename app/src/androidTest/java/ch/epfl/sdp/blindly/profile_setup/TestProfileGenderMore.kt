@@ -8,6 +8,8 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.times
+import androidx.test.espresso.intent.matcher.BundleMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -38,9 +40,9 @@ class TestProfileGenderMore {
         Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(INCORRECT_CHARS_SPECIFICATION));
         closeSoftKeyboard();
-        val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
+        val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        Espresso.onView(withId(R.id.warning2_p4_2))
+        onView(withId(R.id.warning2_p4_2))
                 .check(
                         ViewAssertions.matches(
                                 ViewMatchers.withText(
@@ -49,7 +51,7 @@ class TestProfileGenderMore {
                                         )
                                 )
                         )
-                );
+                )
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }
@@ -59,18 +61,13 @@ class TestProfileGenderMore {
         Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(NO_INPUT));
         closeSoftKeyboard();
-        val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
+        val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        Espresso.onView(withId(R.id.warning1_p4_2))
-                .check(
-                        ViewAssertions.matches(
-                                ViewMatchers.withText(
-                                        Matchers.containsString(
-                                                ERROR_MESSAGE
-                                        )
-                                )
-                        )
-                );
+        onView(withId(R.id.warning1_p4_2))
+            .check(
+                ViewAssertions.matches(
+                    ViewMatchers.withText(
+                        Matchers.containsString(ERROR_MESSAGE))))
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }
@@ -81,18 +78,13 @@ class TestProfileGenderMore {
         Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(BLANK_SPECIFICATION));
         closeSoftKeyboard();
-        val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
+        val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        Espresso.onView(withId(R.id.warning1_p4_2))
-                .check(
-                        ViewAssertions.matches(
-                                ViewMatchers.withText(
-                                        Matchers.containsString(
-                                                ERROR_MESSAGE
-                                        )
-                                )
-                        )
-                );
+        onView(withId(R.id.warning1_p4_2))
+            .check(
+                ViewAssertions.matches(
+                    ViewMatchers.withText(
+                        Matchers.containsString(ERROR_MESSAGE))))
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }
@@ -102,9 +94,10 @@ class TestProfileGenderMore {
         Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(CORRECT_SPECIFICATION));
         closeSoftKeyboard();
-        val buttonContinue = Espresso.onView(withId(R.id.button_p4_2))
+        val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        intended(hasComponent(ProfileOrientation::class.java.name))
+        intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, CORRECT_SPECIFICATION))))
         Intents.release()
     }
 

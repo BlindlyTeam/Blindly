@@ -74,7 +74,7 @@ class SettingsUpdateEmailTest {
                                 withText(R.string.email_update_success),
                                 withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
                         ))
-        );
+        )
         release()
     }
 
@@ -86,8 +86,6 @@ class SettingsUpdateEmailTest {
         Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setException(e) }, 1000L);
         val successfulTask = taskCompletionSource.task;
         Mockito.`when`(user.setEmail(FakeUserHelperModule.SECOND_EMAIL)).thenReturn(successfulTask)
-
-
 
         onView(withId(R.id.update_email_field))
                 .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL));
@@ -102,7 +100,7 @@ class SettingsUpdateEmailTest {
                                 withText(expectedResId),
                                 withEffectiveVisibility(Visibility.VISIBLE)
                         ))
-        );
+        )
 
         release()
 
@@ -110,26 +108,31 @@ class SettingsUpdateEmailTest {
 
     @Test
     fun emailUpdateInvalidEmail() {
-        emailUpdateErrorIsHandled(FirebaseAuthInvalidCredentialsException("aaa", "bbb"), R.string.invalid_email);
+        emailUpdateErrorIsHandled(FirebaseAuthInvalidCredentialsException("aaa", "bbb"),
+                R.string.invalid_email);
     }
 
     @Test
     fun emailUpdateUserCollision() {
-        emailUpdateErrorIsHandled(FirebaseAuthUserCollisionException("aaa", "bbb"), R.string.email_taken);
+        emailUpdateErrorIsHandled(FirebaseAuthUserCollisionException("aaa", "bbb"),
+                R.string.email_taken);
     }
 
     @Test
     fun emailUpdateInvalidUser() {
-        emailUpdateErrorIsHandled(FirebaseAuthInvalidUserException("aaa", "bbb"), R.string.try_to_logout);
+        emailUpdateErrorIsHandled(FirebaseAuthInvalidUserException("aaa", "bbb"),
+                R.string.try_to_logout);
     }
 
     @Test
     fun emailUpdateNeedRecentLogin() {
-        emailUpdateErrorIsHandled(FirebaseAuthRecentLoginRequiredException("aaa", "bbb"), R.string.try_to_logout);
+        emailUpdateErrorIsHandled(FirebaseAuthRecentLoginRequiredException("aaa", "bbb"),
+                R.string.try_to_logout);
     }
 
     @Test
     fun emailUpdateOtherError() {
-        emailUpdateErrorIsHandled(java.lang.Exception("aaa"), R.string.update_email_unknown_error);
+        emailUpdateErrorIsHandled(java.lang.Exception("aaa"),
+                R.string.update_email_unknown_error);
     }
 }

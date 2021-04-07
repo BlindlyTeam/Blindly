@@ -32,7 +32,6 @@
     <string name="lesbian">Lesbian</string>
     <string name="straight">Straight</string>
     <string name="gay">Gay</string>
-    <string name="everyone">EVERYONE</string>
     <string name="show_me">Show me</string>
     <string name="edit_profile_info">Edit Info</string>
     <string name="settings_profile">Settings</string>
@@ -111,6 +110,10 @@
     <string name="please_select_at_least_one">Please select at least one!</string>
     <string name="you_can_t_select_more_than_3">You can not select more than 3!</string>
     <string name="ready_to_go">You are ready to go !</string>
+    <string name="set_password">Enter Password</string>
+    <string name="set_email">Enter Email Address</string>
+    <string name="create_account">Create Account</string>
+    <string name="sign_up">Sign Up</string>
     <string name="more_hint">More&#8230;</string>
     <string name="you_can_not_select_more_than_5">You can not select more than 5!</string>
     <string name="select_up_to_5">Select up to 5.</string>
