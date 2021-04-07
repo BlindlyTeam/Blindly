@@ -24,6 +24,7 @@ class ProfileGenderMore : AppCompatActivity() {
 
     fun startProfileOrientation(view: View) {
         findViewById<TextView>(R.id.warning1_p4_2).visibility = View.INVISIBLE
+        findViewById<TextView>(R.id.warning2_p4_2).visibility = View.INVISIBLE
 
         val name = findViewById<TextView>(R.id.text_p4_2).text.toString().trim()
 

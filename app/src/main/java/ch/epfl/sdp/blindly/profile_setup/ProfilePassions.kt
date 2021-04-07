@@ -24,7 +24,7 @@ class ProfilePassions : AppCompatActivity() {
     private var username: String? = null
     private var birthday: String? = null
     private var genre: String? = null
-    private var sexualOriantations : ArrayList<String> = ArrayList()
+    private var sexualOrientations : ArrayList<String> = ArrayList()
     private var showMe: String? = null
     private val passions: ArrayList<String> = ArrayList()
 
@@ -39,7 +39,7 @@ class ProfilePassions : AppCompatActivity() {
         birthday = bundle?.getString(EXTRA_BIRTHDAY)
         genre = bundle?.getString(EXTRA_GENRE)
         if(bundle != null)
-            sexualOriantations = bundle.getStringArrayList(EXTRA_SEXUAL_ORIENTATIONS) as ArrayList<String>
+            sexualOrientations = bundle.getStringArrayList(EXTRA_SEXUAL_ORIENTATIONS) as ArrayList<String>
         showMe = bundle?.getString(EXTRA_SHOW_ME)
     }
 
@@ -84,7 +84,7 @@ class ProfilePassions : AppCompatActivity() {
             genre?.let { it2 ->
                 showMe?.let { it3 ->
                     user.setUserProfile(it, location,
-                        it1, it2, sexualOriantations, it3, passions)
+                        it1, it2, sexualOrientations, it3, passions)
                 }
             }
         } }
