@@ -1,16 +1,22 @@
 package ch.epfl.sdp.blindly.recording
 
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
-import org.hamcrest.Matchers.not
+import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
+import ch.epfl.sdp.blindly.profile.ProfileFinished
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+
+private const val ZERO_SECONDS_TEXT = "00:00"
+private const val AUDIO_FILE_ONE = "Audio file 1"
 
 @RunWith(AndroidJUnit4::class)
 class RecordingActivityTest {
@@ -18,54 +24,84 @@ class RecordingActivityTest {
     val activityRule = ActivityScenarioRule(RecordingActivity::class.java)
 
     @Test
-    fun recordingTextIsCorrectlyDisplayed() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
-        val recordingText = Espresso.onView(withId(R.id.recordingText))
-        val text = recordingText.toString()
-        recordingText.check(matches(not(isDisplayed())))
-        recordButton.perform(click())
-        recordingText.check(matches(isDisplayed()))
-        //recordingText.check(matches(withText("Recording&#8230;")))
-        Thread.sleep(500)
-        recordButton.perform(click())
-        recordingText.check(matches(withText("Done !")))
+    fun recordNameIsCorrectlyDisplayed() {
+        createRecord(200L)
+        val recordName = onView(withId(R.id.recordName))
+        recordName.check(matches(withText(AUDIO_FILE_ONE)))
     }
 
     @Test
-    fun recordingButtonTextIsCorrectlyDisplayed() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
-        recordButton.check(matches(withText("Start recording")))
-        recordButton.perform(click())
-        recordButton.check(matches(withText("Stop recording")))
-        recordButton.perform(click())
-        recordButton.check(matches(withText("Start recording")))
+    fun audioDurationTextIsCorrectlyDisplayed() {
+        createRecord(200L)
+        val recordDuration = onView(withId(R.id.recordDuration))
+        recordDuration.check(matches(withText(ZERO_SECONDS_TEXT)))
     }
 
     @Test
-    fun playingButtonIsCorrectlyDisabled() {
-        val playButton = Espresso.onView(withId(R.id.playingButton))
-        playButton.check(matches(not(isEnabled())))
+    fun recordingActivityFiresProfileFinished() {
+        createRecord(200L)
+        onView(withId(R.id.nameDurationLayout))
+                .perform(click())
+
+        Intents.init()
+        onView(withId(R.id.selectButton))
+                .perform(click())
+        Intents.intended(IntentMatchers.hasComponent(ProfileFinished::class.java.name))
+        Intents.release()
     }
 
     @Test
-    fun playingButtonIsCorrectlyEnabled() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
-        val playButton = Espresso.onView(withId(R.id.playingButton))
-        recordButton.perform(click(), click())
-        playButton.check(matches(isEnabled()))
+    fun playPauseButtonChangesBackgroundWhenClickedOnce() {
+        createRecord(500L)
+        onView(withId(R.id.nameDurationLayout))
+                .perform(click())
+        onView(withId(R.id.playPauseButton))
+                .perform(click())
+        onView(withId(R.id.playPauseButton))
+                .check(
+                        matches(
+                                withDrawable(android.R.drawable.ic_media_pause)
+                        )
+                )
     }
 
     @Test
-    fun playingButtonTextIsCorrectlyDisplayed() {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
-        val playButton = Espresso.onView(withId(R.id.playingButton))
+    fun playPauseButtonChangesBackgroundWhenClickedTwice() {
+        createRecord(500L)
+        onView(withId(R.id.nameDurationLayout))
+                .perform(click())
+        onView(withId(R.id.playPauseButton))
+                .perform(click())
+        onView(withId(R.id.playPauseButton))
+                .perform(click())
+        onView(withId(R.id.playPauseButton))
+                .check(
+                        matches(
+                                withDrawable(android.R.drawable.ic_media_play)
+                        )
+                )
+    }
+
+    @Test
+    fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
+        createRecord(500L)
+        onView(withId(R.id.nameDurationLayout))
+                .perform(click())
+        onView(withId(R.id.playPauseButton))
+                .perform(click())
+        Thread.sleep(2000L)
+        onView(withId(R.id.playPauseButton))
+                .check(
+                        matches(
+                                withDrawable(android.R.drawable.ic_media_play)
+                        )
+                )
+    }
+
+    private fun createRecord(duration: Long) {
+        val recordButton = onView(withId(R.id.recordingButton))
         recordButton.perform(click())
-        Thread.sleep(2000)
+        Thread.sleep(duration)
         recordButton.perform(click())
-        playButton.check(matches(withText("Play")))
-        playButton.perform(click())
-        playButton.check(matches(withText("Pause")))
-        playButton.perform(click())
-        playButton.check(matches(withText("Play")))
     }
 }
