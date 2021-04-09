@@ -20,6 +20,8 @@ import ch.epfl.sdp.blindly.animations.RecordAnimations
 import ch.epfl.sdp.blindly.profile.ProfileFinished
 import java.io.File
 
+private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.3gp"
+
 /**
  * Serves as an adapter to add audio recordings in a RecyclerView
  */
@@ -54,21 +56,19 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
 
         override fun onClick(v: View?) {
             // Forward the click to the main activity
-            val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                listener.onItemClick(adapterPosition)
             }
         }
     }
 
     // Expands or collapse the layout for playing the audio file
-    private fun toggleLayout(isExpanded: Boolean, v: View, layoutExpand: RelativeLayout): Boolean {
+    private fun toggleLayout(isExpanded: Boolean, v: View, layoutExpand: RelativeLayout) {
         if (isExpanded) {
             RecordAnimations.expand(layoutExpand)
         } else {
             RecordAnimations.collapse(layoutExpand)
         }
-        return isExpanded
     }
 
     // Create new views (invoked by the layout manager)
@@ -86,8 +86,9 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         viewHolder.recordName.text = recordList[position].name
         viewHolder.recordDuration.text = recordList[position].durationText
         viewHolder.nameDurationLayout.setOnClickListener {
-            val show: Boolean = toggleLayout(!recordList[position].isExpanded, it, viewHolder.expandableLayout)
-            recordList[position].isExpanded = show
+            val notIsExpanded = !recordList[position].isExpanded
+            toggleLayout(notIsExpanded, it, viewHolder.expandableLayout)
+            recordList[position].isExpanded = notIsExpanded
         }
 
         val playBar = viewHolder.playBar
@@ -105,8 +106,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
 
                 mediaPlayer?.setOnCompletionListener {
                     mediaPlayer?.stop()
-
-                    setCompletedAudioView(playTimer, remainingTimer, playPauseButton)
+                    setStoppedView(playTimer, remainingTimer, playPauseButton, false)
                 }
             }
             if (!mediaPlayer!!.isPlaying) {
@@ -118,8 +118,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
                 setPlayView(playTimer, remainingTimer, playBar, movePlayBarThread, playPauseButton)
             } else {
                 mediaPlayer?.pause()
-
-                setPauseView(playTimer, remainingTimer, playPauseButton)
+                setStoppedView(playTimer, remainingTimer, playPauseButton, true)
             }
         }
 
@@ -132,7 +131,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
 
     private fun saveRecording(position: Int) {
         val filePath = recordList[position].filePath
-        val newName = "PresentationAudio.3gp"
+        val newName = PRESENTATION_AUDIO_NAME
         val currentRecording = File(filePath)
         currentRecording.copyTo(File("${context.filesDir.absolutePath}/$newName"), overwrite = true)
     }
@@ -148,10 +147,8 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         return object : Runnable {
             override fun run() {
                 if (mediaPlayer?.isPlaying == true) {
-                    val newMediaPos = mediaPlayer!!.currentPosition
-                    val newMediaMax = mediaPlayer!!.duration
-                    playBar.max = newMediaMax
-                    playBar.progress = newMediaPos
+                    playBar.max = mediaPlayer!!.duration
+                    playBar.progress = mediaPlayer!!.currentPosition
                     Handler(Looper.getMainLooper()).postDelayed(this, 100)
                 }
             }
@@ -178,11 +175,15 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         timer.format = "-%s"
     }
 
-    private fun setCompletedAudioView(playTimer: Chronometer, remainingTimer: Chronometer,
-                                      playPauseButton: AppCompatImageButton) {
+    private fun setStoppedView(playTimer: Chronometer, remainingTimer: Chronometer,
+                               playPauseButton: AppCompatImageButton, isPause: Boolean) {
         playTimer.stop()
         remainingTimer.stop()
-        isPlayerStopped = true
+        if (isPause) {
+            isPlayerPaused = true
+        } else {
+            isPlayerStopped = true
+        }
         playPauseButton.setImageResource(android.R.drawable.ic_media_play)
     }
 
@@ -195,14 +196,6 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         isPlayerStopped = false
         updatePlayBar(playBar, movePlayBarThread, mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
         playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
-    }
-
-    private fun setPauseView(playTimer: Chronometer, remainingTimer: Chronometer,
-                             playPauseButton: AppCompatImageButton) {
-        playTimer.stop()
-        remainingTimer.stop()
-        isPlayerPaused = true
-        playPauseButton.setImageResource(android.R.drawable.ic_media_play)
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -50,7 +50,6 @@
     <string name="looking_for">Looking for</string>
     <string name="settings_location">Location</string>
     <string name="settings_show_me">Show Me</string>
-    <string name="audio_library_toolbar">Audio Library</string>
     <string name="current_location">CURRENT LOCATION</string>
     <string name="my_current_location">My Current Location</string>
     <string name="check_mark">check_mark </string>
@@ -63,9 +62,6 @@
     <string name="login_err">Login failed,error code: %1$d</string>
     <string name="login_button">Login</string>
     <string name="present_yourself_record">Present yourself by recording an audio file</string>
-    <string name="additional_records_possible_profile">It will be possible to record other files later</string>
-    <string name="recording">Recording&#8230;</string>
-    <string name="initialised_timer">00:00</string>
     <string name="require_locaiton_permission">You should allow the localisation for the app to work properly</string>
     <string name="accept">Accept</string>
     <string name="passions">Passions</string>
@@ -130,11 +126,6 @@
     <string name="check_mark_for_the_choice_women">Check mark for the choice Women.</string>
     <string name="check_mark_for_the_choice_men">Check mark for the choice Men.</string>
     <string name="check_mark_for_the_choice_everyone">Check mark for the choice Everyone.</string>
-    <string name="pause">Pause</string>
-    <string name="play">Play</string>
-    <string name="stop_recording">Stop recording</string>
-    <string name="done_exclamation">Done !</string>
-    <string name="start_recording">Start recording</string>
     <string name="lausanne_switzerland">Lausanne, Switzerland</string>
     <string name="progress_km">%1$dkm</string>
     <string name="not_logged_in">NOT LOGGED-IN</string>
@@ -144,4 +135,7 @@
     <string name="arrow_button_to_show_e_mail">Arrow button to show e-mail.</string>
     <string name="user_example_name_and_age">Jane Doe, 24</string>
     <string name="student">Student</string>
+    <string name="base_timer_MM_SS">00:00</string>
+    <string name="play_pause_button">Play/Pause button</string>
+    <string name="select">Select</string>
 </resources>

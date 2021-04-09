@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/recordName"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_weight="50"
@@ -30,10 +30,8 @@
             android:id="@+id/recordDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="20dp"
-            android:layout_toRightOf="@id/recordName"
-            android:text="00:00"
+            android:layout_marginEnd="20dp"
+            android:text="@string/base_timer_MM_SS"
             android:textColor="#716E6E"
             android:textSize="14sp" />
     </LinearLayout>
@@ -41,8 +39,7 @@
     <RelativeLayout
         android:id="@+id/audioPlayLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/nameDurationLayout">
+        android:layout_height="wrap_content" >
 
         <SeekBar
             android:id="@+id/playBar"
@@ -57,18 +54,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/audioTimer"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="80dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="80dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            app:srcCompat="@android:drawable/ic_media_play" />
+            app:srcCompat="@android:drawable/ic_media_play"
+            android:contentDescription="@string/play_pause_button"/>
 
         <Chronometer
             android:id="@+id/audioTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/playBar"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:textColor="#716E6E" />
 
         <Chronometer
@@ -76,8 +74,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/playBar"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="30dp"
             android:textColor="#716E6E" />
 
         <Button
@@ -85,11 +83,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/remainingTimer"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="80dp"
+            android:layout_marginEnd="80dp"
             android:layout_marginBottom="10dp"
-            android:text="Select" />
+            android:text="@string/select" />
 
     </RelativeLayout>
 

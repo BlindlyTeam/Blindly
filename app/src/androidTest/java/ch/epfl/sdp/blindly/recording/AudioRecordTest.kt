@@ -16,7 +16,7 @@ private const val FILEPATH2 = "Test/myApp/file2"
 @RunWith(AndroidJUnit4::class)
 class AudioRecordTest {
     @Test
-    fun equalsIsTrueWhithSameObjects() {
+    fun equalsIsTrueWithSameObjects() {
         val audio1 = AudioRecord(NAME_AUDIO_ONE, DURATION_ZERO, FILEPATH1, false)
         val audio2 = AudioRecord(NAME_AUDIO_ONE, DURATION_ZERO, FILEPATH1, false)
         assertThat(audio1 == audio2, equalTo(true))

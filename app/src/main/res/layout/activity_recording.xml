@@ -20,7 +20,6 @@
         android:id="@+id/recordDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/recordingList"
         android:background="?android:attr/listDivider" />
 
     <RelativeLayout
@@ -40,9 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="60dp"
-            android:layout_toRightOf="@id/recordingButton"
-            android:text="TextView" />
+            android:layout_marginStart="60dp"
+            android:layout_toEndOf="@id/recordingButton" />
     </RelativeLayout>
 
 </LinearLayout>

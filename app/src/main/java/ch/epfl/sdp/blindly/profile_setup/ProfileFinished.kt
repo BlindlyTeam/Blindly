@@ -10,7 +10,7 @@ import ch.epfl.sdp.blindly.R
 class ProfileFinished : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile_finished)
+        setContentView(R.layout.profile_setup_finished)
     }
 
     fun startMainScreen(v: View) {

@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly.recording
 
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
@@ -16,7 +16,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 private const val ZERO_SECONDS_TEXT = "00:00"
-private const val ONE_SECOND_TEXT = "00:01"
 private const val AUDIO_FILE_ONE = "Audio file 1"
 
 @RunWith(AndroidJUnit4::class)
@@ -27,25 +26,25 @@ class RecordingActivityTest {
     @Test
     fun recordNameIsCorrectlyDisplayed() {
         createRecord(200L)
-        val recordName = Espresso.onView(withId(R.id.recordName))
+        val recordName = onView(withId(R.id.recordName))
         recordName.check(matches(withText(AUDIO_FILE_ONE)))
     }
 
     @Test
     fun audioDurationTextIsCorrectlyDisplayed() {
         createRecord(200L)
-        val recordDuration = Espresso.onView(withId(R.id.recordDuration))
+        val recordDuration = onView(withId(R.id.recordDuration))
         recordDuration.check(matches(withText(ZERO_SECONDS_TEXT)))
     }
 
     @Test
     fun recordingActivityFiresProfileFinished() {
         createRecord(200L)
-        Espresso.onView(withId(R.id.nameDurationLayout))
+        onView(withId(R.id.nameDurationLayout))
                 .perform(click())
 
         Intents.init()
-        Espresso.onView(withId(R.id.selectButton))
+        onView(withId(R.id.selectButton))
                 .perform(click())
         Intents.intended(IntentMatchers.hasComponent(ProfileFinished::class.java.name))
         Intents.release()
@@ -54,11 +53,11 @@ class RecordingActivityTest {
     @Test
     fun playPauseButtonChangesBackgroundWhenClickedOnce() {
         createRecord(500L)
-        Espresso.onView(withId(R.id.nameDurationLayout))
+        onView(withId(R.id.nameDurationLayout))
                 .perform(click())
-        Espresso.onView(withId(R.id.playPauseButton))
+        onView(withId(R.id.playPauseButton))
                 .perform(click())
-        Espresso.onView(withId(R.id.playPauseButton))
+        onView(withId(R.id.playPauseButton))
                 .check(
                         matches(
                                 withDrawable(android.R.drawable.ic_media_pause)
@@ -69,13 +68,13 @@ class RecordingActivityTest {
     @Test
     fun playPauseButtonChangesBackgroundWhenClickedTwice() {
         createRecord(500L)
-        Espresso.onView(withId(R.id.nameDurationLayout))
+        onView(withId(R.id.nameDurationLayout))
                 .perform(click())
-        Espresso.onView(withId(R.id.playPauseButton))
+        onView(withId(R.id.playPauseButton))
                 .perform(click())
-        Espresso.onView(withId(R.id.playPauseButton))
+        onView(withId(R.id.playPauseButton))
                 .perform(click())
-        Espresso.onView(withId(R.id.playPauseButton))
+        onView(withId(R.id.playPauseButton))
                 .check(
                         matches(
                                 withDrawable(android.R.drawable.ic_media_play)
@@ -86,12 +85,12 @@ class RecordingActivityTest {
     @Test
     fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
         createRecord(500L)
-        Espresso.onView(withId(R.id.nameDurationLayout))
+        onView(withId(R.id.nameDurationLayout))
                 .perform(click())
-        Espresso.onView(withId(R.id.playPauseButton))
+        onView(withId(R.id.playPauseButton))
                 .perform(click())
         Thread.sleep(2000L)
-        Espresso.onView(withId(R.id.playPauseButton))
+        onView(withId(R.id.playPauseButton))
                 .check(
                         matches(
                                 withDrawable(android.R.drawable.ic_media_play)
@@ -100,7 +99,7 @@ class RecordingActivityTest {
     }
 
     private fun createRecord(duration: Long) {
-        val recordButton = Espresso.onView(withId(R.id.recordingButton))
+        val recordButton = onView(withId(R.id.recordingButton))
         recordButton.perform(click())
         Thread.sleep(duration)
         recordButton.perform(click())
