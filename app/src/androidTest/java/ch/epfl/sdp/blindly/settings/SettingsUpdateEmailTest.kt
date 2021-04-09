@@ -13,7 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.FakeUserHelperModule
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.utils.UserHelper
+import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException

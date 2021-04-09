@@ -1,8 +1,8 @@
 package ch.epfl.sdp.blindly
 
 import android.os.Handler
-import ch.epfl.sdp.blindly.utils.UserHelper
-import ch.epfl.sdp.blindly.utils.UserHelperModule
+import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.UserHelperModule
 import com.google.android.gms.tasks.TaskCompletionSource
 import dagger.Module
 import dagger.Provides

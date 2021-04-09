@@ -1,0 +1,30 @@
+package ch.epfl.sdp.blindly.main_screen
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
+import ch.epfl.sdp.blindly.R
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class MainScreen : AppCompatActivity() {
+
+    private val tabTitles = arrayListOf("Match", "Message", "Profile")
+
+    var tabLayout: TabLayout? = null
+    var viewPager: ViewPager2? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main_screen)
+        viewPager = findViewById(R.id.view_pager)
+        tabLayout = findViewById(R.id.tabs)
+
+        viewPager!!.adapter = ViewPagerAdapter(this)
+        TabLayoutMediator(tabLayout!!, viewPager!!) { tab, position ->
+            tab.text = tabTitles[position]
+        }.attach()
+    }
+}

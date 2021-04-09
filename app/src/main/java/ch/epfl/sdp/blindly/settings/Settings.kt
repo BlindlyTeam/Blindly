@@ -10,8 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
-import ch.epfl.sdp.blindly.utils.UserHelper
+import ch.epfl.sdp.blindly.user.UserCache
+import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,7 +27,6 @@ class Settings : AppCompatActivity() {
 
     @Inject
     lateinit var user: UserHelper
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
