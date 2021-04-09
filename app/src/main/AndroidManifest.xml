@@ -29,6 +29,7 @@
         android:theme="@style/Theme.Blindly"
         android:name=".BlindlyApplication"
         tools:ignore="ExtraText">
+        <activity android:name=".profile_setup.ProfileFinished"></activity>
         <activity android:name=".profile_setup.ProfileAudioRecording"></activity>
         <activity android:name=".profile_setup.ProfilePassions" />
         <activity android:name=".profile_setup.ProfileShowMe" />
@@ -44,7 +45,6 @@
         <activity android:name=".settings.SettingsLocation" />
 
         <activity android:name=".settings.SettingsShowMe" />
-        <activity android:name=".AudioLibrary" />
         <activity android:name=".EditProfile" />
         <activity android:name=".settings.Settings" />
         <activity android:name=".settings.SettingsUpdateEmail" />

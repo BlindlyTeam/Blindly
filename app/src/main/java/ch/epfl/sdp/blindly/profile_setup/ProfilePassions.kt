@@ -61,8 +61,7 @@ class ProfilePassions : AppCompatActivity() {
             //correct numbers of selection
             else -> {
                 getCheckedChip()
-                //TODO change intent back to ProfileAudioRecording
-                val intent = Intent(this, MainScreen::class.java)
+                val intent = Intent(this, ProfileAudioRecording::class.java)
                 setUser()
                 startActivity(intent)
             }
@@ -79,7 +78,7 @@ class ProfilePassions : AppCompatActivity() {
     }
 
     private fun setUser() {
-        val location = getUserLocation()
+        val location = AndroidLocationService(this).getCurrentAddress()
         username?.let { birthday?.let { it1 ->
             genre?.let { it2 ->
                 showMe?.let { it3 ->
@@ -88,19 +87,5 @@ class ProfilePassions : AppCompatActivity() {
                 }
             }
         } }
-    }
-
-    private fun getUserLocation(): String {
-        val currentLocation = AndroidLocationService(this).getCurrentLocation()
-        val latitude = currentLocation?.latitude
-        val longitude = currentLocation?.longitude
-        val geocoder = Geocoder(this)
-        if(latitude != null && longitude != null) {
-            val address = geocoder.getFromLocation(latitude, longitude, 5)
-            val country = address[0].countryName
-            val city = address[0].locality
-            return "$city, $country"
-        }
-        return "Location not found"
     }
 }

@@ -11,9 +11,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import ch.epfl.sdp.blindly.AudioLibrary
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.recording.RecordingActivity
@@ -92,10 +90,6 @@ class ProfilePage : Fragment() {
 
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
-
-        val audioLibraryButton = view.findViewById<Button>(R.id.audio_library_profile_button)
-        setOnClickListener(audioLibraryButton, Intent(context, AudioLibrary::class.java))
-
 
         viewModel.user.observe(viewLifecycleOwner) {
             userInfoText.text = it.username
