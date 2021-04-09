@@ -118,24 +118,25 @@ class UserHelper {
                        passions: List<String>) {
 
         val database = Firebase.firestore
+        val uid = getUserId()
+        if (uid != null) {
 
-        if (getUserId() != null) {
             val newUser = User(
-                getUserId()!!,
-                name,
-                location,
-                birthday,
-                genre,
-                sexualOrientations,
-                showMe,
-                passions,
-                DEFAULT_RADIUS,
-                listOf(),
-                "")
+                    uid,
+                    name,
+                    location,
+                    birthday,
+                    genre,
+                    sexualOrientations,
+                    showMe,
+                    passions,
+                    DEFAULT_RADIUS,
+                    listOf(),
+                    "")
 
-            database.collection(USER_COLLECTION).add(newUser)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "User's profile was set: ${documentReference.id}")
+            database.collection(USER_COLLECTION).document(uid).set(newUser)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "User's profile was set")
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error setting the user's profile", e)

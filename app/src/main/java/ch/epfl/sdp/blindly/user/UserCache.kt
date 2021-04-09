@@ -14,6 +14,9 @@ class UserCacheModule {
     fun provideUserCache(): UserCache = UserCache()
 }
 
+/**
+ * Local cache used to store user's information
+ */
 class UserCache {
     private val cache = HashMap<String, User>()
 

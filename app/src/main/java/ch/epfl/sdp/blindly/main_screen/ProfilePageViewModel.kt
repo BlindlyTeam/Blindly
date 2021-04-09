@@ -9,6 +9,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * The viewModel associated with ProfilePage, it holds the livedata for a given user
+ */
 @RequiresApi(Build.VERSION_CODES.N)
 @HiltViewModel
 class ProfilePageViewModel@Inject constructor(

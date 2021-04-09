@@ -4,6 +4,9 @@ import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 
+/**
+ * A data class used to represent a user
+ */
 data class User(val uid:String? = null,
                 val username: String? = null,
                 val location: String? = null,
@@ -24,11 +27,11 @@ data class User(val uid:String? = null,
                 val location = getString("location")!!
                 val birthday = getString("birthday")!!
                 val genre = getString("genre")!!
-                val sexual_orientations = getField<List<String>>("sexual_orientations")!!
+                val sexual_orientations = get("sexual_orientations") as List<String>
                 val show_me = getString("show_me")!!
-                val passions = getField<List<String>>("passions")!!
+                val passions = get("passions") as List<String>
                 val radius = getField<Int>("radius")!!
-                val matches = getField<List<User>>("description")!!
+                val matches = get("matches") as List<User>
                 val description = getString("description")!!
                 return User(uid, username, location, birthday, genre, sexual_orientations, show_me, passions, radius, matches, description)
             } catch (e: Exception) {

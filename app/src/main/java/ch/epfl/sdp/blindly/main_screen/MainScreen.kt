@@ -8,6 +8,10 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This activity holds the three fragments (Match, Message and Profile page)
+ * and instantiate them
+ */
 @AndroidEntryPoint
 class MainScreen : AppCompatActivity() {
 
@@ -15,7 +19,7 @@ class MainScreen : AppCompatActivity() {
 
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager2? = null
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)

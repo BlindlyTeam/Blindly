@@ -53,6 +53,9 @@ class ProfilePage : Fragment() {
         }
     }
 
+    /**
+     * Set up the viewModel
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -77,10 +80,7 @@ class ProfilePage : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val userInfoText = view.findViewById<TextView>(R.id.user_info_text)
-        //userInfoText.text = getString(R.string.user_example_name_and_age)
-
         val userDescriptionText = view.findViewById<TextView>(R.id.user_description_text)
-        //userDescriptionText.text = getString(R.string.student)
 
         val context = this@ProfilePage.context
 
@@ -107,6 +107,11 @@ class ProfilePage : Fragment() {
         }
     }
 
+    /**
+     * An onClickListener that start an Activity after the button has stopped bouncing
+     * @param button: the button associated with the click
+     * @param intent: the intent containing the next Activity to start
+     */
     private fun setOnClickListener(button: Button, intent: Intent) {
         val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button)
         button.setOnClickListener {
