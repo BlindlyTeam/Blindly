@@ -15,6 +15,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 import org.hamcrest.Matchers
 import org.junit.Rule
@@ -53,10 +56,15 @@ class TestProfileBirthday {
     @Test
     fun adultAgeFiresProfileGender() {
         Intents.init()
+        TEST_USER.setBirthday(TEST_BIRTHDAY)
+
         onView(withId(R.id.datePicker)).perform(PickerActions.setDate(2003, 3, 18))
         onView(withId(R.id.button_p3)).perform(click())
+        /*intended(Matchers.allOf(hasComponent(ProfileGender::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_BIRTHDAY, TEST_BIRTHDAY))))*/
+
         intended(Matchers.allOf(hasComponent(ProfileGender::class.java.name),
-                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_BIRTHDAY, TEST_BIRTHDAY))))
+            IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
         Intents.release()
     }
 

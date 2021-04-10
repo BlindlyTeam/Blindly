@@ -1,6 +1,5 @@
 package ch.epfl.sdp.blindly.profile_setup
 
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -16,24 +15,25 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+private const val CORRECT_SPECIFICATION = "Abcde"
+private const val BLANK_SPECIFICATION = "   "
+private const val INCORRECT_CHARS_SPECIFICATION = "Abc;;de"
+private const val NO_INPUT = ""
+private const val ERROR_MESSAGE = "Please specify!"
+private const val ERROR_CHARACTERS = "Please use only letters."
 
 @RunWith(AndroidJUnit4::class)
 class TestProfileGenderMore {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(ProfileGenderMore::class.java)
-
-    private val CORRECT_SPECIFICATION = "Abcde"
-    private val BLANK_SPECIFICATION = "   "
-    private val INCORRECT_CHARS_SPECIFICATION = "Abc;;de"
-    private val NO_INPUT = ""
-    private val ERROR_MESSAGE = "Please specify!"
-    private val ERROR_CHARACTERS = "Please use only letters."
 
     @Test
     fun incorrectCharOutputsError() {
@@ -92,12 +92,18 @@ class TestProfileGenderMore {
     @Test
     fun correctInputFiresProfileOrientation() {
         Intents.init()
+        TEST_USER.setGender(CORRECT_SPECIFICATION)
+
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(CORRECT_SPECIFICATION));
         closeSoftKeyboard();
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
-                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, CORRECT_SPECIFICATION))))
+        /*intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, CORRECT_SPECIFICATION))))*/
+        intended(Matchers.allOf(
+            hasComponent(ProfileOrientation::class.java.name),
+            IntentMatchers.hasExtras(
+                BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
         Intents.release()
     }
 

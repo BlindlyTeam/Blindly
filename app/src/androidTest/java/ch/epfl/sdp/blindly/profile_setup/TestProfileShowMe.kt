@@ -14,11 +14,13 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 
-const val TEST_SHOW_ME = "Women"
+private const val TEST_SHOW_ME = "Women"
 private const val NO_INPUT_ERROR = "Please select one!"
 
 @HiltAndroidTest
@@ -52,12 +54,19 @@ class TestProfileShowMe {
     @Test
     fun anyChoiceFiresProfilePassions() {
         Intents.init()
+        TEST_USER.setShowMe(TEST_SHOW_ME)
+
         val buttonPref = onView(withId(R.id.sex1_pref))
         buttonPref.perform(click())
         val buttonContinue = onView(withId(R.id.button_p6))
         buttonContinue.perform(click())
-        intended(Matchers.allOf(hasComponent(ProfilePassions::class.java.name),
-                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_SHOW_ME, TEST_SHOW_ME))))
+
+        /*intended(Matchers.allOf(hasComponent(ProfilePassions::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_SHOW_ME, TEST_SHOW_ME))))*/
+        intended(Matchers.allOf(
+            hasComponent(ProfilePassions::class.java.name),
+                IntentMatchers.hasExtras(
+                    BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
         Intents.release()
     }
 }

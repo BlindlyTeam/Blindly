@@ -9,20 +9,24 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.user.User
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.time.LocalDate
 import java.time.Period
 
-const val EXTRA_BIRTHDAY = "birthday"
-
+private const val MAJORITY_AGE = 18
 class ProfileBirthday : AppCompatActivity() {
 
-    private val MAJORITY_AGE = 18
-    private var username: String ?= null
+    private lateinit var userBuilder : User.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_setup_birthday)
-        username = intent.getStringExtra(EXTRA_USERNAME)
+
+        val bundle = intent.extras
+        userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -38,11 +42,12 @@ class ProfileBirthday : AppCompatActivity() {
             findViewById<TextView>(R.id.warning_p3).visibility = View.VISIBLE
         } else {
             val birthday = "$day.$month.$year"
-            val extras = Bundle()
-            extras.putString(EXTRA_USERNAME, username)
-            extras.putString(EXTRA_BIRTHDAY, birthday)
+            val bundle = Bundle()
+            userBuilder.setBirthday(birthday)
+            bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
             val intent = Intent(this, ProfileGender::class.java)
-            intent.putExtras(extras)
+            intent.putExtras(bundle)
+
             startActivity(intent)
         }
     }
@@ -50,10 +55,9 @@ class ProfileBirthday : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getAge(year: Int, month: Int, dayOfMonth: Int): Int {
         return Period.between(
-                LocalDate.of(year, month, dayOfMonth),
-                LocalDate.now()
+            LocalDate.of(year, month, dayOfMonth),
+            LocalDate.now()
         ).years
     }
-
 
 }

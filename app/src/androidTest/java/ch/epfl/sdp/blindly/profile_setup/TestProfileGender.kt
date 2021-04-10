@@ -14,6 +14,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 import org.hamcrest.Matchers
 import org.junit.Rule
@@ -55,36 +57,57 @@ class TestProfileGender {
     @Test
     fun womanFiresProfileOrientation() {
         Intents.init()
+        TEST_USER.setGender(TEST_GENRE_WOMEN)
+
         val buttonWoman = Espresso.onView(withId(R.id.sex1_user))
         buttonWoman.perform(click())
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
+        /*intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
                 IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, TEST_GENRE_WOMEN))))
+
+         */
+        intended(Matchers.allOf(
+            hasComponent(ProfileOrientation::class.java.name),
+                IntentMatchers.hasExtras(
+                    BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
         Intents.release()
     }
 
     @Test
     fun manFiresProfileOrientation() {
         Intents.init()
+        TEST_USER.setGender(TEST_GENRE_MEN)
+
         val buttonWoman = Espresso.onView(withId(R.id.sex2_user))
         buttonWoman.perform(click())
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
-                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, TEST_GENRE_MEN))))
+        /*intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
+                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, TEST_GENRE_MEN))))*/
+        intended(Matchers.allOf(
+            hasComponent(ProfileOrientation::class.java.name),
+            IntentMatchers.hasExtras(
+                BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
         Intents.release()
     }
 
     @Test
     fun moreFiresProfileGenderMore() {
         Intents.init()
+        TEST_USER.setGender(TEST_GENRE_MORE)
+
         val buttonMore = Espresso.onView(withId(R.id.sex3_more))
         buttonMore.perform(click())
         val buttonContinue = Espresso.onView(withId(R.id.button_p4))
         buttonContinue.perform(click())
-        intended(Matchers.allOf(hasComponent(ProfileGenderMore::class.java.name),
+        /*intended(Matchers.allOf(hasComponent(ProfileGenderMore::class.java.name),
                 IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, TEST_GENRE_MORE))))
+         */
+        intended(Matchers.allOf(
+            hasComponent(ProfileGenderMore::class.java.name),
+            IntentMatchers.hasExtras(
+                BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
         Intents.release()
     }
 

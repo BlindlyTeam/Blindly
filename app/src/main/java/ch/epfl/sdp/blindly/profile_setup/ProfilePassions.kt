@@ -9,10 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -20,11 +23,7 @@ class ProfilePassions : AppCompatActivity() {
     @Inject
     lateinit var user: UserHelper
 
-    private var username: String? = null
-    private var birthday: String? = null
-    private var genre: String? = null
-    private var sexualOrientations : ArrayList<String> = ArrayList()
-    private var showMe: String? = null
+    lateinit var userBuilder: User.Builder
     private val passions: ArrayList<String> = ArrayList()
 
     private val SELECTION_LIMIT = 5
@@ -34,12 +33,7 @@ class ProfilePassions : AppCompatActivity() {
         setContentView(R.layout.profile_setup_passions)
 
         val bundle = intent.extras
-        username = bundle?.getString(EXTRA_USERNAME)
-        birthday = bundle?.getString(EXTRA_BIRTHDAY)
-        genre = bundle?.getString(EXTRA_GENRE)
-        if(bundle != null)
-            sexualOrientations = bundle.getStringArrayList(EXTRA_SEXUAL_ORIENTATIONS) as ArrayList<String>
-        showMe = bundle?.getString(EXTRA_SHOW_ME)
+        userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
     fun startProfileAudioRecording(view: View) {
@@ -78,14 +72,23 @@ class ProfilePassions : AppCompatActivity() {
     }
 
     private fun setUser() {
-        val location = AndroidLocationService(this).getCurrentAddress()
-        username?.let { birthday?.let { it1 ->
-            genre?.let { it2 ->
-                showMe?.let { it3 ->
-                    user.setUserProfile(it, location,
-                        it1, it2, sexualOrientations, it3, passions)
-                }
-            }
-        } }
+        val location = getCurrentAddress()
+        userBuilder.setLocation(location)
+            .setPassions(passions)
+        user.setUserProfile(userBuilder)
+    }
+
+    private fun getCurrentAddress(): String {
+        val currentLocation = AndroidLocationService(this).getCurrentLocation()
+        val latitude = currentLocation?.latitude
+        val longitude = currentLocation?.longitude
+        val geocoder = Geocoder(this)
+        if(latitude != null && longitude != null) {
+            val address = geocoder.getFromLocation(latitude, longitude, 5)
+            val country = address[0].countryName
+            val city = address[0].locality
+            return "$city, $country"
+        }
+        return "Location not found"
     }
 }

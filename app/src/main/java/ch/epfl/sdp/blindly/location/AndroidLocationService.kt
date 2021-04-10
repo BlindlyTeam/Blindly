@@ -55,17 +55,4 @@ class AndroidLocationService(private var context: Context) : LocationService {
         location = getCurrentLocation()
     }
 
-    fun getCurrentAddress(): String {
-        val currentLocation = getCurrentLocation()
-        val latitude = currentLocation?.latitude
-        val longitude = currentLocation?.longitude
-        val geocoder = Geocoder(context)
-        if(latitude != null && longitude != null) {
-            val address = geocoder.getFromLocation(latitude, longitude, 5)
-            val country = address[0].countryName
-            val city = address[0].locality
-            return "$city, $country"
-        }
-        return "Location not found"
-    }
 }

@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.main_screen
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,12 +11,15 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile_setup.ProfileBirthday
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
+import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserRepository
@@ -74,10 +78,12 @@ class ProfilePage : Fragment() {
         return inflater.inflate(R.layout.fragment_profile_page, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userInfoText = view.findViewById<TextView>(R.id.user_info_text)
+        val usernameText = view.findViewById<TextView>(R.id.username_text)
+        val ageText = view.findViewById<TextView>(R.id.age_text)
         val userDescriptionText = view.findViewById<TextView>(R.id.user_description_text)
 
         val context = this@ProfilePage.context
@@ -92,7 +98,8 @@ class ProfilePage : Fragment() {
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
         viewModel.user.observe(viewLifecycleOwner) {
-            userInfoText.text = it.username
+            usernameText.text = it.username
+            //ageText.text = it.birthday?.let { it1 -> User.getAge(it1).toString() } + "ans"
             if(it.description == "") {
                 userDescriptionText.text = "Add description"
             } else {

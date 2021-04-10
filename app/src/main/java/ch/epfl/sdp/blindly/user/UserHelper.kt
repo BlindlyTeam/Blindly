@@ -112,27 +112,19 @@ class UserHelper {
         return FirebaseAuth.getInstance().currentUser?.uid
     }
 
-    //Set User's information in firestore after user entered his information in set_profile
-    fun setUserProfile(name: String, location: String, birthday: String, genre: String,
-                       sexualOrientations: List<String>, showMe: String,
-                       passions: List<String>) {
+    /**
+     * Set User's information in firestore after user entered his information in set_profile
+     */
+    fun setUserProfile(userBuilder:User.Builder) {
 
         val database = Firebase.firestore
         val uid = getUserId()
         if (uid != null) {
-
-            val newUser = User(
-                    uid,
-                    name,
-                    location,
-                    birthday,
-                    genre,
-                    sexualOrientations,
-                    showMe,
-                    passions,
-                    DEFAULT_RADIUS,
-                    listOf(),
-                    "")
+            val newUser = userBuilder.setUid(uid)
+                .setRadius(DEFAULT_RADIUS)
+                .setMatches(listOf())
+                .setDescription("")
+                .build()
 
             database.collection(USER_COLLECTION).document(uid).set(newUser)
                     .addOnSuccessListener {
