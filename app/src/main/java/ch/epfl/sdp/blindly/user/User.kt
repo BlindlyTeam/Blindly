@@ -13,7 +13,7 @@ import java.time.Period
  * A class used to represent a user
  */
 @Serializable
-class User private constructor(val uid:String?,
+class User private constructor(
                 val username: String?,
                 val location: String?,
                 val birthday: String?,
@@ -31,7 +31,6 @@ class User private constructor(val uid:String?,
      */
     @Serializable
     data class Builder(
-        var uid: String? = null,
         var username: String? = null,
         var location: String? = null,
         var birthday: String? = null,
@@ -43,9 +42,6 @@ class User private constructor(val uid:String?,
         var matches: List<User> = listOf(),
         var description: String? = null) {
 
-        fun setUid(uid: String) = apply {
-            this.uid = uid
-        }
         fun setUsername(username: String) = apply {
             this.username = username
         }
@@ -77,7 +73,7 @@ class User private constructor(val uid:String?,
             this.description = description
         }
 
-        fun build() = User(uid,
+        fun build() = User(
             username,
             location,
             birthday,
@@ -99,7 +95,6 @@ class User private constructor(val uid:String?,
          */
         fun DocumentSnapshot.toUser(): User? {
             try {
-                val uid = getString("uid")!!
                 val username = getString("username")!!
                 val location = getString("location")!!
                 val birthday = getString("birthday")!!
@@ -110,11 +105,27 @@ class User private constructor(val uid:String?,
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as List<User>
                 val description = getString("description")!!
-                return User(uid, username, location, birthday, gender, sexual_orientations, show_me, passions, radius, matches, description)
+                return User(username, location, birthday, gender, sexual_orientations, show_me, passions, radius, matches, description)
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile", e)
                 return null
             }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun getUserAge(user: User?): String? {
+            val birthday = user?.birthday?.split('.')
+            if(birthday != null) {
+                val age = Period.between(
+                    LocalDate.of(birthday[2].toInt(),
+                        birthday[1].toInt(),
+                        birthday[0].toInt()),
+                    LocalDate.now()
+                ).years
+
+                return age.toString()
+            }
+            return null
         }
     }
 

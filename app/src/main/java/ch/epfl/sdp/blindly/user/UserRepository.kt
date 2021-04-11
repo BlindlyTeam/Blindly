@@ -48,7 +48,7 @@ class UserRepository @Inject constructor(
     suspend fun getUser(uid: String): User? {
         val cached: User? = userCache.get(uid)
         if (cached != null) {
-            Log.e(TAG, "Found user with uid: $uid in cache")
+            Log.d(TAG, "Found user with uid: $uid in cache")
             return cached
         }
         return refreshUser(uid)
@@ -65,9 +65,10 @@ class UserRepository @Inject constructor(
             val freshUser = db.collection(USER_COLLECTION)
                 .document(uid).get().await().toUser()
             if (freshUser != null) {
+                Log.d(TAG, "Put User \"$uid\" in local cache")
                 userCache.put(uid, freshUser)
             }
-            Log.d(TAG, "Found user with uid: $uid in firestore")
+            Log.d(TAG, "Retrieve User \"$uid\" in firestore")
             return freshUser
         } catch (e: Exception) {
             Log.e(TAG, "Error getting user details", e)

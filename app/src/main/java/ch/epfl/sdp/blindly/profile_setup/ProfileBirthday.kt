@@ -16,6 +16,8 @@ import kotlinx.serialization.json.Json
 import java.time.LocalDate
 import java.time.Period
 
+private const val PAD_CHAR = '0'
+private const val FORMAT = 2
 private const val MAJORITY_AGE = 18
 class ProfileBirthday : AppCompatActivity() {
 
@@ -41,7 +43,10 @@ class ProfileBirthday : AppCompatActivity() {
         if (age < MAJORITY_AGE) {
             findViewById<TextView>(R.id.warning_p3).visibility = View.VISIBLE
         } else {
-            val birthday = "$day.$month.$year"
+            val dayString = day.toString().padStart(FORMAT, PAD_CHAR)
+            val monthString = month.toString().padStart(FORMAT, PAD_CHAR)
+            val birthday = "$dayString.$monthString.$year"
+
             val bundle = Bundle()
             userBuilder.setBirthday(birthday)
             bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))

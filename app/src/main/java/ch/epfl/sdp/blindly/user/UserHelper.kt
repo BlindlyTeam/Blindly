@@ -32,7 +32,7 @@ class UserHelperModule {
 class UserHelper {
     companion object {
         const val RC_SIGN_IN = 123
-        private const val TAG = "User"
+        private const val TAG = "UserHelper"
         private const val USER_COLLECTION: String = "usersMeta"
         private const val DEFAULT_RADIUS = 80
     }
@@ -120,15 +120,14 @@ class UserHelper {
         val database = Firebase.firestore
         val uid = getUserId()
         if (uid != null) {
-            val newUser = userBuilder.setUid(uid)
-                .setRadius(DEFAULT_RADIUS)
+            val newUser = userBuilder.setRadius(DEFAULT_RADIUS)
                 .setMatches(listOf())
                 .setDescription("")
                 .build()
 
             database.collection(USER_COLLECTION).document(uid).set(newUser)
                     .addOnSuccessListener {
-                        Log.d(TAG, "User's profile was set")
+                        Log.d(TAG, "User \"$uid\" was set in firestore")
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error setting the user's profile", e)
@@ -155,9 +154,5 @@ class UserHelper {
                         Log.d(Companion.TAG, "Error: Could not update password.")
                     }
                 }
-    }
-
-    fun getDatabase(): FirebaseFirestore {
-        return Firebase.firestore
     }
 }

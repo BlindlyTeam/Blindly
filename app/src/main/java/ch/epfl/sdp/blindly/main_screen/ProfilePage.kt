@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile_setup.ProfileBirthday
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
@@ -82,8 +81,7 @@ class ProfilePage : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val usernameText = view.findViewById<TextView>(R.id.username_text)
-        val ageText = view.findViewById<TextView>(R.id.age_text)
+        val userInfoText = view.findViewById<TextView>(R.id.user_info_text)
         val userDescriptionText = view.findViewById<TextView>(R.id.user_description_text)
 
         val context = this@ProfilePage.context
@@ -98,8 +96,7 @@ class ProfilePage : Fragment() {
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
         viewModel.user.observe(viewLifecycleOwner) {
-            usernameText.text = it.username
-            //ageText.text = it.birthday?.let { it1 -> User.getAge(it1).toString() } + "ans"
+            userInfoText.text = it.username + ", ${User.getUserAge(it)}"
             if(it.description == "") {
                 userDescriptionText.text = "Add description"
             } else {
