@@ -4,6 +4,7 @@ import android.os.Handler
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelperModule
 import com.google.android.gms.tasks.TaskCompletionSource
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -36,5 +37,11 @@ open class FakeUserHelperModule {
 
         Mockito.`when`(user.setEmail(SECOND_EMAIL)).thenReturn(successfulTask)
         return user
+    }
+
+    @Singleton
+    @Provides
+    open fun provideFirebaseFirestore(): FirebaseFirestore {
+        return Mockito.mock(FirebaseFirestore::class.java)
     }
 }
