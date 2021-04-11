@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
 import ch.epfl.sdp.blindly.utils.UserHelper
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -40,6 +41,12 @@ class MainActivity : AppCompatActivity() {
 
     fun startMainScreen(view: View) {
         val intent = Intent(this, MainScreen::class.java)
+        startActivity(intent)
+    }
+    fun startUserMap(view: View) {
+        val intent = Intent(this, UserMapActivity::class.java)
+        val points = arrayOf(LatLng(-33.0, 151.0))
+        intent.putExtra(UserMapActivity.POINTS, points)
         startActivity(intent)
     }
 }

@@ -138,4 +138,8 @@
     <string name="base_timer_MM_SS">00:00</string>
     <string name="play_pause_button">Play/Pause button</string>
     <string name="select">Select</string>
+    <string name="main_goto_map">Map</string>
+    <string name="location_permission_denied">Permission denied</string>
+    <string name="permission_required_toast">Permssion required</string>
+    <string name="permission_rationale_location">Allow us to get your current location</string>
 </resources>

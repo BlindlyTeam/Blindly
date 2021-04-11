@@ -11,6 +11,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.profile.ProfileFinished
+import org.hamcrest.core.StringContains
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
