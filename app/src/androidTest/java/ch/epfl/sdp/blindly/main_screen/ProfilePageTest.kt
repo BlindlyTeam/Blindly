@@ -1,4 +1,4 @@
-import ch.epfl.sdp.blindly.main_screen.MainScreen
+package ch.epfl.sdp.blindly.main_screen
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -13,6 +13,7 @@ import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -24,6 +25,11 @@ class ProfilePageTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
+
+    @Before
+    fun setup() {
+        hiltRule.inject()
+    }
 
     private fun gotoProfileScreen() {
         onView(withId(R.id.view_pager)).perform(swipeLeft())
