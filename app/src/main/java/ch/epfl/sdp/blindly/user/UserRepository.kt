@@ -5,30 +5,19 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-
-@Module
-@InstallIn(SingletonComponent::class)
-class UserRepositoryModule {
-    @Inject
-    lateinit var db: FirebaseFirestore
-    @Inject
-    lateinit var userCache: UserCache
-    @Provides
-    fun provideUserRepository(): UserRepository = UserRepository(db, userCache)
-}
+import javax.inject.Singleton
 
 /**
  * This is the main access point to firestore
  */
-class UserRepository @Inject constructor(
+
+class UserRepository (
     private val db: FirebaseFirestore,
     private val userCache: UserCache) {
 

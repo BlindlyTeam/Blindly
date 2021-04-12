@@ -4,9 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.user.UserCache
+import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * This activity holds the three fragments (Match, Message and Profile page)

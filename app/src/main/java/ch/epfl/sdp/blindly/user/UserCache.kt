@@ -6,13 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-
-@Module
-@InstallIn(SingletonComponent::class)
-class UserCacheModule {
-    @Provides
-    fun provideUserCache(): UserCache = UserCache()
-}
+import javax.inject.Singleton
 
 /**
  * Local cache used to store user's information

@@ -1,7 +1,7 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.fake_module
 
+import ch.epfl.sdp.blindly.di.UserRepositoryModule
 import ch.epfl.sdp.blindly.user.UserRepository
-import ch.epfl.sdp.blindly.user.UserRepositoryModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -15,7 +15,7 @@ import javax.inject.Singleton
         replaces = [UserRepositoryModule::class]
 )
 
-open class FakeUserRepository {
+open class FakeUserRepositoryModule {
     @Singleton
     @Provides
     open fun provideUserRepository(): UserRepository {

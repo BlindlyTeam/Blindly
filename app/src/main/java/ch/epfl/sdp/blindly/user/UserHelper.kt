@@ -18,17 +18,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-// Module to be installed in Activities
-@Module
-@InstallIn(SingletonComponent::class)
-class UserHelperModule {
-    @Provides
-    fun provideUserHelper(): UserHelper = UserHelper()
-
-    @Provides
-    fun provideFirebaseFirestore(): FirebaseFirestore = Firebase.firestore
-}
-
 class UserHelper {
     companion object {
         const val RC_SIGN_IN = 123
@@ -116,7 +105,6 @@ class UserHelper {
      * Set User's information in firestore after user entered his information in set_profile
      */
     fun setUserProfile(userBuilder:User.Builder) {
-
         val database = Firebase.firestore
         val uid = getUserId()
         if (uid != null) {

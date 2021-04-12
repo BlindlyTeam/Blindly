@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen
+package ch.epfl.sdp.blindly
 
 import android.os.Build
 import android.os.Bundle
@@ -7,13 +7,16 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
+import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageViewModel
 import ch.epfl.sdp.blindly.user.UserRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
-
-class SavedStateVMFactory(
+class ViewModelFactory @AssistedInject constructor(
     private val userRepository: UserRepository,
-    owner: SavedStateRegistryOwner, defaultArgs: Bundle?
-) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+    @Assisted owner: SavedStateRegistryOwner,
+    @Assisted bundle: Bundle
+) : AbstractSavedStateViewModelFactory(owner, bundle) {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun <T : ViewModel?> create(key: String, modelClass: Class<T>, handle: SavedStateHandle

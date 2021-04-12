@@ -1,8 +1,7 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.fake_module
 
+import ch.epfl.sdp.blindly.di.UserCacheModule
 import ch.epfl.sdp.blindly.user.UserCache
-import ch.epfl.sdp.blindly.user.UserCacheModule
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -16,7 +15,7 @@ import javax.inject.Singleton
         replaces = [UserCacheModule::class]
 )
 
-open class FakeUserCache {
+open class FakeUserCacheModule {
     @Singleton
     @Provides
     open fun provideUserCache(): UserCache {

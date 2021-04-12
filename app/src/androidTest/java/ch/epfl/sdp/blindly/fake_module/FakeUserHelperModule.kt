@@ -1,8 +1,8 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.fake_module
 
 import android.os.Handler
+import ch.epfl.sdp.blindly.di.UserHelperModule
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserHelperModule
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
