@@ -10,6 +10,7 @@ import ch.epfl.sdp.blindly.R
 
 private const val MIN_LENGTH = 2
 private const val MAX_LENGTH = 20
+const val EXTRA_USERNAME = "username"
 private val REGEX = Regex("^[a-zA-Z]*$")
 
 class ProfileName : AppCompatActivity() {
@@ -38,7 +39,9 @@ class ProfileName : AppCompatActivity() {
                     findViewById<TextView>(R.id.warning2_p2).visibility = View.VISIBLE
                 }
                 else -> {
-                    val intent = Intent(this, ProfileBirthday::class.java)
+                    val intent = Intent(this, ProfileBirthday::class.java).apply {
+                        putExtra(EXTRA_USERNAME, name)
+                    }
                     startActivity(intent)
                 }
             }

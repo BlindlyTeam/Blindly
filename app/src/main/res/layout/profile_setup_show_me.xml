@@ -47,19 +47,22 @@
             android:id="@+id/sex1_pref"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/woman" />
+            android:text="@string/women_show_me"
+            android:textAllCaps="true"/>
 
         <RadioButton
             android:id="@+id/sex2_pref"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/man" />
+            android:text="@string/men_show_me"
+            android:textAllCaps="true"/>
 
         <RadioButton
             android:id="@+id/sex3_pref"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/everyone" />
+            android:text="@string/everyone_show_me"
+            android:textAllCaps="true"/>
     </RadioGroup>
 
     <TextView

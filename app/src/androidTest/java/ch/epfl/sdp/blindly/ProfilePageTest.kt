@@ -56,13 +56,4 @@ class ProfilePageTest {
         release()
     }
 
-    @Test
-    fun audioLibraryFiresAudioLibraryActivity() {
-        init()
-        gotoProfileScreen()
-        onView(withId(R.id.audio_library_profile_button)).perform(click())
-        intended(hasComponent(AudioLibrary::class.java.name))
-        release()
-    }
-
 }

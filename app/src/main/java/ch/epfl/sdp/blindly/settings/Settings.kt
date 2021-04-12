@@ -9,13 +9,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 import ch.epfl.sdp.blindly.utils.UserHelper
 import com.google.android.gms.tasks.OnCompleteListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 const val EXTRA_LOCATION = "user_location"
-const val EXTRA_SHOW_ME = "user_show_me"
 
 //const val REQUEST_LOCATION = 1
 const val REQUEST_SHOW_ME = 2
@@ -69,8 +69,7 @@ class Settings : AppCompatActivity() {
         val intent = Intent(this, SettingsShowMe::class.java).apply {
             putExtra(EXTRA_SHOW_ME, currentShowMe)
         }
-
-        //startActivityForResult(EXTRA_SHOW_ME).launch(intent)
+        //TODO fix me
         startActivityForResult(intent, REQUEST_SHOW_ME)
     }
 

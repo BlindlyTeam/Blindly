@@ -2,39 +2,36 @@ package ch.epfl.sdp.blindly.recording
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.os.SystemClock
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import java.io.File
 import java.io.IOException
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
-class RecordingActivity : AppCompatActivity() {
+class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
     private val mediaRecorder = MediaRecorder()
-    private var mediaPlayer: MediaPlayer? = null
 
-    private var isPlayerStopped = true
-
-    private var filePath: String = ""
+    private lateinit var recordingRecyclerView: RecyclerView
+    private lateinit var adapter: AudioLibraryAdapter
 
     private var isRecording = false
-    private var isPlayerPaused = false
+
+    private var recordFilePath = ""
 
     private lateinit var recordButton: Button
-    private lateinit var playPauseButton: Button
-    private lateinit var playBar: SeekBar
-    private lateinit var recordText: TextView
     private lateinit var recordTimer: Chronometer
-    private lateinit var playTimer: Chronometer
+
+    private var totalNumberOfRec = 0
 
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -42,9 +39,18 @@ class RecordingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording)
+
         setBaseView()
-        createNewFilePath()
+        changeRecordFilePath(totalNumberOfRec)
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
+
+        recordTimer = findViewById(R.id.recordTimer)
+
+        // For the recording list
+        recordingRecyclerView = findViewById(R.id.recordingList)
+        recordingRecyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = AudioLibraryAdapter(ArrayList(), this, this)
+        recordingRecyclerView.adapter = adapter
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -61,11 +67,11 @@ class RecordingActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         mediaRecorder.release()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        deleteTempRecordings()
+        adapter.recordList = ArrayList()
     }
 
-    fun recordButtonClick(view: View) {
+    private fun recordButtonClick(view: View) {
         if (!isRecording) {
             startRecording()
             setRecordView()
@@ -75,91 +81,30 @@ class RecordingActivity : AppCompatActivity() {
         }
     }
 
-    fun playPauseButtonClick(view: View) {
-        if (isPlayerStopped) {
-            createPlayer()
-            preparePlaying()
-        }
-        if (!mediaPlayer!!.isPlaying) {
-            mediaPlayer?.start()
-            setPlayView()
-        } else {
-            mediaPlayer?.pause()
-            setPauseView()
-        }
-    }
-
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
-        playPauseButton = findViewById(R.id.playingButton)
-        playPauseButton.isEnabled = false
-
-        playBar = findViewById(R.id.playBar)
-        playBar.isVisible = false
-
-        recordText = findViewById(R.id.recordingText)
-        recordText.isVisible = false
-
         recordTimer = findViewById(R.id.recordTimer)
-        playTimer = findViewById(R.id.playTimer)
-    }
-
-    private fun setPlayView() {
-        if (!isPlayerPaused)
-            playTimer.base = SystemClock.elapsedRealtime()
-        playTimer.start()
-        isPlayerPaused = false
-        isPlayerStopped = false
-        playPauseButton.text = getString(R.string.pause)
-        recordButton.isEnabled = false
-        updatePlayBar(mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
-    }
-
-    private fun setPauseView() {
-        playTimer.stop()
-        isPlayerPaused = true
-        recordButton.isEnabled = true
-        playPauseButton.text = getString(R.string.play)
-
-    }
-
-    private fun setFinishedPlayView() {
-        playTimer.stop()
-        playPauseButton.text = getString(R.string.play)
-        recordButton.isEnabled = true
-        playBar.progress = 0
-        isPlayerStopped = true
+        bindRecordButton(recordButton)
     }
 
     private fun setRecordView() {
         recordTimer.base = SystemClock.elapsedRealtime()
         recordTimer.start()
         isRecording = true
-        recordButton.isVisible = true
-        recordText.isVisible = true
-        recordText.text = getString(R.string.recording)
-        playPauseButton.isEnabled = false
-        playBar.progress = 0
-        recordButton.text = getString(R.string.stop_recording)
     }
 
     private fun setFinishedRecordView() {
         recordTimer.stop()
         isRecording = false
-        playPauseButton.isEnabled = true
-        recordText.text = getString(R.string.done_exclamation)
-        playBar.isVisible = true
-        recordButton.text = getString(R.string.start_recording)
-        playPauseButton.isEnabled = true
     }
 
     private fun prepareRecording() {
-        createNewFilePath()
+        changeRecordFilePath(totalNumberOfRec)
         mediaRecorder.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
-            setOutputFile(filePath)
+            setOutputFile(recordFilePath)
         }
         try {
             mediaRecorder.prepare()
@@ -171,59 +116,44 @@ class RecordingActivity : AppCompatActivity() {
     }
 
     private fun startRecording() {
-        mediaPlayer?.stop()
+        adapter.mediaPlayer?.stop()
         prepareRecording()
         mediaRecorder.start()
     }
 
     private fun stopRecording() {
         mediaRecorder.stop()
+
+        val newAudio = AudioRecord("Audio file ${totalNumberOfRec + 1}",
+                recordTimer.text as String, recordFilePath, false)
+        adapter.recordList.add(newAudio)
+        adapter.notifyDataSetChanged()
+
+        totalNumberOfRec++
         setFinishedRecordView()
     }
 
-    private fun createPlayer() {
-        mediaPlayer = MediaPlayer().apply {
-            setDataSource(filePath)
-        }
-        mediaPlayer?.setOnCompletionListener {
-            mediaPlayer?.stop()
-            setFinishedPlayView()
-        }
+    private fun changeRecordFilePath(recordNumber: Int) {
+        // Recordings are stored in the internal storage of the app, only accessible by the app itself
+        recordFilePath = "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.3gp"
     }
 
-    private fun preparePlaying() {
-        try {
-            mediaPlayer?.prepare()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Toast.makeText(this, "MediaPlayer preparation failed : ${e.message}",
-                    Toast.LENGTH_SHORT).show()
+    private fun deleteTempRecordings() {
+        for (i in 0..totalNumberOfRec) {
+            changeRecordFilePath(i)
+            File(recordFilePath).delete()
         }
     }
 
-    private fun createNewFilePath() {
-        // Record to the external cache for now
-        filePath = "${externalCacheDir?.absolutePath}/audioRecordTest_${System.currentTimeMillis()}.3gp"
-    }
-
-    private fun updatePlayBar(duration: Int, position: Int) {
-        playBar.max = duration
-        playBar.progress = position
-
-        val handler = Handler(Looper.getMainLooper())
-        handler.removeCallbacks(movePlayBarThread);
-        handler.postDelayed(movePlayBarThread, 100);
-    }
-
-    private val movePlayBarThread: Runnable = object : Runnable {
-        override fun run() {
-            if (mediaPlayer?.isPlaying == true) {
-                val newMediaPos = mediaPlayer!!.currentPosition
-                val newMediaMax = mediaPlayer!!.duration
-                playBar.max = newMediaMax
-                playBar.progress = newMediaPos
-                Handler(Looper.getMainLooper()).postDelayed(this, 100)
-            }
+    private fun bindRecordButton(button: Button) {
+        val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
+        button.setOnClickListener {
+            button.startAnimation(bounce)
+            recordButtonClick(it)
         }
+    }
+
+    override fun onItemClick(position: Int) {
+        adapter.notifyItemChanged(position)
     }
 }

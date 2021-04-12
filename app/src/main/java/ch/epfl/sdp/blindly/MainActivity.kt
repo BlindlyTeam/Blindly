@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun start_main_screen(view: View) {
+    fun startMainScreen(view: View) {
         val intent = Intent(this, MainScreen::class.java)
         startActivity(intent)
     }

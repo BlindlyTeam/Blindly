@@ -22,22 +22,25 @@ class SettingsUpdateEmail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings_update_email)
+
+        supportActionBar?.hide()
+
         val editText: EditText = findViewById<EditText>(R.id.update_email_field)
         editText.hint = user.getEmail();
     }
 
     fun updateEmail(view: View) {
-        val editText: EditText = findViewById<EditText>(R.id.update_email_field)
+        val editText: EditText = findViewById(R.id.update_email_field)
         val newEmail = editText.text.toString()
 
         val task = user.setEmail(newEmail)
-        task.addOnSuccessListener {
+        task?.addOnSuccessListener {
             // When it succeeds show success notice, and hide failure notice
             findViewById<TextView>(R.id.update_email_failure_notice).visibility = View.GONE
             findViewById<TextView>(R.id.update_email_success_notice).visibility = View.VISIBLE
         }
         // When something wrong happens
-        task.addOnFailureListener { exception ->
+        task?.addOnFailureListener { exception ->
             val errMsg = when (exception) {
                 is FirebaseAuthInvalidCredentialsException -> R.string.invalid_email
                 is FirebaseAuthUserCollisionException -> R.string.email_taken
