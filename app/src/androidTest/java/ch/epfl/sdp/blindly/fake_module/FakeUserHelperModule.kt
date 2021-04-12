@@ -38,10 +38,4 @@ open class FakeUserHelperModule {
         Mockito.`when`(user.setEmail(SECOND_EMAIL)).thenReturn(successfulTask)
         return user
     }
-
-    @Singleton
-    @Provides
-    open fun provideFirebaseFirestore(): FirebaseFirestore {
-        return Mockito.mock(FirebaseFirestore::class.java)
-    }
 }
