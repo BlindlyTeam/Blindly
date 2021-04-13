@@ -109,11 +109,11 @@ class Settings : AppCompatActivity() {
      */
     fun deleteAccount(view: View) {
         //For now, just display a Toast message
-        Toast.makeText(
+        /*Toast.makeText(
             this,
             getString(R.string.account_deleted),
             Toast.LENGTH_SHORT
-        ).show()
+        ).show()*/ //Can't test because it doesn't work on API 30
     }
 
     // This is the non depracated version but it crashes for the moment
