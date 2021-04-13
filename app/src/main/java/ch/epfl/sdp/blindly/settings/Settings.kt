@@ -53,9 +53,17 @@ class Settings : AppCompatActivity() {
         val ageRangeSlider = findViewById<RangeSlider>(R.id.age_range_slider)
 
         //Update the selected age range text with initial value, and everytime the slider changes
-        ageRangeText.text = getString(R.string.selected_age_range, ageRangeSlider.values[0].toInt(), ageRangeSlider.values[1].toInt())
+        ageRangeText.text = getString(
+            R.string.selected_age_range,
+            ageRangeSlider.values[0].toInt(),
+            ageRangeSlider.values[1].toInt()
+        )
         ageRangeSlider.addOnChangeListener { _, value, _ ->
-            ageRangeText.text = getString(R.string.selected_age_range, ageRangeSlider.values[0].toInt(), ageRangeSlider.values[1].toInt())
+            ageRangeText.text = getString(
+                R.string.selected_age_range,
+                ageRangeSlider.values[0].toInt(),
+                ageRangeSlider.values[1].toInt()
+            )
         }
 
         val showMe = findViewById<TextView>(R.id.show_me_text)
@@ -87,7 +95,11 @@ class Settings : AppCompatActivity() {
                     startActivity(Intent(this@Settings, MainActivity::class.java))
                 else
                 // TODO fixme
-                    Toast.makeText(applicationContext, getString(R.string.logout_error), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.logout_error),
+                        Toast.LENGTH_LONG
+                    ).show()
             }
         })
     }
@@ -95,7 +107,7 @@ class Settings : AppCompatActivity() {
     /**
      * Delete the user's account
      */
-    fun deleteAccount(view: View){
+    fun deleteAccount(view: View) {
         //TODO
     }
 

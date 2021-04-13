@@ -182,13 +182,13 @@
                     android:layout_height="40dp"
                     android:layout_below="@+id/maximum_distance_text"
                     android:gravity="center"
-                    android:valueFrom="0.0"
-                    android:valueTo="200.0"
                     android:stepSize="1"
                     android:value="50"
+                    android:valueFrom="0.0"
+                    android:valueTo="200.0"
                     app:thumbRadius="6dp"
                     app:tickVisible="false"
-                    app:trackHeight="2dp"/>
+                    app:trackHeight="2dp" />
 
                 <View
                     android:layout_width="match_parent"
