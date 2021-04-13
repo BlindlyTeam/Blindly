@@ -47,7 +47,7 @@ class ProfilePageTest {
         release()
     }
 
-    //@Test
+    @Test
     fun recordAudioButtonFiresRecordingActivity() {
         init()
         gotoProfileScreen()

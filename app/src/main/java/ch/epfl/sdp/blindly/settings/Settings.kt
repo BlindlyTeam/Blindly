@@ -58,7 +58,7 @@ class Settings : AppCompatActivity() {
             ageRangeSlider.values[0].toInt(),
             ageRangeSlider.values[1].toInt()
         )
-        ageRangeSlider.addOnChangeListener { _, value, _ ->
+        ageRangeSlider.addOnChangeListener { _, _, _ ->
             ageRangeText.text = getString(
                 R.string.selected_age_range,
                 ageRangeSlider.values[0].toInt(),
