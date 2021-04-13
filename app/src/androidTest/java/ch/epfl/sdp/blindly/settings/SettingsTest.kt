@@ -123,7 +123,7 @@ class SettingsTest {
             }
 
             override fun getConstraints(): org.hamcrest.Matcher<View>? {
-                return ViewMatchers.isAssignableFrom(Slider::class.java)
+                return isAssignableFrom(Slider::class.java)
             }
         }
     }
@@ -140,7 +140,7 @@ class SettingsTest {
             }
 
             override fun getConstraints(): org.hamcrest.Matcher<View>? {
-                return ViewMatchers.isAssignableFrom(RangeSlider::class.java)
+                return isAssignableFrom(RangeSlider::class.java)
             }
         }
     }
@@ -150,7 +150,7 @@ class SettingsTest {
         init()
         onView(withId(R.id.location_slider)).perform(setSliderValue(80))
         val radiusText = onView(withId(R.id.radius_text))
-        radiusText.check(ViewAssertions.matches(ViewMatchers.withText(TEST_RADIUS)))
+        radiusText.check(matches(withText(TEST_RADIUS)))
         release()
     }
 
@@ -159,7 +159,7 @@ class SettingsTest {
         init()
         onView(withId(R.id.age_range_slider)).perform(setRangeSliderValues(40, 60))
         val selectedAgeRangeText = onView(withId(R.id.selected_age_range_text))
-        selectedAgeRangeText.check(ViewAssertions.matches(ViewMatchers.withText(TEST_AGE_RANGE)))
+        selectedAgeRangeText.check(matches(withText(TEST_AGE_RANGE)))
         release()
     }
 
@@ -168,8 +168,8 @@ class SettingsTest {
         init()
 
         onView(withId(R.id.email_address_text)).check(
-            ViewAssertions.matches(
-                ViewMatchers.withText(
+            matches(
+                withText(
                     user.getEmail()
                 )
             )
