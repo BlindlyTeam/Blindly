@@ -108,7 +108,12 @@ class Settings : AppCompatActivity() {
      * Delete the user's account
      */
     fun deleteAccount(view: View) {
-        //TODO
+        //For now, just display a Toast message
+        Toast.makeText(
+            this,
+            getString(R.string.account_deleted),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     // This is the non depracated version but it crashes for the moment

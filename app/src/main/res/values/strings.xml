@@ -130,6 +130,7 @@
     <string name="check_mark_for_the_choice_everyone">Check mark for the choice Everyone.</string>
     <string name="lausanne_switzerland">Lausanne, Switzerland</string>
     <string name="progress_km">%1$dkm</string>
+    <string name="account_deleted">Your account has been deleted</string>
     <string name="selected_age_range">%1$d - %2$d</string>
     <string name="not_logged_in">NOT LOGGED-IN</string>
     <string name="logout_error">LOGOUT ERROR</string>

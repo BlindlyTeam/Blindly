@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.settings
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.view.View
-import android.widget.SeekBar
 import android.widget.TextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -12,15 +11,19 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.ToastMatcher
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 import ch.epfl.sdp.blindly.utils.UserHelper
+import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.Slider
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers
@@ -33,6 +36,7 @@ import javax.inject.Inject
 
 private const val TEST_SHOW_ME_MEN = "Men"
 private const val TEST_RADIUS = "80km"
+private const val TEST_AGE_RANGE = "40 - 60"
 
 @HiltAndroidTest
 class SettingsTest {
@@ -62,12 +66,12 @@ class SettingsTest {
             myLocation = activity.findViewById(R.id.current_location_text)
         }
         intended(
-                Matchers.allOf(
-                        hasComponent(SettingsLocation::class.java.name), IntentMatchers.hasExtra(
-                        EXTRA_LOCATION,
-                        myLocation?.text
+            Matchers.allOf(
+                hasComponent(SettingsLocation::class.java.name), IntentMatchers.hasExtra(
+                    EXTRA_LOCATION,
+                    myLocation?.text
                 )
-                )
+            )
         )
         release()
     }
@@ -81,12 +85,12 @@ class SettingsTest {
             showMe = activity.findViewById(R.id.show_me_text)
         }
         intended(
-                Matchers.allOf(
-                        hasComponent(SettingsShowMe::class.java.name), IntentMatchers.hasExtra(
-                        EXTRA_SHOW_ME,
-                        showMe?.text
+            Matchers.allOf(
+                hasComponent(SettingsShowMe::class.java.name), IntentMatchers.hasExtra(
+                    EXTRA_SHOW_ME,
+                    showMe?.text
                 )
-                )
+            )
         )
         release()
     }
@@ -101,34 +105,61 @@ class SettingsTest {
         onView(withId(R.id.done_button)).perform(click())
 
         assertEquals(RESULT_OK, activityRule.scenario.result.resultCode)
-        assertEquals(TEST_SHOW_ME_MEN,
+        assertEquals(
+            TEST_SHOW_ME_MEN,
             activityRule.scenario.result.resultData.getStringExtra(EXTRA_SHOW_ME)
         )
     }
 
-    private fun setProgress(progress: Int): ViewAction {
+    private fun setSliderValue(value: Int): ViewAction {
         return object : ViewAction {
             override fun perform(uiController: UiController?, view: View) {
-                val seekBar = view as SeekBar
-                seekBar.progress = progress
+                val slider = view as Slider
+                slider.value = value.toFloat()
             }
 
             override fun getDescription(): String {
-                return "Set a progress on a SeekBar"
+                return "Set a value on a Slider"
             }
 
             override fun getConstraints(): org.hamcrest.Matcher<View>? {
-                return ViewMatchers.isAssignableFrom(SeekBar::class.java)
+                return ViewMatchers.isAssignableFrom(Slider::class.java)
+            }
+        }
+    }
+
+    private fun setRangeSliderValues(minValue: Int, maxValue: Int): ViewAction {
+        return object : ViewAction {
+            override fun perform(uiController: UiController?, view: View) {
+                val rangeSlider = view as RangeSlider
+                rangeSlider.values = listOf(minValue.toFloat(), maxValue.toFloat())
+            }
+
+            override fun getDescription(): String {
+                return "Set the values on a RangeSlider"
+            }
+
+            override fun getConstraints(): org.hamcrest.Matcher<View>? {
+                return ViewMatchers.isAssignableFrom(RangeSlider::class.java)
             }
         }
     }
 
     @Test
-    fun movingTheSeekBarChangesTheRadiusText() {
+    fun movingTheSliderChangesTheRadiusText() {
         init()
-        onView(withId(R.id.location_slider)).perform(setProgress(80))
+        onView(withId(R.id.location_slider)).perform(setSliderValue(80))
         val radiusText = onView(withId(R.id.radius_text))
         radiusText.check(ViewAssertions.matches(ViewMatchers.withText(TEST_RADIUS)))
+        release()
+    }
+
+    @Test
+    fun movingTheRangeSliderChangesTheSelectedAgeRangeText() {
+        init()
+        onView(withId(R.id.age_range_slider)).perform(setRangeSliderValues(40, 60))
+        val selectedAgeRangeText = onView(withId(R.id.selected_age_range_text))
+        selectedAgeRangeText.check(ViewAssertions.matches(ViewMatchers.withText(TEST_AGE_RANGE)))
         release()
     }
 
@@ -137,11 +168,11 @@ class SettingsTest {
         init()
 
         onView(withId(R.id.email_address_text)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText(
-                                user.getEmail()
-                        )
+            ViewAssertions.matches(
+                ViewMatchers.withText(
+                    user.getEmail()
                 )
+            )
         )
         release()
     }
@@ -152,10 +183,19 @@ class SettingsTest {
         onView(withId(R.id.email_button)).perform(click())
 
         intended(
-                Matchers.allOf(
-                        hasComponent(SettingsUpdateEmail::class.java.name)
-                )
+            Matchers.allOf(
+                hasComponent(SettingsUpdateEmail::class.java.name)
+            )
         )
+        release()
+    }
+
+    @Test
+    fun clickOnDeleteAccountButtonShowsText() {
+        init()
+        onView(withId(R.id.delete_account_button)).perform(click())
+        onView(withText(R.string.account_deleted)).inRoot(ToastMatcher())
+            .check(matches(isDisplayed()))
         release()
     }
 
