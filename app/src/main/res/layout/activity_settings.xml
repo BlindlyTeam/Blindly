@@ -24,9 +24,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp">
+            android:layout_marginRight="4dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/account_settings_text"
@@ -45,16 +45,14 @@
             <RelativeLayout
                 android:id="@+id/email_group"
                 android:layout_width="match_parent"
-                android:layout_height="49dp"
-                >
+                android:layout_height="49dp">
 
                 <Button
                     android:id="@+id/email_button"
                     android:layout_width="match_parent"
                     android:layout_height="49dp"
                     android:background="@color/transparent"
-                    android:onClick="startUpdateEmail"
-                    />
+                    android:onClick="startUpdateEmail" />
 
                 <TextView
                     android:id="@+id/email_text"
@@ -68,10 +66,10 @@
                     android:id="@+id/email_address_text"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
                     android:layout_toStartOf="@id/email_arrow"
                     android:gravity="center"
-                    android:textSize="15sp"
-                    android:layout_marginRight="10dp"/>
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/email_arrow"
@@ -108,19 +106,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
+
             <RelativeLayout
                 android:id="@+id/location_group"
                 android:layout_width="match_parent"
-                android:layout_height="49dp"
-                >
+                android:layout_height="49dp">
 
                 <Button
                     android:id="@+id/location_button"
                     android:layout_width="match_parent"
                     android:layout_height="49dp"
                     android:background="@color/transparent"
-                    android:onClick="startLocationSettings"
-                    />
+                    android:onClick="startLocationSettings" />
 
                 <TextView
                     android:id="@+id/location_text"
@@ -134,10 +131,10 @@
                     android:id="@+id/current_location_text"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@id/location_arrow"
                     android:gravity="center"
-                    android:textSize="15sp"
-                    android:layout_marginEnd="10dp"/>
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/location_arrow"
@@ -159,8 +156,7 @@
                 android:id="@+id/maximum_distance_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                >
+                android:layout_marginTop="5dp">
 
 
                 <TextView
@@ -176,20 +172,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="25dp"
                     android:gravity="top"
-                    android:textSize="15sp"
-                    android:layout_marginEnd="25dp"/>
+                    android:textSize="15sp" />
 
-                <SeekBar
-                    android:id="@+id/seekBar"
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/location_slider"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_below="@+id/maximum_distance_text"
                     android:gravity="center"
-                    android:max="200"
-                    android:progressTint="@color/design_default_color_primary_dark"
-                    android:scrollbarSize="4dp"
-                    android:thumbTint="@color/design_default_color_primary" />
+                    android:valueFrom="0.0"
+                    android:valueTo="200.0"
+                    android:stepSize="1"
+                    android:value="50"
+                    app:thumbRadius="6dp"
+                    app:tickVisible="false"
+                    app:trackHeight="2dp"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -244,14 +243,68 @@
                     android:background="?android:attr/listDivider" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/age_range_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+
+                <TextView
+                    android:id="@+id/age_range_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:text="@string/age_range"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/selected_age_range_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="25dp"
+                    android:gravity="top"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/age_range_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/age_range_text"
+                    android:gravity="center"
+                    android:stepSize="1"
+                    android:valueFrom="18"
+                    android:valueTo="99"
+                    app:thumbRadius="6dp"
+                    app:tickVisible="false"
+                    app:trackHeight="2dp"
+                    app:values="@array/initial_slider_values" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="?android:attr/listDivider" />
+            </RelativeLayout>
+
             <Button
                 android:id="@+id/logout_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:onClick="logout"
                 android:text="@string/logout_button_text"
-                android:textSize="15sp"
-                android:onClick="logout"/>
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/delete_account_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="deleteAccount"
+                android:text="@string/delete_account_button_text"
+                android:textSize="15sp" />
 
         </LinearLayout>
     </LinearLayout>

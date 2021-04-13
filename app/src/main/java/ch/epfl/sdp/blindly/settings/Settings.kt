@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.settings
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +11,8 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 import ch.epfl.sdp.blindly.utils.UserHelper
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -40,16 +41,22 @@ class Settings : AppCompatActivity() {
         locationText.text = getString(R.string.lausanne_switzerland)
 
         val radiusText = findViewById<TextView>(R.id.radius_text)
-        val radiusSeekBar = findViewById<SeekBar>(R.id.seekBar)
+        val radiusSlider = findViewById<Slider>(R.id.location_slider)
 
-        radiusSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {
-                radiusText.text = getString(R.string.progress_km, progress)
-            }
+        //Update the radius text with initial value, and everytime the slider changes
+        radiusText.text = getString(R.string.progress_km, radiusSlider.value.toInt())
+        radiusSlider.addOnChangeListener { _, value, _ ->
+            radiusText.text = getString(R.string.progress_km, value.toInt())
+        }
 
-            override fun onStartTrackingTouch(seek: SeekBar) {}
-            override fun onStopTrackingTouch(seek: SeekBar) {}
-        })
+        val ageRangeText = findViewById<TextView>(R.id.selected_age_range_text)
+        val ageRangeSlider = findViewById<RangeSlider>(R.id.age_range_slider)
+
+        //Update the selected age range text with initial value, and everytime the slider changes
+        ageRangeText.text = getString(R.string.selected_age_range, ageRangeSlider.values[0].toInt(), ageRangeSlider.values[1].toInt())
+        ageRangeSlider.addOnChangeListener { _, value, _ ->
+            ageRangeText.text = getString(R.string.selected_age_range, ageRangeSlider.values[0].toInt(), ageRangeSlider.values[1].toInt())
+        }
 
         val showMe = findViewById<TextView>(R.id.show_me_text)
         showMe.text = getString(R.string.women_show_me)
@@ -83,6 +90,13 @@ class Settings : AppCompatActivity() {
                     Toast.makeText(applicationContext, getString(R.string.logout_error), Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    /**
+     * Delete the user's account
+     */
+    fun deleteAccount(view: View){
+        //TODO
     }
 
     // This is the non depracated version but it crashes for the moment

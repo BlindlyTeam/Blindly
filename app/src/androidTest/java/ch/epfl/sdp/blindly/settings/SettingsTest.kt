@@ -18,7 +18,6 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import ch.epfl.sdp.blindly.BlindlyApplication
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 import ch.epfl.sdp.blindly.utils.UserHelper
@@ -127,7 +126,7 @@ class SettingsTest {
     @Test
     fun movingTheSeekBarChangesTheRadiusText() {
         init()
-        onView(withId(R.id.seekBar)).perform(setProgress(80))
+        onView(withId(R.id.location_slider)).perform(setProgress(80))
         val radiusText = onView(withId(R.id.radius_text))
         radiusText.check(ViewAssertions.matches(ViewMatchers.withText(TEST_RADIUS)))
         release()
