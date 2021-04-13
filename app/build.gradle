@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.firebaseui:firebase-ui-auth:7.1.1'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.facebook.android:facebook-android-sdk:8.+'
+    implementation 'com.facebook.android:facebook-android-sdk:9.1.0'
     implementation 'org.hamcrest:hamcrest:2.2'
     implementation 'com.google.firebase:firebase-firestore:22.1.2'
     testImplementation 'junit:junit:4.13.2'
