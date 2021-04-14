@@ -1,5 +1,9 @@
 package ch.epfl.sdp.blindly.profile_setup
 
+import android.content.Intent
+import android.os.Bundle
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -15,9 +19,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.user.User
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,8 +38,23 @@ private const val ERROR_CHARACTERS = "Please use only letters."
 @RunWith(AndroidJUnit4::class)
 class TestProfileGenderMore {
 
-    @get:Rule
-    val activityRule = ActivityScenarioRule(ProfileGenderMore::class.java)
+    private val TEST_USER = User.Builder()
+            .setUsername(CORRECT_NAME)
+            .setBirthday(TEST_BIRTHDAY)
+
+    @Before
+    fun init() {
+        val bundle = Bundle()
+        bundle.putSerializable(EXTRA_USER, Json.encodeToString(TEST_USER))
+
+        val intent = Intent(ApplicationProvider.getApplicationContext(),
+                ProfileGenderMore::class.java).apply {
+            putExtras(bundle)
+        }
+
+        ActivityScenario.launch<ProfileGenderMore>(intent)
+    }
+
 
     @Test
     fun incorrectCharOutputsError() {
@@ -52,6 +73,7 @@ class TestProfileGenderMore {
                                 )
                         )
                 )
+
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }
@@ -68,6 +90,7 @@ class TestProfileGenderMore {
                 ViewAssertions.matches(
                     ViewMatchers.withText(
                         Matchers.containsString(ERROR_MESSAGE))))
+
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }
@@ -85,6 +108,7 @@ class TestProfileGenderMore {
                 ViewAssertions.matches(
                     ViewMatchers.withText(
                         Matchers.containsString(ERROR_MESSAGE))))
+
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
         Intents.release()
     }
@@ -98,8 +122,9 @@ class TestProfileGenderMore {
         closeSoftKeyboard();
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        /*intended(Matchers.allOf(hasComponent(ProfileOrientation::class.java.name),
-                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_GENRE, CORRECT_SPECIFICATION))))*/
+
+        TEST_USER.setGender(CORRECT_SPECIFICATION)
+
         intended(Matchers.allOf(
             hasComponent(ProfileOrientation::class.java.name),
             IntentMatchers.hasExtras(

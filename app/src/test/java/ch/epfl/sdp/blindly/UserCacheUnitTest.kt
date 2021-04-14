@@ -1,5 +1,5 @@
 package ch.epfl.sdp.blindly
 
-class UserCacheTest {
+class UserCacheUnitTest {
 
 }

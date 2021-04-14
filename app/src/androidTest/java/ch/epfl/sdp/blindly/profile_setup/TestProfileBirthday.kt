@@ -1,38 +1,53 @@
 package ch.epfl.sdp.blindly.profile_setup
 
+import android.content.Intent
+import android.os.Bundle
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.Intents.times
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.BundleMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
-import kotlinx.serialization.decodeFromString
+import ch.epfl.sdp.blindly.user.User
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 import org.hamcrest.Matchers
-import org.junit.Rule
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-const val TEST_BIRTHDAY = "18.3.2003"
+const val TEST_BIRTHDAY = "18.03.2003"
+private const val ERROR_AGE = "The minimum age requirement is 18 years old."
+
 @RunWith(AndroidJUnit4::class)
 class TestProfileBirthday {
 
+    private val TEST_USER = User.Builder().setUsername(CORRECT_NAME)
 
-    @get:Rule
-    val activityRule = ActivityScenarioRule(ProfileBirthday::class.java)
+    @Before
+    fun init() {
+        val bundle = Bundle()
+        bundle.putSerializable(EXTRA_USER,
+                Json.encodeToString(TEST_USER)
+        )
 
-    private val ERROR_AGE = "The minimum age requirement is 18 years old."
+        val intent = Intent(ApplicationProvider.getApplicationContext(),
+                ProfileBirthday::class.java).apply {
+            putExtras(bundle)
+        }
+
+        ActivityScenario.launch<ProfileBirthday>(intent)
+    }
 
     @Test
     fun minorAgeOutputsError() {
@@ -56,16 +71,15 @@ class TestProfileBirthday {
     @Test
     fun adultAgeFiresProfileGender() {
         Intents.init()
-        TEST_USER.setBirthday(TEST_BIRTHDAY)
-
         onView(withId(R.id.datePicker)).perform(PickerActions.setDate(2003, 3, 18))
         onView(withId(R.id.button_p3)).perform(click())
-        /*intended(Matchers.allOf(hasComponent(ProfileGender::class.java.name),
-                IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_BIRTHDAY, TEST_BIRTHDAY))))*/
+
+        TEST_USER.setBirthday(TEST_BIRTHDAY)
 
         intended(Matchers.allOf(hasComponent(ProfileGender::class.java.name),
-            IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
-        Intents.release()
+            IntentMatchers.hasExtras(BundleMatchers.hasEntry(EXTRA_USER,
+                    Json.encodeToString(TEST_USER)))))
+        release()
     }
 
 }

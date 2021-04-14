@@ -13,12 +13,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.ViewModelAssistedFactory
-import ch.epfl.sdp.blindly.ViewModelFactory
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
@@ -29,9 +27,10 @@ import javax.inject.Inject
 const val BOUNCE_DURATION: Long = 100
 
 @AndroidEntryPoint
-class ProfilePage : Fragment() {
+class ProfilePageFragment : Fragment() {
 
     @Inject
+    //@Named("userHelperWithUid")
     lateinit var userHelper: UserHelper
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
@@ -43,8 +42,8 @@ class ProfilePage : Fragment() {
         private const val ARG_COUNT = "profileArgs"
         private var counter: Int? = null;
 
-        fun newInstance(counter: Int): ProfilePage {
-            val fragment = ProfilePage();
+        fun newInstance(counter: Int): ProfilePageFragment {
+            val fragment = ProfilePageFragment();
             val args = Bundle();
             args.putInt(ARG_COUNT, counter);
             fragment.arguments = args;
@@ -82,7 +81,7 @@ class ProfilePage : Fragment() {
         val userInfoText = view.findViewById<TextView>(R.id.user_info_text)
         val userDescriptionText = view.findViewById<TextView>(R.id.user_description_text)
 
-        val context = this@ProfilePage.context
+        val context = this@ProfilePageFragment.context
 
         val editButton = view.findViewById<Button>(R.id.edit_info_profile_button)
         setOnClickListener(editButton, Intent(context, EditProfile::class.java))

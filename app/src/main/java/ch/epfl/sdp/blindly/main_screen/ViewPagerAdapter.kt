@@ -3,7 +3,7 @@ package ch.epfl.sdp.blindly.main_screen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import ch.epfl.sdp.blindly.main_screen.profile.ProfilePage
+import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 
 /**
  * This ViewPagerAdapter is used by the ViewPager in the MainScreen
@@ -24,7 +24,7 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
                 MessagePageFragment.newInstance(position)
             }
             else -> {
-                ProfilePage.newInstance(position)
+                ProfilePageFragment.newInstance(position)
             }
         }
     }

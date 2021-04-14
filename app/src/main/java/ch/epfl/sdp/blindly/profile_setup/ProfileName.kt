@@ -51,11 +51,6 @@ class ProfileName : AppCompatActivity() {
                     val intent = Intent(this, ProfileBirthday::class.java)
                     intent.putExtras(bundle)
 
-                    /*
-                    val intent = Intent(this, ProfileBirthday::class.java).apply {
-                        putExtra(EXTRA_USERNAME, name)
-                    }
-                     */
                     startActivity(intent)
                 }
             }

@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.fake_module
 
+import ch.epfl.sdp.blindly.di.FirestoreModule
 import ch.epfl.sdp.blindly.di.UserRepositoryModule
 import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [UserRepositoryModule::class]
+    replaces = [FirestoreModule::class]
 )
 
 open class FakeFirestoreModule {

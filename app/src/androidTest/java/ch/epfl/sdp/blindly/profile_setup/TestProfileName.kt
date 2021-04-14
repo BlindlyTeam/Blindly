@@ -24,7 +24,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-private const val CORRECT_NAME = "Alice"
+const val CORRECT_NAME = "Alice"
 private const val INCORRECT_CHARS = "Ali;;;ce"
 private const val INCORRECT_SHORT_NAME = "A"
 private const val INCORRECT_LONG_NAME = "abcdefabcdefabcdefabcdef"
@@ -32,11 +32,10 @@ private const val ERROR_LONG_NAME = "Name can't be more than 20 characters!"
 private const val ERROR_SHORT_NAME = "Name can't be less than 2 characters!"
 private const val ERROR_CHARACTERS = "Please use only letters."
 
-val TEST_USER = User.Builder().setUsername(CORRECT_NAME)
-
 @RunWith(AndroidJUnit4::class)
 class TestProfileName {
 
+    private  val TEST_USER = User.Builder().setUsername(CORRECT_NAME)
 
     @get:Rule
     val activityRule = ActivityScenarioRule(ProfileName::class.java)
@@ -54,10 +53,6 @@ class TestProfileName {
         intended(Matchers.allOf(hasComponent(ProfileBirthday::class.java.name),
             IntentMatchers.hasExtras(
                 BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
-        /*intended(Matchers.allOf(hasComponent(ProfileBirthday::class.java.name),
-            IntentMatchers.hasExtra(EXTRA_USERNAME, CORRECT_NAME)))
-
-         */
 
         Intents.release()
     }
@@ -67,7 +62,7 @@ class TestProfileName {
         Intents.init()
         onView(withId(R.id.text_first_name))
                 .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_SHORT_NAME));
-        closeSoftKeyboard();
+        closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p2))
         buttonContinue.perform(click())
         onView(withId(R.id.warning1_p2)).check(
@@ -88,7 +83,7 @@ class TestProfileName {
         Intents.init()
         onView(withId(R.id.text_first_name))
                 .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_LONG_NAME));
-        closeSoftKeyboard();
+        closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p2))
         buttonContinue.perform(click())
         onView(withId(R.id.warning2_p2)).check(
@@ -109,7 +104,7 @@ class TestProfileName {
         Intents.init()
         onView(withId(R.id.text_first_name))
                 .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_CHARS));
-        closeSoftKeyboard();
+        closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p2))
         buttonContinue.perform(click())
         onView(withId(R.id.warning3_p2)).check(

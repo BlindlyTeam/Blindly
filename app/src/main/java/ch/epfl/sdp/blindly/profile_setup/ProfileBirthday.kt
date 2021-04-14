@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly.profile_setup
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
@@ -28,7 +29,9 @@ class ProfileBirthday : AppCompatActivity() {
         setContentView(R.layout.profile_setup_birthday)
 
         val bundle = intent.extras
-        userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
+        if(bundle != null) {
+            userBuilder = bundle.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

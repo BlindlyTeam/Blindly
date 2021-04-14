@@ -17,7 +17,7 @@ import javax.inject.Singleton
  * This is the main access point to firestore
  */
 
-class UserRepository (
+class UserRepository @Inject constructor(
     private val db: FirebaseFirestore,
     private val userCache: UserCache) {
 
