@@ -139,6 +139,8 @@
     <string name="arrow_button_to_show_e_mail">Arrow button to show e-mail.</string>
     <string name="user_example_name_and_age">Jane Doe, 24</string>
     <string name="student">Student</string>
+    <string name="facebook_application_id" translatable="false">2887339711533767</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb2887339711533767</string>
     <string name="base_timer_MM_SS">00:00</string>
     <string name="play_pause_button">Play/Pause button</string>
     <string name="select">Select</string>
