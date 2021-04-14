@@ -10,16 +10,14 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.ToastMatcher
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 import ch.epfl.sdp.blindly.utils.UserHelper
 import com.google.android.material.slider.RangeSlider
@@ -190,13 +188,16 @@ class SettingsTest {
         release()
     }
 
-    /*@Test
-    fun clickOnDeleteAccountButtonShowsText() {
+    @Test
+    fun clickingOnDeleteAccountButtonFiresMainActivity() {
         init()
         onView(withId(R.id.delete_account_button)).perform(click())
-        onView(withText(R.string.account_deleted)).inRoot(ToastMatcher())
-            .check(matches(isDisplayed()))
+        intended(
+            Matchers.allOf(
+                hasComponent(MainActivity::class.java.name)
+            )
+        )
         release()
-    }*/ //Doesn't work on API 30 but works on API 29...
+    }
 
 }

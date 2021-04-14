@@ -53,22 +53,21 @@ class Settings : AppCompatActivity() {
         val ageRangeSlider = findViewById<RangeSlider>(R.id.age_range_slider)
 
         //Update the selected age range text with initial value, and everytime the slider changes
-        ageRangeText.text = getString(
-            R.string.selected_age_range,
-            ageRangeSlider.values[0].toInt(),
-            ageRangeSlider.values[1].toInt()
-        )
+        ageRangeText.text = getAgeRangeString(ageRangeSlider)
         ageRangeSlider.addOnChangeListener { _, _, _ ->
-            ageRangeText.text = getString(
-                R.string.selected_age_range,
-                ageRangeSlider.values[0].toInt(),
-                ageRangeSlider.values[1].toInt()
-            )
+            ageRangeText.text = getAgeRangeString(ageRangeSlider)
         }
 
         val showMe = findViewById<TextView>(R.id.show_me_text)
         showMe.text = getString(R.string.women_show_me)
+    }
 
+    private fun getAgeRangeString(slider: RangeSlider): String {
+        return getString(
+            R.string.selected_age_range,
+            slider.values[0].toInt(),
+            slider.values[1].toInt()
+        )
     }
 
     fun startLocationSettings(view: View) {
@@ -108,12 +107,8 @@ class Settings : AppCompatActivity() {
      * Delete the user's account
      */
     fun deleteAccount(view: View) {
-        //For now, just display a Toast message
-        /*Toast.makeText(
-            this,
-            getString(R.string.account_deleted),
-            Toast.LENGTH_SHORT
-        ).show()*/ //Can't test because it doesn't work on API 30
+        //For now, just return to the main activity
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     // This is the non depracated version but it crashes for the moment
