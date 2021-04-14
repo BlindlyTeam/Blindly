@@ -18,6 +18,9 @@ import java.io.IOException
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
+/**
+ * Activity that contains everything to record audio files and listen to them to select one.
+ */
 class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
     private val mediaRecorder = MediaRecorder()
 
@@ -36,6 +39,12 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
+    /**
+     * Binds everything to the view, sets the base view and initialise useful values declared in
+     * the class.
+     *
+     * @param savedInstanceState
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording)
@@ -46,13 +55,19 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
 
         recordTimer = findViewById(R.id.recordTimer)
 
-        // For the recording list
         recordingRecyclerView = findViewById(R.id.recordingList)
         recordingRecyclerView.layoutManager = LinearLayoutManager(this)
         adapter = AudioLibraryAdapter(ArrayList(), ArrayList(), this, this)
         recordingRecyclerView.adapter = adapter
     }
 
+    /**
+     * Requests permissions to record, using the device's microphone.
+     *
+     * @param requestCode the code of the requested permission
+     * @param permissions the array of the accepted permissions
+     * @param grantResults the array of permission request results represented as integers
+     */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionToRecordAccepted = if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
@@ -70,7 +85,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         deleteTempRecordings()
         adapter.recordList = ArrayList()
     }
-
+    
     private fun recordButtonClick(view: View) {
         if (!isRecording) {
             startRecording()
