@@ -37,7 +37,8 @@ class UserHelper {
         val providers = arrayListOf(
                 AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
                 phoneProvider.build(),
-                AuthUI.IdpConfig.GoogleBuilder().build()
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.FacebookBuilder().build()
         )
 
 
