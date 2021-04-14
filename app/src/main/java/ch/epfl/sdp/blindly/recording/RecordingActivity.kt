@@ -49,7 +49,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         // For the recording list
         recordingRecyclerView = findViewById(R.id.recordingList)
         recordingRecyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = AudioLibraryAdapter(ArrayList(), this, this)
+        adapter = AudioLibraryAdapter(ArrayList(), ArrayList(), this, this)
         recordingRecyclerView.adapter = adapter
     }
 

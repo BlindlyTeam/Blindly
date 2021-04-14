@@ -26,6 +26,7 @@ private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.3gp"
  * Serves as an adapter to add audio recordings in a RecyclerView
  */
 class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
+                          var viewHolderList: ArrayList<ViewHolder>,
                           var context: Context,
                           private val listener: OnItemClickListener)
     : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
@@ -62,8 +63,14 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
-    // Expands or collapse the layout for playing the audio file
+    // Expands or collapse the layout for playing the audio file, and collapse the others
     private fun toggleLayout(isExpanded: Boolean, v: View, layoutExpand: RelativeLayout) {
+        for (i in 0 until recordList.size) {
+            if (recordList[i].isExpanded) {
+                RecordAnimations.collapse(viewHolderList[i].expandableLayout)
+                recordList[i].isExpanded = false
+            }
+        }
         if (isExpanded) {
             RecordAnimations.expand(layoutExpand)
         } else {
@@ -75,6 +82,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(context).inflate(R.layout.audio_recording, null)
+        viewHolderList.add(ViewHolder(view))
         return ViewHolder(view)
     }
 
