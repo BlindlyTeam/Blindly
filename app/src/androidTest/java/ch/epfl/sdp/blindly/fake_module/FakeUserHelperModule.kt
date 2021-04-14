@@ -44,12 +44,4 @@ open class FakeUserHelperModule {
 
         return user
     }
-
-    @Provides
-    @Named("userHelperWithUid")
-    open fun provideUserHelperWithUid(): UserHelper {
-        val user = mock(UserHelper::class.java)
-        Mockito.`when`(user.getUserId()).thenReturn(TEST_UID)
-        return user
-    }
 }

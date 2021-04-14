@@ -73,17 +73,19 @@ class User private constructor(
             this.description = description
         }
 
-        fun build() = User(
-            username,
-            location,
-            birthday,
-            gender,
-            sexual_orientations,
-            show_me,
-            passions,
-            radius,
-            matches,
-            description)
+        fun build() : User {
+            return User(
+                    username,
+                    location,
+                    birthday,
+                    gender,
+                    sexual_orientations,
+                    show_me,
+                    passions,
+                    radius,
+                    matches,
+                    description)
+        }
 
     }
 

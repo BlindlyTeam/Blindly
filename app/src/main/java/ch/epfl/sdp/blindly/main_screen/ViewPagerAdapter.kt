@@ -18,7 +18,7 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> {
-                MatchPage.newInstance(position)
+                MatchPageFragment.newInstance(position)
             }
             1 -> {
                 MessagePageFragment.newInstance(position)

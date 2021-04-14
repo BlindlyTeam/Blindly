@@ -9,14 +9,14 @@ import ch.epfl.sdp.blindly.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MatchPage : Fragment() {
+class MatchPageFragment : Fragment() {
 
     companion object {
         private const val ARG_COUNT = "matchArgs";
         private var counter: Int? = null;
 
-        fun newInstance(counter: Int): MatchPage {
-            val fragment = MatchPage();
+        fun newInstance(counter: Int): MatchPageFragment {
+            val fragment = MatchPageFragment();
             val args = Bundle();
             args.putInt(ARG_COUNT, counter);
             fragment.arguments = args;

@@ -49,7 +49,7 @@ class UserRepository @Inject constructor(
      *
      * @return the user with the corresponding uid or null if he/she/it doesn't exist
      */
-    private suspend fun refreshUser(uid: String): User? {
+    suspend fun refreshUser(uid: String): User? {
         return try {
             val freshUser = db.collection(USER_COLLECTION)
                 .document(uid).get().await().toUser()
@@ -72,7 +72,7 @@ class UserRepository @Inject constructor(
      * @param field: the field of the value to change inside the database
      * @param newValue: the new value to set for the user
      */
-    @RequiresApi(Build.VERSION_CODES.N)
+    /*@RequiresApi(Build.VERSION_CODES.N)
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         if(newValue !is String || newValue !is ArrayList<*>)
             throw IllegalArgumentException("Expected String or ArrayList<String>")
@@ -80,5 +80,5 @@ class UserRepository @Inject constructor(
             .document(uid)
             .update(field, newValue)
         refreshUser(uid)
-    }
+    }*/
 }

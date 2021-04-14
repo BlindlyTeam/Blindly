@@ -24,8 +24,6 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-const val BOUNCE_DURATION: Long = 100
-
 @AndroidEntryPoint
 class ProfilePageFragment : Fragment() {
 
@@ -39,6 +37,7 @@ class ProfilePageFragment : Fragment() {
 
     companion object {
         private const val TAG = "ProfilePage"
+        const val BOUNCE_DURATION: Long = 100
         private const val ARG_COUNT = "profileArgs"
         private var counter: Int? = null;
 

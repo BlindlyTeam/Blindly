@@ -16,9 +16,4 @@ object UserHelperModule {
     @Singleton
     @Provides
     fun provideUserHelper(): UserHelper = UserHelper()
-
-    @Singleton
-    @Provides
-    @Named("userHelperWithUid")
-    fun provideUserHelperWithUid(): UserHelper = UserHelper()
 }
