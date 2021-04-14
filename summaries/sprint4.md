@@ -35,6 +35,12 @@ I couldn’t get to implement authentication with Facebook as my bachelor projec
 
 Next week, I will try to better manage my time, complete the aforementioned task and also start to look for ways to implement chat features in our application.
 
+## Tibor
+This week I refactored a bit the settings and added a way to change the e-mail.
+
+Unfortunately I had a lot of other things planned, so I could not go as much in depth as what I wanted.
+
+Next sprint, I will add a map with the user's location and multiple points.
 
 ## Overall Team
 This week, we couldn’t work as much as we did in the beginning. Some of us had deadlines for their bachelor project and the sprint ended on Thursday instead of Friday.
