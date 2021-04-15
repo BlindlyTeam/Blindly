@@ -35,6 +35,9 @@ import javax.inject.Inject
 private const val TEST_SHOW_ME_MEN = "Men"
 private const val TEST_RADIUS = "80km"
 private const val TEST_AGE_RANGE = "40 - 60"
+private const val TEST_LOWER_AGE = 40
+private const val TEST_HIGHER_AGE = 60
+private const val TEST_RADIUS_VAL = 80
 
 @HiltAndroidTest
 class SettingsTest {
@@ -146,7 +149,7 @@ class SettingsTest {
     @Test
     fun movingTheSliderChangesTheRadiusText() {
         init()
-        onView(withId(R.id.location_slider)).perform(setSliderValue(80))
+        onView(withId(R.id.location_slider)).perform(setSliderValue(TEST_RADIUS_VAL))
         val radiusText = onView(withId(R.id.radius_text))
         radiusText.check(matches(withText(TEST_RADIUS)))
         release()
@@ -155,7 +158,7 @@ class SettingsTest {
     @Test
     fun movingTheRangeSliderChangesTheSelectedAgeRangeText() {
         init()
-        onView(withId(R.id.age_range_slider)).perform(setRangeSliderValues(40, 60))
+        onView(withId(R.id.age_range_slider)).perform(setRangeSliderValues(TEST_LOWER_AGE, TEST_HIGHER_AGE))
         val selectedAgeRangeText = onView(withId(R.id.selected_age_range_text))
         selectedAgeRangeText.check(matches(withText(TEST_AGE_RANGE)))
         release()
