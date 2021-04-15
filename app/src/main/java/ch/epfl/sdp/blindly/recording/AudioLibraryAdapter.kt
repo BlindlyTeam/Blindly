@@ -21,6 +21,7 @@ import ch.epfl.sdp.blindly.profile.ProfileFinished
 import java.io.File
 
 private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.3gp"
+private const val PLAYBAR_DELAY = 10L
 
 /**
  * Adapter to use a RecyclerView as an audio library.
@@ -38,6 +39,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
     var mediaPlayer: MediaPlayer? = null
     private var isPlayerPaused = false
     private var isPlayerStopped = true
+    private var isPlayBarTouched = false
 
     /**
      * Custom ViewHolder class that contains all the elements that will be used later on in
@@ -122,6 +124,9 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         val playPauseButton = viewHolder.playPauseButton
         val movePlayBarThread = createPlayBarThread(playBar)
 
+        bindSeekBarNavigation(playBar, playTimer, remainingTimer, playPauseButton,
+                movePlayBarThread, position)
+
         viewHolder.recordName.text = recordList[position].name
         viewHolder.recordDuration.text = recordList[position].durationText
         viewHolder.nameDurationLayout.setOnClickListener {
@@ -174,7 +179,8 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         val filePath = recordList[position].filePath
         val newName = PRESENTATION_AUDIO_NAME
         val currentRecording = File(filePath)
-        currentRecording.copyTo(File("${context.filesDir.absolutePath}/$newName"), overwrite = true)
+        currentRecording.copyTo(File("${context.filesDir.absolutePath}/$newName"),
+                overwrite = true)
     }
 
     private fun createMediaPlayer(filePath: String) {
@@ -184,13 +190,47 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
+    private fun bindSeekBarNavigation(playBar: SeekBar,
+                                      playTimer: Chronometer,
+                                      remainingTimer: Chronometer,
+                                      playPauseButton: AppCompatImageButton,
+                                      playBarThread: Runnable,
+                                      position: Int) {
+        playBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(playBar: SeekBar,
+                                           progress: Int, fromUser: Boolean) {
+            }
+
+            override fun onStartTrackingTouch(playBar: SeekBar) {
+                /*if (isPlayerStopped) {
+                    resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
+                } else {
+                    mediaPlayer?.pause()
+                    setStoppedView(playTimer, remainingTimer, playPauseButton, true)
+                }*/
+                isPlayBarTouched = true
+            }
+
+            override fun onStopTrackingTouch(playBar: SeekBar) {
+                isPlayBarTouched = false
+                updatePlayBar(playBar, playBarThread, playBar.max, playBar.progress)
+                mediaPlayer?.seekTo(playBar.progress)
+                playTimer.base = SystemClock.elapsedRealtime() - mediaPlayer!!.currentPosition
+                remainingTimer.base = SystemClock.elapsedRealtime() -
+                        mediaPlayer!!.currentPosition + mediaPlayer!!.duration.toLong()
+                setPlayView(playTimer, remainingTimer, playBar, playBarThread, playPauseButton)
+                mediaPlayer?.start()
+            }
+        })
+    }
+
     private fun createPlayBarThread(playBar: SeekBar): Runnable {
         return object : Runnable {
             override fun run() {
-                if (mediaPlayer?.isPlaying == true) {
+                if (mediaPlayer?.isPlaying == true && !isPlayBarTouched) {
                     playBar.max = mediaPlayer!!.duration
                     playBar.progress = mediaPlayer!!.currentPosition
-                    Handler(Looper.getMainLooper()).postDelayed(this, 100)
+                    Handler(Looper.getMainLooper()).postDelayed(this, PLAYBAR_DELAY)
                 }
             }
         }
@@ -207,7 +247,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
 
         val handler = Handler(Looper.getMainLooper())
         handler.removeCallbacks(thread);
-        handler.postDelayed(thread, 100);
+        handler.postDelayed(thread, PLAYBAR_DELAY);
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
