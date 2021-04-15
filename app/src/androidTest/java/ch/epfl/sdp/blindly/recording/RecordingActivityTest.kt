@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.recording
 
+import android.graphics.Color
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -11,12 +12,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.profile.ProfileFinished
+import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 private const val ONE_SECOND_TEXT = "00:01"
 private const val AUDIO_FILE_ONE = "Audio file 1"
+private const val MAXIMUM_AUDIO_DURATION = 90000L
+private const val NINE_SECONDS = 9000L
 
 @RunWith(AndroidJUnit4::class)
 class RecordingActivityTest {
@@ -79,6 +83,47 @@ class RecordingActivityTest {
                 .check(
                         matches(
                                 withDrawable(android.R.drawable.ic_media_play)
+                        )
+                )
+    }
+
+    @Test
+    fun startRecordingCollapsesRecords() {
+        createRecord(200L)
+        onView(withId(R.id.nameDurationLayout))
+                .perform(click())
+        onView(withId(R.id.recordingButton))
+                .perform(click())
+        onView(withId(R.id.audioPlayLayout))
+                .check(
+                        matches(
+                                not(isDisplayed())
+                        )
+                )
+    }
+
+    @Test
+    fun maximumDurationStopsRecording() {
+        val recordButton = onView(withId(R.id.recordingButton))
+        recordButton.perform(click())
+        Thread.sleep(MAXIMUM_AUDIO_DURATION + 500L)
+        onView(withId(R.id.nameDurationLayout))
+                .check(
+                        matches(
+                                isDisplayed()
+                        )
+                )
+    }
+
+    @Test
+    fun remainingTimerIsRedWhen10SecondsRemain() {
+        val recordButton = onView(withId(R.id.recordingButton))
+        recordButton.perform(click())
+        Thread.sleep(MAXIMUM_AUDIO_DURATION - NINE_SECONDS)
+        onView(withId(R.id.remainingTimer))
+                .check(
+                        matches(
+                                (hasTextColor(Color.RED))
                         )
                 )
     }

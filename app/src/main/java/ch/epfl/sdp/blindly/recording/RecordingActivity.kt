@@ -2,6 +2,7 @@ package ch.epfl.sdp.blindly.recording
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
@@ -108,6 +109,11 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         remainingRecordTimer = findViewById(R.id.remainingRecordTimer)
         remainingRecordTimer.base = SystemClock.elapsedRealtime() + MAXIMUM_AUDIO_DURATION.toLong()
         remainingRecordTimer.isCountDown = true
+        remainingRecordTimer.setOnChronometerTickListener {
+            if (it.text == "Remaining:\n00:10") {
+                it.setTextColor(Color.RED)
+            }
+        }
         bindRecordButton(recordButton)
     }
 
@@ -115,6 +121,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         adapter.collapseLayouts()
         recordTimer.base = SystemClock.elapsedRealtime()
         remainingRecordTimer.base = SystemClock.elapsedRealtime() + MAXIMUM_AUDIO_DURATION.toLong()
+        remainingRecordTimer.setTextColor(Color.BLACK)
         recordTimer.start()
         remainingRecordTimer.start()
         isRecording = true
