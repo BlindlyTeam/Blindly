@@ -112,6 +112,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     }
 
     private fun setRecordView() {
+        adapter.collapseLayouts()
         recordTimer.base = SystemClock.elapsedRealtime()
         remainingRecordTimer.base = SystemClock.elapsedRealtime() + MAXIMUM_AUDIO_DURATION.toLong()
         recordTimer.start()

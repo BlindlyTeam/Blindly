@@ -74,6 +74,18 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
+    fun collapseLayouts() {
+        for (i in 0 until recordList.size) {
+            if (recordList[i].isExpanded) {
+                val viewHolder = viewHolderList[i]
+                setStoppedView(viewHolder.playTimer, viewHolder.remainingTimer,
+                        viewHolder.playPauseButton, false)
+                RecordAnimations.collapse(viewHolder.expandableLayout)
+                recordList[i].isExpanded = false
+            }
+        }
+    }
+
     /**
      * Expands or collapse the layout of the audio file, and collapse other ones.
      *
@@ -82,12 +94,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
      * @param layoutExpand the layout to expand/collapse
      */
     private fun toggleLayout(isExpanded: Boolean, view: View, layoutExpand: RelativeLayout) {
-        for (i in 0 until recordList.size) {
-            if (recordList[i].isExpanded) {
-                RecordAnimations.collapse(viewHolderList[i].expandableLayout)
-                recordList[i].isExpanded = false
-            }
-        }
+        collapseLayouts()
         if (isExpanded) {
             RecordAnimations.expand(layoutExpand)
         } else {
