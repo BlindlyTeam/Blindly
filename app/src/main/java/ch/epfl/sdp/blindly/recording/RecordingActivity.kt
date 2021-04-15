@@ -111,7 +111,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         remainingRecordTimer.isCountDown = true
         remainingRecordTimer.setOnChronometerTickListener {
             if (it.text == "Remaining:\n00:10") {
-                it.setTextColor(Color.RED)
+                it.setTextColor(resources.getColor(R.color.bright_red, theme))
             }
         }
         bindRecordButton(recordButton)

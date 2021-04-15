@@ -113,10 +113,11 @@ class RecordingActivityTest {
         recordButton.perform(click())
         Thread.sleep(MAXIMUM_AUDIO_DURATION - FIVE_SECONDS)
         recordButton.perform(click())
-        onView(withId(R.id.remainingTimer))
+        onView(withId(R.id.remainingRecordTimer))
+        onView(withId(R.id.remainingRecordTimer))
                 .check(
                         matches(
-                                (hasTextColor(Color.RED))
+                                (hasTextColor(R.color.bright_red))
                         )
                 )
     }
