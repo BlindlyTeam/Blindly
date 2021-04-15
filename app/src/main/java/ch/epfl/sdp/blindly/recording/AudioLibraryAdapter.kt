@@ -203,7 +203,8 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
                                       playBarThread: Runnable, position: Int) {
         playBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(playBar: SeekBar,
-                                           progress: Int, fromUser: Boolean) {}
+                                           progress: Int, fromUser: Boolean) {
+            }
 
             override fun onStartTrackingTouch(playBar: SeekBar) {
                 isPlayBarTouched = true
