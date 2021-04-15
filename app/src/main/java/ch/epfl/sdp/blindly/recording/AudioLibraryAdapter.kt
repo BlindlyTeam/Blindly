@@ -190,25 +190,22 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
-    private fun bindSeekBarNavigation(playBar: SeekBar,
-                                      playTimer: Chronometer,
+    private fun bindSeekBarNavigation(playBar: SeekBar, playTimer: Chronometer,
                                       remainingTimer: Chronometer,
                                       playPauseButton: AppCompatImageButton,
-                                      playBarThread: Runnable,
-                                      position: Int) {
+                                      playBarThread: Runnable, position: Int) {
         playBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(playBar: SeekBar,
-                                           progress: Int, fromUser: Boolean) {
-            }
+                                           progress: Int, fromUser: Boolean) {}
 
             override fun onStartTrackingTouch(playBar: SeekBar) {
-                /*if (isPlayerStopped) {
+                isPlayBarTouched = true
+                if (isPlayerStopped) {
                     resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
                 } else {
                     mediaPlayer?.pause()
                     setStoppedView(playTimer, remainingTimer, playPauseButton, true)
-                }*/
-                isPlayBarTouched = true
+                }
             }
 
             override fun onStopTrackingTouch(playBar: SeekBar) {

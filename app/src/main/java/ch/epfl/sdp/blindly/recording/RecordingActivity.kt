@@ -133,7 +133,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
             setOutputFile(recordFilePath)
             setMaxDuration(MAXIMUM_AUDIO_DURATION)
-            setOnInfoListener { mr, what, extra ->
+            setOnInfoListener { _, what, _ ->
                 if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
                     stopRecording()
                     setFinishedRecordView()
