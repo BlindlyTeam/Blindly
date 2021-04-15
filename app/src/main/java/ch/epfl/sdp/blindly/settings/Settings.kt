@@ -7,14 +7,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
-import ch.epfl.sdp.blindly.utils.UserHelper
+import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 const val EXTRA_LOCATION = "user_location"
+const val EXTRA_SHOW_ME = "show_me"
 
 const val REQUEST_SHOW_ME = 2
 
@@ -40,7 +40,7 @@ class Settings : AppCompatActivity() {
         supportActionBar?.hide()
 
         val emailAddressText = findViewById<TextView>(R.id.email_address_text)
-        emailAddressText.text = user.getEmail() ?: getString(R.string.not_logged_in);
+        emailAddressText.text = user.getEmail() ?: getString(R.string.not_logged_in)
 
         val locationText = findViewById<TextView>(R.id.current_location_text)
         locationText.text = getString(R.string.lausanne_switzerland)

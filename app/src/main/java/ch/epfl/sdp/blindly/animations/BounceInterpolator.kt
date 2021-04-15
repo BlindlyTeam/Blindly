@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.animations
 
 import android.view.animation.Interpolator
 import kotlin.math.cos

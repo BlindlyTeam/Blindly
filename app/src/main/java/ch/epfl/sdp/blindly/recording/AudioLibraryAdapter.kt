@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
-import ch.epfl.sdp.blindly.profile.ProfileFinished
+import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import java.io.File
 
 private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.3gp"
@@ -165,8 +165,8 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         playBar.progress = position
 
         val handler = Handler(Looper.getMainLooper())
-        handler.removeCallbacks(thread);
-        handler.postDelayed(thread, 100);
+        handler.removeCallbacks(thread)
+        handler.postDelayed(thread, 100)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

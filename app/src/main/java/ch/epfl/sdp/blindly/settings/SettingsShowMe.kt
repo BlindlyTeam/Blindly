@@ -7,7 +7,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 
 //TODO: Change currentShowMe to a lateinit at the top of the class, so that
 // the private function can be moved outside of onCreate...

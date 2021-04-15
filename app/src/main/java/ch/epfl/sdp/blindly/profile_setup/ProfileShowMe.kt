@@ -8,27 +8,23 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.user.User
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
-const val EXTRA_SHOW_ME = "show_me"
+private const val NONE_CHECKED = -1
 
 class ProfileShowMe : AppCompatActivity() {
 
-    private val NONE_CHECKED = -1;
-    private var username: String? = null
-    private var birthday: String? = null
-    private var genre: String? = null
-    private var sexualOriantations : ArrayList<String> = ArrayList()
+    private lateinit var userBuilder : User.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_setup_show_me)
 
         val bundle = intent.extras
-        username = bundle?.getString(EXTRA_USERNAME)
-        birthday = bundle?.getString(EXTRA_BIRTHDAY)
-        genre = bundle?.getString(EXTRA_GENRE)
-        if(bundle != null)
-            sexualOriantations = bundle.getStringArrayList(EXTRA_SEXUAL_ORIENTATIONS) as ArrayList<String>
+        userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
     fun startProfilePassions(view: View) {
@@ -42,15 +38,12 @@ class ProfileShowMe : AppCompatActivity() {
             val intent = Intent(this, ProfilePassions::class.java)
             val showMe = findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
                     .text.toString().toLowerCase().capitalize()
-            val extras = Bundle()
-            extras.putString(EXTRA_USERNAME, username)
-            extras.putString(EXTRA_BIRTHDAY, birthday)
-            extras.putString(EXTRA_GENRE, genre)
-            extras.putStringArrayList(EXTRA_SEXUAL_ORIENTATIONS, sexualOriantations)
-            extras.putString(EXTRA_SHOW_ME, showMe)
-            intent.putExtras(extras)
+            val bundle = Bundle()
+            userBuilder.setShowMe(showMe)
+            bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
+            intent.putExtras(bundle)
+
             startActivity(intent)
         }
     }
-
 }
