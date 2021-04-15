@@ -51,21 +51,6 @@ class RecordingActivityTest {
     }
 
     @Test
-    fun playPauseButtonChangesBackgroundWhenClickedOnce() {
-        createRecord(500L)
-        onView(withId(R.id.nameDurationLayout))
-                .perform(click())
-        onView(withId(R.id.playPauseButton))
-                .perform(click())
-        onView(withId(R.id.playPauseButton))
-                .check(
-                        matches(
-                                withDrawable(android.R.drawable.ic_media_pause)
-                        )
-                )
-    }
-
-    @Test
     fun playPauseButtonChangesBackgroundWhenClickedTwice() {
         createRecord(500L)
         onView(withId(R.id.nameDurationLayout))
