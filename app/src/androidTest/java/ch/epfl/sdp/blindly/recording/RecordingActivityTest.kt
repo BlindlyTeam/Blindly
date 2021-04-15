@@ -17,10 +17,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-private const val ONE_SECOND_TEXT = "00:01"
 private const val AUDIO_FILE_ONE = "Audio file 1"
 private const val MAXIMUM_AUDIO_DURATION = 90000L
-private const val NINE_SECONDS = 9000L
+private const val FIVE_SECONDS = 5000L
 
 @RunWith(AndroidJUnit4::class)
 class RecordingActivityTest {
@@ -32,13 +31,6 @@ class RecordingActivityTest {
         createRecord(200L)
         val recordName = onView(withId(R.id.recordName))
         recordName.check(matches(withText(AUDIO_FILE_ONE)))
-    }
-
-    @Test
-    fun audioDurationTextIsCorrectlyDisplayed() {
-        createRecord(500L)
-        val recordDuration = onView(withId(R.id.recordDuration))
-        recordDuration.check(matches(withText(ONE_SECOND_TEXT)))
     }
 
     @Test
@@ -119,7 +111,8 @@ class RecordingActivityTest {
     fun remainingTimerIsRedWhen10SecondsRemain() {
         val recordButton = onView(withId(R.id.recordingButton))
         recordButton.perform(click())
-        Thread.sleep(MAXIMUM_AUDIO_DURATION - NINE_SECONDS)
+        Thread.sleep(MAXIMUM_AUDIO_DURATION - FIVE_SECONDS)
+        recordButton.perform(click())
         onView(withId(R.id.remainingTimer))
                 .check(
                         matches(
