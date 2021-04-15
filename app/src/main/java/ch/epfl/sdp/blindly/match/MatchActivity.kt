@@ -16,7 +16,7 @@ import com.yuyakaido.android.cardstackview.*
 import java.util.*
 import ch.epfl.sdp.blindly.R
 
-class MatchActivity() : AppCompatActivity(), CardStackListener {
+class MatchActivity : AppCompatActivity(), CardStackListener {
 
     private lateinit var profiles : ArrayList<Profile>
     private val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawer_layout) }
@@ -26,7 +26,7 @@ class MatchActivity() : AppCompatActivity(), CardStackListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        profiles = getIntent().getParcelableArrayListExtra("EXTRA_MATCH_PROFILES")!!
+        profiles = intent.getParcelableArrayListExtra("EXTRA_MATCH_PROFILES")!!
         setContentView(R.layout.activity_match)
         setupCardStackView()
         setupButton()
