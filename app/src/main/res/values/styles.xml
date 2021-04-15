@@ -17,7 +17,7 @@
         <item name="android:insetBottom">0dp</item>
     </style> -->
 
-    <style name="Widget.Theme.Blindly.Audio.Library.Button" parent="Widget.MaterialComponents.Button">
+    <style name="Widget.Theme.Blindly.Fancy.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/pill_shape_button_blindly</item>
         <item name="textAllCaps">true</item>
         <item name="backgroundTint">@null</item>
