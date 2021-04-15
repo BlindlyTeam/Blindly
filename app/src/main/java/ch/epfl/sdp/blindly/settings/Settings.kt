@@ -9,18 +9,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
-//import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
-import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 const val EXTRA_LOCATION = "user_location"
 const val EXTRA_SHOW_ME = "show_me"
 
-//const val REQUEST_LOCATION = 1
 const val REQUEST_SHOW_ME = 2
 
 @AndroidEntryPoint

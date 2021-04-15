@@ -15,7 +15,6 @@ import javax.inject.Singleton
         components = [SingletonComponent::class],
         replaces = [UserCacheModule::class]
 )
-
 open class FakeUserCacheModule {
     companion object {
         private const val username = "Jane Doe"

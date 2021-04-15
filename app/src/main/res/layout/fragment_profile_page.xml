@@ -71,7 +71,7 @@
             android:textAlignment="center"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_alignLeft="@+id/edit_info_profile_button"
+            android:layout_alignStart="@+id/edit_info_profile_button"
             android:layout_below="@id/edit_info_profile_button"/>
 
         <Button
@@ -90,7 +90,7 @@
             android:textAlignment="center"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_alignLeft="@id/settings_profile_button"
+            android:layout_alignStart="@id/settings_profile_button"
             android:layout_below="@+id/settings_profile_button"/>
 
     </RelativeLayout>

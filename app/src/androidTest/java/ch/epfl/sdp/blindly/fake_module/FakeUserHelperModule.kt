@@ -19,7 +19,6 @@ import javax.inject.Singleton
         components = [SingletonComponent::class],
         replaces = [UserHelperModule::class]
 )
-// Replace the UserHelper with a mock for testing.
 open class FakeUserHelperModule {
     companion object {
         const val PRIMARY_EMAIL = "test@example.com";

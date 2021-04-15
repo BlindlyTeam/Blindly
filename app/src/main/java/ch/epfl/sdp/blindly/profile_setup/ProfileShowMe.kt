@@ -38,7 +38,6 @@ class ProfileShowMe : AppCompatActivity() {
             val intent = Intent(this, ProfilePassions::class.java)
             val showMe = findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
                     .text.toString().toLowerCase().capitalize()
-
             val bundle = Bundle()
             userBuilder.setShowMe(showMe)
             bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))

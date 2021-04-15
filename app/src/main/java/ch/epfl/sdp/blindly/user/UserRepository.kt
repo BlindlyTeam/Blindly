@@ -31,7 +31,7 @@ class UserRepository @Inject constructor(
      * look for the user in firestore and update the cache
      * @param uid: The uid of the user to retrieve
      *
-     * @return the user with the corresponding uid or null if he/she/it doesn't exist
+     * @return the user with the corresponding uid or null if they doesn't exist
      */
     @RequiresApi(Build.VERSION_CODES.N)
     suspend fun getUser(uid: String): User? {

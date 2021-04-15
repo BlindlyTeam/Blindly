@@ -16,7 +16,6 @@ import kotlinx.serialization.json.Json
 private const val MIN_LENGTH = 2
 private const val MAX_LENGTH = 20
 const val EXTRA_USER = "user"
-//const val EXTRA_USERNAME = "username"
 private val REGEX = Regex("^[a-zA-Z]*$")
 
 class ProfileName : AppCompatActivity() {

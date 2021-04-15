@@ -29,7 +29,6 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [FirestoreModule::class]
 )
-
 open class FakeFirestoreModule {
     companion object {
         private const val USER_COLLECTION: String = "usersMeta"

@@ -28,7 +28,6 @@ import javax.inject.Inject
 class ProfilePageFragment : Fragment() {
 
     @Inject
-    //@Named("userHelperWithUid")
     lateinit var userHelper: UserHelper
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
@@ -92,7 +91,7 @@ class ProfilePageFragment : Fragment() {
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
         viewModel.user.observe(viewLifecycleOwner) {
-            userInfoText.text = it.username + ", ${User.getUserAge(it)}"
+            userInfoText.text = "${it.username}, ${User.getUserAge(it)}"
             if(it.description == "") {
                 userDescriptionText.text = "Add description"
             } else {

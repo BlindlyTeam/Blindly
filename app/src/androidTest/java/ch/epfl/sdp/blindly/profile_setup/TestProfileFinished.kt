@@ -22,7 +22,6 @@ class TestProfileFinished {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-
     @Test
     fun profileFinishedFiresMainScreen() {
         Intents.init()
