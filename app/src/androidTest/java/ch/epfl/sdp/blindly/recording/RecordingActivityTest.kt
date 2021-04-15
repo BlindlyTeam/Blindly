@@ -15,7 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-private const val ZERO_SECONDS_TEXT = "00:00"
+private const val ONE_SECOND_TEXT = "00:01"
 private const val AUDIO_FILE_ONE = "Audio file 1"
 
 @RunWith(AndroidJUnit4::class)
@@ -32,9 +32,9 @@ class RecordingActivityTest {
 
     @Test
     fun audioDurationTextIsCorrectlyDisplayed() {
-        createRecord(200L)
+        createRecord(500L)
         val recordDuration = onView(withId(R.id.recordDuration))
-        recordDuration.check(matches(withText(ZERO_SECONDS_TEXT)))
+        recordDuration.check(matches(withText(ONE_SECOND_TEXT)))
     }
 
     @Test
