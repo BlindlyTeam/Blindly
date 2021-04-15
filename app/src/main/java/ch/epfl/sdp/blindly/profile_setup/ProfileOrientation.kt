@@ -6,27 +6,25 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.user.User
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
-const val EXTRA_SEXUAL_ORIENTATIONS = "sexual_orientation"
-
+private const val SELECTION_LIMIT = 3
 class ProfileOrientation : AppCompatActivity() {
 
-    private val SELECTION_LIMIT = 3
-    private var username: String? = null
-    private var birthday: String? = null
-    private var genre: String? = null
     private val sexualOriantations : ArrayList<String> = ArrayList()
+    private lateinit var userBuilder : User.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_setup_orientation)
 
         val bundle = intent.extras
-        username = bundle?.getString(EXTRA_USERNAME)
-        birthday = bundle?.getString(EXTRA_BIRTHDAY)
-        genre = bundle?.getString(EXTRA_GENRE)
+        userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
     fun startProfileShowMe(view: View) {
@@ -59,12 +57,11 @@ class ProfileOrientation : AppCompatActivity() {
             sexualOriantations.add(chipText)
         }
         val intent = Intent(this, ProfileShowMe::class.java)
-        val extras = Bundle()
-        extras.putString(EXTRA_USERNAME, username)
-        extras.putString(EXTRA_BIRTHDAY, birthday)
-        extras.putString(EXTRA_GENRE, genre)
-        extras.putStringArrayList(EXTRA_SEXUAL_ORIENTATIONS, sexualOriantations)
-        intent.putExtras(extras)
+        val bundle = Bundle()
+        userBuilder.setSexualOrientations(sexualOriantations)
+        bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
+        intent.putExtras(bundle)
+
         startActivity(intent)
     }
 }

@@ -16,7 +16,7 @@ exclude_patterns:
 - "**/test/"
 - "**/androidTest/"
 - "**test"
-- "**/UserHelper.kt"
-- "**HiltComponents"
+- "**UserHelper"
+- "**/di/"
 
 

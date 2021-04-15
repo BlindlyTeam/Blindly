@@ -18,8 +18,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
-import ch.epfl.sdp.blindly.utils.UserHelper
+import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.testing.HiltAndroidRule

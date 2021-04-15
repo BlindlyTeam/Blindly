@@ -11,9 +11,9 @@ import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import ch.epfl.sdp.blindly.FakeUserHelperModule
+import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.utils.UserHelper
+import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -62,9 +62,9 @@ class SettingsUpdateEmailTest {
         init()
 
         onView(withId(R.id.update_email_field))
-                .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL));
+                .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL))
 
-        closeSoftKeyboard();
+        closeSoftKeyboard()
         val buttonUpdate = onView(withId(R.id.update_email_button))
         buttonUpdate.perform(click())
         Thread.sleep(2000)
@@ -82,15 +82,15 @@ class SettingsUpdateEmailTest {
         init()
         // We can't change the things in onCreate, however things happening on button clicks it's fine
         // Fail email update with FirebaseAuthInvalidCredentialsException
-        val taskCompletionSource = TaskCompletionSource<Void>();
-        Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setException(e) }, 1000L);
-        val successfulTask = taskCompletionSource.task;
+        val taskCompletionSource = TaskCompletionSource<Void>()
+        Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setException(e) }, 1000L)
+        val successfulTask = taskCompletionSource.task
         Mockito.`when`(user.setEmail(FakeUserHelperModule.SECOND_EMAIL)).thenReturn(successfulTask)
 
         onView(withId(R.id.update_email_field))
-                .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL));
+                .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL))
 
-        closeSoftKeyboard();
+        closeSoftKeyboard()
         val buttonUpdate = onView(withId(R.id.update_email_button))
         buttonUpdate.perform(click())
         Thread.sleep(2000)
@@ -109,30 +109,30 @@ class SettingsUpdateEmailTest {
     @Test
     fun emailUpdateInvalidEmail() {
         emailUpdateErrorIsHandled(FirebaseAuthInvalidCredentialsException("aaa", "bbb"),
-                R.string.invalid_email);
+                R.string.invalid_email)
     }
 
     @Test
     fun emailUpdateUserCollision() {
         emailUpdateErrorIsHandled(FirebaseAuthUserCollisionException("aaa", "bbb"),
-                R.string.email_taken);
+                R.string.email_taken)
     }
 
     @Test
     fun emailUpdateInvalidUser() {
         emailUpdateErrorIsHandled(FirebaseAuthInvalidUserException("aaa", "bbb"),
-                R.string.try_to_logout);
+                R.string.try_to_logout)
     }
 
     @Test
     fun emailUpdateNeedRecentLogin() {
         emailUpdateErrorIsHandled(FirebaseAuthRecentLoginRequiredException("aaa", "bbb"),
-                R.string.try_to_logout);
+                R.string.try_to_logout)
     }
 
     @Test
     fun emailUpdateOtherError() {
         emailUpdateErrorIsHandled(java.lang.Exception("aaa"),
-                R.string.update_email_unknown_error);
+                R.string.update_email_unknown_error)
     }
 }
