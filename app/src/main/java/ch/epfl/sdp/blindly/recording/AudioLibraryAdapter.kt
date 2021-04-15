@@ -128,19 +128,14 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
             val notIsExpanded = !recordList[position].isExpanded
             toggleLayout(notIsExpanded, it, viewHolder.expandableLayout)
             recordList[position].isExpanded = notIsExpanded
+            resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
         }
 
         setCountDownTimer(remainingTimer)
 
         viewHolder.playPauseButton.setOnClickListener {
             if (isPlayerStopped) {
-                createMediaPlayer(recordList[position].filePath)
-                remainingTimer.base = SystemClock.elapsedRealtime() + mediaPlayer!!.duration.toLong()
-
-                mediaPlayer?.setOnCompletionListener {
-                    mediaPlayer?.stop()
-                    setStoppedView(playTimer, remainingTimer, playPauseButton, false)
-                }
+                resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
             }
             if (!mediaPlayer!!.isPlaying) {
                 mediaPlayer?.start()
@@ -160,6 +155,19 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
             saveRecording(position)
             startProfileFinished()
         }
+    }
+
+    private fun resetRecordPlayer(position: Int, playTimer: Chronometer,
+                                  remainingTimer: Chronometer,
+                                  playPauseButton: AppCompatImageButton, playBar: SeekBar) {
+        createMediaPlayer(recordList[position].filePath)
+        mediaPlayer?.setOnCompletionListener {
+            mediaPlayer?.stop()
+            setStoppedView(playTimer, remainingTimer, playPauseButton, false)
+        }
+        remainingTimer.base = SystemClock.elapsedRealtime() + mediaPlayer!!.duration.toLong()
+        playTimer.base = SystemClock.elapsedRealtime()
+        playBar.progress = 0
     }
 
     private fun saveRecording(position: Int) {

@@ -3,11 +3,13 @@ package ch.epfl.sdp.blindly.recording
 import android.Manifest
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,9 +19,11 @@ import java.io.File
 import java.io.IOException
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
+private const val MAXIMUM_AUDIO_DURATION = 90000
 
 /**
- * Activity that contains everything to record audio files and listen to them to select one.
+ * Activity that contains everything to record audio files and listen to them to select the one
+ * we want to keep.
  */
 class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
     private val mediaRecorder = MediaRecorder()
@@ -33,6 +37,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
 
     private lateinit var recordButton: Button
     private lateinit var recordTimer: Chronometer
+    private lateinit var remainingRecordTimer: Chronometer
 
     private var totalNumberOfRec = 0
 
@@ -40,11 +45,12 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     /**
-     * Binds everything to the view, sets the base view and initialise useful values declared in
-     * the class.
+     * Binds the audio record list to the adapter, sets the base view and initialise values
+     * declared in the class.
      *
      * @param savedInstanceState
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording)
@@ -53,8 +59,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         changeRecordFilePath(totalNumberOfRec)
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
-        recordTimer = findViewById(R.id.recordTimer)
-
+        // Initialise the RecyclerView that will contain the recordings.
         recordingRecyclerView = findViewById(R.id.recordingList)
         recordingRecyclerView.layoutManager = LinearLayoutManager(this)
         adapter = AudioLibraryAdapter(ArrayList(), ArrayList(), this, this)
@@ -85,7 +90,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         deleteTempRecordings()
         adapter.recordList = ArrayList()
     }
-    
+
     private fun recordButtonClick(view: View) {
         if (!isRecording) {
             startRecording()
@@ -96,20 +101,27 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
         recordTimer = findViewById(R.id.recordTimer)
+        remainingRecordTimer = findViewById(R.id.remainingRecordTimer)
+        remainingRecordTimer.base = SystemClock.elapsedRealtime() + MAXIMUM_AUDIO_DURATION.toLong()
+        remainingRecordTimer.isCountDown = true
         bindRecordButton(recordButton)
     }
 
     private fun setRecordView() {
         recordTimer.base = SystemClock.elapsedRealtime()
+        remainingRecordTimer.base = SystemClock.elapsedRealtime() + MAXIMUM_AUDIO_DURATION.toLong()
         recordTimer.start()
+        remainingRecordTimer.start()
         isRecording = true
     }
 
     private fun setFinishedRecordView() {
         recordTimer.stop()
+        remainingRecordTimer.stop()
         isRecording = false
     }
 
@@ -120,6 +132,13 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
             setOutputFile(recordFilePath)
+            setMaxDuration(MAXIMUM_AUDIO_DURATION)
+            setOnInfoListener { mr, what, extra ->
+                if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
+                    stopRecording()
+                    setFinishedRecordView()
+                }
+            }
         }
         try {
             mediaRecorder.prepare()
