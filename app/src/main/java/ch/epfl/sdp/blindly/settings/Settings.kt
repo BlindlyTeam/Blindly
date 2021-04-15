@@ -7,9 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
-import com.google.android.gms.tasks.OnCompleteListener
-import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
-import ch.epfl.sdp.blindly.utils.UserHelper
+import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
