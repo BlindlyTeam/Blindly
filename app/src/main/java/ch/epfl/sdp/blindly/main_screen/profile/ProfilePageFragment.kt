@@ -29,6 +29,7 @@ class ProfilePageFragment : Fragment() {
 
     @Inject
     lateinit var userHelper: UserHelper
+
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
 
@@ -38,13 +39,13 @@ class ProfilePageFragment : Fragment() {
         private const val TAG = "ProfilePage"
         const val BOUNCE_DURATION: Long = 100
         private const val ARG_COUNT = "profileArgs"
-        private var counter: Int? = null;
+        private var counter: Int? = null
 
         fun newInstance(counter: Int): ProfilePageFragment {
-            val fragment = ProfilePageFragment();
-            val args = Bundle();
-            args.putInt(ARG_COUNT, counter);
-            fragment.arguments = args;
+            val fragment = ProfilePageFragment()
+            val args = Bundle()
+            args.putInt(ARG_COUNT, counter)
+            fragment.arguments = args
             return fragment
         }
     }
@@ -91,11 +92,9 @@ class ProfilePageFragment : Fragment() {
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
         viewModel.user.observe(viewLifecycleOwner) {
-            userInfoText.text = "${it.username}, ${User.getUserAge(it)}"
-            if(it.description == "") {
-                userDescriptionText.text = "Add description"
-            } else {
-                userDescriptionText.text = it.description
+            userInfoText.text = getString(R.string.user_info, it.username, User.getUserAge(it))
+            if (it.description != "") {
+                userDescriptionText.text = getString(R.string.user_description, it.description)
             }
         }
     }

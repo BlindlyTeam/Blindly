@@ -165,8 +165,8 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         playBar.progress = position
 
         val handler = Handler(Looper.getMainLooper())
-        handler.removeCallbacks(thread);
-        handler.postDelayed(thread, 100);
+        handler.removeCallbacks(thread)
+        handler.postDelayed(thread, 100)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

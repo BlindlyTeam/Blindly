@@ -59,8 +59,8 @@ class TestProfileGenderMore {
     @Test
     fun incorrectCharOutputsError() {
         Intents.init()
-        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(INCORRECT_CHARS_SPECIFICATION));
-        closeSoftKeyboard();
+        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(INCORRECT_CHARS_SPECIFICATION))
+        closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
         onView(withId(R.id.warning2_p4_2))
@@ -81,8 +81,8 @@ class TestProfileGenderMore {
     @Test
     fun noInputOutputsError() {
         Intents.init()
-        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(NO_INPUT));
-        closeSoftKeyboard();
+        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(NO_INPUT))
+        closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
         onView(withId(R.id.warning1_p4_2))
@@ -99,8 +99,8 @@ class TestProfileGenderMore {
     @Test
     fun blankInputOutputsError() {
         Intents.init()
-        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(BLANK_SPECIFICATION));
-        closeSoftKeyboard();
+        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(BLANK_SPECIFICATION))
+        closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
         onView(withId(R.id.warning1_p4_2))
@@ -118,8 +118,8 @@ class TestProfileGenderMore {
         Intents.init()
         TEST_USER.setGender(CORRECT_SPECIFICATION)
 
-        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(CORRECT_SPECIFICATION));
-        closeSoftKeyboard();
+        onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(CORRECT_SPECIFICATION))
+        closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
 

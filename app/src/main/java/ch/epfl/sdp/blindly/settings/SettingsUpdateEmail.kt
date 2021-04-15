@@ -26,7 +26,7 @@ class SettingsUpdateEmail : AppCompatActivity() {
         supportActionBar?.hide()
 
         val editText: EditText = findViewById<EditText>(R.id.update_email_field)
-        editText.hint = user.getEmail();
+        editText.hint = user.getEmail()
     }
 
     fun updateEmail(view: View) {

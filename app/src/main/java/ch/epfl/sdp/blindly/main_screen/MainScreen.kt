@@ -16,10 +16,13 @@ import javax.inject.Inject
  * This activity holds the three fragments (Match, Message and Profile page)
  * and instantiate them
  */
+private const val MATCH = "Match"
+private const val MESSAGE = "Message"
+private const val PROFILE = "Profile"
 @AndroidEntryPoint
 class MainScreen : AppCompatActivity() {
 
-    private val tabTitles = arrayListOf("Match", "Message", "Profile")
+    private val tabTitles = arrayListOf(MATCH, MESSAGE, PROFILE)
 
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager2? = null

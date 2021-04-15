@@ -39,9 +39,9 @@ open class FakeFirestoreModule {
     open fun provideFirebaseFirestore(): FirebaseFirestore {
         val db = mock(FirebaseFirestore::class.java)
 
-        val taskCompletionSource = TaskCompletionSource<DocumentSnapshot>();
-        Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setResult(null) }, 1000L);
-        val successfulTask = taskCompletionSource.task;
+        val taskCompletionSource = TaskCompletionSource<DocumentSnapshot>()
+        Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setResult(null) }, 1000L)
+        val successfulTask = taskCompletionSource.task
         val collection = mock(CollectionReference::class.java)
         val document = mock(DocumentReference::class.java)
         Mockito.`when`(db.collection(USER_COLLECTION)).thenReturn(collection)

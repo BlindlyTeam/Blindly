@@ -32,7 +32,7 @@ class Settings : AppCompatActivity() {
         supportActionBar?.hide()
 
         val emailAddressText = findViewById<TextView>(R.id.email_address_text)
-        emailAddressText.text = user.getEmail() ?: getString(R.string.not_logged_in);
+        emailAddressText.text = user.getEmail() ?: getString(R.string.not_logged_in)
 
         val locationText = findViewById<TextView>(R.id.current_location_text)
         locationText.text = getString(R.string.lausanne_switzerland)

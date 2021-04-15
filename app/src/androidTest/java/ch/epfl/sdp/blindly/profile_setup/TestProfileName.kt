@@ -46,8 +46,8 @@ class TestProfileName {
         Intents.init()
 
         onView(withId(R.id.text_first_name))
-            .perform(ViewActions.clearText(), ViewActions.typeText(CORRECT_NAME));
-        closeSoftKeyboard();
+            .perform(ViewActions.clearText(), ViewActions.typeText(CORRECT_NAME))
+        closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p2))
         buttonContinue.perform(click())
         intended(Matchers.allOf(hasComponent(ProfileBirthday::class.java.name),
@@ -61,7 +61,7 @@ class TestProfileName {
     fun shortNameOutputsError() {
         Intents.init()
         onView(withId(R.id.text_first_name))
-                .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_SHORT_NAME));
+                .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_SHORT_NAME))
         closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p2))
         buttonContinue.perform(click())
@@ -82,7 +82,7 @@ class TestProfileName {
     fun longNameOutputsError() {
         Intents.init()
         onView(withId(R.id.text_first_name))
-                .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_LONG_NAME));
+                .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_LONG_NAME))
         closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p2))
         buttonContinue.perform(click())
@@ -103,7 +103,7 @@ class TestProfileName {
     fun incorrectCharsOutputError() {
         Intents.init()
         onView(withId(R.id.text_first_name))
-                .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_CHARS));
+                .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_CHARS))
         closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p2))
         buttonContinue.perform(click())

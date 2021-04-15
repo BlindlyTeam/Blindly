@@ -52,7 +52,7 @@ class TestProfileBirthday {
     @Test
     fun minorAgeOutputsError() {
         Intents.init()
-        onView(withId(R.id.datePicker)).perform(PickerActions.setDate(2005, 3, 20));
+        onView(withId(R.id.datePicker)).perform(PickerActions.setDate(2005, 3, 20))
         val buttonContinue = onView(withId(R.id.button_p3))
         buttonContinue.perform(click())
         intended(hasComponent(ProfileGender::class.java.name), times(0))

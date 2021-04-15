@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openLogin(view: View) {
-        startActivityForResult(user.getSignInIntent(), UserHelper.RC_SIGN_IN);
+        startActivityForResult(user.getSignInIntent(), UserHelper.RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

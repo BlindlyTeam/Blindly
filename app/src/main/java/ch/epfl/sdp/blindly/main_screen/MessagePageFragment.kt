@@ -12,14 +12,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class MessagePageFragment : Fragment() {
 
     companion object {
-        private const val ARG_COUNT = "messageArgs";
-        private var counter: Int? = null;
+        private const val ARG_COUNT = "messageArgs"
+        private var counter: Int? = null
 
         fun newInstance(counter: Int): MessagePageFragment {
-            val fragment = MessagePageFragment();
-            val args = Bundle();
-            args.putInt(ARG_COUNT, counter);
-            fragment.arguments = args;
+            val fragment = MessagePageFragment()
+            val args = Bundle()
+            args.putInt(ARG_COUNT, counter)
+            fragment.arguments = args
             return fragment
         }
     }
@@ -35,8 +35,4 @@ class MessagePageFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_message_page, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //set views
-    }
 }

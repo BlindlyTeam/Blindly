@@ -21,8 +21,8 @@ import javax.inject.Singleton
 )
 open class FakeUserHelperModule {
     companion object {
-        const val PRIMARY_EMAIL = "test@example.com";
-        const val SECOND_EMAIL = "test2@example.com";
+        const val PRIMARY_EMAIL = "test@example.com"
+        const val SECOND_EMAIL = "test2@example.com"
         const val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
     }
 
@@ -31,11 +31,11 @@ open class FakeUserHelperModule {
     open fun provideUserHelper(): UserHelper {
         val user = mock(UserHelper::class.java)
         Mockito.`when`(user.getEmail()).thenReturn(PRIMARY_EMAIL)
-        val taskCompletionSource = TaskCompletionSource<Void>();
+        val taskCompletionSource = TaskCompletionSource<Void>()
 
-        Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setResult(null) }, 1000L);
+        Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setResult(null) }, 1000L)
 
-        val successfulTask = taskCompletionSource.task;
+        val successfulTask = taskCompletionSource.task
 
         Mockito.`when`(user.setEmail(SECOND_EMAIL)).thenReturn(successfulTask)
 

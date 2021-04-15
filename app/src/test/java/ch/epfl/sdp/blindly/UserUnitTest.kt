@@ -1,8 +1,9 @@
 package ch.epfl.sdp.blindly
 
 import ch.epfl.sdp.blindly.user.User
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.equalTo
 import org.junit.Test
-import org.junit.Assert.*
 
 class UserUnitTest {
     companion object {
@@ -21,61 +22,61 @@ class UserUnitTest {
     @Test
     fun setUsernameIsCorrect() {
         val userBuilder = User.Builder().setUsername(username)
-        assertEquals(username, userBuilder.username)
+        assertThat(userBuilder.username, equalTo(username))
     }
 
     @Test
     fun setLocationIsCorrect() {
         val userBuilder = User.Builder().setLocation(location)
-        assertEquals(location, userBuilder.location)
+        assertThat(userBuilder.location, equalTo(location))
     }
 
     @Test
     fun setBirthdayIsCorrect() {
         val userBuilder = User.Builder().setBirthday(birthday)
-        assertEquals(birthday, userBuilder.birthday)
+        assertThat(userBuilder.birthday, equalTo(birthday))
     }
 
     @Test
     fun setGenderIsCorrect() {
         val userBuilder = User.Builder().setGender(gender)
-        assertEquals(gender, userBuilder.gender)
+        assertThat(userBuilder.gender, equalTo(gender))
     }
 
     @Test
     fun setSexualOrientationsIsCorrect() {
         val userBuilder = User.Builder().setSexualOrientations(sexual_orientations)
-        assertEquals(sexual_orientations, userBuilder.sexual_orientations)
+        assertThat(userBuilder.sexual_orientations, equalTo(sexual_orientations))
     }
 
     @Test
     fun setShowMeIsCorrect() {
         val userBuilder = User.Builder().setShowMe(show_me)
-        assertEquals(show_me, userBuilder.show_me)
+        assertThat(userBuilder.show_me, equalTo(show_me))
     }
 
     @Test
     fun setPassionsIsCorrect() {
         val userBuilder = User.Builder().setPassions(passions)
-        assertEquals(passions, userBuilder.passions)
+        assertThat(userBuilder.passions, equalTo(passions))
     }
 
     @Test
     fun setRadiusIsCorrect() {
         val userBuilder = User.Builder().setRadius(radius)
-        assertEquals(radius, userBuilder.radius)
+        assertThat(userBuilder.radius, equalTo(radius))
     }
 
     @Test
     fun setMatchesIsCorrect() {
         val userBuilder = User.Builder().setMatches(matches)
-        assertEquals(matches, userBuilder.matches)
+        assertThat(userBuilder.matches, equalTo(matches))
     }
 
     @Test
     fun setDescriptionIsCorrect() {
         val userBuilder = User.Builder().setDescription(description)
-        assertEquals(description, userBuilder.description)
+        assertThat(userBuilder.description, equalTo(description))
     }
 
     @Test
@@ -93,16 +94,16 @@ class UserUnitTest {
                 .setMatches(matches)
                 .build()
 
-        assertEquals(username, user.username)
-        assertEquals(location, user.location)
-        assertEquals(birthday, user.birthday)
-        assertEquals(gender, user.gender)
-        assertEquals(sexual_orientations, user.sexual_orientations)
-        assertEquals(show_me, user.show_me)
-        assertEquals(passions, user.passions)
-        assertEquals(radius, user.radius)
-        assertEquals(description, user.description)
-        assertEquals(matches, user.matches)
+        assertThat(user.username, equalTo(username))
+        assertThat(user.location, equalTo(location))
+        assertThat(user.birthday, equalTo(birthday))
+        assertThat(user.gender, equalTo(gender))
+        assertThat(user.sexual_orientations, equalTo(sexual_orientations))
+        assertThat(user.show_me, equalTo(show_me))
+        assertThat(user.passions, equalTo(passions))
+        assertThat(user.radius, equalTo(radius))
+        assertThat(user.description, equalTo(description))
+        assertThat(user.matches, equalTo(matches))
     }
 
     @Test
@@ -121,7 +122,7 @@ class UserUnitTest {
                 .build()
 
         val TEST_AGE = "20"
-        assertEquals(TEST_AGE, User.getUserAge(user))
+        assertThat(User.getUserAge(user), equalTo(TEST_AGE))
     }
 
 }

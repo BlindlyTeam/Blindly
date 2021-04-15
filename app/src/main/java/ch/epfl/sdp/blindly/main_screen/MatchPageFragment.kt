@@ -12,14 +12,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class MatchPageFragment : Fragment() {
 
     companion object {
-        private const val ARG_COUNT = "matchArgs";
-        private var counter: Int? = null;
+        private const val ARG_COUNT = "matchArgs"
+        private var counter: Int? = null
 
         fun newInstance(counter: Int): MatchPageFragment {
-            val fragment = MatchPageFragment();
-            val args = Bundle();
-            args.putInt(ARG_COUNT, counter);
-            fragment.arguments = args;
+            val fragment = MatchPageFragment()
+            val args = Bundle()
+            args.putInt(ARG_COUNT, counter)
+            fragment.arguments = args
             return fragment
         }
     }
@@ -37,7 +37,4 @@ class MatchPageFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_match_page, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 }
