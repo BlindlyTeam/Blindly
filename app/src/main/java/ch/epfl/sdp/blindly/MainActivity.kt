@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
-import ch.epfl.sdp.blindly.utils.UserHelper
+import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openLogin(view: View) {
-        startActivityForResult(user.getSignInIntent(), UserHelper.RC_SIGN_IN);
+        startActivityForResult(user.getSignInIntent(), UserHelper.RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

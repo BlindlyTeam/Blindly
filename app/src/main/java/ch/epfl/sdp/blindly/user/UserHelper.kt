@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.utils
+package ch.epfl.sdp.blindly.user
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
@@ -18,30 +18,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-// Module to be installed in Activities
-@Module
-@InstallIn(SingletonComponent::class)
-class UserHelperModule {
-    @Provides
-    fun provideUserHelper(): UserHelper = UserHelper()
-}
-
 class UserHelper {
     companion object {
         const val RC_SIGN_IN = 123
+        private const val TAG = "UserHelper"
+        private const val USER_COLLECTION: String = "usersMeta"
         private const val DEFAULT_RADIUS = 80
-        private const val TAG = "User"
-        private const val USER_PATH: String = "usersMeta"
-        val userFields = arrayListOf(
-                "username",
-                "location",
-                "birthday",
-                "genre",
-                "sexual_orientations",
-                "show_me",
-                "passions",
-                "radius")
-
     }
 
     fun getSignInIntent(): Intent {
@@ -55,7 +37,8 @@ class UserHelper {
         val providers = arrayListOf(
                 AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
                 phoneProvider.build(),
-                AuthUI.IdpConfig.GoogleBuilder().build()
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.FacebookBuilder().build()
         )
 
 
@@ -67,14 +50,14 @@ class UserHelper {
                 /*.setTosAndPrivacyPolicyUrls(
         "https://example.com/terms.html",
         "https://example.com/privacy.html")*/
-                .build();
+                .build()
 
     }
 
     fun signOut(activity: Activity, onComplete: OnCompleteListener<Void>) {
         AuthUI.getInstance()
                 .signOut(activity)
-                .addOnCompleteListener(onComplete);
+                .addOnCompleteListener(onComplete)
     }
 
     fun delete(activity: Activity, onComplete: OnCompleteListener<Void>) {
@@ -87,30 +70,6 @@ class UserHelper {
         return FirebaseAuth.getInstance().currentUser != null
     }
 
-    fun getEmail(): String? {
-        return FirebaseAuth.getInstance().currentUser?.email
-    }
-
-    fun setEmail(email: String): Task<Void>? {
-        return FirebaseAuth.getInstance().currentUser?.updateEmail(email)
-    }
-
-    fun updatePassword(password: String) {
-        val user = FirebaseAuth.getInstance().currentUser
-
-        user!!.updatePassword(password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(Companion.TAG, "User password updated.")
-                    } else {
-                        Log.d(Companion.TAG, "Error: Could not update password.")
-                    }
-                }
-    }
-
-    private fun getUserId(): String? {
-        return FirebaseAuth.getInstance().currentUser?.uid
-    }
 
     fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Boolean {
         val response = IdpResponse.fromResultIntent(data)
@@ -118,7 +77,7 @@ class UserHelper {
         if (resultCode == Activity.RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
-            return true;
+            return true
             // ...
         } else {
             // Sign in failed. If response is null the user canceled the
@@ -133,33 +92,31 @@ class UserHelper {
                                 response.error?.errorCode ?: -1
                         ),
                         Toast.LENGTH_LONG
-                ).show();
+                ).show()
             }
-            return false;
+            return false
         }
     }
 
-    //Set User's information in firestore after user entered his information in set_profile
-    fun setUserProfile(name: String, location: String, birthday: String, genre: String,
-                       sexualOrientations: List<String>, showMe: String,
-                       passions: List<String>) {
+    fun getUserId(): String? {
+        return FirebaseAuth.getInstance().currentUser?.uid
+    }
 
+    /**
+     * Set User's information in firestore after user entered his information in set_profile
+     */
+    fun setUserProfile(userBuilder:User.Builder) {
         val database = Firebase.firestore
+        val uid = getUserId()
+        if (uid != null) {
+            val newUser = userBuilder.setRadius(DEFAULT_RADIUS)
+                .setMatches(listOf())
+                .setDescription("")
+                .build()
 
-        if (getUserId() != null) {
-            val information = arrayListOf(name,
-                location,
-                birthday,
-                genre,
-                sexualOrientations,
-                showMe,
-                passions,
-                DEFAULT_RADIUS)
-            val newUser = userFields.zip(information).toMap()
-
-            database.collection(USER_PATH).add(newUser)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "User's profile was set: ${documentReference.id}")
+            database.collection(USER_COLLECTION).document(uid).set(newUser)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "User \"$uid\" was set in firestore")
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error setting the user's profile", e)
@@ -167,21 +124,24 @@ class UserHelper {
         }
     }
 
-    /**
-     * field: the field of the value to change inside the database
-     * newValue: the new value to set for the user
-     */
-    fun <T> updateProfile(field: String, newValue: T) {
-        if(!userFields.contains(field))
-            throw IllegalArgumentException("Path must be one of $userFields")
-        if(newValue !is String || newValue !is ArrayList<*>)
-            throw IllegalArgumentException("Expected String or ArrayList<String>")
-        val database = Firebase.firestore
-        val user = getUserId()
-        if (user != null)
-            database.collection(USER_PATH)
-                    .document(user)
-                    .update(field, newValue)
+    fun setEmail(email: String): Task<Void>? {
+        return FirebaseAuth.getInstance().currentUser?.updateEmail(email)
     }
 
+    fun getEmail(): String? {
+        return FirebaseAuth.getInstance().currentUser?.email
+    }
+
+    fun updatePassword(password: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+
+        user!!.updatePassword(password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(Companion.TAG, "User password updated.")
+                    } else {
+                        Log.d(Companion.TAG, "Error: Could not update password.")
+                    }
+                }
+    }
 }

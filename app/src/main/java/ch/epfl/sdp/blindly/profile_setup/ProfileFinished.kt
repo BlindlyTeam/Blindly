@@ -1,11 +1,11 @@
-package ch.epfl.sdp.blindly.profile
+package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import ch.epfl.sdp.blindly.MainScreen
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.main_screen.MainScreen
 
 class ProfileFinished : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

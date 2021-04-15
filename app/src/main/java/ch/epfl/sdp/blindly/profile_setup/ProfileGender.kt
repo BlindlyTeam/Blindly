@@ -8,27 +8,29 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
-
-const val EXTRA_GENRE = "user_genre"
+import ch.epfl.sdp.blindly.user.User
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class ProfileGender : AppCompatActivity() {
-    private var username: String ?= null
-    private var birthday: String ?= null
+
+    private lateinit var userBuilder : User.Builder
+    private lateinit var nextIntent : Intent
+    private lateinit var gender : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_setup_gender)
 
         val bundle = intent.extras
-        username = bundle?.getString(EXTRA_USERNAME)
-        birthday = bundle?.getString(EXTRA_BIRTHDAY)
+        userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
     fun startProfileOrientationOrGenderMore(view: View) {
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
         val radioButtonMore = findViewById<RadioButton>(R.id.sex3_more)
         val radioButtonWomen = findViewById<RadioButton>(R.id.sex1_user)
-        val intent = Intent(this, ProfileOrientation::class.java)
+        nextIntent = Intent(this, ProfileOrientation::class.java)
 
         when {
             //No radio button is checked
@@ -37,30 +39,29 @@ class ProfileGender : AppCompatActivity() {
             }
             //more option is checked
             radioButtonMore.isChecked -> {
-                val intentMore = Intent(this, ProfileGenderMore::class.java)
-                val genre = "More"
-                bundleExtrasAndStartActivity(intentMore, username, birthday, genre)
+                nextIntent = Intent(this, ProfileGenderMore::class.java)
+                gender = "More"
+                bundleExtrasAndStartActivity()
             }
             //women is checked
             radioButtonWomen.isChecked -> {
-                val genre = "Woman"
-                bundleExtrasAndStartActivity(intent, username, birthday, genre)
+                gender = "Woman"
+                bundleExtrasAndStartActivity()
             }
             //man is checked
             else -> {
-                val genre = "Man"
-                bundleExtrasAndStartActivity(intent, username, birthday, genre)
+                gender = "Man"
+                bundleExtrasAndStartActivity()
             }
         }
     }
 
-    private fun bundleExtrasAndStartActivity(intent: Intent, username: String?, age: String?, genre: String) {
-        val extras = Bundle()
-        extras.putString(EXTRA_USERNAME, username)
-        extras.putString(EXTRA_BIRTHDAY, age)
-        extras.putString(EXTRA_GENRE, genre)
-        intent.putExtras(extras)
+    private fun bundleExtrasAndStartActivity() {
+        val bundle = Bundle()
+        userBuilder.setGender(gender)
+        bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
+        nextIntent.putExtras(bundle)
 
-        startActivity(intent)
+        startActivity(nextIntent)
     }
 }
