@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_SHOW_ME
 import ch.epfl.sdp.blindly.utils.UserHelper
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,16 +16,23 @@ import javax.inject.Inject
 
 const val EXTRA_LOCATION = "user_location"
 
-//const val REQUEST_LOCATION = 1
 const val REQUEST_SHOW_ME = 2
 
+/**
+ * Activity class for the settings of the app and the user
+ *
+ */
 @AndroidEntryPoint
 class Settings : AppCompatActivity() {
 
     @Inject
     lateinit var user: UserHelper
 
-
+    /**
+     * Creates the activity window
+     *
+     * @param savedInstanceState
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -70,6 +75,11 @@ class Settings : AppCompatActivity() {
         )
     }
 
+    /**
+     * Called by the Location button
+     *
+     * @param view
+     */
     fun startLocationSettings(view: View) {
         val currentLocation = findViewById<TextView>(R.id.current_location_text).text.toString()
         val intent = Intent(this, SettingsLocation::class.java).apply {
@@ -78,6 +88,11 @@ class Settings : AppCompatActivity() {
         startActivity(intent)
     }
 
+    /**
+     * Called by the ShowMe button
+     *
+     * @param view
+     */
     fun startShowMeSettings(view: View) {
         val currentShowMe = findViewById<TextView>(R.id.show_me_text).text.toString()
         val intent = Intent(this, SettingsShowMe::class.java).apply {
@@ -87,8 +102,13 @@ class Settings : AppCompatActivity() {
         startActivityForResult(intent, REQUEST_SHOW_ME)
     }
 
+    /**
+     * Called by the Logout button
+     *
+     * @param view
+     */
     fun logout(view: View) {
-        user.signOut(this, OnCompleteListener {
+        /*user.signOut(this, OnCompleteListener {
             OnCompleteListener<Void> { p0 ->
                 if (p0.isComplete)
                     startActivity(Intent(this@Settings, MainActivity::class.java))
@@ -100,11 +120,14 @@ class Settings : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
             }
-        })
+        })*/ //TODO the logout doesn't work for now
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     /**
-     * Delete the user's account
+     * Called by the Delete account button
+     *
+     * @param view
      */
     fun deleteAccount(view: View) {
         //For now, just return to the main activity
@@ -126,6 +149,13 @@ class Settings : AppCompatActivity() {
         }
     }*/
 
+    /**
+     * TODO
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param intent
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode == RESULT_OK && requestCode == REQUEST_SHOW_ME) {
@@ -138,6 +168,11 @@ class Settings : AppCompatActivity() {
         }
     }
 
+    /**
+     * Called by the UpdateEmail button
+     *
+     * @param view
+     */
     fun startUpdateEmail(view: View) {
         startActivity(Intent(this, SettingsUpdateEmail::class.java))
     }

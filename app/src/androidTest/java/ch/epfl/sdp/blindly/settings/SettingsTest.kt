@@ -189,6 +189,18 @@ class SettingsTest {
     }
 
     @Test
+    fun clickingOnLogoutButtonFiresMainActivity() {
+        init()
+        onView(withId(R.id.logout_button)).perform(click())
+        intended(
+            Matchers.allOf(
+                hasComponent(MainActivity::class.java.name)
+            )
+        )
+        release()
+    }
+
+    @Test
     fun clickingOnDeleteAccountButtonFiresMainActivity() {
         init()
         onView(withId(R.id.delete_account_button)).perform(click())
