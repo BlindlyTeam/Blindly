@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/account_settings"
+                android:textColor="@color/purple_500"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -60,7 +61,8 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/email"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/email_address_text"
@@ -98,6 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/discovery_settings"
+                android:textColor="@color/purple_500"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -125,7 +128,8 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/location"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/current_location_text"
@@ -165,7 +169,8 @@
                     android:layout_height="match_parent"
                     android:gravity="top"
                     android:text="@string/maximum_distance"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/radius_text"
@@ -217,7 +222,8 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/looking_for"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/show_me_text"
@@ -247,7 +253,8 @@
                 android:id="@+id/age_range_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="40dp">
 
 
                 <TextView
@@ -256,7 +263,8 @@
                     android:layout_height="match_parent"
                     android:gravity="top"
                     android:text="@string/age_range"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/selected_age_range_text"
@@ -290,18 +298,25 @@
 
             <Button
                 android:id="@+id/logout_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                style="@style/Widget.Theme.Blindly.Fancy.Button"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:onClick="logout"
                 android:text="@string/logout_button_text"
                 android:textSize="15sp" />
 
+            <Space
+                android:id="@+id/space2"
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
             <Button
                 android:id="@+id/delete_account_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                style="@style/Widget.Theme.Blindly.Fancy.Button"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:onClick="deleteAccount"
                 android:text="@string/delete_account_button_text"
                 android:textSize="15sp" />
