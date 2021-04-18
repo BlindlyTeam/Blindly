@@ -78,7 +78,6 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         for (i in 0 until recordList.size) {
             if (recordList[i].isExpanded) {
                 val viewHolder = viewHolderList[i]
-                mediaPlayer?.stop()
                 setStoppedView(viewHolder.playTimer, viewHolder.remainingTimer,
                         viewHolder.playPauseButton, false)
                 RecordAnimations.collapse(viewHolder.expandableLayout)
