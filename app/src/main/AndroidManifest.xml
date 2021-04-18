@@ -32,7 +32,6 @@
         <activity android:name=".match.MatchActivity" />
         <activity android:name=".profile_setup.ProfileAudioRecording" />
         <activity android:name=".profile_setup.ProfileFinished" />
-        <activity android:name=".profile_setup.ProfileAudioRecording" />
         <activity android:name=".profile_setup.ProfilePassions" />
         <activity android:name=".profile_setup.ProfileShowMe" />
         <activity android:name=".profile_setup.ProfileOrientation" />
