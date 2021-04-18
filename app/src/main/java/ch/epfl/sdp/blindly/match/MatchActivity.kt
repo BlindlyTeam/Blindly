@@ -25,7 +25,7 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     private val adapter by lazy { CardStackAdapter(profiles) }
 
     /**
-     * create the activity and setup the cardStack
+     * Create the activity and setup the cardStack
      *
      * @param savedInstanceState
      */
