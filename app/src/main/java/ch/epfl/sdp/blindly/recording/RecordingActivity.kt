@@ -104,7 +104,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     private fun recordButtonClick(view: View) {
         if (!isRecording) {
             startRecording()
-            setRecordView()r
+            setRecordView()
         } else {
             stopRecording()
             setFinishedRecordView()
