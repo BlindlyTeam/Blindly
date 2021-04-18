@@ -34,7 +34,7 @@ class MatchActivityTest {
     }
 
     @Test
-    fun firstcardIsWellDisplayed() {
+    fun firstCardIsWellDisplayed() {
         launchScenario()
 
         onView(withId(R.id.card_stack_view)).check(
