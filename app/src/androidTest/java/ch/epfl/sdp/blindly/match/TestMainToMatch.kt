@@ -29,7 +29,7 @@ class TestMainToMatch {
     }
 
     @Test
-    fun onButtonClickLunchMatchActivity() {
+    fun onButtonClickLaunchMatchActivity() {
         init()
         onView(withId(R.id.button_to_match)).perform(click())
         intended(hasComponent(MatchActivity::class.java.name))
