@@ -2,3 +2,5 @@ exclude_patterns:
 - "**/test/"
 - "**/androidTest/"
 - "**test"
+- "**userHelper"
+- "**/di/"
