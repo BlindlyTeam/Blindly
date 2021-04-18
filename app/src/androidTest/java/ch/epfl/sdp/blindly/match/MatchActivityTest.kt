@@ -64,7 +64,7 @@ class MatchActivityTest {
     }
 
     @Test
-    fun likeButtonDispaySecondCard() {
+    fun likeButtonDisplaySecondCard() {
         launchScenario()
 
         onView(withId(R.id.like_button)).perform(click())
