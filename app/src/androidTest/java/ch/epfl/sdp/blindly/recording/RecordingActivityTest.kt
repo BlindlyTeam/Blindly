@@ -1,18 +1,24 @@
 package ch.epfl.sdp.blindly.recording
 
-import android.graphics.Color
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.actionOnChild
+import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
 import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
-import org.hamcrest.Matchers.not
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
+import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,6 +26,7 @@ import org.junit.runner.RunWith
 private const val AUDIO_FILE_ONE = "Audio file 1"
 private const val MAXIMUM_AUDIO_DURATION = 90000L
 private const val FIVE_SECONDS = 5000L
+private const val TWO_SECONDS = 2000L
 
 @RunWith(AndroidJUnit4::class)
 class RecordingActivityTest {
@@ -37,11 +44,11 @@ class RecordingActivityTest {
     fun recordingActivityFiresProfileFinished() {
         createRecord(200L)
         onView(withId(R.id.nameDurationLayout))
-                .perform(click())
+            .perform(click())
 
         Intents.init()
         onView(withId(R.id.selectButton))
-                .perform(click())
+            .perform(click())
         Intents.intended(IntentMatchers.hasComponent(ProfileFinished::class.java.name))
         Intents.release()
     }
@@ -50,48 +57,48 @@ class RecordingActivityTest {
     fun playPauseButtonChangesBackgroundWhenClickedTwice() {
         createRecord(500L)
         onView(withId(R.id.nameDurationLayout))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.playPauseButton))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.playPauseButton))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.playPauseButton))
-                .check(
-                        matches(
-                                withDrawable(android.R.drawable.ic_media_play)
-                        )
+            .check(
+                matches(
+                    withDrawable(android.R.drawable.ic_media_play)
                 )
+            )
     }
 
     @Test
     fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
         createRecord(500L)
         onView(withId(R.id.nameDurationLayout))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.playPauseButton))
-                .perform(click())
+            .perform(click())
         Thread.sleep(2000L)
         onView(withId(R.id.playPauseButton))
-                .check(
-                        matches(
-                                withDrawable(android.R.drawable.ic_media_play)
-                        )
+            .check(
+                matches(
+                    withDrawable(android.R.drawable.ic_media_play)
                 )
+            )
     }
 
     @Test
     fun startRecordingCollapsesRecords() {
         createRecord(200L)
         onView(withId(R.id.nameDurationLayout))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.recordingButton))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.audioPlayLayout))
-                .check(
-                        matches(
-                                not(isDisplayed())
-                        )
+            .check(
+                matches(
+                    not(isDisplayed())
                 )
+            )
     }
 
     @Test
@@ -100,26 +107,91 @@ class RecordingActivityTest {
         recordButton.perform(click())
         Thread.sleep(MAXIMUM_AUDIO_DURATION + 500L)
         onView(withId(R.id.nameDurationLayout))
-                .check(
-                        matches(
-                                isDisplayed()
-                        )
+            .check(
+                matches(
+                    isDisplayed()
                 )
+            )
     }
 
     @Test
     fun remainingTimerIsRedWhen10SecondsRemain() {
-        val recordButton = onView(withId(R.id.recordingButton))
-        recordButton.perform(click())
-        Thread.sleep(MAXIMUM_AUDIO_DURATION - FIVE_SECONDS)
-        recordButton.perform(click())
+        createRecord(MAXIMUM_AUDIO_DURATION - FIVE_SECONDS)
         onView(withId(R.id.remainingRecordTimer))
         onView(withId(R.id.remainingRecordTimer))
-                .check(
-                        matches(
-                                (hasTextColor(R.color.bright_red))
-                        )
+            .check(
+                matches(
+                    (hasTextColor(R.color.bright_red))
                 )
+            )
+    }
+
+    @Test
+    fun startRecordingCollapsesAllRecordings() {
+        createRecord(TWO_SECONDS)
+        createRecord(TWO_SECONDS)
+        //Click on the second recording to expand it
+        onView(withId(R.id.recordingList)).perform(
+                actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    1,
+                    actionOnChild(
+                        click(),
+                        R.id.nameDurationLayout
+                    )
+                )
+            )
+        //Start recording
+        onView(withId(R.id.recordingButton)).perform(click())
+        //Check if both recordings are collapsed
+        onView(withId(R.id.recordingList)).check(
+            matches(
+                childOfViewAtPositionWithMatcher(
+                    R.id.audioPlayLayout, 0, not(isDisplayed())
+                )
+            )
+        )
+        onView(withId(R.id.recordingList)).check(
+            matches(
+                childOfViewAtPositionWithMatcher(
+                    R.id.audioPlayLayout, 1, not(isDisplayed())
+                )
+            )
+        )
+
+    }
+
+    @Test
+    fun clickOnARecordingCollapsesAllOthers() {
+        createRecord(TWO_SECONDS)
+        createRecord(TWO_SECONDS)
+        //Click on the first recording to expand it
+        onView(withId(R.id.recordingList)).perform(
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                actionOnChild(
+                    click(),
+                    R.id.nameDurationLayout
+                )
+            )
+        )
+        //Click on the second recording to expand it
+        onView(withId(R.id.recordingList)).perform(
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                1,
+                actionOnChild(
+                    click(),
+                    R.id.nameDurationLayout
+                )
+            )
+        )
+        //Check if first recording is collapsed
+        onView(withId(R.id.recordingList)).check(
+            matches(
+                childOfViewAtPositionWithMatcher(
+                    R.id.audioPlayLayout, 0, not(isDisplayed())
+                )
+            )
+        )
     }
 
     private fun createRecord(duration: Long) {
@@ -128,4 +200,5 @@ class RecordingActivityTest {
         Thread.sleep(duration)
         recordButton.perform(click())
     }
+
 }
