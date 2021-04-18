@@ -1,10 +1,7 @@
 package ch.epfl.sdp.blindly.recording
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
@@ -132,14 +129,14 @@ class RecordingActivityTest {
         createRecord(TWO_SECONDS)
         //Click on the second recording to expand it
         onView(withId(R.id.recordingList)).perform(
-                actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    1,
-                    actionOnChild(
-                        click(),
-                        R.id.nameDurationLayout
-                    )
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                1,
+                actionOnChild(
+                    click(),
+                    R.id.nameDurationLayout
                 )
             )
+        )
         //Start recording
         onView(withId(R.id.recordingButton)).perform(click())
         //Check if both recordings are collapsed
