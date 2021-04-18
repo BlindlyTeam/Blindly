@@ -4,8 +4,8 @@ import android.os.Parcel
 import android.os.Parcelable
 
 /**
- * class to have the data to display to the matchActivity
- * We need it to be parcelable to be able to passing them between different activities
+ * Class to have the data to display to the matchActivity
+ * We need it to be parcelable to be able to pass them between different activities
  *
  * @property id
  * @property name
