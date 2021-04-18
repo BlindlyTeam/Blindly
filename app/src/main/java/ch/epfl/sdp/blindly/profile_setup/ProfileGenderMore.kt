@@ -6,27 +6,41 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.user.User
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 private val REGEX = Regex("^[a-zA-Z]*$")
 
 class ProfileGenderMore : AppCompatActivity() {
+
+    private lateinit var userBuilder : User.Builder
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_setup_gender_more)
+
+        val bundle = intent.extras
+        userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
     fun startProfileOrientation(view: View) {
         findViewById<TextView>(R.id.warning1_p4_2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning2_p4_2).visibility = View.INVISIBLE
 
-        val name = findViewById<TextView>(R.id.text_p4_2).text.toString().trim()
+        val gender = findViewById<TextView>(R.id.text_p4_2).text.toString().trim()
 
-        if (!name.matches(REGEX)) {
+        if (!gender.matches(REGEX)) {
             findViewById<TextView>(R.id.warning2_p4_2).visibility = View.VISIBLE
         } else {
-            val len = name.length
+            val len = gender.length
             if (len > 0) {
                 val intent = Intent(this, ProfileOrientation::class.java)
+                val bundle = Bundle()
+                userBuilder.setGender(gender)
+                bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
+                intent.putExtras(bundle)
+
                 startActivity(intent)
             } else {
                 //empty text, output error

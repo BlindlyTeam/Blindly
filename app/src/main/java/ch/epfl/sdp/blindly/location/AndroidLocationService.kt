@@ -1,13 +1,14 @@
 package ch.epfl.sdp.blindly.location
 
 import android.content.Context
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 
-class AndroidLocationService(private var context: Context) : LocationService {
+private const val MIN_TIME_FOR_UPDATE = 1L
+private const val MIN_DISTANCE_FOR_UPDTAE = 1F
 
-    private val MIN_TIME_FOR_UPDATE = 1L
-    private val MIN_DISTANCE_FOR_UPDTAE = 1F
+class AndroidLocationService(private var context: Context) : LocationService {
 
     private var isGPSEnable = false
     private var isNetworkEnable = false
@@ -53,4 +54,5 @@ class AndroidLocationService(private var context: Context) : LocationService {
     override fun onLocationChanged(loc: Location) {
         location = getCurrentLocation()
     }
+
 }

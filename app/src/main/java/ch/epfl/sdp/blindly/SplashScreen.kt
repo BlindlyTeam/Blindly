@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import ch.epfl.sdp.blindly.animations.BounceInterpolator
 
 
 const val MAIN_SCREEN_DELAY: Long = 2500

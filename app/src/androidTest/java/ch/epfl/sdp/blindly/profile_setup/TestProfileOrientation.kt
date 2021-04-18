@@ -1,31 +1,56 @@
 package ch.epfl.sdp.blindly.profile_setup
 
+import android.content.Intent
+import android.os.Bundle
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.BundleMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.user.User
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+private const val ERROR_MESSAGE_1 = "Please select at least one!"
+private const val ERROR_MESSAGE_2 = "You can not select more than 3!"
+val TEST_SEXUAL_ORIENTATIONS = arrayListOf("Straight", "Lesbian", "Gay")
 
 @RunWith(AndroidJUnit4::class)
 class TestProfileOrientation {
 
+    private val TEST_USER = User.Builder()
+            .setUsername(CORRECT_NAME)
+            .setBirthday(TEST_BIRTHDAY)
+            .setGender(TEST_GENDER_WOMEN)
 
-    @get:Rule
-    val activityRule = ActivityScenarioRule(ProfileOrientation::class.java)
+    @Before
+    fun init() {
+        val bundle = Bundle()
+        bundle.putSerializable(EXTRA_USER, Json.encodeToString(TEST_USER))
 
-    private val ERROR_MESSAGE_1 = "Please select at least one!"
-    private val ERROR_MESSAGE_2 = "You can not select more than 3!"
+        val intent = Intent(ApplicationProvider.getApplicationContext(),
+                ProfileOrientation::class.java).apply {
+            putExtras(bundle)
+        }
+
+        ActivityScenario.launch<ProfileOrientation>(intent)
+    }
+
 
     @Test
     fun noInputOutputsError() {
@@ -42,7 +67,7 @@ class TestProfileOrientation {
                                         )
                                 )
                         )
-                );
+                )
         intended(hasComponent(ProfileShowMe::class.java.name), Intents.times(0))
         Intents.release()
     }
@@ -50,14 +75,10 @@ class TestProfileOrientation {
     @Test
     fun moreThanAllowedInputOutputsError() {
         Intents.init()
-        val chip1 = onView(withId(R.id.chip1))
-        val chip2 = onView(withId(R.id.chip2))
-        val chip3 = onView(withId(R.id.chip3))
-        val chip4 = onView(withId(R.id.chip4))
-        chip1.perform(click())
-        chip2.perform(click())
-        chip3.perform(click())
-        chip4.perform(click())
+        onView(withId(R.id.chip1)).perform(click())
+        onView(withId(R.id.chip2)).perform(click())
+        onView(withId(R.id.chip3)).perform(click())
+        onView(withId(R.id.chip4)).perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p5))
         buttonContinue.perform(click())
@@ -71,29 +92,29 @@ class TestProfileOrientation {
                                         )
                                 )
                         )
-                );
+                )
         intended(hasComponent(ProfileShowMe::class.java.name), Intents.times(0))
         Intents.release()
-
     }
 
     @Test
     fun correctInputFiresProfileShowMe() {
         Intents.init()
-        val chip1 = onView(withId(R.id.chip1))
-        val chip2 = onView(withId(R.id.chip2))
-        val chip3 = onView(withId(R.id.chip3))
-        chip1.perform(click())
-        chip2.perform(click())
-        chip3.perform(click())
+        TEST_USER
+
+        onView(withId(R.id.chip1)).perform(click())
+        onView(withId(R.id.chip2)).perform(click())
+        onView(withId(R.id.chip3)).perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p5))
         buttonContinue.perform(click())
 
-        intended(hasComponent(ProfileShowMe::class.java.name))
+        TEST_USER.setSexualOrientations(TEST_SEXUAL_ORIENTATIONS)
+
+        intended(Matchers.allOf(
+            hasComponent(ProfileShowMe::class.java.name),
+            IntentMatchers.hasExtras(
+                BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
         Intents.release()
-
     }
-
-
 }

@@ -14,6 +14,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
+import kotlin.text.Typography.dagger
 
 private const val TEST_SHOW_ME = "Women"
 
