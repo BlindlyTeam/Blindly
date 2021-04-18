@@ -123,7 +123,7 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     }
 
     /**
-     * setup the behaviour or the cards in the swpieCardManager and their animations
+     * Setup the behaviour of the cards in the swipeCardManager and their animations
      *
      */
     private fun initialize() {
