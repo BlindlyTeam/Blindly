@@ -26,6 +26,13 @@ class MatchPage : Fragment() {
         return view
     }
 
+    /**
+     * create profiles for demo purpose
+     * this function have to be replaced with calls to the matching algorithms and retrieve porfiles
+     * from the database
+     *
+     * @return
+     */
     private fun createProfiles(): List<Profile> {
         val profiles = ArrayList<Profile>()
         profiles.add(Profile(name = "Michelle", age = 25))

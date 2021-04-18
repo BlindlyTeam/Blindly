@@ -24,6 +24,11 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     private val manager by lazy { CardStackLayoutManager(this, this) }
     private val adapter by lazy { CardStackAdapter(profiles) }
 
+    /**
+     * create the activity and setup the cardStack
+     *
+     * @param savedInstanceState
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         profiles = intent.getParcelableArrayListExtra("EXTRA_MATCH_PROFILES")!!
@@ -41,22 +46,20 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     }
 
     override fun onCardDragging(direction: Direction, ratio: Float) {
-        Log.d("CardStackView", "onCardDragging: d = ${direction.name}, r = $ratio")
     }
 
+    /**
+     * here we have to save if the profile is liked or not for messaging him/her after
+     *
+     * @param direction
+     */
     override fun onCardSwiped(direction: Direction) {
-        Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
-        if (manager.topPosition == adapter.itemCount - 5) {
-            paginate()
-        }
     }
 
     override fun onCardRewound() {
-        Log.d("CardStackView", "onCardRewound: ${manager.topPosition}")
     }
 
     override fun onCardCanceled() {
-        Log.d("CardStackView", "onCardCanceled: ${manager.topPosition}")
     }
 
     override fun onCardAppeared(view: View, position: Int) {
@@ -75,43 +78,57 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     }
 
     private fun setupButton() {
-        val skip = findViewById<View>(R.id.skip_button)
-        skip.setOnClickListener {
-            val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Left)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(AccelerateInterpolator())
-                    .build()
-            manager.setSwipeAnimationSetting(setting)
-            cardStackView.swipe()
-        }
+        setupLikeButton()
+        setupRewindButton()
+        setupSkipButton()
+    }
 
-        val rewind = findViewById<View>(R.id.rewind_button)
-        rewind.setOnClickListener {
-            val setting = RewindAnimationSetting.Builder()
-                    .setDirection(Direction.Bottom)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(DecelerateInterpolator())
-                    .build()
-            manager.setRewindAnimationSetting(setting)
-            cardStackView.rewind()
-        }
-
+    private fun setupLikeButton() {
         val like = findViewById<View>(R.id.like_button)
         like.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Right)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(AccelerateInterpolator())
-                    .build()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
             manager.setSwipeAnimationSetting(setting)
             cardStackView.swipe()
         }
     }
 
+    private fun setupSkipButton() {
+        val skip = findViewById<View>(R.id.skip_button)
+        skip.setOnClickListener {
+            val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Left)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            manager.setSwipeAnimationSetting(setting)
+            cardStackView.swipe()
+        }
+    }
+
+    private fun setupRewindButton() {
+        val rewind = findViewById<View>(R.id.rewind_button)
+        rewind.setOnClickListener {
+            val setting = RewindAnimationSetting.Builder()
+                .setDirection(Direction.Bottom)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(DecelerateInterpolator())
+                .build()
+            manager.setRewindAnimationSetting(setting)
+            cardStackView.rewind()
+        }
+    }
+
+    /**
+     * setup the behaviour or the cards in the swpieCardManager and their animations
+     *
+     */
     private fun initialize() {
         manager.setStackFrom(StackFrom.None)
-        manager.setVisibleCount(1)
+        manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
@@ -128,14 +145,5 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
                 supportsChangeAnimations = false
             }
         }
-    }
-
-    private fun paginate() {
-        val old = adapter.getProfiles()
-        val new = old.plus(profiles)
-        val callback = ProfileDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setProfiles(new)
-        result.dispatchUpdatesTo(adapter)
     }
 }

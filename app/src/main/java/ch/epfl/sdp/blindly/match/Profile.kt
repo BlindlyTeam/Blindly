@@ -3,6 +3,14 @@ package ch.epfl.sdp.blindly.match
 import android.os.Parcel
 import android.os.Parcelable
 
+/**
+ * class to have the data to display to the matchActivity
+ * We need it to be parcelable to be able to passing them between different activities
+ *
+ * @property id
+ * @property name
+ * @property age
+ */
 data class Profile(
         val id: Long = counter++,
         val name: String,
@@ -21,15 +29,28 @@ data class Profile(
         }
     }
 
+    /**
+     * A constructor for a profile from a parcel
+     */
     constructor(source: Parcel): this(source.readLong(), source.readString()!!, source.readInt())
 
     override fun describeContents(): Int {
         return 0
     }
 
+    /**
+     * create a parcel into dest
+     *
+     * @param dest
+     * @param flags
+     */
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeLong(id)
         dest?.writeString(name)
         dest?.writeInt(age)
+    }
+
+    override fun toString(): String {
+        return "$id: $name, $age"
     }
 }
