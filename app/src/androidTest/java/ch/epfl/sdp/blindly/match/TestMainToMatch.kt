@@ -1,16 +1,13 @@
 package ch.epfl.sdp.blindly.match
 
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeLeft
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import ch.epfl.sdp.blindly.MatchPage
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
-import ch.epfl.sdp.blindly.main_screen.MatchPageFragment
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -34,8 +31,7 @@ class TestMainToMatch {
     @Test
     fun onButtonClickLunchMatchActivity() {
         init()
-        Espresso.onView(withId(R.id.view_pager)).perform(swipeLeft())
-        Espresso.onView(withId(R.id.button_to_match)).perform(click())
+        onView(withId(R.id.button_to_match)).perform(click())
         intended(hasComponent(MatchActivity::class.java.name))
         release()
     }
