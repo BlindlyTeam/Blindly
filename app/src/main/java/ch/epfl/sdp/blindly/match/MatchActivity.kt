@@ -49,7 +49,7 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     }
 
     /**
-     * here we have to save if the profile is liked or not for messaging him/her after
+     * here we have to save if the profile is liked or not for messaging them after
      *
      * @param direction
      */
