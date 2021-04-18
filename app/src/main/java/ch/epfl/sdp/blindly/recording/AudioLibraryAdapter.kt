@@ -31,11 +31,12 @@ private const val PLAYBAR_DELAY = 10L
  * @property context context of the RecyclerView
  * @property listener handles clicks on items
  */
-class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
-                          var viewHolderList: ArrayList<ViewHolder>,
-                          var context: Context,
-                          private val listener: OnItemClickListener)
-    : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
+class AudioLibraryAdapter(
+    var recordList: ArrayList<AudioRecord>,
+    var viewHolderList: ArrayList<ViewHolder>,
+    var context: Context,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
     var mediaPlayer: MediaPlayer? = null
     private var isPlayerPaused = false
     private var isPlayerStopped = true
@@ -74,12 +75,17 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
+    /**
+     * Collapses all record layouts in the view.
+     */
     fun collapseLayouts() {
         for (i in 0 until recordList.size) {
             if (recordList[i].isExpanded) {
                 val viewHolder = viewHolderList[i]
-                setStoppedView(viewHolder.playTimer, viewHolder.remainingTimer,
-                        viewHolder.playPauseButton, false)
+                setStoppedView(
+                    viewHolder.playTimer, viewHolder.remainingTimer,
+                    viewHolder.playPauseButton, false
+                )
                 RecordAnimations.collapse(viewHolder.expandableLayout)
                 recordList[i].isExpanded = false
             }
@@ -87,23 +93,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
     }
 
     /**
-     * Expands or collapse the layout of the audio file, and collapse other ones.
-     *
-     * @param isExpanded if the record is currently expanded in layout
-     * @param view the current view
-     * @param layoutExpand the layout to expand/collapse
-     */
-    private fun toggleLayout(isExpanded: Boolean, view: View, layoutExpand: RelativeLayout) {
-        collapseLayouts()
-        if (isExpanded) {
-            RecordAnimations.expand(layoutExpand)
-        } else {
-            RecordAnimations.collapse(layoutExpand)
-        }
-    }
-
-    /**
-     * Create new views for each item of the list.
+     * Creates new views for each item of the list.
      * This function is invoked by the layout manager.
      *
      * @param viewGroup the group where the ViewHolder belongs
@@ -131,11 +121,18 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         val playPauseButton = viewHolder.playPauseButton
         val movePlayBarThread = createPlayBarThread(playBar)
 
-        bindSeekBarNavigation(playBar, playTimer, remainingTimer, playPauseButton,
-                movePlayBarThread, position)
+        bindSeekBarNavigation(
+            playBar, playTimer, remainingTimer, playPauseButton,
+            movePlayBarThread, position
+        )
 
         viewHolder.recordName.text = recordList[position].name
         viewHolder.recordDuration.text = recordList[position].durationText
+
+        /*
+         * When the layout containing the name and duration is clicked, the layout expands or
+         * collapses, and the layout is reset so that it is brand new when re-opened.
+         */
         viewHolder.nameDurationLayout.setOnClickListener {
             val notIsExpanded = !recordList[position].isExpanded
             toggleLayout(notIsExpanded, it, viewHolder.expandableLayout)
@@ -145,6 +142,10 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
 
         setCountDownTimer(remainingTimer)
 
+        /*
+         * Handles clicks of the play/pause button, according to the current state of the media
+         * player.
+         */
         viewHolder.playPauseButton.setOnClickListener {
             if (isPlayerStopped) {
                 resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
@@ -153,6 +154,7 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
                 mediaPlayer?.start()
 
                 if (!isPlayerPaused) {
+                    // Reset the play timer
                     playTimer.base = SystemClock.elapsedRealtime()
                 }
                 setPlayView(playTimer, remainingTimer, playBar, movePlayBarThread, playPauseButton)
@@ -162,6 +164,10 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
             }
         }
 
+        /*
+         * If the select button is clicked, the selected file is saved and the user is sent to the
+         * profile finished activity.
+         */
         viewHolder.selectButton.setOnClickListener {
             mediaPlayer?.release()
             saveRecording(position)
@@ -169,25 +175,65 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
-    private fun resetRecordPlayer(position: Int, playTimer: Chronometer,
-                                  remainingTimer: Chronometer,
-                                  playPauseButton: AppCompatImageButton, playBar: SeekBar) {
+    override fun getItemCount() = recordList.size
+
+    /**
+     * Expands or collapses the layout of the clicked audio file, and collapses other ones by
+     * calling [collapseLayouts].
+     *
+     * @param isExpanded if the record is currently expanded in layout
+     * @param view the current view
+     * @param layoutExpand the layout to expand/collapse
+     */
+    private fun toggleLayout(isExpanded: Boolean, view: View, layoutExpand: RelativeLayout) {
+        collapseLayouts()
+        if (isExpanded) {
+            RecordAnimations.expand(layoutExpand)
+        } else {
+            RecordAnimations.collapse(layoutExpand)
+        }
+    }
+
+    /**
+     * Resets the view and media player of a specific record in the list.
+     *
+     * @param position the position of the record in list
+     * @param playTimer the timer for playing
+     * @param remainingTimer the timer for remaining time
+     * @param playPauseButton
+     * @param playBar the moving seek bar for the audio file
+     */
+    private fun resetRecordPlayer(
+        position: Int, playTimer: Chronometer,
+        remainingTimer: Chronometer,
+        playPauseButton: AppCompatImageButton, playBar: SeekBar
+    ) {
         createMediaPlayer(recordList[position].filePath)
         mediaPlayer?.setOnCompletionListener {
             mediaPlayer?.stop()
             setStoppedView(playTimer, remainingTimer, playPauseButton, false)
         }
+
+        // Reset the timers and the play bar
         remainingTimer.base = SystemClock.elapsedRealtime() + mediaPlayer!!.duration.toLong()
         playTimer.base = SystemClock.elapsedRealtime()
         playBar.progress = 0
     }
 
+    /**
+     * Saves the recording at a given position in the list. It is saved in the app's directory
+     * and can be easily retrieved.
+     *
+     * @param position the position of the file we want to save
+     */
     private fun saveRecording(position: Int) {
         val filePath = recordList[position].filePath
         val newName = PRESENTATION_AUDIO_NAME
         val currentRecording = File(filePath)
-        currentRecording.copyTo(File("${context.filesDir.absolutePath}/$newName"),
-                overwrite = true)
+        currentRecording.copyTo(
+            File("${context.filesDir.absolutePath}/$newName"),
+            overwrite = true
+        )
     }
 
     private fun createMediaPlayer(filePath: String) {
@@ -197,15 +243,25 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
-    private fun bindSeekBarNavigation(playBar: SeekBar, playTimer: Chronometer,
-                                      remainingTimer: Chronometer,
-                                      playPauseButton: AppCompatImageButton,
-                                      playBarThread: Runnable, position: Int) {
+    private fun bindSeekBarNavigation(
+        playBar: SeekBar, playTimer: Chronometer,
+        remainingTimer: Chronometer,
+        playPauseButton: AppCompatImageButton,
+        playBarThread: Runnable, position: Int
+    ) {
         playBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(playBar: SeekBar,
-                                           progress: Int, fromUser: Boolean) {
+            override fun onProgressChanged(
+                playBar: SeekBar,
+                progress: Int, fromUser: Boolean
+            ) {
             }
 
+            /**
+             * When the seek bar is touched, the player is paused. If it was already stopped,
+             * the player is reset at the current position.
+             *
+             * @param playBar the corresponding seekbar
+             */
             override fun onStartTrackingTouch(playBar: SeekBar) {
                 isPlayBarTouched = true
                 if (isPlayerStopped) {
@@ -216,6 +272,12 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
                 }
             }
 
+            /**
+             * When the seek bar is released, the mediaplayer seeks the seek bar's position
+             * and the timers are updated.
+             *
+             * @param playBar the corresponding seekbar
+             */
             override fun onStopTrackingTouch(playBar: SeekBar) {
                 isPlayBarTouched = false
                 updatePlayBar(playBar, playBarThread, playBar.max, playBar.progress)
@@ -229,6 +291,13 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         })
     }
 
+    /**
+     * Creates a thread that handles the playbar updates, according to the progress of the media
+     * player.
+     *
+     * @param playBar
+     * @return the created thread
+     */
     private fun createPlayBarThread(playBar: SeekBar): Runnable {
         return object : Runnable {
             override fun run() {
@@ -241,11 +310,14 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         }
     }
 
-    private fun startProfileFinished() {
-        val intent = Intent(context, ProfileFinished::class.java)
-        startActivity(context, intent, null)
-    }
-
+    /**
+     * Updates the playbar on a given thread, according to the media player's position and duration.
+     *
+     * @param playBar
+     * @param thread
+     * @param duration the duration of the audio file
+     * @param position the current position in the file
+     */
     private fun updatePlayBar(playBar: SeekBar, thread: Runnable, duration: Int, position: Int) {
         playBar.max = duration
         playBar.progress = position
@@ -255,14 +327,22 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         handler.postDelayed(thread, PLAYBAR_DELAY);
     }
 
+    // Setting a timer to count down requires Android N
     @RequiresApi(Build.VERSION_CODES.N)
     private fun setCountDownTimer(timer: Chronometer) {
         timer.isCountDown = true
         timer.format = "-%s"
     }
 
-    private fun setStoppedView(playTimer: Chronometer, remainingTimer: Chronometer,
-                               playPauseButton: AppCompatImageButton, isPause: Boolean) {
+    private fun startProfileFinished() {
+        val intent = Intent(context, ProfileFinished::class.java)
+        startActivity(context, intent, null)
+    }
+
+    private fun setStoppedView(
+        playTimer: Chronometer, remainingTimer: Chronometer,
+        playPauseButton: AppCompatImageButton, isPause: Boolean
+    ) {
         playTimer.stop()
         remainingTimer.stop()
         if (isPause) {
@@ -273,18 +353,23 @@ class AudioLibraryAdapter(var recordList: ArrayList<AudioRecord>,
         playPauseButton.setImageResource(android.R.drawable.ic_media_play)
     }
 
-    private fun setPlayView(playTimer: Chronometer, remainingTimer: Chronometer,
-                            playBar: SeekBar, movePlayBarThread: Runnable,
-                            playPauseButton: AppCompatImageButton) {
+    private fun setPlayView(
+        playTimer: Chronometer, remainingTimer: Chronometer,
+        playBar: SeekBar, movePlayBarThread: Runnable,
+        playPauseButton: AppCompatImageButton
+    ) {
         playTimer.start()
         remainingTimer.start()
         isPlayerPaused = false
         isPlayerStopped = false
-        updatePlayBar(playBar, movePlayBarThread, mediaPlayer!!.duration, mediaPlayer!!.currentPosition)
+        updatePlayBar(
+            playBar,
+            movePlayBarThread,
+            mediaPlayer!!.duration,
+            mediaPlayer!!.currentPosition
+        )
         playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
     }
-
-    override fun getItemCount() = recordList.size
 
     /**
      * Handles clicks on different items
