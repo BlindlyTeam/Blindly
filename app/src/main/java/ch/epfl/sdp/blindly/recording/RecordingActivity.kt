@@ -19,6 +19,7 @@ import ch.epfl.sdp.blindly.R
 import java.io.File
 import java.io.IOException
 
+
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 private const val MAXIMUM_AUDIO_DURATION = 90000
 
@@ -74,7 +75,11 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
      * @param permissions the array of the accepted permissions
      * @param grantResults the array of permission request results represented as integers
      */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionToRecordAccepted = if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -92,16 +97,34 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         adapter.recordList = ArrayList()
     }
 
+    override fun onItemClick(position: Int) {
+        adapter.notifyItemChanged(position)
+    }
+
     private fun recordButtonClick(view: View) {
         if (!isRecording) {
             startRecording()
-            setRecordView()
+            setRecordView()r
         } else {
             stopRecording()
             setFinishedRecordView()
         }
     }
 
+    /**
+     * Adds a bounce animation and the start/stop record ability to a button
+     *
+     * @param button the button to be binded
+     */
+    private fun bindRecordButton(button: Button) {
+        val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
+        button.setOnClickListener {
+            button.startAnimation(bounce)
+            recordButtonClick(it)
+        }
+    }
+
+    // Setting a chronometer to count down requires Android N
     @RequiresApi(Build.VERSION_CODES.N)
     private fun setBaseView() {
         recordButton = findViewById(R.id.recordingButton)
@@ -109,6 +132,8 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         remainingRecordTimer = findViewById(R.id.remainingRecordTimer)
         remainingRecordTimer.base = SystemClock.elapsedRealtime() + MAXIMUM_AUDIO_DURATION.toLong()
         remainingRecordTimer.isCountDown = true
+
+        // When 10 seconds remain, the text becomes red
         remainingRecordTimer.setOnChronometerTickListener {
             if (it.text == "Remaining:\n00:10") {
                 it.setTextColor(resources.getColor(R.color.bright_red, theme))
@@ -119,8 +144,11 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
 
     private fun setRecordView() {
         adapter.collapseLayouts()
+
+        // Reset both timers
         recordTimer.base = SystemClock.elapsedRealtime()
         remainingRecordTimer.base = SystemClock.elapsedRealtime() + MAXIMUM_AUDIO_DURATION.toLong()
+
         remainingRecordTimer.setTextColor(Color.BLACK)
         recordTimer.start()
         remainingRecordTimer.start()
@@ -133,6 +161,10 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         isRecording = false
     }
 
+    /**
+     * Builds a new file path for the next recording, sets everything for the media recorder and
+     * prepare it.
+     */
     private fun prepareRecording() {
         changeRecordFilePath(totalNumberOfRec)
         mediaRecorder.apply {
@@ -141,6 +173,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
             setOutputFile(recordFilePath)
             setMaxDuration(MAXIMUM_AUDIO_DURATION)
+            // If the record reaches the max duration, it stops and the view is set accordingly
             setOnInfoListener { _, what, _ ->
                 if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
                     stopRecording()
@@ -152,8 +185,10 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
             mediaRecorder.prepare()
         } catch (e: IOException) {
             e.printStackTrace()
-            Toast.makeText(this, "File creation failed : ${e.message}",
-                    Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this, "File creation failed : ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -163,11 +198,16 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         mediaRecorder.start()
     }
 
+    /**
+     * Stops the recording and store the audio file in the app's local cache.
+     */
     private fun stopRecording() {
         mediaRecorder.stop()
 
-        val newAudio = AudioRecord("Audio file ${totalNumberOfRec + 1}",
-                recordTimer.text as String, recordFilePath, false)
+        val newAudio = AudioRecord(
+            "Audio file ${totalNumberOfRec + 1}",
+            recordTimer.text as String, recordFilePath, false
+        )
         adapter.recordList.add(newAudio)
         adapter.notifyDataSetChanged()
 
@@ -175,9 +215,15 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         setFinishedRecordView()
     }
 
+    /**
+     * Create a new file path for the audio file. The files are store in the internal storage of
+     * the app, only accessible by the app itself.
+     *
+     * @param recordNumber the number of the file we will create
+     */
     private fun changeRecordFilePath(recordNumber: Int) {
-        // Recordings are stored in the internal storage of the app, only accessible by the app itself
-        recordFilePath = "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.3gp"
+        recordFilePath =
+            "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.3gp"
     }
 
     private fun deleteTempRecordings() {
@@ -185,17 +231,5 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
             changeRecordFilePath(i)
             File(recordFilePath).delete()
         }
-    }
-
-    private fun bindRecordButton(button: Button) {
-        val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
-        button.setOnClickListener {
-            button.startAnimation(bounce)
-            recordButtonClick(it)
-        }
-    }
-
-    override fun onItemClick(position: Int) {
-        adapter.notifyItemChanged(position)
     }
 }
