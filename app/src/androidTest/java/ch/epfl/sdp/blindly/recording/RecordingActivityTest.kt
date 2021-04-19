@@ -1,5 +1,7 @@
 package ch.epfl.sdp.blindly.recording
 
+import android.widget.ProgressBar
+import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -15,15 +17,19 @@ import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.actionOnChild
 import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
 import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
+import junit.framework.Assert.fail
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.lang.reflect.Method
+
 
 private const val AUDIO_FILE_ONE = "Audio file 1"
 private const val MAXIMUM_AUDIO_DURATION = 90000L
 private const val FIVE_SECONDS = 5000L
 private const val TWO_SECONDS = 2000L
+private const val ONE_SECOND_TEXT = "00:01"
 
 @RunWith(AndroidJUnit4::class)
 class RecordingActivityTest {
@@ -191,11 +197,50 @@ class RecordingActivityTest {
         )
     }
 
+    @Test
+    fun timerChangesWhenUserClicksOnBar() {
+        createRecord(TWO_SECONDS)
+        //Click on the first recording to expand it
+        onView(withId(R.id.recordingList)).perform(
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                actionOnChild(
+                    click(),
+                    R.id.nameDurationLayout
+                )
+            )
+        )
+
+        activityRule.scenario.onActivity { activity ->
+            val playBar = activity.findViewById<SeekBar>(R.id.playBar)
+            setSeekBarProgress(playBar, 50, true)
+        }
+    }
+
     private fun createRecord(duration: Long) {
         val recordButton = onView(withId(R.id.recordingButton))
         recordButton.perform(click())
         Thread.sleep(duration)
         recordButton.perform(click())
+    }
+
+    //Used to manually simulate a click from user and to set fromUser to 1
+    private fun setSeekBarProgress(playBar: SeekBar, progress: Int, fromUser: Boolean) {
+        var privateSetProgressMethod: Method? = null
+        try {
+            privateSetProgressMethod =
+                ProgressBar::class.java.getDeclaredMethod(
+                    "setProgressInternal",
+                    Integer.TYPE,
+                    java.lang.Boolean.TYPE,
+                    java.lang.Boolean.TYPE
+                )
+            privateSetProgressMethod.isAccessible = true
+            privateSetProgressMethod.invoke(playBar, progress, fromUser, false)
+        } catch (e: ReflectiveOperationException) {
+            e.printStackTrace()
+            fail("Error while invoking private method.")
+        }
     }
 
 }
