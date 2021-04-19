@@ -147,21 +147,14 @@ class AudioLibraryAdapter(
          * player.
          */
         viewHolder.playPauseButton.setOnClickListener {
-            if (isPlayerStopped) {
-                resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
-            }
-            if (!mediaPlayer!!.isPlaying) {
-                mediaPlayer?.start()
-
-                if (!isPlayerPaused) {
-                    // Reset the play timer
-                    playTimer.base = SystemClock.elapsedRealtime()
-                }
-                setPlayView(playTimer, remainingTimer, playBar, movePlayBarThread, playPauseButton)
-            } else {
-                mediaPlayer?.pause()
-                setStoppedView(playTimer, remainingTimer, playPauseButton, true)
-            }
+            handlePlayBarClick(
+                position,
+                playTimer,
+                remainingTimer,
+                playPauseButton,
+                playBar,
+                movePlayBarThread
+            )
         }
 
         /*
@@ -246,7 +239,7 @@ class AudioLibraryAdapter(
         playBar: SeekBar, playTimer: Chronometer,
         remainingTimer: Chronometer,
         playPauseButton: AppCompatImageButton,
-        playBarThread: Runnable, position: Int
+        movePlayBarThread: Runnable, position: Int
     ) {
         playBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
@@ -269,12 +262,14 @@ class AudioLibraryAdapter(
              */
             override fun onStartTrackingTouch(playBar: SeekBar) {
                 isPlayBarTouched = true
-                if (isPlayerStopped) {
-                    resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
-                } else {
-                    mediaPlayer?.pause()
-                    setStoppedView(playTimer, remainingTimer, playPauseButton, true)
-                }
+                handlePlayBarClick(
+                    position,
+                    playTimer,
+                    remainingTimer,
+                    playPauseButton,
+                    playBar,
+                    movePlayBarThread
+                )
             }
 
             /**
@@ -285,8 +280,8 @@ class AudioLibraryAdapter(
              */
             override fun onStopTrackingTouch(playBar: SeekBar) {
                 isPlayBarTouched = false
-                updatePlayBar(playBar, playBarThread, playBar.max, playBar.progress)
-                setPlayView(playTimer, remainingTimer, playBar, playBarThread, playPauseButton)
+                updatePlayBar(playBar, movePlayBarThread, playBar.max, playBar.progress)
+                setPlayView(playTimer, remainingTimer, playBar, movePlayBarThread, playPauseButton)
                 mediaPlayer?.start()
             }
         })
@@ -370,6 +365,32 @@ class AudioLibraryAdapter(
             mediaPlayer!!.currentPosition
         )
         playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
+    }
+
+    private fun handlePlayBarClick(
+        position: Int,
+        playTimer: Chronometer,
+        remainingTimer: Chronometer,
+        playPauseButton: AppCompatImageButton,
+        playBar: SeekBar,
+        movePlayBarThread: Runnable
+    ) {
+        if (isPlayerStopped) {
+            resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
+        }
+
+        if (!mediaPlayer!!.isPlaying) {
+            mediaPlayer?.start()
+
+            if (!isPlayerPaused) {
+                // Reset the play timer
+                playTimer.base = SystemClock.elapsedRealtime()
+            }
+            setPlayView(playTimer, remainingTimer, playBar, movePlayBarThread, playPauseButton)
+        } else {
+            mediaPlayer?.pause()
+            setStoppedView(playTimer, remainingTimer, playPauseButton, true)
+        }
     }
 
     /**
