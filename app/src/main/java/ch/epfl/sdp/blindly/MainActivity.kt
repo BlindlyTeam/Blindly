@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import ch.epfl.sdp.blindly.chat.ChatActivity
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -22,6 +23,11 @@ class MainActivity : AppCompatActivity() {
 
     fun startHouseRules(view: View) {
         val intent = Intent(this, ProfileHouseRules::class.java)
+        startActivity(intent)
+    }
+
+    fun startChat(view: View) {
+        val intent = Intent(this, ChatActivity::class.java)
         startActivity(intent)
     }
 
