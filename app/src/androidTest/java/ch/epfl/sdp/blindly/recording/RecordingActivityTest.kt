@@ -29,7 +29,6 @@ private const val AUDIO_FILE_ONE = "Audio file 1"
 private const val MAXIMUM_AUDIO_DURATION = 90000L
 private const val FIVE_SECONDS = 5000L
 private const val TWO_SECONDS = 2000L
-private const val ONE_SECOND_TEXT = "00:01"
 
 @RunWith(AndroidJUnit4::class)
 class RecordingActivityTest {
