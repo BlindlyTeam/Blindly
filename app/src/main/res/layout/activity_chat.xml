@@ -6,35 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".chat.ChatActivity">
 
-    <Button
-        android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="sendButtonActivate"
-        android:text="Send"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.885"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98" />
-
-    <EditText
-        android:id="@+id/newMessageText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="New Message"
-        android:inputType="textPersonName"
-        android:onClick="receiveMessage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.258"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="414dp"
@@ -45,4 +16,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:id="@+id/sendLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="sendButtonActivate"
+            android:text="Send"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.885"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.98" />
+
+        <EditText
+            android:id="@+id/newMessageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="New Message"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.258"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.976" />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

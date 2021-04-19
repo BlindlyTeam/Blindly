@@ -5,6 +5,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -12,12 +14,27 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.getValue
 
+
 class ChatActivity : AppCompatActivity() {
+
+
+    var chatMessages: ArrayList<Message>? = arrayListOf()
+    var mChatLayoutManager = LinearLayoutManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+
+        receiveMessage()
+
+
     }
+
+    private fun initialize() {
+
+    }
+
 
     /**
      * Triggered once the send button is pressed
@@ -46,12 +63,12 @@ class ChatActivity : AppCompatActivity() {
             .getReference("messages").child("(user3, user4)")
             .child(newMessage.timestamp.toString()).setValue(newMessage)
 
-        //clear the text after sending
+        //clear the text after sending the message
         findViewById<EditText>(R.id.newMessageText).text.clear()
 
     }
 
-    fun receiveMessage(view: View) {
+    private fun receiveMessage() {
         val myRef =
             FirebaseDatabase.getInstance("https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference("messages").child("(user3, user4)")
@@ -60,7 +77,19 @@ class ChatActivity : AppCompatActivity() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message = snapshot.getValue<Message>()
                 if (message != null) {
-                    findViewById<EditText>(R.id.newMessageText).setText(message.messageText)
+                    chatMessages?.add(message)
+
+
+                    var mRecyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
+                    mRecyclerView.isNestedScrollingEnabled = false
+                    mRecyclerView.setHasFixedSize(false)
+                    mRecyclerView.adapter = null
+                    mRecyclerView.layoutManager = mChatLayoutManager
+                    mRecyclerView.adapter = chatMessages?.let { ChatAdapter(it) }
+
+
+                   // findViewById<EditText>(R.id.newMessageText).setText(message.messageText)
+
                 }
             }
 
@@ -84,6 +113,13 @@ class ChatActivity : AppCompatActivity() {
         })
 
     }
+
+
+    private fun getMessages(): ArrayList<Message>? {
+        return chatMessages
+    }
+
+
 
 
 }
