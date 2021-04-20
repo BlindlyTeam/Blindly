@@ -1,6 +1,5 @@
 package ch.epfl.sdp.blindly.recording
 
-import android.graphics.Color
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -37,11 +36,11 @@ class RecordingActivityTest {
     fun recordingActivityFiresProfileFinished() {
         createRecord(200L)
         onView(withId(R.id.nameDurationLayout))
-                .perform(click())
+            .perform(click())
 
         Intents.init()
         onView(withId(R.id.selectButton))
-                .perform(click())
+            .perform(click())
         Intents.intended(IntentMatchers.hasComponent(ProfileFinished::class.java.name))
         Intents.release()
     }
@@ -50,48 +49,48 @@ class RecordingActivityTest {
     fun playPauseButtonChangesBackgroundWhenClickedTwice() {
         createRecord(500L)
         onView(withId(R.id.nameDurationLayout))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.playPauseButton))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.playPauseButton))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.playPauseButton))
-                .check(
-                        matches(
-                                withDrawable(android.R.drawable.ic_media_play)
-                        )
+            .check(
+                matches(
+                    withDrawable(android.R.drawable.ic_media_play)
                 )
+            )
     }
 
     @Test
     fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
         createRecord(500L)
         onView(withId(R.id.nameDurationLayout))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.playPauseButton))
-                .perform(click())
+            .perform(click())
         Thread.sleep(2000L)
         onView(withId(R.id.playPauseButton))
-                .check(
-                        matches(
-                                withDrawable(android.R.drawable.ic_media_play)
-                        )
+            .check(
+                matches(
+                    withDrawable(android.R.drawable.ic_media_play)
                 )
+            )
     }
 
     @Test
     fun startRecordingCollapsesRecords() {
         createRecord(200L)
         onView(withId(R.id.nameDurationLayout))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.recordingButton))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.audioPlayLayout))
-                .check(
-                        matches(
-                                not(isDisplayed())
-                        )
+            .check(
+                matches(
+                    not(isDisplayed())
                 )
+            )
     }
 
     @Test
@@ -100,11 +99,11 @@ class RecordingActivityTest {
         recordButton.perform(click())
         Thread.sleep(MAXIMUM_AUDIO_DURATION + 500L)
         onView(withId(R.id.nameDurationLayout))
-                .check(
-                        matches(
-                                isDisplayed()
-                        )
+            .check(
+                matches(
+                    isDisplayed()
                 )
+            )
     }
 
     @Test
@@ -115,11 +114,11 @@ class RecordingActivityTest {
         recordButton.perform(click())
         onView(withId(R.id.remainingRecordTimer))
         onView(withId(R.id.remainingRecordTimer))
-                .check(
-                        matches(
-                                (hasTextColor(R.color.bright_red))
-                        )
+            .check(
+                matches(
+                    (hasTextColor(R.color.bright_red))
                 )
+            )
     }
 
     private fun createRecord(duration: Long) {

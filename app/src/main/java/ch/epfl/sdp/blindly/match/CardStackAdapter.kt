@@ -5,12 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 
 class CardStackAdapter(
-        private var profiles: List<Profile> = emptyList()
+    private var profiles: List<Profile> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,23 +21,12 @@ class CardStackAdapter(
         val profile = profiles[position]
         val v = holder.itemView.findViewById(R.id.item_image) as ImageView
         v.setImageResource(R.mipmap.blindly_launcher_foreground)
-        holder.name.text = "${profile.name}"
+        holder.name.text = profile.name
         holder.age.text = profile.age.toString()
-        holder.itemView.setOnClickListener { v ->
-            Toast.makeText(v.context, profile.name, Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun getItemCount(): Int {
         return profiles.size
-    }
-
-    fun setProfiles(profiles: List<Profile>) {
-        this.profiles = profiles
-    }
-
-    fun getProfiles(): List<Profile> {
-        return profiles
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

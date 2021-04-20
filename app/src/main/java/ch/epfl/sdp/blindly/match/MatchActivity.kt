@@ -1,24 +1,27 @@
 package ch.epfl.sdp.blindly.match
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DiffUtil
 import com.yuyakaido.android.cardstackview.*
 import java.util.*
 import ch.epfl.sdp.blindly.R
 
+private const val VISIBLE_COUNT = 3
+private const val TRANSLATION_INTERVAL = 8f
+private const val SCALE_INTERVAL = 0.95f
+private const val SWIPE_THRESHOLD = 0.3f
+private const val MAX_DEGREE = 30f
+
 class MatchActivity : AppCompatActivity(), CardStackListener {
 
-    private lateinit var profiles : ArrayList<Profile>
+    private lateinit var profiles: ArrayList<Profile>
     private val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawer_layout) }
     private val cardStackView by lazy { findViewById<CardStackView>(R.id.card_stack_view) }
     private val manager by lazy { CardStackLayoutManager(this, this) }
@@ -37,6 +40,10 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
         setupButton()
     }
 
+    /**
+     * close the drawer when the back button (toolbar) is pressed befor exiting the activity
+     *
+     */
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawers()
@@ -51,7 +58,7 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     /**
      * here we have to save if the profile is liked or not for messaging them after
      *
-     * @param direction
+     * @param direction the direction the card is swiped
      */
     override fun onCardSwiped(direction: Direction) {
     }
@@ -63,20 +70,18 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     }
 
     override fun onCardAppeared(view: View, position: Int) {
-        val textView = view.findViewById<TextView>(R.id.item_name)
-        Log.d("CardStackView", "onCardAppeared: ($position) ${textView.text}")
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
-        val textView = view.findViewById<TextView>(R.id.item_name)
-        Log.d("CardStackView", "onCardDisappeared: ($position) ${textView.text}")
     }
-
 
     private fun setupCardStackView() {
         initialize()
     }
 
+    /**
+     * Sets the 3 buttons up (like, rewind, skip)
+     */
     private fun setupButton() {
         setupLikeButton()
         setupRewindButton()
@@ -124,15 +129,14 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
 
     /**
      * Setup the behaviour of the cards in the swipeCardManager and their animations
-     *
      */
     private fun initialize() {
         manager.setStackFrom(StackFrom.None)
-        manager.setVisibleCount(3)
-        manager.setTranslationInterval(8.0f)
-        manager.setScaleInterval(0.95f)
-        manager.setSwipeThreshold(0.3f)
-        manager.setMaxDegree(20.0f)
+        manager.setVisibleCount(VISIBLE_COUNT)
+        manager.setTranslationInterval(TRANSLATION_INTERVAL)
+        manager.setScaleInterval(SCALE_INTERVAL)
+        manager.setSwipeThreshold(SWIPE_THRESHOLD)
+        manager.setMaxDegree(MAX_DEGREE)
         manager.setDirections(Direction.HORIZONTAL)
         manager.setCanScrollHorizontal(true)
         manager.setCanScrollVertical(true)

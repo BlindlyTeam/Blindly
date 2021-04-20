@@ -38,38 +38,45 @@ class MatchPageFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_match_page, container, false)
 
         val intent = Intent(context, MatchActivity::class.java)
         val profiles = createProfiles()
-        intent.putParcelableArrayListExtra("EXTRA_MATCH_PROFILES", profiles as ArrayList<out Parcelable>)
-        val match_activity_button = view.findViewById<Button>(R.id.button_to_match)
-        match_activity_button.setOnClickListener{startActivity(intent)}
+        intent.putParcelableArrayListExtra(
+            "EXTRA_MATCH_PROFILES",
+            profiles as ArrayList<out Parcelable>
+        )
+        val matchActivityButton = view.findViewById<Button>(R.id.button_to_match)
+        matchActivityButton.setOnClickListener { startActivity(intent) }
 
         return view
     }
 
     /**
      * create profiles for demo purpose
+     *
+     * !!! PLS REMOVE IT WHEN BINDING THE ACIVITY WITH THE DATABASE !!!
+     *
      * this function have to be replaced with calls to the matching algorithms and retrieve porfiles
      * from the database
      *
-     * @return
+     * @return a list of profiles for the matchActivity
      */
     private fun createProfiles(): List<Profile> {
         val profiles = ArrayList<Profile>()
-        profiles.add(Profile(name = "Michelle", age = 25))
-        profiles.add(Profile(name = "Jean", age = 32))
-        profiles.add(Profile(name = "Jacques", age = 28))
-        profiles.add(Profile(name = "Bernadette", age = 35))
-        profiles.add(Profile(name = "Jeannine", age = 46))
-        profiles.add(Profile(name = "Kilian", age = 18))
-        profiles.add(Profile(name = "Melissa", age = 20))
-        profiles.add(Profile(name = "Tibor", age = 36))
-        profiles.add(Profile(name = "Cagin", age = 27))
-        profiles.add(Profile(name = "Capucine", age = 21))
+        profiles.add(Profile("Michelle", 25))
+        profiles.add(Profile("Jean", 32))
+        profiles.add(Profile("Jacques", 28))
+        profiles.add(Profile("Bernadette", 35))
+        profiles.add(Profile("Jeannine", 46))
+        profiles.add(Profile("Kilian", 25))
+        profiles.add(Profile("Melissa", 20))
+        profiles.add(Profile("Tibor", 36))
+        profiles.add(Profile("Cagin", 27))
+        profiles.add(Profile("Capucine", 21))
         return profiles
     }
 

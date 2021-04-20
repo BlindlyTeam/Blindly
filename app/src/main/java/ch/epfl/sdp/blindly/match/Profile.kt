@@ -7,18 +7,18 @@ import android.os.Parcelable
  * Class to have the data to display to the matchActivity
  * We need it to be parcelable to be able to pass them between different activities
  *
- * @property id
  * @property name
  * @property age
  */
 data class Profile(
-        val id: Long = counter++,
-        val name: String,
-        val age: Int,
-): Parcelable {
+    val name: String,
+    val age: Int,
+) : Parcelable {
     companion object {
         private var counter = 0L
-        @JvmField val CREATOR: Parcelable.Creator<Profile> = object : Parcelable.Creator<Profile> {
+
+        @JvmField
+        val CREATOR: Parcelable.Creator<Profile> = object : Parcelable.Creator<Profile> {
             override fun createFromParcel(source: Parcel?): Profile {
                 return Profile(source!!)
             }
@@ -32,8 +32,13 @@ data class Profile(
     /**
      * A constructor for a profile from a parcel
      */
-    constructor(source: Parcel): this(source.readLong(), source.readString()!!, source.readInt())
+    constructor(source: Parcel) : this(source.readString()!!, source.readInt())
 
+    /**
+     * Describe the content as in Integer
+     *
+     * @return content description
+     */
     override fun describeContents(): Int {
         return 0
     }
@@ -41,16 +46,15 @@ data class Profile(
     /**
      * Create a parcel into dest
      *
-     * @param dest
-     * @param flags
+     * @param dest the destination where the parcel is writen to
+     * @param flags error flag
      */
     override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeLong(id)
         dest?.writeString(name)
         dest?.writeInt(age)
     }
 
     override fun toString(): String {
-        return "$id: $name, $age"
+        return "$name, $age"
     }
 }

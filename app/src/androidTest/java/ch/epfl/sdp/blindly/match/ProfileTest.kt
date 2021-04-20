@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.match
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.Matchers.contains
 import org.hamcrest.Matchers.equalTo
 import org.junit.Before
 import org.junit.Rule
@@ -20,10 +19,10 @@ class ProfileTest {
         hiltRule.inject()
     }
 
-    val andre1 = Profile(name = "André", age =  25)
-    val andre2 = Profile(name = "André", age = 24)
-    val pierre1 = Profile(name = "Pierre", age = 24)
-    val pierre2 = Profile(name = "Pierre", age = 25)
+    private val andre1 = Profile("André", 25)
+    private val andre2 = Profile("André", 24)
+    private val pierre1 = Profile("Pierre", 25)
+    private val pierre2 = Profile("Pierre", 24)
 
     @Test
     fun equalsIsTrueWithSameProfile() {
@@ -32,17 +31,17 @@ class ProfileTest {
 
     @Test
     fun equalsIsFalseWithDifferentProfiles() {
-        assertThat(andre1 == pierre1, equalTo(false))
-    }
-
-    @Test
-    fun equalsIsFalseForDifferentNames() {
         assertThat(andre1 == pierre2, equalTo(false))
     }
 
     @Test
+    fun equalsIsFalseForDifferentNames() {
+        assertThat(andre1 == pierre1, equalTo(false))
+    }
+
+    @Test
     fun equalsIsFalseForDifferentAges() {
-        assertThat(andre2 == pierre1, equalTo(false))
+        assertThat(andre2 == andre1, equalTo(false))
     }
 
     @Test
@@ -62,8 +61,8 @@ class ProfileTest {
     }
 
     @Test
-    fun toStringDisplyesWell() {
-        assertThat(andre1.toString().contains(": André, 25"), equalTo(true))
+    fun toStringDisplaysWell() {
+        assertThat(andre1.toString() == "André, 25", equalTo(true))
     }
 
 }

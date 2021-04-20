@@ -7,7 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeLeft
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import ch.epfl.sdp.blindly.R
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -38,45 +38,63 @@ class MatchActivityTest {
         launchScenario()
 
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[0].name))))
+                    withText(profiles[0].name)
+                )
+            )
+        )
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[0].age.toString()))))
+                    withText(profiles[0].age.toString())
+                )
+            )
+        )
     }
 
     @Test
-    fun skipButtonDisplaySecondCard() {
+    fun skipButtonDisplaysSecondCard() {
         launchScenario()
 
         onView(withId(R.id.skip_button)).perform(click())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[1].name))))
+                    withText(profiles[1].name)
+                )
+            )
+        )
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[1].age.toString()))))
+                    withText(profiles[1].age.toString())
+                )
+            )
+        )
     }
 
     @Test
-    fun likeButtonDisplaySecondCard() {
+    fun likeButtonDisplaysSecondCard() {
         launchScenario()
 
         onView(withId(R.id.like_button)).perform(click())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[1].name))))
+                    withText(profiles[1].name)
+                )
+            )
+        )
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[1].age.toString()))))
+                    withText(profiles[1].age.toString())
+                )
+            )
+        )
     }
 
     @Test
@@ -86,13 +104,19 @@ class MatchActivityTest {
         onView(withId(R.id.rewind_button)).perform(click())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[0].name))))
+                    withText(profiles[0].name)
+                )
+            )
+        )
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[0].age.toString()))))
+                    withText(profiles[0].age.toString())
+                )
+            )
+        )
     }
 
     @Test
@@ -103,13 +127,19 @@ class MatchActivityTest {
         onView(withId(R.id.rewind_button)).perform(click())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[0].name))))
+                    withText(profiles[0].name)
+                )
+            )
+        )
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[0].age.toString()))))
+                    withText(profiles[0].age.toString())
+                )
+            )
+        )
     }
 
     @Test
@@ -119,33 +149,42 @@ class MatchActivityTest {
         onView(withId(R.id.card_stack_view)).perform(swipeLeft())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[1].name))))
+                    withText(profiles[1].name)
+                )
+            )
+        )
         onView(withId(R.id.card_stack_view)).check(
-            ViewAssertions.matches(
+            matches(
                 hasDescendant(
-                    withText(profiles[1].age.toString()))))
+                    withText(profiles[1].age.toString())
+                )
+            )
+        )
     }
 
     private fun launchScenario() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), MatchActivity::class.java)
-        intent.putParcelableArrayListExtra("EXTRA_MATCH_PROFILES", profiles as ArrayList<out Parcelable>)
+        intent.putParcelableArrayListExtra(
+            "EXTRA_MATCH_PROFILES",
+            profiles as ArrayList<out Parcelable>
+        )
         ActivityScenario.launch<MatchActivity>(intent)
     }
 
     private fun createProfiles(): List<Profile> {
         val profiles = ArrayList<Profile>()
-        profiles.add(Profile(name = "Michelle", age = 25))
-        profiles.add(Profile(name = "Jean", age = 32))
-        profiles.add(Profile(name = "Jacques", age = 28))
-        profiles.add(Profile(name = "Bernadette", age = 35))
-        profiles.add(Profile(name = "Jeannine", age = 46))
-        profiles.add(Profile(name = "Kilian", age = 18))
-        profiles.add(Profile(name = "Melissa", age = 20))
-        profiles.add(Profile(name = "Tibor", age = 36))
-        profiles.add(Profile(name = "Cagin", age = 27))
-        profiles.add(Profile(name = "Capucine", age = 21))
+        profiles.add(Profile("Michelle", 25))
+        profiles.add(Profile("Jean", 32))
+        profiles.add(Profile("Jacques", 28))
+        profiles.add(Profile("Bernadette", 35))
+        profiles.add(Profile("Jeannine", 46))
+        profiles.add(Profile("Kilian", 25))
+        profiles.add(Profile("Melissa", 20))
+        profiles.add(Profile("Tibor", 36))
+        profiles.add(Profile("Cagin", 27))
+        profiles.add(Profile("Capucine", 21))
         return profiles
     }
 }
