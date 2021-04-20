@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -42,7 +43,6 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
 
     /**
      * close the drawer when the back button (toolbar) is pressed befor exiting the activity
-     *
      */
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -83,48 +83,30 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
      * Sets the 3 buttons up (like, rewind, skip)
      */
     private fun setupButton() {
-        setupLikeButton()
-        setupRewindButton()
-        setupSkipButton()
-    }
 
-    private fun setupLikeButton() {
-        val like = findViewById<View>(R.id.like_button)
-        like.setOnClickListener {
-            val setting = SwipeAnimationSetting.Builder()
-                .setDirection(Direction.Right)
-                .setDuration(Duration.Normal.duration)
-                .setInterpolator(AccelerateInterpolator())
-                .build()
-            manager.setSwipeAnimationSetting(setting)
-            cardStackView.swipe()
-        }
-    }
-
-    private fun setupSkipButton() {
         val skip = findViewById<View>(R.id.skip_button)
         skip.setOnClickListener {
-            val setting = SwipeAnimationSetting.Builder()
-                .setDirection(Direction.Left)
-                .setDuration(Duration.Normal.duration)
-                .setInterpolator(AccelerateInterpolator())
-                .build()
-            manager.setSwipeAnimationSetting(setting)
-            cardStackView.swipe()
+            setupButton(Direction.Left, AccelerateInterpolator(), {cardStackView.swipe()})
         }
-    }
-
-    private fun setupRewindButton() {
         val rewind = findViewById<View>(R.id.rewind_button)
         rewind.setOnClickListener {
-            val setting = RewindAnimationSetting.Builder()
-                .setDirection(Direction.Bottom)
-                .setDuration(Duration.Normal.duration)
-                .setInterpolator(DecelerateInterpolator())
-                .build()
-            manager.setRewindAnimationSetting(setting)
-            cardStackView.rewind()
+            setupButton(Direction.Bottom, DecelerateInterpolator(), {cardStackView.rewind()})
         }
+        val like = findViewById<View>(R.id.like_button)
+        like.setOnClickListener {
+            setupButton(Direction.Right, AccelerateInterpolator(), {cardStackView.swipe()})
+        }
+
+    }
+
+    private fun setupButton(direction: Direction, interpolation: Interpolator, func: () -> Unit) {
+        val settings = SwipeAnimationSetting.Builder()
+            .setDirection(direction)
+            .setDuration(Duration.Normal.duration)
+            .setInterpolator(interpolation)
+            .build()
+        manager.setSwipeAnimationSetting(settings)
+        func()
     }
 
     /**
