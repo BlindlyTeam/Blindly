@@ -1,20 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <rotate
-            android:fromDegrees="45"
-            android:pivotX="100%"
-            android:pivotY="0%"
-            android:toDegrees="0" >
-            <shape android:shape="rectangle" >
-                <stroke android:width="8dp" android:color="@color/light_blue_900" />
-            </shape>
-        </rotate>
-    </item>
-    <item android:right="16dp">
-        <shape android:shape="rectangle" >
-            <solid android:color="@color/light_blue_900" />
-            <corners android:radius="4dp" />
-        </shape>
-    </item>
-</layer-list>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_outgoing"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right"
+    android:background="@drawable/shape_bg_outgoing_bubble"
+    android:gravity="right"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:visibility="visible">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="sans-serif"
+        android:text=""
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="14sp" />
+</RelativeLayout>

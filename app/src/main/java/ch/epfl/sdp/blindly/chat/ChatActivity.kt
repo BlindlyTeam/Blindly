@@ -73,6 +73,7 @@ class ChatActivity : AppCompatActivity() {
                 if (message != null) {
                     chatMessages?.add(message)
                     findViewById<RecyclerView>(R.id.recyclerView).adapter?.notifyDataSetChanged()
+                    findViewById<RecyclerView>(R.id.recyclerView).scrollToPosition(chatMessages!!.size - 1)
                 }
             }
 
