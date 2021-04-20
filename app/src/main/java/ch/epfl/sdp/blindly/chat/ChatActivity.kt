@@ -18,21 +18,15 @@ import com.google.firebase.database.ktx.getValue
 class ChatActivity : AppCompatActivity() {
 
 
-    var chatMessages: ArrayList<Message>? = arrayListOf()
+    private var chatMessages: ArrayList<Message>? = arrayListOf()
     var mChatLayoutManager = LinearLayoutManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-
-
+        findViewById<RecyclerView>(R.id.recyclerView).layoutManager = mChatLayoutManager
+        findViewById<RecyclerView>(R.id.recyclerView).adapter = getMessages()?.let { ChatAdapter(it) }
         receiveMessage()
-
-
-    }
-
-    private fun initialize() {
-
     }
 
 
@@ -78,18 +72,7 @@ class ChatActivity : AppCompatActivity() {
                 val message = snapshot.getValue<Message>()
                 if (message != null) {
                     chatMessages?.add(message)
-
-
-                    var mRecyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
-                    mRecyclerView.isNestedScrollingEnabled = false
-                    mRecyclerView.setHasFixedSize(false)
-                    mRecyclerView.adapter = null
-                    mRecyclerView.layoutManager = mChatLayoutManager
-                    mRecyclerView.adapter = chatMessages?.let { ChatAdapter(it) }
-
-
-                   // findViewById<EditText>(R.id.newMessageText).setText(message.messageText)
-
+                    findViewById<RecyclerView>(R.id.recyclerView).adapter?.notifyDataSetChanged()
                 }
             }
 
@@ -118,8 +101,6 @@ class ChatActivity : AppCompatActivity() {
     private fun getMessages(): ArrayList<Message>? {
         return chatMessages
     }
-
-
 
 
 }
