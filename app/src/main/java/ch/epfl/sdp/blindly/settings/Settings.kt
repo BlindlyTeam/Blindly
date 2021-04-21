@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
@@ -122,6 +123,11 @@ class Settings : AppCompatActivity() {
                 finish()
             }
             .addOnFailureListener {
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.logout_error),
+                    Toast.LENGTH_LONG
+                ).show()
                 Log.e(TAG, "Error: Could not logout user.")
             }
     }

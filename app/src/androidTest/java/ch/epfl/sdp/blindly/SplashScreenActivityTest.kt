@@ -88,28 +88,6 @@ class SplashScreenActivityTest {
         release()
     }
 
-    //TODO "Test running failed: INSTRUMENTATION_ABORTED: System has crashed."
-    // The hasComponent() is wrong since there's no class.name to match with
-    /*
-    @Test
-    fun ifUserIsNotLoggedInLoginStarts() {
-        init()
-        val intent = user.getSignInIntent()
-        Mockito.`when`(user.isLoggedIn()).thenReturn(false)
-        activityRule.scenario.onActivity { activity ->
-            if (activity.isFinishing) {
-                intended(
-                    hasComponent(
-                        intent.toString()
-                    )
-                )
-            }
-        }
-        release()
-    }
-
-     */
-
     @Test
     fun ifUserIsLoggedInMainScreenStarts() {
         init()
@@ -125,31 +103,4 @@ class SplashScreenActivityTest {
         }
         release()
     }
-
-    //TODO
-    // The hasComponent() is wrong since there's no class.name to match with
-    /*
-    @Test
-    fun onActivityResultFiresHouseRuleIfIsNewUser() {
-        val intent = user.getSignInIntent()
-        intending(hasComponent(intent.toString())).respondWith(
-            Instrumentation.ActivityResult(
-                RESULT_OK,
-                null
-                //Intent { (has extras) }
-            )
-        )
-        activityRule.scenario.onActivity { activity ->
-            activity.startActivityForResult(intent, UserHelper.RC_SIGN_IN)
-        }
-
-    }
-
-    @Test
-    fun onActivityResultFiresMaiScreenIfNotIsNewUser() {
-
-    }
-
-     */
-
 }
