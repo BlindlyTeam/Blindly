@@ -83,7 +83,7 @@ class UserRepository @Inject constructor(
         refreshUser(uid)
     }*/
 
-    suspend fun getPotentialMatches(): List<User?> {
+    suspend fun getPotentialMatches(): List<User>? {
         val matchingAlgorithm = MatchingAlgorithm(db.collection(USER_COLLECTION))
         return matchingAlgorithm.getPotentialMatchesFromDatabase()
     }

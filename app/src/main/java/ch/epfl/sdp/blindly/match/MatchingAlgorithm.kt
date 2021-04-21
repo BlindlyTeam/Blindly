@@ -1,9 +1,5 @@
 package ch.epfl.sdp.blindly.match
 
-import android.content.Context
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -12,8 +8,9 @@ import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.GeoPoint
 import javax.inject.Inject
+
+private const val ONE_KM_IN_METERS = 1000
 
 class MatchingAlgorithm(private var collectionReference: CollectionReference) {
     @Inject
@@ -40,15 +37,15 @@ class MatchingAlgorithm(private var collectionReference: CollectionReference) {
         val currentUser = getCurrentUser()
         val matches: MutableList<User?> = ArrayList<User?>().toMutableList()
 
-        currentUser?.passions?.let {
+        currentUser?.passions?.let { list ->
             collectionReference.whereEqualTo("gender", currentUser.show_me)
-                .whereArrayContainsAny("passions", it).get()
+                .whereArrayContainsAny("passions", list).get()
                 .addOnSuccessListener { users ->
                     for (user in users) {
                         matches += user.toUser()
                     }}
-                .addOnFailureListener {
-                    Log.w(TAG, "Error getting users : ", it)
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error getting users : ", exception)
                 }
         }
         return currentUser?.let { filterLocationRange(it, clearNullUsers(matches)) }
@@ -68,26 +65,26 @@ class MatchingAlgorithm(private var collectionReference: CollectionReference) {
      * @return the filtered list of users
      */
     private fun filterLocationRange(currentUser: User, otherUsers: List<User>): List<User> {
-        val result: MutableList<User> = ArrayList<User>().toMutableList()
+        val filteredList: MutableList<User> = ArrayList<User>().toMutableList()
 
         for (user in otherUsers) {
             val distance = currentUser.location?.distanceTo(user.location)!!
-            val radiusInMeters = currentUser.radius!! * 1000
+            val radiusInMeters = currentUser.radius!! * ONE_KM_IN_METERS
             if (distance <= radiusInMeters) {
-                result += user
+                filteredList += user
             }
         }
 
-        return result
+        return filteredList
     }
 
     private fun clearNullUsers(userList: List<User?>): List<User> {
-        val result: MutableList<User> = ArrayList<User>().toMutableList()
+        val nonNullList: MutableList<User> = ArrayList<User>().toMutableList()
         for (user in userList) {
             if (user != null) {
-                result += user
+                nonNullList += user
             }
         }
-        return result
+        return nonNullList
     }
 }
