@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly.user
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import ch.epfl.sdp.blindly.match.MatchingAlgorithm
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -25,6 +26,8 @@ class UserRepository @Inject constructor(
         private const val TAG = "UserRepository"
         private const val USER_COLLECTION: String = "usersMeta"
     }
+
+    private val matchingAlgorithm: MatchingAlgorithm = MatchingAlgorithm()
 
     /**
      * Given a uid, if the user is cached locally return this user, otherwise
