@@ -16,8 +16,8 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
@@ -191,13 +191,11 @@ class SettingsTest {
     }
 
     @Test
-    fun clickingOnLogoutButtonFiresMainActivity() {
+    fun clickingOnLogoutButtonFiresSplashScreen() {
         init()
         onView(withId(R.id.logout_button)).perform(click())
         intended(
-            Matchers.allOf(
-                hasComponent(MainActivity::class.java.name)
-            )
+            hasComponent(SplashScreen::class.java.name)
         )
         release()
     }
@@ -207,9 +205,7 @@ class SettingsTest {
         init()
         onView(withId(R.id.delete_account_button)).perform(click())
         intended(
-            Matchers.allOf(
-                hasComponent(MainActivity::class.java.name)
-            )
+            hasComponent(SplashScreen::class.java.name)
         )
         release()
     }

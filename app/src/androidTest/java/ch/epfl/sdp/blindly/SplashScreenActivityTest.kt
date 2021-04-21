@@ -6,18 +6,20 @@ import android.graphics.Bitmap.CompressFormat
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.init
-import androidx.test.espresso.intent.Intents.release
-import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.fail
-import org.hamcrest.Matchers
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito
 import java.io.ByteArrayOutputStream
+import javax.inject.Inject
 
 
 @HiltAndroidTest
@@ -28,6 +30,14 @@ class SplashScreenActivityTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+    @Inject
+    lateinit var user: UserHelper
+
+    @Before
+    fun setup() {
+        hiltRule.inject()
+    }
+
     private fun isImageEqualToRes(actualImageView: ImageView, expectedDrawable: Int): Boolean {
         var activity: Activity? = null
         activityRule.scenario.onActivity { a ->
@@ -35,7 +45,8 @@ class SplashScreenActivityTest {
         }
 
         val expected: Drawable? = activity?.resources?.getDrawable(
-                expectedDrawable)
+            expectedDrawable
+        )
         val actual: Drawable = actualImageView.drawable
         if (expected != null) {
             val expectedBitmap: Bitmap = getBitmapOfDrawable(expected)
@@ -77,15 +88,68 @@ class SplashScreenActivityTest {
         release()
     }
 
+    //TODO "Test running failed: INSTRUMENTATION_ABORTED: System has crashed."
+    // The hasComponent() is wrong since there's no class.name to match with
+    /*
     @Test
-    fun splashScreenDisappearsMainActivityStarts() {
+    fun ifUserIsNotLoggedInLoginStarts() {
         init()
+        val intent = user.getSignInIntent()
+        Mockito.`when`(user.isLoggedIn()).thenReturn(false)
         activityRule.scenario.onActivity { activity ->
             if (activity.isFinishing) {
-                Intents.intended(Matchers.allOf(IntentMatchers.hasComponent(MainActivity::class.java.name)))
+                intended(
+                    hasComponent(
+                        intent.toString()
+                    )
+                )
             }
         }
         release()
     }
+
+     */
+
+    @Test
+    fun ifUserIsLoggedInMainScreenStarts() {
+        init()
+        Mockito.`when`(user.isLoggedIn()).thenReturn(true)
+        activityRule.scenario.onActivity { activity ->
+            if (activity.isFinishing) {
+                intended(
+                    hasComponent(
+                        MainScreen::class.java.name
+                    )
+                )
+            }
+        }
+        release()
+    }
+
+    //TODO
+    // The hasComponent() is wrong since there's no class.name to match with
+    /*
+    @Test
+    fun onActivityResultFiresHouseRuleIfIsNewUser() {
+        val intent = user.getSignInIntent()
+        intending(hasComponent(intent.toString())).respondWith(
+            Instrumentation.ActivityResult(
+                RESULT_OK,
+                null
+                //Intent { (has extras) }
+            )
+        )
+        activityRule.scenario.onActivity { activity ->
+            activity.startActivityForResult(intent, UserHelper.RC_SIGN_IN)
+        }
+
+    }
+
+    @Test
+    fun onActivityResultFiresMaiScreenIfNotIsNewUser() {
+
+    }
+
+     */
 
 }

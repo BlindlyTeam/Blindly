@@ -2,16 +2,19 @@ package ch.epfl.sdp.blindly.settings
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.user.UserHelper
+import com.firebase.ui.auth.AuthUI
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 const val EXTRA_LOCATION = "user_location"
 const val EXTRA_SHOW_ME = "show_me"
@@ -27,6 +30,10 @@ class Settings : AppCompatActivity() {
 
     @Inject
     lateinit var user: UserHelper
+
+    companion object {
+        const val TAG = "Settings"
+    }
 
     /**
      * Creates the activity window
@@ -108,20 +115,15 @@ class Settings : AppCompatActivity() {
      * @param view
      */
     fun logout(view: View) {
-        /*user.signOut(this, OnCompleteListener {
-            OnCompleteListener<Void> { p0 ->
-                if (p0.isComplete)
-                    startActivity(Intent(this@Settings, MainActivity::class.java))
-                else
-                // TODO fixme
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.logout_error),
-                        Toast.LENGTH_LONG
-                    ).show()
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener { // user is now signed out
+                startActivity(Intent(this, SplashScreen::class.java))
+                finish()
             }
-        })*/ //TODO the logout doesn't work for now
-        startActivity(Intent(this, MainActivity::class.java))
+            .addOnFailureListener {
+                Log.e(TAG, "Error: Could not logout user.")
+            }
     }
 
     /**
@@ -131,7 +133,7 @@ class Settings : AppCompatActivity() {
      */
     fun deleteAccount(view: View) {
         //For now, just return to the main activity
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, SplashScreen::class.java))
     }
 
     // This is the non depracated version but it crashes for the moment
