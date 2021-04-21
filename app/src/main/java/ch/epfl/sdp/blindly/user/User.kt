@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.user
 
+import android.location.Location
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -14,16 +15,16 @@ import java.time.Period
  */
 @Serializable
 class User private constructor(
-                val username: String?,
-                val location: String?,
-                val birthday: String?,
-                val gender: String?,
-                val sexual_orientations: List<String>,
-                val show_me: String?,
-                val passions: List<String>,
-                val radius: Int?,
-                val matches: List<User>,
-                val description: String?) {
+    val username: String?,
+    val location: Location?,
+    val birthday: String?,
+    val gender: String?,
+    val sexual_orientations: List<String>,
+    val show_me: String?,
+    val passions: List<String>,
+    val radius: Int?,
+    val matches: List<User>,
+    val description: String?) {
 
     /**
      * A builder used to partially initialize a user during the profile_setup activities
@@ -32,7 +33,7 @@ class User private constructor(
     @Serializable
     data class Builder(
         var username: String? = null,
-        var location: String? = null,
+        var location: Location? = null,
         var birthday: String? = null,
         var gender: String? = null,
         var sexual_orientations: List<String> = listOf(),
@@ -45,7 +46,7 @@ class User private constructor(
         fun setUsername(username: String) = apply {
             this.username = username
         }
-        fun setLocation(location: String) = apply {
+        fun setLocation(location: Location) = apply {
             this.location = location
         }
         fun setBirthday(birthday: String) = apply {
@@ -98,7 +99,7 @@ class User private constructor(
         fun DocumentSnapshot.toUser(): User? {
             try {
                 val username = getString("username")!!
-                val location = getString("location")!!
+                val location = getField<Location>("location")!!
                 val birthday = getString("birthday")!!
                 val gender = getString("gender")!!
                 val sexual_orientations = get("sexual_orientations") as List<String>

@@ -36,7 +36,7 @@ class MatchingAlgorithm(private var collectionReference: CollectionReference) {
      *
      * @return a list of users that can be showed in the swiping interface
      */
-    suspend fun getPotentialMatchesFromDatabase(): List<User?> {
+    suspend fun getPotentialMatchesFromDatabase(): List<User>? {
         val currentUser = getCurrentUser()
         val matches: MutableList<User?> = ArrayList<User?>().toMutableList()
 
@@ -51,7 +51,7 @@ class MatchingAlgorithm(private var collectionReference: CollectionReference) {
                     Log.w(TAG, "Error getting users : ", it)
                 }
         }
-        return matches
+        return currentUser?.let { filterLocationRange(it, clearNullUsers(matches)) }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -67,13 +67,13 @@ class MatchingAlgorithm(private var collectionReference: CollectionReference) {
      * @param otherUsers the list of other users
      * @return the filtered list of users
      */
-    private fun filterLocationRange(currentUser: User, otherUsers: List<User?>, context: Context): List<User> {
+    private fun filterLocationRange(currentUser: User, otherUsers: List<User>): List<User> {
         val result: MutableList<User> = ArrayList<User>().toMutableList()
-        val currentUserLocation = currentUser.location?.let { getLocationFromAddress(it) }
 
         for (user in otherUsers) {
-            if (user != null) {
-
+            val distance = currentUser.location?.distanceTo(user.location)!!
+            val radiusInMeters = currentUser.radius!! * 1000
+            if (distance <= radiusInMeters) {
                 result += user
             }
         }
@@ -81,16 +81,13 @@ class MatchingAlgorithm(private var collectionReference: CollectionReference) {
         return result
     }
 
-    private fun getLocationFromAddress(strAddress: String, context: Context): Location? {
-        val coder = Geocoder(context)
-        val location = Location("")
-
-        val address = coder.getFromLocationName(strAddress,5) ?: return null
-        val locationAddress = address[0]
-        location.latitude = locationAddress.latitude
-        location.longitude = locationAddress.longitude
-
-        return location
-
+    private fun clearNullUsers(userList: List<User?>): List<User> {
+        val result: MutableList<User> = ArrayList<User>().toMutableList()
+        for (user in userList) {
+            if (user != null) {
+                result += user
+            }
+        }
+        return result
     }
 }

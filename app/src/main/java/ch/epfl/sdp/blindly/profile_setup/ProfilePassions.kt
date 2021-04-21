@@ -2,6 +2,7 @@ package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -18,6 +19,8 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
+private const val SELECTION_LIMIT = 5
+
 @AndroidEntryPoint
 class ProfilePassions : AppCompatActivity() {
     @Inject
@@ -26,7 +29,6 @@ class ProfilePassions : AppCompatActivity() {
     lateinit var userBuilder: User.Builder
     private val passions: ArrayList<String> = ArrayList()
 
-    private val SELECTION_LIMIT = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,17 +80,7 @@ class ProfilePassions : AppCompatActivity() {
         user.setUserProfile(userBuilder)
     }
 
-    private fun getCurrentLocation(): String {
-        val currentLocation = AndroidLocationService(this).getCurrentLocation()
-        val latitude = currentLocation?.latitude
-        val longitude = currentLocation?.longitude
-        val geocoder = Geocoder(this)
-        if(latitude != null && longitude != null) {
-            val address = geocoder.getFromLocation(latitude, longitude, 5)
-            val country = address[0].countryName
-            val city = address[0].locality
-            return "$city, $country"
-        }
-        return "Location not found"
+    private fun getCurrentLocation(): Location? {
+        return AndroidLocationService(this).getCurrentLocation()
     }
 }
