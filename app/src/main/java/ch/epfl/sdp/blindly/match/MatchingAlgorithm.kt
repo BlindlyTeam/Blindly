@@ -14,10 +14,10 @@ private const val ONE_KM_IN_METERS = 1000
 
 class MatchingAlgorithm(private var collectionReference: CollectionReference) {
     @Inject
-    private lateinit var userHelper: UserHelper
+    lateinit var userHelper: UserHelper
 
     @Inject
-    private lateinit var userRepository: UserRepository
+    lateinit var userRepository: UserRepository
 
     companion object {
         private const val TAG = "MatchingAlgorithm"
@@ -43,7 +43,8 @@ class MatchingAlgorithm(private var collectionReference: CollectionReference) {
                 .addOnSuccessListener { users ->
                     for (user in users) {
                         matches += user.toUser()
-                    }}
+                    }
+                }
                 .addOnFailureListener { exception ->
                     Log.w(TAG, "Error getting users : ", exception)
                 }

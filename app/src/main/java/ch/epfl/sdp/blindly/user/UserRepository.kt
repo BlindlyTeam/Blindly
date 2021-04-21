@@ -4,15 +4,9 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.match.MatchingAlgorithm
-import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import com.google.firebase.firestore.FirebaseFirestore
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * This is the main access point to firestore
@@ -20,7 +14,8 @@ import javax.inject.Singleton
 
 class UserRepository @Inject constructor(
     private val db: FirebaseFirestore,
-    private val userCache: UserCache) {
+    private val userCache: UserCache
+) {
 
     companion object {
         private const val TAG = "UserRepository"
