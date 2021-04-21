@@ -27,8 +27,6 @@ class UserRepository @Inject constructor(
         private const val USER_COLLECTION: String = "usersMeta"
     }
 
-    private val matchingAlgorithm: MatchingAlgorithm = MatchingAlgorithm()
-
     /**
      * Given a uid, if the user is cached locally return this user, otherwise
      * look for the user in firestore and update the cache
@@ -84,4 +82,9 @@ class UserRepository @Inject constructor(
             .update(field, newValue)
         refreshUser(uid)
     }*/
+
+    suspend fun getPotentialMatches(): List<User?> {
+        val matchingAlgorithm = MatchingAlgorithm(db.collection(USER_COLLECTION))
+        return matchingAlgorithm.getPotentialMatchesFromDatabase()
+    }
 }

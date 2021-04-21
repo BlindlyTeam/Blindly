@@ -72,13 +72,13 @@ class ProfilePassions : AppCompatActivity() {
     }
 
     private fun setUser() {
-        val location = getCurrentAddress()
+        val location = getCurrentLocation()
         userBuilder.setLocation(location)
             .setPassions(passions)
         user.setUserProfile(userBuilder)
     }
 
-    private fun getCurrentAddress(): String {
+    private fun getCurrentLocation(): String {
         val currentLocation = AndroidLocationService(this).getCurrentLocation()
         val latitude = currentLocation?.latitude
         val longitude = currentLocation?.longitude
