@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'jacoco'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
