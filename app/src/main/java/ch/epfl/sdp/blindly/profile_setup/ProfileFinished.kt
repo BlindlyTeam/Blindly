@@ -13,6 +13,11 @@ class ProfileFinished : AppCompatActivity() {
         setContentView(R.layout.profile_setup_finished)
     }
 
+    /**
+     * Starts main screen activity
+     *
+     * @param v the current view
+     */
     fun startMainScreen(v: View) {
         val intent = Intent(this, MainScreen::class.java)
         startActivity(intent)

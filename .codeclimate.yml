@@ -18,5 +18,3 @@ exclude_patterns:
 - "**test"
 - "**UserHelper"
 - "**/di/"
-
-
