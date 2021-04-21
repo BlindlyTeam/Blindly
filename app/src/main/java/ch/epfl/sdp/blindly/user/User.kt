@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.Period
@@ -16,7 +17,7 @@ import java.time.Period
 @Serializable
 class User private constructor(
     val username: String?,
-    val location: Location?,
+    @Contextual val location: Location?,
     val birthday: String?,
     val gender: String?,
     val sexual_orientations: List<String>,
@@ -34,7 +35,7 @@ class User private constructor(
     @Serializable
     data class Builder(
         var username: String? = null,
-        var location: Location? = null,
+        @Contextual var location: Location? = null,
         var birthday: String? = null,
         var gender: String? = null,
         var sexual_orientations: List<String> = listOf(),

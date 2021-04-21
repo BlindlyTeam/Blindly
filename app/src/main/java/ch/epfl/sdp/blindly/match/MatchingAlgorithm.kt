@@ -28,7 +28,7 @@ class MatchingAlgorithm(private var collectionReference: CollectionReference) {
      * (C = current user, O = other user)
      *      1) O's gender corresponds to C's show me
      *      2) At least one passion of C is in common with O
-     *      3) O is in the location range of C
+     *      3) O is in the location radius of C
      *      TODO: 4) O is in the age range of C, as specified in settings
      *
      * @return a list of users that can be showed in the swiping interface

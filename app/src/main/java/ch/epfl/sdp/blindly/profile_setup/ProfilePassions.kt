@@ -29,7 +29,6 @@ class ProfilePassions : AppCompatActivity() {
     lateinit var userBuilder: User.Builder
     private val passions: ArrayList<String> = ArrayList()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_setup_passions)
@@ -75,8 +74,10 @@ class ProfilePassions : AppCompatActivity() {
 
     private fun setUser() {
         val location = getCurrentLocation()
-        userBuilder.setLocation(location)
-            .setPassions(passions)
+        if (location != null) {
+            userBuilder.setLocation(location)
+        }
+        userBuilder.setPassions(passions)
         user.setUserProfile(userBuilder)
     }
 
