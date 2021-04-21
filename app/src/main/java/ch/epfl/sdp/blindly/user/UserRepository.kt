@@ -4,6 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.match.MatchingAlgorithm
+import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
