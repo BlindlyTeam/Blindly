@@ -18,7 +18,7 @@ class CardStackAdapter(
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     /**
-     * Called when the RecyclerViewnedds a new ViewHolder of the given type to represent an item
+     * Called when the RecyclerView needs a new ViewHolder of the given type to represent an item
      *
      * @param parent the view into which the ViewHolder will be attached
      * @param viewType the view type of the new View
