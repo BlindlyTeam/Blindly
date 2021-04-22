@@ -30,7 +30,7 @@ class CardStackAdapter(
     }
 
     /**
-     * Called by RecyclerView to display the data at the precified position
+     * Called by RecyclerView to display the data at the specified position
      *
      * @param holder a holder containing the different views
      * @param position the position in the stack
