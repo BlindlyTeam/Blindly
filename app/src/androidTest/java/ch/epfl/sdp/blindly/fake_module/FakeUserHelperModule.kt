@@ -1,10 +1,13 @@
 package ch.epfl.sdp.blindly.fake_module
 
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.di.UserHelperModule
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.tasks.TaskCompletionSource
+import com.google.firebase.auth.FirebaseUser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -41,6 +44,11 @@ open class FakeUserHelperModule {
 
         Mockito.`when`(user.getUserId()).thenReturn(TEST_UID)
 
+        //TODO this fakeIntent may be wrong to fake
+        val fakeIntent = mock(Intent::class.java)
+        Mockito.`when`(user.getSignInIntent()).thenReturn(fakeIntent)
+
+        Mockito.`when`(user.isLoggedIn()).thenReturn(true)
         return user
     }
 }
