@@ -37,7 +37,7 @@ data class Profile(
     /**
      * Describe the content as in Integer
      *
-     * @return content description
+     * @return content description (0)
      */
     override fun describeContents(): Int {
         return 0
