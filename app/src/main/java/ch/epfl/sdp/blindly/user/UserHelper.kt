@@ -5,11 +5,14 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -49,31 +52,16 @@ class UserHelper {
 
     }
 
-    fun signOut(activity: Activity, onComplete: OnCompleteListener<Void>) {
-        AuthUI.getInstance()
-            .signOut(activity)
-            .addOnCompleteListener(onComplete)
-    }
-
-    fun delete(activity: Activity, onComplete: OnCompleteListener<Void>) {
-        AuthUI.getInstance()
-            .delete(activity)
-            .addOnCompleteListener(onComplete)
-    }
-
-    fun isLoggedIn(): Boolean {
-        return FirebaseAuth.getInstance().currentUser != null
-    }
-
-
-    fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Boolean {
+    fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Intent? {
         val response = IdpResponse.fromResultIntent(data)
 
         if (resultCode == Activity.RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
-            return true
-            // ...
+            if (isNewUser(user!!)) {
+                return Intent(activity, ProfileHouseRules::class.java)
+            }
+            return Intent(activity, MainScreen::class.java)
         } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
@@ -89,16 +77,40 @@ class UserHelper {
                     Toast.LENGTH_LONG
                 ).show()
             }
-            return false
+            return null
         }
+    }
+
+    /**
+     * Check is the user has already created an account
+     *
+     * @param user: the user to test the condition on
+     * @return true if the user just created an account, false otherwise
+     */
+    private fun isNewUser(user: FirebaseUser): Boolean {
+        val metadata = user.metadata
+        return metadata?.creationTimestamp == metadata?.lastSignInTimestamp
+    }
+
+    fun delete(activity: Activity, onComplete: OnCompleteListener<Void>) {
+        AuthUI.getInstance()
+            .delete(activity)
+            .addOnCompleteListener(onComplete)
+    }
+
+    fun isLoggedIn(): Boolean {
+        return FirebaseAuth.getInstance().currentUser != null
     }
 
     fun getUserId(): String? {
         return FirebaseAuth.getInstance().currentUser?.uid
     }
 
+    //TODO refactor this and move to UserRepository
     /**
-     * Set User's information in firestore after user entered his information in set_profile
+     * Sets all the information passed by the userBuilder in Firebase Firestore
+     *
+     * @param userBuilder: a builder from which a User can be build
      */
     fun setUserProfile(userBuilder: User.Builder) {
         val database = Firebase.firestore

@@ -55,23 +55,25 @@ class ProfilePageTest {
     }
 
 
+    //TODO the tests seem really unstable need to look into this,
+    // sometimes they pass other time they failed because of "Error performing single click on",
+    // or "Wanted to match 1 intents. Actually matched 0 intents."
     @Test
     fun editButtonFiresEditProfileActivty() {
         init()
         goToProfileFragment()
         onView(withId(R.id.edit_info_profile_button)).perform(click())
-        //TODO the matcher scannot find the intent
+        //TODO the matcher cannot find the intent
         //intended(hasComponent(EditProfile::class.java.name))
         release()
     }
 
-    //TODO cannot perform single click on button
     /*@Test
     fun settingsButtonFiresSettingsActivity() {
         init()
         goToProfileFragment()
         onView(withId(R.id.settings_profile_button)).perform(click())
-        //TODO the matcher scannot find the intent
+        //TODO the matcher cannot find the intent
         //intended(hasComponent(Settings::class.java.name))
         release()
     }
@@ -81,11 +83,10 @@ class ProfilePageTest {
         init()
         goToProfileFragment()
         onView(withId(R.id.record_audio_profile_button)).perform(click())
-        //TODO the matcher scannot find the intent
+        //TODO the matcher cannot find the intent
         //intended(hasComponent(RecordingActivity::class.java.name))
         release()
     }
 
      */
-
 }
