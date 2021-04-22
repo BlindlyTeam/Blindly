@@ -11,6 +11,7 @@ import com.google.firebase.firestore.CollectionReference
 import javax.inject.Inject
 
 private const val ONE_KM_IN_METERS = 1000
+private const val TAG = "MatchingAlgorithm"
 
 class MatchingAlgorithm() {
     @Inject
@@ -18,10 +19,6 @@ class MatchingAlgorithm() {
 
     @Inject
     lateinit var userRepository: UserRepository
-
-    companion object {
-        private const val TAG = "MatchingAlgorithm"
-    }
 
     /**
      * Gets potential matches from the user's informations. Here are the specifications:

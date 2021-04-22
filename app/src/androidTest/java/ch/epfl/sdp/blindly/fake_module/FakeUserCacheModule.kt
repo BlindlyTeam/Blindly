@@ -11,8 +11,8 @@ import dagger.hilt.testing.TestInstallIn
 import org.mockito.Mockito
 import javax.inject.Singleton
 
-private const val EPFL_LAT = 46.5
-private const val EPFL_LONG = 6.5
+const val EPFL_LAT = 46.5
+const val EPFL_LONG = 6.5
 
 @Module
 @TestInstallIn(

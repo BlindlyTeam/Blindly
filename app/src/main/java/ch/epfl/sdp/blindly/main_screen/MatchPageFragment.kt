@@ -1,16 +1,20 @@
 package ch.epfl.sdp.blindly.main_screen
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.match.MatchActivity
+import ch.epfl.sdp.blindly.match.MatchingAlgorithm
 import ch.epfl.sdp.blindly.match.Profile
+import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
@@ -80,4 +84,35 @@ class MatchPageFragment : Fragment() {
         return profiles
     }
 
+    /**
+     * This functions calls the Matching Algorithm to get the potential matches and transforms them
+     * into profiles by calling [createProfilesFromUsers].
+     *
+     * @return a list of profiles for the matchActivity
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    private suspend fun getPotentialMatchesProfiles(): List<Profile> {
+        val matchingAlgorithm = MatchingAlgorithm()
+        val potentialUsers = matchingAlgorithm.getPotentialMatchesFromDatabase()
+
+        return if (potentialUsers == null) {
+            listOf()
+        } else {
+            createProfilesFromUsers(potentialUsers)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createProfilesFromUsers(users: List<User>?): List<Profile> {
+        if (users == null) {
+            return listOf()
+        }
+        val profiles = ArrayList<Profile>()
+        for (user in users) {
+            profiles.add(
+                Profile(user.username!!, User.getUserAge(user)!!)
+            )
+        }
+        return profiles
+    }
 }

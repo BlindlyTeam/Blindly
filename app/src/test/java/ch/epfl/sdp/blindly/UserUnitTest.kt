@@ -1,5 +1,8 @@
 package ch.epfl.sdp.blindly
 
+import android.location.Location
+import ch.epfl.sdp.blindly.fake_module.EPFL_LAT
+import ch.epfl.sdp.blindly.fake_module.EPFL_LONG
 import ch.epfl.sdp.blindly.user.User
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -8,7 +11,7 @@ import org.junit.Test
 class UserUnitTest {
     companion object {
         private const val username = "Jane Doe"
-        private const val location = "EPFL, Ecublens"
+        private val location = createLocationEPFL()
         private const val birthday = "01.01.2001"
         private const val gender = "Woman"
         private val  sexual_orientations = listOf("Asexual")
@@ -17,6 +20,13 @@ class UserUnitTest {
         private const val radius = 150
         private val matches: List<User> = listOf()
         private const val description = "Student"
+
+        private fun createLocationEPFL(): Location {
+            val location = Location("")
+            location.latitude = EPFL_LAT
+            location.longitude = EPFL_LONG
+            return location
+        }
     }
 
     @Test
@@ -121,7 +131,7 @@ class UserUnitTest {
                 .setMatches(matches)
                 .build()
 
-        val TEST_AGE = "20"
+        val TEST_AGE = 20
         assertThat(User.getUserAge(user), equalTo(TEST_AGE))
     }
 

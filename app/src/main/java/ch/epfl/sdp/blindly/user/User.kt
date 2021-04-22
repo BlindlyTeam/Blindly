@@ -140,7 +140,7 @@ class User private constructor(
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
-        fun getUserAge(user: User?): String? {
+        fun getUserAge(user: User?): Int? {
             val birthday = user?.birthday?.split('.')
             if (birthday != null) {
                 val age = Period.between(
@@ -152,7 +152,7 @@ class User private constructor(
                     LocalDate.now()
                 ).years
 
-                return age.toString()
+                return age
             }
             return null
         }
