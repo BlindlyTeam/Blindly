@@ -14,13 +14,22 @@ import ch.epfl.sdp.blindly.match.Profile
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
+/**
+ * Fragment containing the match page
+ *
+ */
 @AndroidEntryPoint
 class MatchPageFragment : Fragment() {
-
     companion object {
         private const val ARG_COUNT = "matchArgs"
         private var counter: Int? = null
 
+        /**
+         * Create a new instance of MatchPageFragment
+         *
+         * @param counter the position of the fragment in the TabLayout
+         * @return a MatchPageFragment
+         */
         fun newInstance(counter: Int): MatchPageFragment {
             val fragment = MatchPageFragment()
             val args = Bundle()

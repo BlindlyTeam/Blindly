@@ -10,11 +10,16 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MessagePageFragment : Fragment() {
-
     companion object {
         private const val ARG_COUNT = "messageArgs"
         private var counter: Int? = null
 
+        /**
+         * Create a new instance of MessagePageFragment
+         *
+         * @param counter the position of the framgnet in the TabLayout
+         * @return a MessagePageFragment
+         */
         fun newInstance(counter: Int): MessagePageFragment {
             val fragment = MessagePageFragment()
             val args = Bundle()
@@ -30,8 +35,11 @@ class MessagePageFragment : Fragment() {
             counter = requireArguments().getInt(ARG_COUNT)
         }
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_message_page, container, false)
     }
 
