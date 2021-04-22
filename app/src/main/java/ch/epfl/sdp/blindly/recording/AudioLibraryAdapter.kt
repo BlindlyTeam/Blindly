@@ -3,10 +3,8 @@ package ch.epfl.sdp.blindly.recording
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
+import android.net.Uri
+import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +15,10 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
+import ch.epfl.sdp.blindly.profile_setup.EXTRA_USER
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
+import ch.epfl.sdp.blindly.user.User
+import kotlinx.serialization.json.Json
 import java.io.File
 
 private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.3gp"
@@ -35,7 +36,8 @@ class AudioLibraryAdapter(
     var recordList: ArrayList<AudioRecord>,
     private var viewHolderList: ArrayList<ViewHolder>,
     var context: Context,
-    private val listener: OnItemClickListener
+    private val listener: OnItemClickListener,
+    private var userBuilder: User.Builder
 ) : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
     var mediaPlayer: MediaPlayer? = null
     private var isPlayerPaused = false
@@ -222,10 +224,13 @@ class AudioLibraryAdapter(
         val filePath = recordList[position].filePath
         val newName = PRESENTATION_AUDIO_NAME
         val currentRecording = File(filePath)
+        val file = File("${context.filesDir.absolutePath}/$newName")
         currentRecording.copyTo(
-            File("${context.filesDir.absolutePath}/$newName"),
+            file,
             overwrite = true
         )
+        val uriFile = Uri.fromFile(file)
+        userBuilder.setRecording(uriFile)
     }
 
     private fun createMediaPlayer(filePath: String) {
@@ -331,7 +336,13 @@ class AudioLibraryAdapter(
     }
 
     private fun startProfileFinished() {
+        val bundle = Bundle()
+        bundle.putSerializable(
+            EXTRA_USER,
+            Json.encodeToString(User.Builder.serializer(), userBuilder)
+        )
         val intent = Intent(context, ProfileFinished::class.java)
+        intent.putExtras(bundle)
         startActivity(context, intent, null)
     }
 

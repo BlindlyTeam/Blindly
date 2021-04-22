@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.User
-import com.google.gson.JsonElement
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 
@@ -46,7 +43,10 @@ class ProfileName : AppCompatActivity() {
                 else -> {
                     val userBuilder = User.Builder().setUsername(name)
                     val bundle = Bundle()
-                    bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
+                    bundle.putSerializable(
+                        EXTRA_USER,
+                        Json.encodeToString(User.Builder.serializer(), userBuilder)
+                    )
                     val intent = Intent(this, ProfileBirthday::class.java)
                     intent.putExtras(bundle)
 

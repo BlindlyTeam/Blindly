@@ -1,11 +1,12 @@
 package ch.epfl.sdp.blindly.user
 
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import ch.epfl.sdp.blindly.recording.AudioRecord
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.Period
@@ -25,7 +26,8 @@ class User private constructor(
     val radius: Int?,
     val matches: List<User>,
     val description: String?,
-    val recordings: List<AudioRecord>
+    @Contextual
+    val recording: Uri
 ) {
 
 
@@ -45,7 +47,8 @@ class User private constructor(
         var radius: Int? = null,
         var matches: List<User> = listOf(),
         var description: String? = null,
-        var recordings: List<AudioRecord>
+        @Contextual
+        var recording: Uri? = null
     ) {
 
         fun setUsername(username: String) = apply {
@@ -88,8 +91,8 @@ class User private constructor(
             this.description = description
         }
 
-        fun setRecordings(recordings: List<AudioRecord>) = apply {
-            this.recordings = recordings
+        fun setRecording(recording: Uri) = apply {
+            this.recording = recording
         }
 
         fun build(): User {
@@ -104,7 +107,7 @@ class User private constructor(
                 radius,
                 matches,
                 description,
-                recordings
+                recording!!
             )
         }
 
@@ -122,24 +125,25 @@ class User private constructor(
                 val location = getString("location")!!
                 val birthday = getString("birthday")!!
                 val gender = getString("gender")!!
-                val sexual_orientations = get("sexual_orientations") as List<String>
-                val show_me = getString("show_me")!!
+                val sexualOrientations = get("sexual_orientations") as List<String>
+                val showMe = getString("show_me")!!
                 val passions = get("passions") as List<String>
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as List<User>
                 val description = getString("description")!!
-                val recordings =
+                val recording = get("recording") as Uri
                 return User(
                     username,
                     location,
                     birthday,
                     gender,
-                    sexual_orientations,
-                    show_me,
+                    sexualOrientations,
+                    showMe,
                     passions,
                     radius,
                     matches,
-                    description
+                    description,
+                    recording
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile", e)

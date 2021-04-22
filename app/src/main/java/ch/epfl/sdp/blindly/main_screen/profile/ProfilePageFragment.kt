@@ -1,6 +1,9 @@
 package ch.epfl.sdp.blindly.main_screen.profile
 
+import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -34,6 +37,7 @@ class ProfilePageFragment : Fragment() {
     lateinit var assistedFactory: ViewModelAssistedFactory
 
     private lateinit var viewModel: ProfilePageViewModel
+    private lateinit var mediaPlayer: MediaPlayer
 
     companion object {
         private const val TAG = "ProfilePage"
@@ -67,8 +71,10 @@ class ProfilePageFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ProfilePageViewModel::class.java]
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         return inflater.inflate(R.layout.fragment_profile_page, container, false)
     }
@@ -91,14 +97,29 @@ class ProfilePageFragment : Fragment() {
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
+        val playButton = view.findViewById<Button>(R.id.play_audio_button)
+        setOnClickListener(playButton)
+
         viewModel.user.observe(viewLifecycleOwner) {
             userInfoText.text = getString(R.string.user_info, it.username, User.getUserAge(it))
             if (it.description != "") {
                 userDescriptionText.text = getString(R.string.user_description, it.description)
             }
+            setupAudioFile(context, it.recording)
         }
     }
 
+    /**
+     * Gets the user's recording as a Uri prepares it for playing
+     *
+     * @param uriRecording the user's recording
+     */
+    private fun setupAudioFile(context: Context?, uriRecording: Uri) {
+        mediaPlayer = MediaPlayer.create(context, uriRecording)
+        mediaPlayer.setOnCompletionListener {
+            mediaPlayer.stop()
+        }
+    }
 
     /**
      * An onClickListener that start an Activity after the button has stopped bouncing
@@ -113,6 +134,17 @@ class ProfilePageFragment : Fragment() {
                 startActivity(intent)
             }, BOUNCE_DURATION)
         }
+    }
+
+    private fun setOnClickListener(button: Button) {
+        button.setOnClickListener {
+            playAudio()
+        }
+    }
+
+    private fun playAudio() {
+        mediaPlayer.prepare()
+        mediaPlayer.start()
     }
 
 }

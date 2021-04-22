@@ -10,13 +10,8 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 
 class UserHelper {
     companion object {
@@ -35,35 +30,35 @@ class UserHelper {
             phoneProvider.setDefaultNumber(tMgr.line1Number)
         }*/
         val providers = arrayListOf(
-                AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
-                phoneProvider.build(),
-                AuthUI.IdpConfig.GoogleBuilder().build(),
-                AuthUI.IdpConfig.FacebookBuilder().build()
+            AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
+            phoneProvider.build(),
+            AuthUI.IdpConfig.GoogleBuilder().build(),
+            AuthUI.IdpConfig.FacebookBuilder().build()
         )
 
 
         return AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                //.setLogo(R.drawable.my_great_logo) // Set logo drawable
-                .setTheme(R.style.Theme_Blindly) // Set theme
-                /*.setTosAndPrivacyPolicyUrls(
-        "https://example.com/terms.html",
-        "https://example.com/privacy.html")*/
-                .build()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            //.setLogo(R.drawable.my_great_logo) // Set logo drawable
+            .setTheme(R.style.Theme_Blindly) // Set theme
+            /*.setTosAndPrivacyPolicyUrls(
+    "https://example.com/terms.html",
+    "https://example.com/privacy.html")*/
+            .build()
 
     }
 
     fun signOut(activity: Activity, onComplete: OnCompleteListener<Void>) {
         AuthUI.getInstance()
-                .signOut(activity)
-                .addOnCompleteListener(onComplete)
+            .signOut(activity)
+            .addOnCompleteListener(onComplete)
     }
 
     fun delete(activity: Activity, onComplete: OnCompleteListener<Void>) {
         AuthUI.getInstance()
-                .delete(activity)
-                .addOnCompleteListener(onComplete)
+            .delete(activity)
+            .addOnCompleteListener(onComplete)
     }
 
     fun isLoggedIn(): Boolean {
@@ -86,12 +81,12 @@ class UserHelper {
             // ...
             if (response != null) {
                 Toast.makeText(
-                        activity.applicationContext,
-                        activity.getString(
-                                R.string.login_err,
-                                response.error?.errorCode ?: -1
-                        ),
-                        Toast.LENGTH_LONG
+                    activity.applicationContext,
+                    activity.getString(
+                        R.string.login_err,
+                        response.error?.errorCode ?: -1
+                    ),
+                    Toast.LENGTH_LONG
                 ).show()
             }
             return false
@@ -105,7 +100,7 @@ class UserHelper {
     /**
      * Set User's information in firestore after user entered his information in set_profile
      */
-    fun setUserProfile(userBuilder:User.Builder) {
+    fun setUserProfile(userBuilder: User.Builder) {
         val database = Firebase.firestore
         val uid = getUserId()
         if (uid != null) {
@@ -115,12 +110,12 @@ class UserHelper {
                 .build()
 
             database.collection(USER_COLLECTION).document(uid).set(newUser)
-                    .addOnSuccessListener {
-                        Log.d(TAG, "User \"$uid\" was set in firestore")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error setting the user's profile", e)
-                    }
+                .addOnSuccessListener {
+                    Log.d(TAG, "User \"$uid\" was set in firestore")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error setting the user's profile", e)
+                }
         }
     }
 
@@ -136,12 +131,12 @@ class UserHelper {
         val user = FirebaseAuth.getInstance().currentUser
 
         user!!.updatePassword(password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(Companion.TAG, "User password updated.")
-                    } else {
-                        Log.d(Companion.TAG, "Error: Could not update password.")
-                    }
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(Companion.TAG, "User password updated.")
+                } else {
+                    Log.d(Companion.TAG, "Error: Could not update password.")
                 }
+            }
     }
 }

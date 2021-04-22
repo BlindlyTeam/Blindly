@@ -2,11 +2,6 @@ package ch.epfl.sdp.blindly.user
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 /**
  * Local cache used to store user's information
@@ -15,7 +10,7 @@ class UserCache {
     private val cache = HashMap<String, User>()
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun get(uid:String): User? {
+    fun get(uid: String): User? {
         return cache[uid]
     }
 
