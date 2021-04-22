@@ -32,26 +32,18 @@ class AndroidLocationService(private var context: Context) : LocationService {
      */
     override fun getCurrentLocation(): Location? {
         try {
-            /**
-             * Get the location manager
-             */
+            //Get the location manager
             locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-            /**
-             * Check if the GPS is enable
-             */
+            //Check if the GPS is enable
             isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-            /**
-             * Check if the network is enable
-             */
+            //Check if the network is enable
             isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
             if ((isGPSEnable) || (isNetworkEnable)) {
                 location = if (isGPSEnable) {
-                    /**
-                     * Get location from GPS
-                     */
+                    //Get location from GPS
                     locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
                         MIN_TIME_FOR_UPDATE,
@@ -60,9 +52,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
                     )
                     locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 } else {
-                    /**
-                     * get location form network
-                     */
+                    //get location form network
                     locationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
                         MIN_TIME_FOR_UPDATE,
@@ -71,9 +61,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
                     )
                     locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER))
                 }
-
             }
-
         } catch (e: SecurityException) {
             throw e
         }
