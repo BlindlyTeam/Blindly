@@ -201,7 +201,7 @@ class SettingsTest {
     }
 
     @Test
-    fun clickingOnDeleteAccountButtonFiresMainActivity() {
+    fun clickingOnDeleteAccountButtonFiresSplashScreen() {
         init()
         onView(withId(R.id.delete_account_button)).perform(click())
         intended(
