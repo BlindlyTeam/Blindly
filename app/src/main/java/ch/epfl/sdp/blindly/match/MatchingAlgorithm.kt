@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 private const val ONE_KM_IN_METERS = 1000
 
-class MatchingAlgorithm(private var collectionReference: CollectionReference) {
+class MatchingAlgorithm() {
     @Inject
     lateinit var userHelper: UserHelper
 
@@ -38,7 +38,8 @@ class MatchingAlgorithm(private var collectionReference: CollectionReference) {
         val matches: MutableList<User?> = ArrayList<User?>().toMutableList()
 
         currentUser?.passions?.let { list ->
-            collectionReference.whereEqualTo("gender", currentUser.show_me)
+            userRepository.getCollectionReference()
+                .whereEqualTo("gender", currentUser.show_me)
                 .whereArrayContainsAny("passions", list).get()
                 .addOnSuccessListener { users ->
                     for (user in users) {
