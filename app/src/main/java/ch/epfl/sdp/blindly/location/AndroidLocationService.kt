@@ -71,7 +71,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
     /**
      * Change the user's location if the previous one is different from the actual one
      *
-     * @param loc the users previous location
+     * @param loc the user's previous location
      */
     override fun onLocationChanged(loc: Location) {
         location = getCurrentLocation()
