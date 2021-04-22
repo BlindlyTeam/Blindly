@@ -87,6 +87,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
 
     // [START maps_check_location_permission_result]
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
             return
         }
