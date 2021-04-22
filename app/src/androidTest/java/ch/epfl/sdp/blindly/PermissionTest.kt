@@ -28,12 +28,14 @@ class PermissionTest {
     @Test
     fun testLocationPermissionFiresProfileName() {
         init()
-        activityRule.scenario.onActivity { activity ->
-            activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        }
 
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.button))
         buttonContinue.perform(ViewActions.click())
+
+        activityRule.scenario.onActivity { activity ->
+            activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        }
+        Thread.sleep(500)
         Intents.intended(IntentMatchers.hasComponent(ProfileName::class.java.name))
         release()
     }
