@@ -52,7 +52,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
                     )
                     locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 } else {
-                    //get location form network
+                    //get location from network
                     locationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
                         MIN_TIME_FOR_UPDATE,
