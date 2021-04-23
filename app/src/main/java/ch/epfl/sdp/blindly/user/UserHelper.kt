@@ -140,7 +140,7 @@ class UserHelper {
     }
 
     /**
-     * Enable the user to change his password
+     * Enable the user to change their password
      *
      * @param password the new password
      */
