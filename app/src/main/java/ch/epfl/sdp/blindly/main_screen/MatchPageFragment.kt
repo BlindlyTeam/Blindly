@@ -15,8 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
 /**
- * Fragment containing the match page
- *
+ * Fragment to access the match page
  */
 @AndroidEntryPoint
 class MatchPageFragment : Fragment() {
@@ -46,6 +45,14 @@ class MatchPageFragment : Fragment() {
         }
     }
 
+    /**
+     * Setup the view and retrieve the profiles to show on the match activity
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the fragment's view
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {

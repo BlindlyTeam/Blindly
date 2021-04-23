@@ -14,7 +14,7 @@ private val REGEX = Regex("^[a-zA-Z]*$")
 
 class ProfileGenderMore : AppCompatActivity() {
 
-    private lateinit var userBuilder : User.Builder
+    private lateinit var userBuilder: User.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +24,13 @@ class ProfileGenderMore : AppCompatActivity() {
         userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
+    /**
+     * Lets user to precise their gender, in order to avoid incomprehensible text
+     * or numbers user input is checked to be alpabetical. If it's not alphabetical or no input
+     * is given, an error message is shown. Otherwise Orientation page is started.
+     *
+     * @param view the current view
+     */
     fun startProfileOrientation(view: View) {
         findViewById<TextView>(R.id.warning1_p4_2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning2_p4_2).visibility = View.INVISIBLE
@@ -31,6 +38,7 @@ class ProfileGenderMore : AppCompatActivity() {
         val gender = findViewById<TextView>(R.id.text_p4_2).text.toString().trim()
 
         if (!gender.matches(REGEX)) {
+            //incorrect format, output error
             findViewById<TextView>(R.id.warning2_p4_2).visibility = View.VISIBLE
         } else {
             val len = gender.length
@@ -38,7 +46,10 @@ class ProfileGenderMore : AppCompatActivity() {
                 val intent = Intent(this, ProfileOrientation::class.java)
                 val bundle = Bundle()
                 userBuilder.setGender(gender)
-                bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
+                bundle.putSerializable(
+                    EXTRA_USER,
+                    Json.encodeToString(User.Builder.serializer(), userBuilder)
+                )
                 intent.putExtras(bundle)
 
                 startActivity(intent)

@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.chip.Chip
@@ -18,15 +17,15 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
+private const val SELECTION_LIMIT = 5
+
 @AndroidEntryPoint
 class ProfilePassions : AppCompatActivity() {
     @Inject
     lateinit var user: UserHelper
-
     lateinit var userBuilder: User.Builder
     private val passions: ArrayList<String> = ArrayList()
 
-    private val SELECTION_LIMIT = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +35,13 @@ class ProfilePassions : AppCompatActivity() {
         userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
+    /**
+     * Checks the number of selected chip buttons by the user and passes them to the builder via
+     * helper function getCheckedChip and starts ProfileAudioRecording if the number of selected
+     * chips is within limits, if not outputs error.
+     *
+     * @param view the current view
+     */
     fun startProfileAudioRecording(view: View) {
         findViewById<TextView>(R.id.warning_p7_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p7_2).visibility = View.INVISIBLE
@@ -49,6 +55,7 @@ class ProfilePassions : AppCompatActivity() {
             size < 1 -> {
                 findViewById<TextView>(R.id.warning_p7_1).visibility = View.VISIBLE
             }
+            //selected more than allowed
             size > SELECTION_LIMIT -> {
                 findViewById<TextView>(R.id.warning_p7_2).visibility = View.VISIBLE
             }
@@ -62,6 +69,9 @@ class ProfilePassions : AppCompatActivity() {
         }
     }
 
+    /**
+     * Iterates through the checked chips and gets the passions
+     */
     private fun getCheckedChip() {
         val chipGroup = findViewById<ChipGroup>(R.id.chipGroup_p7)
         val ids = chipGroup.checkedChipIds
@@ -83,7 +93,7 @@ class ProfilePassions : AppCompatActivity() {
         val latitude = currentLocation?.latitude
         val longitude = currentLocation?.longitude
         val geocoder = Geocoder(this)
-        if(latitude != null && longitude != null) {
+        if (latitude != null && longitude != null) {
             val address = geocoder.getFromLocation(latitude, longitude, 5)
             val country = address[0].countryName
             val city = address[0].locality
