@@ -9,13 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
 
+private const val FINE_LOCATION_PERMISSION_CODE = 2
+
 /**
- * Activity that requires the user to enable location service for the app to use it
- *
+ * Page to ask user to enable location. If allowed Profile Setup pages show up in order.
  */
 class LocationPermissionActivity : AppCompatActivity() {
-
-    private val FINE_LOCATION_PERMISSION_CODE = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
