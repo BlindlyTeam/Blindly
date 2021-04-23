@@ -113,7 +113,7 @@ class UserHelper {
     /**
      * Sets all the information passed by the userBuilder in Firebase Firestore
      *
-     * @param userBuilder a builder from which a User can be build
+     * @param userBuilder a builder from which a User can be built
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun setUserProfile(userBuilder: User.Builder) {
