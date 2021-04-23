@@ -21,17 +21,20 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
+        android:name=".BlindlyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/blindly_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/blindly_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
-        android:name=".BlindlyApplication"
         tools:ignore="ExtraText">
         <activity android:name=".chat.ChatActivity"></activity>
         <activity android:name=".profile_setup.ProfileFinished"></activity>
         <activity android:name=".profile_setup.ProfileAudioRecording"></activity>
+        <activity android:name=".match.MatchActivity" />
+        <activity android:name=".profile_setup.ProfileAudioRecording" />
+        <activity android:name=".profile_setup.ProfileFinished" />
         <activity android:name=".profile_setup.ProfilePassions" />
         <activity android:name=".profile_setup.ProfileShowMe" />
         <activity android:name=".profile_setup.ProfileOrientation" />
@@ -44,13 +47,12 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".settings.SettingsLocation" />
 
+        <activity android:name=".settings.SettingsLocation" />
         <activity android:name=".settings.SettingsShowMe" />
         <activity android:name=".EditProfile" />
         <activity android:name=".settings.Settings" />
         <activity android:name=".settings.SettingsUpdateEmail" />
-
         <activity
             android:name=".main_screen.MainScreen"
             android:theme="@style/Theme.Blindly.NoActionBar" />
@@ -60,13 +62,6 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".recording.RecordingActivity" />
