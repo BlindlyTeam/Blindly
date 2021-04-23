@@ -17,7 +17,7 @@ import java.time.Period
 
 private const val PAD_CHAR = '0'
 private const val FORMAT = 2
-private const val MAJORITY_AGE = 18
+const val MAJORITY_AGE = 18
 
 /**
  * Gets the birthday of the user and do the checks on age.

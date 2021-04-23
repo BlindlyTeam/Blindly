@@ -2,10 +2,13 @@ package ch.epfl.sdp.blindly.user
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.profile_setup.MAJORITY_AGE
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -22,6 +25,7 @@ class UserHelper {
         private const val TAG = "UserHelper"
         private const val USER_COLLECTION: String = "usersMeta"
         private const val DEFAULT_RADIUS = 80
+        private const val DEFAULT_RANGE = 10
     }
 
     fun getSignInIntent(): Intent {
@@ -33,22 +37,22 @@ class UserHelper {
             phoneProvider.setDefaultNumber(tMgr.line1Number)
         }*/
         val providers = arrayListOf(
-                AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
-                phoneProvider.build(),
-                AuthUI.IdpConfig.GoogleBuilder().build(),
-                AuthUI.IdpConfig.FacebookBuilder().build()
+            AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
+            phoneProvider.build(),
+            AuthUI.IdpConfig.GoogleBuilder().build(),
+            AuthUI.IdpConfig.FacebookBuilder().build()
         )
 
 
         return AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                //.setLogo(R.drawable.my_great_logo) // Set logo drawable
-                .setTheme(R.style.Theme_Blindly) // Set theme
-                /*.setTosAndPrivacyPolicyUrls(
-        "https://example.com/terms.html",
-        "https://example.com/privacy.html")*/
-                .build()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            //.setLogo(R.drawable.my_great_logo) // Set logo drawable
+            .setTheme(R.style.Theme_Blindly) // Set theme
+            /*.setTosAndPrivacyPolicyUrls(
+    "https://example.com/terms.html",
+    "https://example.com/privacy.html")*/
+            .build()
 
     }
 
@@ -87,15 +91,15 @@ class UserHelper {
      * @param user: the user to test the condition on
      * @return true if the user just created an account, false otherwise
      */
-    private fun isNewUser(user: FirebaseUser) : Boolean {
+    private fun isNewUser(user: FirebaseUser): Boolean {
         val metadata = user.metadata
         return metadata?.creationTimestamp == metadata?.lastSignInTimestamp
     }
 
     fun delete(activity: Activity, onComplete: OnCompleteListener<Void>) {
         AuthUI.getInstance()
-                .delete(activity)
-                .addOnCompleteListener(onComplete)
+            .delete(activity)
+            .addOnCompleteListener(onComplete)
     }
 
     fun isLoggedIn(): Boolean {
@@ -106,28 +110,37 @@ class UserHelper {
         return FirebaseAuth.getInstance().currentUser?.uid
     }
 
-    //TODO refactor this and move to UserRepository
     /**
      * Sets all the information passed by the userBuilder in Firebase Firestore
      *
-     * @param userBuilder: a builder from which a User can be build
+     * @param userBuilder a builder from which a User can be build
      */
-    fun setUserProfile(userBuilder:User.Builder) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setUserProfile(userBuilder: User.Builder) {
         val database = Firebase.firestore
         val uid = getUserId()
         if (uid != null) {
+            val birthday = userBuilder.birthday
+            val age = birthday?.let { User.getAgeFromBirthday(it) }
+            val minAge =
+                if (age!! >= MAJORITY_AGE + DEFAULT_RANGE)
+                    age - DEFAULT_RANGE
+                else MAJORITY_AGE
+            val maxAge = age + DEFAULT_RANGE
+
             val newUser = userBuilder.setRadius(DEFAULT_RADIUS)
                 .setMatches(listOf())
                 .setDescription("")
+                .setAgeRange(listOf(minAge, maxAge))
                 .build()
 
             database.collection(USER_COLLECTION).document(uid).set(newUser)
-                    .addOnSuccessListener {
-                        Log.d(TAG, "User \"$uid\" was set in firestore")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error setting the user's profile", e)
-                    }
+                .addOnSuccessListener {
+                    Log.d(TAG, "User \"$uid\" was set in firestore")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error setting the user's profile", e)
+                }
         }
     }
 
@@ -143,12 +156,12 @@ class UserHelper {
         val user = FirebaseAuth.getInstance().currentUser
 
         user!!.updatePassword(password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(Companion.TAG, "User password updated.")
-                    } else {
-                        Log.d(Companion.TAG, "Error: Could not update password.")
-                    }
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(Companion.TAG, "User password updated.")
+                } else {
+                    Log.d(Companion.TAG, "Error: Could not update password.")
                 }
+            }
     }
 }

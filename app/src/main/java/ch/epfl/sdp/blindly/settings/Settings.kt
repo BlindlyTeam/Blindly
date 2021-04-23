@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 
 const val EXTRA_LOCATION = "user_location"
-const val EXTRA_SHOW_ME = "show_me"
+const val EXTRA_SHOW_ME = "showMe"
 
 const val REQUEST_SHOW_ME = 2
 
