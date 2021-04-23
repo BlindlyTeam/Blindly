@@ -35,7 +35,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
             //Get the location manager
             locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-            //Check if the GPS is enable
+            //Check if the GPS is enabled
             isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
             //Check if the network is enable
