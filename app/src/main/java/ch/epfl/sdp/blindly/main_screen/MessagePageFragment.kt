@@ -17,7 +17,7 @@ class MessagePageFragment : Fragment() {
         /**
          * Create a new instance of MessagePageFragment
          *
-         * @param counter the position of the framgnet in the TabLayout
+         * @param counter the position of the fragment in the TabLayout
          * @return a MessagePageFragment
          */
         fun newInstance(counter: Int): MessagePageFragment {
