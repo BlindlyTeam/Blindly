@@ -10,7 +10,7 @@ import androidx.core.app.ActivityCompat
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
 
 /**
- * Activity that require the user to enable location service for the app to use it
+ * Activity that requires the user to enable location service for the app to use it
  *
  */
 class LocationPermissionActivity : AppCompatActivity() {
