@@ -88,7 +88,7 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     }
 
     /**
-     * Do some action when the card disappear
+     * Do some action when the card disappears
      *
      * @param view in which the card was
      * @param position in the view
