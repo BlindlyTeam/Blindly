@@ -56,7 +56,7 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     }
 
     /**
-     * Do some ation when the card is dragged (still holded)
+     * Do some action when the card is dragged (still holded)
      *
      * @param direction where the card is dragged (left, right)
      * @param ratio between default (0) and swiped (1)
