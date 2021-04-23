@@ -21,7 +21,7 @@ private const val SWIPE_THRESHOLD = 0.3f
 private const val MAX_DEGREE = 30f
 
 /**
- * The activity that allow the user to swipe (like or skip) other users
+ * The activity that allows the user to swipe (like or skip) other users
  */
 class MatchActivity : AppCompatActivity(), CardStackListener {
 
