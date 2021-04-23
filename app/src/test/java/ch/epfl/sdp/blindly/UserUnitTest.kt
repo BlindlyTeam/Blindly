@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly
 
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationEPFL
 import ch.epfl.sdp.blindly.user.User
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -8,7 +9,7 @@ import org.junit.Test
 class UserUnitTest {
     companion object {
         private const val username = "Jane Doe"
-        private const val location = "EPFL, Ecublens"
+        private val location = createLocationEPFL()
         private const val birthday = "01.01.2001"
         private const val gender = "Woman"
         private val  sexual_orientations = listOf("Asexual")
@@ -82,17 +83,17 @@ class UserUnitTest {
     @Test
     fun buildBuilsCorrectUser() {
         val user : User = User.Builder()
-                .setUsername(username)
-                .setLocation(location)
-                .setBirthday(birthday)
-                .setGender(gender)
-                .setSexualOrientations(sexual_orientations)
-                .setShowMe(show_me)
-                .setPassions(passions)
-                .setRadius(radius)
-                .setDescription(description)
-                .setMatches(matches)
-                .build()
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexual_orientations)
+            .setShowMe(show_me)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setDescription(description)
+            .setMatches(matches)
+            .build()
 
         assertThat(user.username, equalTo(username))
         assertThat(user.location, equalTo(location))
@@ -109,19 +110,19 @@ class UserUnitTest {
     @Test
     fun getUserAgeIsCorrect() {
         val user : User = User.Builder()
-                .setUsername(username)
-                .setLocation(location)
-                .setBirthday(birthday)
-                .setGender(gender)
-                .setSexualOrientations(sexual_orientations)
-                .setShowMe(show_me)
-                .setPassions(passions)
-                .setRadius(radius)
-                .setDescription(description)
-                .setMatches(matches)
-                .build()
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexual_orientations)
+            .setShowMe(show_me)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setDescription(description)
+            .setMatches(matches)
+            .build()
 
-        val TEST_AGE = "20"
+        val TEST_AGE = 20
         assertThat(User.getUserAge(user), equalTo(TEST_AGE))
     }
 
