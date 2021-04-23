@@ -19,11 +19,16 @@ import java.util.ArrayList
  */
 @AndroidEntryPoint
 class MatchPageFragment : Fragment() {
-
     companion object {
         private const val ARG_COUNT = "matchArgs"
         private var counter: Int? = null
 
+        /**
+         * Create a new instance of MatchPageFragment
+         *
+         * @param counter the position of the fragment in the TabLayout
+         * @return a MatchPageFragment
+         */
         fun newInstance(counter: Int): MatchPageFragment {
             val fragment = MatchPageFragment()
             val args = Bundle()

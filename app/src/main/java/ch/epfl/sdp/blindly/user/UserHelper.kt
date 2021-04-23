@@ -88,7 +88,7 @@ class UserHelper {
     /**
      * Check is the user has already created an account
      *
-     * @param user: the user to test the condition on
+     * @param user the user to test the condition on
      * @return true if the user just created an account, false otherwise
      */
     private fun isNewUser(user: FirebaseUser): Boolean {
@@ -152,6 +152,11 @@ class UserHelper {
         return FirebaseAuth.getInstance().currentUser?.email
     }
 
+    /**
+     * Enable the user to change their password
+     *
+     * @param password the new password
+     */
     fun updatePassword(password: String) {
         val user = FirebaseAuth.getInstance().currentUser
 

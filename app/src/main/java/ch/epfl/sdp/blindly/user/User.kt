@@ -10,7 +10,8 @@ import java.time.LocalDate
 import java.time.Period
 
 /**
- * A class used to represent a user
+ * A class to represent a User
+ *
  */
 @Serializable
 class User private constructor(
@@ -29,7 +30,21 @@ class User private constructor(
 
     /**
      * A builder used to partially initialize a user during the profile_setup activities
-     * Made serializable so that it can be put in a bundle and passed as extrax
+     * Made serializable so that it can be put in a bundle and passed as extra
+     *
+     * @property username the username of the User
+     * @property location the location of the User
+     * @property birthday the birthday of the User
+     * @property gender the gender of the User
+     * @property sexualOrientations an List<String> containing the
+     *     sexual orientations of the User
+     * @property showMe the show_me of the User
+     * @property passions an List<String> containing the
+     *     passions of the User
+     * @property radius the radius in which the User want the matching algorithm to look in
+     * @property matches a List<User> containing the Users the User has a match with
+     * @property description the description of the User
+     * @property ageRange the ageRange of the User
      */
     @Serializable
     data class Builder(
@@ -46,50 +61,112 @@ class User private constructor(
         var ageRange: List<Int> = listOf()
     ) {
 
+        /**
+         * Set the username in the UserBuilder
+         *
+         * @param username the username of the User
+         */
         fun setUsername(username: String) = apply {
             this.username = username
         }
 
+        /**
+         * Set the location in the UserBuilder
+         *
+         * @param location the location of the User
+         */
         fun setLocation(location: String) = apply {
             this.location = location
         }
 
+        /**
+         * Set the birthday in the UserBuidler
+         *
+         * @param birthday the birthday of the User
+         */
         fun setBirthday(birthday: String) = apply {
             this.birthday = birthday
         }
 
+        /**
+         * Set the gender in the UserBuilder
+         *
+         * @param gender the gender of the User
+         */
         fun setGender(gender: String) = apply {
             this.gender = gender
         }
 
+        /**
+         * Set the sexual orientations in the UserBuilder
+         *
+         * @param sexual_orientations the sexual orientations of the User
+         */
         fun setSexualOrientations(sexual_orientations: List<String>) = apply {
             this.sexualOrientations = sexual_orientations
         }
 
+        /**
+         * Set the show me in the UserBuidler
+         *
+         * @param showMe the show me of the User
+         */
         fun setShowMe(showMe: String) = apply {
             this.showMe = showMe
         }
 
+        /**
+         * Set the passions in the UserBuilder
+         *
+         * @param passions the passions of the User
+         */
         fun setPassions(passions: List<String>) = apply {
             this.passions = passions
         }
 
+        /**
+         * Set the radius in the UserBuilder
+         *
+         * @param radius the radius of the User
+         */
         fun setRadius(radius: Int) = apply {
             this.radius = radius
         }
 
+        /**
+         * Set the matches in the UserBuilder
+         *
+         * @param matches the matches of the User
+         */
         fun setMatches(matches: List<User>) = apply {
             this.matches = matches
         }
 
+        /**
+         * Set the description in the UserBuilder
+         *
+         * @param description the description of the User
+         */
         fun setDescription(description: String) = apply {
             this.description = description
         }
 
+        /**
+         * Set the age range in the UserBuilder
+         *
+         * @param ageRange a list containing the age range :
+         *     ageRange[0] = minAge,
+         *     ageRange[1] = maxAge
+         */
         fun setAgeRange(ageRange: List<Int>) = apply {
             this.ageRange = ageRange
         }
 
+        /**
+         * Build a User from the UserBuilder parameters
+         *
+         * @return a User
+         */
         fun build(): User {
             return User(
                 username,
@@ -113,6 +190,8 @@ class User private constructor(
 
         /**
          * Converts the document received from firestore back into a User
+         *
+         * @return a User
          */
         fun DocumentSnapshot.toUser(): User? {
             try {
@@ -127,6 +206,7 @@ class User private constructor(
                 val matches = get("matches") as List<User>
                 val description = getString("description")!!
                 val ageRange = get("ageRange") as List<Int>
+
                 return User(
                     username,
                     location,
@@ -146,6 +226,12 @@ class User private constructor(
             }
         }
 
+        /**
+         * Compute the age of the user
+         *
+         * @param user: the user whose age we want to compute
+         * @return a String containing the age of the User
+         */
         @RequiresApi(Build.VERSION_CODES.O)
         fun getUserAge(user: User?): Int? {
             val birthday = user?.birthday
