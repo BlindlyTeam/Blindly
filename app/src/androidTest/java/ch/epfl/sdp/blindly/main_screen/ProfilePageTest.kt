@@ -77,7 +77,6 @@ class ProfilePageTest {
         //intended(hasComponent(Settings::class.java.name))
         release()
     }
-
     @Test
     fun recordAudioButtonFiresRecordingActivity() {
         init()
@@ -87,6 +86,5 @@ class ProfilePageTest {
         //intended(hasComponent(RecordingActivity::class.java.name))
         release()
     }
-
      */
 }

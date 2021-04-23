@@ -131,7 +131,7 @@ class UserUnitTest {
                 .setAgeRange(ageRange)
                 .build()
 
-        val TEST_AGE = "20"
+        val TEST_AGE = 20
         assertThat(User.getUserAge(user), equalTo(TEST_AGE))
     }
 
