@@ -24,7 +24,7 @@ class LocationPermissionActivity : AppCompatActivity() {
         val button: Button = findViewById(R.id.button)
 
         /**
-         * When clicking on the button require the location service to be able
+         * Clicking on the button requires the location service to be able
          * to continue with the profile setup
          */
         button.setOnClickListener {
