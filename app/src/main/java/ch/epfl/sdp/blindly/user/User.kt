@@ -149,7 +149,7 @@ class User private constructor(
         }
 
         /**
-         * Build a User from the UserBuidler parameters
+         * Build a User from the UserBuilder parameters
          *
          * @return a User
          */
