@@ -5,26 +5,29 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.animations.BounceInterpolator
 import ch.epfl.sdp.blindly.main_screen.MainScreen
-import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserRepository
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
 const val MAIN_SCREEN_DELAY: Long = 2500
 
+/**
+ * The SplashScreen Activity starts when the app is launched
+ *
+ */
 @AndroidEntryPoint
 class SplashScreen : AppCompatActivity() {
+
     @Inject
     lateinit var user: UserHelper
+
     @Inject
     lateinit var userRepository: UserRepository
 
@@ -46,7 +49,7 @@ class SplashScreen : AppCompatActivity() {
 
         heart.startAnimation(beating)
         Handler(Looper.getMainLooper()).postDelayed({
-            if(user.isLoggedIn()) {
+            if (user.isLoggedIn()) {
                 val intent = Intent(this, MainScreen::class.java)
                 startActivity(intent)
             } else {

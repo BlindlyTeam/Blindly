@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 
 /**
  * The viewModel associated with ProfilePage, it holds the livedata for a given user
+ *
  */
 @RequiresApi(Build.VERSION_CODES.N)
 class ProfilePageViewModel@AssistedInject constructor(
@@ -25,7 +26,7 @@ class ProfilePageViewModel@AssistedInject constructor(
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
     private val userId : String = savedStateHandle["uid"] ?:
-    throw IllegalArgumentException("missing user id")
+    throw IllegalArgumentException("Missing user id")
 
     init {
         viewModelScope.launch {
