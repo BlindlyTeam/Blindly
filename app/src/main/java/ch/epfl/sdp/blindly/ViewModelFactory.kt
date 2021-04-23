@@ -13,7 +13,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
 /**
- * A factory that help to create ViewModels that uses the UserRepository
+ * A factory that helps to create ViewModels that uses the UserRepository
  *
  * @property userRepository the UserRepository is automatically injected
  * @constructor
