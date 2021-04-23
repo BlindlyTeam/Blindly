@@ -19,6 +19,7 @@ import javax.inject.Inject
 private const val MATCH = "Match"
 private const val MESSAGE = "Message"
 private const val PROFILE = "Profile"
+
 @AndroidEntryPoint
 class MainScreen : AppCompatActivity() {
 
@@ -26,7 +27,7 @@ class MainScreen : AppCompatActivity() {
 
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager2? = null
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)

@@ -151,4 +151,5 @@
     <string name="user_description">%1$s</string>
     <string name="add_user_description">Add description</string>
     <string name="permission_rationale_location">Allow us to get your current location</string>
+    <string name="go_to_match_display">Let\'s see some matches</string>
 </resources>

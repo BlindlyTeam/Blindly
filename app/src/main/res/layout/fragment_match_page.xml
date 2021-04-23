@@ -1,20 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- This linear layout is used to show elements
+<?xml version="1.0" encoding="utf-8"?><!-- This linear layout is used to show elements
      in vertical or in horizontal linear manner -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <!-- This TextView indicates new fragment is open -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/match_page"
-        android:textColor="#0F9D58"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="300dp"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <Button
+            android:id="@+id/button_to_match"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:text="@string/go_to_match_display"/>
+    </LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
