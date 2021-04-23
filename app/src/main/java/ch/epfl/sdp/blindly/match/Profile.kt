@@ -35,7 +35,7 @@ data class Profile(
     constructor(source: Parcel) : this(source.readString()!!, source.readInt())
 
     /**
-     * Describe the content as in Integer
+     * Describe the content as an Integer
      *
      * @return content description (0)
      */
