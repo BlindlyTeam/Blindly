@@ -97,7 +97,7 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     }
 
     /**
-     * Sets the 3 buttons up (like, rewind, skip)
+     * Setup the 3 buttons (like, rewind, skip)
      *
      */
     private fun setupButton() {
