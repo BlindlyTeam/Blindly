@@ -2,9 +2,11 @@ package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
@@ -42,6 +44,7 @@ class ProfilePassions : AppCompatActivity() {
      *
      * @param view the current view
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     fun startProfileAudioRecording(view: View) {
         findViewById<TextView>(R.id.warning_p7_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p7_2).visibility = View.INVISIBLE
@@ -81,6 +84,7 @@ class ProfilePassions : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUser() {
         val location = getCurrentAddress()
         userBuilder.setLocation(location)
