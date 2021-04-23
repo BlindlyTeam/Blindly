@@ -22,22 +22,23 @@ class LocationPermissionActivity : AppCompatActivity() {
 
         val button: Button = findViewById(R.id.button)
 
+        /**
+         * Clicking on the button requires the location service to be able
+         * to continue with the profile setup
+         */
         button.setOnClickListener {
-            var permitted = ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-            while (!permitted) {
+            do {
+                var permitted = ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     FINE_LOCATION_PERMISSION_CODE
                 )
-                permitted = ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            }
+            } while (!permitted)
+
             val intent = Intent(
                 this, ProfileName::class.java
             )
