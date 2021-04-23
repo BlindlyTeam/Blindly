@@ -1,8 +1,6 @@
 package ch.epfl.sdp.blindly
 
-import android.location.Location
-import ch.epfl.sdp.blindly.fake_module.EPFL_LAT
-import ch.epfl.sdp.blindly.fake_module.EPFL_LONG
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationEPFL
 import ch.epfl.sdp.blindly.user.User
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -20,13 +18,6 @@ class UserUnitTest {
         private const val radius = 150
         private val matches: List<User> = listOf()
         private const val description = "Student"
-
-        private fun createLocationEPFL(): Location {
-            val location = Location("")
-            location.latitude = EPFL_LAT
-            location.longitude = EPFL_LONG
-            return location
-        }
     }
 
     @Test

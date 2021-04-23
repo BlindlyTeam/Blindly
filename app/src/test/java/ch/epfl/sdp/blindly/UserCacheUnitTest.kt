@@ -1,5 +1,8 @@
 package ch.epfl.sdp.blindly
 
+import android.location.Location
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.EPFL_LAT
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.EPFL_LONG
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserCache
 import org.junit.Test
@@ -10,7 +13,7 @@ class UserCacheUnitTest {
         private val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
 
         private const val username = "Jane Doe"
-        private const val location = "EPFL, Ecublens"
+        private val location = createLocationEPFL()
         private const val birthday = "01.01.2001"
         private const val gender = "Woman"
         private val  sexual_orientations =  listOf("Asexual")
@@ -32,6 +35,13 @@ class UserCacheUnitTest {
                 .setDescription(description)
                 .setMatches(matches)
                 .build()
+
+        private fun createLocationEPFL(): Location {
+            val location = Location("")
+            location.latitude = EPFL_LAT
+            location.longitude = EPFL_LONG
+            return location
+        }
     }
 
     @Test

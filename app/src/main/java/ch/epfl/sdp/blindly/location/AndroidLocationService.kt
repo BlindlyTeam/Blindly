@@ -7,6 +7,8 @@ import android.location.LocationManager
 
 private const val MIN_TIME_FOR_UPDATE = 1L
 private const val MIN_DISTANCE_FOR_UPDTAE = 1F
+private const val EPFL_LAT = 46.5
+private const val EPFL_LONG = 6.5
 
 class AndroidLocationService(private var context: Context) : LocationService {
 
@@ -55,4 +57,12 @@ class AndroidLocationService(private var context: Context) : LocationService {
         location = getCurrentLocation()
     }
 
+    companion object {
+        fun createLocationEPFL(): Location {
+            val location = Location("")
+            location.latitude = EPFL_LAT
+            location.longitude = EPFL_LONG
+            return location
+        }
+    }
 }
