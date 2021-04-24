@@ -2,10 +2,13 @@ package ch.epfl.sdp.blindly.user
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.profile_setup.MAJORITY_AGE
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -22,6 +25,7 @@ class UserHelper {
         private const val TAG = "UserHelper"
         private const val USER_COLLECTION: String = "usersMeta"
         private const val DEFAULT_RADIUS = 80
+        private const val DEFAULT_RANGE = 10
     }
 
     fun getSignInIntent(): Intent {
@@ -106,19 +110,28 @@ class UserHelper {
         return FirebaseAuth.getInstance().currentUser?.uid
     }
 
-    //TODO refactor this and move to UserRepository
     /**
      * Sets all the information passed by the userBuilder in Firebase Firestore
      *
-     * @param userBuilder a builder from which a User can be build
+     * @param userBuilder a builder from which a User can be built
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     fun setUserProfile(userBuilder: User.Builder) {
         val database = Firebase.firestore
         val uid = getUserId()
         if (uid != null) {
+            val birthday = userBuilder.birthday
+            val age = birthday?.let { User.getAgeFromBirthday(it) }
+            val minAge =
+                if (age!! >= MAJORITY_AGE + DEFAULT_RANGE)
+                    age - DEFAULT_RANGE
+                else MAJORITY_AGE
+            val maxAge = age + DEFAULT_RANGE
+
             val newUser = userBuilder.setRadius(DEFAULT_RADIUS)
                 .setMatches(listOf())
                 .setDescription("")
+                .setAgeRange(listOf(minAge, maxAge))
                 .build()
 
             database.collection(USER_COLLECTION).document(uid).set(newUser)

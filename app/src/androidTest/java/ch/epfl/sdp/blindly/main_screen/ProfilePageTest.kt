@@ -79,7 +79,6 @@ class ProfilePageTest {
         onView(withId(R.id.settings_profile_button)).perform(click())
         intended(hasComponent(Settings::class.java.name))
     }
-
     @Test
     fun recordAudioButtonFiresRecordingActivity() {
         onView(withId(R.id.record_audio_profile_button)).perform(click())

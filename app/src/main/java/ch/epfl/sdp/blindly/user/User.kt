@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
+import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.Period
 
@@ -19,12 +20,13 @@ class User private constructor(
     val location: String?,
     val birthday: String?,
     val gender: String?,
-    val sexual_orientations: List<String>,
-    val show_me: String?,
+    val sexualOrientations: List<String>,
+    val showMe: String?,
     val passions: List<String>,
     val radius: Int?,
     val matches: List<User>,
-    val description: String?
+    val description: String?,
+    val ageRange: List<Int>
 ) {
 
     /**
@@ -35,14 +37,15 @@ class User private constructor(
      * @property location the location of the User
      * @property birthday the birthday of the User
      * @property gender the gender of the User
-     * @property sexual_orientations an List<String> containing the
+     * @property sexualOrientations a List<String> containing the
      *     sexual orientations of the User
-     * @property show_me the show_me of the User
-     * @property passions an List<String> containing the
+     * @property showMe the show_me of the User
+     * @property passions a List<String> containing the
      *     passions of the User
      * @property radius the radius in which the User want the matching algorithm to look in
      * @property matches a List<User> containing the Users the User has a match with
      * @property description the description of the User
+     * @property ageRange the ageRange of the User
      */
     @Serializable
     data class Builder(
@@ -50,12 +53,13 @@ class User private constructor(
         var location: String? = null,
         var birthday: String? = null,
         var gender: String? = null,
-        var sexual_orientations: List<String> = listOf(),
-        var show_me: String? = null,
+        var sexualOrientations: List<String> = listOf(),
+        var showMe: String? = null,
         var passions: List<String> = listOf(),
         var radius: Int? = null,
         var matches: List<User> = listOf(),
-        var description: String? = null
+        var description: String? = null,
+        var ageRange: List<Int> = listOf()
     ) {
 
         /**
@@ -100,7 +104,7 @@ class User private constructor(
          * @param sexual_orientations the sexual orientations of the User
          */
         fun setSexualOrientations(sexual_orientations: List<String>) = apply {
-            this.sexual_orientations = sexual_orientations
+            this.sexualOrientations = sexual_orientations
         }
 
         /**
@@ -109,7 +113,7 @@ class User private constructor(
          * @param showMe the show me of the User
          */
         fun setShowMe(showMe: String) = apply {
-            this.show_me = showMe
+            this.showMe = showMe
         }
 
         /**
@@ -149,6 +153,20 @@ class User private constructor(
         }
 
         /**
+         * Set the age range in the UserBuilder
+         *
+         * @param ageRange a list containing the age range :
+         *     ageRange[0] = minAge,
+         *     ageRange[1] = maxAge
+         */
+        fun setAgeRange(ageRange: List<Int>) = apply {
+            if(ageRange.size == 2)
+                this.ageRange = ageRange
+            else
+                throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")
+        }
+
+        /**
          * Build a User from the UserBuilder parameters
          *
          * @return a User
@@ -159,12 +177,13 @@ class User private constructor(
                 location,
                 birthday,
                 gender,
-                sexual_orientations,
-                show_me,
+                sexualOrientations,
+                showMe,
                 passions,
                 radius,
                 matches,
-                description
+                description,
+                ageRange
             )
         }
 
@@ -184,23 +203,26 @@ class User private constructor(
                 val location = getString("location")!!
                 val birthday = getString("birthday")!!
                 val gender = getString("gender")!!
-                val sexual_orientations = get("sexual_orientations") as List<String>
-                val show_me = getString("show_me")!!
+                val sexualOrientations = get("sexualOrientations") as List<String>
+                val showMe = getString("showMe")!!
                 val passions = get("passions") as List<String>
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as List<User>
                 val description = getString("description")!!
+                val ageRange = get("ageRange") as List<Int>
+
                 return User(
                     username,
                     location,
                     birthday,
                     gender,
-                    sexual_orientations,
-                    show_me,
+                    sexualOrientations,
+                    showMe,
                     passions,
                     radius,
                     matches,
-                    description
+                    description,
+                    ageRange
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile", e)
@@ -215,21 +237,25 @@ class User private constructor(
          * @return a String containing the age of the User
          */
         @RequiresApi(Build.VERSION_CODES.O)
-        fun getUserAge(user: User?): String? {
-            val birthday = user?.birthday?.split('.')
+        fun getUserAge(user: User?): Int? {
+            val birthday = user?.birthday
             if (birthday != null) {
-                val age = Period.between(
-                    LocalDate.of(
-                        birthday[2].toInt(),
-                        birthday[1].toInt(),
-                        birthday[0].toInt()
-                    ),
-                    LocalDate.now()
-                ).years
-
-                return age.toString()
+                return getAgeFromBirthday(birthday)
             }
             return null
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun getAgeFromBirthday(birthday: String): Int {
+            val (day, month, year) = birthday.split('.')
+            return Period.between(
+                LocalDate.of(
+                    year.toInt(),
+                    month.toInt(),
+                    day.toInt()
+                ),
+                LocalDate.now()
+            ).years
         }
     }
 
