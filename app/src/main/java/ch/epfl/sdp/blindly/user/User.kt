@@ -36,7 +36,7 @@ class User private constructor(
      * @property location the location of the User
      * @property birthday the birthday of the User
      * @property gender the gender of the User
-     * @property sexualOrientations an List<String> containing the
+     * @property sexualOrientations a List<String> containing the
      *     sexual orientations of the User
      * @property showMe the show_me of the User
      * @property passions an List<String> containing the
