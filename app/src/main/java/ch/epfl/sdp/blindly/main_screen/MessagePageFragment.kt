@@ -43,7 +43,7 @@ class MessagePageFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_message_page, container, false)
         val intent = Intent(context, ChatActivity::class.java)
         view?.findViewById<Button>(R.id.button_chat)?.setOnClickListener { startActivity(intent) }
-        startActivity(intent)
+
         return view
     }
 
