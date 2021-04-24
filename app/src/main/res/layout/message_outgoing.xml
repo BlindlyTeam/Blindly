@@ -1,21 +1,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/message_outgoing"
+    android:id="@+id/relativeLayout_outgoing"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="right"
-    android:background="@drawable/shape_bg_outgoing_bubble"
-    android:gravity="right"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentRight="true"
-    android:visibility="visible">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textView4"
+    <RelativeLayout
+        android:id="@+id/textView_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:fontFamily="sans-serif"
-        android:text=""
-        android:textColor="@color/design_default_color_on_primary"
-        android:textSize="14sp" />
-</RelativeLayout>
+        android:layout_alignParentRight="true"
+        android:background="@drawable/shape_bg_outgoing_bubble">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignBaseline="@id/textView4"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:text="another try will it work as expected I wonder"
+            android:textColor="@color/design_default_color_on_primary" />
+    </RelativeLayout></RelativeLayout>
