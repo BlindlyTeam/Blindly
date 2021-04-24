@@ -41,6 +41,8 @@ class ProfilePassions : AppCompatActivity() {
      * Checks the number of selected chip buttons by the user and passes them to the builder via
      * helper function getCheckedChip and starts ProfileAudioRecording if the number of selected
      * chips is within limits, if not outputs error.
+     * @RequiresApi is necessary for the function setUser() which makes a call to getAge() in the
+     *      the UserHelper
      *
      * @param view the current view
      */

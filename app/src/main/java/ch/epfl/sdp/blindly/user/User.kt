@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
+import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.Period
 
@@ -39,7 +40,7 @@ class User private constructor(
      * @property sexualOrientations a List<String> containing the
      *     sexual orientations of the User
      * @property showMe the show_me of the User
-     * @property passions an List<String> containing the
+     * @property passions a List<String> containing the
      *     passions of the User
      * @property radius the radius in which the User want the matching algorithm to look in
      * @property matches a List<User> containing the Users the User has a match with
@@ -159,7 +160,10 @@ class User private constructor(
          *     ageRange[1] = maxAge
          */
         fun setAgeRange(ageRange: List<Int>) = apply {
-            this.ageRange = ageRange
+            if(ageRange.size == 2)
+                this.ageRange = ageRange
+            else
+                throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")
         }
 
         /**
