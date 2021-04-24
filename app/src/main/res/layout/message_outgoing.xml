@@ -20,6 +20,6 @@
             android:paddingTop="8dp"
             android:paddingRight="16dp"
             android:paddingBottom="8dp"
-            android:text="another try will it work as expected I wonder"
+            android:text=""
             android:textColor="@color/design_default_color_on_primary" />
     </RelativeLayout></RelativeLayout>
