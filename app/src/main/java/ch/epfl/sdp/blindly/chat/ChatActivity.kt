@@ -25,7 +25,8 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         findViewById<RecyclerView>(R.id.recyclerView).layoutManager = mChatLayoutManager
-        findViewById<RecyclerView>(R.id.recyclerView).adapter = getMessages()?.let { ChatAdapter(it) }
+        findViewById<RecyclerView>(R.id.recyclerView).adapter =
+            getMessages()?.let { ChatAdapter(it) }
         receiveMessage()
     }
 
@@ -33,7 +34,7 @@ class ChatActivity : AppCompatActivity() {
     /**
      * Triggered once the send button is pressed
      *
-     * @param view
+     * @param view the current view
      */
     fun sendButtonActivate(view: View) {
         findViewById<Button>(R.id.sendButton).setOnClickListener {
@@ -50,7 +51,7 @@ class ChatActivity : AppCompatActivity() {
     private fun sendMessage() {
         val newMessage = Message(
             findViewById<EditText>(R.id.newMessageText).text.toString(),
-            "user3", "user4"
+            "user3", "user4", true
         )
 
         FirebaseDatabase.getInstance("https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/")
