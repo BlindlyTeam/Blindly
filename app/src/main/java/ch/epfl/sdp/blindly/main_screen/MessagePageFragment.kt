@@ -1,11 +1,14 @@
 package ch.epfl.sdp.blindly.main_screen
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.chat.ChatActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +35,12 @@ class MessagePageFragment : Fragment() {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_message_page, container, false)
+        val view = inflater.inflate(R.layout.fragment_message_page, container, false)
+        val intent = Intent(context, ChatActivity::class.java)
+        view?.findViewById<Button>(R.id.button_chat)?.setOnClickListener { startActivity(intent) }
+        startActivity(intent)
+        return view
     }
+
 
 }
