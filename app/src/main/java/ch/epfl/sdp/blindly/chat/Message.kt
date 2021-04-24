@@ -5,20 +5,20 @@ class Message {
 
     var timestamp: Long = System.currentTimeMillis()
     var messageText: String? = null
-    var senderUid: String? = null
-    var receiverUid: String? = null
-    var isCurrentUser: Boolean = false
+    var currentUserId: String? = null
+    //var matchUserId: String? = null
+    //var isCurrentUser: Boolean = false
 
     constructor(
         _messageText: String,
-        _senderUid: String,
-        _receiverUid: String,
-        _isCurrentUser: Boolean
+        _currentUserId: String,
+        //_matchUserId: String,
+        //_isCurrentUser: Boolean
     ) {
         messageText = _messageText
-        senderUid = _senderUid
-        receiverUid = _receiverUid
-        isCurrentUser = _isCurrentUser
+        currentUserId = _currentUserId
+        //matchUserId = _matchUserId
+        //isCurrentUser = _isCurrentUser
     }
 
 

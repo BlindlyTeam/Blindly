@@ -17,6 +17,7 @@ val currentFirebaseUser: FirebaseUser = FirebaseAuth.getInstance().currentUser
 class ChatAdapter(private val messageList: ArrayList<Message>) :
     RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
+
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -56,8 +57,8 @@ class ChatAdapter(private val messageList: ArrayList<Message>) :
     override fun getItemCount() = messageList.size
 
     override fun getItemViewType(position: Int): Int {
-        //if (messageList[position].senderUid == currentFirebaseUser.uid) {
-        if (messageList[position].isCurrentUser) {
+        if (messageList[position].currentUserId == currentFirebaseUser.uid) {
+            //if (messageList[position].isCurrentUser) {
             return CURRENT_USER_SENDING
         }
         return REMOTE_USER_SENDING

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,6 +18,9 @@ import com.google.firebase.database.ktx.getValue
 
 class ChatActivity : AppCompatActivity() {
 
+    private lateinit var currentUserId: String
+    private lateinit var matchId: String
+    private lateinit var chatId: String
 
     private var chatMessages: ArrayList<Message>? = arrayListOf()
     var mChatLayoutManager = LinearLayoutManager(this)
@@ -24,10 +28,27 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+        currentUserId = FirebaseAuth.getInstance().currentUser.uid
+        val bundle = this.intent.extras
+        if (bundle != null) {
+            matchId == bundle.getString("matchId")
+        } else {
+            //for test
+            matchId = "LQ9JDQQQakWJeHUwWzc2Dt5tBEC3"
+            //matchId="kh5EpYDCqXNtKWKTUYA02Kp65NB3"
+        }
+
+        //this is done to get the same chatId from both sides
+        chatId = if (currentUserId < matchId) {
+            "($currentUserId, $matchId)"
+        } else {
+            "($matchId, $currentUserId)"
+        }
+
         findViewById<RecyclerView>(R.id.recyclerView).layoutManager = mChatLayoutManager
         findViewById<RecyclerView>(R.id.recyclerView).adapter =
             getMessages()?.let { ChatAdapter(it) }
-        receiveMessage()
+        receiveMessages()
     }
 
 
@@ -51,11 +72,11 @@ class ChatActivity : AppCompatActivity() {
     private fun sendMessage() {
         val newMessage = Message(
             findViewById<EditText>(R.id.newMessageText).text.toString(),
-            "user3", "user4", true
+            currentUserId
         )
 
         FirebaseDatabase.getInstance("https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/")
-            .getReference("messages").child("(user3, user4)")
+            .getReference("messages").child(chatId)
             .child(newMessage.timestamp.toString()).setValue(newMessage)
 
         //clear the text after sending the message
@@ -63,10 +84,10 @@ class ChatActivity : AppCompatActivity() {
 
     }
 
-    private fun receiveMessage() {
+    private fun receiveMessages() {
         val myRef =
             FirebaseDatabase.getInstance("https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("messages").child("(user3, user4)")
+                .getReference("messages").child(chatId)
 
         myRef.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
