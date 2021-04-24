@@ -13,11 +13,16 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MessagePageFragment : Fragment() {
-
     companion object {
         private const val ARG_COUNT = "messageArgs"
         private var counter: Int? = null
 
+        /**
+         * Create a new instance of MessagePageFragment
+         *
+         * @param counter the position of the fragment in the TabLayout
+         * @return a MessagePageFragment
+         */
         fun newInstance(counter: Int): MessagePageFragment {
             val fragment = MessagePageFragment()
             val args = Bundle()

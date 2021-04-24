@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.User
-import com.google.gson.JsonElement
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 
@@ -25,6 +22,13 @@ class ProfileName : AppCompatActivity() {
         setContentView(R.layout.profile_setup_name)
     }
 
+    /**
+     * Gets the name of the user as input, checks it to be alphabetical and within
+     * character limits, if so passes it to builder and then fires Birthday Activity,
+     * if not outputs error message
+     *
+     * @param view
+     */
     fun startProfileBirthday(view: View) {
         findViewById<TextView>(R.id.warning1_p2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning2_p2).visibility = View.INVISIBLE
@@ -46,7 +50,10 @@ class ProfileName : AppCompatActivity() {
                 else -> {
                     val userBuilder = User.Builder().setUsername(name)
                     val bundle = Bundle()
-                    bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
+                    bundle.putSerializable(
+                        EXTRA_USER,
+                        Json.encodeToString(User.Builder.serializer(), userBuilder)
+                    )
                     val intent = Intent(this, ProfileBirthday::class.java)
                     intent.putExtras(bundle)
 

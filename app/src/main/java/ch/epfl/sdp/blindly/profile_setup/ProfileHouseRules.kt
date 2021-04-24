@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.LocationPermissionActivity
 import ch.epfl.sdp.blindly.R
 
+/**
+ * Shows the House Rules and starts LocationPermissionActivity when the button is pressed.
+ */
 class ProfileHouseRules : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

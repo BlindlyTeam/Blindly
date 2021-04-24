@@ -10,14 +10,14 @@ import ch.epfl.sdp.blindly.user.User
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 private const val SELECTION_LIMIT = 3
+
 class ProfileOrientation : AppCompatActivity() {
 
-    private val sexualOriantations : ArrayList<String> = ArrayList()
-    private lateinit var userBuilder : User.Builder
+    private val sexualOriantations: ArrayList<String> = ArrayList()
+    private lateinit var userBuilder: User.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +27,12 @@ class ProfileOrientation : AppCompatActivity() {
         userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
+    /**
+     * Checks the number of orientation user chooses, if it's not within limits appropriate
+     * error messages are shown. Otherwise choices are passed to helper function for builder
+     *
+     * @param view the current view
+     */
     fun startProfileShowMe(view: View) {
         findViewById<TextView>(R.id.warning_p5_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p5_2).visibility = View.INVISIBLE
@@ -51,15 +57,19 @@ class ProfileOrientation : AppCompatActivity() {
 
     }
 
+    //helper function to get the choices to builder
     private fun bundleExtrasAndStartProfileShowMe(ids: MutableList<Int>, chipGroup: ChipGroup) {
         ids.forEach { i ->
-            val chipText =  chipGroup.findViewById<Chip>(i).text.toString()
+            val chipText = chipGroup.findViewById<Chip>(i).text.toString()
             sexualOriantations.add(chipText)
         }
         val intent = Intent(this, ProfileShowMe::class.java)
         val bundle = Bundle()
         userBuilder.setSexualOrientations(sexualOriantations)
-        bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
+        bundle.putSerializable(
+            EXTRA_USER,
+            Json.encodeToString(User.Builder.serializer(), userBuilder)
+        )
         intent.putExtras(bundle)
 
         startActivity(intent)

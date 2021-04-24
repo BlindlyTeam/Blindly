@@ -35,9 +35,9 @@ data class Profile(
     constructor(source: Parcel) : this(source.readString()!!, source.readInt())
 
     /**
-     * Describe the content as in Integer
+     * Object doesn't contain a content descriptor
      *
-     * @return content description
+     * @return contains content description (no)
      */
     override fun describeContents(): Int {
         return 0

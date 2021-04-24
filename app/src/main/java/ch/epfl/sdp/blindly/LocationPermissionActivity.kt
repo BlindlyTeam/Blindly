@@ -9,9 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
 
-class LocationPermissionActivity : AppCompatActivity() {
+private const val FINE_LOCATION_PERMISSION_CODE = 2
 
-    private val FINE_LOCATION_PERMISSION_CODE = 2
+/**
+ * Page to ask user to enable location. If allowed Profile Setup pages show up in order.
+ */
+class LocationPermissionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,14 +22,26 @@ class LocationPermissionActivity : AppCompatActivity() {
 
         val button: Button = findViewById(R.id.button)
 
+        /**
+         * Clicking on the button requires the location service to be able
+         * to continue with the profile setup
+         */
         button.setOnClickListener {
-            var permitted = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-            while (!permitted) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), FINE_LOCATION_PERMISSION_CODE)
-                permitted = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-            }
+            do {
+                var permitted = ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    FINE_LOCATION_PERMISSION_CODE
+                )
+            } while (!permitted)
+
             val intent = Intent(
-                    this, ProfileName::class.java)
+                this, ProfileName::class.java
+            )
             startActivity(intent)
         }
     }
