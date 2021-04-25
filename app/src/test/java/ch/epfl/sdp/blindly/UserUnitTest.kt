@@ -4,6 +4,7 @@ import ch.epfl.sdp.blindly.user.User
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
+import java.lang.IllegalArgumentException
 
 class UserUnitTest {
     companion object {
@@ -84,6 +85,11 @@ class UserUnitTest {
     fun setAgeRangeIsCorrect() {
         val userBuilder = User.Builder().setAgeRange(ageRange)
         assertThat(userBuilder.ageRange, equalTo(ageRange))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun setAgeRangeWithAgeRangeLenDifferentFromTwoThrowsException() {
+        User.Builder().setAgeRange(listOf(12,3,4))
     }
 
     @Test
