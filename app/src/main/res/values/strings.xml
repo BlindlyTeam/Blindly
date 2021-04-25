@@ -150,4 +150,8 @@
     <string name="enable_location">Enable Location</string>
     <string name="allow_location">Allow Location</string>
     <string name="location_pin_image">Location pin image.</string>
+    <string name="play_audio">Play Audio</string>
+    <string name="edit_audio">Edit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

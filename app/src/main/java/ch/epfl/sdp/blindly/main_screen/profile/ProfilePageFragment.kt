@@ -24,6 +24,7 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 /**
  * Fragment containing the profile page
  *
@@ -93,8 +94,6 @@ class ProfilePageFragment : Fragment() {
         val userInfoText = view.findViewById<TextView>(R.id.user_info_text)
         val userDescriptionText = view.findViewById<TextView>(R.id.user_description_text)
 
-        val context = this@ProfilePageFragment.context
-
         val editButton = view.findViewById<Button>(R.id.edit_info_profile_button)
         setOnClickListener(editButton, Intent(context, EditProfile::class.java))
 
@@ -103,6 +102,15 @@ class ProfilePageFragment : Fragment() {
 
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
+
+        val audioPlayButton = view.findViewById<Button>(R.id.play_audio)
+        val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button)
+        audioPlayButton.setOnClickListener {
+            audioPlayButton.startAnimation(bounce)
+            Handler(Looper.getMainLooper()).postDelayed({
+                AudioPlayPopup().showPopUp(this, view, context)
+            }, BOUNCE_DURATION)
+        }
 
         viewModel.user.observe(viewLifecycleOwner) {
             userInfoText.text = getString(R.string.user_info, it.username, User.getUserAge(it))
@@ -128,5 +136,4 @@ class ProfilePageFragment : Fragment() {
             }, BOUNCE_DURATION)
         }
     }
-
 }
