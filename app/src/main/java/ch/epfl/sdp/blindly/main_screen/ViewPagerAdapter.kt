@@ -8,15 +8,19 @@ import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 /**
  * This ViewPagerAdapter is used by the ViewPager in the MainScreen
  * to instantiate the fragments
+ *
  */
 class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
 
     /**
      * Given a position, create the corresponding fragment
+     *
+     * @param position the position of the fragment to be instantiated in the TabLayout
+     * @return the fragment that was created
      */
     override fun createFragment(position: Int): Fragment {
-        return when(position) {
+        return when (position) {
             0 -> {
                 MatchPageFragment.newInstance(position)
             }
@@ -29,6 +33,11 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
         }
     }
 
+    /**
+     * Returns the number of fragments
+     *
+     * @return the number of fragments
+     */
     override fun getItemCount(): Int {
         return 3
     }

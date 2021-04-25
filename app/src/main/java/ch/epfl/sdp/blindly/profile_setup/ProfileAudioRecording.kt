@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 
+/**
+ * Page to prompt user to record an audio file for their profile.
+ */
 class ProfileAudioRecording : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

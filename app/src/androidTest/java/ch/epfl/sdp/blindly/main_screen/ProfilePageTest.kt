@@ -1,11 +1,11 @@
 package ch.epfl.sdp.blindly.main_screen
 
+import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeLeft
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
@@ -18,6 +18,7 @@ import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,45 +48,41 @@ class ProfilePageTest {
     @Before
     fun setup() {
         hiltRule.inject()
+        goToProfileFragment()
+        init()
+    }
+
+    @After
+    fun afterEach() {
+        release()
     }
 
     private fun goToProfileFragment() {
-        onView(withId(R.id.view_pager)).perform(swipeLeft())
-        onView(withId(R.id.view_pager)).perform(swipeLeft())
-    }
+        activityRule.scenario.onActivity { act ->
+            val fragment: Fragment = ProfilePageFragment.newInstance(2)
 
+            act.supportFragmentManager
+                .beginTransaction()
+                .add(android.R.id.content, fragment, "")
+                .commitNow()
+        }
+    }
 
     @Test
     fun editButtonFiresEditProfileActivty() {
-        init()
-        goToProfileFragment()
         onView(withId(R.id.edit_info_profile_button)).perform(click())
-        //TODO the matcher scannot find the intent
-        //intended(hasComponent(EditProfile::class.java.name))
-        release()
-    }
-
-    //TODO cannot perform single click on button
-    /*@Test
-    fun settingsButtonFiresSettingsActivity() {
-        init()
-        goToProfileFragment()
-        onView(withId(R.id.settings_profile_button)).perform(click())
-        //TODO the matcher scannot find the intent
-        //intended(hasComponent(Settings::class.java.name))
-        release()
+        intended(hasComponent(EditProfile::class.java.name))
     }
 
     @Test
-    fun recordAudioButtonFiresRecordingActivity() {
-        init()
-        goToProfileFragment()
-        onView(withId(R.id.record_audio_profile_button)).perform(click())
-        //TODO the matcher scannot find the intent
-        //intended(hasComponent(RecordingActivity::class.java.name))
-        release()
+    fun settingsButtonFiresSettingsActivity() {
+        onView(withId(R.id.settings_profile_button)).perform(click())
+        intended(hasComponent(Settings::class.java.name))
     }
-
-     */
+    @Test
+    fun recordAudioButtonFiresRecordingActivity() {
+        onView(withId(R.id.record_audio_profile_button)).perform(click())
+        intended(hasComponent(RecordingActivity::class.java.name))
+    }
 
 }

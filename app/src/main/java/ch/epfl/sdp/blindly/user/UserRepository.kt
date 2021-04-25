@@ -11,9 +11,11 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 /**
- * This is the main access point to firestore
+ * The main access to Firebase firestore
+ *
+ * @property db the instance of FirebaseFirestore
+ * @property userCache the local cache
  */
-
 class UserRepository @Inject constructor(
     private val db: FirebaseFirestore,
     private val userCache: UserCache
@@ -27,8 +29,8 @@ class UserRepository @Inject constructor(
     /**
      * Given a uid, if the user is cached locally return this user, otherwise
      * look for the user in firestore and update the cache
-     * @param uid: The uid of the user to retrieve
      *
+     * @param uid the uid of the user to retrieve
      * @return the user with the corresponding uid or null if they doesn't exist
      */
     @RequiresApi(Build.VERSION_CODES.N)
@@ -43,8 +45,8 @@ class UserRepository @Inject constructor(
 
     /**
      * Look for the user with the corresponding uid in firestore and store it in the local cache
-     * @param uid: The uid of the user to retrieve in firestore
      *
+     * @param uid the uid of the user to retrieve in firestore
      * @return the user with the corresponding uid or null if he/she/it doesn't exist
      */
     suspend fun refreshUser(uid: String): User? {
@@ -66,9 +68,10 @@ class UserRepository @Inject constructor(
     /**
      * Update a given field of the user's information (and call refreshUser to update or set the
      * user in the local cache)
-     * @param uid: the uid of the user to update
-     * @param field: the field of the value to change inside the database
-     * @param newValue: the new value to set for the user
+     *
+     * @param uid the uid of the user to update
+     * @param field the field of the value to change inside the database
+     * @param newValue the new value to set for the user
      */
     /*@RequiresApi(Build.VERSION_CODES.N)
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
