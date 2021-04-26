@@ -35,7 +35,7 @@
     <string name="show_me">Show me</string>
     <string name="edit_profile_info">Edit Info</string>
     <string name="settings_profile">Settings</string>
-    <string name="record_audio_profile">Record Audio</string>
+    <string name="play_audio_profile">Play Audio</string>
     <string name="audio_library">AUDIO LIBRARY</string>
     <string name="main_page">Main</string>
     <string name="profile_page">Profile</string>
@@ -151,7 +151,7 @@
     <string name="allow_location">Allow Location</string>
     <string name="location_pin_image">Location pin image.</string>
     <string name="play_audio">Play Audio</string>
-    <string name="edit_audio">Edit</string>
+    <string name="record_audio">Record</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -8,6 +8,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/listDivider" />
+
     <RelativeLayout
         android:id="@+id/audio_play_layout"
         android:layout_width="match_parent"
@@ -17,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background"
+            android:backgroundTint="#FFFFFF"
             android:layout_alignTop="@+id/audio_play_layout"
             android:layout_alignBottom="@id/audio_play_space"
             android:layout_alignLeft="@id/audio_play_layout"
@@ -92,7 +99,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="80dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/edit_audio" />
+            android:text="@string/record_audio" />
 
         <Space
             android:id="@+id/audio_play_space"

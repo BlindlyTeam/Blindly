@@ -10,7 +10,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.recording.AudioRecord
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 
-class AudioPlayPopup {
+class AudioPlayerPopup {
 
     /**
      * Show the audio_play PopUpWindow
@@ -41,9 +41,9 @@ class AudioPlayPopup {
      * @return a View to instantiate a PopUpWindow
      */
     private fun initPopUpView(activity: ProfilePageFragment, inflater : LayoutInflater?, context: Context?) : View? {
-        val popupView: View? = inflater?.inflate(R.layout.audio_play, null)
+        val popupView: View? = inflater?.inflate(R.layout.audio_player, null)
 
-        //TODO fetch the audio record from the databse
+        //TODO change this function with a ViewModel that observe this data
         val audioRecord = AudioRecord(
             "AudioRecord1",
             "00:36",

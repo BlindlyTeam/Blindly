@@ -97,20 +97,17 @@ class ProfilePageFragment : Fragment() {
         val editButton = view.findViewById<Button>(R.id.edit_info_profile_button)
         setOnClickListener(editButton, Intent(context, EditProfile::class.java))
 
-        val recordAudioButton = view.findViewById<Button>(R.id.record_audio_profile_button)
-        setOnClickListener(recordAudioButton, Intent(context, RecordingActivity::class.java))
+        val playAudioButton = view.findViewById<Button>(R.id.play_audio_profile_button)
+        val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button)
+        playAudioButton.setOnClickListener {
+            playAudioButton.startAnimation(bounce)
+            Handler(Looper.getMainLooper()).postDelayed({
+                AudioPlayerPopup().showPopUp(this, view, context)
+            }, BOUNCE_DURATION)
+        }
 
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
-
-        val audioPlayButton = view.findViewById<Button>(R.id.play_audio)
-        val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button)
-        audioPlayButton.setOnClickListener {
-            audioPlayButton.startAnimation(bounce)
-            Handler(Looper.getMainLooper()).postDelayed({
-                AudioPlayPopup().showPopUp(this, view, context)
-            }, BOUNCE_DURATION)
-        }
 
         viewModel.user.observe(viewLifecycleOwner) {
             userInfoText.text = getString(R.string.user_info, it.username, User.getUserAge(it))
