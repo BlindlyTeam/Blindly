@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.user.UserRepository
+import com.firebase.ui.auth.data.model.User.getUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -32,10 +36,11 @@ class ChatActivity : AppCompatActivity() {
         val bundle = this.intent.extras
         if (bundle != null) {
             matchId == bundle.getString("matchId")
+           // findViewById<TextView>(R.id.match_username).text = getUser(matchId).username
         } else {
             //for test
-            matchId = "LQ9JDQQQakWJeHUwWzc2Dt5tBEC3"
-            //matchId="kh5EpYDCqXNtKWKTUYA02Kp65NB3"
+            //matchId = "LQ9JDQQQakWJeHUwWzc2Dt5tBEC3"
+            matchId="kh5EpYDCqXNtKWKTUYA02Kp65NB3"
         }
 
         //this is done to get the same chatId from both sides
@@ -58,7 +63,7 @@ class ChatActivity : AppCompatActivity() {
      * @param view the current view
      */
     fun sendButtonActivate(view: View) {
-        findViewById<Button>(R.id.sendButton).setOnClickListener {
+        findViewById<ImageView>(R.id.sendButton).setOnClickListener {
             if (findViewById<EditText>(R.id.newMessageText).text.toString().isNotEmpty()) {
                 sendMessage()
             }
