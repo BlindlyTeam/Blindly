@@ -12,6 +12,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -25,9 +27,19 @@ class PermissionTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+    @Before
+    fun setup() {
+        hiltRule.inject()
+        init()
+    }
+
+    @After
+    fun afterEach() {
+        release()
+    }
+
     @Test
     fun testLocationPermissionFiresProfileName() {
-        init()
         activityRule.scenario.onActivity { activity ->
             activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
         }
@@ -35,7 +47,6 @@ class PermissionTest {
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.button))
         buttonContinue.perform(ViewActions.click())
         Intents.intended(IntentMatchers.hasComponent(ProfileName::class.java.name))
-        release()
     }
 
 }
