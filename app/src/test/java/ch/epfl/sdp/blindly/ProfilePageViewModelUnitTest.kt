@@ -8,24 +8,5 @@ import org.junit.Rule
 import org.mockito.Mockito.mock
 import javax.inject.Inject
 
-class ProfilePageViewModelUnitTest {
-
-    /*@get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
-
-    @Inject
-    lateinit var userRepository: UserRepository
-
-    @Before
-    fun setup() {
-        hiltRule.inject()
-    }
-
-    val savedStateHandle = mock(SavedStateHandle::class.java)
-
-     */
-
-}
+class ProfilePageViewModelUnitTest
+//TODO missing tests for the PageViewModel
