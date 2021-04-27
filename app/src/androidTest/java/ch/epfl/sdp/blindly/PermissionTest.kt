@@ -50,7 +50,7 @@ class PermissionTest {
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.button))
         buttonContinue.perform(ViewActions.click())
 
-        //Thread.sleep(500)
+        Thread.sleep(500)
         Intents.intended(IntentMatchers.hasComponent(ProfileName::class.java.name))
     }
 
