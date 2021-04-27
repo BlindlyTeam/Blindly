@@ -30,8 +30,6 @@
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
         <activity android:name=".chat.ChatActivity"></activity>
-        <activity android:name=".profile_setup.ProfileFinished"></activity>
-        <activity android:name=".profile_setup.ProfileAudioRecording"></activity>
         <activity android:name=".match.MatchActivity" />
         <activity android:name=".profile_setup.ProfileAudioRecording" />
         <activity android:name=".profile_setup.ProfileFinished" />
