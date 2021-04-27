@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/audioRecordLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".main_screen.audio_player.AudioPlayerFragment">
 
     <View
         android:layout_width="match_parent"
@@ -91,7 +91,7 @@
             android:textColor="#716E6E" />
 
         <Button
-            android:id="@+id/edit_button"
+            android:id="@+id/record_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/remaining_timer"
@@ -104,8 +104,9 @@
         <Space
             android:id="@+id/audio_play_space"
             android:layout_width="wrap_content"
-            android:layout_height="10dp"
-            android:layout_below="@id/edit_button"/>
+            android:layout_height="5dp"
+            android:layout_below="@id/record_button"/>
 
     </RelativeLayout>
+
 </LinearLayout>

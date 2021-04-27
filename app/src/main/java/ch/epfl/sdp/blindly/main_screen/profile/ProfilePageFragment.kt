@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen.profile
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -10,14 +11,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.ViewModelAssistedFactory
-import ch.epfl.sdp.blindly.recording.RecordingActivity
+import ch.epfl.sdp.blindly.main_screen.audio_player.AudioPlayerFragment
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -87,6 +91,7 @@ class ProfilePageFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile_page, container, false)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,13 +102,16 @@ class ProfilePageFragment : Fragment() {
         val editButton = view.findViewById<Button>(R.id.edit_info_profile_button)
         setOnClickListener(editButton, Intent(context, EditProfile::class.java))
 
+        //Clicking outside of the audioPlayer dismisses it
+        val profileView = view.findViewById<RelativeLayout>(R.id.profile_relativeLayout)
+        profileView.setOnTouchListener { _, _ ->
+            hideAudioPlayer()
+            false
+        }
+
         val playAudioButton = view.findViewById<Button>(R.id.play_audio_profile_button)
-        val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button)
         playAudioButton.setOnClickListener {
-            playAudioButton.startAnimation(bounce)
-            Handler(Looper.getMainLooper()).postDelayed({
-                AudioPlayerPopup().showPopUp(this, view, context)
-            }, BOUNCE_DURATION)
+            showAudioPlayer(playAudioButton)
         }
 
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
@@ -133,4 +141,38 @@ class ProfilePageFragment : Fragment() {
             }, BOUNCE_DURATION)
         }
     }
+
+    private fun showAudioPlayer(button: Button) {
+        val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button)
+        button.startAnimation(bounce)
+        Handler(Looper.getMainLooper()).postDelayed({
+            childFragmentManager.commit {
+                val audioPlayerFragment =
+                    childFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
+                //Check if the fragment has been added to the fragment manager,
+                // show it if it exists else create a new one
+                if (audioPlayerFragment != null) {
+                    show(audioPlayerFragment)
+                } else {
+                    setReorderingAllowed(true)
+                    add<AudioPlayerFragment>(R.id.fragment_audio_container_view)
+                }
+            }
+        }, BOUNCE_DURATION)
+    }
+
+    private fun hideAudioPlayer() {
+        childFragmentManager.commit {
+            val fragment =
+                childFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
+            if (fragment != null) {
+                if (fragment.isVisible) {
+                    hide(fragment)
+                    val audioPlayerFragment = fragment as AudioPlayerFragment
+                    audioPlayerFragment.resetMediaPlayer()
+                }
+            }
+        }
+    }
+
 }

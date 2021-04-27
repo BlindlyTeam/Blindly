@@ -7,6 +7,7 @@ import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.*
@@ -224,6 +225,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     private fun changeRecordFilePath(recordNumber: Int) {
         recordFilePath =
             "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.3gp"
+        Log.d("Recroding activity", "Saved file in $recordFilePath")
     }
 
     private fun deleteTempRecordings() {
