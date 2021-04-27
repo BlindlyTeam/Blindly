@@ -13,6 +13,8 @@ import androidx.test.rule.GrantPermissionRule
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -31,20 +33,25 @@ class PermissionTest {
     val grantPermissionRule: GrantPermissionRule = GrantPermissionRule
         .grant(android.Manifest.permission.ACCESS_COARSE_LOCATION,
             android.Manifest.permission.ACCESS_FINE_LOCATION)
+    @Before
+    fun setup() {
+        hiltRule.inject()
+        init()
+    }
+
+    @After
+    fun afterEach() {
+        release()
+    }
 
     @Test
     fun testLocationPermissionFiresProfileName() {
-        init()
 
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.button))
         buttonContinue.perform(ViewActions.click())
 
-        /*activityRule.scenario.onActivity { activity ->
-            activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        }*/
-        Thread.sleep(500)
+        //Thread.sleep(500)
         Intents.intended(IntentMatchers.hasComponent(ProfileName::class.java.name))
-        release()
     }
 
 }

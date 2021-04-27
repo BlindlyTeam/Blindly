@@ -4,6 +4,7 @@ import ch.epfl.sdp.blindly.user.User
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
+import java.lang.IllegalArgumentException
 
 class UserUnitTest {
     companion object {
@@ -17,6 +18,7 @@ class UserUnitTest {
         private const val radius = 150
         private val matches: List<User> = listOf()
         private const val description = "Student"
+        private val ageRange = listOf(30, 40)
     }
 
     @Test
@@ -46,13 +48,13 @@ class UserUnitTest {
     @Test
     fun setSexualOrientationsIsCorrect() {
         val userBuilder = User.Builder().setSexualOrientations(sexual_orientations)
-        assertThat(userBuilder.sexual_orientations, equalTo(sexual_orientations))
+        assertThat(userBuilder.sexualOrientations, equalTo(sexual_orientations))
     }
 
     @Test
     fun setShowMeIsCorrect() {
         val userBuilder = User.Builder().setShowMe(show_me)
-        assertThat(userBuilder.show_me, equalTo(show_me))
+        assertThat(userBuilder.showMe, equalTo(show_me))
     }
 
     @Test
@@ -80,6 +82,17 @@ class UserUnitTest {
     }
 
     @Test
+    fun setAgeRangeIsCorrect() {
+        val userBuilder = User.Builder().setAgeRange(ageRange)
+        assertThat(userBuilder.ageRange, equalTo(ageRange))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun setAgeRangeWithAgeRangeLenDifferentFromTwoThrowsException() {
+        User.Builder().setAgeRange(listOf(12,3,4))
+    }
+
+    @Test
     fun buildBuilsCorrectUser() {
         val user : User = User.Builder()
                 .setUsername(username)
@@ -92,18 +105,20 @@ class UserUnitTest {
                 .setRadius(radius)
                 .setDescription(description)
                 .setMatches(matches)
+                .setAgeRange(ageRange)
                 .build()
 
         assertThat(user.username, equalTo(username))
         assertThat(user.location, equalTo(location))
         assertThat(user.birthday, equalTo(birthday))
         assertThat(user.gender, equalTo(gender))
-        assertThat(user.sexual_orientations, equalTo(sexual_orientations))
-        assertThat(user.show_me, equalTo(show_me))
+        assertThat(user.sexualOrientations, equalTo(sexual_orientations))
+        assertThat(user.showMe, equalTo(show_me))
         assertThat(user.passions, equalTo(passions))
         assertThat(user.radius, equalTo(radius))
         assertThat(user.description, equalTo(description))
         assertThat(user.matches, equalTo(matches))
+        assertThat(user.ageRange, equalTo(ageRange))
     }
 
     @Test
@@ -119,9 +134,10 @@ class UserUnitTest {
                 .setRadius(radius)
                 .setDescription(description)
                 .setMatches(matches)
+                .setAgeRange(ageRange)
                 .build()
 
-        val TEST_AGE = "20"
+        val TEST_AGE = 20
         assertThat(User.getUserAge(user), equalTo(TEST_AGE))
     }
 

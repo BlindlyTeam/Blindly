@@ -14,6 +14,7 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.fail
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -36,6 +37,13 @@ class SplashScreenActivityTest {
     @Before
     fun setup() {
         hiltRule.inject()
+
+        init()
+    }
+
+    @After
+    fun afterEach() {
+        release()
     }
 
     private fun isImageEqualToRes(actualImageView: ImageView, expectedDrawable: Int): Boolean {
@@ -75,7 +83,6 @@ class SplashScreenActivityTest {
 
     @Test
     fun splashScreenDisplaysSplashscreenDotPNG() {
-        init()
         var imageView: ImageView? = null
         activityRule.scenario.onActivity { activity ->
             imageView = activity.findViewById(R.id.splashscreen_heart)
@@ -85,12 +92,10 @@ class SplashScreenActivityTest {
         if (!imageView?.let { isImageEqualToRes(it, resIdImage) }!!) {
             fail("Expected to find splashscreen.png for splash_screen")
         }
-        release()
     }
 
     @Test
     fun ifUserIsLoggedInMainScreenStarts() {
-        init()
         Mockito.`when`(user.isLoggedIn()).thenReturn(true)
         activityRule.scenario.onActivity { activity ->
             if (activity.isFinishing) {
@@ -101,6 +106,5 @@ class SplashScreenActivityTest {
                 )
             }
         }
-        release()
     }
 }

@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 
 const val EXTRA_LOCATION = "user_location"
-const val EXTRA_SHOW_ME = "show_me"
+const val EXTRA_SHOW_ME = "showMe"
 
 const val REQUEST_SHOW_ME = 2
 
@@ -142,27 +142,13 @@ class Settings : AppCompatActivity() {
         startActivity(Intent(this, SplashScreen::class.java))
     }
 
-    // This is the non depracated version but it crashes for the moment
-    /*private fun startActivityForResult(extra: String): ActivityResultLauncher<Intent> {
-        return registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val data = result.data
-                if (data != null) {
-                    if (data.hasExtra(EXTRA_SHOW_ME) && extra == EXTRA_SHOW_ME) {
-                        val showMe = findViewById<TextView>(R.id.show_me_text)
-                        showMe.text = data.getStringExtra(EXTRA_SHOW_ME)
-                    }
-                }
-            }
-        }
-    }*/
-
+    //TODO link with firestore instead
     /**
-     * TODO
+     * Get the new show me if it was changed in the SettingsShowMe Activity
      *
-     * @param requestCode
-     * @param resultCode
-     * @param intent
+     * @param requestCode the request code REQUEST_SHOW_ME
+     * @param resultCode the result code
+     * @param intent the intent
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)

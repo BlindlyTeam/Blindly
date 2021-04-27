@@ -24,7 +24,6 @@ private const val MAP = "Map"
 
 @AndroidEntryPoint
 class MainScreen : AppCompatActivity() {
-
     private val tabTitles = arrayListOf(MATCH, MESSAGE, PROFILE, MAP)
 
     var tabLayout: TabLayout? = null

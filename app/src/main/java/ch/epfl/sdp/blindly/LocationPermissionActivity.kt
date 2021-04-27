@@ -10,14 +10,22 @@ import androidx.core.app.ActivityCompat
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
 import ch.epfl.sdp.blindly.utils.LocationPermission
 
-class LocationPermissionActivity : AppCompatActivity() {
+private const val FINE_LOCATION_PERMISSION_CODE = 2
 
+/**
+ * Page to ask user to enable location. If allowed Profile Setup pages show up in order.
+ */
+class LocationPermissionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_permission)
 
         val button: Button = findViewById(R.id.button)
 
+        /**
+         * Clicking on the button requires the location service to be able
+         * to continue with the profile setup
+         */
         button.setOnClickListener {
             LocationPermission.requestPermission(
                 this, LocationPermission.LOCATION_PERMISSION_REQUEST_CODE,
@@ -38,7 +46,8 @@ class LocationPermissionActivity : AppCompatActivity() {
             )
         ) {
             val intent = Intent(
-                this, ProfileName::class.java)
+                this, ProfileName::class.java
+            )
             startActivity(intent)
         } else {
             // Permission was denied. Display an error message

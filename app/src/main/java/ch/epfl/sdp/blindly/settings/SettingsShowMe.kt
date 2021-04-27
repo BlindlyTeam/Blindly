@@ -8,8 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import ch.epfl.sdp.blindly.R
 
-//TODO: Change currentShowMe to a lateinit at the top of the class, so that
-// the private function can be moved outside of onCreate...
+//TODO link with firestore
+/**
+ * Activity to modify the show me of the User
+ *
+ */
 class SettingsShowMe : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
