@@ -2,19 +2,23 @@ package ch.epfl.sdp.blindly.settings
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import ch.epfl.sdp.blindly.MainActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.user.UserHelper
+import com.firebase.ui.auth.AuthUI
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 const val EXTRA_LOCATION = "user_location"
-const val EXTRA_SHOW_ME = "show_me"
+const val EXTRA_SHOW_ME = "showMe"
 
 const val REQUEST_SHOW_ME = 2
 
@@ -27,6 +31,10 @@ class Settings : AppCompatActivity() {
 
     @Inject
     lateinit var user: UserHelper
+
+    companion object {
+        const val TAG = "Settings"
+    }
 
     /**
      * Creates the activity window
@@ -108,20 +116,20 @@ class Settings : AppCompatActivity() {
      * @param view
      */
     fun logout(view: View) {
-        /*user.signOut(this, OnCompleteListener {
-            OnCompleteListener<Void> { p0 ->
-                if (p0.isComplete)
-                    startActivity(Intent(this@Settings, MainActivity::class.java))
-                else
-                // TODO fixme
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.logout_error),
-                        Toast.LENGTH_LONG
-                    ).show()
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener { // user is now signed out
+                startActivity(Intent(this, SplashScreen::class.java))
+                finish()
             }
-        })*/ //TODO the logout doesn't work for now
-        startActivity(Intent(this, MainActivity::class.java))
+            .addOnFailureListener {
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.logout_error),
+                    Toast.LENGTH_LONG
+                ).show()
+                Log.e(TAG, "Error: Could not logout user.")
+            }
     }
 
     /**
@@ -131,30 +139,16 @@ class Settings : AppCompatActivity() {
      */
     fun deleteAccount(view: View) {
         //For now, just return to the main activity
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, SplashScreen::class.java))
     }
 
-    // This is the non depracated version but it crashes for the moment
-    /*private fun startActivityForResult(extra: String): ActivityResultLauncher<Intent> {
-        return registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val data = result.data
-                if (data != null) {
-                    if (data.hasExtra(EXTRA_SHOW_ME) && extra == EXTRA_SHOW_ME) {
-                        val showMe = findViewById<TextView>(R.id.show_me_text)
-                        showMe.text = data.getStringExtra(EXTRA_SHOW_ME)
-                    }
-                }
-            }
-        }
-    }*/
-
+    //TODO link with firestore instead
     /**
-     * TODO
+     * Get the new show me if it was changed in the SettingsShowMe Activity
      *
-     * @param requestCode
-     * @param resultCode
-     * @param intent
+     * @param requestCode the request code REQUEST_SHOW_ME
+     * @param resultCode the result code
+     * @param intent the intent
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)

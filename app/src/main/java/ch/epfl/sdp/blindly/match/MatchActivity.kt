@@ -23,6 +23,9 @@ private const val SCALE_INTERVAL = 0.95f
 private const val SWIPE_THRESHOLD = 0.3f
 private const val MAX_DEGREE = 30f
 
+/**
+ * The activity that allows the user to swipe (like or skip) other users
+ */
 class MatchActivity : AppCompatActivity(), CardStackListener {
 
     private lateinit var profiles: ArrayList<Profile>
@@ -32,7 +35,7 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     private val adapter by lazy { CardStackAdapter(profiles) }
 
     /**
-     * Create the activity and setup the cardStack
+     * Create the activity and setup the CardStack
      *
      * @param savedInstanceState
      */
@@ -45,7 +48,7 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     }
 
     /**
-     * close the drawer when the back button (toolbar) is pressed befor exiting the activity
+     * Close the drawer when the back button (toolbar) is pressed befor exiting the activity
      */
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -55,13 +58,19 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
         }
     }
 
+    /**
+     * Do some action when the card is dragged (still holded)
+     *
+     * @param direction where the card is dragged (left, right)
+     * @param ratio between default (0) and swiped (1)
+     */
     override fun onCardDragging(direction: Direction, ratio: Float) {
     }
 
     /**
-     * here we have to save if the profile is liked or not for messaging them after
+     * Do some actions when the card is swiped
      *
-     * @param direction the direction the card is swiped
+     * @param direction the direction the card is swiped (left, right)
      */
     override fun onCardSwiped(direction: Direction) {
     }
@@ -72,37 +81,57 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
     override fun onCardCanceled() {
     }
 
+    /**
+     * Do some action when the card appear
+     *
+     * @param view in which the card is
+     * @param position in the view
+     */
     override fun onCardAppeared(view: View, position: Int) {
     }
 
+    /**
+     * Do some action when the card disappears
+     *
+     * @param view in which the card was
+     * @param position in the view
+     */
     override fun onCardDisappeared(view: View, position: Int) {
     }
 
-    private fun setupCardStackView() {
-        initialize()
-    }
-
     /**
-     * Sets the 3 buttons up (like, rewind, skip)
+     * Setup the 3 buttons (like, rewind, skip)
+     *
      */
     private fun setupButton() {
 
         val skip = findViewById<View>(R.id.skip_button)
         skip.setOnClickListener {
-            setupButton(Direction.Left, AccelerateInterpolator(), {cardStackView.swipe()})
+            listenerSettings(Direction.Left, AccelerateInterpolator(), { cardStackView.swipe() })
         }
         val rewind = findViewById<View>(R.id.rewind_button)
         rewind.setOnClickListener {
-            setupButton(Direction.Bottom, DecelerateInterpolator(), {cardStackView.rewind()})
+            listenerSettings(Direction.Bottom, DecelerateInterpolator(), { cardStackView.rewind() })
         }
         val like = findViewById<View>(R.id.like_button)
         like.setOnClickListener {
-            setupButton(Direction.Right, AccelerateInterpolator(), {cardStackView.swipe()})
+            listenerSettings(Direction.Right, AccelerateInterpolator(), { cardStackView.swipe() })
         }
 
     }
 
-    private fun setupButton(direction: Direction, interpolation: Interpolator, func: () -> Unit) {
+    /**
+     * Setup the settings for the button's onClickListener with
+     *
+     * @param direction to swipe the card
+     * @param interpolation
+     * @param func the card action (swipe, rewind)
+     */
+    private fun listenerSettings(
+        direction: Direction,
+        interpolation: Interpolator,
+        func: () -> Unit
+    ) {
         val settings = SwipeAnimationSetting.Builder()
             .setDirection(direction)
             .setDuration(Duration.Normal.duration)
@@ -114,8 +143,9 @@ class MatchActivity : AppCompatActivity(), CardStackListener {
 
     /**
      * Setup the behaviour of the cards in the swipeCardManager and their animations
+     *
      */
-    private fun initialize() {
+    private fun setupCardStackView() {
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(VISIBLE_COUNT)
         manager.setTranslationInterval(TRANSLATION_INTERVAL)

@@ -24,6 +24,10 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+/**
+ * Fragment containing the profile page
+ *
+ */
 @AndroidEntryPoint
 class ProfilePageFragment : Fragment() {
 
@@ -41,6 +45,12 @@ class ProfilePageFragment : Fragment() {
         private const val ARG_COUNT = "profileArgs"
         private var counter: Int? = null
 
+        /**
+         * Create a new instance of ProfilePageFragment
+         *
+         * @param counter the position of the fragment in the TabLayout
+         * @return a ProfilePageFragment
+         */
         fun newInstance(counter: Int): ProfilePageFragment {
             val fragment = ProfilePageFragment()
             val args = Bundle()
@@ -52,6 +62,7 @@ class ProfilePageFragment : Fragment() {
 
     /**
      * Set up the viewModel
+     *
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +78,10 @@ class ProfilePageFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ProfilePageViewModel::class.java]
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         return inflater.inflate(R.layout.fragment_profile_page, container, false)
     }
@@ -103,8 +116,9 @@ class ProfilePageFragment : Fragment() {
 
     /**
      * An onClickListener that start an Activity after the button has stopped bouncing
-     * @param button: the button associated with the click
-     * @param intent: the intent containing the next Activity to start
+     *
+     * @param button the button associated with the click
+     * @param intent the intent containing the next Activity to start
      */
     private fun setOnClickListener(button: Button, intent: Intent) {
         val bounce = AnimationUtils.loadAnimation(context, R.anim.bouncy_button)

@@ -28,7 +28,9 @@ open class FakeUserCacheModule {
         private const val radius = 150
         private val matches: List<User> = listOf()
         private const val description = "Student"
+        private val ageRange = listOf(30, 50)
         val fakeUser = User.Builder()
+<<<<<<< HEAD
             .setUsername(username)
             .setLocation(location)
             .setBirthday(birthday)
@@ -40,6 +42,20 @@ open class FakeUserCacheModule {
             .setDescription(description)
             .setMatches(matches)
             .build()
+=======
+                .setUsername(username)
+                .setLocation(location)
+                .setBirthday(birthday)
+                .setGender(gender)
+                .setSexualOrientations(sexual_orientations)
+                .setShowMe(show_me)
+                .setPassions(passions)
+                .setRadius(radius)
+                .setDescription(description)
+                .setMatches(matches)
+                .setAgeRange(ageRange)
+                .build()
+>>>>>>> f05c67b9737a77d140e728bd037118c202b33f16
     }
 
     @Singleton

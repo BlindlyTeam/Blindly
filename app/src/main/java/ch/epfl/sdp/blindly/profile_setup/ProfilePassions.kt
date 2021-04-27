@@ -3,13 +3,14 @@ package ch.epfl.sdp.blindly.profile_setup
 import android.content.Intent
 import android.location.Geocoder
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.chip.Chip
@@ -25,7 +26,6 @@ private const val SELECTION_LIMIT = 5
 class ProfilePassions : AppCompatActivity() {
     @Inject
     lateinit var user: UserHelper
-
     lateinit var userBuilder: User.Builder
     private val passions: ArrayList<String> = ArrayList()
 
@@ -37,6 +37,16 @@ class ProfilePassions : AppCompatActivity() {
         userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
+    /**
+     * Checks the number of selected chip buttons by the user and passes them to the builder via
+     * helper function getCheckedChip and starts ProfileAudioRecording if the number of selected
+     * chips is within limits, if not outputs error.
+     * @RequiresApi is necessary for the function setUser() which makes a call to getAge() in the
+     *      the UserHelper
+     *
+     * @param view the current view
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
     fun startProfileAudioRecording(view: View) {
         findViewById<TextView>(R.id.warning_p7_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p7_2).visibility = View.INVISIBLE
@@ -50,6 +60,7 @@ class ProfilePassions : AppCompatActivity() {
             size < 1 -> {
                 findViewById<TextView>(R.id.warning_p7_1).visibility = View.VISIBLE
             }
+            //selected more than allowed
             size > SELECTION_LIMIT -> {
                 findViewById<TextView>(R.id.warning_p7_2).visibility = View.VISIBLE
             }
@@ -63,6 +74,9 @@ class ProfilePassions : AppCompatActivity() {
         }
     }
 
+    /**
+     * Iterates through the checked chips and gets the passions
+     */
     private fun getCheckedChip() {
         val chipGroup = findViewById<ChipGroup>(R.id.chipGroup_p7)
         val ids = chipGroup.checkedChipIds
@@ -72,6 +86,7 @@ class ProfilePassions : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUser() {
         val location = getCurrentLocation()
         if (location != null) {
@@ -83,5 +98,19 @@ class ProfilePassions : AppCompatActivity() {
 
     private fun getCurrentLocation(): Location? {
         return AndroidLocationService(this).getCurrentLocation()
+    }
+    
+    private fun getCurrentAddress(): String {
+        val currentLocation = AndroidLocationService(this).getCurrentLocation()
+        val latitude = currentLocation?.latitude
+        val longitude = currentLocation?.longitude
+        val geocoder = Geocoder(this)
+        if (latitude != null && longitude != null) {
+            val address = geocoder.getFromLocation(latitude, longitude, 5)
+            val country = address[0].countryName
+            val city = address[0].locality
+            return "$city, $country"
+        }
+        return "Location not found"
     }
 }
