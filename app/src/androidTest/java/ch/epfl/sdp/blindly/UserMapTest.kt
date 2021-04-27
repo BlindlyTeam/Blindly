@@ -41,4 +41,13 @@ class UserMapTest {
         ActivityScenario.launch<UserMapActivity>(intent)
         onView(withId(R.id.map)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
+
+    @Test
+    fun showMapWithoutPoints() {
+        val intent = Intent(ApplicationProvider.getApplicationContext(), UserMapActivity::class.java)
+        intent.putExtra(POINTS, LatLng(0.0, 0.0))
+
+        ActivityScenario.launch<UserMapActivity>(intent)
+        onView(withId(R.id.map)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+    }
 }

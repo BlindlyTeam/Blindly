@@ -6,7 +6,7 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 import org.mockito.Mockito.mock
 
-private const val COUNT = 3
+private const val COUNT = 4
 private const val MATCH_POSITION = 0
 private const val MESSAGE_POSITION = 1
 private const val PROFILE_POSITION = 2
@@ -19,7 +19,7 @@ class ViewPagerAdapterUnitTest {
     private val viewPagerAdapter = ViewPagerAdapter(fakeMainScreen)
 
     @Test
-    fun fragmentCountIsThree() {
+    fun fragmentCountIsFour() {
         assertThat(viewPagerAdapter.itemCount, equalTo(COUNT))
     }
 
