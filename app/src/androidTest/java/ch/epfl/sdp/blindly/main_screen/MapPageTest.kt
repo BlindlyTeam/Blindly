@@ -5,8 +5,10 @@ import ch.epfl.sdp.blindly.UserMapActivity
 import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -51,15 +53,20 @@ class MapPageTest {
 
     private fun goToProfileFragment() {
         activityRule.scenario.onActivity { act ->
-            act.viewPager!!.currentItem =3
+            act.viewPager!!.currentItem = 3
         }
-
     }
 
     @Test
     fun mapButtonFiresEditProfileActivty() {
         goToProfileFragment()
-        onView(withId(R.id.open_map)).perform(click())
+        onView(withId(R.id.open_map)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withEffectiveVisibility(
+                    ViewMatchers.Visibility.VISIBLE
+                )
+            )
+        ).perform(click())
         intended(hasComponent(UserMapActivity::class.java.name))
     }
 }

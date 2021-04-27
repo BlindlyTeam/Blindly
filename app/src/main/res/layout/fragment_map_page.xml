@@ -16,7 +16,6 @@
         android:text="@string/user_map"
         android:textColor="#0F9D58"
         android:textSize="25sp"
-        android:textStyle="bold"
-        android:onClick="startUserMap"/>
+        android:textStyle="bold"/>
 
 </LinearLayout>
