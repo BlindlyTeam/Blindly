@@ -17,22 +17,23 @@ val currentFirebaseUser: FirebaseUser = FirebaseAuth.getInstance().currentUser
 class ChatAdapter(private val messageList: ArrayList<Message>) :
     RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
-
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
-
-        init {
-            // Define click listener for the ViewHolder's View.
-            textView = view.findViewById(R.id.textView4)
-
-        }
+        val textView: TextView = view.findViewById(R.id.messageText)
     }
 
-    // Create new views (invoked by the layout manager)
+    /**
+     * Create new views (invoked by the layout manager)
+     * Get the information by viewType parameter which is specified by getItemViewType
+     * According to type, use the corresponding message layout.
+     *
+     * @param viewGroup to contain other views
+     * @param viewType current user or remote user
+     * @return the message view customized by who sent it
+     */
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         var view: View? = null
@@ -46,19 +47,32 @@ class ChatAdapter(private val messageList: ArrayList<Message>) :
         return view?.let { ViewHolder(it) }!!
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    /**
+     * Replace the contents of a view (invoked by the layout manager)
+     * Get element from messageList at this position and replace the contents of the view with
+     * that element.
+     *
+     * @param viewHolder current ViewHolder
+     * @param position position in messageList
+     */
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
+
         viewHolder.textView.text = messageList[position].messageText
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    /**
+     * Return the size of dataset (invoked by the layout manager)
+     */
     override fun getItemCount() = messageList.size
 
+    /**
+     * Compares message's currentUserId and logged in FirebaseUser's uid
+     *
+     * @param position position of the item (Message)
+     * @return who sent this message
+     */
     override fun getItemViewType(position: Int): Int {
         if (messageList[position].currentUserId == currentFirebaseUser.uid) {
-            //if (messageList[position].isCurrentUser) {
             return CURRENT_USER_SENDING
         }
         return REMOTE_USER_SENDING
