@@ -1,6 +1,5 @@
 package ch.epfl.sdp.blindly.fake_module
 
-import android.location.Location
 import ch.epfl.sdp.blindly.di.UserCacheModule
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationEPFL
 import ch.epfl.sdp.blindly.user.User
@@ -14,8 +13,8 @@ import javax.inject.Singleton
 
 @Module
 @TestInstallIn(
-        components = [SingletonComponent::class],
-        replaces = [UserCacheModule::class]
+    components = [SingletonComponent::class],
+    replaces = [UserCacheModule::class]
 )
 open class FakeUserCacheModule {
     companion object {
@@ -23,24 +22,24 @@ open class FakeUserCacheModule {
         private val location = createLocationEPFL()
         private const val birthday = "01.01.01"
         private const val gender = "Woman"
-        private val  sexual_orientations =  listOf("Asexual")
+        private val sexual_orientations = listOf("Asexual")
         private const val show_me = "Everyone"
         private val passions = listOf("Coffee", "Tea")
         private const val radius = 150
         private val matches: List<User> = listOf()
         private const val description = "Student"
         val fakeUser = User.Builder()
-                .setUsername(username)
-                .setLocation(location)
-                .setBirthday(birthday)
-                .setGender(gender)
-                .setSexualOrientations(sexual_orientations)
-                .setShowMe(show_me)
-                .setPassions(passions)
-                .setRadius(radius)
-                .setDescription(description)
-                .setMatches(matches)
-                .build()
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexual_orientations)
+            .setShowMe(show_me)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setDescription(description)
+            .setMatches(matches)
+            .build()
     }
 
     @Singleton
