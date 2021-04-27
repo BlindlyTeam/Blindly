@@ -58,6 +58,7 @@
             android:id="@+id/sendButton"
             android:layout_width="62dp"
             android:layout_height="match_parent"
+            android:focusable="false"
             android:onClick="sendButtonActivate"
             app:srcCompat="@android:drawable/ic_menu_send"
             app:tint="@color/light_blue_900" />
