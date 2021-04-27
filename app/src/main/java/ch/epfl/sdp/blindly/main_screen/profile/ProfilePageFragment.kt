@@ -105,7 +105,7 @@ class ProfilePageFragment : Fragment() {
             if (it.description != "") {
                 userDescriptionText.text = getString(R.string.user_description, it.description)
             }
-            setupAudioFile(context, it.recording)
+            setupAudioFile(context, Uri.parse(it.recording))
         }
     }
 

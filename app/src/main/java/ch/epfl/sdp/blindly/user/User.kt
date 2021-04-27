@@ -26,8 +26,7 @@ class User private constructor(
     val radius: Int?,
     val matches: List<User>,
     val description: String?,
-    @Contextual
-    val recording: Uri
+    val recording: String?
 ) {
 
 
@@ -48,7 +47,7 @@ class User private constructor(
         var matches: List<User> = listOf(),
         var description: String? = null,
         @Contextual
-        var recording: Uri? = null
+        var recording: String? = null
     ) {
 
         fun setUsername(username: String) = apply {
@@ -91,7 +90,7 @@ class User private constructor(
             this.description = description
         }
 
-        fun setRecording(recording: Uri) = apply {
+        fun setRecording(recording: String) = apply {
             this.recording = recording
         }
 
@@ -131,7 +130,7 @@ class User private constructor(
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as List<User>
                 val description = getString("description")!!
-                val recording = get("recording") as Uri
+                val recording = getString("recording")
                 return User(
                     username,
                     location,

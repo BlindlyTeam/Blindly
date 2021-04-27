@@ -216,7 +216,7 @@ class AudioLibraryAdapter(
 
     /**
      * Saves the recording at a given position in the list. It is saved in the app's directory
-     * and can be easily retrieved.
+     * as well as in the userBuilder, and can be easily retrieved.
      *
      * @param position the position of the file we want to save
      */
@@ -230,7 +230,7 @@ class AudioLibraryAdapter(
             overwrite = true
         )
         val uriFile = Uri.fromFile(file)
-        userBuilder.setRecording(uriFile)
+        userBuilder.setRecording(uriFile.toString())
     }
 
     private fun createMediaPlayer(filePath: String) {
