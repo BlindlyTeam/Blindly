@@ -2,21 +2,14 @@ package ch.epfl.sdp.blindly.chat
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.user.UserRepository
-import com.firebase.ui.auth.data.model.User.getUser
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 
 
@@ -25,22 +18,30 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var currentUserId: String
     private lateinit var matchId: String
     private lateinit var chatId: String
+    private lateinit var chatReference: DatabaseReference
 
     private var chatMessages: ArrayList<Message>? = arrayListOf()
     var mChatLayoutManager = LinearLayoutManager(this)
 
+    /**
+     * Gets the current user's uid and also uid of the matched user via Bundle;
+     * from those it forms a chatID which we'll use to refer in the Realtime Database
+     * Using the chatId we get the messages from Realtime Database via receiveMessages()
+     *
+     * @param savedInstanceState
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         currentUserId = FirebaseAuth.getInstance().currentUser.uid
+
         val bundle = this.intent.extras
         if (bundle != null) {
             matchId == bundle.getString("matchId")
-           // findViewById<TextView>(R.id.match_username).text = getUser(matchId).username
         } else {
-            //for test
+            //for manual testing
             //matchId = "LQ9JDQQQakWJeHUwWzc2Dt5tBEC3"
-            matchId="kh5EpYDCqXNtKWKTUYA02Kp65NB3"
+            matchId = "kh5EpYDCqXNtKWKTUYA02Kp65NB3"
         }
 
         //this is done to get the same chatId from both sides
@@ -49,16 +50,22 @@ class ChatActivity : AppCompatActivity() {
         } else {
             "($matchId, $currentUserId)"
         }
+        chatReference =
+            FirebaseDatabase.getInstance("https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("messages").child(chatId)
 
+        //set LayoutManager and Adapter for the RecyclerView
         findViewById<RecyclerView>(R.id.recyclerView).layoutManager = mChatLayoutManager
         findViewById<RecyclerView>(R.id.recyclerView).adapter =
             getMessages()?.let { ChatAdapter(it) }
+
         receiveMessages()
     }
 
 
     /**
-     * Triggered once the send button is pressed
+     * Triggered once the sendButton is pressed, checks the input EditText and if it's not
+     * empty, calls the sendMessage.
      *
      * @param view the current view
      */
@@ -71,8 +78,9 @@ class ChatActivity : AppCompatActivity() {
     }
 
     /**
-     * Sends the message to the Realtime Database
-     *
+     * Sends the message to the Realtime Database using the chatId as the child
+     * Note that we need to give the url to the getInstance() function as our database is not
+     * located in the USA
      */
     private fun sendMessage() {
         val newMessage = Message(
@@ -80,21 +88,22 @@ class ChatActivity : AppCompatActivity() {
             currentUserId
         )
 
-        FirebaseDatabase.getInstance("https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/")
-            .getReference("messages").child(chatId)
-            .child(newMessage.timestamp.toString()).setValue(newMessage)
+        chatReference.child(newMessage.timestamp.toString()).setValue(newMessage)
 
         //clear the text after sending the message
         findViewById<EditText>(R.id.newMessageText).text.clear()
 
     }
 
+    /**
+     * Overriding the onChildAdded function to get the new messages when a new Message is added
+     * to our database referenced by chatReference. If it's correctly fetched we pass it to the
+     * adapter and scroll to the last message's position.
+     *
+     */
     private fun receiveMessages() {
-        val myRef =
-            FirebaseDatabase.getInstance("https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("messages").child(chatId)
 
-        myRef.addChildEventListener(object : ChildEventListener {
+        chatReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message = snapshot.getValue<Message>()
                 if (message != null) {
@@ -124,7 +133,6 @@ class ChatActivity : AppCompatActivity() {
         })
 
     }
-
 
     private fun getMessages(): ArrayList<Message>? {
         return chatMessages
