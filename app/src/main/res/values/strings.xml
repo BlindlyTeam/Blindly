@@ -154,4 +154,5 @@
     <string name="enable_location">Enable Location</string>
     <string name="allow_location">Allow Location</string>
     <string name="location_pin_image">Location pin image.</string>
+    <string name="user_map">User map</string>
 </resources>

@@ -28,14 +28,18 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class MapPageTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(MainScreen::class.java)
 
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
     @Before
     fun setup() {
+        hiltRule.inject()
         goToProfileFragment()
         init()
     }
@@ -47,21 +51,15 @@ class MapPageTest {
 
     private fun goToProfileFragment() {
         activityRule.scenario.onActivity { act ->
-            val fragment: Fragment = ProfilePageFragment.newInstance(3)
-
-            act.supportFragmentManager
-                .beginTransaction()
-                .add(android.R.id.content, fragment, "")
-                .commitNow()
+            act.viewPager!!.currentItem =3
         }
+
     }
 
     @Test
     fun mapButtonFiresEditProfileActivty() {
-        onView(withId(R.id.button_to_match)).perform(click())
+        goToProfileFragment()
+        onView(withId(R.id.open_map)).perform(click())
         intended(hasComponent(UserMapActivity::class.java.name))
     }
-
-
-
 }

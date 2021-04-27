@@ -18,8 +18,8 @@ class MapFragment : Fragment() {
         private const val ARG_COUNT = "messageArgs"
         private var counter: Int? = null
 
-        fun newInstance(counter: Int): MessagePageFragment {
-            val fragment = MessagePageFragment()
+        fun newInstance(counter: Int): MapFragment {
+            val fragment = MapFragment()
             val args = Bundle()
             args.putInt(ARG_COUNT, counter)
             fragment.arguments = args
@@ -36,7 +36,7 @@ class MapFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_map_page, container, false)
-        val matchActivityButton = view.findViewById<Button>(R.id.button_to_match)
+        val matchActivityButton = view.findViewById<Button>(R.id.open_map)
         matchActivityButton.setOnClickListener { startUserMap() }
         return view
     }
