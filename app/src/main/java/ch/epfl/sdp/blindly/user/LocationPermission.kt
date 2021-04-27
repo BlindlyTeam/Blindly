@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment
 import ch.epfl.sdp.blindly.R
 
 
-class LocationPermission {
+open class LocationPermission {
     /**
      * Utility class for access to runtime permissions.
      */
@@ -67,33 +67,40 @@ class LocationPermission {
         }
 
         /**
-         * A dialog that displays a permission denied message.
+         * A dialog that displays a message and finish the activity when dismissed
          */
-        class PermissionDeniedDialog : DialogFragment() {
-            private var finishActivity = false
-            override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-                finishActivity =
-                        arguments?.getBoolean(ARGUMENT_FINISH_ACTIVITY) ?: false
-                return AlertDialog.Builder(activity)
-                        .setMessage(R.string.location_permission_denied)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .create()
-            }
+        abstract class FinishOnDismissDialog : DialogFragment() {
+            var finishActivity = false
 
             override fun onDismiss(dialog: DialogInterface) {
                 super.onDismiss(dialog)
                 if (finishActivity) {
                     Toast.makeText(
-                            activity, R.string.permission_required_toast,
-                            Toast.LENGTH_SHORT
+                        activity, R.string.permission_required_toast,
+                        Toast.LENGTH_SHORT
                     ).show()
                     activity?.finish()
                 }
             }
 
             companion object {
-                private const val ARGUMENT_FINISH_ACTIVITY = "finish"
+                const val ARGUMENT_FINISH_ACTIVITY = "finish"
+            }
+        }
+        /**
+         * A dialog that displays a permission denied message.
+         */
+        class PermissionDeniedDialog : FinishOnDismissDialog() {
+            override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+                finishActivity =
+                    arguments?.getBoolean(ARGUMENT_FINISH_ACTIVITY) ?: false
+                return AlertDialog.Builder(activity)
+                        .setMessage(R.string.location_permission_denied)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .create()
+            }
 
+            companion object {
                 /**
                  * Creates a new instance of this dialog and optionally finishes the calling Activity
                  * when the 'Ok' button is clicked.
@@ -119,8 +126,7 @@ class LocationPermission {
          * [androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback]
          * to handle permit or denial of this permission request.
          */
-        class RationaleDialog : DialogFragment() {
-            private var finishActivity = false
+        class RationaleDialog : FinishOnDismissDialog() {
             override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
                 val requestCode =
                         arguments?.getInt(ARGUMENT_PERMISSION_REQUEST_CODE) ?: 0
@@ -128,7 +134,7 @@ class LocationPermission {
                         arguments?.getBoolean(ARGUMENT_FINISH_ACTIVITY) ?: false
                 return AlertDialog.Builder(activity)
                         .setMessage(R.string.permission_rationale_location)
-                        .setPositiveButton(android.R.string.ok) { dialog, which -> // After click on Ok, request the permission.
+                        .setPositiveButton(android.R.string.ok) { _, _ -> // After click on Ok, request the permission.
                             ActivityCompat.requestPermissions(
                                     requireActivity(),
                                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -141,21 +147,9 @@ class LocationPermission {
                         .create()
             }
 
-            override fun onDismiss(dialog: DialogInterface) {
-                super.onDismiss(dialog)
-                if (finishActivity) {
-                    Toast.makeText(
-                            activity,
-                            R.string.permission_required_toast,
-                            Toast.LENGTH_SHORT
-                    ).show()
-                    activity?.finish()
-                }
-            }
-
             companion object {
                 private const val ARGUMENT_PERMISSION_REQUEST_CODE = "requestCode"
-                private const val ARGUMENT_FINISH_ACTIVITY = "finish"
+
 
                 /**
                  * Creates a new instance of a dialog displaying the rationale for the use of the location

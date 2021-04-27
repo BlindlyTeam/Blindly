@@ -40,7 +40,7 @@ class MapFragment : Fragment() {
         matchActivityButton.setOnClickListener { startUserMap() }
         return view
     }
-    fun startUserMap() {
+    private fun startUserMap() {
         val intent = Intent(activity, UserMapActivity::class.java)
         val points = arrayOf(LatLng(-33.0, 151.0))
         intent.putExtra(UserMapActivity.POINTS, points)

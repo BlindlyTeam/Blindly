@@ -2,11 +2,9 @@ package ch.epfl.sdp.blindly
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
 import ch.epfl.sdp.blindly.utils.LocationPermission
 
@@ -20,7 +18,7 @@ class LocationPermissionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_permission)
 
-        val button: Button = findViewById(R.id.button)
+        val button: Button = findViewById(R.id.enable_location_button)
 
         /**
          * Clicking on the button requires the location service to be able

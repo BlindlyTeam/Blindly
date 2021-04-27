@@ -1,6 +1,5 @@
 package ch.epfl.sdp.blindly
 
-import android.content.Intent
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
@@ -46,8 +45,7 @@ class PermissionTest {
 
     @Test
     fun testLocationPermissionFiresProfileName() {
-
-        val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.button))
+        val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.enable_location_button))
         buttonContinue.perform(ViewActions.click())
 
         Thread.sleep(500)

@@ -10,7 +10,7 @@
     <!-- This TextView indicates new fragment is open -->
     <Button
         android:id="@+id/open_map"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/user_map"
