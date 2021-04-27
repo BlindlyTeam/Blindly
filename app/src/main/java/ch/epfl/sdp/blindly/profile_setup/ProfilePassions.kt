@@ -3,9 +3,11 @@ package ch.epfl.sdp.blindly.profile_setup
 import android.content.Intent
 import android.location.Geocoder
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
@@ -37,6 +39,16 @@ class ProfilePassions : AppCompatActivity() {
         userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
+    /**
+     * Checks the number of selected chip buttons by the user and passes them to the builder via
+     * helper function getCheckedChip and starts ProfileAudioRecording if the number of selected
+     * chips is within limits, if not outputs error.
+     * @RequiresApi is necessary for the function setUser() which makes a call to getAge() in the
+     *      the UserHelper
+     *
+     * @param view the current view
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
     fun startProfileAudioRecording(view: View) {
         findViewById<TextView>(R.id.warning_p7_1).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning_p7_2).visibility = View.INVISIBLE
@@ -72,6 +84,7 @@ class ProfilePassions : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUser() {
         val location = getCurrentLocation()
         if (location != null) {

@@ -261,10 +261,6 @@
     <inspection_tool class="CollectionAddedToSelf" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ComparatorMethodParameterNotUsed" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ConstantConditionalExpression" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="ConstantConditions" enabled="false" level="WARNING" enabled_by_default="false">
-      <option name="SUGGEST_NULLABLE_ANNOTATIONS" value="false" />
-      <option name="DONT_REPORT_TRUE_ASSERT_STATEMENTS" value="false" />
-    </inspection_tool>
     <inspection_tool class="ConstantIfStatement" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ConstantStringIntern" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="Constructor" enabled="false" level="ERROR" enabled_by_default="false" />
@@ -474,6 +470,7 @@
     <inspection_tool class="MalformedXPath" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ManualArrayCopy" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ManualArrayToCollectionCopy" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="MarkdownUnresolvedFileReference" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MathRandomCastToInt" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="MethodName" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="MethodNameSameAsClassName" enabled="false" level="WARNING" enabled_by_default="false" />
@@ -656,7 +653,6 @@
     <inspection_tool class="UnusedMessageFormatParameter" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="UnusedParameter" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="UnusedParameters" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="UnusedProperty" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="UnusedReturnValue" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="UnusedValue" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ValueMayNotFitIntoReceiver" enabled="false" level="WARNING" enabled_by_default="false" />

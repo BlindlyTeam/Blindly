@@ -22,7 +22,6 @@ private const val PROFILE = "Profile"
 
 @AndroidEntryPoint
 class MainScreen : AppCompatActivity() {
-
     private val tabTitles = arrayListOf(MATCH, MESSAGE, PROFILE)
 
     var tabLayout: TabLayout? = null
