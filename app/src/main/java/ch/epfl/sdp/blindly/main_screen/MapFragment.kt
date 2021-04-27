@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.UserMapActivity
@@ -34,9 +35,12 @@ class MapFragment : Fragment() {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_map_page, container, false)
+        val view = inflater.inflate(R.layout.fragment_map_page, container, false)
+        val matchActivityButton = view.findViewById<Button>(R.id.button_to_match)
+        matchActivityButton.setOnClickListener { startUserMap() }
+        return view
     }
-    fun startUserMap(view: View) {
+    fun startUserMap() {
         val intent = Intent(activity, UserMapActivity::class.java)
         val points = arrayOf(LatLng(-33.0, 151.0))
         intent.putExtra(UserMapActivity.POINTS, points)
