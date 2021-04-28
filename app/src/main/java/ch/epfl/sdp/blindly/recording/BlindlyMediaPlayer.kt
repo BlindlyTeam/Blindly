@@ -74,7 +74,7 @@ class BlindlyMediaPlayer {
         }
     }
 
-    private fun bindSeekBarNavigation(
+    fun bindSeekBarNavigation(
         playBar: SeekBar, playTimer: Chronometer,
         remainingTimer: Chronometer,
         playPauseButton: AppCompatImageButton,
@@ -159,7 +159,7 @@ class BlindlyMediaPlayer {
      * @param playBar
      * @return the created thread
      */
-    private fun createPlayBarThread(playBar: SeekBar): Runnable {
+    fun createPlayBarThread(playBar: SeekBar): Runnable {
         return object : Runnable {
             override fun run() {
                 if (mediaPlayer?.isPlaying == true) {
@@ -190,12 +190,12 @@ class BlindlyMediaPlayer {
 
     // Setting a timer to count down requires Android N
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun setCountDownTimer(timer: Chronometer) {
+    fun setCountDownTimer(timer: Chronometer) {
         timer.isCountDown = true
         timer.format = "-%s"
     }
 
-    private fun setStoppedView(
+    fun setStoppedView(
         playTimer: Chronometer, remainingTimer: Chronometer,
         playPauseButton: AppCompatImageButton, isPause: Boolean
     ) {
@@ -227,7 +227,7 @@ class BlindlyMediaPlayer {
         playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
     }
 
-    private fun handlePlayBarClick(
+    fun handlePlayBarClick(
         audioRecord: AudioRecord,
         playTimer: Chronometer,
         remainingTimer: Chronometer,

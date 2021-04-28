@@ -194,7 +194,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     }
 
     private fun startRecording() {
-        adapter.mediaPlayer?.stop()
+        adapter.blindlyMediaPlayer.mediaPlayer?.stop()
         prepareRecording()
         mediaRecorder.start()
     }
