@@ -221,7 +221,7 @@ class AudioLibraryAdapter(
 
     /**
      * Saves the recording at a given position in the list. It is saved in the app's directory
-     * as well as in the userBuilder, and can be easily retrieved.
+     * as well as in Firebase storage, and can be easily retrieved.
      *
      * @param position the position of the file we want to save
      */

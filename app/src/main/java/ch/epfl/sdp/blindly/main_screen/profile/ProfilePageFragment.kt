@@ -21,7 +21,6 @@ import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
-import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,9 +29,6 @@ class ProfilePageFragment : Fragment() {
 
     @Inject
     lateinit var userHelper: UserHelper
-
-    @Inject
-    lateinit var storage: FirebaseStorage
 
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
