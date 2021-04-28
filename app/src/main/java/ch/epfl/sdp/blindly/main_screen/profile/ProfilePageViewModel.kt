@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 
 /**
  * The viewModel associated with ProfilePage, it holds the livedata for a given user
+ *
  */
 @RequiresApi(Build.VERSION_CODES.N)
 class ProfilePageViewModel @AssistedInject constructor(

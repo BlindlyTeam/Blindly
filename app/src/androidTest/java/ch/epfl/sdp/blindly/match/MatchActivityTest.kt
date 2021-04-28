@@ -31,12 +31,11 @@ class MatchActivityTest {
     @Before
     fun setup() {
         hiltRule.inject()
+        launchScenario()
     }
 
     @Test
     fun firstCardIsWellDisplayed() {
-        launchScenario()
-
         onView(withId(R.id.card_stack_view)).check(
             matches(
                 hasDescendant(
@@ -55,8 +54,6 @@ class MatchActivityTest {
 
     @Test
     fun skipButtonDisplaysSecondCard() {
-        launchScenario()
-
         onView(withId(R.id.skip_button)).perform(click())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.card_stack_view)).check(
@@ -77,8 +74,6 @@ class MatchActivityTest {
 
     @Test
     fun likeButtonDisplaysSecondCard() {
-        launchScenario()
-
         onView(withId(R.id.like_button)).perform(click())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.card_stack_view)).check(
@@ -99,8 +94,6 @@ class MatchActivityTest {
 
     @Test
     fun rewindButtonHasNoEffectOnFirstCard() {
-        launchScenario()
-
         onView(withId(R.id.rewind_button)).perform(click())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.card_stack_view)).check(
@@ -121,7 +114,6 @@ class MatchActivityTest {
 
     @Test
     fun rewindOnSecondCardReturnsToFirstCard() {
-        launchScenario()
         onView(withId(R.id.like_button)).perform(click())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.rewind_button)).perform(click())
@@ -144,8 +136,6 @@ class MatchActivityTest {
 
     @Test
     fun swipeWorksAsButtons() {
-        launchScenario()
-
         onView(withId(R.id.card_stack_view)).perform(swipeLeft())
         Thread.sleep(SLEEP_TIME)
         onView(withId(R.id.card_stack_view)).check(

@@ -10,6 +10,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,13 +27,17 @@ class TestMainToMatch {
     @Before
     fun setup() {
         hiltRule.inject()
+        init()
+    }
+
+    @After
+    fun afterEach() {
+        release()
     }
 
     @Test
     fun onButtonClickLunchMatchActivity() {
-        init()
         onView(withId(R.id.button_to_match)).perform(click())
         intended(hasComponent(MatchActivity::class.java.name))
-        release()
     }
 }

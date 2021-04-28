@@ -14,13 +14,21 @@ import ch.epfl.sdp.blindly.match.Profile
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
+/**
+ * Fragment to access the match page
+ */
 @AndroidEntryPoint
 class MatchPageFragment : Fragment() {
-
     companion object {
         private const val ARG_COUNT = "matchArgs"
         private var counter: Int? = null
 
+        /**
+         * Create a new instance of MatchPageFragment
+         *
+         * @param counter the position of the fragment in the TabLayout
+         * @return a MatchPageFragment
+         */
         fun newInstance(counter: Int): MatchPageFragment {
             val fragment = MatchPageFragment()
             val args = Bundle()
@@ -37,6 +45,14 @@ class MatchPageFragment : Fragment() {
         }
     }
 
+    /**
+     * Setup the view and retrieve the profiles to show on the match activity
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the fragment's view
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {

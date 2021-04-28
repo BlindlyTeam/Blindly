@@ -8,9 +8,7 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.Intents.times
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.BundleMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
@@ -22,6 +20,7 @@ import ch.epfl.sdp.blindly.user.User
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,48 +36,53 @@ private const val ERROR_CHARACTERS = "Please use only letters."
 class TestProfileGenderMore {
 
     private val TEST_USER = User.Builder()
-            .setUsername(CORRECT_NAME)
-            .setBirthday(TEST_BIRTHDAY)
+        .setUsername(CORRECT_NAME)
+        .setBirthday(TEST_BIRTHDAY)
 
     @Before
-    fun init() {
+    fun setup() {
         val bundle = Bundle()
         bundle.putSerializable(EXTRA_USER, Json.encodeToString(TEST_USER))
 
-        val intent = Intent(ApplicationProvider.getApplicationContext(),
-                ProfileGenderMore::class.java).apply {
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            ProfileGenderMore::class.java
+        ).apply {
             putExtras(bundle)
         }
 
         ActivityScenario.launch<ProfileGenderMore>(intent)
+        init()
+    }
+
+    @After
+    fun afterEach() {
+        release()
     }
 
 
     @Test
     fun incorrectCharOutputsError() {
-        Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(INCORRECT_CHARS_SPECIFICATION))
         closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
         onView(withId(R.id.warning2_p4_2))
-                .check(
-                        ViewAssertions.matches(
-                                ViewMatchers.withText(
-                                        Matchers.containsString(
-                                                ERROR_CHARACTERS
-                                        )
-                                )
+            .check(
+                ViewAssertions.matches(
+                    ViewMatchers.withText(
+                        Matchers.containsString(
+                            ERROR_CHARACTERS
                         )
+                    )
                 )
+            )
 
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
-        Intents.release()
     }
 
     @Test
     fun noInputOutputsError() {
-        Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(NO_INPUT))
         closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
@@ -87,16 +91,17 @@ class TestProfileGenderMore {
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
-                        Matchers.containsString(ERROR_MESSAGE))))
+                        Matchers.containsString(ERROR_MESSAGE)
+                    )
+                )
+            )
 
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
-        Intents.release()
     }
 
 
     @Test
     fun blankInputOutputsError() {
-        Intents.init()
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(BLANK_SPECIFICATION))
         closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
@@ -105,15 +110,16 @@ class TestProfileGenderMore {
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
-                        Matchers.containsString(ERROR_MESSAGE))))
+                        Matchers.containsString(ERROR_MESSAGE)
+                    )
+                )
+            )
 
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
-        Intents.release()
     }
 
     @Test
     fun correctInputFiresProfileOrientation() {
-        Intents.init()
         TEST_USER.setGender(CORRECT_SPECIFICATION)
 
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(CORRECT_SPECIFICATION))
@@ -123,11 +129,14 @@ class TestProfileGenderMore {
 
         TEST_USER.setGender(CORRECT_SPECIFICATION)
 
-        intended(Matchers.allOf(
-            hasComponent(ProfileOrientation::class.java.name),
-            IntentMatchers.hasExtras(
-                BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
-        Intents.release()
+        intended(
+            Matchers.allOf(
+                hasComponent(ProfileOrientation::class.java.name),
+                IntentMatchers.hasExtras(
+                    BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER))
+                )
+            )
+        )
     }
 
 }

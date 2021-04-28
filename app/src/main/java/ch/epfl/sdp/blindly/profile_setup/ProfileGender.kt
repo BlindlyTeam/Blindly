@@ -14,9 +14,9 @@ import kotlinx.serialization.json.Json
 
 class ProfileGender : AppCompatActivity() {
 
-    private lateinit var userBuilder : User.Builder
-    private lateinit var nextIntent : Intent
-    private lateinit var gender : String
+    private lateinit var userBuilder: User.Builder
+    private lateinit var nextIntent: Intent
+    private lateinit var gender: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +26,12 @@ class ProfileGender : AppCompatActivity() {
         userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
+    /**
+     * Controls the radio buttons and gives the input to builder, if
+     * the user opts for More, then another intent is fired to let the user precise.
+     *
+     * @param view the current view
+     */
     fun startProfileOrientationOrGenderMore(view: View) {
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
         val radioButtonMore = findViewById<RadioButton>(R.id.sex3_more)
@@ -59,7 +65,10 @@ class ProfileGender : AppCompatActivity() {
     private fun bundleExtrasAndStartActivity() {
         val bundle = Bundle()
         userBuilder.setGender(gender)
-        bundle.putSerializable(EXTRA_USER, Json.encodeToString(User.Builder.serializer(),userBuilder))
+        bundle.putSerializable(
+            EXTRA_USER,
+            Json.encodeToString(User.Builder.serializer(), userBuilder)
+        )
         nextIntent.putExtras(bundle)
 
         startActivity(nextIntent)

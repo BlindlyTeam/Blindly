@@ -10,6 +10,9 @@ import ch.epfl.sdp.blindly.user.User
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+/**
+ * Page to prompt user to record an audio file for their profile.
+ */
 class ProfileAudioRecording : AppCompatActivity() {
 
     private lateinit var userBuilder: User.Builder

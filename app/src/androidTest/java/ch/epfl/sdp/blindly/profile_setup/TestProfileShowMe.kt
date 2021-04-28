@@ -8,7 +8,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.BundleMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
@@ -21,6 +21,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,50 +33,55 @@ private const val NO_INPUT_ERROR = "Please select one!"
 class TestProfileShowMe {
 
     private val TEST_USER = User.Builder()
-            .setUsername(CORRECT_NAME)
-            .setBirthday(TEST_BIRTHDAY)
+        .setUsername(CORRECT_NAME)
+        .setBirthday(TEST_BIRTHDAY)
     private val SERIALIZED = Json.encodeToString(TEST_USER)
-
-    @Before
-    fun init() {
-        val bundle = Bundle()
-        bundle.putSerializable(EXTRA_USER, SERIALIZED)
-
-        val intent = Intent(ApplicationProvider.getApplicationContext(),
-                ProfileShowMe::class.java).apply {
-            putExtras(bundle)
-        }
-
-        ActivityScenario.launch<ProfileShowMe>(intent)
-    }
-
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+    @Before
+    fun setup() {
+        hiltRule.inject()
+
+        val bundle = Bundle()
+        bundle.putSerializable(EXTRA_USER, SERIALIZED)
+
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            ProfileShowMe::class.java
+        ).apply {
+            putExtras(bundle)
+        }
+
+        ActivityScenario.launch<ProfileShowMe>(intent)
+        init()
+    }
+
+    @After
+    fun afterEach() {
+        release()
+    }
+
     @Test
     fun noInputOutputsError() {
-        Intents.init()
         val buttonContinue = onView(withId(R.id.button_p6))
         buttonContinue.perform(click())
         intended(hasComponent(ProfilePassions::class.java.name), Intents.times(0))
         onView(withId(R.id.warning_p6))
-                .check(
-                        ViewAssertions.matches(
-                                ViewMatchers.withText(
-                                        Matchers.containsString(
-                                                NO_INPUT_ERROR
-                                        )
-                                )
+            .check(
+                ViewAssertions.matches(
+                    ViewMatchers.withText(
+                        Matchers.containsString(
+                            NO_INPUT_ERROR
                         )
+                    )
                 )
-        Intents.release()
+            )
     }
 
     @Test
     fun anyChoiceFiresProfilePassions() {
-        Intents.init()
-
         val buttonPref = onView(withId(R.id.sex1_pref))
         buttonPref.perform(click())
         val buttonContinue = onView(withId(R.id.button_p6))
@@ -83,10 +89,13 @@ class TestProfileShowMe {
 
         TEST_USER.setShowMe(TEST_SHOW_ME)
 
-        intended(Matchers.allOf(
-            hasComponent(ProfilePassions::class.java.name),
+        intended(
+            Matchers.allOf(
+                hasComponent(ProfilePassions::class.java.name),
                 IntentMatchers.hasExtras(
-                    BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER)))))
-        Intents.release()
+                    BundleMatchers.hasEntry(EXTRA_USER, Json.encodeToString(TEST_USER))
+                )
+            )
+        )
     }
 }

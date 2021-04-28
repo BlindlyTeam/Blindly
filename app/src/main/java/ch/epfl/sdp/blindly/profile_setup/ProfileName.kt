@@ -22,6 +22,13 @@ class ProfileName : AppCompatActivity() {
         setContentView(R.layout.profile_setup_name)
     }
 
+    /**
+     * Gets the name of the user as input, checks it to be alphabetical and within
+     * character limits, if so passes it to builder and then fires Birthday Activity,
+     * if not outputs error message
+     *
+     * @param view
+     */
     fun startProfileBirthday(view: View) {
         findViewById<TextView>(R.id.warning1_p2).visibility = View.INVISIBLE
         findViewById<TextView>(R.id.warning2_p2).visibility = View.INVISIBLE

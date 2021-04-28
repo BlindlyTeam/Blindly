@@ -26,6 +26,13 @@ class ProfileShowMe : AppCompatActivity() {
         userBuilder = bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
     }
 
+    /**
+     * Gets the choice of the user in order to determine which genders to show,
+     * if none is checked outputs error otherwise passes the choice to builder and starts
+     * ProfilePassions
+     *
+     * @param view the current view
+     */
     fun startProfilePassions(view: View) {
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup_p6)
         findViewById<TextView>(R.id.warning_p6).visibility = View.INVISIBLE

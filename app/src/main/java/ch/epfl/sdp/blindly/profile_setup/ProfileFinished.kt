@@ -2,8 +2,10 @@ package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
@@ -35,12 +37,14 @@ class ProfileFinished : AppCompatActivity() {
      *
      * @param v the current view
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     fun startMainScreen(v: View) {
         setUser()
         val intent = Intent(this, MainScreen::class.java)
         startActivity(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUser() {
         val location = getCurrentAddress()
         userBuilder.setLocation(location)
