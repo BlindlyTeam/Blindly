@@ -37,11 +37,21 @@ class AndroidLocationService(private var context: Context) : LocationService {
                 canGetLocation = true
                 location = if (isGPSEnable) {
                     //get location from GPS
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDTAE, this)
+                    locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        MIN_TIME_FOR_UPDATE,
+                        MIN_DISTANCE_FOR_UPDTAE,
+                        this
+                    )
                     locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 } else {
                     //get location from Network
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDTAE, this)
+                    locationManager.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        MIN_TIME_FOR_UPDATE,
+                        MIN_DISTANCE_FOR_UPDTAE,
+                        this
+                    )
                     locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER))
                 }
 

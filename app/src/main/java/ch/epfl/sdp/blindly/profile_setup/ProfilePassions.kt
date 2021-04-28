@@ -1,7 +1,6 @@
 package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
-import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
@@ -11,7 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.chip.Chip
@@ -28,7 +26,7 @@ class ProfilePassions : AppCompatActivity() {
     @Inject
     lateinit var user: UserHelper
 
-    lateinit var userBuilder: User.Builder
+    private lateinit var userBuilder: User.Builder
     private val passions: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +86,8 @@ class ProfilePassions : AppCompatActivity() {
     private fun setUser() {
         val location = getCurrentLocation()
         if (location != null) {
-            userBuilder.setLocation(location)
+            val loc = listOf(location.latitude, location.longitude)
+            userBuilder.setLocation(loc)
         }
         userBuilder.setPassions(passions)
         user.setUserProfile(userBuilder)

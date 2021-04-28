@@ -18,15 +18,16 @@ import javax.inject.Singleton
 )
 open class FakeUserCacheModule {
     companion object {
+        private val loc = createLocationEPFL()
         private const val username = "Jane Doe"
-        private val location = createLocationEPFL()
+        private val location = listOf(loc.latitude, loc.longitude)
         private const val birthday = "01.01.01"
         private const val gender = "Woman"
         private val  sexual_orientations =  listOf("Asexual")
         private const val show_me = "Everyone"
         private val passions = listOf("Coffee", "Tea")
         private const val radius = 150
-        private val matches: List<User> = listOf()
+        private val matches: List<String> = listOf()
         private const val description = "Student"
         private val ageRange = listOf(30, 50)
         val fakeUser = User.Builder()

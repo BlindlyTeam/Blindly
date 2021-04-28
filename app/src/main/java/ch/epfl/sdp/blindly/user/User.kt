@@ -17,7 +17,7 @@ import java.time.Period
 @Serializable
 class User private constructor(
     val username: String?,
-    val location: List<Double>?,
+    //val location: List<Double>?,
     val birthday: String?,
     val gender: String?,
     val sexualOrientations: List<String>,
@@ -50,7 +50,7 @@ class User private constructor(
     @Serializable
     data class Builder(
         var username: String? = null,
-        var location: List<Double>? = null,
+        //var location: List<Double>? = null,
         var birthday: String? = null,
         var gender: String? = null,
         var sexualOrientations: List<String> = listOf(),
@@ -77,7 +77,7 @@ class User private constructor(
          * @param location the location of the User
          */
         fun setLocation(location: List<Double>) = apply {
-            this.location = location
+            //this.location = location
         }
 
         /**
@@ -174,7 +174,7 @@ class User private constructor(
         fun build(): User {
             return User(
                 username,
-                location,
+                //location,
                 birthday,
                 gender,
                 sexualOrientations,
@@ -199,7 +199,7 @@ class User private constructor(
         fun DocumentSnapshot.toUser(): User? {
             try {
                 val username = getString("username")!!
-                val location = get("location") as List<Double>
+                //val location = get("location") as List<Double>
                 val birthday = getString("birthday")!!
                 val gender = getString("gender")!!
                 val sexualOrientations = get("sexualOrientations") as List<String>
@@ -212,7 +212,7 @@ class User private constructor(
 
                 return User(
                     username,
-                    location,
+                    //location,
                     birthday,
                     gender,
                     sexualOrientations,
@@ -237,17 +237,9 @@ class User private constructor(
          */
         @RequiresApi(Build.VERSION_CODES.O)
         fun getUserAge(user: User?): Int? {
-            val birthday = user?.birthday?.split('.')
+            val birthday = user?.birthday
             if (birthday != null) {
-                val age = Period.between(
-                    LocalDate.of(
-                        birthday[2].toInt(),
-                        birthday[1].toInt(),
-                        birthday[0].toInt()
-                    ),
-                    LocalDate.now()
-                ).years
-                return getAgeFromBirthday(age)
+                return getAgeFromBirthday(birthday)
             }
             return null
         }
