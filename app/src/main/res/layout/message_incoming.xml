@@ -1,25 +1,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relativeLayout_outgoing"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:background="@drawable/shape_bg_incoming_bubble">
 
-    <RelativeLayout
-        android:id="@+id/textView_wrapper"
+    <TextView
+        android:id="@+id/messageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/shape_bg_incoming_bubble">
-
-        <TextView
-            android:id="@+id/messageText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignBaseline="@id/messageText"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:paddingRight="24dp"
-            android:paddingBottom="8dp"
-            android:text=""
-            android:textColor="@color/design_default_color_on_primary" />
-    </RelativeLayout></RelativeLayout>
+        android:layout_alignParentStart="true"
+        android:layout_alignBaseline="@id/messageText"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="8dp"
+        android:text=""
+        android:textColor="@color/design_default_color_on_primary" />
+</RelativeLayout>
