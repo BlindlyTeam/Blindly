@@ -11,8 +11,7 @@ class Message {
     // same ordering the next time users open the chat
     // Note: I considered usage from different timezones however since matches are only
     // allowed to be within a certain distance, there won't be any problem.
-    var timestamp: Long = System.currentTimeMillis()
-
+    var timestamp: Long? = null
     var messageText: String? = null
     var currentUserId: String? = null
 
@@ -22,6 +21,7 @@ class Message {
     ) {
         messageText = _messageText
         currentUserId = _currentUserId
+        timestamp = System.currentTimeMillis()
     }
 
 
