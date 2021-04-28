@@ -1,12 +1,13 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.permissions
 
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
-import ch.epfl.sdp.blindly.utils.LocationPermission
+import ch.epfl.sdp.blindly.permissions.LocationPermission
 
 private const val FINE_LOCATION_PERMISSION_CODE = 2
 

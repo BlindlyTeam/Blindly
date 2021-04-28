@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.utils
+package ch.epfl.sdp.blindly.permissions
 
 import android.Manifest
 import android.app.AlertDialog
@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import ch.epfl.sdp.blindly.R
-
 
 open class LocationPermission {
     /**
@@ -30,8 +29,8 @@ open class LocationPermission {
          */
         @JvmStatic
         fun requestPermission(
-                activity: AppCompatActivity, requestId: Int,
-                permission: String, finishActivity: Boolean
+            activity: AppCompatActivity, requestId: Int,
+            permission: String, finishActivity: Boolean
         ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
                 // Display a dialog with rationale.
@@ -40,9 +39,9 @@ open class LocationPermission {
             } else {
                 // Location permission has not been granted yet, request it.
                 ActivityCompat.requestPermissions(
-                        activity,
-                        arrayOf(permission),
-                        requestId
+                    activity,
+                    arrayOf(permission),
+                    requestId
                 )
             }
         }
@@ -136,9 +135,9 @@ open class LocationPermission {
                         .setMessage(R.string.permission_rationale_location)
                         .setPositiveButton(android.R.string.ok) { _, _ -> // After click on Ok, request the permission.
                             ActivityCompat.requestPermissions(
-                                    requireActivity(),
-                                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                                    requestCode
+                                requireActivity(),
+                                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                                requestCode
                             )
                             // Do not finish the Activity while requesting permission.
                             finishActivity = false
