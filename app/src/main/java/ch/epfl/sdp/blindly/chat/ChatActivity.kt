@@ -39,12 +39,12 @@ class ChatActivity : AppCompatActivity() {
         currentUserId = FirebaseAuth.getInstance().currentUser.uid
 
         val bundle = this.intent.extras
-        if (bundle != null) {
-            matchId == bundle.getString("matchId")
+        matchId = if (bundle != null) {
+            bundle.getString("matchId").toString()
         } else {
             //for manual testing
             //matchId = "QDs8Hu6kWAb7SSdGQUbDllJXX3y2" //ct
-            matchId = "kq37EpNoqqPA3o6vjAFFuRUgDkE2" //cgngr
+            "kq37EpNoqqPA3o6vjAFFuRUgDkE2" //cgngr
         }
 
         //this is done to get the same chatId from both sides
