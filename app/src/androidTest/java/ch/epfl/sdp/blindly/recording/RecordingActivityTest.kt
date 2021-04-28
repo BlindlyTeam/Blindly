@@ -1,8 +1,11 @@
 package ch.epfl.sdp.blindly.recording
 
+import android.content.Intent
+import android.os.Bundle
 import android.widget.ProgressBar
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -17,6 +20,7 @@ import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.actionOnChild
 import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
 import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
+import ch.epfl.sdp.blindly.recording.RecordingActivity.Companion.AUDIO_DURATION_KEY
 import junit.framework.Assert.fail
 import org.hamcrest.Matchers.not
 import org.junit.Rule
@@ -26,14 +30,19 @@ import java.lang.reflect.Method
 
 
 private const val AUDIO_FILE_ONE = "Audio file 1"
-private const val MAXIMUM_AUDIO_DURATION = 90000L
+private const val TEST_MAXIMUM_AUDIO_DURATION = 13000
 private const val FIVE_SECONDS = 5000L
 private const val TWO_SECONDS = 2000L
 
+
 @RunWith(AndroidJUnit4::class)
 class RecordingActivityTest {
+    private val initBundle = Bundle()
+    val intent = Intent(ApplicationProvider.getApplicationContext(), RecordingActivity::class.java)
+        .putExtra(AUDIO_DURATION_KEY, TEST_MAXIMUM_AUDIO_DURATION)
+
     @get:Rule
-    val activityRule = ActivityScenarioRule(RecordingActivity::class.java)
+    val activityRule = ActivityScenarioRule<RecordingActivity>(intent)
 
     @Test
     fun recordNameIsCorrectlyDisplayed() {
@@ -107,7 +116,7 @@ class RecordingActivityTest {
     fun maximumDurationStopsRecording() {
         val recordButton = onView(withId(R.id.recordingButton))
         recordButton.perform(click())
-        Thread.sleep(MAXIMUM_AUDIO_DURATION + 500L)
+        Thread.sleep(TEST_MAXIMUM_AUDIO_DURATION + 500L)
         onView(withId(R.id.nameDurationLayout))
             .check(
                 matches(
@@ -118,7 +127,7 @@ class RecordingActivityTest {
 
     @Test
     fun remainingTimerIsRedWhen10SecondsRemain() {
-        createRecord(MAXIMUM_AUDIO_DURATION - FIVE_SECONDS)
+        createRecord(TEST_MAXIMUM_AUDIO_DURATION - FIVE_SECONDS)
         onView(withId(R.id.remainingRecordTimer))
         onView(withId(R.id.remainingRecordTimer))
             .check(
