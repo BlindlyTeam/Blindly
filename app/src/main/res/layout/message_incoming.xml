@@ -18,7 +18,7 @@
             android:layout_alignBaseline="@id/messageText"
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
-            android:paddingRight="16dp"
+            android:paddingRight="24dp"
             android:paddingBottom="8dp"
             android:text=""
             android:textColor="@color/design_default_color_on_primary" />
