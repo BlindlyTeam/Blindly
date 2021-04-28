@@ -30,13 +30,14 @@ class MatchingAlgorithm() {
      *
      * @return a list of users that can be showed in the swiping interface
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getPotentialMatchesFromDatabase(): List<User>? {
         val currentUser = getCurrentUser()
         val matches: MutableList<User?> = ArrayList<User?>().toMutableList()
 
         currentUser?.passions?.let { list ->
             userRepository.getCollectionReference()
-                .whereEqualTo("gender", currentUser.show_me)
+                .whereEqualTo("gender", currentUser.showMe)
                 .whereArrayContainsAny("passions", list).get()
                 .addOnSuccessListener { users ->
                     for (user in users) {

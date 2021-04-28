@@ -22,12 +22,12 @@ class User private constructor(
     @Contextual val location: Location?,
     val birthday: String?,
     val gender: String?,
-    val sexual_orientations: List<String>,
-    val show_me: String?,
+    val sexualOrientations: List<String>,
+    val showMe: String?,
     val passions: List<String>,
     val radius: Int?,
     val matches: List<User>,
-    val description: String?
+    val description: String?,
     val ageRange: List<Int>
 ) {
 
@@ -73,16 +73,12 @@ class User private constructor(
             this.username = username
         }
 
-        fun setLocation(location: Location) = apply {
-            this.location = location
-        }
-
         /**
          * Set the location in the UserBuilder
          *
          * @param location the location of the User
          */
-        fun setLocation(location: String) = apply {
+        fun setLocation(location: Location) = apply {
             this.location = location
         }
 
@@ -183,12 +179,12 @@ class User private constructor(
                 location,
                 birthday,
                 gender,
-                sexual_orientations,
-                show_me,
+                sexualOrientations,
+                showMe,
                 passions,
                 radius,
                 matches,
-                description
+                description,
                 ageRange
             )
         }
@@ -222,12 +218,12 @@ class User private constructor(
                     location,
                     birthday,
                     gender,
-                    sexual_orientations,
-                    show_me,
+                    sexualOrientations,
+                    showMe,
                     passions,
                     radius,
                     matches,
-                    description
+                    description,
                     ageRange
                 )
             } catch (e: Exception) {
