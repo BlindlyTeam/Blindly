@@ -28,6 +28,9 @@ class ChatActivity : AppCompatActivity() {
      * from those it forms a chatID which we'll use to refer in the Realtime Database
      * Using the chatId we get the messages from Realtime Database via receiveMessages()
      *
+     * Note: We need to give the url to the getInstance() function as our database is not
+     * located in the USA
+     *
      * @param savedInstanceState
      */
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +43,8 @@ class ChatActivity : AppCompatActivity() {
             matchId == bundle.getString("matchId")
         } else {
             //for manual testing
-            //matchId = "LQ9JDQQQakWJeHUwWzc2Dt5tBEC3"
-            matchId = "kh5EpYDCqXNtKWKTUYA02Kp65NB3"
+            //matchId = "QDs8Hu6kWAb7SSdGQUbDllJXX3y2" //ct
+            matchId = "kq37EpNoqqPA3o6vjAFFuRUgDkE2" //cgngr
         }
 
         //this is done to get the same chatId from both sides
@@ -79,8 +82,6 @@ class ChatActivity : AppCompatActivity() {
 
     /**
      * Sends the message to the Realtime Database using the chatId as the child
-     * Note that we need to give the url to the getInstance() function as our database is not
-     * located in the USA
      */
     private fun sendMessage() {
         val newMessage = Message(
@@ -99,7 +100,6 @@ class ChatActivity : AppCompatActivity() {
      * Overriding the onChildAdded function to get the new messages when a new Message is added
      * to our database referenced by chatReference. If it's correctly fetched we pass it to the
      * adapter and scroll to the last message's position.
-     *
      */
     private fun receiveMessages() {
 
@@ -113,6 +113,7 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
 
+            // we don't allow any changes, removals etc. so these stay only for the compilation
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 TODO("Not yet implemented")
             }
