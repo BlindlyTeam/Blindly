@@ -18,10 +18,12 @@ import ch.epfl.sdp.blindly.animations.RecordAnimations
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_USER
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.UserHelper
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.serialization.json.Json
 import java.io.File
 
-private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.3gp"
+private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.amr"
 private const val PLAYBAR_DELAY = 10L
 
 /**
@@ -32,17 +34,21 @@ private const val PLAYBAR_DELAY = 10L
  * @property context context of the RecyclerView
  * @property listener handles clicks on items
  */
+
 class AudioLibraryAdapter(
     var recordList: ArrayList<AudioRecord>,
     private var viewHolderList: ArrayList<ViewHolder>,
     var context: Context,
     private val listener: OnItemClickListener,
-    private var userBuilder: User.Builder
+    private var userBuilder: User.Builder,
+    private val user: UserHelper,
+    private val storage: FirebaseStorage
 ) : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
     var mediaPlayer: MediaPlayer? = null
     private var isPlayerPaused = false
     private var isPlayerStopped = true
     private var isPlayBarTouched = false
+    private lateinit var recordingPath: String
 
     /**
      * Custom ViewHolder class that contains all the elements that will be used later on in
@@ -166,7 +172,6 @@ class AudioLibraryAdapter(
         viewHolder.selectButton.setOnClickListener {
             mediaPlayer?.release()
             saveRecording(position)
-            startProfileFinished()
         }
     }
 
@@ -224,13 +229,20 @@ class AudioLibraryAdapter(
         val filePath = recordList[position].filePath
         val newName = PRESENTATION_AUDIO_NAME
         val currentRecording = File(filePath)
-        val file = File("${context.filesDir.absolutePath}/$newName")
+        val newFile = File("${context.filesDir.absolutePath}/$newName")
         currentRecording.copyTo(
-            file,
+            newFile,
             overwrite = true
         )
-        val uriFile = Uri.fromFile(file)
-        userBuilder.setRecording(uriFile.toString())
+        val userId = user.getUserId()
+        recordingPath = "Recordings/$userId-$newName"
+        val storageRef = storage.reference.child(recordingPath)
+        userBuilder.setRecording(recordingPath)
+        storageRef.putFile(Uri.fromFile(newFile)).addOnSuccessListener {
+            startProfileFinished()
+        }.addOnFailureListener {
+            Toast.makeText(context, "Failed to upload the recording. Try again.", Toast.LENGTH_LONG)
+        }
     }
 
     private fun createMediaPlayer(filePath: String) {

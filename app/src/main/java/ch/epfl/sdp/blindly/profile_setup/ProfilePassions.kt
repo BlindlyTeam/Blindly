@@ -9,11 +9,9 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.User
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-@AndroidEntryPoint
 class ProfilePassions : AppCompatActivity() {
     lateinit var userBuilder: User.Builder
     private val passions: ArrayList<String> = ArrayList()

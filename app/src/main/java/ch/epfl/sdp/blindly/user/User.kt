@@ -1,12 +1,10 @@
 package ch.epfl.sdp.blindly.user
 
-import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.Period
@@ -26,7 +24,7 @@ class User private constructor(
     val radius: Int?,
     val matches: List<User>,
     val description: String?,
-    val recording: String?
+    val recordingPath: String?
 ) {
 
 
@@ -46,8 +44,7 @@ class User private constructor(
         var radius: Int? = null,
         var matches: List<User> = listOf(),
         var description: String? = null,
-        @Contextual
-        var recording: String? = null
+        var recordingPath: String? = null
     ) {
 
         fun setUsername(username: String) = apply {
@@ -90,8 +87,8 @@ class User private constructor(
             this.description = description
         }
 
-        fun setRecording(recording: String) = apply {
-            this.recording = recording
+        fun setRecording(recordingPath: String) = apply {
+            this.recordingPath = recordingPath
         }
 
         fun build(): User {
@@ -106,7 +103,7 @@ class User private constructor(
                 radius,
                 matches,
                 description,
-                recording!!
+                recordingPath
             )
         }
 
@@ -130,7 +127,7 @@ class User private constructor(
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as List<User>
                 val description = getString("description")!!
-                val recording = getString("recording")
+                val recordingPath = getString("recordingPath")
                 return User(
                     username,
                     location,
@@ -142,7 +139,7 @@ class User private constructor(
                     radius,
                     matches,
                     description,
-                    recording
+                    recordingPath
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile", e)

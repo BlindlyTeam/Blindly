@@ -10,10 +10,12 @@ import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProfileFinished : AppCompatActivity() {
     @Inject
     lateinit var user: UserHelper
