@@ -237,7 +237,7 @@ class AudioLibraryAdapter(
         val userId = user.getUserId()
         recordingPath = "Recordings/$userId-$newName"
         val storageRef = storage.reference.child(recordingPath)
-        userBuilder.setRecording(recordingPath)
+        userBuilder.setRecordingPath(recordingPath)
         storageRef.putFile(Uri.fromFile(newFile)).addOnSuccessListener {
             startProfileFinished()
         }.addOnFailureListener {
