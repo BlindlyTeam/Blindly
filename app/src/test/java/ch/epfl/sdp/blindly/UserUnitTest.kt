@@ -9,9 +9,8 @@ import java.lang.IllegalArgumentException
 
 class UserUnitTest {
     companion object {
-        private val loc = createLocationEPFL()
         private const val username = "Jane Doe"
-        private val location = listOf(loc.latitude, loc.longitude)
+        private val location = listOf(createLocationEPFL().latitude, createLocationEPFL().longitude)
         private const val birthday = "01.01.2001"
         private const val gender = "Woman"
         private val  sexual_orientations = listOf("Asexual")
