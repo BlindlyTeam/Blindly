@@ -41,23 +41,29 @@ class MatchingAlgorithm {
         val matches: MutableList<User?> = ArrayList<User?>().toMutableList()
         var query: Query?
 
-        query = currentUser?.passions?.let {
-            userRepository.getCollectionReference().whereArrayContainsAny("passions", it)
+        if (currentUser == null) {
+            return null
         }
 
-        if (currentUser!!.showMe != EVERYONE) {
-            query = query?.whereEqualTo("gender", currentUser.showMe)
+        query = userRepository.getCollectionReference()
+            .whereArrayContainsAny("passions", currentUser.passions)
+
+        if (currentUser.showMe != EVERYONE) {
+            query = query.whereEqualTo("gender", currentUser.showMe)
         }
 
-        query?.get()?.addOnSuccessListener { users ->
+        query = query.whereNotEqualTo("uid", userHelper.getUserId())
+
+        query.get().addOnSuccessListener { users ->
             for (user in users) {
                 matches += user.toUser()
             }
-        }?.addOnFailureListener { exception ->
+        }.addOnFailureListener { exception ->
             Log.w(TAG, "Error getting users : ", exception)
         }
 
-        val filteredList = userListFilter.filterLocationAndAgeRange(currentUser, clearNullUsers(matches))
+        val filteredList =
+            userListFilter.filterLocationAndAgeRange(currentUser, clearNullUsers(matches))
         return userListFilter.reversePotentialMatch(currentUser, filteredList)
     }
 
