@@ -73,12 +73,12 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:7.1.1'
     implementation 'com.google.firebase:firebase-firestore:22.1.2'
 
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     implementation 'com.android.support:recyclerview-v7:30'
 
-    implementation 'androidx.fragment:fragment-ktx:1.3.2'
-    implementation "androidx.fragment:fragment-ktx:1.3.2"
+    implementation 'androidx.fragment:fragment-ktx:1.3.3'
+    implementation "androidx.fragment:fragment-ktx:1.3.3"
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
 
@@ -93,7 +93,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
-    debugImplementation "androidx.fragment:fragment-testing:1.3.2"
+    debugImplementation "androidx.fragment:fragment-testing:1.3.3"
 
     //in order to test DatePicker
     androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
@@ -111,6 +111,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     // Declare the dependency for the Realtime Database library
     implementation 'com.google.firebase:firebase-database-ktx'
+    // Declare the dependency for the Cloud Storage library
+    implementation 'com.google.firebase:firebase-storage-ktx'
     androidTestImplementation 'androidx.test:core-ktx:1.3.0'
     // Mockito framework
     // We have to use dexmaker version as we want to be able to mock final classes

@@ -9,23 +9,17 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.user.User
-import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import javax.inject.Inject
 
 private const val SELECTION_LIMIT = 5
 
-@AndroidEntryPoint
 class ProfilePassions : AppCompatActivity() {
     @Inject
     lateinit var user: UserHelper
-
     private lateinit var userBuilder: User.Builder
     private val passions: ArrayList<String> = ArrayList()
 
@@ -66,8 +60,14 @@ class ProfilePassions : AppCompatActivity() {
             //correct numbers of selection
             else -> {
                 getCheckedChip()
+                val bundle = Bundle()
+                userBuilder.setPassions(passions)
+                bundle.putSerializable(
+                    EXTRA_USER,
+                    Json.encodeToString(User.Builder.serializer(), userBuilder)
+                )
                 val intent = Intent(this, ProfileAudioRecording::class.java)
-                setUser()
+                intent.putExtras(bundle)
                 startActivity(intent)
             }
         }
