@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.ViewModelAssistedFactory
-import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper

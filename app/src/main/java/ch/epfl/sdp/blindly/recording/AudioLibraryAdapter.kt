@@ -242,6 +242,7 @@ class AudioLibraryAdapter(
             startProfileFinished()
         }.addOnFailureListener {
             Toast.makeText(context, "Failed to upload the recording. Try again.", Toast.LENGTH_LONG)
+                .show()
             startProfileFinished()
         }
     }

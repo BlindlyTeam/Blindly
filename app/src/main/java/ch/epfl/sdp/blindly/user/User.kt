@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
-import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.Period
 
@@ -172,7 +171,7 @@ class User private constructor(
          *     ageRange[1] = maxAge
          */
         fun setAgeRange(ageRange: List<Int>) = apply {
-            if(ageRange.size == 2)
+            if (ageRange.size == 2)
                 this.ageRange = ageRange
             else
                 throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")

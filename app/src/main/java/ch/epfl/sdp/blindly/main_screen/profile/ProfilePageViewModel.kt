@@ -26,7 +26,7 @@ class ProfilePageViewModel @AssistedInject constructor(
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
     private val userId: String =
-        savedStateHandle["uid"] ?: throw IllegalArgumentException("missing user id")
+        savedStateHandle["uid"] ?: throw IllegalArgumentException("Missing user id")
 
     init {
         viewModelScope.launch {
