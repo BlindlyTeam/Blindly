@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
-import android.location.Geocoder
+import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -46,23 +46,12 @@ class ProfileFinished : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setUser() {
-        val location = getCurrentAddress()
-        userBuilder.setLocation(location)
+        val location = getCurrentLocation()
+        userBuilder.setLocation(listOf(location!!.latitude, location!!.longitude))
         user.setUserProfile(userBuilder)
     }
 
-    private fun getCurrentAddress(): String {
-        val currentLocation = AndroidLocationService(this).getCurrentLocation()
-        val latitude = currentLocation?.latitude
-        val longitude = currentLocation?.longitude
-        val geocoder = Geocoder(this)
-        if (latitude != null && longitude != null) {
-            val address = geocoder.getFromLocation(latitude, longitude, 5)
-            val country = address[0].countryName
-            val city = address[0].locality
-            return "$city, $country"
-        }
-        return "Location not found"
+    private fun getCurrentLocation(): Location? {
+        return AndroidLocationService(this).getCurrentLocation()
     }
-
 }

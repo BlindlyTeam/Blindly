@@ -17,9 +17,9 @@ import kotlinx.serialization.json.Json
 private const val SELECTION_LIMIT = 5
 
 class ProfilePassions : AppCompatActivity() {
-    lateinit var userBuilder: User.Builder
-    private val passions: ArrayList<String> = ArrayList()
 
+    private lateinit var userBuilder: User.Builder
+    private val passions: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,6 @@ class ProfilePassions : AppCompatActivity() {
             size < 1 -> {
                 findViewById<TextView>(R.id.warning_p7_1).visibility = View.VISIBLE
             }
-            //selected more than allowed
             size > SELECTION_LIMIT -> {
                 findViewById<TextView>(R.id.warning_p7_2).visibility = View.VISIBLE
             }
@@ -73,7 +72,7 @@ class ProfilePassions : AppCompatActivity() {
     }
 
     /**
-     * Iterates through the checked chips and gets the passions
+     * Iterate through the checked chips and gets the passions
      */
     private fun getCheckedChip() {
         val chipGroup = findViewById<ChipGroup>(R.id.chipGroup_p7)
@@ -83,5 +82,4 @@ class ProfilePassions : AppCompatActivity() {
             passions.add(chipText)
         }
     }
-
 }
