@@ -28,7 +28,6 @@ class MessagePageFragment : Fragment() {
             val fragment = MessagePageFragment()
             val args = Bundle()
             args.putInt(ARG_COUNT, counter)
-            args.putString("matchedId", "kq37EpNoqqPA3o6vjAFFuRUgDkE2")
             fragment.arguments = args
             return fragment
         }

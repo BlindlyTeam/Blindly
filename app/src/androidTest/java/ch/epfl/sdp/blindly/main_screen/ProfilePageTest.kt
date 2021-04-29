@@ -122,23 +122,6 @@ class ProfilePageTest {
     }
 
     @Test
-    fun removingAudioPlayerRestartsMediaPlayer() {
-        //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
-        onView(withId(R.id.play_pause_button)).perform(click())
-        //Remove the audio player
-        onView(withId(R.id.profile_relativeLayout)).perform(click())
-        //Create it again
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
-
-        var playBar: SeekBar? = null
-        activityRule.scenario.onActivity {
-            playBar = it.findViewById(R.id.play_bar)
-        }
-        assertThat(playBar?.progress, equalTo(0))
-    }
-
-    @Test
     fun clickingOutsideAudioPlayerFragmentRemovesIt() {
         //Create and show the audio player
         onView(withId(R.id.play_audio_profile_button)).perform(click())
@@ -187,40 +170,6 @@ class ProfilePageTest {
     }
 
      */
-
-    @Test
-    fun playPauseButtonChangesBackgroundWhenClickedTwice() {
-        //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
-
-        onView(withId(R.id.play_pause_button))
-            .perform(click())
-        onView(withId(R.id.play_pause_button))
-            .perform(click())
-        onView(withId(R.id.play_pause_button))
-            .check(
-                ViewAssertions.matches(
-                    EspressoTestMatchers.withDrawable(android.R.drawable.ic_media_play)
-                )
-            )
-    }
-
-    @Test
-    fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
-        //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
-
-        onView(withId(R.id.play_pause_button))
-            .perform(click())
-        Thread.sleep(2000L)
-        onView(withId(R.id.play_pause_button))
-            .check(
-                ViewAssertions.matches(
-                    EspressoTestMatchers.withDrawable(android.R.drawable.ic_media_play)
-                )
-            )
-    }
-
 
     private fun getAudioPlayerFragment(): Fragment? {
         val fragmentManager = fragment.childFragmentManager
