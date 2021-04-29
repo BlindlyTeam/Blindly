@@ -225,7 +225,6 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     private fun changeRecordFilePath(recordNumber: Int) {
         recordFilePath =
             "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.3gp"
-        Log.d("Recroding activity", "Saved file in $recordFilePath")
     }
 
     private fun deleteTempRecordings() {

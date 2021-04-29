@@ -4,6 +4,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +12,19 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.recording.AudioRecord
 import ch.epfl.sdp.blindly.recording.BlindlyMediaPlayer
 import ch.epfl.sdp.blindly.recording.RecordingActivity
+import java.io.File
 
 /**
  * A simple [Fragment] subclass.
  * Use the [AudioPlayerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 class AudioPlayerFragment : Fragment() {
     private val blindlyMediaPlayer = BlindlyMediaPlayer()
     private lateinit var audioRecord: AudioRecord
@@ -47,24 +51,19 @@ class AudioPlayerFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
 
-        //TODO change this function with a ViewModel that observe this data
+        val file = File("${context?.filesDir?.absolutePath}/PresentationAudio.3gp")
+        //TODO Can we obtain the duration from a File?
         audioRecord = AudioRecord(
-            "AudioRecord1",
-            "00:05",
-            "${context?.filesDir?.absolutePath}/PresentationAudio.3gp",
+            file.name,
+            "",
+            file.path,
             true
         )
 
-        recordName = view.findViewById<TextView>(R.id.record_name)
-        recordName.text = audioRecord.name
-
-        recordDuration = view.findViewById<TextView>(R.id.record_duration)
-        recordDuration.text = audioRecord.durationText
-
-        playBar = view.findViewById<SeekBar>(R.id.play_bar)
-        remainingTimer = view.findViewById<Chronometer>(R.id.remaining_timer)
-        playTimer = view.findViewById<Chronometer>(R.id.audio_timer)
-        playPauseButton = view.findViewById<AppCompatImageButton>(R.id.play_pause_button)
+        playBar = view.findViewById(R.id.play_bar)
+        remainingTimer = view.findViewById(R.id.remaining_timer)
+        playTimer = view.findViewById(R.id.audio_timer)
+        playPauseButton = view.findViewById(R.id.play_pause_button)
 
         blindlyMediaPlayer.setupMediaPlayer(
             playBar,
@@ -74,18 +73,36 @@ class AudioPlayerFragment : Fragment() {
             audioRecord
         )
 
+        recordName = view.findViewById(R.id.record_name)
+        recordName.text = audioRecord.name
+
+        recordDuration = view.findViewById(R.id.record_duration)
+        recordDuration.text = audioRecord.durationText
         val recordButton = view.findViewById<Button>(R.id.record_button)
         recordButton.setOnClickListener {
             val intent = Intent(context, RecordingActivity::class.java)
-            resetMediaPlayer()
+            removeFragment()
             startActivity(intent)
         }
 
         return view
     }
 
-    fun resetMediaPlayer() {
-        blindlyMediaPlayer.resetRecordPlayer(audioRecord, playTimer, remainingTimer, playPauseButton, playBar)
+    private fun removeFragment() {
+        parentFragmentManager.commit {
+            val audioPlayerFragment =
+                parentFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
+            if (audioPlayerFragment != null) {
+                blindlyMediaPlayer.resetRecordPlayer(
+                    audioRecord,
+                    playTimer,
+                    remainingTimer,
+                    playPauseButton,
+                    playBar
+                )
+                remove(audioPlayerFragment)
+            }
+        }
     }
 
     companion object {

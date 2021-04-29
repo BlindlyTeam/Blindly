@@ -1,6 +1,10 @@
 package ch.epfl.sdp.blindly.main_screen
 
+import android.util.Log
+import android.widget.Chronometer
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commitNow
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
@@ -17,6 +21,8 @@ import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.equalTo
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -76,16 +82,32 @@ class ProfilePageTest {
     }
 
     @Test
+    fun editButtonRemoveAudioPlayerFragment() {
+        onView(withId(R.id.play_audio_profile_button)).perform(click())
+        onView(withId(R.id.edit_info_profile_button)).perform(click())
+        val audioPlayerFragment = getAudioPlayerFragment()
+        assert(audioPlayerFragment == null)
+    }
+
+    @Test
     fun settingsButtonFiresSettingsActivity() {
         onView(withId(R.id.settings_profile_button)).perform(click())
         intended(hasComponent(Settings::class.java.name))
     }
 
     @Test
+    fun settingsButtonRemovesAudioPlayerFragment() {
+        onView(withId(R.id.play_audio_profile_button)).perform(click())
+        onView(withId(R.id.settings_profile_button)).perform(click())
+        val audioPlayerFragment = getAudioPlayerFragment()
+        assert(audioPlayerFragment == null)
+    }
+
+    @Test
     fun playAudioButtonCreatesAudioPlayerFragment() {
         //Create and show the audio player
         onView(withId(R.id.play_audio_profile_button)).perform(click())
-        val audioPlayerFragment = createAudioPlayerFragment()
+        val audioPlayerFragment = getAudioPlayerFragment()
         assert(audioPlayerFragment != null)
         if (audioPlayerFragment != null) {
             assert(audioPlayerFragment.isVisible)
@@ -93,53 +115,58 @@ class ProfilePageTest {
     }
 
     @Test
-    fun audioPlayerNotHiddenIfNotCreated() {
-        val audioPlayerFragment = createAudioPlayerFragment()
+    fun audioPlayerNotRemovedIfNotCreated() {
+        val audioPlayerFragment = getAudioPlayerFragment()
         onView(withId(R.id.profile_relativeLayout)).perform(click())
         assert(audioPlayerFragment == null)
     }
 
     @Test
-    fun audioPlayerRemainsHidden() {
+    fun removingAudioPlayerRestartsMediaPlayer() {
         //Create and show the audio player
         onView(withId(R.id.play_audio_profile_button)).perform(click())
-        val audioPlayerFragment = createAudioPlayerFragment()
-        //Hide the audio player
+        onView(withId(R.id.play_pause_button)).perform(click())
+        //Remove the audio player
         onView(withId(R.id.profile_relativeLayout)).perform(click())
-        onView(withId(R.id.profile_relativeLayout)).perform(click())
-        if (audioPlayerFragment != null) {
-            assert(audioPlayerFragment.isHidden)
+        //Create it again
+        onView(withId(R.id.play_audio_profile_button)).perform(click())
+
+        var playBar : SeekBar? = null
+        activityRule.scenario.onActivity {
+            playBar = it.findViewById(R.id.play_bar)
         }
+        assertThat(playBar?.progress, equalTo(0))
     }
 
     @Test
-    fun clickingOutsideAudioPlayerFragmentHidesIt() {
+    fun clickingOutsideAudioPlayerFragmentRemovesIt() {
         //Create and show the audio player
         onView(withId(R.id.play_audio_profile_button)).perform(click())
-        val audioPlayerFragment = createAudioPlayerFragment()
-        //Hide the audio player
+        //Remove the audio player
         onView(withId(R.id.profile_relativeLayout)).perform(click())
-        if (audioPlayerFragment != null) {
-            assert(audioPlayerFragment.isHidden)
-        }
+
+        assert(getAudioPlayerFragment() == null)
     }
 
     @Test
-    fun playAudioButtonShowAudioPlayerFragment() {
+    fun playAudioButtonCreateAudioPlayerFragment() {
         //Create and show the audio player
         onView(withId(R.id.play_audio_profile_button)).perform(click())
-        val audioPlayerFragment = createAudioPlayerFragment()
-        //Hide the audio player
+        //Remove the audio player
         onView(withId(R.id.profile_relativeLayout)).perform(click())
-        //Show it again
+        //Create it again
         onView(withId(R.id.play_audio_profile_button)).perform(click())
+
+        val audioPlayerFragment = getAudioPlayerFragment()
+        assert(audioPlayerFragment != null)
         if (audioPlayerFragment != null) {
             assert(audioPlayerFragment.isVisible)
         }
 
     }
 
-    private fun createAudioPlayerFragment() : Fragment? {
+
+    private fun getAudioPlayerFragment() : Fragment? {
         val fragmentManager = fragment.childFragmentManager
         return fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
     }

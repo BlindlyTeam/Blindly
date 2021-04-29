@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatImageButton
 
 private const val PLAYBAR_DELAY = 10L
 
-//TODO this is a copy paste, need to refactor so that the AudioLibraryAdapter calls these functiosn instead
 /**
  * Utility class functions that contains all the functions needed for
  * a mediaPlayer to work
@@ -48,7 +47,6 @@ class BlindlyMediaPlayer {
             movePlayBarThread, audioRecord
         )
 
-
         setCountDownTimer(remainingTimer)
 
         /*
@@ -74,6 +72,17 @@ class BlindlyMediaPlayer {
         }
     }
 
+    /**
+     * Binds to the seekbar the chronometers, so that a change to the seekbar synced with
+     * all the other UI elements
+     *
+     * @param playBar the seekbar
+     * @param playTimer the timer for playing
+     * @param remainingTimer the timer for remaining time
+     * @param playPauseButton the button to play and pause the audio player
+     * @param movePlayBarThread the thread on which the seekbar runs
+     * @param audioRecord the audio record
+     */
     fun bindSeekBarNavigation(
         playBar: SeekBar, playTimer: Chronometer,
         remainingTimer: Chronometer,
@@ -132,7 +141,7 @@ class BlindlyMediaPlayer {
      * @param audioRecord the audioRecord
      * @param playTimer the timer for playing
      * @param remainingTimer the timer for remaining time
-     * @param playPauseButton
+     * @param playPauseButton the button to play and pause the audio player
      * @param playBar the moving seek bar for the audio file
      */
     fun resetRecordPlayer(
@@ -145,7 +154,6 @@ class BlindlyMediaPlayer {
             mediaPlayer?.stop()
             setStoppedView(playTimer, remainingTimer, playPauseButton, false)
         }
-
         // Reset the timers and the play bar
         remainingTimer.base = SystemClock.elapsedRealtime() + mediaPlayer!!.duration.toLong()
         playTimer.base = SystemClock.elapsedRealtime()
@@ -156,7 +164,7 @@ class BlindlyMediaPlayer {
      * Creates a thread that handles the playbar updates, according to the progress of the media
      * player.
      *
-     * @param playBar
+     * @param playBar the seekbar
      * @return the created thread
      */
     fun createPlayBarThread(playBar: SeekBar): Runnable {
@@ -174,8 +182,8 @@ class BlindlyMediaPlayer {
     /**
      * Updates the playbar on a given thread, according to the media player's position and duration.
      *
-     * @param playBar
-     * @param thread
+     * @param playBar the seekbar
+     * @param thread the thread on which the seekbar runs
      * @param duration the duration of the audio file
      * @param position the current position in the file
      */
@@ -188,13 +196,26 @@ class BlindlyMediaPlayer {
         handler.postDelayed(thread, PLAYBAR_DELAY)
     }
 
-    // Setting a timer to count down requires Android N
+    /**
+     * Set the given timer to a CountDownTimer
+     * Setting a timer to count down requires Android N
+     *
+     * @param timer the timer
+     */
     @RequiresApi(Build.VERSION_CODES.N)
     fun setCountDownTimer(timer: Chronometer) {
         timer.isCountDown = true
         timer.format = "-%s"
     }
 
+    /**
+     * Set the view of all the given UI elements to reflect a stopped mediaPlayer
+     *
+     * @param playTimer the timer for playing
+     * @param remainingTimer the timer for the remaining time
+     * @param playPauseButton the button to play or pause the audio
+     * @param isPause a boolean
+     */
     fun setStoppedView(
         playTimer: Chronometer, remainingTimer: Chronometer,
         playPauseButton: AppCompatImageButton, isPause: Boolean
@@ -227,6 +248,16 @@ class BlindlyMediaPlayer {
         playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
     }
 
+    /**
+     * Handles clicks and drags on the seekbar
+     *
+     * @param audioRecord the audio record
+     * @param playTimer the timer for playing
+     * @param remainingTimer the timer for the remaining time
+     * @param playPauseButton the button to play or pause the audio
+     * @param playBar the seekbar
+     * @param movePlayBarThread the thread on which the seekbar runs
+     */
     fun handlePlayBarClick(
         audioRecord: AudioRecord,
         playTimer: Chronometer,

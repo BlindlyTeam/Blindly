@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.ViewModelAssistedFactory
 import ch.epfl.sdp.blindly.main_screen.audio_player.AudioPlayerFragment
+import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -105,7 +107,7 @@ class ProfilePageFragment : Fragment() {
         //Clicking outside of the audioPlayer dismisses it
         val profileView = view.findViewById<RelativeLayout>(R.id.profile_relativeLayout)
         profileView.setOnTouchListener { _, _ ->
-            hideAudioPlayer()
+            removeAudioPlayer()
             false
         }
 
@@ -137,6 +139,7 @@ class ProfilePageFragment : Fragment() {
         button.setOnClickListener {
             button.startAnimation(bounce)
             Handler(Looper.getMainLooper()).postDelayed({
+                removeAudioPlayer()
                 startActivity(intent)
             }, BOUNCE_DURATION)
         }
@@ -147,30 +150,19 @@ class ProfilePageFragment : Fragment() {
         button.startAnimation(bounce)
         Handler(Looper.getMainLooper()).postDelayed({
             childFragmentManager.commit {
-                val audioPlayerFragment =
-                    childFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
-                //Check if the fragment has been added to the fragment manager,
-                // show it if it exists else create a new one
-                if (audioPlayerFragment != null) {
-                    show(audioPlayerFragment)
-                } else {
-                    setReorderingAllowed(true)
-                    add<AudioPlayerFragment>(R.id.fragment_audio_container_view)
-                }
+                setReorderingAllowed(true)
+                add<AudioPlayerFragment>(R.id.fragment_audio_container_view)
             }
         }, BOUNCE_DURATION)
     }
 
-    private fun hideAudioPlayer() {
+    private fun removeAudioPlayer() {
         childFragmentManager.commit {
             val fragment =
                 childFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
             if (fragment != null) {
-                if (fragment.isVisible) {
-                    hide(fragment)
-                    val audioPlayerFragment = fragment as AudioPlayerFragment
-                    audioPlayerFragment.resetMediaPlayer()
-                }
+                val audioPlayerFragment = fragment as AudioPlayerFragment
+                remove(audioPlayerFragment)
             }
         }
     }

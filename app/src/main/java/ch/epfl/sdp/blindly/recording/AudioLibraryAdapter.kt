@@ -21,7 +21,6 @@ import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import java.io.File
 
 private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.3gp"
-private const val PLAYBAR_DELAY = 10L
 
 /**
  * Adapter to use a RecyclerView as an audio library.
@@ -37,12 +36,6 @@ class AudioLibraryAdapter(
     var context: Context,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
-    /*var mediaPlayer: MediaPlayer? = null
-    private var isPlayerPaused = false
-    private var isPlayerStopped = true
-    private var isPlayBarTouched = false
-
-     */
     var blindlyMediaPlayer = BlindlyMediaPlayer()
 
     /**
@@ -85,10 +78,6 @@ class AudioLibraryAdapter(
         for (i in 0 until recordList.size) {
             if (recordList[i].isExpanded) {
                 val viewHolder = viewHolderList[i]
-                /*setStoppedView(
-                    viewHolder.playTimer, viewHolder.remainingTimer,
-                    viewHolder.playPauseButton, false
-                )*/
                 blindlyMediaPlayer.setStoppedView(
                     viewHolder.playTimer, viewHolder.remainingTimer,
                     viewHolder.playPauseButton, false
@@ -126,14 +115,8 @@ class AudioLibraryAdapter(
         val playTimer = viewHolder.playTimer
         val remainingTimer = viewHolder.remainingTimer
         val playPauseButton = viewHolder.playPauseButton
-        //val movePlayBarThread = createPlayBarThread(playBar)
         val movePlayBarThread = blindlyMediaPlayer.createPlayBarThread(playBar)
 
-        /*bindSeekBarNavigation(
-            playBar, playTimer, remainingTimer, playPauseButton,
-            movePlayBarThread, position
-        )
-         */
         blindlyMediaPlayer.bindSeekBarNavigation(
             playBar, playTimer, remainingTimer, playPauseButton,
             movePlayBarThread, recordList[position]
@@ -150,7 +133,6 @@ class AudioLibraryAdapter(
             val notIsExpanded = !recordList[position].isExpanded
             toggleLayout(notIsExpanded, viewHolder.expandableLayout)
             recordList[position].isExpanded = notIsExpanded
-            //resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
             blindlyMediaPlayer.resetRecordPlayer(recordList[position], playTimer, remainingTimer, playPauseButton, playBar)
         }
 
@@ -162,14 +144,6 @@ class AudioLibraryAdapter(
          * player.
          */
         viewHolder.playPauseButton.setOnClickListener {
-            /*handlePlayBarClick(
-                position,
-                playTimer,
-                remainingTimer,
-                playPauseButton,
-                playBar,
-                movePlayBarThread
-            )*/
             blindlyMediaPlayer.handlePlayBarClick(
                 recordList[position],
                 playTimer,
@@ -185,7 +159,6 @@ class AudioLibraryAdapter(
          * profile finished activity.
          */
         viewHolder.selectButton.setOnClickListener {
-            //mediaPlayer?.release()
             blindlyMediaPlayer.mediaPlayer?.release()
             saveRecording(position)
             startProfileFinished()
@@ -211,34 +184,6 @@ class AudioLibraryAdapter(
     }
 
     /**
-     * Resets the view and media player of a specific record in the list.
-     *
-     * @param position the position of the record in list
-     * @param playTimer the timer for playing
-     * @param remainingTimer the timer for remaining time
-     * @param playPauseButton
-     * @param playBar the moving seek bar for the audio file
-     */
-    /*private fun resetRecordPlayer(
-        position: Int, playTimer: Chronometer,
-        remainingTimer: Chronometer,
-        playPauseButton: AppCompatImageButton, playBar: SeekBar
-    ) {
-        createMediaPlayer(recordList[position].filePath)
-        mediaPlayer?.setOnCompletionListener {
-            mediaPlayer?.stop()
-            setStoppedView(playTimer, remainingTimer, playPauseButton, false)
-        }
-
-        // Reset the timers and the play bar
-        remainingTimer.base = SystemClock.elapsedRealtime() + mediaPlayer!!.duration.toLong()
-        playTimer.base = SystemClock.elapsedRealtime()
-        playBar.progress = 0
-    }
-
-     */
-
-    /**
      * Saves the recording at a given position in the list. It is saved in the app's directory
      * and can be easily retrieved.
      *
@@ -254,182 +199,10 @@ class AudioLibraryAdapter(
         )
     }
 
-    /*private fun createMediaPlayer(filePath: String) {
-        mediaPlayer = MediaPlayer().apply {
-            setDataSource(filePath)
-            prepare()
-        }
-    }
-
-     */
-
-    /*private fun bindSeekBarNavigation(
-        playBar: SeekBar, playTimer: Chronometer,
-        remainingTimer: Chronometer,
-        playPauseButton: AppCompatImageButton,
-        movePlayBarThread: Runnable, position: Int
-    ) {
-        playBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(
-                playBar: SeekBar,
-                progress: Int, fromUser: Boolean
-            ) {
-                if (fromUser) {
-                    mediaPlayer?.seekTo(progress)
-                    playTimer.base = SystemClock.elapsedRealtime() - mediaPlayer!!.currentPosition
-                    remainingTimer.base = SystemClock.elapsedRealtime() -
-                            mediaPlayer!!.currentPosition + mediaPlayer!!.duration.toLong()
-                }
-            }
-
-            /**
-             * When the seek bar is touched, the player is paused. If it was already stopped,
-             * the player is reset at the current position.
-             *
-             * @param playBar the corresponding seekbar
-             */
-            override fun onStartTrackingTouch(playBar: SeekBar) {
-                isPlayBarTouched = true
-                handlePlayBarClick(
-                    position,
-                    playTimer,
-                    remainingTimer,
-                    playPauseButton,
-                    playBar,
-                    movePlayBarThread
-                )
-            }
-
-            /**
-             * When the seek bar is released, the mediaplayer seeks the seek bar's position
-             * and the timers are updated.
-             *
-             * @param playBar the corresponding seekbar
-             */
-            override fun onStopTrackingTouch(playBar: SeekBar) {
-                isPlayBarTouched = false
-                updatePlayBar(playBar, movePlayBarThread, playBar.max, playBar.progress)
-                setPlayView(playTimer, remainingTimer, playBar, movePlayBarThread, playPauseButton)
-                mediaPlayer?.start()
-            }
-        })
-    }
-
-     */
-
-    /**
-     * Creates a thread that handles the playbar updates, according to the progress of the media
-     * player.
-     *
-     * @param playBar
-     * @return the created thread
-     */
-    /*private fun createPlayBarThread(playBar: SeekBar): Runnable {
-        return object : Runnable {
-            override fun run() {
-                if (mediaPlayer?.isPlaying == true) {
-                    playBar.max = mediaPlayer!!.duration
-                    playBar.progress = mediaPlayer!!.currentPosition
-                    Handler(Looper.getMainLooper()).postDelayed(this, PLAYBAR_DELAY)
-                }
-            }
-        }
-    }
-
-     */
-
-    /**
-     * Updates the playbar on a given thread, according to the media player's position and duration.
-     *
-     * @param playBar
-     * @param thread
-     * @param duration the duration of the audio file
-     * @param position the current position in the file
-     */
-    /*private fun updatePlayBar(playBar: SeekBar, thread: Runnable, duration: Int, position: Int) {
-        playBar.max = duration
-        playBar.progress = position
-
-        val handler = Handler(Looper.getMainLooper())
-        handler.removeCallbacks(thread)
-        handler.postDelayed(thread, PLAYBAR_DELAY)
-    }
-
-     */
-
-    // Setting a timer to count down requires Android N
-    /*@RequiresApi(Build.VERSION_CODES.N)
-    private fun setCountDownTimer(timer: Chronometer) {
-        timer.isCountDown = true
-        timer.format = "-%s"
-    }
-
-     */
-
     private fun startProfileFinished() {
         val intent = Intent(context, ProfileFinished::class.java)
         startActivity(context, intent, null)
     }
-
-    /*private fun setStoppedView(
-        playTimer: Chronometer, remainingTimer: Chronometer,
-        playPauseButton: AppCompatImageButton, isPause: Boolean
-    ) {
-        playTimer.stop()
-        remainingTimer.stop()
-        if (isPause) {
-            isPlayerPaused = true
-        } else {
-            isPlayerStopped = true
-        }
-        playPauseButton.setImageResource(android.R.drawable.ic_media_play)
-    }
-
-    private fun setPlayView(
-        playTimer: Chronometer, remainingTimer: Chronometer,
-        playBar: SeekBar, movePlayBarThread: Runnable,
-        playPauseButton: AppCompatImageButton
-    ) {
-        playTimer.start()
-        remainingTimer.start()
-        isPlayerPaused = false
-        isPlayerStopped = false
-        updatePlayBar(
-            playBar,
-            movePlayBarThread,
-            mediaPlayer!!.duration,
-            mediaPlayer!!.currentPosition
-        )
-        playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
-    }
-
-    private fun handlePlayBarClick(
-        position: Int,
-        playTimer: Chronometer,
-        remainingTimer: Chronometer,
-        playPauseButton: AppCompatImageButton,
-        playBar: SeekBar,
-        movePlayBarThread: Runnable
-    ) {
-        if (isPlayerStopped) {
-            resetRecordPlayer(position, playTimer, remainingTimer, playPauseButton, playBar)
-        }
-
-        if (!mediaPlayer!!.isPlaying) {
-            mediaPlayer?.start()
-
-            if (!isPlayerPaused) {
-                // Reset the play timer
-                playTimer.base = SystemClock.elapsedRealtime()
-            }
-            setPlayView(playTimer, remainingTimer, playBar, movePlayBarThread, playPauseButton)
-        } else {
-            mediaPlayer?.pause()
-            setStoppedView(playTimer, remainingTimer, playPauseButton, true)
-        }
-    }
-
-     */
 
     /**
      * Handles clicks on different items

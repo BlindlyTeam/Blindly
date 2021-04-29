@@ -2,6 +2,7 @@ package ch.epfl.sdp.blindly.main_screen
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
@@ -10,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.audio_player.AudioPlayerFragment
+import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -69,6 +71,33 @@ class AudioPlayerFragmentTest {
     fun recordFiresRecordingActivity() {
         onView(withId(R.id.record_button)).perform(click())
         Intents.intended(IntentMatchers.hasComponent(RecordingActivity::class.java.name))
+    }
+
+    @Test
+    fun playPauseButtonChangesBackgroundWhenClickedTwice() {
+        onView(withId(R.id.play_pause_button))
+            .perform(click())
+        onView(withId(R.id.play_pause_button))
+            .perform(click())
+        onView(withId(R.id.play_pause_button))
+            .check(
+                ViewAssertions.matches(
+                    EspressoTestMatchers.withDrawable(android.R.drawable.ic_media_play)
+                )
+            )
+    }
+
+    @Test
+    fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
+        onView(withId(R.id.play_pause_button))
+            .perform(click())
+        Thread.sleep(2000L)
+        onView(withId(R.id.play_pause_button))
+            .check(
+                ViewAssertions.matches(
+                    EspressoTestMatchers.withDrawable(android.R.drawable.ic_media_play)
+                )
+            )
     }
 
 }
