@@ -2,13 +2,16 @@ package ch.epfl.sdp.blindly.chat
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotSame
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert
+import org.hamcrest.core.IsEqual
+import org.hamcrest.core.IsNot
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ChatAdapterTest {
+class ChatTest {
+
 
     @Test
     fun recyclerViewShowsCorrectCount() {
@@ -17,8 +20,7 @@ class ChatAdapterTest {
         val list: ArrayList<Message> = arrayListOf<Message>()
         list.addAll(listOf(m1, m2))
         val abc: RecyclerView.Adapter<ChatAdapter.ViewHolder> = ChatAdapter(list)
-        abc.notifyDataSetChanged()
-        assertEquals(2, abc.itemCount)
+        MatcherAssert.assertThat(abc.itemCount, IsEqual.equalTo(2))
     }
 
     @Test
@@ -28,19 +30,27 @@ class ChatAdapterTest {
         val list: ArrayList<Message> = arrayListOf<Message>()
         list.addAll(listOf(m1, m2))
         val abc: RecyclerView.Adapter<ChatAdapter.ViewHolder> = ChatAdapter(list)
-        assertEquals(1, abc.getItemViewType(1))
+        val remoteUserSending = 1
+        MatcherAssert.assertThat(abc.getItemViewType(1), IsEqual.equalTo(remoteUserSending))
     }
 
 
     @Test
     fun messageObjectIsCorrect() {
+        val userId = "23094823049"
+        val m1 = Message("some message", userId)
+        MatcherAssert.assertThat(m1.messageText, IsEqual.equalTo("some message"))
+        MatcherAssert.assertThat(m1.currentUserId, IsEqual.equalTo(userId))
+    }
+
+    @Test
+    fun timestampIsUnique() {
         val userId1 = "23094hsdkjfh"
-        val userId2 = "23094823049"
         val m1 = Message("a message", userId1)
+        Thread.sleep(1000)
+        val userId2 = "23094823049"
         val m2 = Message("some message", userId2)
-        assertNotSame(m1.timestamp!!, m2.timestamp!!)
-        assertEquals("some message", m2.messageText)
-        assertEquals(userId2, m2.currentUserId)
+        MatcherAssert.assertThat(m1.timestamp!!, IsNot(equalTo(m2.timestamp!!)))
     }
 
 
