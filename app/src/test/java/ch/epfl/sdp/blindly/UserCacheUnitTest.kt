@@ -13,7 +13,7 @@ class UserCacheUnitTest {
         private const val location = "EPFL, Ecublens"
         private const val birthday = "01.01.2001"
         private const val gender = "Woman"
-        private val sexual_orientations = listOf("Asexual")
+        private val sexualOrientations = listOf("Asexual")
         private const val show_me = "Everyone"
         private val passions = listOf("Coffee", "Tea")
         private const val radius = 150
@@ -27,7 +27,7 @@ class UserCacheUnitTest {
             .setLocation(location)
             .setBirthday(birthday)
             .setGender(gender)
-            .setSexualOrientations(sexual_orientations)
+            .setSexualOrientations(sexualOrientations)
             .setShowMe(show_me)
             .setPassions(passions)
             .setRadius(radius)

@@ -103,10 +103,10 @@ class User private constructor(
         /**
          * Set the sexual orientations in the UserBuilder
          *
-         * @param sexual_orientations the sexual orientations of the User
+         * @param sexualOrientations the sexual orientations of the User
          */
-        fun setSexualOrientations(sexual_orientations: List<String>) = apply {
-            this.sexualOrientations = sexual_orientations
+        fun setSexualOrientations(sexualOrientations: List<String>) = apply {
+            this.sexualOrientations = sexualOrientations
         }
 
         /**

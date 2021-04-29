@@ -1,11 +1,9 @@
 package ch.epfl.sdp.blindly.recording
 
 import android.content.Intent
-import android.os.Bundle
 import android.widget.ProgressBar
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -14,18 +12,17 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.actionOnChild
 import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
 import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.profile_setup.*
+import ch.epfl.sdp.blindly.recording.RecordingActivity.Companion.AUDIO_DURATION_KEY
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
-import ch.epfl.sdp.blindly.recording.RecordingActivity.Companion.AUDIO_DURATION_KEY
 import junit.framework.Assert.fail
-import kotlinx.serialization.SerialFormat
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers.not
@@ -50,24 +47,23 @@ class RecordingActivityTest {
         .setSexualOrientations(TEST_SEXUAL_ORIENTATIONS)
         .setPassions(TEST_PASSIONS)
     private val SERIALIZED = Json.encodeToString(TEST_USER)
-    private lateinit var scenario: ActivityScenario<RecordingActivity>
+    private val intent = Intent(
+        ApplicationProvider.getApplicationContext(),
+        RecordingActivity::class.java
+    ).apply {
+        putExtra(EXTRA_USER, SERIALIZED)
+        putExtra(AUDIO_DURATION_KEY, TEST_MAXIMUM_AUDIO_DURATION)
+    }
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+    @get:Rule
+    val activityRule = ActivityScenarioRule<RecordingActivity>(intent)
+
     @Before
     fun setup() {
         hiltRule.inject()
-
-        val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
-            RecordingActivity::class.java
-        ).apply {
-            putExtra(EXTRA_USER, SERIALIZED)
-            putExtra(AUDIO_DURATION_KEY, TEST_MAXIMUM_AUDIO_DURATION)
-        }
-
-        scenario = ActivityScenario.launch(intent)
         Intents.init()
     }
 
@@ -91,7 +87,7 @@ class RecordingActivityTest {
 
         onView(withId(R.id.selectButton))
             .perform(click())
-        Thread.sleep(500)
+        Thread.sleep(1000)
         Intents.intended(IntentMatchers.hasComponent(ProfileFinished::class.java.name))
     }
 
@@ -250,7 +246,7 @@ class RecordingActivityTest {
             )
         )
 
-        scenario.onActivity { activity ->
+        activityRule.scenario.onActivity { activity ->
             val playBar = activity.findViewById<SeekBar>(R.id.playBar)
             setSeekBarProgress(playBar, 50, true)
         }
