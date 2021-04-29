@@ -25,6 +25,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import ch.epfl.sdp.blindly.recording.RecordingActivity.Companion.AUDIO_DURATION_KEY
 import junit.framework.Assert.fail
+import kotlinx.serialization.SerialFormat
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers.not
@@ -58,14 +59,12 @@ class RecordingActivityTest {
     fun setup() {
         hiltRule.inject()
 
-        val bundle = Bundle()
-        bundle.putSerializable(EXTRA_USER, SERIALIZED)
-
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
             RecordingActivity::class.java
         ).apply {
-            putExtras(bundle)
+            putExtra(EXTRA_USER, SERIALIZED)
+            putExtra(AUDIO_DURATION_KEY, TEST_MAXIMUM_AUDIO_DURATION)
         }
 
         scenario = ActivityScenario.launch(intent)
