@@ -64,6 +64,7 @@ class UserListFilter {
         return filteredList
     }
 
+    // Doesn't work right now, since the locations don't work
     private fun isLocatedInUserRadius(user: User, otherUser: User): Boolean {
         val distance = user.location?.distanceTo(otherUser.location)!!
         val radiusInMeters = user.radius!! * ONE_KM_IN_METERS

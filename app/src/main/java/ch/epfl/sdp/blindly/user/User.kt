@@ -261,4 +261,9 @@ class User private constructor(
         }
     }
 
+    // This is for debugging in tests, you're free to modify it if you need to
+    override fun toString(): String {
+        return "$username"
+    }
+
 }
