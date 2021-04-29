@@ -73,6 +73,9 @@ class ProfilePassions : AppCompatActivity() {
         }
     }
 
+    /**
+     * Iterate through the checked chips and gets the passions
+     */
     private fun getCheckedChip() {
         val chipGroup = findViewById<ChipGroup>(R.id.chipGroup_p7)
         val ids = chipGroup.checkedChipIds

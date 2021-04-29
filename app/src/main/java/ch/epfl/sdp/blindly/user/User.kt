@@ -10,6 +10,8 @@ import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.Period
 
+const val SIZE_2 = 2
+
 /**
  * A class to represent a User
  *
@@ -20,13 +22,13 @@ class User private constructor(
     val location: List<Double>?,
     val birthday: String?,
     val gender: String?,
-    val sexualOrientations: List<String>,
+    val sexualOrientations: List<String>?,
     val showMe: String?,
-    val passions: List<String>,
+    val passions: List<String>?,
     val radius: Int?,
-    val matches: List<String>,
+    val matches: List<String>?,
     val description: String?,
-    val ageRange: List<Int>
+    val ageRange: List<Int>?
 ) {
 
     /**
@@ -77,7 +79,10 @@ class User private constructor(
          * @param location the location of the User
          */
         fun setLocation(location: List<Double>) = apply {
-            this.location = location
+            if(location.size == SIZE_2)
+                this.location = location
+            else
+                throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${location.size} instead")
         }
 
         /**
@@ -160,7 +165,7 @@ class User private constructor(
          *     ageRange[1] = maxAge
          */
         fun setAgeRange(ageRange: List<Int>) = apply {
-            if (ageRange.size == 2)
+            if (ageRange.size == SIZE_2)
                 this.ageRange = ageRange
             else
                 throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")
@@ -199,16 +204,16 @@ class User private constructor(
         fun DocumentSnapshot.toUser(): User? {
             try {
                 val username = getString("username")!!
-                val location = get("location") as List<Double>
+                val location = get("location") as? List<Double>
                 val birthday = getString("birthday")!!
                 val gender = getString("gender")!!
-                val sexualOrientations = get("sexualOrientations") as List<String>
+                val sexualOrientations = get("sexualOrientations") as? List<String>
                 val showMe = getString("showMe")!!
-                val passions = get("passions") as List<String>
+                val passions = get("passions") as? List<String>
                 val radius = getField<Int>("radius")!!
-                val matches = get("matches") as List<String>
+                val matches = get("matches") as? List<String>
                 val description = getString("description")!!
-                val ageRange = get("ageRange") as List<Int>
+                val ageRange = get("ageRange") as? List<Int>
 
                 return User(
                     username,
