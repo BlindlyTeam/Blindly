@@ -1,12 +1,10 @@
 package ch.epfl.sdp.blindly.main_screen
 
-import android.util.Log
-import android.widget.Chronometer
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commitNow
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -14,6 +12,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
+import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers
+import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -50,7 +50,7 @@ class ProfilePageTest {
     @Inject
     lateinit var db: FirebaseFirestore
 
-    lateinit var fragment : Fragment
+    lateinit var fragment: Fragment
 
     @Before
     fun setup() {
@@ -131,7 +131,7 @@ class ProfilePageTest {
         //Create it again
         onView(withId(R.id.play_audio_profile_button)).perform(click())
 
-        var playBar : SeekBar? = null
+        var playBar: SeekBar? = null
         activityRule.scenario.onActivity {
             playBar = it.findViewById(R.id.play_bar)
         }
@@ -165,8 +165,61 @@ class ProfilePageTest {
 
     }
 
+    @Test
+    fun recordButtonFiresRecordingActivity() {
+        //Create and show the audio player
+        onView(withId(R.id.play_audio_profile_button)).perform(click())
 
-    private fun getAudioPlayerFragment() : Fragment? {
+        onView(withId(R.id.record_button)).perform(click())
+        intended(hasComponent(RecordingActivity::class.java.name))
+    }
+
+    @Test
+    fun recordButtonRemovedAudioPlayerFragment() {
+        //Create and show the audio player
+        onView(withId(R.id.play_audio_profile_button)).perform(click())
+
+        onView(withId(R.id.record_button)).perform(click())
+        val fragmentManager = fragment.childFragmentManager
+        val audioFragment = fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
+        assert(audioFragment == null)
+    }
+
+    @Test
+    fun playPauseButtonChangesBackgroundWhenClickedTwice() {
+        //Create and show the audio player
+        onView(withId(R.id.play_audio_profile_button)).perform(click())
+
+        onView(withId(R.id.play_pause_button))
+            .perform(click())
+        onView(withId(R.id.play_pause_button))
+            .perform(click())
+        onView(withId(R.id.play_pause_button))
+            .check(
+                ViewAssertions.matches(
+                    EspressoTestMatchers.withDrawable(android.R.drawable.ic_media_play)
+                )
+            )
+    }
+
+    @Test
+    fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
+        //Create and show the audio player
+        onView(withId(R.id.play_audio_profile_button)).perform(click())
+
+        onView(withId(R.id.play_pause_button))
+            .perform(click())
+        Thread.sleep(2000L)
+        onView(withId(R.id.play_pause_button))
+            .check(
+                ViewAssertions.matches(
+                    EspressoTestMatchers.withDrawable(android.R.drawable.ic_media_play)
+                )
+            )
+    }
+
+
+    private fun getAudioPlayerFragment(): Fragment? {
         val fragmentManager = fragment.childFragmentManager
         return fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
     }

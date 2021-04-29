@@ -89,23 +89,22 @@ class AudioPlayerFragment : Fragment() {
     }
 
     private fun removeFragment() {
+        blindlyMediaPlayer.resetRecordPlayer(
+            audioRecord,
+            playTimer,
+            remainingTimer,
+            playPauseButton,
+            playBar
+        )
         parentFragmentManager.commit {
             val audioPlayerFragment =
-                parentFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
-            if (audioPlayerFragment != null) {
-                blindlyMediaPlayer.resetRecordPlayer(
-                    audioRecord,
-                    playTimer,
-                    remainingTimer,
-                    playPauseButton,
-                    playBar
-                )
-                remove(audioPlayerFragment)
-            }
+            parentFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
+            remove(audioPlayerFragment!!)
         }
     }
 
     companion object {
+        private const val TAG = "AudioPlayer"
         /**
          * Use this factory method to create a new instance of this fragment
          *
