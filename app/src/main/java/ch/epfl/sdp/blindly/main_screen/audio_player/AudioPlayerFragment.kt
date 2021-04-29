@@ -16,6 +16,7 @@ import androidx.fragment.app.commit
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.recording.AudioRecord
 import ch.epfl.sdp.blindly.recording.BlindlyMediaPlayer
+import ch.epfl.sdp.blindly.recording.PRESENTATION_AUDIO_NAME
 import ch.epfl.sdp.blindly.recording.RecordingActivity
 import java.io.File
 
@@ -51,7 +52,7 @@ class AudioPlayerFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
 
-        val file = File("${context?.filesDir?.absolutePath}/PresentationAudio.3gp")
+        val file = File("${context?.filesDir?.absolutePath}/$PRESENTATION_AUDIO_NAME")
         //TODO Can we obtain the duration from a File?
         audioRecord = AudioRecord(
             file.name,
@@ -78,12 +79,16 @@ class AudioPlayerFragment : Fragment() {
 
         recordDuration = view.findViewById(R.id.record_duration)
         recordDuration.text = audioRecord.durationText
+
+        //TODO will have to refactor the RecordingActivity, to accept a User as Bundle
+        /*
         val recordButton = view.findViewById<Button>(R.id.record_button)
         recordButton.setOnClickListener {
             val intent = Intent(context, RecordingActivity::class.java)
             removeFragment()
             startActivity(intent)
         }
+        */
 
         return view
     }

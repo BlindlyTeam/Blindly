@@ -165,7 +165,8 @@ class ProfilePageTest {
 
     }
 
-    @Test
+    //TODO not yet implemented
+    /*@Test
     fun recordButtonFiresRecordingActivity() {
         //Create and show the audio player
         onView(withId(R.id.play_audio_profile_button)).perform(click())
@@ -184,6 +185,8 @@ class ProfilePageTest {
         val audioFragment = fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
         assert(audioFragment == null)
     }
+
+     */
 
     @Test
     fun playPauseButtonChangesBackgroundWhenClickedTwice() {

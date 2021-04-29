@@ -10,15 +10,25 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.Button
+import android.widget.Chronometer
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile_setup.EXTRA_USER
+import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.UserHelper
+import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import java.io.File
 import java.io.IOException
+import javax.inject.Inject
 
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
@@ -28,6 +38,7 @@ private const val DEFAULT_RECORD_AUDIO_DURATION = 90000
  * Activity that contains everything to record audio files and listen to them to select the one
  * we want to keep.
  */
+@AndroidEntryPoint
 class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
     companion object {
         val AUDIO_DURATION_KEY = "audio_duration"
@@ -52,6 +63,13 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
+    @Inject
+    lateinit var storage: FirebaseStorage
+
+    @Inject
+    lateinit var user: UserHelper
+
+
     /**
      * Binds the audio record list to the adapter, sets the base view and initialise values
      * declared in the class.
@@ -69,10 +87,15 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         changeRecordFilePath(totalNumberOfRec)
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
+        val bundle = intent.extras
+        val userBuilder: User.Builder =
+            bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
+
         // Initialise the RecyclerView that will contain the recordings.
         recordingRecyclerView = findViewById(R.id.recordingList)
         recordingRecyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = AudioLibraryAdapter(ArrayList(), ArrayList(), this, this)
+        adapter =
+            AudioLibraryAdapter(ArrayList(), ArrayList(), this, this, userBuilder, user, storage)
         recordingRecyclerView.adapter = adapter
     }
 
@@ -177,7 +200,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         changeRecordFilePath(totalNumberOfRec)
         mediaRecorder.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setOutputFormat(MediaRecorder.OutputFormat.AMR_WB)
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
             setOutputFile(recordFilePath)
             setMaxDuration(maximumAudioDuration)
@@ -231,7 +254,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
      */
     private fun changeRecordFilePath(recordNumber: Int) {
         recordFilePath =
-            "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.3gp"
+            "${applicationContext.filesDir.absolutePath}/TEMPaudioRecording_${recordNumber}.amr"
     }
 
     private fun deleteTempRecordings() {

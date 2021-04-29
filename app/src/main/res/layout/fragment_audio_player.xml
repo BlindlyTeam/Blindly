@@ -58,13 +58,21 @@
             android:paddingTop="10dp"
             android:layout_below="@+id/record_name"/>
 
+
+        <!-- TODO replace
+                    android:layout_centerHorizontal="true"
+                with
+                    android:layout_marginStart="80dp"
+                and add
+                    android:layout_alignParentStart="true"
+                once the RecordingActivity has been refactored
+        -->
         <ImageButton
             android:id="@+id/play_pause_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/audio_timer"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="80dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             app:srcCompat="@android:drawable/ic_media_play"
@@ -87,6 +95,7 @@
             android:layout_marginEnd="30dp"
             android:textColor="#716E6E" />
 
+        <!-- TODO implement next week with the RecordingActivity refactor
         <Button
             android:id="@+id/record_button"
             android:layout_width="wrap_content"
@@ -97,12 +106,13 @@
             android:layout_marginEnd="80dp"
             android:layout_marginBottom="10dp"
             android:text="@string/record_audio" />
+        -->
 
         <Space
             android:id="@+id/audio_play_space"
             android:layout_width="wrap_content"
             android:layout_height="5dp"
-            android:layout_below="@id/record_button"/>
+            android:layout_below="@id/play_pause_button"/>
 
     </RelativeLayout>
 

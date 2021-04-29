@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
-import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.Period
 
@@ -26,6 +25,7 @@ class User private constructor(
     val radius: Int?,
     val matches: List<User>,
     val description: String?,
+    val recordingPath: String?,
     val ageRange: List<Int>
 ) {
 
@@ -45,6 +45,7 @@ class User private constructor(
      * @property radius the radius in which the User want the matching algorithm to look in
      * @property matches a List<User> containing the Users the User has a match with
      * @property description the description of the User
+     * @property recordingPath the path to the recording of the user
      * @property ageRange the ageRange of the User
      */
     @Serializable
@@ -59,6 +60,7 @@ class User private constructor(
         var radius: Int? = null,
         var matches: List<User> = listOf(),
         var description: String? = null,
+        var recordingPath: String? = null,
         var ageRange: List<Int> = listOf()
     ) {
 
@@ -101,10 +103,10 @@ class User private constructor(
         /**
          * Set the sexual orientations in the UserBuilder
          *
-         * @param sexual_orientations the sexual orientations of the User
+         * @param sexualOrientations the sexual orientations of the User
          */
-        fun setSexualOrientations(sexual_orientations: List<String>) = apply {
-            this.sexualOrientations = sexual_orientations
+        fun setSexualOrientations(sexualOrientations: List<String>) = apply {
+            this.sexualOrientations = sexualOrientations
         }
 
         /**
@@ -153,6 +155,15 @@ class User private constructor(
         }
 
         /**
+         * Set the recording path in the UserBuilder
+         *
+         * @param recordingPath the path to the recording
+         */
+        fun setRecordingPath(recordingPath: String) = apply {
+            this.recordingPath = recordingPath
+        }
+
+        /**
          * Set the age range in the UserBuilder
          *
          * @param ageRange a list containing the age range :
@@ -160,7 +171,7 @@ class User private constructor(
          *     ageRange[1] = maxAge
          */
         fun setAgeRange(ageRange: List<Int>) = apply {
-            if(ageRange.size == 2)
+            if (ageRange.size == 2)
                 this.ageRange = ageRange
             else
                 throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")
@@ -183,6 +194,7 @@ class User private constructor(
                 radius,
                 matches,
                 description,
+                recordingPath,
                 ageRange
             )
         }
@@ -209,6 +221,7 @@ class User private constructor(
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as List<User>
                 val description = getString("description")!!
+                val recordingPath = getString("recordingPath")
                 val ageRange = get("ageRange") as List<Int>
 
                 return User(
@@ -222,6 +235,7 @@ class User private constructor(
                     radius,
                     matches,
                     description,
+                    recordingPath,
                     ageRange
                 )
             } catch (e: Exception) {
@@ -234,7 +248,7 @@ class User private constructor(
          * Compute the age of the user
          *
          * @param user: the user whose age we want to compute
-         * @return a String containing the age of the User
+         * @return an Int containing the age of the User
          */
         @RequiresApi(Build.VERSION_CODES.O)
         fun getUserAge(user: User?): Int? {

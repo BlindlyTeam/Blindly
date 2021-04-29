@@ -2,11 +2,8 @@ package ch.epfl.sdp.blindly.recording
 
 import android.content.Context
 import android.content.Intent
-import android.media.MediaPlayer
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
+import android.net.Uri
+import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +14,15 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
+import ch.epfl.sdp.blindly.profile_setup.EXTRA_USER
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
+import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.UserHelper
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.serialization.json.Json
 import java.io.File
 
-private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.3gp"
+const val PRESENTATION_AUDIO_NAME = "PresentationAudio.amr"
 
 /**
  * Adapter to use a RecyclerView as an audio library.
@@ -30,13 +32,18 @@ private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.3gp"
  * @property context context of the RecyclerView
  * @property listener handles clicks on items
  */
+
 class AudioLibraryAdapter(
     var recordList: ArrayList<AudioRecord>,
     private var viewHolderList: ArrayList<ViewHolder>,
     var context: Context,
-    private val listener: OnItemClickListener
+    private val listener: OnItemClickListener,
+    private var userBuilder: User.Builder,
+    private val user: UserHelper,
+    private val storage: FirebaseStorage
 ) : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
     var blindlyMediaPlayer = BlindlyMediaPlayer()
+    private lateinit var recordingPath: String
 
     /**
      * Custom ViewHolder class that contains all the elements that will be used later on in
@@ -161,7 +168,6 @@ class AudioLibraryAdapter(
         viewHolder.selectButton.setOnClickListener {
             blindlyMediaPlayer.mediaPlayer?.release()
             saveRecording(position)
-            startProfileFinished()
         }
     }
 
@@ -185,7 +191,7 @@ class AudioLibraryAdapter(
 
     /**
      * Saves the recording at a given position in the list. It is saved in the app's directory
-     * and can be easily retrieved.
+     * as well as in Firebase storage, and can be easily retrieved.
      *
      * @param position the position of the file we want to save
      */
@@ -193,14 +199,32 @@ class AudioLibraryAdapter(
         val filePath = recordList[position].filePath
         val newName = PRESENTATION_AUDIO_NAME
         val currentRecording = File(filePath)
+        val newFile = File("${context.filesDir.absolutePath}/$newName")
         currentRecording.copyTo(
-            File("${context.filesDir.absolutePath}/$newName"),
+            newFile,
             overwrite = true
         )
+        val userId = user.getUserId()
+        recordingPath = "Recordings/$userId-$newName"
+        val storageRef = storage.reference.child(recordingPath)
+        userBuilder.setRecordingPath(recordingPath)
+        storageRef.putFile(Uri.fromFile(newFile)).addOnSuccessListener {
+            startProfileFinished()
+        }.addOnFailureListener {
+            Toast.makeText(context, "Failed to upload the recording. Try again.", Toast.LENGTH_LONG)
+                .show()
+            startProfileFinished()
+        }
     }
 
     private fun startProfileFinished() {
+        val bundle = Bundle()
+        bundle.putSerializable(
+            EXTRA_USER,
+            Json.encodeToString(User.Builder.serializer(), userBuilder)
+        )
         val intent = Intent(context, ProfileFinished::class.java)
+        intent.putExtras(bundle)
         startActivity(context, intent, null)
     }
 
