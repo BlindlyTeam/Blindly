@@ -143,7 +143,6 @@ class AudioLibraryAdapter(
             blindlyMediaPlayer.resetRecordPlayer(recordList[position], playTimer, remainingTimer, playPauseButton, playBar)
         }
 
-        //setCountDownTimer(remainingTimer)
         blindlyMediaPlayer.setCountDownTimer(remainingTimer)
 
         /*

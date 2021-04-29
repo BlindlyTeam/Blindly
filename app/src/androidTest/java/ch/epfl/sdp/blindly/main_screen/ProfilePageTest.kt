@@ -22,7 +22,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -86,7 +87,7 @@ class ProfilePageTest {
         onView(withId(R.id.play_audio_profile_button)).perform(click())
         onView(withId(R.id.edit_info_profile_button)).perform(click())
         val audioPlayerFragment = getAudioPlayerFragment()
-        assert(audioPlayerFragment == null)
+        assertThat(audioPlayerFragment, `is`(nullValue()))
     }
 
     @Test
@@ -100,7 +101,7 @@ class ProfilePageTest {
         onView(withId(R.id.play_audio_profile_button)).perform(click())
         onView(withId(R.id.settings_profile_button)).perform(click())
         val audioPlayerFragment = getAudioPlayerFragment()
-        assert(audioPlayerFragment == null)
+        assertThat(audioPlayerFragment, `is`(nullValue()))
     }
 
     @Test
@@ -108,9 +109,9 @@ class ProfilePageTest {
         //Create and show the audio player
         onView(withId(R.id.play_audio_profile_button)).perform(click())
         val audioPlayerFragment = getAudioPlayerFragment()
-        assert(audioPlayerFragment != null)
+        assertThat(audioPlayerFragment, `is`(notNullValue()))
         if (audioPlayerFragment != null) {
-            assert(audioPlayerFragment.isVisible)
+            assertThat(audioPlayerFragment.isVisible, `is`(true))
         }
     }
 
@@ -118,7 +119,7 @@ class ProfilePageTest {
     fun audioPlayerNotRemovedIfNotCreated() {
         val audioPlayerFragment = getAudioPlayerFragment()
         onView(withId(R.id.profile_relativeLayout)).perform(click())
-        assert(audioPlayerFragment == null)
+        assertThat(audioPlayerFragment, `is`(nullValue()))
     }
 
     @Test
@@ -128,7 +129,7 @@ class ProfilePageTest {
         //Remove the audio player
         onView(withId(R.id.profile_relativeLayout)).perform(click())
 
-        assert(getAudioPlayerFragment() == null)
+        assertThat(getAudioPlayerFragment(), `is`(nullValue()))
     }
 
     @Test
@@ -141,9 +142,9 @@ class ProfilePageTest {
         onView(withId(R.id.play_audio_profile_button)).perform(click())
 
         val audioPlayerFragment = getAudioPlayerFragment()
-        assert(audioPlayerFragment != null)
+        assertThat(audioPlayerFragment, `is`(notNullValue()))
         if (audioPlayerFragment != null) {
-            assert(audioPlayerFragment.isVisible)
+            assertThat(audioPlayerFragment.isVisible, `is`(true))
         }
 
     }
