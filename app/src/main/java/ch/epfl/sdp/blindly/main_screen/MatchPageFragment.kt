@@ -104,6 +104,8 @@ class MatchPageFragment : Fragment() {
      * This functions calls the Matching Algorithm to get the potential matches and transforms them
      * into profiles by calling [createProfilesFromUsers].
      *
+     * TODO: It is not used yet since we did not link this activity with the database for now
+     *
      * @return a list of profiles for the matchActivity
      */
     @RequiresApi(Build.VERSION_CODES.O)
