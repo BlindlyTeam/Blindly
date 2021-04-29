@@ -27,6 +27,7 @@ class MessagePageFragment : Fragment() {
             val fragment = MessagePageFragment()
             val args = Bundle()
             args.putInt(ARG_COUNT, counter)
+            args.putString("matchedId", "kq37EpNoqqPA3o6vjAFFuRUgDkE2")
             fragment.arguments = args
             return fragment
         }
@@ -38,10 +39,14 @@ class MessagePageFragment : Fragment() {
             counter = requireArguments().getInt(ARG_COUNT)
         }
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_message_page, container, false)
         val intent = Intent(context, ChatActivity::class.java)
+        // TODO : This is where we pass the UID of the matched User
+        intent.extras?.putString("matchedId", "kq37EpNoqqPA3o6vjAFFuRUgDkE2")
         view?.findViewById<Button>(R.id.button_chat)?.setOnClickListener { startActivity(intent) }
 
         return view
