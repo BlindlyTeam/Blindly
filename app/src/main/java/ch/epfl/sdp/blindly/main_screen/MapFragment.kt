@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng
 class MapFragment : Fragment() {
 
     companion object {
-        private const val ARG_COUNT = "messageArgs"
+        private const val ARG_COUNT = "mapArgs"
         private var counter: Int? = null
 
         fun newInstance(counter: Int): MapFragment {
