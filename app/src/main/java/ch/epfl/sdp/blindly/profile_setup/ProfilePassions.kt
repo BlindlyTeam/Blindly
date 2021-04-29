@@ -1,7 +1,6 @@
 package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
-import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -18,8 +17,7 @@ import kotlinx.serialization.json.Json
 private const val SELECTION_LIMIT = 5
 
 class ProfilePassions : AppCompatActivity() {
-    @Inject
-    lateinit var user: UserHelper
+
     private lateinit var userBuilder: User.Builder
     private val passions: ArrayList<String> = ArrayList()
 
@@ -83,20 +81,5 @@ class ProfilePassions : AppCompatActivity() {
             val chipText = findViewById<Chip>(id).text.toString()
             passions.add(chipText)
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setUser() {
-        val location = getCurrentLocation()
-        if (location != null) {
-            val loc = listOf(location.latitude, location.longitude)
-            userBuilder.setLocation(loc)
-        }
-        userBuilder.setPassions(passions)
-        user.setUserProfile(userBuilder)
-    }
-
-    private fun getCurrentLocation(): Location? {
-        return AndroidLocationService(this).getCurrentLocation()
     }
 }

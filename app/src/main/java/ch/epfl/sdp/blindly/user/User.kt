@@ -27,6 +27,7 @@ class User private constructor(
     val radius: Int?,
     val matches: List<String>?,
     val description: String?,
+    val recordingPath: String?,
     val ageRange: List<Int>?
 ) {
 
@@ -226,7 +227,7 @@ class User private constructor(
                 val matches = get("matches") as? List<String>
                 val description = getString("description")!!
                 val ageRange = get("ageRange") as? List<Int>
-                val recordingPath = getString("recordingPath")
+                val recordingPath = getString("recordingPath")!!
 
                 return User(
                     username,
