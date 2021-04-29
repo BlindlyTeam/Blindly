@@ -31,7 +31,7 @@ import javax.inject.Inject
 
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
-private const val MAXIMUM_AUDIO_DURATION = 90000
+private const val DEFAULT_RECORD_AUDIO_DURATION = 90000
 
 /**
  * Activity that contains everything to record audio files and listen to them to select the one
@@ -39,6 +39,9 @@ private const val MAXIMUM_AUDIO_DURATION = 90000
  */
 @AndroidEntryPoint
 class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
+    companion object {
+        val AUDIO_DURATION_KEY = "audio_duration"
+    }
     private val mediaRecorder = MediaRecorder()
 
     private lateinit var recordingRecyclerView: RecyclerView
@@ -53,6 +56,8 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     private lateinit var remainingRecordTimer: Chronometer
 
     private var totalNumberOfRec = 0
+
+    private var maximumAudioDuration = DEFAULT_RECORD_AUDIO_DURATION;
 
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -73,6 +78,8 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (intent.extras?.containsKey(AUDIO_DURATION_KEY) == true)
+            maximumAudioDuration = intent.extras!!.getInt(AUDIO_DURATION_KEY)
         setContentView(R.layout.activity_recording)
 
         setBaseView()
@@ -153,7 +160,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         recordButton = findViewById(R.id.recordingButton)
         recordTimer = findViewById(R.id.recordTimer)
         remainingRecordTimer = findViewById(R.id.remainingRecordTimer)
-        remainingRecordTimer.base = SystemClock.elapsedRealtime() + MAXIMUM_AUDIO_DURATION.toLong()
+        remainingRecordTimer.base = SystemClock.elapsedRealtime() + maximumAudioDuration.toLong()
         remainingRecordTimer.isCountDown = true
 
         // When 10 seconds remain, the text becomes red
@@ -170,7 +177,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
 
         // Reset both timers
         recordTimer.base = SystemClock.elapsedRealtime()
-        remainingRecordTimer.base = SystemClock.elapsedRealtime() + MAXIMUM_AUDIO_DURATION.toLong()
+        remainingRecordTimer.base = SystemClock.elapsedRealtime() + maximumAudioDuration.toLong()
 
         remainingRecordTimer.setTextColor(Color.BLACK)
         recordTimer.start()
@@ -195,7 +202,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
             setOutputFormat(MediaRecorder.OutputFormat.AMR_WB)
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
             setOutputFile(recordFilePath)
-            setMaxDuration(MAXIMUM_AUDIO_DURATION)
+            setMaxDuration(maximumAudioDuration)
             // If the record reaches the max duration, it stops and the view is set accordingly
             setOnInfoListener { _, what, _ ->
                 if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {

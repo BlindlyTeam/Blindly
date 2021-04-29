@@ -22,6 +22,8 @@ import ch.epfl.sdp.blindly.profile_setup.*
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
+import ch.epfl.sdp.blindly.recording.RecordingActivity.Companion.AUDIO_DURATION_KEY
 import junit.framework.Assert.fail
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -34,7 +36,7 @@ import java.lang.reflect.Method
 
 
 private const val AUDIO_FILE_ONE = "Audio file 1"
-private const val MAXIMUM_AUDIO_DURATION = 90000L
+private const val TEST_MAXIMUM_AUDIO_DURATION = 13000
 private const val FIVE_SECONDS = 5000L
 private const val TWO_SECONDS = 2000L
 
@@ -146,7 +148,7 @@ class RecordingActivityTest {
     fun maximumDurationStopsRecording() {
         val recordButton = onView(withId(R.id.recordingButton))
         recordButton.perform(click())
-        Thread.sleep(MAXIMUM_AUDIO_DURATION + 500L)
+        Thread.sleep(TEST_MAXIMUM_AUDIO_DURATION + 500L)
         onView(withId(R.id.nameDurationLayout))
             .check(
                 matches(
@@ -157,7 +159,7 @@ class RecordingActivityTest {
 
     @Test
     fun remainingTimerIsRedWhen10SecondsRemain() {
-        createRecord(MAXIMUM_AUDIO_DURATION - FIVE_SECONDS)
+        createRecord(TEST_MAXIMUM_AUDIO_DURATION - FIVE_SECONDS)
         onView(withId(R.id.remainingRecordTimer))
         onView(withId(R.id.remainingRecordTimer))
             .check(
