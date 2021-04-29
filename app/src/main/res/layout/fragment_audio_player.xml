@@ -24,10 +24,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/background"
             android:backgroundTint="#FFFFFF"
-            android:layout_alignTop="@+id/audio_play_layout"
-            android:layout_alignBottom="@id/audio_play_space"
-            android:layout_alignLeft="@id/audio_play_layout"
-            android:layout_alignRight="@id/audio_play_layout"/>
+            android:layout_alignBottom="@id/audio_play_space"/>
 
         <TextView
             android:id="@+id/record_name"
