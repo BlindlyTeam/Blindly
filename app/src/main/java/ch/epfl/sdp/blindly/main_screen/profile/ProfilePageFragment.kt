@@ -98,9 +98,6 @@ class ProfilePageFragment : Fragment() {
         val editButton = view.findViewById<Button>(R.id.edit_info_profile_button)
         setOnClickListener(editButton, Intent(context, EditProfile::class.java))
 
-        val recordAudioButton = view.findViewById<Button>(R.id.record_audio_profile_button)
-        setOnClickListener(recordAudioButton, Intent(context, RecordingActivity::class.java))
-
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
