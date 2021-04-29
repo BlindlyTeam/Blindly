@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.chat.ChatActivity
@@ -39,14 +40,18 @@ class MessagePageFragment : Fragment() {
             counter = requireArguments().getInt(ARG_COUNT)
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_message_page, container, false)
         val intent = Intent(context, ChatActivity::class.java)
+
         // TODO : This is where we pass the UID of the matched User
-        intent.extras?.putString("matchedId", "kq37EpNoqqPA3o6vjAFFuRUgDkE2")
+        val bundle = bundleOf("matchedId" to "kq37EpNoqqPA3o6vjAFFuRUgDkE2")
+
+        intent.putExtras(bundle)
         view?.findViewById<Button>(R.id.button_chat)?.setOnClickListener { startActivity(intent) }
 
         return view

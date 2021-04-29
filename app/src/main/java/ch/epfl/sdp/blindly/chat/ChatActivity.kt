@@ -38,11 +38,7 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
         currentUserId = FirebaseAuth.getInstance().currentUser.uid
 
-        matchId = "ABCDEF" //if I dont add this I get an initialization error
-        val bundle = this.intent.extras
-        if (bundle != null) {
-            matchId = bundle.getString("matchedId", "abcde")
-        }
+        matchId = intent.extras?.getString("matchedId") ?: "default_user"
 
         //this is done to get the same chatId from both sides
         chatId = if (currentUserId < matchId) {
