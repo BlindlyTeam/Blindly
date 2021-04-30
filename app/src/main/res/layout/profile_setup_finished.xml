@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".profile_setup.ProfileFinished">
 
-    <Button
-        android:id="@+id/buttonMainScreen"
-        android:layout_width="231dp"
-        android:layout_height="61dp"
-        android:clickable="false"
-        android:onClick="startMainScreen"
-        android:text="@string/goto_main_screen"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955" />
-
     <TextView
         android:id="@+id/text_p9"
         android:layout_width="230dp"
@@ -45,5 +32,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonMainScreen"
+        android:layout_width="231dp"
+        android:layout_height="61dp"
+        android:clickable="false"
+        android:onClick="startMainScreen"
+        android:text="@string/goto_main_screen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
