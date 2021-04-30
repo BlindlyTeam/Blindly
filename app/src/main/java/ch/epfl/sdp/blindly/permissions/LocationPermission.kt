@@ -12,6 +12,9 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import ch.epfl.sdp.blindly.R
 
+/*
+ * Handle the location permission logic
+ */
 open class LocationPermission {
     /**
      * Utility class for access to runtime permissions.
@@ -148,8 +151,6 @@ open class LocationPermission {
 
             companion object {
                 private const val ARGUMENT_PERMISSION_REQUEST_CODE = "requestCode"
-
-
                 /**
                  * Creates a new instance of a dialog displaying the rationale for the use of the location
                  * permission.
