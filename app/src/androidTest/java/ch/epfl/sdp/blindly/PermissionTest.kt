@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly
 
+import android.content.Intent
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
@@ -46,6 +47,9 @@ class PermissionTest {
 
     @Test
     fun testLocationPermissionFiresProfileName() {
+        activityRule.scenario.onActivity { activity ->
+            activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        }
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.enable_location_button))
         buttonContinue.perform(ViewActions.click())
 
