@@ -3,14 +3,12 @@ package ch.epfl.sdp.blindly.main_screen
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.user.UserCache
-import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /**
  * This activity holds the three fragments (Match, Message and Profile page)
@@ -37,5 +35,12 @@ class MainScreen : AppCompatActivity() {
         TabLayoutMediator(tabLayout!!, viewPager!!) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
+        viewPager!!.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                viewPager!!.isUserInputEnabled =
+                    !(state == SCROLL_STATE_DRAGGING && viewPager!!.currentItem == 0)
+            }
+        })
     }
 }
