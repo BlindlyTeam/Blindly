@@ -32,8 +32,7 @@ class PermissionTest {
     @Rule
     @JvmField
     val grantPermissionRule: GrantPermissionRule = GrantPermissionRule
-        .grant(android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            android.Manifest.permission.ACCESS_FINE_LOCATION)
+        .grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
     @Before
     fun setup() {
         hiltRule.inject()
