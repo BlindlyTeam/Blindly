@@ -11,8 +11,10 @@ import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.permissions.LocationPermissionActivity
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -33,23 +35,30 @@ class TestProfileFinished {
         .setPassions(TEST_PASSIONS)
     private val SERIALIZED = Json.encodeToString(TEST_USER)
 
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
-
-    @Before
-    fun setup() {
-        hiltRule.inject()
+    var intent: Intent;
+    init {
         val bundle = Bundle()
         bundle.putSerializable(EXTRA_USER, SERIALIZED)
 
-        val intent = Intent(
+        intent = Intent(
             ApplicationProvider.getApplicationContext(),
             ProfileFinished::class.java
         ).apply {
             putExtras(bundle)
         }
+    }
 
-        ActivityScenario.launch<ProfileFinished>(intent)
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule
+    val activityRule = ActivityScenarioRule<ProfileFinished>(intent)
+
+    @Before
+    fun setup() {
+        hiltRule.inject()
+
         init()
     }
 
@@ -60,6 +69,9 @@ class TestProfileFinished {
 
     @Test
     fun profileFinishedFiresMainScreen() {
+        activityRule.scenario.onActivity { activity ->
+            activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        }
         val buttonMainScreen = Espresso.onView(ViewMatchers.withId(R.id.buttonMainScreen))
         buttonMainScreen.perform(ViewActions.click())
         Intents.intended(IntentMatchers.hasComponent(MainScreen::class.java.name))
