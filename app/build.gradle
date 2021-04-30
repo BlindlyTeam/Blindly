@@ -81,6 +81,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:9.1.0'
 
     implementation 'org.hamcrest:hamcrest:2.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation "android.arch.core:core-testing:1.1.1"

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
+        android:id="@+id/profile_relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="430dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,23 +36,23 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/record_audio_profile_button"
+            android:id="@+id/play_audio_profile_button"
             style="@style/Widget.Theme.Blindly.Record.Audio.Button"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_below="@id/user_description_text"
             android:layout_marginStart="26dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="80dp"
             android:layout_marginEnd="27dp" />
 
         <TextView
-            android:id="@+id/record_audio_profile_text"
+            android:id="@+id/play_audio_profile_text"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/record_audio_profile_button"
+            android:layout_below="@+id/play_audio_profile_button"
             android:layout_centerHorizontal="true"
-            android:text="@string/record_audio_profile"
+            android:text="@string/play_audio_profile"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -61,8 +62,8 @@
             style="@style/Widget.Theme.Blindly.Edit.Info.Button"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignTop="@+id/record_audio_profile_button"
-            android:layout_toStartOf="@+id/record_audio_profile_button" />
+            android:layout_alignTop="@+id/play_audio_profile_button"
+            android:layout_toStartOf="@+id/play_audio_profile_button" />
 
         <TextView
             android:id="@+id/edit_profile_info_text"
@@ -80,8 +81,8 @@
             style="@style/Widget.Theme.Blindly.Settings.Button"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignTop="@+id/record_audio_profile_button"
-            android:layout_toEndOf="@+id/record_audio_profile_button" />
+            android:layout_alignTop="@+id/play_audio_profile_button"
+            android:layout_toEndOf="@+id/play_audio_profile_button" />
 
         <TextView
             android:id="@+id/settings_profile_text"
@@ -96,4 +97,10 @@
 
     </RelativeLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_audio_container_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </androidx.fragment.app.FragmentContainerView>
+
+</LinearLayout>
