@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly
 
-import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationEPFL
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -9,7 +9,7 @@ import org.junit.Test
 class UserUnitTest {
     companion object {
         private const val username = "Jane Doe"
-        private val location = listOf(createLocationEPFL().latitude, createLocationEPFL().longitude)
+        private val location = createLocationTableEPFL()
         private const val birthday = "01.01.2001"
         private const val gender = "Woman"
         private val sexualOrientations = listOf("Asexual")
