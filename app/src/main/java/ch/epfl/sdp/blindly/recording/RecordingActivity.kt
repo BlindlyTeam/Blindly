@@ -7,6 +7,7 @@ import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -223,7 +224,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     }
 
     private fun startRecording() {
-        adapter.mediaPlayer?.stop()
+        adapter.blindlyMediaPlayer.mediaPlayer?.stop()
         prepareRecording()
         mediaRecorder.start()
     }
