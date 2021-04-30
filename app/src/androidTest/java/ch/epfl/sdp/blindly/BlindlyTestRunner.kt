@@ -5,12 +5,12 @@ import android.content.Context
 import androidx.test.runner.AndroidJUnitRunner
 import dagger.hilt.android.testing.HiltTestApplication
 
-/*
+/**
  * The test runner for Blindly
  */
 class BlindlyTestRunner : AndroidJUnitRunner() {
 
-    /*
+    /**
      * Create a hilt application to be used for the tests
      *
      * @param ClassLoader the class loader for the app

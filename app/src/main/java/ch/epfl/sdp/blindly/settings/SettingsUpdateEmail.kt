@@ -29,7 +29,7 @@ class SettingsUpdateEmail : AppCompatActivity() {
         editText.hint = user.getEmail()
     }
 
-    /*
+    /**
      * Handler for the update e-mail button
      *
      * Update the e-mail in the database and handle errors and result
