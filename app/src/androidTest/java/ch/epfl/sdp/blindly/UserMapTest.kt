@@ -20,7 +20,6 @@ import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-
 class UserMapTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -49,4 +48,5 @@ class UserMapTest {
         ActivityScenario.launch<UserMapActivity>(intent)
         onView(withId(R.id.map)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
+
 }
