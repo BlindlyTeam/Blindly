@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -9,7 +10,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -78,5 +78,4 @@ class ProfilePageTest {
         onView(withId(R.id.settings_profile_button)).perform(click())
         intended(hasComponent(Settings::class.java.name))
     }
-
 }

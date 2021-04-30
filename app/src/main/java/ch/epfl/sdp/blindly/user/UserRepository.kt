@@ -63,6 +63,7 @@ class UserRepository @Inject constructor(
         }
     }
 
+    /*
     /**
      * Update a given field of the user's information (and call refreshUser to update or set the
      * user in the local cache)
@@ -71,13 +72,15 @@ class UserRepository @Inject constructor(
      * @param field the field of the value to change inside the database
      * @param newValue the new value to set for the user
      */
-    /*@RequiresApi(Build.VERSION_CODES.N)
+    @RequiresApi(Build.VERSION_CODES.N)
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         if(newValue !is String || newValue !is ArrayList<*>)
             throw IllegalArgumentException("Expected String or ArrayList<String>")
         db.collection(USER_COLLECTION)
             .document(uid)
             .update(field, newValue)
+        //Put updated value into the local cache
         refreshUser(uid)
-    }*/
+    }
+     */
 }

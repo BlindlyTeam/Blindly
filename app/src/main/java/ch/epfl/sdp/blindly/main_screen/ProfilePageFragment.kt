@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.profile
+package ch.epfl.sdp.blindly.main_screen
 
 import android.content.Intent
 import android.os.Build
@@ -20,6 +20,7 @@ import ch.epfl.sdp.blindly.ViewModelAssistedFactory
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -36,7 +37,7 @@ class ProfilePageFragment : Fragment() {
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
 
-    private lateinit var viewModel: ProfilePageViewModel
+    private lateinit var viewModel: UserViewModel
 
     companion object {
         private const val TAG = "ProfilePage"
@@ -74,7 +75,7 @@ class ProfilePageFragment : Fragment() {
 
         val viewModelFactory = assistedFactory.create(this, bundle)
 
-        viewModel = ViewModelProvider(this, viewModelFactory)[ProfilePageViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 
     override fun onCreateView(

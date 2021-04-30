@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import ch.epfl.sdp.blindly.R
 
-//TODO link with firestore
 /**
  * Activity to modify the show me of the User
  *

@@ -84,7 +84,7 @@ class User private constructor(
             if(location.size == SIZE_2)
                 this.location = location
             else
-                throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${location.size} instead")
+                throw IllegalArgumentException("Expected location.size to be 2 but got: ${location.size} instead")
         }
 
         /**

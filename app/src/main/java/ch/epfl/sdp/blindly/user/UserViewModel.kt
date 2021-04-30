@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.profile
+package ch.epfl.sdp.blindly.user
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
  *
  */
 @RequiresApi(Build.VERSION_CODES.N)
-class ProfilePageViewModel @AssistedInject constructor(
+class UserViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
     userRepository: UserRepository
 ) : ViewModel() {

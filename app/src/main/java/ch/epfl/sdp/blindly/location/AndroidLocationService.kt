@@ -4,6 +4,7 @@ import android.content.Context
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import ch.epfl.sdp.blindly.user.User
 
 private const val MIN_TIME_FOR_UPDATE = 1L
 private const val MIN_DISTANCE_FOR_UPDTAE = 1F
@@ -89,6 +90,41 @@ class AndroidLocationService(private var context: Context) : LocationService {
             location.latitude = EPFL_LAT
             location.longitude = EPFL_LONG
             return location
+        }
+
+        /**
+         * Compute the user's location, either get the most recent one or take the one stored
+         * in the user
+         *
+         * @param context the context
+         * @param user the user
+         * @return the user's location
+         */
+        fun getCurrentLocation(context: Context, user: User?) : String? {
+            val currentLocation = AndroidLocationService(context).getCurrentLocation()
+            val latitude = currentLocation?.latitude
+            val longitude = currentLocation?.longitude
+            val geocoder = Geocoder(context)
+            //If the current location is available
+            if (latitude != null && longitude != null) {
+                return toAddress(geocoder, latitude, longitude)
+            }
+            //Else take the location stored in the database
+            if (user != null) {
+                val lat = user.location?.get(0)
+                val lon = user.location?.get(1)
+                if(lat != null && lon != null) {
+                    return toAddress(geocoder, lat, lon)
+                }
+            }
+            return "Location not found"
+        }
+
+        private fun toAddress(geocoder: Geocoder, latitude: Double, longitude: Double): String {
+            val address = geocoder.getFromLocation(latitude, longitude, 5)
+            val country = address[0].countryName
+            val city = address[0].locality
+            return "$city, $country"
         }
     }
 }
