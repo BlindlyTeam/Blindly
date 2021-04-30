@@ -37,7 +37,7 @@
         android:id="@+id/buttonMainScreen"
         android:layout_width="231dp"
         android:layout_height="61dp"
-        android:clickable="false"
+        android:clickable="true"
         android:onClick="startMainScreen"
         android:text="@string/goto_main_screen"
         app:layout_constraintBottom_toBottomOf="parent"
