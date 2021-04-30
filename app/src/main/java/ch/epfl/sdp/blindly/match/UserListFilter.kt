@@ -1,7 +1,6 @@
 package ch.epfl.sdp.blindly.match
 
 import android.location.Location
-import android.location.LocationManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.user.User
@@ -10,7 +9,6 @@ import java.lang.IllegalArgumentException
 private const val ONE_KM_IN_METERS = 1000
 
 class UserListFilter {
-
     /**
      * Filters a list of users, so that only the ones that are in the location and age range of
      * the current user remain.
@@ -79,7 +77,7 @@ class UserListFilter {
     }
 
     private fun createLocation(locationTable: List<Double>): Location {
-        val location = Location(LocationManager.GPS_PROVIDER)
+        val location = Location("")
         location.latitude = locationTable[0]
         location.longitude = locationTable[1]
         return location

@@ -1,11 +1,11 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.match
 
-import android.location.Location
-import ch.epfl.sdp.blindly.match.UserListFilter
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import ch.epfl.sdp.blindly.user.User
 import org.junit.Test
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
+import org.junit.runner.RunWith
 
 private const val EPFL_LAT = 46.5222
 private const val EPFL_LNG = 6.5660
@@ -14,6 +14,7 @@ private const val GENEVA_LNG = 6.1432
 private const val NYC_LAT = 40.7128
 private const val NYC_LNG = 74.0060
 
+@RunWith(AndroidJUnit4::class)
 class UserListFilterUnitTest {
     private val userListFilter = UserListFilter()
     private val userBuilder = User.Builder()
@@ -121,12 +122,5 @@ class UserListFilterUnitTest {
         val userList = listOf(alice, bob, cedric, david, emmanuel, francis)
         val result = userListFilter.reversePotentialMatch(alice, userList)
         assertThat(result, equalTo(listOf(bob, francis)))
-    }
-
-    private fun createLocation(latitude: Double, longitude: Double) : Location {
-        val location = Location("")
-        location.latitude = latitude
-        location.longitude = longitude
-        return location
     }
 }
