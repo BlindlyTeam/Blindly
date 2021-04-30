@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.UserMapActivity
+import ch.epfl.sdp.blindly.settings.LAUSANNE_LATLNG
 import com.google.android.gms.maps.model.LatLng
 
 
@@ -42,7 +43,7 @@ class MapFragment : Fragment() {
     }
     private fun startUserMap() {
         val intent = Intent(activity, UserMapActivity::class.java)
-        val points = arrayOf(LatLng(-33.0, 151.0))
+        val points = arrayOf(LAUSANNE_LATLNG)
         intent.putExtra(UserMapActivity.POINTS, points)
         startActivity(intent)
     }
