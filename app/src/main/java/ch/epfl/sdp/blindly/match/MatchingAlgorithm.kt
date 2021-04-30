@@ -37,7 +37,7 @@ class MatchingAlgorithm {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getPotentialMatchesFromDatabase(): List<User>? {
-        val currentUser = getCurrentUser()
+        val currentUser = userHelper.getUserId()?.let { userRepository.getUser(it) }
         val matches: MutableList<User?> = ArrayList<User?>().toMutableList()
         var query: Query?
 
@@ -69,10 +69,5 @@ class MatchingAlgorithm {
         val nonNullMatches = userListFilter.clearNullUsers(matches)
         val filteredList = userListFilter.filterLocationAndAgeRange(currentUser, nonNullMatches)
         return userListFilter.reversePotentialMatch(currentUser, filteredList)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private suspend fun getCurrentUser(): User? {
-        return userHelper.getUserId()?.let { userRepository.getUser(it) }
     }
 }
