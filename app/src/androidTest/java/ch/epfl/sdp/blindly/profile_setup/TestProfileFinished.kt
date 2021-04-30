@@ -2,15 +2,21 @@ package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
@@ -72,8 +78,9 @@ class TestProfileFinished {
         activityRule.scenario.onActivity { activity ->
             activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
         }
-        val buttonMainScreen = Espresso.onView(ViewMatchers.withId(R.id.buttonMainScreen))
-        buttonMainScreen.perform(ViewActions.click())
+        val buttonMainScreen = onView(withId(R.id.buttonMainScreen))
+        closeSoftKeyboard()
+	    buttonMainScreen.perform(click());
         Intents.intended(IntentMatchers.hasComponent(MainScreen::class.java.name))
     }
 }
