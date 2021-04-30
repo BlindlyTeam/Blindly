@@ -26,7 +26,7 @@ class UserMapTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Test
-    fun showMap() {
+    fun openAndDisplayUserMap() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), UserMapActivity::class.java)
 
         ActivityScenario.launch<UserMapActivity>(intent)
@@ -34,7 +34,7 @@ class UserMapTest {
     }
 
     @Test
-    fun showMapWithPoints() {
+    fun openAndDisplayUserWithPoints() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), UserMapActivity::class.java)
         intent.putExtra(POINTS, LatLng(0.0, 0.0))
 
@@ -43,7 +43,7 @@ class UserMapTest {
     }
 
     @Test
-    fun showMapWithoutPoints() {
+    fun openAndDisplayUserWithoutPoints() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), UserMapActivity::class.java)
 
         ActivityScenario.launch<UserMapActivity>(intent)
