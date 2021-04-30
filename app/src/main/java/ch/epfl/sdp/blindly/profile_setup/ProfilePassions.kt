@@ -82,32 +82,4 @@ class ProfilePassions : AppCompatActivity() {
             passions.add(chipText)
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setUser() {
-        val location = getCurrentLocation()
-        if (location != null) {
-            userBuilder.setLocation(location)
-        }
-        userBuilder.setPassions(passions)
-        user.setUserProfile(userBuilder)
-    }
-
-    private fun getCurrentLocation(): Location? {
-        return AndroidLocationService(this).getCurrentLocation()
-    }
-    
-    private fun getCurrentAddress(): String {
-        val currentLocation = AndroidLocationService(this).getCurrentLocation()
-        val latitude = currentLocation?.latitude
-        val longitude = currentLocation?.longitude
-        val geocoder = Geocoder(this)
-        if (latitude != null && longitude != null) {
-            val address = geocoder.getFromLocation(latitude, longitude, 5)
-            val country = address[0].countryName
-            val city = address[0].locality
-            return "$city, $country"
-        }
-        return "Location not found"
-    }
 }

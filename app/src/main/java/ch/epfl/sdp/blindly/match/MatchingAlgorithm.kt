@@ -45,21 +45,25 @@ class MatchingAlgorithm {
             return null
         }
 
-        query = userRepository.getCollectionReference()
-            .whereArrayContainsAny("passions", currentUser.passions)
-
-        if (currentUser.showMe != EVERYONE) {
-            query = query.whereEqualTo("gender", currentUser.showMe)
+        query = currentUser.passions?.let {
+            userRepository.getCollectionReference()
+                .whereArrayContainsAny("passions", it)
         }
 
-        query = query.whereNotEqualTo("uid", userHelper.getUserId())
-
-        query.get().addOnSuccessListener { users ->
-            for (user in users) {
-                matches += user.toUser()
+        if (query != null) {
+            if (currentUser.showMe != EVERYONE) {
+                query = query.whereEqualTo("gender", currentUser.showMe)
             }
-        }.addOnFailureListener { exception ->
-            Log.w(TAG, "Error getting users : ", exception)
+
+            query = query.whereNotEqualTo("uid", userHelper.getUserId())
+
+            query.get().addOnSuccessListener { users ->
+                for (user in users) {
+                    matches += user.toUser()
+                }
+            }.addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting users : ", exception)
+            }
         }
 
         val filteredList =

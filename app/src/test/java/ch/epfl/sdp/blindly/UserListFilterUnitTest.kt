@@ -18,9 +18,9 @@ class UserListFilterUnitTest {
     private val userListFilter = UserListFilter()
     private val userBuilder = User.Builder()
 
-    private val locationEPFL = createLocation(EPFL_LAT, EPFL_LNG)
-    private val locationNYC = createLocation(NYC_LAT, NYC_LNG)
-    private val locationGeneva = createLocation(GENEVA_LAT, GENEVA_LNG)
+    private val locationEPFL = listOf(EPFL_LAT, EPFL_LNG)
+    private val locationNYC = listOf(NYC_LAT, NYC_LNG)
+    private val locationGeneva = listOf(GENEVA_LAT, GENEVA_LNG)
 
     @Test
     fun filterLocationAndAgeRangeWorks() {
