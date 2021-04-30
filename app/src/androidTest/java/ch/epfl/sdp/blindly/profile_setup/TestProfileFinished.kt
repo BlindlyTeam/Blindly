@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.permissions.LocationPermissionActivity
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -57,7 +58,9 @@ class TestProfileFinished {
 
     @Test
     fun profileFinishedFiresMainScreen() {
-        Thread.sleep(500)
+        activityRule.scenario.onActivity { activity ->
+            activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        }
         val buttonMainScreen = Espresso.onView(ViewMatchers.withId(R.id.buttonMainScreen))
         buttonMainScreen.perform(ViewActions.click())
         Intents.intended(IntentMatchers.hasComponent(MainScreen::class.java.name))
