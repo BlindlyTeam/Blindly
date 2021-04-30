@@ -78,7 +78,7 @@ class MatchPageFragment : Fragment() {
     /**
      * create profiles for demo purpose
      *
-     * !!! PLS REMOVE IT WHEN BINDING THE ACIVITY WITH THE DATABASE !!!
+     * TODO: !!! PLS REMOVE IT WHEN BINDING THE ACIVITY WITH THE DATABASE !!!
      *
      * this function have to be replaced with calls to the matching algorithms and retrieve porfiles
      * from the database
@@ -104,11 +104,12 @@ class MatchPageFragment : Fragment() {
      * This functions calls the Matching Algorithm to get the potential matches and transforms them
      * into profiles by calling [createProfilesFromUsers].
      *
-     * TODO: It is not used yet since we did not link this activity with the database for now
+     * TODO: Use it to retrieve potential matches
+     * Since it is not used yet, I prefer to comment both functions for test coverage purposes.
      *
      * @return a list of profiles for the matchActivity
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+    /*@RequiresApi(Build.VERSION_CODES.O)
     private suspend fun getPotentialMatchesProfiles(): List<Profile> {
         val matchingAlgorithm = MatchingAlgorithm()
         val potentialUsers = matchingAlgorithm.getPotentialMatchesFromDatabase()
@@ -132,5 +133,5 @@ class MatchPageFragment : Fragment() {
             )
         }
         return profiles
-    }
+    }*/
 }
