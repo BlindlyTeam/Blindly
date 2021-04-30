@@ -26,7 +26,11 @@ class UserListFilter {
         for (user in otherUsers) {
             val otherUserAge = User.getUserAge(user)
             if (otherUserAge != null) {
-                if (otherUserAge in minAge!!..maxAge!! && isLocatedInUserRadius(currentUser, user)) {
+                if (otherUserAge in minAge!!..maxAge!! && isLocatedInUserRadius(
+                        currentUser,
+                        user
+                    )
+                ) {
                     filteredList += user
                 }
             }

@@ -1,13 +1,11 @@
 package ch.epfl.sdp.blindly.match
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.yuyakaido.android.cardstackview.*
 import java.util.*
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.user.User
 
 private const val VISIBLE_COUNT = 3
 private const val TRANSLATION_INTERVAL = 8f

@@ -83,7 +83,7 @@ class User private constructor(
          * @param location the location of the User
          */
         fun setLocation(location: List<Double>) = apply {
-            if(location.size == SIZE_2)
+            if (location.size == SIZE_2)
                 this.location = location
             else
                 throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${location.size} instead")
