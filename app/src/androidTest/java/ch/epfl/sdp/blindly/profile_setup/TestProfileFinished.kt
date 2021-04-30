@@ -60,6 +60,7 @@ class TestProfileFinished {
 
     @Test
     fun profileFinishedFiresMainScreen() {
+        Thread.sleep(500)
         val buttonMainScreen = Espresso.onView(ViewMatchers.withId(R.id.buttonMainScreen))
         buttonMainScreen.perform(ViewActions.click())
         Intents.intended(IntentMatchers.hasComponent(MainScreen::class.java.name))
