@@ -17,7 +17,7 @@ class UserCacheUnitTest {
         private val sexualOrientations = listOf("Asexual")
         private const val show_me = "Everyone"
         private val passions = listOf("Coffee", "Tea")
-        private const val radius = 150
+        private const val radius = 150f
         private val matches: List<String> = listOf()
         private const val description = "Student"
         private const val recordingPath =

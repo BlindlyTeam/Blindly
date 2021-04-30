@@ -24,11 +24,11 @@ class User private constructor(
     val sexualOrientations: List<String>?,
     val showMe: String?,
     val passions: List<String>?,
-    val radius: Int?,
+    val radius: Float?,
     val matches: List<String>?,
     val description: String?,
     val recordingPath: String?,
-    val ageRange: List<Int>?
+    val ageRange: List<Float>?
 ) {
 
     /**
@@ -59,11 +59,11 @@ class User private constructor(
         var sexualOrientations: List<String> = listOf(),
         var showMe: String? = null,
         var passions: List<String> = listOf(),
-        var radius: Int? = null,
+        var radius: Float? = null,
         var matches: List<String> = listOf(),
         var description: String? = null,
         var recordingPath: String? = null,
-        var ageRange: List<Int> = listOf()
+        var ageRange: List<Float> = listOf()
     ) {
 
         /**
@@ -137,7 +137,7 @@ class User private constructor(
          *
          * @param radius the radius of the User
          */
-        fun setRadius(radius: Int) = apply {
+        fun setRadius(radius: Float) = apply {
             this.radius = radius
         }
 
@@ -175,7 +175,7 @@ class User private constructor(
          *     ageRange[0] = minAge,
          *     ageRange[1] = maxAge
          */
-        fun setAgeRange(ageRange: List<Int>) = apply {
+        fun setAgeRange(ageRange: List<Float>) = apply {
 
             if (ageRange.size == SIZE_2)
                 this.ageRange = ageRange
@@ -223,10 +223,10 @@ class User private constructor(
                 val sexualOrientations = get("sexualOrientations") as? List<String>
                 val showMe = getString("showMe")!!
                 val passions = get("passions") as? List<String>
-                val radius = getField<Int>("radius")!!
+                val radius = getField<Float>("radius")!!
                 val matches = get("matches") as? List<String>
                 val description = getString("description")!!
-                val ageRange = get("ageRange") as? List<Int>
+                val ageRange = get("ageRange") as? List<Float>
                 val recordingPath = getString("recordingPath")!!
 
                 return User(

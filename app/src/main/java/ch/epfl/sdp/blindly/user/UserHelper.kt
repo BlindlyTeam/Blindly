@@ -24,7 +24,7 @@ class UserHelper {
         const val RC_SIGN_IN = 123
         private const val TAG = "UserHelper"
         private const val USER_COLLECTION: String = "usersMeta"
-        private const val DEFAULT_RADIUS = 80
+        private const val DEFAULT_RADIUS = 80f
         private const val DEFAULT_RANGE = 10
     }
 
@@ -124,9 +124,9 @@ class UserHelper {
             val age = birthday?.let { User.getAgeFromBirthday(it) }
             val minAge =
                 if (age!! >= MAJORITY_AGE + DEFAULT_RANGE)
-                    age - DEFAULT_RANGE
-                else MAJORITY_AGE
-            val maxAge = age + DEFAULT_RANGE
+                    (age - DEFAULT_RANGE).toFloat()
+                else MAJORITY_AGE.toFloat()
+            val maxAge = (age + DEFAULT_RANGE).toFloat()
 
             val newUser = userBuilder.setRadius(DEFAULT_RADIUS)
                 .setMatches(listOf())

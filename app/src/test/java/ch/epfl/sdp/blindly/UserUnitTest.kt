@@ -15,10 +15,11 @@ class UserUnitTest {
         private val sexualOrientations = listOf("Asexual")
         private const val show_me = "Everyone"
         private val passions = listOf("Coffee", "Tea")
-        private const val radius = 150
+        private const val radius = 150f
         private val matches: List<String> = listOf()
         private const val description = "Student"
-        private val ageRange = listOf(30, 40)
+        private const val recordingPath = "Recordings/by60RUne87Oahiryoz6tP2B6BKt2-PresentationAudio.amr"
+        private val ageRange = listOf(30f, 40f)
     }
 
     @Test
@@ -82,6 +83,12 @@ class UserUnitTest {
     }
 
     @Test
+    fun setRecordingPathIsCorrect() {
+        val userBuilder = User.Builder().setRecordingPath(recordingPath)
+        assertThat(userBuilder.recordingPath, equalTo(recordingPath))
+    }
+
+    @Test
     fun setAgeRangeIsCorrect() {
         val userBuilder = User.Builder().setAgeRange(ageRange)
         assertThat(userBuilder.ageRange, equalTo(ageRange))
@@ -89,7 +96,7 @@ class UserUnitTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun setAgeRangeWithAgeRangeLenDifferentFromTwoThrowsException() {
-        User.Builder().setAgeRange(listOf(12, 3, 4))
+        User.Builder().setAgeRange(listOf(12f, 3f, 4f))
     }
 
     @Test
@@ -105,6 +112,7 @@ class UserUnitTest {
             .setRadius(radius)
             .setDescription(description)
             .setMatches(matches)
+            .setRecordingPath(recordingPath)
             .setAgeRange(ageRange)
             .build()
 
@@ -118,6 +126,7 @@ class UserUnitTest {
         assertThat(user.radius, equalTo(radius))
         assertThat(user.description, equalTo(description))
         assertThat(user.matches, equalTo(matches))
+        assertThat(user.recordingPath, equalTo(recordingPath))
         assertThat(user.ageRange, equalTo(ageRange))
     }
 
