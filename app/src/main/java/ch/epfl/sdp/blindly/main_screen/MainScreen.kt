@@ -17,10 +17,12 @@ import dagger.hilt.android.AndroidEntryPoint
 private const val MATCH = "Match"
 private const val MESSAGE = "Message"
 private const val PROFILE = "Profile"
+private const val MAP = "Map"
+
 
 @AndroidEntryPoint
 class MainScreen : AppCompatActivity() {
-    private val tabTitles = arrayListOf(MATCH, MESSAGE, PROFILE)
+    private val tabTitles = arrayListOf(MATCH, MESSAGE, PROFILE, MAP)
 
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager2? = null
