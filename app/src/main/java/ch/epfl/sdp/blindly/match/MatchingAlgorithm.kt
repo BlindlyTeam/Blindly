@@ -66,23 +66,13 @@ class MatchingAlgorithm {
             }
         }
 
-        val filteredList =
-            userListFilter.filterLocationAndAgeRange(currentUser, clearNullUsers(matches))
+        val nonNullMatches = userListFilter.clearNullUsers(matches)
+        val filteredList = userListFilter.filterLocationAndAgeRange(currentUser, nonNullMatches)
         return userListFilter.reversePotentialMatch(currentUser, filteredList)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private suspend fun getCurrentUser(): User? {
         return userHelper.getUserId()?.let { userRepository.getUser(it) }
-    }
-
-    private fun clearNullUsers(userList: List<User?>): List<User> {
-        val nonNullList: MutableList<User> = ArrayList<User>().toMutableList()
-        for (user in userList) {
-            if (user != null) {
-                nonNullList += user
-            }
-        }
-        return nonNullList
     }
 }

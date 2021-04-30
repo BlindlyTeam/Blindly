@@ -65,6 +65,22 @@ class UserListFilter {
         return filteredList
     }
 
+    /**
+     * Clears null users from a list of nullable users.
+     *
+     * @param userList the list to be filtered
+     * @return the same list without null users
+     */
+    fun clearNullUsers(userList: List<User?>): List<User> {
+        val nonNullList: MutableList<User> = ArrayList<User>().toMutableList()
+        for (user in userList) {
+            if (user != null) {
+                nonNullList += user
+            }
+        }
+        return nonNullList
+    }
+
     private fun isLocatedInUserRadius(user: User, otherUser: User): Boolean {
         if (user.location == null || otherUser.location == null) {
             throw IllegalArgumentException("Cannot perform distance between null locations")

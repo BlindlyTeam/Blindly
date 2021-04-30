@@ -6,6 +6,7 @@ import org.junit.Test
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import org.junit.runner.RunWith
+import java.lang.IllegalArgumentException
 
 private const val EPFL_LAT = 46.5222
 private const val EPFL_LNG = 6.5660
@@ -122,5 +123,28 @@ class UserListFilterUnitTest {
         val userList = listOf(alice, bob, cedric, david, emmanuel, francis)
         val result = userListFilter.reversePotentialMatch(alice, userList)
         assertThat(result, equalTo(listOf(bob, francis)))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun exceptionIsThrownForNullLocation() {
+        val alice = userBuilder.setUsername("Alice")
+            .setGender("Woman")
+            .setShowMe("Man")
+            .setBirthday("29.04.1997")
+            .setAgeRange(listOf(20, 30))
+            .setRadius(80)
+            .build()
+
+        val userList = listOf(alice)
+        userListFilter.filterLocationAndAgeRange(alice, userList)
+    }
+
+    @Test
+    fun clearNullUsersWork() {
+        val alice = userBuilder.setUsername("Alice").build()
+        val bob = userBuilder.setUsername("Bob").build()
+
+        val nonNullList = userListFilter.clearNullUsers(listOf(alice, null, bob, null, null))
+        assertThat(nonNullList, equalTo(listOf(alice, bob)))
     }
 }
