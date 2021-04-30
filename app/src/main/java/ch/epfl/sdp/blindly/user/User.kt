@@ -280,7 +280,8 @@ class User private constructor(
         }
     }
 
-    // This is for debugging in tests, you're free to modify it if you need to
+    /* This is for debugging in tests, you're free to modify it if you need to (but don't forget
+       to modify the test results in UserUnitTest too */
     override fun toString(): String {
         return "$username"
     }

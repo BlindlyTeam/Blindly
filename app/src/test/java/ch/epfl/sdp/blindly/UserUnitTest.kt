@@ -141,4 +141,23 @@ class UserUnitTest {
         assertThat(User.getUserAge(user), equalTo(TEST_AGE))
     }
 
+    @Test
+    fun toStringIsCorrect() {
+        val user: User = User.Builder()
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(show_me)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setDescription(description)
+            .setMatches(matches)
+            .setAgeRange(ageRange)
+            .build()
+
+        assertThat(user.toString(), equalTo(username))
+    }
+
 }
