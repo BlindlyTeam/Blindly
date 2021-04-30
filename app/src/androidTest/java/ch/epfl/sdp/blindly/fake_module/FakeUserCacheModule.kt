@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.fake_module
 
 import ch.epfl.sdp.blindly.di.UserCacheModule
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationEPFL
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserCache
 import dagger.Module
@@ -12,35 +13,36 @@ import javax.inject.Singleton
 
 @Module
 @TestInstallIn(
-        components = [SingletonComponent::class],
-        replaces = [UserCacheModule::class]
+    components = [SingletonComponent::class],
+    replaces = [UserCacheModule::class]
 )
 open class FakeUserCacheModule {
     companion object {
+        private val loc = createLocationEPFL()
         private const val username = "Jane Doe"
-        private const val location = "EPFL, Ecublens"
+        private val location = listOf(loc.latitude, loc.longitude)
         private const val birthday = "01.01.01"
         private const val gender = "Woman"
-        private val  sexual_orientations =  listOf("Asexual")
+        private val sexualOrientations = listOf("Asexual")
         private const val show_me = "Everyone"
         private val passions = listOf("Coffee", "Tea")
         private const val radius = 150
-        private val matches: List<User> = listOf()
+        private val matches: List<String> = listOf()
         private const val description = "Student"
         private val ageRange = listOf(30, 50)
         val fakeUser = User.Builder()
-                .setUsername(username)
-                .setLocation(location)
-                .setBirthday(birthday)
-                .setGender(gender)
-                .setSexualOrientations(sexual_orientations)
-                .setShowMe(show_me)
-                .setPassions(passions)
-                .setRadius(radius)
-                .setDescription(description)
-                .setMatches(matches)
-                .setAgeRange(ageRange)
-                .build()
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(show_me)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setDescription(description)
+            .setMatches(matches)
+            .setAgeRange(ageRange)
+            .build()
     }
 
     @Singleton

@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.ViewModelAssistedFactory
-import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -98,20 +97,17 @@ class ProfilePageFragment : Fragment() {
         val editButton = view.findViewById<Button>(R.id.edit_info_profile_button)
         setOnClickListener(editButton, Intent(context, EditProfile::class.java))
 
-        val recordAudioButton = view.findViewById<Button>(R.id.record_audio_profile_button)
-        setOnClickListener(recordAudioButton, Intent(context, RecordingActivity::class.java))
-
         val settingsButton = view.findViewById<Button>(R.id.settings_profile_button)
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
         viewModel.user.observe(viewLifecycleOwner) {
-            userInfoText.text = getString(R.string.user_info, it.username, User.getUserAge(it))
+            userInfoText.text = getString(R.string.user_info, it.username,
+                User.getUserAge(it))
             if (it.description != "") {
                 userDescriptionText.text = getString(R.string.user_description, it.description)
             }
         }
     }
-
 
     /**
      * An onClickListener that start an Activity after the button has stopped bouncing

@@ -26,6 +26,7 @@ import org.junit.Test
 
 private const val ERROR_MESSAGE_1 = "Please select at least one!"
 private const val ERROR_MESSAGE_2 = "You can not select more than 5!"
+val TEST_PASSIONS = arrayListOf("Wine", "Swimming")
 
 @HiltAndroidTest
 class TestProfilePassions {

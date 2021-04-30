@@ -1,7 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen.profile
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import ch.epfl.sdp.blindly.user.User
@@ -15,9 +14,10 @@ import kotlinx.coroutines.launch
  *
  */
 @RequiresApi(Build.VERSION_CODES.N)
-class ProfilePageViewModel@AssistedInject constructor(
+class ProfilePageViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
-    userRepository: UserRepository): ViewModel() {
+    userRepository: UserRepository
+) : ViewModel() {
 
     companion object {
         private const val TAG = "ProfilePageViewModel"
@@ -25,8 +25,8 @@ class ProfilePageViewModel@AssistedInject constructor(
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
-    private val userId : String = savedStateHandle["uid"] ?:
-    throw IllegalArgumentException("Missing user id")
+    private val userId: String =
+        savedStateHandle["uid"] ?: throw IllegalArgumentException("Missing user id")
 
     init {
         viewModelScope.launch {
