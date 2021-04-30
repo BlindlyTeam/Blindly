@@ -56,11 +56,13 @@
         android:id="@+id/enable_location_button"
         android:layout_width="231dp"
         android:layout_height="61dp"
+        android:clickable="true"
         android:text="@string/allow_location"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.754" />
+        app:layout_constraintVertical_bias="0.754"
+        android:focusable="true" />
 </androidx.constraintlayout.widget.ConstraintLayout>
