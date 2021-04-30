@@ -46,6 +46,7 @@ class PermissionTest {
 
     @Test
     fun testLocationPermissionFiresProfileName() {
+        Thread.sleep(500)
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.enable_location_button))
         buttonContinue.perform(ViewActions.click())
 
