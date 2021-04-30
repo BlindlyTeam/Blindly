@@ -28,6 +28,13 @@ class UserHelper {
         private const val DEFAULT_RANGE = 10
     }
 
+    /**
+     * Get the sign-in intent
+     *
+     * Gets the intent for the activity used to sign-in and sign-up
+     *
+     * @return Intent the sign-intent
+     */
     fun getSignInIntent(): Intent {
         // Optionnaly get phone number to set default in login form
         val phoneProvider = AuthUI.IdpConfig.PhoneBuilder()
@@ -56,6 +63,14 @@ class UserHelper {
 
     }
 
+    /**
+     * Handle the authentication result in onActivityResult
+     *
+     * Returns an intent to launch the account creation steps if it is a new account,
+     * otherwise an intent for main screen, also handle unsuccessful results
+     *
+     * @return Intent? Null if sign-in failed, an intent to be launched otherwise
+     */
     fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Intent? {
         val response = IdpResponse.fromResultIntent(data)
 

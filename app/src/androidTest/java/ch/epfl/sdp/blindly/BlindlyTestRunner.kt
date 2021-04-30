@@ -5,9 +5,20 @@ import android.content.Context
 import androidx.test.runner.AndroidJUnitRunner
 import dagger.hilt.android.testing.HiltTestApplication
 
-// A custom runner to set up the instrumented application class for tests.
+/*
+ * The test runner for Blindly
+ */
 class BlindlyTestRunner : AndroidJUnitRunner() {
 
+    /*
+     * Create a hilt application to be used for the tests
+     *
+     * @param ClassLoader the class loader for the app
+     * @param String? app name, not used
+     * @param Context? the app context
+     *
+     * @return Application the application
+     */
     override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
         return super.newApplication(cl, HiltTestApplication::class.java.name, context)
     }
