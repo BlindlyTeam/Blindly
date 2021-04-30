@@ -27,8 +27,11 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
             1 -> {
                 MessagePageFragment.newInstance(position)
             }
-            else -> {
+            2 -> {
                 ProfilePageFragment.newInstance(position)
+            }
+            else -> {
+                MapFragment.newInstance(position)
             }
         }
     }
@@ -39,6 +42,6 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
      * @return the number of fragments
      */
     override fun getItemCount(): Int {
-        return 3
+        return 4
     }
 }

@@ -10,7 +10,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
-import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -78,11 +77,6 @@ class ProfilePageTest {
     fun settingsButtonFiresSettingsActivity() {
         onView(withId(R.id.settings_profile_button)).perform(click())
         intended(hasComponent(Settings::class.java.name))
-    }
-    @Test
-    fun recordAudioButtonFiresRecordingActivity() {
-        onView(withId(R.id.record_audio_profile_button)).perform(click())
-        intended(hasComponent(RecordingActivity::class.java.name))
     }
 
 }

@@ -2,7 +2,6 @@
     <string name="app_name">Blindly</string>
     <string name="blindly_app_logo">Blindly App Logo</string>
     <string name="welcome_to_blindly">Welcome to Blindly.</string>
-    <string name="start">Profile</string>
     <string name="please_follow_these_rules_while_enjoying_the_app">Please follow these rules while enjoying the app.</string>
     <string name="u2713_be_proactive">✓ Be proactive</string>
     <string name="u2713_be_yourself">✓ Be yourself</string>
@@ -36,11 +35,6 @@
     <string name="edit_profile_info">Edit Info</string>
     <string name="settings_profile">Settings</string>
     <string name="record_audio_profile">Record Audio</string>
-    <string name="audio_library">AUDIO LIBRARY</string>
-    <string name="main_page">Main</string>
-    <string name="profile_page">Profile</string>
-    <string name="match_page">Match</string>
-    <string name="message_page">Message</string>
     <string name="goto_main_screen">Main Screen</string>
     <string name="account_settings">ACCOUNT SETTINGS</string>
     <string name="email">Email</string>
@@ -62,7 +56,6 @@
     <string name="logout_button_text">Log out</string>
     <string name="delete_account_button_text">Delete account</string>
     <string name="login_err">Login failed,error code: %1$d</string>
-    <string name="login_button">Login</string>
     <string name="present_yourself_record">Present yourself by recording an audio file</string>
     <string name="require_locaiton_permission">You should allow the localisation for the app to work properly.</string>
     <string name="passions">Passions</string>
@@ -107,10 +100,6 @@
     <string name="please_select_at_least_one">Please select at least one!</string>
     <string name="you_can_t_select_more_than_3">You can not select more than 3!</string>
     <string name="ready_to_go">You are ready to go !</string>
-    <string name="set_password">Enter Password</string>
-    <string name="set_email">Enter Email Address</string>
-    <string name="create_account">Create Account</string>
-    <string name="sign_up">Sign Up</string>
     <string name="more_hint">More&#8230;</string>
     <string name="you_can_not_select_more_than_5">You can not select more than 5!</string>
     <string name="select_up_to_5">Select up to 5.</string>
@@ -129,25 +118,30 @@
     <string name="check_mark_for_the_choice_everyone">Check mark for the choice Everyone.</string>
     <string name="lausanne_switzerland">Lausanne, Switzerland</string>
     <string name="progress_km">%1$dkm</string>
-    <string name="account_deleted">Your account has been deleted</string>
     <string name="selected_age_range">%1$d - %2$d</string>
     <string name="not_logged_in">NOT LOGGED-IN</string>
     <string name="logout_error">LOGOUT ERROR</string>
     <string name="arrow_button_to_show_show_me_settings">Arrow button to show Show Me settings.</string>
     <string name="arrow_button_to_show_location">Arrow button to show location.</string>
     <string name="arrow_button_to_show_e_mail">Arrow button to show e-mail.</string>
-    <string name="user_example_name_and_age">Jane Doe, 24</string>
-    <string name="student">Student</string>
     <string name="facebook_application_id" translatable="false">2887339711533767</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb2887339711533767</string>
     <string name="base_timer_MM_SS">00:00</string>
     <string name="play_pause_button">Play/Pause button</string>
     <string name="select">Select</string>
+    <string name="main_goto_map">Map</string>
     <string name="user_info">%1$s, %2$d</string>
+    <string name="location_permission_denied">Permission denied</string>
+    <string name="permission_required_toast">Permssion required</string>
     <string name="user_description">%1$s</string>
     <string name="add_user_description">Add description</string>
+    <string name="permission_rationale_location">Allow us to get your current location</string>
     <string name="go_to_match_display">Let\'s see some matches</string>
+    <string name="chat">Chat!</string>
+    <string name="new_message">New Message</string>
     <string name="enable_location">Enable Location</string>
     <string name="allow_location">Allow Location</string>
     <string name="location_pin_image">Location pin image.</string>
+    <string name="user_map">User map</string>
+    <string name="button_for_sending_message">Button for sending message.</string>
 </resources>

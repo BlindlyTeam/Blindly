@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.location
 
 import android.content.Context
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 
@@ -18,6 +19,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
 
     private var isGPSEnable = false
     private var isNetworkEnable = false
+    private var canGetLocation = false
     private var location: Location? = null
 
     private lateinit var locationManager: LocationManager
@@ -30,22 +32,22 @@ class AndroidLocationService(private var context: Context) : LocationService {
      * Get the current location of the user
      * Get the location from the GPS and if disabled from the network
      *
-     * @return the users location or null if GPS and network are disable
+     * @return the user's location or null if GPS and network are disabled
      */
     override fun getCurrentLocation(): Location? {
         try {
-            //Get the location manager
             locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-            //Check if the GPS is enabled
+            //check for GPS
             isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-            //Check if the network is enabled
+            //check for network
             isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
             if ((isGPSEnable) || (isNetworkEnable)) {
+                canGetLocation = true
                 location = if (isGPSEnable) {
-                    //Get location from GPS
+                    //get location from GPS
                     locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
                         MIN_TIME_FOR_UPDATE,
@@ -54,7 +56,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
                     )
                     locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 } else {
-                    //get location from network
+                    //get location from Network
                     locationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
                         MIN_TIME_FOR_UPDATE,
@@ -63,7 +65,9 @@ class AndroidLocationService(private var context: Context) : LocationService {
                     )
                     locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER))
                 }
+
             }
+
         } catch (e: SecurityException) {
             throw e
         }

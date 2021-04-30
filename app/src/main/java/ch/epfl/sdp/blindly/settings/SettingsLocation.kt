@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
+val LAUSANNE_LATLNG = LatLng(46.5, 6.6)
 
 class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
 
