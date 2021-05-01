@@ -24,6 +24,7 @@ import com.google.android.material.slider.Slider
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -55,11 +56,16 @@ class SettingsTest {
     @Before
     fun setup() {
         hiltRule.inject()
+        init()
+    }
+
+    @After
+    fun afterEach() {
+        release()
     }
 
     @Test
     fun clickingOnLocationButtonFiresSettingsLocationActivity() {
-        init()
         onView(withId(R.id.location_button)).perform(click())
         var myLocation: TextView? = null
         activityRule.scenario.onActivity { activity ->
@@ -73,12 +79,10 @@ class SettingsTest {
                 )
             )
         )
-        release()
     }
 
     @Test
     fun clickingOnShowMeButtonFiresSettingsShowMeActivity() {
-        init()
         onView(withId(R.id.show_me_button)).perform(click())
         var showMe: TextView? = null
         activityRule.scenario.onActivity { activity ->
@@ -92,7 +96,6 @@ class SettingsTest {
                 )
             )
         )
-        release()
     }
 
     @Test
@@ -147,26 +150,20 @@ class SettingsTest {
 
     @Test
     fun movingTheSliderChangesTheRadiusText() {
-        init()
         onView(withId(R.id.location_slider)).perform(setSliderValue(TEST_RADIUS_VAL))
         val radiusText = onView(withId(R.id.radius_text))
         radiusText.check(matches(withText(TEST_RADIUS)))
-        release()
     }
 
     @Test
     fun movingTheRangeSliderChangesTheSelectedAgeRangeText() {
-        init()
         onView(withId(R.id.age_range_slider)).perform(setRangeSliderValues(TEST_LOWER_AGE, TEST_HIGHER_AGE))
         val selectedAgeRangeText = onView(withId(R.id.selected_age_range_text))
         selectedAgeRangeText.check(matches(withText(TEST_AGE_RANGE)))
-        release()
     }
 
     @Test
     fun checkEmailCorrect() {
-        init()
-
         onView(withId(R.id.email_address_text)).check(
             matches(
                 withText(
@@ -174,12 +171,10 @@ class SettingsTest {
                 )
             )
         )
-        release()
     }
 
     @Test
     fun checkEmailOpens() {
-        init()
         onView(withId(R.id.email_button)).perform(click())
 
         intended(
@@ -187,27 +182,22 @@ class SettingsTest {
                 hasComponent(SettingsUpdateEmail::class.java.name)
             )
         )
-        release()
     }
 
     @Test
     fun clickingOnLogoutButtonFiresSplashScreen() {
-        init()
         onView(withId(R.id.logout_button)).perform(click())
         intended(
             hasComponent(SplashScreen::class.java.name)
         )
-        release()
     }
 
     @Test
     fun clickingOnDeleteAccountButtonFiresSplashScreen() {
-        init()
         onView(withId(R.id.delete_account_button)).perform(click())
         intended(
             hasComponent(SplashScreen::class.java.name)
         )
-        release()
     }
 
 }
