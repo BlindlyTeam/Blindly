@@ -74,7 +74,7 @@ class UserRepository @Inject constructor(
      */
     @RequiresApi(Build.VERSION_CODES.N)
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
-        if(newValue !is String || newValue !is ArrayList<*>)
+        if (newValue !is String || newValue !is ArrayList<*>)
             throw IllegalArgumentException("Expected String or ArrayList<String>")
         db.collection(USER_COLLECTION)
             .document(uid)
@@ -82,5 +82,6 @@ class UserRepository @Inject constructor(
         //Put updated value into the local cache
         refreshUser(uid)
     }
+
      */
 }

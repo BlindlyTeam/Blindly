@@ -100,7 +100,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
          * @param user the user
          * @return the user's location
          */
-        fun getCurrentLocation(context: Context, user: User?) : String? {
+        fun getCurrentLocation(context: Context, user: User?): String {
             val currentLocation = AndroidLocationService(context).getCurrentLocation()
             val latitude = currentLocation?.latitude
             val longitude = currentLocation?.longitude
@@ -113,7 +113,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
             if (user != null) {
                 val lat = user.location?.get(0)
                 val lon = user.location?.get(1)
-                if(lat != null && lon != null) {
+                if (lat != null && lon != null) {
                     return toAddress(geocoder, lat, lon)
                 }
             }
