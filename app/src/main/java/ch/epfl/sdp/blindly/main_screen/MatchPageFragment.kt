@@ -1,13 +1,9 @@
 package ch.epfl.sdp.blindly.main_screen
 
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.annotation.RequiresApi
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
@@ -15,12 +11,8 @@ import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.match.MatchActivity
-import ch.epfl.sdp.blindly.match.MatchingAlgorithm
 import ch.epfl.sdp.blindly.match.Profile
-import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.match.CardStackAdapter
-import ch.epfl.sdp.blindly.match.Profile
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
