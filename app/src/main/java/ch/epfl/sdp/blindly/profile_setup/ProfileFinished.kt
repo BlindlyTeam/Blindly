@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +48,12 @@ class ProfileFinished : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setUser() {
         val location = getCurrentLocation()
-        userBuilder.setLocation(listOf(location!!.latitude, location!!.longitude))
+        userBuilder.setLocation(
+            listOf(
+                location?.latitude ?: LAUSANNE_LATLNG.latitude,
+                location?.longitude ?: LAUSANNE_LATLNG.longitude
+            )
+        )
         user.setUserProfile(userBuilder)
     }
 
