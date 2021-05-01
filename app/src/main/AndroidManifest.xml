@@ -30,7 +30,6 @@
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
         <activity android:name=".chat.ChatActivity" />
-        <activity android:name=".match.MatchActivity" />
         <activity android:name=".profile_setup.ProfileAudioRecording" />
         <activity android:name=".profile_setup.ProfileFinished" />
         <activity android:name=".profile_setup.ProfilePassions" />
@@ -45,6 +44,7 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
+        <activity android:name=".UserMapActivity" />
 
         <activity android:name=".settings.SettingsLocation" />
         <activity android:name=".settings.SettingsShowMe" />
@@ -54,7 +54,7 @@
         <activity
             android:name=".main_screen.MainScreen"
             android:theme="@style/Theme.Blindly.NoActionBar" />
-        <activity android:name=".LocationPermissionActivity" />
+        <activity android:name=".permissions.LocationPermissionActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

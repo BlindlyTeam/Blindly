@@ -1,8 +1,6 @@
 package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
@@ -11,8 +9,10 @@ import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.permissions.LocationPermissionActivity
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -32,24 +32,22 @@ class TestProfileFinished {
         .setSexualOrientations(TEST_SEXUAL_ORIENTATIONS)
         .setPassions(TEST_PASSIONS)
     private val SERIALIZED = Json.encodeToString(TEST_USER)
+    private val intent = Intent(
+        ApplicationProvider.getApplicationContext(),
+        ProfileFinished::class.java
+    ).apply {
+        putExtra(EXTRA_USER, SERIALIZED)
+    }
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+    @get:Rule
+    val activityRule = ActivityScenarioRule<ProfileFinished>(intent)
+
     @Before
     fun setup() {
         hiltRule.inject()
-        val bundle = Bundle()
-        bundle.putSerializable(EXTRA_USER, SERIALIZED)
-
-        val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
-            ProfileFinished::class.java
-        ).apply {
-            putExtras(bundle)
-        }
-
-        ActivityScenario.launch<ProfileFinished>(intent)
         init()
     }
 
@@ -60,8 +58,13 @@ class TestProfileFinished {
 
     @Test
     fun profileFinishedFiresMainScreen() {
+        activityRule.scenario.onActivity { activity ->
+            activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        }
         val buttonMainScreen = Espresso.onView(ViewMatchers.withId(R.id.buttonMainScreen))
         buttonMainScreen.perform(ViewActions.click())
         Intents.intended(IntentMatchers.hasComponent(MainScreen::class.java.name))
+
     }
+
 }
