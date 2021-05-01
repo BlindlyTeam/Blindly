@@ -3,26 +3,43 @@ package ch.epfl.sdp.blindly.main_screen
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.RequiresApi
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
+import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.match.MatchActivity
 import ch.epfl.sdp.blindly.match.MatchingAlgorithm
 import ch.epfl.sdp.blindly.match.Profile
 import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.match.CardStackAdapter
+import ch.epfl.sdp.blindly.match.Profile
+import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
+import java.util.*
+
+private const val VISIBLE_COUNT = 3
+private const val TRANSLATION_INTERVAL = 8f
+private const val SCALE_INTERVAL = 0.95f
+private const val SWIPE_THRESHOLD = 0.3f
+private const val MAX_DEGREE = 30f
 
 /**
- * Fragment to access the match page
+ * Fragment to swipe potential matches
  */
 @AndroidEntryPoint
-class MatchPageFragment : Fragment() {
+class MatchPageFragment : Fragment(), CardStackListener {
+    private lateinit var manager: CardStackLayoutManager
+    private lateinit var adapter: CardStackAdapter
+    private lateinit var cardStackView: CardStackView
+
     companion object {
         private const val ARG_COUNT = "matchArgs"
         private var counter: Int? = null
@@ -63,16 +80,79 @@ class MatchPageFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_match_page, container, false)
 
-        val intent = Intent(context, MatchActivity::class.java)
-        val profiles = createProfiles()
-        intent.putParcelableArrayListExtra(
-            "EXTRA_MATCH_PROFILES",
-            profiles as ArrayList<out Parcelable>
-        )
-        val matchActivityButton = view.findViewById<Button>(R.id.button_to_match)
-        matchActivityButton.setOnClickListener { startActivity(intent) }
+        setupButtons(view)
+        setupCardStackView(view)
 
         return view
+    }
+
+    /**
+     * Do some action when the card is dragged (still holded)
+     *
+     * @param direction where the card is dragged (left, right)
+     * @param ratio between default (0) and swiped (1)
+     */
+    override fun onCardDragging(direction: Direction, ratio: Float) {
+    }
+
+    /**
+     * Do some actions when the card is swiped
+     *
+     * @param direction the direction the card is swiped (left, right)
+     */
+    override fun onCardSwiped(direction: Direction) {
+    }
+
+    override fun onCardRewound() {
+    }
+
+    override fun onCardCanceled() {
+    }
+
+    /**
+     * Do some action when the card appear
+     *
+     * @param view in which the card is
+     * @param position in the view
+     */
+    override fun onCardAppeared(view: View, position: Int) {
+    }
+
+    /**
+     * Do some action when the card disappears
+     *
+     * @param view in which the card was
+     * @param position in the view
+     */
+    override fun onCardDisappeared(view: View, position: Int) {
+    }
+
+    /**
+     * Initialize the manager, the adapter and the cardStackView
+     *
+     */
+    private fun setupCardStackView(view: View) {
+        cardStackView = view.findViewById(R.id.card_stack_view)!!
+        manager = CardStackLayoutManager(context, this)
+        manager.setStackFrom(StackFrom.None)
+        manager.setVisibleCount(VISIBLE_COUNT)
+        manager.setTranslationInterval(TRANSLATION_INTERVAL)
+        manager.setScaleInterval(SCALE_INTERVAL)
+        manager.setSwipeThreshold(SWIPE_THRESHOLD)
+        manager.setMaxDegree(MAX_DEGREE)
+        manager.setDirections(Direction.HORIZONTAL)
+        manager.setCanScrollHorizontal(true)
+        manager.setCanScrollVertical(true)
+        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
+        manager.setOverlayInterpolator(LinearInterpolator())
+        adapter = CardStackAdapter(createProfiles())
+        cardStackView.layoutManager = manager
+        cardStackView.adapter = adapter
+        cardStackView.itemAnimator.apply {
+            if (this is DefaultItemAnimator) {
+                supportsChangeAnimations = false
+            }
+        }
     }
 
     /**
@@ -134,4 +214,45 @@ class MatchPageFragment : Fragment() {
         }
         return profiles
     }*/
+  
+    /*
+     * Setup the 3 buttons (like, rewind, skip)
+     *
+     */
+    private fun setupButtons(view: View) {
+        val skip = view.findViewById<View>(R.id.skip_button)
+        skip.setOnClickListener {
+            listenerSettings(Direction.Left, AccelerateInterpolator(), { cardStackView.swipe() })
+        }
+        val rewind = view.findViewById<View>(R.id.rewind_button)
+        rewind.setOnClickListener {
+            listenerSettings(Direction.Bottom, DecelerateInterpolator(), { cardStackView.rewind() })
+        }
+        val like = view.findViewById<View>(R.id.like_button)
+        like.setOnClickListener {
+            listenerSettings(Direction.Right, AccelerateInterpolator(), { cardStackView.swipe() })
+        }
+
+    }
+
+    /**
+     * Setup the settings for the button's onClickListener with
+     *
+     * @param direction to swipe the card
+     * @param interpolation
+     * @param func the card action (swipe, rewind)
+     */
+    private fun listenerSettings(
+        direction: Direction,
+        interpolation: Interpolator,
+        func: () -> Unit
+    ) {
+        val settings = SwipeAnimationSetting.Builder()
+            .setDirection(direction)
+            .setDuration(Duration.Normal.duration)
+            .setInterpolator(interpolation)
+            .build()
+        manager.setSwipeAnimationSetting(settings)
+        func()
+    }
 }
