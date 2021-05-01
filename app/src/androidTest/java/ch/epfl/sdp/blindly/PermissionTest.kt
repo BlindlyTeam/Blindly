@@ -2,6 +2,7 @@ package ch.epfl.sdp.blindly
 
 import android.content.Intent
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
@@ -9,6 +10,8 @@ import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.GrantPermissionRule
+import ch.epfl.sdp.blindly.permissions.LocationPermissionActivity
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -27,6 +30,10 @@ class PermissionTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+    @Rule
+    @JvmField
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule
+        .grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
     @Before
     fun setup() {
         hiltRule.inject()
@@ -40,12 +47,13 @@ class PermissionTest {
 
     @Test
     fun testLocationPermissionFiresProfileName() {
-        activityRule.scenario.onActivity { activity ->
-            activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        }
-
-        val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.button))
+        val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.enable_location_button))
         buttonContinue.perform(ViewActions.click())
+        try { // Optionally double click, because apparently permisssion are not granted immediately
+            buttonContinue.perform(ViewActions.click())
+        } catch (e: NoMatchingViewException) {
+            // If we can't click its not a problem, it only means that it has already been granted
+        }
         Intents.intended(IntentMatchers.hasComponent(ProfileName::class.java.name))
     }
 

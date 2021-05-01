@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import ch.epfl.sdp.blindly.LocationPermissionActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.permissions.LocationPermissionActivity
 
 /**
  * Shows the House Rules and starts LocationPermissionActivity when the button is pressed.

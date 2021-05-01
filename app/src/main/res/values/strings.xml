@@ -34,7 +34,7 @@
     <string name="show_me">Show me</string>
     <string name="edit_profile_info">Edit Info</string>
     <string name="settings_profile">Settings</string>
-    <string name="record_audio_profile">Record Audio</string>
+    <string name="play_audio_profile">Play Audio</string>
     <string name="goto_main_screen">Main Screen</string>
     <string name="account_settings">ACCOUNT SETTINGS</string>
     <string name="email">Email</string>
@@ -118,6 +118,7 @@
     <string name="check_mark_for_the_choice_everyone">Check mark for the choice Everyone.</string>
     <string name="lausanne_switzerland">Lausanne, Switzerland</string>
     <string name="progress_km">%1$dkm</string>
+    <string name="account_deleted">Your account has been deleted</string>
     <string name="selected_age_range">%1$d - %2$d</string>
     <string name="not_logged_in">NOT LOGGED-IN</string>
     <string name="logout_error">LOGOUT ERROR</string>
@@ -129,14 +130,21 @@
     <string name="base_timer_MM_SS">00:00</string>
     <string name="play_pause_button">Play/Pause button</string>
     <string name="select">Select</string>
+    <string name="main_goto_map">Map</string>
     <string name="user_info">%1$s, %2$d</string>
+    <string name="location_permission_denied">Permission denied</string>
+    <string name="permission_required_toast">Permssion required</string>
     <string name="user_description">%1$s</string>
     <string name="add_user_description">Add description</string>
+    <string name="permission_rationale_location">Allow us to get your current location</string>
     <string name="go_to_match_display">Let\'s see some matches</string>
     <string name="chat">Chat!</string>
     <string name="new_message">New Message</string>
     <string name="enable_location">Enable Location</string>
     <string name="allow_location">Allow Location</string>
     <string name="location_pin_image">Location pin image.</string>
+    <string name="user_map">User map</string>
     <string name="button_for_sending_message">Button for sending message.</string>
+    <string name="play_audio">Play Audio</string>
+    <string name="record_audio">Record</string>
 </resources>
