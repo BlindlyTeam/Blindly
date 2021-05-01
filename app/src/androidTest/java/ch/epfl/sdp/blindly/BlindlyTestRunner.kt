@@ -13,9 +13,9 @@ class BlindlyTestRunner : AndroidJUnitRunner() {
     /**
      * Create a hilt application to be used for the tests
      *
-     * @param ClassLoader the class loader for the app
-     * @param String? app name, not used
-     * @param Context? the app context
+     * @param cl the class loader for the app
+     * @param name app name, not used
+     * @param context the app context
      *
      * @return Application the application
      */

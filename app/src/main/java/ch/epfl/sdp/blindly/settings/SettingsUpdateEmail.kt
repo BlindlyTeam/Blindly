@@ -34,7 +34,7 @@ class SettingsUpdateEmail : AppCompatActivity() {
      *
      * Update the e-mail in the database and handle errors and result
      *
-     * @param View the button
+     * @param view the button
      */
     fun updateEmail(view: View) {
         val editText: EditText = findViewById(R.id.update_email_field)
