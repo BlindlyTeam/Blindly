@@ -34,18 +34,11 @@ class TestProfileFinished {
         .setSexualOrientations(TEST_SEXUAL_ORIENTATIONS)
         .setPassions(TEST_PASSIONS)
     private val SERIALIZED = Json.encodeToString(TEST_USER)
-
-    var intent: Intent;
-    init {
-        val bundle = Bundle()
-        bundle.putSerializable(EXTRA_USER, SERIALIZED)
-
-        intent = Intent(
-            ApplicationProvider.getApplicationContext(),
-            ProfileFinished::class.java
-        ).apply {
-            putExtras(bundle)
-        }
+    private val intent = Intent(
+        ApplicationProvider.getApplicationContext(),
+        ProfileFinished::class.java
+    ).apply {
+        putExtra(EXTRA_USER, SERIALIZED)
     }
 
     @get:Rule
@@ -60,7 +53,6 @@ class TestProfileFinished {
     @Before
     fun setup() {
         hiltRule.inject()
-
         init()
     }
 
@@ -74,5 +66,7 @@ class TestProfileFinished {
         val buttonMainScreen = Espresso.onView(ViewMatchers.withId(R.id.buttonMainScreen))
         buttonMainScreen.perform(ViewActions.click())
         Intents.intended(IntentMatchers.hasComponent(MainScreen::class.java.name))
+
     }
+
 }
