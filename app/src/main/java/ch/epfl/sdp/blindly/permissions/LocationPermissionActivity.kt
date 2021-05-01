@@ -28,7 +28,7 @@ class LocationPermissionActivity : AppCompatActivity() {
         button.setOnClickListener {
             LocationPermission.requestPermission(
                 this, LocationPermission.LOCATION_PERMISSION_REQUEST_CODE,
-                Manifest.permission.ACCESS_FINE_LOCATION, true
+                Manifest.permission.ACCESS_FINE_LOCATION, false
             )
         }
     }
@@ -51,7 +51,7 @@ class LocationPermissionActivity : AppCompatActivity() {
         } else {
             // Permission was denied. Display an error message
             // [START_EXCLUDE]
-            LocationPermission.Companion.PermissionDeniedDialog.newInstance(true)
+            LocationPermission.Companion.PermissionDeniedDialog.newInstance(false)
                 .show(supportFragmentManager, "dialog")
             // [END_EXCLUDE]
         }

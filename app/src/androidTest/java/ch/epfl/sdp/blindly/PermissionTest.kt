@@ -2,6 +2,7 @@ package ch.epfl.sdp.blindly
 
 import android.content.Intent
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
@@ -32,8 +33,7 @@ class PermissionTest {
     @Rule
     @JvmField
     val grantPermissionRule: GrantPermissionRule = GrantPermissionRule
-        .grant(android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            android.Manifest.permission.ACCESS_FINE_LOCATION)
+        .grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
     @Before
     fun setup() {
         hiltRule.inject()
@@ -47,13 +47,13 @@ class PermissionTest {
 
     @Test
     fun testLocationPermissionFiresProfileName() {
-        activityRule.scenario.onActivity { activity ->
-            activity.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        }
         val buttonContinue = Espresso.onView(ViewMatchers.withId(R.id.enable_location_button))
         buttonContinue.perform(ViewActions.click())
-
-        Thread.sleep(500)
+        try { // Optionally double click, because apparently permisssion are not granted immediately
+            buttonContinue.perform(ViewActions.click())
+        } catch (e: NoMatchingViewException) {
+            // If we can't click its not a problem, it only means that it has already been granted
+        }
         Intents.intended(IntentMatchers.hasComponent(ProfileName::class.java.name))
     }
 
