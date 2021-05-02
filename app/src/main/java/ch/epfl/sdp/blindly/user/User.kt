@@ -11,8 +11,6 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.Period
 
-const val SIZE_2 = 2
-
 /**
  * A class to represent a User
  *
@@ -83,7 +81,7 @@ class User private constructor(
          * @param location the location of the User
          */
         fun setLocation(location: List<Double>) = apply {
-            if (location.size == SIZE_2)
+            if (location.size == 2)
                 this.location = location
             else
                 throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${location.size} instead")

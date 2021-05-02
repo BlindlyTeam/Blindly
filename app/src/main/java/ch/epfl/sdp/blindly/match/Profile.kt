@@ -2,7 +2,6 @@ package ch.epfl.sdp.blindly.match
 
 import android.os.Parcel
 import android.os.Parcelable
-import ch.epfl.sdp.blindly.user.User
 
 /**
  * Class to have the data to display to the matchActivity
