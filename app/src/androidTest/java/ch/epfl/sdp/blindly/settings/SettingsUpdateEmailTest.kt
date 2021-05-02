@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -42,11 +43,16 @@ class SettingsUpdateEmailTest {
     @Before
     fun setup() {
         hiltRule.inject()
+        init()
+    }
+
+    @After
+    fun afterEach() {
+        release()
     }
 
     @Test
     fun emailIsCorrect() {
-        init()
         onView(withId(R.id.update_email_field)).check(
                 ViewAssertions.matches(
                         withHint(
@@ -54,13 +60,10 @@ class SettingsUpdateEmailTest {
                         )
                 )
         )
-        release()
     }
 
     @Test
     fun emailUpdateWorks() {
-        init()
-
         onView(withId(R.id.update_email_field))
                 .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL))
 
@@ -75,11 +78,9 @@ class SettingsUpdateEmailTest {
                                 withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
                         ))
         )
-        release()
     }
 
     private fun emailUpdateErrorIsHandled(e: Exception, expectedResId: Int) {
-        init()
         // We can't change the things in onCreate, however things happening on button clicks it's fine
         // Fail email update with FirebaseAuthInvalidCredentialsException
         val taskCompletionSource = TaskCompletionSource<Void>()
@@ -93,7 +94,6 @@ class SettingsUpdateEmailTest {
         closeSoftKeyboard()
         val buttonUpdate = onView(withId(R.id.update_email_button))
         buttonUpdate.perform(click())
-        Thread.sleep(2000)
         onView(withId(R.id.update_email_failure_notice)).check(
                 ViewAssertions.matches(
                         Matchers.allOf(
@@ -101,9 +101,6 @@ class SettingsUpdateEmailTest {
                                 withEffectiveVisibility(Visibility.VISIBLE)
                         ))
         )
-
-        release()
-
     }
 
     @Test
