@@ -71,6 +71,7 @@ class ProfilePageFragment : Fragment() {
      * Set up the viewModel
      *
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
