@@ -50,7 +50,7 @@ class MainScreen : AppCompatActivity() {
 
     override fun onBackPressed() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("Exit")
+        builder.setTitle("Exit the app.")
         builder.setMessage("Are You Sure?")
         builder.setPositiveButton("Yes") { dialog, _ ->
             dialog.dismiss()
