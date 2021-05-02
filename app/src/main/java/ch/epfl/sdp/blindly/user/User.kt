@@ -177,7 +177,7 @@ class User private constructor(
          */
         fun setAgeRange(ageRange: List<Int>) = apply {
 
-            if (ageRange.size == SIZE_2)
+            if (ageRange.size == 2)
                 this.ageRange = ageRange
             else
                 throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")
