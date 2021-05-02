@@ -21,12 +21,13 @@ class UserViewModel @AssistedInject constructor(
 
     companion object {
         private const val TAG = "ProfilePageViewModel"
+        const val EXTRA_UID = "uid"
     }
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
     private val userId: String =
-        savedStateHandle["uid"] ?: throw IllegalArgumentException("Missing user id")
+        savedStateHandle[EXTRA_UID] ?: throw IllegalArgumentException("Missing user id")
 
     init {
         viewModelScope.launch {

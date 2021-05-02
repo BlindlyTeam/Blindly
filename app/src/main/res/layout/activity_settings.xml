@@ -24,7 +24,7 @@
         android:layout_below="@id/settings_toolbar"
         android:layout_marginStart="10dp"
         android:text="@string/account_settings"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/blindly_purple_secondary"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -90,7 +90,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginStart="10dp"
         android:text="@string/discovery_settings"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/blindly_purple_secondary"
         android:textSize="16sp"
         android:textStyle="bold" />
 
