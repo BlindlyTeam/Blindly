@@ -11,8 +11,8 @@ import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.match.CardStackAdapter
 import ch.epfl.sdp.blindly.match.Profile
+import ch.epfl.sdp.blindly.match.CardStackAdapter
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -150,7 +150,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
     /**
      * create profiles for demo purpose
      *
-     * !!! PLS REMOVE IT WHEN BINDING THE ACIVITY WITH THE DATABASE !!!
+     * TODO: !!! PLS REMOVE IT WHEN BINDING THE ACIVITY WITH THE DATABASE !!!
      *
      * this function have to be replaced with calls to the matching algorithms and retrieve porfiles
      * from the database
@@ -173,6 +173,41 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
+     * This functions calls the Matching Algorithm to get the potential matches and transforms them
+     * into profiles by calling [createProfilesFromUsers].
+     *
+     * TODO: Use it to retrieve potential matches
+     * Since it is not used yet, I prefer to comment both functions for test coverage purposes.
+     *
+     * @return a list of profiles for the matchActivity
+     */
+    /*@RequiresApi(Build.VERSION_CODES.O)
+    private suspend fun getPotentialMatchesProfiles(): List<Profile> {
+        val matchingAlgorithm = MatchingAlgorithm()
+        val potentialUsers = matchingAlgorithm.getPotentialMatchesFromDatabase()
+
+        return if (potentialUsers == null) {
+            listOf()
+        } else {
+            createProfilesFromUsers(potentialUsers)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createProfilesFromUsers(users: List<User>?): List<Profile> {
+        if (users == null) {
+            return listOf()
+        }
+        val profiles = ArrayList<Profile>()
+        for (user in users) {
+            profiles.add(
+                Profile(user.username!!, User.getUserAge(user)!!)
+            )
+        }
+        return profiles
+    }*/
+  
+    /*
      * Setup the 3 buttons (like, rewind, skip)
      *
      */
@@ -212,6 +247,4 @@ class MatchPageFragment : Fragment(), CardStackListener {
         manager.setSwipeAnimationSetting(settings)
         func()
     }
-
-
 }

@@ -85,11 +85,8 @@ class AndroidLocationService(private var context: Context) : LocationService {
     }
 
     companion object {
-        fun createLocationEPFL(): Location {
-            val location = Location("")
-            location.latitude = EPFL_LAT
-            location.longitude = EPFL_LONG
-            return location
+        fun createLocationTableEPFL(): List<Double> {
+            return listOf(EPFL_LAT, EPFL_LONG)
         }
 
         /**

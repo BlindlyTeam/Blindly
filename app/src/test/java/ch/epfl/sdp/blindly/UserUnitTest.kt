@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly
 
-import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationEPFL
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -9,7 +9,7 @@ import org.junit.Test
 class UserUnitTest {
     companion object {
         private const val username = "Jane Doe"
-        private val location = listOf(createLocationEPFL().latitude, createLocationEPFL().longitude)
+        private val location = createLocationTableEPFL()
         private const val birthday = "01.01.2001"
         private const val gender = "Woman"
         private val sexualOrientations = listOf("Asexual")
@@ -92,6 +92,11 @@ class UserUnitTest {
         User.Builder().setAgeRange(listOf(12, 3, 4))
     }
 
+    @Test(expected = IllegalArgumentException::class)
+    fun setLocationWithLenDifferentFromTwoThrowsException() {
+        User.Builder().setLocation(listOf(1.3, 3.1, 4.5))
+    }
+
     @Test
     fun buildBuilsCorrectUser() {
         val user: User = User.Builder()
@@ -139,6 +144,25 @@ class UserUnitTest {
 
         val TEST_AGE = 20
         assertThat(User.getUserAge(user), equalTo(TEST_AGE))
+    }
+
+    @Test
+    fun toStringIsCorrect() {
+        val user: User = User.Builder()
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(show_me)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setDescription(description)
+            .setMatches(matches)
+            .setAgeRange(ageRange)
+            .build()
+
+        assertThat(user.toString(), equalTo(username))
     }
 
 }
