@@ -29,6 +29,13 @@ class SettingsUpdateEmail : AppCompatActivity() {
         editText.hint = user.getEmail()
     }
 
+    /**
+     * Handler for the update e-mail button
+     *
+     * Update the e-mail in the database and handle errors and result
+     *
+     * @param view the button
+     */
     fun updateEmail(view: View) {
         val editText: EditText = findViewById(R.id.update_email_field)
         val newEmail = editText.text.toString()
