@@ -20,6 +20,10 @@ private const val MATCH = "Match"
 private const val MESSAGE = "Message"
 private const val PROFILE = "Profile"
 private const val MAP = "Map"
+private const val EXIT_DIALOG_TITLE = "Exit the app."
+private const val EXIT_DIALOG_MESSAGE = "Are You Sure?"
+private const val ANSWER_YES = "Yes"
+private const val ANSWER_NO = "No"
 
 
 @AndroidEntryPoint
@@ -50,14 +54,14 @@ class MainScreen : AppCompatActivity() {
 
     override fun onBackPressed() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("Exit the app.")
-        builder.setMessage("Are You Sure?")
-        builder.setPositiveButton("Yes") { dialog, _ ->
+        builder.setTitle(EXIT_DIALOG_TITLE)
+        builder.setMessage(EXIT_DIALOG_MESSAGE)
+        builder.setPositiveButton(ANSWER_YES) { dialog, _ ->
             dialog.dismiss()
             this.finishAffinity()
         }
         builder.setNegativeButton(
-            "No"
+            ANSWER_NO
         ) { dialog, _ -> dialog.dismiss() }
         val alert: AlertDialog = builder.create()
         alert.show()
