@@ -28,6 +28,13 @@ class UserHelper {
         const val DEFAULT_RANGE = 10
     }
 
+    /**
+     * Get the sign-in intent
+     *
+     * Gets the intent for the activity used to sign-in and sign-up
+     *
+     * @return Intent the sign-intent
+     */
     fun getSignInIntent(): Intent {
         // Optionnaly get phone number to set default in login form
         val phoneProvider = AuthUI.IdpConfig.PhoneBuilder()
@@ -56,6 +63,18 @@ class UserHelper {
 
     }
 
+    /**
+     * Handle the authentication result in onActivityResult
+     *
+     * Returns an intent to launch the account creation steps if it is a new account,
+     * otherwise an intent for main screen, also handle unsuccessful results
+     *
+     * @param activity the calling activity
+     * @param resultCode the result code the activity callback received
+     * @param data the result data
+     *
+     * @return Null if sign-in failed, an intent to be launched otherwise
+     */
     fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Intent? {
         val response = IdpResponse.fromResultIntent(data)
 
@@ -89,6 +108,7 @@ class UserHelper {
      * Check is the user has already created an account
      *
      * @param user the user to test the condition on
+     *
      * @return true if the user just created an account, false otherwise
      */
     private fun isNewUser(user: FirebaseUser): Boolean {
@@ -144,10 +164,22 @@ class UserHelper {
         }
     }
 
+    /**
+     * Set the e-mail of the user
+     *
+     * @param email the new e-mail
+     *
+     * @return a Task completes upon e-mail update
+     */
     fun setEmail(email: String): Task<Void>? {
         return FirebaseAuth.getInstance().currentUser?.updateEmail(email)
     }
 
+    /**
+     * Get the e-mail of the user
+     *
+     * @return the e-mail
+     */
     fun getEmail(): String? {
         return FirebaseAuth.getInstance().currentUser?.email
     }
