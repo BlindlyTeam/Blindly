@@ -23,11 +23,12 @@ open class FakeUserCacheModule {
         private const val birthday = "01.01.01"
         private const val gender = "Woman"
         private val sexualOrientations = listOf("Asexual")
-        private const val show_me = "Everyone"
+        private const val showMe = "Everyone"
         private val passions = listOf("Coffee", "Tea")
         private const val radius = 150
         private val matches: List<String> = listOf()
         private const val description = "Student"
+        private const val recordingPath = "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
         private val ageRange = listOf(30, 50)
         val fakeUser = User.Builder()
             .setUsername(username)
@@ -35,11 +36,12 @@ open class FakeUserCacheModule {
             .setBirthday(birthday)
             .setGender(gender)
             .setSexualOrientations(sexualOrientations)
-            .setShowMe(show_me)
+            .setShowMe(showMe)
             .setPassions(passions)
             .setRadius(radius)
             .setDescription(description)
             .setMatches(matches)
+            .setRecordingPath(recordingPath)
             .setAgeRange(ageRange)
             .build()
     }

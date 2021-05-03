@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.profile
+package ch.epfl.sdp.blindly.main_screen
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +25,8 @@ import ch.epfl.sdp.blindly.main_screen.audio_player.AudioPlayerFragment
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.UserViewModel
+import ch.epfl.sdp.blindly.user.UserViewModel.Companion.EXTRA_UID
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -43,7 +44,7 @@ class ProfilePageFragment : Fragment() {
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
 
-    private lateinit var viewModel: ProfilePageViewModel
+    private lateinit var viewModel: UserViewModel
 
     companion object {
         private const val TAG = "ProfilePage"
@@ -70,6 +71,7 @@ class ProfilePageFragment : Fragment() {
      * Set up the viewModel
      *
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -77,11 +79,11 @@ class ProfilePageFragment : Fragment() {
         }
 
         val bundle = Bundle()
-        bundle.putString("uid", userHelper.getUserId())
+        bundle.putString(EXTRA_UID, userHelper.getUserId())
 
         val viewModelFactory = assistedFactory.create(this, bundle)
 
-        viewModel = ViewModelProvider(this, viewModelFactory)[ProfilePageViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 
     override fun onCreateView(

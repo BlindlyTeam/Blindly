@@ -24,8 +24,8 @@ class UserHelper {
         const val RC_SIGN_IN = 123
         private const val TAG = "UserHelper"
         private const val USER_COLLECTION: String = "usersMeta"
-        private const val DEFAULT_RADIUS = 80
-        private const val DEFAULT_RANGE = 10
+        const val DEFAULT_RADIUS = 80
+        const val DEFAULT_RANGE = 10
     }
 
     /**
