@@ -19,24 +19,12 @@ class UserListFilter {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun filterLocationAndAgeRange(currentUser: User, otherUsers: List<User>): List<User> {
-        val filteredList: MutableList<User> = ArrayList<User>().toMutableList()
         val minAge = currentUser.ageRange?.get(0)
         val maxAge = currentUser.ageRange?.get(1)
 
-        for (user in otherUsers) {
-            val otherUserAge = User.getUserAge(user)
-            if (otherUserAge != null) {
-                if (otherUserAge in minAge!!..maxAge!! && isLocatedInUserRadius(
-                        currentUser,
-                        user
-                    )
-                ) {
-                    filteredList += user
-                }
-            }
+        return otherUsers.filter { user ->
+            User.getUserAge(user) in minAge!!..maxAge!! && isLocatedInUserRadius(currentUser, user)
         }
-
-        return filteredList
     }
 
     /**
@@ -50,39 +38,19 @@ class UserListFilter {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun reversePotentialMatch(currentUser: User, otherUsers: List<User>): List<User> {
-        val filteredList: MutableList<User> = ArrayList<User>().toMutableList()
         val currentUserGender = currentUser.gender
         val currentUserAge = User.getUserAge(currentUser)
 
-        for (user in otherUsers) {
-            if (currentUserAge in user.ageRange?.get(0)!!..user.ageRange[1] &&
-                isLocatedInUserRadius(user, currentUser)
-            ) {
-                if (user.showMe == EVERYONE) {
-                    filteredList += user
-                } else if (user.showMe == currentUserGender) {
-                    filteredList += user
-                }
+        return otherUsers.filter { user ->
+            if (user.showMe == EVERYONE) {
+                currentUserAge in user.ageRange?.get(0)!!..user.ageRange[1] &&
+                        isLocatedInUserRadius(user, currentUser)
+            } else {
+                currentUserAge in user.ageRange?.get(0)!!..user.ageRange[1] &&
+                        isLocatedInUserRadius(user, currentUser) &&
+                        user.showMe == currentUserGender
             }
         }
-
-        return filteredList
-    }
-
-    /**
-     * Clears null users from a list of nullable users.
-     *
-     * @param userList the list to be filtered
-     * @return the same list without null users
-     */
-    fun clearNullUsers(userList: List<User?>): List<User> {
-        val nonNullList: MutableList<User> = ArrayList<User>().toMutableList()
-        for (user in userList) {
-            if (user != null) {
-                nonNullList += user
-            }
-        }
-        return nonNullList
     }
 
     private fun isLocatedInUserRadius(user: User, otherUser: User): Boolean {

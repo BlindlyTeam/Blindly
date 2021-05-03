@@ -66,7 +66,7 @@ class MatchingAlgorithm {
             }
         }
 
-        val nonNullMatches = userListFilter.clearNullUsers(matches)
+        val nonNullMatches = matches.filterNotNull()
         val filteredList = userListFilter.filterLocationAndAgeRange(currentUser, nonNullMatches)
         return userListFilter.reversePotentialMatch(currentUser, filteredList)
     }

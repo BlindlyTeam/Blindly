@@ -138,13 +138,4 @@ class UserListFilterUnitTest {
         val userList = listOf(alice)
         userListFilter.filterLocationAndAgeRange(alice, userList)
     }
-
-    @Test
-    fun clearNullUsersWork() {
-        val alice = userBuilder.setUsername("Alice").build()
-        val bob = userBuilder.setUsername("Bob").build()
-
-        val nonNullList = userListFilter.clearNullUsers(listOf(alice, null, bob, null, null))
-        assertThat(nonNullList, equalTo(listOf(alice, bob)))
-    }
 }

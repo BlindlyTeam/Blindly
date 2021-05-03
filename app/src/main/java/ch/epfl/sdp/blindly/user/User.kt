@@ -1,15 +1,16 @@
 package ch.epfl.sdp.blindly.user
 
-import android.location.Location
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.Period
+
+private const val SIZE_OF_LOCATION_LIST = 2
+private const val SIZE_OF_AGE_RANGE_LIST = 2
 
 /**
  * A class to represent a User
@@ -81,7 +82,7 @@ class User private constructor(
          * @param location the location of the User
          */
         fun setLocation(location: List<Double>) = apply {
-            if (location.size == 2)
+            if (location.size == SIZE_OF_LOCATION_LIST)
                 this.location = location
             else
                 throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${location.size} instead")
@@ -177,7 +178,7 @@ class User private constructor(
          */
         fun setAgeRange(ageRange: List<Int>) = apply {
 
-            if (ageRange.size == 2)
+            if (ageRange.size == SIZE_OF_AGE_RANGE_LIST)
                 this.ageRange = ageRange
             else
                 throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")
