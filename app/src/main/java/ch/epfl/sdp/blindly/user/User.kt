@@ -85,7 +85,8 @@ class User private constructor(
             if (location.size == SIZE_OF_LOCATION_LIST)
                 this.location = location
             else
-                throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${location.size} instead")
+                throw IllegalArgumentException("Expected ageRange.size to be " +
+                        "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead")
         }
 
         /**
@@ -181,7 +182,8 @@ class User private constructor(
             if (ageRange.size == SIZE_OF_AGE_RANGE_LIST)
                 this.ageRange = ageRange
             else
-                throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")
+                throw IllegalArgumentException("Expected ageRange.size to be " +
+                        "$SIZE_OF_AGE_RANGE_LIST but got: ${ageRange.size} instead")
         }
 
         /**
