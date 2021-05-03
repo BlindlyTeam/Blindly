@@ -92,6 +92,11 @@ class UserUnitTest {
         User.Builder().setAgeRange(listOf(12, 3, 4))
     }
 
+    @Test(expected = IllegalArgumentException::class)
+    fun setLocationWithLenDifferentFromTwoThrowsException() {
+        User.Builder().setLocation(listOf(1.3, 3.1, 4.5))
+    }
+
     @Test
     fun buildBuilsCorrectUser() {
         val user: User = User.Builder()
