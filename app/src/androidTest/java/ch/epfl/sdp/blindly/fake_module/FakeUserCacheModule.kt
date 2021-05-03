@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly.fake_module
 
 import ch.epfl.sdp.blindly.di.UserCacheModule
-import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationEPFL
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserCache
 import dagger.Module
@@ -18,9 +18,8 @@ import javax.inject.Singleton
 )
 open class FakeUserCacheModule {
     companion object {
-        private val loc = createLocationEPFL()
         private const val username = "Jane Doe"
-        private val location = listOf(loc.latitude, loc.longitude)
+        private val location = createLocationTableEPFL()
         private const val birthday = "01.01.01"
         private const val gender = "Woman"
         private val sexualOrientations = listOf("Asexual")
