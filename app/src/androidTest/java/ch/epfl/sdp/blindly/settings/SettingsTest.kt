@@ -176,7 +176,6 @@ class SettingsTest {
     @Test
     fun checkEmailOpens() {
         onView(withId(R.id.email_button)).perform(click())
-
         intended(
             Matchers.allOf(
                 hasComponent(SettingsUpdateEmail::class.java.name)
@@ -187,6 +186,7 @@ class SettingsTest {
     @Test
     fun clickingOnLogoutButtonFiresSplashScreen() {
         onView(withId(R.id.logout_button)).perform(click())
+        Thread.sleep(1000)
         intended(
             hasComponent(SplashScreen::class.java.name)
         )
@@ -195,6 +195,7 @@ class SettingsTest {
     @Test
     fun clickingOnDeleteAccountButtonFiresSplashScreen() {
         onView(withId(R.id.delete_account_button)).perform(click())
+        Thread.sleep(1000)
         intended(
             hasComponent(SplashScreen::class.java.name)
         )

@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -10,6 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
+
 /**
  * This activity holds the three fragments (Match, Message and Profile page)
  * and instantiate them
@@ -18,6 +20,10 @@ private const val MATCH = "Match"
 private const val MESSAGE = "Message"
 private const val PROFILE = "Profile"
 private const val MAP = "Map"
+private const val EXIT_DIALOG_TITLE = "Exit the app."
+private const val EXIT_DIALOG_MESSAGE = "Are You Sure?"
+private const val ANSWER_YES = "Yes"
+private const val ANSWER_NO = "No"
 
 
 @AndroidEntryPoint
@@ -45,4 +51,21 @@ class MainScreen : AppCompatActivity() {
             }
         })
     }
+
+    override fun onBackPressed() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle(EXIT_DIALOG_TITLE)
+        builder.setMessage(EXIT_DIALOG_MESSAGE)
+        builder.setPositiveButton(ANSWER_YES) { dialog, _ ->
+            dialog.dismiss()
+            this.finishAffinity()
+        }
+        builder.setNegativeButton(
+            ANSWER_NO
+        ) { dialog, _ -> dialog.dismiss() }
+        val alert: AlertDialog = builder.create()
+        alert.show()
+    }
+
+
 }
