@@ -2,6 +2,7 @@ package ch.epfl.sdp.blindly.chat
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import ch.epfl.sdp.blindly.helpers.Message
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert
 import org.hamcrest.core.IsEqual
