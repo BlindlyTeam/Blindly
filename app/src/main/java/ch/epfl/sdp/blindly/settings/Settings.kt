@@ -1,15 +1,22 @@
 package ch.epfl.sdp.blindly.settings
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
+import ch.epfl.sdp.blindly.ViewModelAssistedFactory
+import ch.epfl.sdp.blindly.location.AndroidLocationService
+import ch.epfl.sdp.blindly.user.UserViewModel
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.UserHelper.Companion.DEFAULT_RADIUS
+import ch.epfl.sdp.blindly.user.UserViewModel.Companion.EXTRA_UID
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
@@ -17,10 +24,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
-const val EXTRA_LOCATION = "user_location"
+const val EXTRA_LOCATION = "userLocation"
 const val EXTRA_SHOW_ME = "showMe"
-
-const val REQUEST_SHOW_ME = 2
+private const val MIN_AGE = 18
+private const val MAX_AGE = 99
 
 /**
  * Activity class for the settings of the app and the user
@@ -30,7 +37,17 @@ const val REQUEST_SHOW_ME = 2
 class Settings : AppCompatActivity() {
 
     @Inject
-    lateinit var user: UserHelper
+    lateinit var userHelper: UserHelper
+
+    @Inject
+    lateinit var assistedFactory: ViewModelAssistedFactory
+
+    private lateinit var viewModel: UserViewModel
+
+    private var currentRadius: Int = DEFAULT_RADIUS
+    private lateinit var currentAgeRange: List<Int>
+    private lateinit var radiusSlider: Slider
+    private lateinit var ageRangeSlider: RangeSlider
 
     companion object {
         const val TAG = "Settings"
@@ -41,38 +58,75 @@ class Settings : AppCompatActivity() {
      *
      * @param savedInstanceState
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        instantiateViewModel()
+
         supportActionBar?.hide()
 
         val emailAddressText = findViewById<TextView>(R.id.email_address_text)
-        emailAddressText.text = user.getEmail() ?: getString(R.string.not_logged_in)
+        emailAddressText.text = userHelper.getEmail() ?: getString(R.string.not_logged_in)
 
-        val locationText = findViewById<TextView>(R.id.current_location_text)
-        locationText.text = getString(R.string.lausanne_switzerland)
+        val location = findViewById<TextView>(R.id.current_location_text)
 
-        val radiusText = findViewById<TextView>(R.id.radius_text)
-        val radiusSlider = findViewById<Slider>(R.id.location_slider)
+        val radius = findViewById<TextView>(R.id.radius_text)
+        radiusSlider = findViewById(R.id.location_slider)
 
-        //Update the radius text with initial value, and everytime the slider changes
-        radiusText.text = getString(R.string.progress_km, radiusSlider.value.toInt())
-        radiusSlider.addOnChangeListener { _, value, _ ->
-            radiusText.text = getString(R.string.progress_km, value.toInt())
-        }
-
-        val ageRangeText = findViewById<TextView>(R.id.selected_age_range_text)
-        val ageRangeSlider = findViewById<RangeSlider>(R.id.age_range_slider)
-
-        //Update the selected age range text with initial value, and everytime the slider changes
-        ageRangeText.text = getAgeRangeString(ageRangeSlider)
-        ageRangeSlider.addOnChangeListener { _, _, _ ->
-            ageRangeText.text = getAgeRangeString(ageRangeSlider)
-        }
+        val ageRange = findViewById<TextView>(R.id.selected_age_range_text)
+        ageRangeSlider = findViewById(R.id.age_range_slider)
 
         val showMe = findViewById<TextView>(R.id.show_me_text)
-        showMe.text = getString(R.string.women_show_me)
+
+        //Retrieve settings from database
+        viewModel.user.observe(this) {
+            location.text = AndroidLocationService.getCurrentLocation(this, it)
+            currentRadius = it.radius ?: DEFAULT_RADIUS
+            currentAgeRange = it.ageRange ?: listOf(MIN_AGE, MAX_AGE)
+            radiusSlider.value = currentRadius.toFloat()
+            showMe.text = it.showMe
+            ageRangeSlider.setValues(
+                currentAgeRange[0].toFloat(),
+                currentAgeRange[1].toFloat()
+            )
+        }
+
+        //Update the radius text with initial value, and everytime the slider changes
+        radius.text = getString(R.string.progress_km, radiusSlider.value.toInt())
+        radiusSlider.addOnChangeListener { _, value, _ ->
+            radius.text = getString(R.string.progress_km, value.toInt())
+        }
+
+        //Update the selected age range text with initial value, and everytime the slider changes
+        ageRange.text = getAgeRangeString(ageRangeSlider)
+        ageRangeSlider.addOnChangeListener { _, _, _ ->
+            ageRange.text = getAgeRangeString(ageRangeSlider)
+        }
+    }
+
+    //TODO in another branch
+    /*
+    override fun onBackPressed() {
+        if(radiusSlider.value != currentRadius.toFloat()) {
+
+        }
+        if(ageRangeSlider.values != listOf(currentAgeRange[0].toFloat(), currentAgeRange[1].toFloat())) {
+
+        }
+        super.onBackPressed()
+    }
+     */
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun instantiateViewModel() {
+        val bundle = Bundle()
+        bundle.putString(EXTRA_UID, userHelper.getUserId())
+
+        val viewModelFactory = assistedFactory.create(this, bundle)
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 
     private fun getAgeRangeString(slider: RangeSlider): String {
@@ -106,8 +160,7 @@ class Settings : AppCompatActivity() {
         val intent = Intent(this, SettingsShowMe::class.java).apply {
             putExtra(EXTRA_SHOW_ME, currentShowMe)
         }
-        //TODO fix me
-        startActivityForResult(intent, REQUEST_SHOW_ME)
+        startActivity(intent)
     }
 
     /**
@@ -128,7 +181,6 @@ class Settings : AppCompatActivity() {
                     getString(R.string.logout_error),
                     Toast.LENGTH_LONG
                 ).show()
-                Log.e(TAG, "Error: Could not logout user.")
             }
     }
 
@@ -140,26 +192,6 @@ class Settings : AppCompatActivity() {
     fun deleteAccount(view: View) {
         //For now, just return to the main activity
         startActivity(Intent(this, SplashScreen::class.java))
-    }
-
-    //TODO link with firestore instead
-    /**
-     * Get the new show me if it was changed in the SettingsShowMe Activity
-     *
-     * @param requestCode the request code REQUEST_SHOW_ME
-     * @param resultCode the result code
-     * @param intent the intent
-     */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (resultCode == RESULT_OK && requestCode == REQUEST_SHOW_ME) {
-            if (intent != null) {
-                if (intent.hasExtra(EXTRA_SHOW_ME)) {
-                    val showMe = findViewById<TextView>(R.id.show_me_text)
-                    showMe.text = intent.getStringExtra(EXTRA_SHOW_ME)
-                }
-            }
-        }
     }
 
     /**

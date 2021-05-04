@@ -7,7 +7,7 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageViewModel
+import ch.epfl.sdp.blindly.user.UserViewModel
 import ch.epfl.sdp.blindly.user.UserRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -33,8 +33,8 @@ class ViewModelFactory @AssistedInject constructor(
     override fun <T : ViewModel?> create(
         key: String, modelClass: Class<T>, handle: SavedStateHandle
     ): T {
-        if (modelClass.isAssignableFrom(ProfilePageViewModel::class.java)) {
-            return ProfilePageViewModel(handle, userRepository) as T
+        if (modelClass.isAssignableFrom(UserViewModel::class.java)) {
+            return UserViewModel(handle, userRepository) as T
         } else {
             throw IllegalArgumentException("Unknown ViewModel class")
         }

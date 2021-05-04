@@ -9,7 +9,8 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.Period
 
-const val SIZE_2 = 2
+private const val SIZE_OF_LOCATION_LIST = 2
+private const val SIZE_OF_AGE_RANGE_LIST = 2
 
 /**
  * A class to represent a User
@@ -81,10 +82,11 @@ class User private constructor(
          * @param location the location of the User
          */
         fun setLocation(location: List<Double>) = apply {
-            if(location.size == SIZE_2)
+            if (location.size == SIZE_OF_LOCATION_LIST)
                 this.location = location
             else
-                throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${location.size} instead")
+                throw IllegalArgumentException("Expected ageRange.size to be " +
+                        "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead")
         }
 
         /**
@@ -177,10 +179,11 @@ class User private constructor(
          */
         fun setAgeRange(ageRange: List<Int>) = apply {
 
-            if (ageRange.size == SIZE_2)
+            if (ageRange.size == SIZE_OF_AGE_RANGE_LIST)
                 this.ageRange = ageRange
             else
-                throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")
+                throw IllegalArgumentException("Expected ageRange.size to be " +
+                        "$SIZE_OF_AGE_RANGE_LIST but got: ${ageRange.size} instead")
         }
 
         /**
@@ -278,4 +281,11 @@ class User private constructor(
         }
     }
 
+    /* This is for debugging in tests, you're free to modify it if you need to (but don't forget
+       to modify the test results in UserUnitTest too) */
+    override fun toString(): String {
+        return "$username"
+    }
+
 }
+

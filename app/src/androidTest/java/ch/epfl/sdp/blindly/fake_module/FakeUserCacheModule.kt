@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly.fake_module
 
 import ch.epfl.sdp.blindly.di.UserCacheModule
-import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationEPFL
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserCache
 import dagger.Module
@@ -18,17 +18,17 @@ import javax.inject.Singleton
 )
 open class FakeUserCacheModule {
     companion object {
-        private val loc = createLocationEPFL()
         private const val username = "Jane Doe"
-        private val location = listOf(loc.latitude, loc.longitude)
+        private val location = createLocationTableEPFL()
         private const val birthday = "01.01.01"
         private const val gender = "Woman"
         private val sexualOrientations = listOf("Asexual")
-        private const val show_me = "Everyone"
+        private const val showMe = "Everyone"
         private val passions = listOf("Coffee", "Tea")
         private const val radius = 150
         private val matches: List<String> = listOf()
         private const val description = "Student"
+        private const val recordingPath = "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
         private val ageRange = listOf(30, 50)
         val fakeUser = User.Builder()
             .setUsername(username)
@@ -36,11 +36,12 @@ open class FakeUserCacheModule {
             .setBirthday(birthday)
             .setGender(gender)
             .setSexualOrientations(sexualOrientations)
-            .setShowMe(show_me)
+            .setShowMe(showMe)
             .setPassions(passions)
             .setRadius(radius)
             .setDescription(description)
             .setMatches(matches)
+            .setRecordingPath(recordingPath)
             .setAgeRange(ageRange)
             .build()
     }

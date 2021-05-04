@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly
 
-import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationEPFL
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserCache
 import org.junit.Assert.*
@@ -11,7 +11,7 @@ class UserCacheUnitTest {
         private val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
 
         private const val username = "Jane Doe"
-        private val location = listOf(createLocationEPFL().latitude, createLocationEPFL().longitude)
+        private val location = createLocationTableEPFL()
         private const val birthday = "01.01.2001"
         private const val gender = "Woman"
         private val sexualOrientations = listOf("Asexual")

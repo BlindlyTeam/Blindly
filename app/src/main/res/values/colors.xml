@@ -17,4 +17,7 @@
     <color name="black_overlay">#66000000</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="bright_red">#FF0000</color>
+    <color name="blindly_purple">#A786E3</color>
+    <color name="blindly_purple_secondary">#9166DD</color>
+    <color name="blindly_blue">#93C6F6</color>
 </resources>
