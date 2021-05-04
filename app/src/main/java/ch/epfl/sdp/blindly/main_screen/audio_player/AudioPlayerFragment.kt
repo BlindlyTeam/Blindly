@@ -38,8 +38,6 @@ class AudioPlayerFragment : Fragment() {
     private lateinit var playTimer: Chronometer
     private lateinit var playPauseButton: AppCompatImageButton
 
-    @Inject
-    lateinit var userHelper: UserHelper
     /**
      * Instantiates the mediaPlayer
      *
@@ -55,8 +53,7 @@ class AudioPlayerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
-        val uid = userHelper.getUserId()
-        val file = File("${context?.filesDir?.absolutePath}/$uid-$PRESENTATION_AUDIO_NAME")
+        val file = File("${context?.filesDir?.absolutePath}/$PRESENTATION_AUDIO_NAME")
 
         audioRecord = AudioRecord(
             file.name,

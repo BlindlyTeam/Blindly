@@ -9,7 +9,21 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.Period
 
-const val SIZE_2 = 2
+private const val SIZE_OF_LOCATION_LIST = 2
+private const val SIZE_OF_AGE_RANGE_LIST = 2
+
+private const val USERNAME = "username"
+private const val LOCATION = "location"
+private const val BIRTHDAY = "birthday"
+private const val GENDER = "gender"
+private const val SEXUAL_ORIENTATIONS = "sexualOrientations"
+private const val SHOW_ME = "showMe"
+private const val PASSIONS = "passions"
+private const val RADIUS = "radius"
+private const val MATCHES = "matches"
+private const val DESCRIPTION = "description"
+private const val RECORDING_PATH = "recordingPath"
+private const val AGE_RANGE = "ageRange"
 
 /**
  * A class to represent a User
@@ -17,18 +31,18 @@ const val SIZE_2 = 2
  */
 @Serializable
 class User private constructor(
-    val username: String?,
-    val location: List<Double>?,
-    val birthday: String?,
-    val gender: String?,
-    val sexualOrientations: List<String>?,
-    val showMe: String?,
-    val passions: List<String>?,
-    val radius: Int?,
-    val matches: List<String>?,
-    val description: String?,
-    val recordingPath: String?,
-    val ageRange: List<Int>?
+    var username: String?,
+    var location: List<Double>?,
+    var birthday: String?,
+    var gender: String?,
+    var sexualOrientations: List<String>?,
+    var showMe: String?,
+    var passions: List<String>?,
+    var radius: Int?,
+    var matches: List<String>?,
+    var description: String?,
+    var recordingPath: String?,
+    var ageRange: List<Int>?
 ) {
 
     /**
@@ -81,10 +95,13 @@ class User private constructor(
          * @param location the location of the User
          */
         fun setLocation(location: List<Double>) = apply {
-            if(location.size == SIZE_2)
+            if (location.size == SIZE_OF_LOCATION_LIST)
                 this.location = location
             else
-                throw IllegalArgumentException("Expected location.size to be 2 but got: ${location.size} instead")
+                throw IllegalArgumentException(
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead"
+                )
         }
 
         /**
@@ -176,11 +193,13 @@ class User private constructor(
          *     ageRange[1] = maxAge
          */
         fun setAgeRange(ageRange: List<Int>) = apply {
-
-            if (ageRange.size == SIZE_2)
+            if (ageRange.size == SIZE_OF_AGE_RANGE_LIST)
                 this.ageRange = ageRange
             else
-                throw IllegalArgumentException("Expected ageRange.size to be 2 but got: ${ageRange.size} instead")
+                throw IllegalArgumentException(
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_AGE_RANGE_LIST but got: ${ageRange.size} instead"
+                )
         }
 
         /**
@@ -276,6 +295,100 @@ class User private constructor(
                 LocalDate.now()
             ).years
         }
+
+        /**
+         * Update the field of a User
+         *
+         * @param T either a String, an Int or a List<*>
+         * @param user the user to update
+         * @param field the field to update
+         * @param newValue the new value
+         * @return the updated user
+         */
+        fun <T> updateUser(user: User, field: String, newValue: T): User {
+            when (field) {
+                USERNAME -> {
+                    if (newValue !is String)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
+                    user.username = newValue
+                }
+                LOCATION -> {
+                    if (newValue !is List<*>)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<Double>")
+                    if (newValue.size == SIZE_OF_LOCATION_LIST)
+                        user.location = newValue as List<Double>
+                    else
+                        throw IllegalArgumentException(
+                            "Expected ageRange.size to be " +
+                                    "$SIZE_OF_LOCATION_LIST but got: ${newValue.size} instead"
+                        )
+                }
+                BIRTHDAY -> {
+                    if (newValue !is String)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
+                    user.birthday = newValue
+                }
+                GENDER -> {
+                    if (newValue !is String)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
+                    user.gender = newValue
+                }
+                SEXUAL_ORIENTATIONS -> {
+                    if (newValue !is List<*>)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+                    user.sexualOrientations = newValue as List<String>
+                }
+                SHOW_ME -> {
+                    if (newValue !is String)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
+                    user.showMe = newValue
+                }
+                PASSIONS -> {
+                    if (newValue !is List<*>)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+                    user.passions = newValue as List<String>
+                }
+                RADIUS -> {
+                    if (newValue !is Int)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be an Int")
+                    user.radius = newValue
+                }
+                MATCHES -> {
+                    if (newValue !is List<*>)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+                    user.matches = newValue as List<String>
+                }
+                DESCRIPTION -> {
+                    if (newValue !is String)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
+                    user.description = newValue
+                }
+                RECORDING_PATH -> {
+                    if (newValue !is String)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
+                    user.recordingPath = newValue
+                }
+                AGE_RANGE -> {
+                    if (newValue !is List<*>)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<Int>")
+                    if (newValue.size == SIZE_OF_AGE_RANGE_LIST)
+                        user.ageRange = newValue as List<Int>
+                    else
+                        throw IllegalArgumentException(
+                            "Expected ageRange.size to be " +
+                                    "$SIZE_OF_AGE_RANGE_LIST but got: ${newValue.size} instead"
+                        )
+                }
+            }
+            return user
+        }
+    }
+
+    /* This is for debugging in tests, you're free to modify it if you need to (but don't forget
+       to modify the test results in UserUnitTest too) */
+    override fun toString(): String {
+        return "$username"
     }
 
 }
+

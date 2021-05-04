@@ -33,7 +33,6 @@ const val PRESENTATION_AUDIO_NAME = "PresentationAudio.amr"
  * @property context context of the RecyclerView
  * @property listener handles clicks on items
  */
-@AndroidEntryPoint
 class AudioLibraryAdapter(
     var recordList: ArrayList<AudioRecord>,
     private var viewHolderList: ArrayList<ViewHolder>,

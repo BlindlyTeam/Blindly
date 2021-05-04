@@ -1,19 +1,25 @@
 package ch.epfl.sdp.blindly.settings
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.ViewModelAssistedFactory
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.user.UserViewModel
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.DEFAULT_RADIUS
+import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
+import ch.epfl.sdp.blindly.user.UserViewModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
@@ -23,6 +29,8 @@ import javax.inject.Inject
 
 const val EXTRA_LOCATION = "userLocation"
 const val EXTRA_SHOW_ME = "showMe"
+private const val MIN_AGE = 18
+private const val MAX_AGE = 99
 
 /**
  * Activity class for the settings of the app and the user
@@ -56,7 +64,7 @@ class Settings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
+        Log.d(TAG, "OnCreate called")
         instantiateViewModel()
 
         supportActionBar?.hide()
@@ -77,13 +85,13 @@ class Settings : AppCompatActivity() {
         //Retrieve settings from database
         viewModel.user.observe(this) {
             location.text = AndroidLocationService.getCurrentLocation(this, it)
-            currentRadius = it.radius!!
-            currentAgeRange = it.ageRange!!
-            radiusSlider.value = it.radius.toFloat()
+            currentRadius = it.radius ?: DEFAULT_RADIUS
+            currentAgeRange = it.ageRange ?: listOf(MIN_AGE, MAX_AGE)
+            radiusSlider.value = currentRadius.toFloat()
             showMe.text = it.showMe
             ageRangeSlider.setValues(
-                it.ageRange[0].toFloat(),
-                it.ageRange[1].toFloat()
+                currentAgeRange[0].toFloat(),
+                currentAgeRange[1].toFloat()
             )
         }
 
@@ -100,6 +108,13 @@ class Settings : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "ON RESUME")
+        viewModel.userUpdate()
+    }
+
     override fun onBackPressed() {
         if(radiusSlider.value != currentRadius.toFloat()) {
 
@@ -112,7 +127,7 @@ class Settings : AppCompatActivity() {
 
     private fun instantiateViewModel() {
         val bundle = Bundle()
-        bundle.putString("uid", userHelper.getUserId())
+        bundle.putString(EXTRA_UID, userHelper.getUserId())
 
         val viewModelFactory = assistedFactory.create(this, bundle)
 

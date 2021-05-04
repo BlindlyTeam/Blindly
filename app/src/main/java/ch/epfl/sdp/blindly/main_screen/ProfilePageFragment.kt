@@ -25,6 +25,7 @@ import ch.epfl.sdp.blindly.main_screen.audio_player.AudioPlayerFragment
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import ch.epfl.sdp.blindly.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -77,7 +78,7 @@ class ProfilePageFragment : Fragment() {
         }
 
         val bundle = Bundle()
-        bundle.putString("uid", userHelper.getUserId())
+        bundle.putString(EXTRA_UID, userHelper.getUserId())
 
         val viewModelFactory = assistedFactory.create(this, bundle)
 

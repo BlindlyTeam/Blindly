@@ -21,6 +21,7 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private var location: Location? = null
     private lateinit var locSer: LocationService
+    private val LAUSANNE_LATLNG = LatLng(46.5, 6.6)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
