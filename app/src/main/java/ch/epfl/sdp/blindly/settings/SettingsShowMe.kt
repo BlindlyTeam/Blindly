@@ -2,16 +2,14 @@ package ch.epfl.sdp.blindly.settings
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.ViewModelAssistedFactory
+import ch.epfl.sdp.blindly.user.SHOW_ME
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import ch.epfl.sdp.blindly.user.UserViewModel
@@ -21,6 +19,7 @@ import javax.inject.Inject
 private const val WOMEN = "Women"
 private const val MEN = "Men"
 private const val EVERYONE = "Everyone"
+
 /**
  * Activity to modify the show me of the User
  *
@@ -63,7 +62,7 @@ class SettingsShowMe : AppCompatActivity() {
     }
 
     private fun setClickedButton(button: RadioGroup, showMe: String) {
-        when(showMe) {
+        when (showMe) {
             WOMEN -> button.check(R.id.women_radio_button)
             MEN -> button.check(R.id.men_radio_button)
             EVERYONE -> button.check(R.id.everyone_radio_button)
@@ -80,8 +79,8 @@ class SettingsShowMe : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
-        if(currentShowMe != showMe) {
-            viewModel.updateField(EXTRA_SHOW_ME, currentShowMe)
+        if (currentShowMe != showMe) {
+            viewModel.updateField(SHOW_ME, currentShowMe)
         }
         super.onBackPressed()
     }

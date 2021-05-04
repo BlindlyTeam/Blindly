@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -126,6 +127,13 @@ class ProfilePageFragment : Fragment() {
                 userDescriptionText.text = getString(R.string.user_description, it.description)
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onResume() {
+        super.onResume()
+        Log.d(Settings.TAG, "ON RESUME")
+        viewModel.userUpdate()
     }
 
     /**

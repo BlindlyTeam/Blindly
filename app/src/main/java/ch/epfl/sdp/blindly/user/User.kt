@@ -12,18 +12,18 @@ import java.time.Period
 private const val SIZE_OF_LOCATION_LIST = 2
 private const val SIZE_OF_AGE_RANGE_LIST = 2
 
-private const val USERNAME = "username"
-private const val LOCATION = "location"
-private const val BIRTHDAY = "birthday"
-private const val GENDER = "gender"
-private const val SEXUAL_ORIENTATIONS = "sexualOrientations"
-private const val SHOW_ME = "showMe"
-private const val PASSIONS = "passions"
-private const val RADIUS = "radius"
-private const val MATCHES = "matches"
-private const val DESCRIPTION = "description"
-private const val RECORDING_PATH = "recordingPath"
-private const val AGE_RANGE = "ageRange"
+const val USERNAME = "username"
+const val LOCATION = "location"
+const val BIRTHDAY = "birthday"
+const val GENDER = "gender"
+const val SEXUAL_ORIENTATIONS = "sexualOrientations"
+const val SHOW_ME = "showMe"
+const val PASSIONS = "passions"
+const val RADIUS = "radius"
+const val MATCHES = "matches"
+const val DESCRIPTION = "description"
+const val RECORDING_PATH = "recordingPath"
+const val AGE_RANGE = "ageRange"
 
 /**
  * A class to represent a User
