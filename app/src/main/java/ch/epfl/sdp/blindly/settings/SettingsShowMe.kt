@@ -2,73 +2,85 @@ package ch.epfl.sdp.blindly.settings
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.ViewModelAssistedFactory
+import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Activity to modify the show me of the User
  *
  */
+@AndroidEntryPoint
 class SettingsShowMe : AppCompatActivity() {
+
+    @Inject
+    lateinit var userHelper: UserHelper
+
+    @Inject
+    lateinit var assistedFactory: ViewModelAssistedFactory
+
+    private lateinit var viewModel: UserViewModel
+
+    private lateinit var currentShowMe: String
+    private lateinit var showMe: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings_show_me)
 
+        instantiateViewModel()
         supportActionBar?.hide()
 
-        val showMeMen = findViewById<Button>(R.id.show_me_men_button)
-        val showMeWomen = findViewById<Button>(R.id.show_me_women_button)
-        val showMeEveryone = findViewById<Button>(R.id.show_me_everyone_button)
-        val menCheckmark = findViewById<ImageView>(R.id.checkmark_img_men)
-        val womenCheckmark = findViewById<ImageView>(R.id.checkmark_img_women)
-        val everyoneCheckmark = findViewById<ImageView>(R.id.checkmark_img_everyone)
-        val checks = listOf<ImageView>(menCheckmark, womenCheckmark, everyoneCheckmark)
-        var currentShowMe = intent.getStringExtra(EXTRA_SHOW_ME)
+        val showMeGroup = findViewById<RadioGroup>(R.id.show_me_radio_group)
+        val showMeWomen = findViewById<RadioButton>(R.id.women_radio_button)
+        setOnClickListener(showMeWomen)
+        val showMeMen = findViewById<RadioButton>(R.id.men_radio_button)
+        setOnClickListener(showMeMen)
+        val showMeEveryone = findViewById<RadioButton>(R.id.everyone_radio_button)
+        setOnClickListener(showMeEveryone)
 
-        fun setOnClickListener(button: Button, newShowMe: String, checks: List<ImageView>) {
-            button.setOnClickListener {
-                if (newShowMe != currentShowMe) {
-                    currentShowMe = newShowMe
-                    displayCheckmark(currentShowMe!!, checks)
-                }
+        currentShowMe = intent.getStringExtra(EXTRA_SHOW_ME).toString()
+        viewModel.showMe.observe(this) {
+            when (showMe) {
+                "Women" -> showMeGroup.check(R.id.women_radio_button)
+                "Men" -> showMeGroup.check(R.id.men_radio_button)
+                "Everyone" -> showMeGroup.check(R.id.everyone_radio_button)
             }
+
         }
 
-
-        if (currentShowMe != null) {
-            displayCheckmark(currentShowMe!!, checks)
-            setOnClickListener(showMeMen, "Men", checks)
-            setOnClickListener(showMeWomen, "Women", checks)
-            setOnClickListener(showMeEveryone, "Everyone", checks)
-        }
-
-        val done = findViewById<Button>(R.id.done_button)
-        done.setOnClickListener {
-            val intent = Intent().apply {
-                putExtra(EXTRA_SHOW_ME, currentShowMe)
-            }
-            setResult(RESULT_OK, intent)
-            finish()
-        }
 
     }
 
-    private fun displayCheckmark(showMe: String, checks: List<ImageView>) {
-        val checkmark = when (showMe) {
-            "Men" -> checks[0]
-            "Women" -> checks[1]
-            else -> checks[2]
-        }
-        checks.forEach { imageView ->
-            if (imageView == checkmark) {
-                checkmark.isVisible = true
-            } else {
-                imageView.isVisible = false
-            }
+    fun setOnClickListener(button: RadioButton) {
+        button.setOnClickListener {
+            showMe = button.text.toString()
         }
     }
 
+    /*
+    override fun onBackPressed() {
+        if(showMe != currentShowMe) {
+
+        }
+        super.onBackPressed()
+    }
+
+     */
+
+    private fun instantiateViewModel() {
+        val bundle = Bundle()
+        bundle.putString("uid", userHelper.getUserId())
+
+        val viewModelFactory = assistedFactory.create(this, bundle)
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
+    }
 }

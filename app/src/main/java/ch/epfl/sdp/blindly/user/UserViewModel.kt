@@ -28,9 +28,13 @@ class UserViewModel @AssistedInject constructor(
     private val userId: String =
         savedStateHandle["uid"] ?: throw IllegalArgumentException("Missing user id")
 
+    private val _showMe = MutableLiveData<String>()
+    val showMe: LiveData<String> = _showMe
+
     init {
         viewModelScope.launch {
             _user.value = userRepository.getUser(userId)
+            _showMe.value = _user.value?.showMe!!
         }
     }
 }

@@ -63,7 +63,6 @@ class UserRepository @Inject constructor(
         }
     }
 
-    /*
     /**
      * Update a given field of the user's information (and call refreshUser to update or set the
      * user in the local cache)
@@ -82,6 +81,4 @@ class UserRepository @Inject constructor(
         //Put updated value into the local cache
         refreshUser(uid)
     }
-
-     */
 }

@@ -100,8 +100,6 @@ class Settings : AppCompatActivity() {
         }
     }
 
-    //TODO in another branch
-    /*
     override fun onBackPressed() {
         if(radiusSlider.value != currentRadius.toFloat()) {
 
@@ -111,7 +109,6 @@ class Settings : AppCompatActivity() {
         }
         super.onBackPressed()
     }
-     */
 
     private fun instantiateViewModel() {
         val bundle = Bundle()
