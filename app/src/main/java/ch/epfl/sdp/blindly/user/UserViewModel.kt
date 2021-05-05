@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.user
 
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*

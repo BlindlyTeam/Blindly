@@ -61,7 +61,7 @@ class SettingsLocationTest {
         val TEST_USER_LOCATION = "Ecublens, Switzerland" //from the fakeUser
         val intent =
             Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
-        intent.putExtra(EXTRA_LOCATION, TEST_LOCATION)
+        intent.putExtra(EXTRA_LOCATION, TEST_USER_LOCATION)
 
         val act = ActivityScenario.launch<SettingsLocation>(intent)
         var location: String? = null
@@ -78,15 +78,10 @@ class SettingsLocationTest {
             Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
         intent.putExtra(EXTRA_LOCATION, TEST_LOCATION)
 
-        val act = ActivityScenario.launch<SettingsLocation>(intent)
-        var mapView: MapView ?= null
-        act.onActivity {
-            mapView = it.findViewById(R.id.map)
-        }
+        ActivityScenario.launch<SettingsLocation>(intent)
+
         Thread.sleep(1000)
         onView(withId(R.id.map)).perform(click(), click())
         Thread.sleep(1000)
-        assertThat(mapView?.x, equalTo(9f))
-        assertThat(mapView?.y, equalTo(426.0f))
     }
 }
