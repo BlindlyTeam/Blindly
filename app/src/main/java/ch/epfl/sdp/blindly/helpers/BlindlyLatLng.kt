@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.helpers
 
 import android.R.attr.author
+import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 
 
@@ -26,6 +27,11 @@ class BlindlyLatLng {
     constructor(latLng: LatLng) {
         latitude = latLng.latitude
         longitude = latLng.longitude
+    }
+
+    constructor(latLng: Location?) {
+        this.latitude = latLng?.latitude
+        this.longitude = latLng?.longitude
     }
 
     fun toLatLng(): LatLng? {

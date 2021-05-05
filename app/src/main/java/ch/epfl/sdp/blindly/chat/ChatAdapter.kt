@@ -7,15 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.helpers.Message
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 
 private const val CURRENT_USER_SENDING = 0
 private const val REMOTE_USER_SENDING = 1
-val currentFirebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
-class ChatAdapter(private val messageList: ArrayList<Message<String>>) :
+class ChatAdapter(private val currentUserId: String, private val messageList: ArrayList<Message<String>>) :
     RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     /**
@@ -73,11 +70,10 @@ class ChatAdapter(private val messageList: ArrayList<Message<String>>) :
      * @return who sent this message
      */
     override fun getItemViewType(position: Int): Int {
-        if (currentFirebaseUser != null) {
-            if (messageList[position].currentUserId == currentFirebaseUser.uid) {
-                return CURRENT_USER_SENDING
-            }
+        if (messageList[position].currentUserId == currentUserId) {
+            return CURRENT_USER_SENDING
         }
+
         return REMOTE_USER_SENDING
     }
 

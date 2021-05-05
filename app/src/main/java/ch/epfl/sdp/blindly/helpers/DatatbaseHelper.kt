@@ -14,19 +14,21 @@ class DatatbaseHelper {
     private val databaseInstance =
         FirebaseDatabase.getInstance("https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/")
 
-    /**
-     * Get the conversation id between two users
-     *
-     * @param userId the logged-in user
-     * @param otherUserId the user to converse with
-     * @return the conversation id
-     */
-    private fun getConversationId(userId: String, otherUserId: String): String {
-        //this is done to get the same chatId from both sides
-        return if (userId < otherUserId) {
-            "($userId, $otherUserId)"
-        } else {
-            "($otherUserId, $userId)"
+    companion object {
+        /**
+         * Get the conversation id between two users
+         *
+         * @param userId the logged-in user
+         * @param otherUserId the user to converse with
+         * @return the conversation id
+         */
+        fun getConversationId(userId: String, otherUserId: String): String {
+            //this is done to get the same chatId from both sides
+            return if (userId < otherUserId) {
+                "($userId, $otherUserId)"
+            } else {
+                "($otherUserId, $userId)"
+            }
         }
     }
 

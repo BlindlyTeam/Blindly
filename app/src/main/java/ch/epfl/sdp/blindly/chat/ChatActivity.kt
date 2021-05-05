@@ -54,7 +54,7 @@ class ChatActivity : AppCompatActivity() {
         //set LayoutManager and Adapter for the RecyclerView
         findViewById<RecyclerView>(R.id.recyclerView).layoutManager = mChatLayoutManager
         findViewById<RecyclerView>(R.id.recyclerView).adapter =
-            getMessages()?.let { ChatAdapter(it) }
+            getMessages()?.let { ChatAdapter(currentUserId, it) }
 
         receiveMessages()
     }
@@ -67,10 +67,8 @@ class ChatActivity : AppCompatActivity() {
      * @param view the current view
      */
     fun sendButtonActivate(view: View) {
-        findViewById<ImageView>(R.id.sendButton).setOnClickListener {
-            if (findViewById<EditText>(R.id.newMessageText).text.toString().isNotEmpty()) {
-                sendMessage()
-            }
+        if (findViewById<EditText>(R.id.newMessageText).text.toString().isNotEmpty()) {
+            sendMessage()
         }
     }
 
