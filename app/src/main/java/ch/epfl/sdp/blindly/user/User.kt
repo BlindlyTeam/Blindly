@@ -27,6 +27,7 @@ class User private constructor(
     val passions: List<String>?,
     val radius: Int?,
     val matches: List<String>?,
+    val likes: List<String>?,
     val description: String?,
     val recordingPath: String?,
     val ageRange: List<Int>?
@@ -62,6 +63,7 @@ class User private constructor(
         var passions: List<String> = listOf(),
         var radius: Int? = null,
         var matches: List<String> = listOf(),
+        var likes: List<String> = listOf(),
         var description: String? = null,
         var recordingPath: String? = null,
         var ageRange: List<Int> = listOf()
@@ -146,12 +148,21 @@ class User private constructor(
         }
 
         /**
-         * Set the matches in the UserBuilder
+         * Set the matches in the UserBuilder. Other users are represented by their UID.
          *
          * @param matches the matches of the User
          */
         fun setMatches(matches: List<String>) = apply {
             this.matches = matches
+        }
+
+        /**
+         * Set the likes in the UserBuilder
+         *
+         * @param likes the likes of the User. Other users are represented by their UID.
+         */
+        fun setLikes(likes: List<String>) = apply {
+            this.likes = likes
         }
 
         /**
@@ -206,6 +217,7 @@ class User private constructor(
                 passions,
                 radius,
                 matches,
+                likes,
                 description,
                 recordingPath,
                 ageRange
@@ -232,6 +244,7 @@ class User private constructor(
                 val passions = get("passions") as? List<String>
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as? List<String>
+                val likes = get("likes") as? List<String>
                 val description = getString("description")!!
                 val ageRange = get("ageRange") as? List<Long>
                 val recordingPath = getString("recordingPath")!!
@@ -246,6 +259,7 @@ class User private constructor(
                     passions,
                     radius,
                     matches,
+                    likes,
                     description,
                     recordingPath,
                     //Numbers on Firestore are Long, so we need to cast back to Int

@@ -16,7 +16,8 @@ class UserUnitTest {
         private const val show_me = "Everyone"
         private val passions = listOf("Coffee", "Tea")
         private const val radius = 150
-        private val matches: List<String> = listOf()
+        private val matches: List<String> = listOf("a1", "b2")
+        private val likes: List<String> = listOf("c3", "d4")
         private const val description = "Student"
         private val ageRange = listOf(30, 40)
     }
@@ -76,6 +77,12 @@ class UserUnitTest {
     }
 
     @Test
+    fun setLikesIsCorrect() {
+        val userBuilder = User.Builder().setLikes(likes)
+        assertThat(userBuilder.likes, equalTo(likes))
+    }
+
+    @Test
     fun setDescriptionIsCorrect() {
         val userBuilder = User.Builder().setDescription(description)
         assertThat(userBuilder.description, equalTo(description))
@@ -110,6 +117,7 @@ class UserUnitTest {
             .setRadius(radius)
             .setDescription(description)
             .setMatches(matches)
+            .setLikes(likes)
             .setAgeRange(ageRange)
             .build()
 
@@ -123,6 +131,7 @@ class UserUnitTest {
         assertThat(user.radius, equalTo(radius))
         assertThat(user.description, equalTo(description))
         assertThat(user.matches, equalTo(matches))
+        assertThat(user.likes, equalTo(likes))
         assertThat(user.ageRange, equalTo(ageRange))
     }
 
@@ -139,6 +148,7 @@ class UserUnitTest {
             .setRadius(radius)
             .setDescription(description)
             .setMatches(matches)
+            .setLikes(likes)
             .setAgeRange(ageRange)
             .build()
 
@@ -159,6 +169,7 @@ class UserUnitTest {
             .setRadius(radius)
             .setDescription(description)
             .setMatches(matches)
+            .setLikes(likes)
             .setAgeRange(ageRange)
             .build()
 
