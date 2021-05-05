@@ -89,7 +89,6 @@ class UserRepository @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.N)
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
-        Log.d(TAG, "newValue is $newValue")
         if (newValue !is String && newValue !is List<*> && newValue !is Int)
             throw IllegalArgumentException("Expected String, List<String> or Int")
 

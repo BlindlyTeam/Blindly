@@ -27,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 const val EXTRA_SHOW_ME = "showMe"
+const val EXTRA_LOCATION = "location"
 private const val MIN_AGE = 18
 private const val MAX_AGE = 99
 
@@ -108,7 +109,6 @@ class Settings : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "ON RESUME")
         viewModel.userUpdate()
     }
 
@@ -153,7 +153,10 @@ class Settings : AppCompatActivity() {
      * @param view
      */
     fun startLocationSettings(view: View) {
-        val intent = Intent(this, SettingsLocation::class.java)
+        val location = findViewById<TextView>(R.id.current_location_text).text.toString()
+        val intent = Intent(this, SettingsLocation::class.java).apply {
+            putExtra(EXTRA_LOCATION, location)
+        }
         startActivity(intent)
     }
 

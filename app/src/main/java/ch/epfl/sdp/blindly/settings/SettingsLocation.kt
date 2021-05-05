@@ -52,20 +52,20 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
         val locSer = AndroidLocationService(this)
         location = locSer.getCurrentLocation()
         val locationText = findViewById<TextView>(R.id.my_current)
+        //Passed as an intent this is the location of the user from firestore
+        userLocation = intent.getStringExtra(EXTRA_LOCATION).toString()
+        //This a freshly computed location
+        currentLocation =
+            location?.let { it1 ->
+                AndroidLocationService.getCurrentLocationStringFromLocation(
+                    this,
+                    it1
+                )
+            }
+                .toString()
 
-        viewModel.user.observe(this) {
-            userLocation = AndroidLocationService.getCurrentLocationStringFromUser(this, it)
-            currentLocation =
-                location?.let { it1 ->
-                    AndroidLocationService.getCurrentLocationStringFromLocation(
-                        this,
-                        it1
-                    )
-                }
-                    .toString()
+        locationText.text = currentLocation
 
-            locationText.text = currentLocation
-        }
 
         mapView = findViewById(R.id.map)
         mapView.onCreate(savedInstanceState)

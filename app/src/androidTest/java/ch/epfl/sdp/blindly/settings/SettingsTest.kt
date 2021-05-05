@@ -1,11 +1,7 @@
 package ch.epfl.sdp.blindly.settings
 
-import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.view.View
 import android.widget.TextView
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
@@ -18,21 +14,24 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
+import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
+import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matchers
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
 
-private const val TEST_SHOW_ME_MEN = "Men"
 private const val TEST_RADIUS = "80km"
 private const val TEST_AGE_RANGE = "40 - 60"
 private const val TEST_LOWER_AGE = 40
@@ -48,10 +47,17 @@ class SettingsTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-    lateinit var mainScenario: ActivityScenario<Settings>
+    @Inject
+    lateinit var userHelper: UserHelper
 
     @Inject
-    lateinit var user: UserHelper
+    lateinit var userRepository: UserRepository
+
+    @Inject
+    lateinit var userCache: UserCache
+
+    @Inject
+    lateinit var db: FirebaseFirestore
 
     @Before
     fun setup() {
@@ -67,15 +73,15 @@ class SettingsTest {
     @Test
     fun clickingOnLocationButtonFiresSettingsLocationActivity() {
         onView(withId(R.id.location_button)).perform(click())
-        var myLocation: TextView? = null
+        var location: TextView? = null
         activityRule.scenario.onActivity { activity ->
-            myLocation = activity.findViewById(R.id.current_location_text)
+            location = activity.findViewById(R.id.current_location_text)
         }
         intended(
             Matchers.allOf(
                 hasComponent(SettingsLocation::class.java.name), IntentMatchers.hasExtra(
                     EXTRA_LOCATION,
-                    myLocation?.text
+                    location?.text
                 )
             )
         )
@@ -95,22 +101,6 @@ class SettingsTest {
                     showMe?.text
                 )
             )
-        )
-    }
-
-    @Test
-    fun clickingOnDoneFiresBackToParentTheNewIntent() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
-        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME_MEN)
-        ActivityScenario.launch<SettingsShowMe>(intent)
-
-        onView((withId(R.id.show_me_men_button))).perform(click())
-        onView(withId(R.id.done_button)).perform(click())
-
-        assertEquals(RESULT_OK, activityRule.scenario.result.resultCode)
-        assertEquals(
-            TEST_SHOW_ME_MEN,
-            activityRule.scenario.result.resultData.getStringExtra(EXTRA_SHOW_ME)
         )
     }
 
@@ -157,7 +147,12 @@ class SettingsTest {
 
     @Test
     fun movingTheRangeSliderChangesTheSelectedAgeRangeText() {
-        onView(withId(R.id.age_range_slider)).perform(setRangeSliderValues(TEST_LOWER_AGE, TEST_HIGHER_AGE))
+        onView(withId(R.id.age_range_slider)).perform(
+            setRangeSliderValues(
+                TEST_LOWER_AGE,
+                TEST_HIGHER_AGE
+            )
+        )
         val selectedAgeRangeText = onView(withId(R.id.selected_age_range_text))
         selectedAgeRangeText.check(matches(withText(TEST_AGE_RANGE)))
     }
@@ -167,7 +162,7 @@ class SettingsTest {
         onView(withId(R.id.email_address_text)).check(
             matches(
                 withText(
-                    user.getEmail()
+                    userHelper.getEmail()
                 )
             )
         )
@@ -201,4 +196,44 @@ class SettingsTest {
         )
     }
 
+    @Test
+    fun locationIsCorrectlyRetrieved() {
+        val TEST_LOCATION = "Ecublens, Switzerland"
+        var location: String? = null
+        activityRule.scenario.onActivity {
+            location = it.findViewById<TextView>(R.id.current_location_text).text.toString()
+        }
+        assertThat(location, equalTo(TEST_LOCATION))
+    }
+
+    @Test
+    fun radiusIsCorrectlyRetrieved() {
+        val TEST_RADIUS = fakeUser.radius
+        var radiusSlider: Int = 0
+        activityRule.scenario.onActivity {
+            radiusSlider = it.findViewById<Slider>(R.id.location_slider).value.toInt()
+        }
+        assertThat(radiusSlider, equalTo(TEST_RADIUS))
+    }
+
+    @Test
+    fun showMeIsCorrectlyRetrieved() {
+        val TEST_SHOW_ME = fakeUser.showMe
+        var showMe: String? = null
+        activityRule.scenario.onActivity {
+            showMe = it.findViewById<TextView>(R.id.show_me_text).text.toString()
+        }
+        assertThat(showMe, equalTo(TEST_SHOW_ME))
+    }
+
+    @Test
+    fun ageRangeIsCorrectlyRetrieved() {
+        val TEST_AGE_RANGE = fakeUser.ageRange
+        var ageRangeSlider: List<Float> = listOf()
+        activityRule.scenario.onActivity {
+            ageRangeSlider = it.findViewById<RangeSlider>(R.id.age_range_slider).values
+        }
+        assertThat(ageRangeSlider[0].toInt(), equalTo(TEST_AGE_RANGE?.get(0)))
+        assertThat(ageRangeSlider[1].toInt(), equalTo(TEST_AGE_RANGE?.get(1)))
+    }
 }

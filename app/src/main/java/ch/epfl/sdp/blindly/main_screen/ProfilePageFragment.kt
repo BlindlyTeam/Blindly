@@ -132,7 +132,6 @@ class ProfilePageFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onResume() {
         super.onResume()
-        Log.d(Settings.TAG, "ON RESUME")
         viewModel.userUpdate()
     }
 

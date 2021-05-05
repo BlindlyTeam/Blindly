@@ -8,8 +8,8 @@ import ch.epfl.sdp.blindly.user.User
 
 private const val MIN_TIME_FOR_UPDATE = 1L
 private const val MIN_DISTANCE_FOR_UPDTAE = 1F
-private const val EPFL_LAT = 46.5
-private const val EPFL_LONG = 6.5
+private const val EPFL_LAT = 46.518
+private const val EPFL_LONG = 6.567
 
 /**
  * The purpose of this class is to get the position of the user
@@ -117,7 +117,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
         }
 
         private fun toAddress(geocoder: Geocoder, latitude: Double, longitude: Double): String {
-            val address = geocoder.getFromLocation(latitude, longitude, 5)
+            val address = geocoder.getFromLocation(latitude, longitude, 2)
             val country = address[0].countryName
             val city = address[0].locality
             return "$city, $country"

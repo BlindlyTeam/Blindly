@@ -40,14 +40,12 @@ class UserViewModel @AssistedInject constructor(
 
     fun userUpdate() {
         viewModelScope.launch {
-            Log.d(TAG, "Getting user")
             _user.value = userRepo.getUser(userId)
         }
     }
 
     fun <T> updateField(field: String, newValue: T) {
         viewModelScope.launch {
-            Log.d(TAG, "Launching update profile")
             userRepo.updateProfile(userId, field, newValue)
         }
     }
