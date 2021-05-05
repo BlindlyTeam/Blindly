@@ -15,25 +15,24 @@ class ChatTest {
 
     @Test
     fun recyclerViewShowsCorrectCount() {
-        val m1 = Message("mes1", CURRENT_USER_ID)
-        val m2 = Message("mes2", CURRENT_USER_ID)
+        val m1 = Message("mes1", USER_ID_1)
+        val m2 = Message("mes2", USER_ID_2)
         val list: ArrayList<Message<String>> = arrayListOf()
         list.addAll(listOf(m1, m2))
-        val abc: RecyclerView.Adapter<ChatAdapter.ViewHolder> = ChatAdapter(CURRENT_USER_ID, list)
+        val abc: RecyclerView.Adapter<ChatAdapter.ViewHolder> = ChatAdapter(USER_ID_1, list)
         MatcherAssert.assertThat(abc.itemCount, IsEqual.equalTo(2))
     }
 
     @Test
     fun itemTypeIsCorrect() {
-        val m1 = Message("mes1", CURRENT_USER_ID)
-        val m2 = Message("mes2", CURRENT_USER_ID)
+        val m1 = Message("mes1", USER_ID_1)
+        val m2 = Message("mes2", USER_ID_2)
         val list: ArrayList<Message<String>> = arrayListOf()
         list.addAll(listOf(m1, m2))
-        val abc: RecyclerView.Adapter<ChatAdapter.ViewHolder> = ChatAdapter(CURRENT_USER_ID, list)
+        val abc: RecyclerView.Adapter<ChatAdapter.ViewHolder> = ChatAdapter(USER_ID_1, list)
         val remoteUserSending = 1
         MatcherAssert.assertThat(abc.getItemViewType(1), IsEqual.equalTo(remoteUserSending))
     }
-
 
     @Test
     fun messageObjectIsCorrect() {
@@ -54,7 +53,8 @@ class ChatTest {
     }
 
     companion object {
-        private const val CURRENT_USER_ID = "2938473dsgfd298"
+        private const val USER_ID_1 = "2938473dsgfd298"
+        private const val USER_ID_2 = "293s73dshfd298"
     }
 
 

@@ -68,8 +68,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
      */
     private var permissionDenied = false
     private lateinit var map: GoogleMap
-    // FIXME add name and default position
-    private lateinit var otherUserMarker: Marker;
+    private var otherUserMarker: Marker? = null;
 
     @Inject
     lateinit var databaseHelper: DatatbaseHelper
@@ -77,6 +76,9 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
 
     @Inject
     lateinit var userHelper: UserHelper
+
+    private lateinit var matchName: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,7 +90,8 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
 
         // Cancel loading if we can't get the user id
         val currentUserId = userHelper.getUserId() ?: return
-        val matchId = intent.extras?.getString("matchedId") ?: "default_user"
+        val matchId = intent.extras?.getString(MATCH_ID) ?: "default_user"
+        matchName = intent.extras?.getString(MATCH_NAME) ?: getString(R.string.default_label_map_pin)
 
         locationDatabase = databaseHelper.getLocationLiveDatabase(currentUserId, matchId)
         val model: PositionViewModel by viewModels()
@@ -102,19 +105,33 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
                 updateMarker(message)
             }
         })
-
-
     }
 
     private fun updateMarker(message: Message<BlindlyLatLng>) {
+        if (!::map.isInitialized) return
         if (message.currentUserId == userHelper.getUserId()) return
         val pos = message.messageText ?: return
         val latLng = pos.toLatLng() ?: return
-        otherUserMarker.position = latLng
+        tryToAddMarker()?.position = latLng
         // Always keep match position on the center of the map
         map!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
     }
 
+    /**
+     * Sometimes google map can fail to add the marker so we
+     * retry everytime we need it
+     *
+     * @return Hopefully the marker
+     */
+    private fun tryToAddMarker(): Marker? {
+        if (otherUserMarker == null && ::map.isInitialized)
+            otherUserMarker = map.addMarker(
+                MarkerOptions()
+                    .position(LAUSANNE_LATLNG)
+                    .title(matchName)
+            )
+        return otherUserMarker
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -131,8 +148,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
         enableMyLocation()
 
         // Add markers from the intent
-        otherUserMarker = map!!.addMarker(MarkerOptions().position(
-            LAUSANNE_LATLNG).title("Your match"))
+        tryToAddMarker()
     }
 
     /**
@@ -191,8 +207,8 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
 
 
     companion object {
-        public const val POINTS = "points";
-
+        const val MATCH_ID = "matchedId"
+        const val MATCH_NAME = "matchedName"
     }
 
 }
