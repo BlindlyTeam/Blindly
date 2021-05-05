@@ -9,14 +9,14 @@ import android.os.Parcelable
  *
  * @property name
  * @property age
+ * @property description
  */
 data class Profile(
     val name: String,
     val age: Int,
+    val description: String,
 ) : Parcelable {
     companion object {
-        private var counter = 0L
-
         @JvmField
         val CREATOR: Parcelable.Creator<Profile> = object : Parcelable.Creator<Profile> {
             override fun createFromParcel(source: Parcel?): Profile {
@@ -32,7 +32,11 @@ data class Profile(
     /**
      * A constructor for a profile from a parcel
      */
-    constructor(source: Parcel) : this(source.readString()!!, source.readInt())
+    constructor(source: Parcel) : this(
+        source.readString()!!,
+        source.readInt(),
+        source.readString()!!
+    )
 
     /**
      * Object doesn't contain a content descriptor
@@ -55,6 +59,6 @@ data class Profile(
     }
 
     override fun toString(): String {
-        return "$name, $age"
+        return "$name, $age, $description"
     }
 }
