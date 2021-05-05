@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class TestProfileHouseRules {
+class ProfileHouseRulesTest {
 
 
     @get:Rule

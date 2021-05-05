@@ -26,7 +26,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class TestProfileFinished {
+class ProfileFinishedTest {
     private val TEST_USER = User.Builder()
         .setUsername(CORRECT_NAME)
         .setBirthday(TEST_BIRTHDAY)
