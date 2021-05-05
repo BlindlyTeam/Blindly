@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.unit_tests
 
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import ch.epfl.sdp.blindly.match.Profile

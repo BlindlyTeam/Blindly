@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.unit_tests
 
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
@@ -6,7 +6,7 @@ import ch.epfl.sdp.blindly.user.UserCache
 import org.junit.Assert.*
 import org.junit.Test
 
-class UserCacheUnitTest {
+class UserCacheTest {
     companion object {
         private val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
 
