@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
+import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserRepository
@@ -58,17 +59,29 @@ class SettingsLocationTest {
 
     @Test
     fun locationTextIsDisplayedCorrectly() {
-        val TEST_USER_LOCATION = "Ecublens, Switzerland" //from the fakeUser
+        val TEST_USER_LOCATION = AndroidLocationService.getCurrentLocationStringFromUser(
+            ApplicationProvider.getApplicationContext(),
+            fakeUser
+        )
         val intent =
             Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
         intent.putExtra(EXTRA_LOCATION, TEST_USER_LOCATION)
 
         val act = ActivityScenario.launch<SettingsLocation>(intent)
+        var TEST_LOCATION: String? = null
         var location: String? = null
-        act.onActivity {
+        act.onActivity { it ->
+            val locSer = AndroidLocationService(ApplicationProvider.getApplicationContext())
+            val loc = locSer.getCurrentLocation()
             location = it.findViewById<TextView>(R.id.my_current).text.toString()
+            TEST_LOCATION = loc?.let {
+                AndroidLocationService.getCurrentLocationStringFromLocation(
+                    ApplicationProvider.getApplicationContext(), it
+                )
+            }
         }
-        assertThat(location, equalTo(TEST_USER_LOCATION))
+        //Should take the newly computed location instead of the one from the user
+        assertThat(location, equalTo(TEST_LOCATION))
     }
 
 
