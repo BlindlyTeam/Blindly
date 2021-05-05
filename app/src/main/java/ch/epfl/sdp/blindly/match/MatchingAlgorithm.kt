@@ -1,24 +1,21 @@
 package ch.epfl.sdp.blindly.match
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.firebase.firestore.Query
-import javax.inject.Inject
+import kotlinx.coroutines.tasks.await
 
 private const val TAG = "MatchingAlgorithm"
 const val EVERYONE = "Everyone"
 
-class MatchingAlgorithm {
-    @Inject
-    lateinit var userHelper: UserHelper
-
-    @Inject
-    lateinit var userRepository: UserRepository
+class MatchingAlgorithm(
+    private var userHelper: UserHelper,
+    private var userRepository: UserRepository
+) {
 
     private val userListFilter = UserListFilter()
 
@@ -37,7 +34,8 @@ class MatchingAlgorithm {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getPotentialMatchesFromDatabase(): List<User>? {
-        val currentUser = userHelper.getUserId()?.let { userRepository.getUser(it) }
+        val userid = userHelper.getUserId()!!
+        val currentUser = userRepository.getUser(userid)
         val matches: MutableList<User?> = ArrayList<User?>().toMutableList()
         var query: Query?
 
@@ -49,23 +47,19 @@ class MatchingAlgorithm {
             userRepository.getCollectionReference()
                 .whereArrayContainsAny("passions", it)
         }
-
         if (query != null) {
             if (currentUser.showMe != EVERYONE) {
                 query = query.whereEqualTo("gender", currentUser.showMe)
             }
 
-            query = query.whereNotEqualTo("uid", userHelper.getUserId())
-
-            query.get().addOnSuccessListener { users ->
-                for (user in users) {
+            //Wait on the query to be done before continuing
+            val users = query.get().await()
+            for (user in users) {
+                if (user.id != userid) {
                     matches += user.toUser()
                 }
-            }.addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting users : ", exception)
             }
         }
-
         val nonNullMatches = matches.filterNotNull()
         val filteredList = userListFilter.filterLocationAndAgeRange(currentUser, nonNullMatches)
         return userListFilter.reversePotentialMatch(currentUser, filteredList)
