@@ -1,5 +1,10 @@
 package ch.epfl.sdp.blindly.helpers
 
+/**
+ * A message to send to another user using [DatatbaseHelper]
+ *
+ * @param T The type to be sent inside the message
+ */
 class Message<T> {
 
     /**
