@@ -107,4 +107,16 @@ class LiveChatTest {
         }
         onView(withId(R.id.recyclerView)).check(matches(withViewCount(withText(TEST_MESSAGE), 4)))
     }
+
+    @Test
+    fun sendingEmptyMessageDoesntDoAnything() {
+        for (i in 0..3) {
+            val buttonUpdate = onView(withId(R.id.sendButton))
+            buttonUpdate.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+            buttonUpdate.perform(click())
+        }
+        sendMessage()
+        onView(withId(R.id.recyclerView)).check(matches(withViewCount(withText(TEST_MESSAGE), 2)))
+
+    }
 }

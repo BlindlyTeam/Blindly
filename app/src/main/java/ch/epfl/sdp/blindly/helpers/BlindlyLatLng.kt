@@ -1,6 +1,5 @@
 package ch.epfl.sdp.blindly.helpers
 
-import android.R.attr.author
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 
@@ -10,17 +9,20 @@ class BlindlyLatLng {
     private var latitude: Double? = null
     private var longitude: Double? = null
 
+    @Suppress("unused") // needed for firebase
     fun getLatitude(): Double? {
         return latitude
     }
 
+    @Suppress("unused") // needed for firebase
     fun getLongitude(): Double? {
         return longitude
     }
 
-    public constructor() {}
+    @Suppress("unused") // needed for firebase
+    constructor() {}
 
-    public constructor(latitude: Double?, longitude: Double?) {
+    constructor(latitude: Double?, longitude: Double?) {
         this.latitude = latitude
         this.longitude = longitude
     }
@@ -36,7 +38,7 @@ class BlindlyLatLng {
 
     fun toLatLng(): LatLng? {
         latitude ?: return null
-        longitude ?: return return null
+        longitude ?: return null
         return LatLng(latitude!!, longitude!!)
     }
 }

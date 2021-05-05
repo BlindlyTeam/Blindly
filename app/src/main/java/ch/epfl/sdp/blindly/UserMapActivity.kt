@@ -9,14 +9,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.RecyclerView
-import ch.epfl.sdp.blindly.chat.ChatAdapter
 import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
 import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
 import ch.epfl.sdp.blindly.helpers.Message
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.getCurrentLocation
-import ch.epfl.sdp.blindly.location.LocationService
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.PermissionDeniedDialog.Companion.newInstance
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.isPermissionGranted
@@ -24,11 +20,9 @@ import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.requestPermi
 import ch.epfl.sdp.blindly.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.maps.CameraUpdateFactory
-
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +42,7 @@ class PositionViewModel: ViewModel() {
             while (true) {
                 val pos = locationService.getCurrentLocation()
                 if (pos != null) {
-                    val latLng: BlindlyLatLng = BlindlyLatLng(pos.latitude, pos.longitude)
+                    val latLng = BlindlyLatLng(pos.latitude, pos.longitude)
                     locationDatabase.updateLocation(latLng)
                 }
                 delay(1000)
@@ -68,7 +62,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
      */
     private var permissionDenied = false
     private lateinit var map: GoogleMap
-    private var otherUserMarker: Marker? = null;
+    private var otherUserMarker: Marker? = null
 
     @Inject
     lateinit var databaseHelper: DatatbaseHelper
@@ -78,7 +72,6 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
     lateinit var userHelper: UserHelper
 
     private lateinit var matchName: String
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +107,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
         val latLng = pos.toLatLng() ?: return
         tryToAddMarker()?.position = latLng
         // Always keep match position on the center of the map
-        map!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
     }
 
     /**

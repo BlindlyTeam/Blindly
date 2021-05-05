@@ -23,7 +23,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var chatReference: DatatbaseHelper.ChatLiveDatabase
 
     private var chatMessages: ArrayList<Message<String>>? = arrayListOf()
-    var mChatLayoutManager = LinearLayoutManager(this)
+    private var mChatLayoutManager = LinearLayoutManager(this)
 
     @Inject
     lateinit var databaseHelper: DatatbaseHelper

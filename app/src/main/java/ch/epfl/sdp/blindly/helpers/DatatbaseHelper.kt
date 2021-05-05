@@ -1,9 +1,7 @@
 package ch.epfl.sdp.blindly.helpers
 
 import android.util.Log
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 
 /**
  * Class to be injected to provide the firebase live database
@@ -77,7 +75,7 @@ class DatatbaseHelper {
      */
     class LocationLiveDatabase internal constructor(dr: DatabaseReference, userId: String) :
         BlindlyLiveDatabase<BlindlyLatLng>(dr, userId) {
-        override val typeIndicator = object : GenericTypeIndicator<Message<BlindlyLatLng>>() {};
+        override val typeIndicator = object : GenericTypeIndicator<Message<BlindlyLatLng>>() {}
 
         fun updateLocation(location: BlindlyLatLng) {
             val newMessage = Message(
@@ -100,9 +98,9 @@ class DatatbaseHelper {
      */
     class ChatLiveDatabase internal constructor(dr: DatabaseReference, userId: String) :
         BlindlyLiveDatabase<String>(dr, userId) {
-        override val typeIndicator = object : GenericTypeIndicator<Message<String>>() {};
+        override val typeIndicator = object : GenericTypeIndicator<Message<String>>() {}
 
-        open fun sendMessage(message: String) {
+        fun sendMessage(message: String) {
             val newMessage = Message(
                 message,
                 userId
@@ -122,11 +120,12 @@ class DatatbaseHelper {
      * @param dr the firebase database reference
      * @param userId the logged-in user id
      */
-    abstract class BlindlyLiveDatabase<T> internal constructor(dr: DatabaseReference, userId: String) {
+    abstract class BlindlyLiveDatabase<T> internal constructor(protected val dr: DatabaseReference,
+                                                               protected val userId: String
+    ) {
         // Init at one as most of the time we don't register more than one listener per db
         private val eventListeners: MutableList<EventListener<T>> = ArrayList(1)
-        protected val dr = dr
-        protected val userId = userId
+
         // We need to indicate type on each class initialization (=runtime) as
         // the JVM has type-ereasure on runtime
         abstract val typeIndicator: GenericTypeIndicator<Message<T>>
@@ -187,6 +186,7 @@ class DatatbaseHelper {
          *
          * @param listener The listener to remove
          */
+        @Suppress("unused")
         fun removeListener(listener: EventListener<T>) {
             eventListeners.remove(listener)
         }
