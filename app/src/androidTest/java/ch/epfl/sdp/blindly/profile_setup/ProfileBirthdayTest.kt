@@ -30,7 +30,6 @@ private const val ERROR_AGE = "The minimum age requirement is 18 years old."
 
 @RunWith(AndroidJUnit4::class)
 class TestProfileBirthday {
-
     private val TEST_USER = User.Builder().setUsername(CORRECT_NAME)
 
     @Before
@@ -93,5 +92,4 @@ class TestProfileBirthday {
             )
         )
     }
-
 }

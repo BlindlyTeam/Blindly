@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.actions
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +12,6 @@ import org.hamcrest.Matcher
 
 class RecyclerViewChildActions {
     companion object {
-
         /**
          * Performs an action on a view with a given id inside a RecyclerView's item
          */
@@ -32,7 +31,6 @@ class RecyclerViewChildActions {
                         action.perform(uiController, child)
                     }
                 }
-
             }
         }
 
@@ -58,9 +56,7 @@ class RecyclerViewChildActions {
                     val matcher = hasDescendant(allOf(withId(childId), childMatcher))
                     return viewHolder != null && matcher.matches(viewHolder.itemView)
                 }
-
             }
         }
     }
-
 }

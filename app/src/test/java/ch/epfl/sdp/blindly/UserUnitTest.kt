@@ -175,5 +175,4 @@ class UserUnitTest {
 
         assertThat(user.toString(), equalTo(username))
     }
-
 }

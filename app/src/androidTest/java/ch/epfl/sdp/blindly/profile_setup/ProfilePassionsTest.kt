@@ -30,7 +30,6 @@ val TEST_PASSIONS = arrayListOf("Wine", "Swimming")
 
 @HiltAndroidTest
 class TestProfilePassions {
-
     private val TEST_USER = User.Builder()
         .setUsername(CORRECT_NAME)
         .setBirthday(TEST_BIRTHDAY)
@@ -118,5 +117,4 @@ class TestProfilePassions {
 
         intended(hasComponent(ProfileAudioRecording::class.java.name))
     }
-
 }

@@ -31,7 +31,6 @@ private const val NO_INPUT_ERROR = "Please select one!"
 
 @HiltAndroidTest
 class TestProfileShowMe {
-
     private val TEST_USER = User.Builder()
         .setUsername(CORRECT_NAME)
         .setBirthday(TEST_BIRTHDAY)

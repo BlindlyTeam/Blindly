@@ -34,7 +34,6 @@ private const val ERROR_CHARACTERS = "Please use only letters."
 
 @RunWith(AndroidJUnit4::class)
 class TestProfileGenderMore {
-
     private val TEST_USER = User.Builder()
         .setUsername(CORRECT_NAME)
         .setBirthday(TEST_BIRTHDAY)
@@ -59,7 +58,6 @@ class TestProfileGenderMore {
     fun afterEach() {
         release()
     }
-
 
     @Test
     fun incorrectCharOutputsError() {
@@ -99,7 +97,6 @@ class TestProfileGenderMore {
         intended(hasComponent(ProfileOrientation::class.java.name), times(0))
     }
 
-
     @Test
     fun blankInputOutputsError() {
         onView(withId(R.id.text_p4_2)).perform(clearText(), typeText(BLANK_SPECIFICATION))
@@ -138,5 +135,4 @@ class TestProfileGenderMore {
             )
         )
     }
-
 }

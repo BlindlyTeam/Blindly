@@ -66,5 +66,4 @@ class UserCacheUnitTest {
         userCache.put(TEST_UID, TEST_USER)
         assertTrue(userCache.contains(TEST_UID))
     }
-
 }

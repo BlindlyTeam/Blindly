@@ -29,7 +29,8 @@ open class FakeUserCacheModule {
         private val matches: List<String> = listOf("a1", "b2")
         private val likes: List<String> = listOf("c3", "d4")
         private const val description = "Student"
-        private const val recordingPath = "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
+        private const val recordingPath =
+            "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
         private val ageRange = listOf(30, 50)
         val fakeUser = User.Builder()
             .setUsername(username)

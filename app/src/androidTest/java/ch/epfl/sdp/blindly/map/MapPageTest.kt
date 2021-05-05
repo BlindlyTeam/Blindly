@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen
+package ch.epfl.sdp.blindly.map
 
 import ch.epfl.sdp.blindly.UserMapActivity
 
@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.main_screen.MainScreen
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -52,7 +53,8 @@ class MapPageTest {
             activityRule.scenario.onActivity { act ->
                 act.viewPager!!.currentItem = 3
                 // After setting the item, wait for it to be fully shown
-                act.viewPager!!.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+                act.viewPager!!.registerOnPageChangeCallback(object :
+                    ViewPager2.OnPageChangeCallback() {
                     override fun onPageScrollStateChanged(state: Int) {
                         if (state == ViewPager2.SCROLL_STATE_IDLE)
                             cont.resume(true);

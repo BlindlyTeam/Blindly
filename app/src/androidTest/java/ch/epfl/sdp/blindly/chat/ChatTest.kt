@@ -11,8 +11,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ChatTest {
-
-
     @Test
     fun recyclerViewShowsCorrectCount() {
         val m1 = Message("mes1", "2938473dsgfd298")
@@ -34,7 +32,6 @@ class ChatTest {
         MatcherAssert.assertThat(abc.getItemViewType(1), IsEqual.equalTo(remoteUserSending))
     }
 
-
     @Test
     fun messageObjectIsCorrect() {
         val userId = "23094823049"
@@ -52,6 +49,4 @@ class ChatTest {
         val m2 = Message("some message", userId2)
         MatcherAssert.assertThat(m1.timestamp!!, IsNot(equalTo(m2.timestamp!!)))
     }
-
-
 }

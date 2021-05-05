@@ -2,7 +2,6 @@ package ch.epfl.sdp.blindly.profile_setup
 
 import android.Manifest
 import android.content.Intent
-import android.os.Bundle
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
@@ -42,7 +41,7 @@ class ProfileFinishedTest {
     }
 
     @get:Rule
-    var mRuntimePermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
+    var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -68,5 +67,4 @@ class ProfileFinishedTest {
         Intents.intended(IntentMatchers.hasComponent(MainScreen::class.java.name))
 
     }
-
 }

@@ -14,8 +14,8 @@ import javax.inject.Singleton
 
 @Module
 @TestInstallIn(
-        components = [SingletonComponent::class],
-        replaces = [UserRepositoryModule::class]
+    components = [SingletonComponent::class],
+    replaces = [UserRepositoryModule::class]
 )
 open class FakeUserRepositoryModule {
 

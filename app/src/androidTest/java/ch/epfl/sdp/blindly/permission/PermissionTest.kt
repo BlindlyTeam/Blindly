@@ -1,6 +1,5 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.permission
 
-import android.content.Intent
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
@@ -11,6 +10,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
+import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.permissions.LocationPermissionActivity
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -19,7 +19,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-
 
 @HiltAndroidTest
 class PermissionTest {
@@ -34,6 +33,7 @@ class PermissionTest {
     @JvmField
     val grantPermissionRule: GrantPermissionRule = GrantPermissionRule
         .grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
+
     @Before
     fun setup() {
         hiltRule.inject()
@@ -56,5 +56,4 @@ class PermissionTest {
         }
         Intents.intended(IntentMatchers.hasComponent(ProfileName::class.java.name))
     }
-
 }

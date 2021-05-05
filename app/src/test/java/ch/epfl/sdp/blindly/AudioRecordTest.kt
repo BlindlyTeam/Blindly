@@ -1,8 +1,7 @@
-package ch.epfl.sdp.blindly.recording
+package ch.epfl.sdp.blindly
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import ch.epfl.sdp.blindly.recording.AudioRecord
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 
@@ -13,8 +12,8 @@ private const val DURATION_ONE = "00:01"
 private const val FILEPATH1 = "Test/myApp/file1"
 private const val FILEPATH2 = "Test/myApp/file2"
 
-@RunWith(AndroidJUnit4::class)
 class AudioRecordTest {
+
     @Test
     fun equalsIsTrueWithSameObjects() {
         val audio1 = AudioRecord(NAME_AUDIO_ONE, DURATION_ZERO, FILEPATH1, false)

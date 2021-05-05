@@ -31,7 +31,6 @@ val TEST_SEXUAL_ORIENTATIONS = arrayListOf("Straight", "Lesbian", "Gay")
 
 @RunWith(AndroidJUnit4::class)
 class TestProfileOrientation {
-
     private val TEST_USER = User.Builder()
         .setUsername(CORRECT_NAME)
         .setBirthday(TEST_BIRTHDAY)

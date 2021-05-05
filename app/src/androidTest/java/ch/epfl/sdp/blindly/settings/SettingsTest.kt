@@ -31,7 +31,6 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-
 private const val TEST_SHOW_ME_MEN = "Men"
 private const val TEST_RADIUS = "80km"
 private const val TEST_AGE_RANGE = "40 - 60"
@@ -114,40 +113,6 @@ class SettingsTest {
         )
     }
 
-    private fun setSliderValue(value: Int): ViewAction {
-        return object : ViewAction {
-            override fun perform(uiController: UiController?, view: View) {
-                val slider = view as Slider
-                slider.value = value.toFloat()
-            }
-
-            override fun getDescription(): String {
-                return "Set a value on a Slider"
-            }
-
-            override fun getConstraints(): org.hamcrest.Matcher<View>? {
-                return isAssignableFrom(Slider::class.java)
-            }
-        }
-    }
-
-    private fun setRangeSliderValues(minValue: Int, maxValue: Int): ViewAction {
-        return object : ViewAction {
-            override fun perform(uiController: UiController?, view: View) {
-                val rangeSlider = view as RangeSlider
-                rangeSlider.values = listOf(minValue.toFloat(), maxValue.toFloat())
-            }
-
-            override fun getDescription(): String {
-                return "Set the values on a RangeSlider"
-            }
-
-            override fun getConstraints(): org.hamcrest.Matcher<View>? {
-                return isAssignableFrom(RangeSlider::class.java)
-            }
-        }
-    }
-
     @Test
     fun movingTheSliderChangesTheRadiusText() {
         onView(withId(R.id.location_slider)).perform(setSliderValue(TEST_RADIUS_VAL))
@@ -157,7 +122,12 @@ class SettingsTest {
 
     @Test
     fun movingTheRangeSliderChangesTheSelectedAgeRangeText() {
-        onView(withId(R.id.age_range_slider)).perform(setRangeSliderValues(TEST_LOWER_AGE, TEST_HIGHER_AGE))
+        onView(withId(R.id.age_range_slider)).perform(
+            setRangeSliderValues(
+                TEST_LOWER_AGE,
+                TEST_HIGHER_AGE
+            )
+        )
         val selectedAgeRangeText = onView(withId(R.id.selected_age_range_text))
         selectedAgeRangeText.check(matches(withText(TEST_AGE_RANGE)))
     }
@@ -201,4 +171,37 @@ class SettingsTest {
         )
     }
 
+    private fun setSliderValue(value: Int): ViewAction {
+        return object : ViewAction {
+            override fun perform(uiController: UiController?, view: View) {
+                val slider = view as Slider
+                slider.value = value.toFloat()
+            }
+
+            override fun getDescription(): String {
+                return "Set a value on a Slider"
+            }
+
+            override fun getConstraints(): org.hamcrest.Matcher<View>? {
+                return isAssignableFrom(Slider::class.java)
+            }
+        }
+    }
+
+    private fun setRangeSliderValues(minValue: Int, maxValue: Int): ViewAction {
+        return object : ViewAction {
+            override fun perform(uiController: UiController?, view: View) {
+                val rangeSlider = view as RangeSlider
+                rangeSlider.values = listOf(minValue.toFloat(), maxValue.toFloat())
+            }
+
+            override fun getDescription(): String {
+                return "Set the values on a RangeSlider"
+            }
+
+            override fun getConstraints(): org.hamcrest.Matcher<View>? {
+                return isAssignableFrom(RangeSlider::class.java)
+            }
+        }
+    }
 }

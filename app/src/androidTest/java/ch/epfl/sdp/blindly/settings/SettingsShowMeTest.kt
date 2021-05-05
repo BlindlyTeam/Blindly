@@ -14,7 +14,6 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
-import kotlin.text.Typography.dagger
 
 private const val TEST_SHOW_ME = "Women"
 
@@ -31,11 +30,11 @@ class SettingsShowMeTest {
 
         ActivityScenario.launch<SettingsShowMe>(intent)
         onView(withId(R.id.checkmark_img_women))
-                .check(matches(isDisplayed()))
+            .check(matches(isDisplayed()))
         onView(withId(R.id.checkmark_img_men))
-                .check(matches(not(isDisplayed())))
+            .check(matches(not(isDisplayed())))
         onView(withId(R.id.checkmark_img_everyone))
-                .check(matches(not(isDisplayed())))
+            .check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -45,12 +44,12 @@ class SettingsShowMeTest {
         ActivityScenario.launch<SettingsShowMe>(intent)
 
         onView((withId(R.id.show_me_everyone_button)))
-                .perform(click())
+            .perform(click())
         onView(withId(R.id.checkmark_img_women))
-                .check(matches(not(isDisplayed())))
+            .check(matches(not(isDisplayed())))
         onView(withId(R.id.checkmark_img_men))
-                .check(matches(not(isDisplayed())))
+            .check(matches(not(isDisplayed())))
         onView(withId(R.id.checkmark_img_everyone))
-                .check(matches(isDisplayed()))
+            .check(matches(isDisplayed()))
     }
 }

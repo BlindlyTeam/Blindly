@@ -18,23 +18,33 @@ import org.junit.Test
 private const val TEST_LOCATION = "Lausanne, Switzerland"
 
 @HiltAndroidTest
-
 class SettingsLocationTest {
+
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
     @Test
     fun showMeFromIntentIsDisplayedProperly() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
         intent.putExtra(EXTRA_LOCATION, TEST_LOCATION)
 
         ActivityScenario.launch<SettingsLocation>(intent)
-        onView(withId(R.id.my_current)).check(ViewAssertions.matches(ViewMatchers.withText(Matchers.containsString(TEST_LOCATION))))
+        onView(withId(R.id.my_current)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withText(
+                    Matchers.containsString(
+                        TEST_LOCATION
+                    )
+                )
+            )
+        )
     }
 
     @Test
     fun mapZoomsInWhenDoubleTapping() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
         intent.putExtra(EXTRA_LOCATION, TEST_LOCATION)
 
         ActivityScenario.launch<SettingsLocation>(intent)

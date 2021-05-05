@@ -140,7 +140,6 @@ class ProfilePageTest {
         if (audioPlayerFragment != null) {
             assertThat(audioPlayerFragment.isVisible, `is`(true))
         }
-
     }
 
     //TODO not yet implemented
@@ -170,5 +169,4 @@ class ProfilePageTest {
         val fragmentManager = fragment.childFragmentManager
         return fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
     }
-
 }

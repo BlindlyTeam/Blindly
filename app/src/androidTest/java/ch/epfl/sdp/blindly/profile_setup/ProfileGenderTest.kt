@@ -31,7 +31,6 @@ const val TEST_GENDER_WOMEN = "Woman"
 
 @RunWith(AndroidJUnit4::class)
 class TestProfileGender {
-
     private val TEST_USER = User.Builder()
         .setUsername(CORRECT_NAME)
         .setBirthday(TEST_BIRTHDAY)
@@ -56,7 +55,6 @@ class TestProfileGender {
     fun afterEach() {
         release()
     }
-
 
     @Test
     fun noInputOutputsError() {
@@ -133,6 +131,5 @@ class TestProfileGender {
                 )
             )
         )
-
     }
 }

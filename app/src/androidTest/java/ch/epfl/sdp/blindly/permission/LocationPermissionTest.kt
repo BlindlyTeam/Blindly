@@ -20,6 +20,7 @@ import org.junit.Test
 
 @HiltAndroidTest
 class LocationPermissionTest {
+
     @get:Rule
     val activityRule = ActivityScenarioRule(UserMapActivity::class.java)
 
@@ -34,8 +35,6 @@ class LocationPermissionTest {
         onView(withText(R.string.location_permission_denied)).inRoot(isDialog()).check(
             ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
         )
-
-
     }
 
     @Test
@@ -48,7 +47,6 @@ class LocationPermissionTest {
         onView(withText(R.string.location_permission_denied)).inRoot(isDialog()).check(
             ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
         )
-
     }
 
     @Test

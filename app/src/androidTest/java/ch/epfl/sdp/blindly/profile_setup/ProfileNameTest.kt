@@ -34,7 +34,6 @@ private const val ERROR_CHARACTERS = "Please use only letters."
 
 @RunWith(AndroidJUnit4::class)
 class TestProfileName {
-
     private val TEST_USER = User.Builder().setUsername(CORRECT_NAME)
 
     @get:Rule

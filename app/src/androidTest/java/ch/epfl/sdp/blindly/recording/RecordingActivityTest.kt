@@ -14,8 +14,8 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.actionOnChild
-import ch.epfl.sdp.blindly.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
+import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.actionOnChild
+import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
 import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.profile_setup.*
 import ch.epfl.sdp.blindly.recording.RecordingActivity.Companion.AUDIO_DURATION_KEY
@@ -31,7 +31,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.lang.reflect.Method
-
 
 private const val AUDIO_FILE_ONE = "Audio file 1"
 private const val TEST_MAXIMUM_AUDIO_DURATION = 13000

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.splash_screen
 
 import android.app.Activity
 import android.graphics.Bitmap
@@ -9,6 +9,8 @@ import android.widget.ImageView
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -22,9 +24,9 @@ import org.mockito.Mockito
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
-
 @HiltAndroidTest
 class SplashScreenActivityTest {
+
     @get:Rule
     val activityRule = ActivityScenarioRule(SplashScreen::class.java)
 
@@ -44,6 +46,33 @@ class SplashScreenActivityTest {
     @After
     fun afterEach() {
         release()
+    }
+
+    @Test
+    fun splashScreenDisplaysSplashscreenDotPNG() {
+        var imageView: ImageView? = null
+        activityRule.scenario.onActivity { activity ->
+            imageView = activity.findViewById(R.id.splashscreen_heart)
+        }
+        val resIdImage: Int = R.drawable.splash_screen_foreground
+
+        if (!imageView?.let { isImageEqualToRes(it, resIdImage) }!!) {
+            fail("Expected to find splashscreen.png for splash_screen")
+        }
+    }
+
+    @Test
+    fun ifUserIsLoggedInMainScreenStarts() {
+        Mockito.`when`(user.isLoggedIn()).thenReturn(true)
+        activityRule.scenario.onActivity { activity ->
+            if (activity.isFinishing) {
+                intended(
+                    hasComponent(
+                        MainScreen::class.java.name
+                    )
+                )
+            }
+        }
     }
 
     private fun isImageEqualToRes(actualImageView: ImageView, expectedDrawable: Int): Boolean {
@@ -79,32 +108,5 @@ class SplashScreenActivityTest {
         val bos = ByteArrayOutputStream()
         bitmap.compress(CompressFormat.PNG, 100, bos)
         return bos.toByteArray()
-    }
-
-    @Test
-    fun splashScreenDisplaysSplashscreenDotPNG() {
-        var imageView: ImageView? = null
-        activityRule.scenario.onActivity { activity ->
-            imageView = activity.findViewById(R.id.splashscreen_heart)
-        }
-        val resIdImage: Int = R.drawable.splash_screen_foreground
-
-        if (!imageView?.let { isImageEqualToRes(it, resIdImage) }!!) {
-            fail("Expected to find splashscreen.png for splash_screen")
-        }
-    }
-
-    @Test
-    fun ifUserIsLoggedInMainScreenStarts() {
-        Mockito.`when`(user.isLoggedIn()).thenReturn(true)
-        activityRule.scenario.onActivity { activity ->
-            if (activity.isFinishing) {
-                intended(
-                    hasComponent(
-                        MainScreen::class.java.name
-                    )
-                )
-            }
-        }
     }
 }
