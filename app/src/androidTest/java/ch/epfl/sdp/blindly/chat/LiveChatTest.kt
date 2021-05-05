@@ -37,7 +37,7 @@ class LiveChatTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(
         ChatActivity::class.java,
-        bundleOf("matchedId" to OTHER_USER_ID)
+        bundleOf(ChatActivity.MATCH_ID to OTHER_USER_ID)
     )
 
     @get:Rule
@@ -52,7 +52,6 @@ class LiveChatTest {
     fun setup() {
         hiltRule.inject()
         init()
-        //liveDb.getChatLiveDatabase(user.getUserId()!!, OTHER_USER_ID)
     }
 
     @After

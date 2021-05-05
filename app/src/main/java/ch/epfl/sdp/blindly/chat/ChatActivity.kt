@@ -30,7 +30,9 @@ class ChatActivity : AppCompatActivity() {
     @Inject
     lateinit var userHelper: UserHelper
 
-
+    companion object {
+        const val MATCH_ID: String = "matchedId";
+    }
     /**
      * Gets the current user's uid and also uid of the matched user via Bundle;
      * from those it forms a chatID which we'll use to refer in the Realtime Database
@@ -47,7 +49,7 @@ class ChatActivity : AppCompatActivity() {
         // Cancel loading if we can't get the user id
         currentUserId = userHelper.getUserId() ?: return
 
-        matchId = intent.extras?.getString("matchedId") ?: "default_user"
+        matchId = intent.extras?.getString(MATCH_ID) ?: "default_user"
 
         chatReference = databaseHelper.getChatLiveDatabase(currentUserId, matchId)
 
