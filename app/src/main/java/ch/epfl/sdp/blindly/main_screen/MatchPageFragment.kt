@@ -9,6 +9,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -94,9 +95,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
         setupButtons(fragView)
         setupManager()
 
-        //Needs to be done in a coroutine
+        //Do network-fetching work in a coroutine
         viewLifecycleOwner.lifecycleScope.launch {
-            getPotentialMatchesProfiles()
+            handleCoroutine()
         }
         return fragView
     }
@@ -175,9 +176,10 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * is done processing
      *
      */
-    private suspend fun setAdapterAndCartStackViewOnMainThread(input: List<Profile>) {
+    private suspend fun goBackOnMainThread(potentialProfiles: List<Profile>) {
         withContext(Main) {
-            setupAdapterAndCardStackView(input)
+            setupAdapterAndCardStackView(potentialProfiles)
+            setupAudioPlayerButton()
         }
     }
 
@@ -196,24 +198,29 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private suspend fun handleCoroutine(){
+        val potentialProfiles = getPotentialMatchesProfiles()
+
+        //When the work is done in this coroutine, come back to the main scope
+        goBackOnMainThread(potentialProfiles)
+    }
+
     /**
      * This function calls the Matching Algorithm to get the potential matches and transforms them
      * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done.
      *
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun getPotentialMatchesProfiles() {
+    private suspend fun getPotentialMatchesProfiles(): List<Profile> {
         val matchingAlgorithm = MatchingAlgorithm(userHelper, userRepository)
         val potentialUsers = matchingAlgorithm.getPotentialMatchesFromDatabase()
 
-        val potentialProfiles = if (potentialUsers == null) {
+        return if (potentialUsers == null) {
             listOf()
         } else {
             createProfilesFromUsers(potentialUsers)
         }
-
-        //When the work is done in this coroutine, come back to the main scope
-        setAdapterAndCartStackViewOnMainThread(potentialProfiles)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -224,7 +231,12 @@ class MatchPageFragment : Fragment(), CardStackListener {
         val profiles = ArrayList<Profile>()
         for (user in users) {
             profiles.add(
-                Profile(user.username!!, User.getUserAge(user)!!)
+                Profile(
+                    user.username!!,
+                    User.getUserAge(user)!!,
+                    user.description!!,
+                    user.passions!!.joinToString(", \n")
+                )
             )
         }
         return profiles
@@ -270,4 +282,21 @@ class MatchPageFragment : Fragment(), CardStackListener {
         manager.setSwipeAnimationSetting(settings)
         func()
     }
+
+    /**
+     * Prepares the button to play an audio
+     *
+     */
+    private fun setupAudioPlayerButton(){
+        //val playAudio = fragView.findViewById<View>(R.id.play_audio_profile_button)
+        //playAudio.setOnClickListener {
+            //playAudio()
+            //Toast.makeText(context, "Ui", Toast.LENGTH_LONG).show()
+        //}
+    }
+
+    /**
+     * Plays the audio from the user
+     *
+     */
 }

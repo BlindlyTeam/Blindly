@@ -15,6 +15,7 @@ data class Profile(
     val name: String,
     val age: Int,
     val description: String,
+    val passions: String,
 ) : Parcelable {
     companion object {
         @JvmField
@@ -35,6 +36,7 @@ data class Profile(
     constructor(source: Parcel) : this(
         source.readString()!!,
         source.readInt(),
+        source.readString()!!,
         source.readString()!!
     )
 

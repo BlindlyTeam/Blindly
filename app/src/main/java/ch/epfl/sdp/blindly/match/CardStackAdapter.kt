@@ -1,10 +1,13 @@
 package ch.epfl.sdp.blindly.match
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 
@@ -16,6 +19,7 @@ import ch.epfl.sdp.blindly.R
 class CardStackAdapter(
     private var profiles: List<Profile> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+    private lateinit var context: Context
 
     /**
      * Called when the RecyclerView needs a new ViewHolder of the given type to represent an item
@@ -25,7 +29,8 @@ class CardStackAdapter(
      * @return a ViewHolder that holds a View of the given type
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
+        context = parent.context
+        val inflater = LayoutInflater.from(context)
         return ViewHolder(inflater.inflate(R.layout.item_profile, parent, false))
     }
 
@@ -38,9 +43,15 @@ class CardStackAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val profile = profiles[position]
         val v = holder.itemView.findViewById(R.id.item_image) as ImageView
-        v.setImageResource(R.mipmap.blindly_launcher_foreground)
+        v.setImageResource(R.drawable.background)
         holder.name.text = profile.name
         holder.age.text = profile.age.toString()
+        holder.description.text = profile.description
+        holder.passions.text = profile.passions
+        holder.playButton.setOnClickListener {
+            //playAudio()
+            Toast.makeText(context, "Ui", Toast.LENGTH_LONG).show()
+        }
     }
 
     /**
@@ -60,5 +71,9 @@ class CardStackAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.item_name)
         var age: TextView = view.findViewById(R.id.item_age)
+        var description: TextView = view.findViewById(R.id.item_description)
+        var passions: TextView = view.findViewById(R.id.item_passions)
+        var playButton: Button = view.findViewById(R.id.play_audio_profile_button)
     }
+
 }
