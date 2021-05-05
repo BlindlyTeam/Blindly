@@ -21,6 +21,7 @@ const val SHOW_ME = "showMe"
 const val PASSIONS = "passions"
 const val RADIUS = "radius"
 const val MATCHES = "matches"
+const val LIKES = "likes"
 const val DESCRIPTION = "description"
 const val RECORDING_PATH = "recordingPath"
 const val AGE_RANGE = "ageRange"
@@ -40,6 +41,7 @@ class User private constructor(
     var passions: List<String>?,
     var radius: Int?,
     var matches: List<String>?,
+    var likes: List<String>?,
     var description: String?,
     var recordingPath: String?,
     var ageRange: List<Int>?
@@ -75,6 +77,7 @@ class User private constructor(
         var passions: List<String> = listOf(),
         var radius: Int? = null,
         var matches: List<String> = listOf(),
+        var likes: List<String> = listOf(),
         var description: String? = null,
         var recordingPath: String? = null,
         var ageRange: List<Int> = listOf()
@@ -159,12 +162,21 @@ class User private constructor(
         }
 
         /**
-         * Set the matches in the UserBuilder
+         * Set the matches in the UserBuilder. Other users are represented by their UID.
          *
          * @param matches the matches of the User
          */
         fun setMatches(matches: List<String>) = apply {
             this.matches = matches
+        }
+
+        /**
+         * Set the likes in the UserBuilder
+         *
+         * @param likes the likes of the User. Other users are represented by their UID.
+         */
+        fun setLikes(likes: List<String>) = apply {
+            this.likes = likes
         }
 
         /**
@@ -218,6 +230,7 @@ class User private constructor(
                 passions,
                 radius,
                 matches,
+                likes,
                 description,
                 recordingPath,
                 ageRange
@@ -244,6 +257,7 @@ class User private constructor(
                 val passions = get("passions") as? List<String>
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as? List<String>
+                val likes = get("likes") as? List<String>
                 val description = getString("description")!!
                 val ageRange = get("ageRange") as? List<Int>
                 val recordingPath = getString("recordingPath")!!
@@ -258,6 +272,7 @@ class User private constructor(
                     passions,
                     radius,
                     matches,
+                    likes,
                     description,
                     recordingPath,
                     ageRange
@@ -357,6 +372,11 @@ class User private constructor(
                     if (newValue !is List<*>)
                         throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
                     user.matches = newValue as List<String>
+                }
+                LIKES -> {
+                    if (newValue !is List<*>)
+                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+                    user.likes = newValue as List<String>
                 }
                 DESCRIPTION -> {
                     if (newValue !is String)

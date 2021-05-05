@@ -24,8 +24,10 @@ class UserUnitTest {
         private val passions2 = listOf("Tea")
         private const val radius = 150
         private const val radius2 = 15
-        private val matches: List<String> = listOf()
+        private val matches: List<String> = listOf("a1", "b2")
         private val matches2: List<String> = listOf("A3Verg34vrE3")
+        private val likes: List<String> = listOf("c3", "d4")
+        private val likes2: List<String> = listOf("efh14fjnaA")
         private const val description = "Student"
         private const val description2 = "Employee"
         private val ageRange = listOf(30, 40)
@@ -94,6 +96,12 @@ class UserUnitTest {
     }
 
     @Test
+    fun setLikesIsCorrect() {
+        val userBuilder = User.Builder().setLikes(likes)
+        assertThat(userBuilder.likes, equalTo(likes))
+    }
+
+    @Test
     fun setDescriptionIsCorrect() {
         val userBuilder = User.Builder().setDescription(description)
         assertThat(userBuilder.description, equalTo(description))
@@ -135,6 +143,7 @@ class UserUnitTest {
         assertThat(user.radius, equalTo(radius))
         assertThat(user.description, equalTo(description))
         assertThat(user.matches, equalTo(matches))
+        assertThat(user.likes, equalTo(likes))
         assertThat(user.ageRange, equalTo(ageRange))
         assertThat(user.recordingPath, equalTo(recordingPath))
     }
@@ -142,7 +151,6 @@ class UserUnitTest {
     @Test
     fun getUserAgeIsCorrect() {
         val user = buildUser()
-
         val TEST_AGE = 20
         assertThat(User.getUserAge(user), equalTo(TEST_AGE))
     }
@@ -274,8 +282,22 @@ class UserUnitTest {
     @Test(expected = IllegalArgumentException::class)
     fun updateMatchesWithOtherThanListThrowsException() {
         val user = buildUser()
-        User.updateUser(user, PASSIONS, WRONG_INPUT_FOR_LIST)
+        User.updateUser(user, MATCHES, WRONG_INPUT_FOR_LIST)
     }
+
+    @Test
+    fun updateLikesIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, LIKES, likes2)
+        assertThat(user.likes, equalTo(likes2))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updateLikesWithOtherThanListThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, LIKES, WRONG_INPUT_FOR_LIST)
+    }
+
 
     @Test
     fun updateDescriptionIsCorrect() {
@@ -334,6 +356,8 @@ class UserUnitTest {
             .setRadius(radius)
             .setDescription(description)
             .setMatches(matches)
+            .setLikes(likes)
+            .setLikes(likes)
             .setAgeRange(ageRange)
             .setRecordingPath(recordingPath)
             .build()
