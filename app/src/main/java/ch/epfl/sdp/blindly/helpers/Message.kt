@@ -22,5 +22,4 @@ class Message<T> {
         timestamp = System.currentTimeMillis()
     }
 
-
 }

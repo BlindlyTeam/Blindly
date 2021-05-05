@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
 import ch.epfl.sdp.blindly.helpers.Message
+import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -19,13 +20,15 @@ class ChatActivity : AppCompatActivity() {
 
     private lateinit var currentUserId: String
     private lateinit var matchId: String
-    private lateinit var chatReference: DatatbaseHelper.BlindlyLiveDatabase<String>
+    private lateinit var chatReference: DatatbaseHelper.ChatLiveDatabase
 
     private var chatMessages: ArrayList<Message<String>>? = arrayListOf()
     var mChatLayoutManager = LinearLayoutManager(this)
 
     @Inject
     lateinit var databaseHelper: DatatbaseHelper
+    @Inject
+    lateinit var userHelper: UserHelper
 
 
     /**
@@ -41,12 +44,12 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        currentUserId = FirebaseAuth.getInstance().currentUser.uid
+        // Cancel loading if we can't get the user id
+        currentUserId = userHelper.getUserId() ?: return
 
         matchId = intent.extras?.getString("matchedId") ?: "default_user"
 
-
-        chatReference = databaseHelper.getUserMessages<String>(DatatbaseHelper.MessageTypes.CHAT, currentUserId, matchId)
+        chatReference = databaseHelper.getChatLiveDatabase(currentUserId, matchId)
 
         //set LayoutManager and Adapter for the RecyclerView
         findViewById<RecyclerView>(R.id.recyclerView).layoutManager = mChatLayoutManager
