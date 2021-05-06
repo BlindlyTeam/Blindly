@@ -3,12 +3,9 @@ package ch.epfl.sdp.blindly
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
 import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
 import ch.epfl.sdp.blindly.helpers.Message
@@ -26,30 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-class PositionViewModel: ViewModel() {
-
-    fun sendLocation(
-        locationDatabase: DatatbaseHelper.LocationLiveDatabase,
-        locationService: AndroidLocationService
-    ) {
-        // Create a new coroutine to move the execution off the UI thread
-        viewModelScope.launch(Dispatchers.Main) {
-            while (true) {
-                val pos = locationService.getCurrentLocation()
-                if (pos != null) {
-                    val latLng = BlindlyLatLng(pos.latitude, pos.longitude)
-                    locationDatabase.updateLocation(latLng)
-                }
-                delay(1000)
-            }
-        }
-    }
-}
 
 /*
  * An activity displaying two users live
@@ -87,8 +61,6 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
         matchName = intent.extras?.getString(MATCH_NAME) ?: getString(R.string.default_label_map_pin)
 
         locationDatabase = databaseHelper.getLocationLiveDatabase(currentUserId, matchId)
-        val model: PositionViewModel by viewModels()
-        model.sendLocation(locationDatabase, AndroidLocationService(applicationContext))
         locationDatabase.addListener(object :
             DatatbaseHelper.BlindlyLiveDatabase.EventListener<BlindlyLatLng>() {
             override fun onMessageReceived(message: Message<BlindlyLatLng>) {
@@ -96,6 +68,13 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
             }
             override fun onMessageUpdated(message: Message<BlindlyLatLng>) {
                 updateMarker(message)
+            }
+        })
+
+        AndroidLocationService(applicationContext).addLocationChangeListener( object :
+            AndroidLocationService.LocationChangeListener() {
+            override fun onLocationChange(pos: BlindlyLatLng) {
+                locationDatabase.updateLocation(pos)
             }
         })
     }
