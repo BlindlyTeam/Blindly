@@ -18,7 +18,9 @@ import ch.epfl.sdp.blindly.recording.AudioRecord
 import ch.epfl.sdp.blindly.recording.BlindlyMediaPlayer
 import ch.epfl.sdp.blindly.recording.PRESENTATION_AUDIO_NAME
 import ch.epfl.sdp.blindly.recording.RecordingActivity
+import ch.epfl.sdp.blindly.user.UserHelper
 import java.io.File
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
@@ -51,7 +53,6 @@ class AudioPlayerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
-
         val file = File("${context?.filesDir?.absolutePath}/$PRESENTATION_AUDIO_NAME")
         audioRecord = AudioRecord(
             file.name,

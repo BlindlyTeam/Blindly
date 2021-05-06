@@ -23,6 +23,7 @@ import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.json.Json
 import java.io.File
 
@@ -36,7 +37,6 @@ const val PRESENTATION_AUDIO_NAME = "PresentationAudio.amr"
  * @property context context of the RecyclerView
  * @property listener handles clicks on items
  */
-
 class AudioLibraryAdapter(
     var recordList: ArrayList<AudioRecord>,
     private var viewHolderList: ArrayList<ViewHolder>,
