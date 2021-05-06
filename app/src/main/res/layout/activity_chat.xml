@@ -42,7 +42,8 @@
 
         <EditText
             android:id="@+id/newMessageText"
-            android:layout_width="339dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="44dp"
             android:autofillHints=""
             android:background="@drawable/rounded_rect"
@@ -50,7 +51,7 @@
             android:hint="@string/new_message"
             android:inputType="textPersonName"
             android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:paddingEnd="70dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.258"

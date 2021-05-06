@@ -4,6 +4,7 @@ import android.content.Context
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
 import ch.epfl.sdp.blindly.user.User
 
 private const val MIN_TIME_FOR_UPDATE = 1L
@@ -19,6 +20,7 @@ private const val MAX_RESULTS = 2
  */
 class AndroidLocationService(private var context: Context) : LocationService {
 
+    private val listeners: MutableList<LocationChangeListener> = ArrayList(1)
     private var isGPSEnable = false
     private var isNetworkEnable = false
     private var canGetLocation = false
@@ -69,7 +71,6 @@ class AndroidLocationService(private var context: Context) : LocationService {
                 }
 
             }
-
         } catch (e: SecurityException) {
             throw e
         }
@@ -77,14 +78,24 @@ class AndroidLocationService(private var context: Context) : LocationService {
     }
 
     /**
-     * Change the user's location if the previous one is different from the actual one
+     * Change the user's location if the previous one is different from the actual one and call the callbacks
      *
      * @param loc the user's previous location
      */
     override fun onLocationChanged(loc: Location) {
         location = getCurrentLocation()
+        listeners.forEach { listener -> listener.onLocationChange(BlindlyLatLng(location)) }
     }
 
+    fun addLocationChangeListener(listener: LocationChangeListener) {
+        listeners.add(listener)
+    }
+    fun removeLocationChangeListener(listener: LocationChangeListener) {
+        listeners.add(listener)
+    }
+    abstract class LocationChangeListener {
+        abstract fun onLocationChange(pos: BlindlyLatLng)
+    }
     companion object {
         fun createLocationTableEPFL(): List<Double> {
             return listOf(EPFL_LAT, EPFL_LONG)
