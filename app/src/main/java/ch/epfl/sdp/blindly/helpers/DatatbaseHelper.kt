@@ -8,11 +8,12 @@ import com.google.firebase.database.*
  *
  */
 class DatatbaseHelper {
-
-    private val databaseInstance =
-        FirebaseDatabase.getInstance("https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/")
-
     companion object {
+        private const val DB_URL =
+            "https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app/"
+        private const val CHAT_DB_NAME = "messages"
+        private const val LOCATION_DB_NAME = "locations"
+
         /**
          * Get the conversation id between two users
          *
@@ -30,6 +31,8 @@ class DatatbaseHelper {
         }
     }
 
+    private val databaseInstance = FirebaseDatabase.getInstance(DB_URL)
+
     /**
      * The live database for the chat
      *
@@ -42,7 +45,8 @@ class DatatbaseHelper {
         otherUserId: String
     ): ChatLiveDatabase {
         return ChatLiveDatabase(
-            databaseInstance.getReference("messages").child(getConversationId(userId, otherUserId)),
+            databaseInstance.getReference(CHAT_DB_NAME)
+                .child(getConversationId(userId, otherUserId)),
             userId
         )
     }
@@ -59,7 +63,8 @@ class DatatbaseHelper {
         otherUserId: String
     ): LocationLiveDatabase {
         return LocationLiveDatabase(
-            databaseInstance.getReference("locations").child(getConversationId(userId, otherUserId)),
+            databaseInstance.getReference(LOCATION_DB_NAME)
+                .child(getConversationId(userId, otherUserId)),
             userId
         )
     }
@@ -120,8 +125,9 @@ class DatatbaseHelper {
      * @param dr the firebase database reference
      * @param userId the logged-in user id
      */
-    abstract class BlindlyLiveDatabase<T> internal constructor(protected val dr: DatabaseReference,
-                                                               protected val userId: String
+    abstract class BlindlyLiveDatabase<T> internal constructor(
+        protected val dr: DatabaseReference,
+        protected val userId: String
     ) {
         // Init at one as most of the time we don't register more than one listener per db
         private val eventListeners: MutableList<EventListener<T>> = ArrayList(1)
@@ -129,6 +135,7 @@ class DatatbaseHelper {
         // We need to indicate type on each class initialization (=runtime) as
         // the JVM has type-ereasure on runtime
         abstract val typeIndicator: GenericTypeIndicator<Message<T>>
+
         init {
             // Add the event listener that dispatches to other listeners
             dr.addChildEventListener(object : ChildEventListener {
