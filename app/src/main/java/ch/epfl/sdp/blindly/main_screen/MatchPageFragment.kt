@@ -9,7 +9,6 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -203,7 +202,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun handleCoroutine(){
+    private suspend fun handleCoroutine() {
         val potentialProfiles = getPotentialMatchesProfiles()
 
         //When the work is done in this coroutine, come back to the main scope
@@ -292,11 +291,11 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * Prepares the button to play an audio
      *
      */
-    private fun setupAudioPlayerButton(){
+    private fun setupAudioPlayerButton() {
         //val playAudio = fragView.findViewById<View>(R.id.play_audio_profile_button)
         //playAudio.setOnClickListener {
-            //playAudio()
-            //Toast.makeText(context, "Ui", Toast.LENGTH_LONG).show()
+        //playAudio()
+        //Toast.makeText(context, "Ui", Toast.LENGTH_LONG).show()
         //}
     }
 
