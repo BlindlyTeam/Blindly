@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,9 +85,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
         if (message.currentUserId == userHelper.getUserId()) return
         val pos = message.messageText ?: return
         val latLng = pos.toLatLng() ?: return
-        tryToAddMarker()?.position = latLng
-        // Always keep match position on the center of the map
-        map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        tryToAddMarker(latLng)?.position = latLng
     }
 
     /**
@@ -95,13 +94,17 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
      *
      * @return Hopefully the marker
      */
-    private fun tryToAddMarker(): Marker? {
-        if (otherUserMarker == null && ::map.isInitialized)
+    private fun tryToAddMarker(latLng: LatLng): Marker? {
+        if (otherUserMarker == null && ::map.isInitialized) {
             otherUserMarker = map.addMarker(
                 MarkerOptions()
                     .position(LAUSANNE_LATLNG)
                     .title(matchName)
             )
+            // When we first have the match position,
+            // center the map to their position
+            map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        }
         return otherUserMarker
     }
     /**
@@ -118,9 +121,6 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
         map = googleMap ?: return
 
         enableMyLocation()
-
-        // Add markers from the intent
-        tryToAddMarker()
     }
 
     /**
