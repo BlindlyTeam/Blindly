@@ -1,7 +1,11 @@
 package ch.epfl.sdp.blindly.settings
 
+import android.content.Intent
 import android.view.View
 import android.widget.TextView
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
@@ -15,6 +19,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
+import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUserUpdated
 import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserRepository
@@ -23,7 +28,7 @@ import com.google.android.material.slider.Slider
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.*
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
@@ -59,6 +64,7 @@ class SettingsTest {
     @Inject
     lateinit var db: FirebaseFirestore
 
+
     @Before
     fun setup() {
         hiltRule.inject()
@@ -85,6 +91,8 @@ class SettingsTest {
                 )
             )
         )
+
+
     }
 
     @Test
@@ -199,17 +207,14 @@ class SettingsTest {
     @Test
     fun locationIsCorrectlyRetrieved() {
         val TEST_LOCATION = "Ecublens, Switzerland"
-        var location: String? = null
-        activityRule.scenario.onActivity {
-            location = it.findViewById<TextView>(R.id.current_location_text).text.toString()
-        }
-        assertThat(location, equalTo(TEST_LOCATION))
+        val location = onView(withId(R.id.current_location_text))
+        location.check(matches(withText(TEST_LOCATION)))
     }
 
     @Test
     fun radiusIsCorrectlyRetrieved() {
         val TEST_RADIUS = fakeUser.radius
-        var radiusSlider: Int = 0
+        var radiusSlider = 0
         activityRule.scenario.onActivity {
             radiusSlider = it.findViewById<Slider>(R.id.location_slider).value.toInt()
         }
@@ -219,11 +224,8 @@ class SettingsTest {
     @Test
     fun showMeIsCorrectlyRetrieved() {
         val TEST_SHOW_ME = fakeUser.showMe
-        var showMe: String? = null
-        activityRule.scenario.onActivity {
-            showMe = it.findViewById<TextView>(R.id.show_me_text).text.toString()
-        }
-        assertThat(showMe, equalTo(TEST_SHOW_ME))
+        val showMe = onView(withId(R.id.show_me_text))
+        showMe.check(matches(withText(TEST_SHOW_ME)))
     }
 
     @Test
@@ -235,5 +237,102 @@ class SettingsTest {
         }
         assertThat(ageRangeSlider[0].toInt(), equalTo(TEST_AGE_RANGE?.get(0)))
         assertThat(ageRangeSlider[1].toInt(), equalTo(TEST_AGE_RANGE?.get(1)))
+    }
+
+    @Test
+    fun onBackPressedDoesNotUpdateIfRadiusIsTheSame() {
+        val TEST_RADIUS = fakeUser.radius
+        var radiusSlider = 0
+
+        activityRule.scenario.onActivity {
+            radiusSlider = it.findViewById<Slider>(R.id.location_slider).value.toInt()
+        }
+        assertThat(radiusSlider, equalTo(TEST_RADIUS))
+        //Press back button
+        val activity = pressBackAndRelaunchSettings()
+        activity.onActivity {
+            radiusSlider = it.findViewById<Slider>(R.id.location_slider).value.toInt()
+        }
+        assertThat(radiusSlider, equalTo(TEST_RADIUS))
+    }
+
+    @Test
+    fun onBackPressedUpdatesRadius() {
+        var radiusSlider = 0
+        activityRule.scenario.onActivity {
+            radiusSlider = it.findViewById<Slider>(R.id.location_slider).value.toInt()
+        }
+        assertThat(radiusSlider, equalTo(fakeUser.radius))
+        //Update radius
+        val TEST_RADIUS = fakeUserUpdated.radius
+        onView(withId(R.id.location_slider)).perform(TEST_RADIUS?.let { setSliderValue(it) })
+        //Press back button
+        val activity = pressBackAndRelaunchSettings()
+        activity.onActivity {
+            radiusSlider = it.findViewById<Slider>(R.id.location_slider).value.toInt()
+        }
+        assertThat(radiusSlider, equalTo(TEST_RADIUS))
+    }
+
+    @Test
+    fun onBackPressedDoesNotUpdateIfAgeRangeIsTheSame() {
+        val TEST_AGE_RANGE = getFakeUserAgeRange()
+
+        var ageRangeSlider = listOf<Float>()
+        activityRule.scenario.onActivity {
+            ageRangeSlider = it.findViewById<RangeSlider>(R.id.age_range_slider).values
+        }
+        assertThat(ageRangeSlider, equalTo(TEST_AGE_RANGE))
+        //Press back button
+        val activity = pressBackAndRelaunchSettings()
+        activity.onActivity {
+            ageRangeSlider = it.findViewById<RangeSlider>(R.id.age_range_slider).values
+        }
+        assertThat(ageRangeSlider, equalTo(TEST_AGE_RANGE))
+    }
+
+    @Test
+    fun onBackPressedUpdatesAgeRange() {
+        val TEST_AGE_RANGE_USER = getFakeUserAgeRange()
+
+        var ageRangeSlider = listOf<Float>()
+        activityRule.scenario.onActivity {
+            ageRangeSlider = it.findViewById<RangeSlider>(R.id.age_range_slider).values
+        }
+        assertThat(ageRangeSlider, equalTo(TEST_AGE_RANGE_USER))
+        //Update radius
+        val TEST_AGE_RANGE = getFakeUser2AgeRange()
+        onView(withId(R.id.age_range_slider)).perform(
+            TEST_AGE_RANGE?.get(0)?.let {
+                setRangeSliderValues(
+                    it.toInt(),
+                    TEST_AGE_RANGE[1].toInt()
+                )
+            }
+        )
+        //Press back button
+        val activity = pressBackAndRelaunchSettings()
+        activity.onActivity {
+            ageRangeSlider = it.findViewById<RangeSlider>(R.id.age_range_slider).values
+        }
+        assertThat(ageRangeSlider, equalTo(TEST_AGE_RANGE))
+    }
+
+    private fun pressBackAndRelaunchSettings(): ActivityScenario<Settings> {
+        Espresso.pressBackUnconditionally()
+        val intent = Intent(ApplicationProvider.getApplicationContext(), Settings::class.java)
+        return ActivityScenario.launch(intent)
+    }
+
+    private fun getFakeUserAgeRange(): List<Float>? {
+        val userAgeRange = fakeUser.ageRange
+
+        return userAgeRange?.get(0)?.let { listOf(it.toFloat(), userAgeRange[1].toFloat()) }
+    }
+
+    private fun getFakeUser2AgeRange(): List<Float>? {
+        val userAgeRange2 = fakeUserUpdated.ageRange
+
+        return userAgeRange2?.get(0)?.let { listOf(it.toFloat(), userAgeRange2[1].toFloat()) }
     }
 }

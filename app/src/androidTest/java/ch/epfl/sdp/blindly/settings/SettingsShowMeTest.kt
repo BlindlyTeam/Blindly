@@ -1,13 +1,12 @@
 package ch.epfl.sdp.blindly.settings
 
 import android.content.Intent
-import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
@@ -23,7 +22,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
-import kotlin.text.Typography.dagger
 
 @HiltAndroidTest
 class SettingsShowMeTest {
@@ -53,35 +51,78 @@ class SettingsShowMeTest {
 
     @Test
     fun showMeFromIntentIsDisplayedProperly() {
-        val TEST_SHOW_ME = fakeUser.showMe
-        val TEST_SHOW_ME_ID = R.id.everyone_radio_button // fakeUser showMe is Everyone
-        val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
-        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME)
+        val TEST_SHOW_ME_ID = getShowMeId()
 
-
-        val act = ActivityScenario.launch<SettingsShowMe>(intent)
-        var showMeGroup: RadioGroup? = null
-        act.onActivity {
-            showMeGroup = it.findViewById(R.id.show_me_radio_group)
-        }
-
+        val act = launchSettingsShowMe()
+        val showMeGroup = getShowMeRadioButton(act)
         assertThat(showMeGroup?.checkedRadioButtonId, equalTo(TEST_SHOW_ME_ID))
     }
 
     @Test
     fun onButtonClickShowMeChanges() {
-        val TEST_SHOW_ME = fakeUser.showMe
-        val TEST_SHOW_ME_ID = R.id.women_radio_button // WOMEN
+        val TEST_SHOW_ME_WOMEN = R.id.women_radio_button
+        val TEST_SHOW_ME_MEN = R.id.men_radio_button
+        val TEST_SHOW_ME_EVERYONE = R.id.everyone_radio_button
+
+        val act = launchSettingsShowMe()
+        val showMeGroup = getShowMeRadioButton(act)
+
+        onView(withId(R.id.women_radio_button)).perform(click())
+        assertThat(showMeGroup?.checkedRadioButtonId, equalTo(TEST_SHOW_ME_WOMEN))
+        onView(withId(R.id.men_radio_button)).perform(click())
+        assertThat(showMeGroup?.checkedRadioButtonId, equalTo(TEST_SHOW_ME_MEN))
+        onView(withId(R.id.everyone_radio_button)).perform(click())
+        assertThat(showMeGroup?.checkedRadioButtonId, equalTo(TEST_SHOW_ME_EVERYONE))
+    }
+
+    @Test
+    fun onBackPressedUpdateShowMe() {
+        val TEST_SHOW_ME_UPDATED = R.id.women_radio_button //Women
+
+        launchSettingsShowMe()
+        onView(withId(R.id.women_radio_button)).perform(click())
+
+        Espresso.pressBackUnconditionally()
+
+        val act = launchSettingsShowMe()
+        val showMeGroup = getShowMeRadioButton(act)
+        assertThat(showMeGroup?.checkedRadioButtonId, equalTo(TEST_SHOW_ME_UPDATED))
+    }
+
+    @Test
+    fun onBackPressedDoesNotUpdateIfShowMeIsTheSame() {
+        val TEST_SHOW_ME = getShowMeId()
+
+        launchSettingsShowMe()
+
+        //Press back and relaunch
+        Espresso.pressBackUnconditionally()
+        val act = launchSettingsShowMe()
+        val showMeGroup = getShowMeRadioButton(act)
+
+        assertThat(showMeGroup?.checkedRadioButtonId, equalTo(TEST_SHOW_ME))
+    }
+
+    private fun launchSettingsShowMe(): ActivityScenario<SettingsShowMe> {
+        val TEST_SHOW_ME = fakeUser.showMe //Everyone
         val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
         intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME)
+        return ActivityScenario.launch(intent)
+    }
 
-        val act = ActivityScenario.launch<SettingsShowMe>(intent)
+    private fun getShowMeRadioButton(act: ActivityScenario<SettingsShowMe>): RadioGroup? {
         var showMeGroup: RadioGroup? = null
         act.onActivity {
             showMeGroup = it.findViewById(R.id.show_me_radio_group)
         }
-        onView(withId(R.id.women_radio_button)).perform(click())
+        return showMeGroup
+    }
 
-        assertThat(showMeGroup?.checkedRadioButtonId, equalTo(TEST_SHOW_ME_ID))
+    private fun getShowMeId() : Int {
+        return when (fakeUser.showMe) {
+            WOMEN -> R.id.women_radio_button
+            MEN -> R.id.men_radio_button
+            else -> R.id.everyone_radio_button
+        }
     }
 }

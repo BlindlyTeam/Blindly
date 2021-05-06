@@ -4,6 +4,7 @@ import android.content.Intent
 import android.widget.TextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
@@ -59,15 +60,8 @@ class SettingsLocationTest {
 
     @Test
     fun locationTextIsDisplayedCorrectly() {
-        val TEST_USER_LOCATION = AndroidLocationService.getCurrentLocationStringFromUser(
-            ApplicationProvider.getApplicationContext(),
-            fakeUser
-        )
-        val intent =
-            Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
-        intent.putExtra(EXTRA_LOCATION, TEST_USER_LOCATION)
+        val act = launchSettingsLocation()
 
-        val act = ActivityScenario.launch<SettingsLocation>(intent)
         var TEST_LOCATION: String? = null
         var location: String? = null
         act.onActivity { it ->
@@ -84,17 +78,40 @@ class SettingsLocationTest {
         assertThat(location, equalTo(TEST_LOCATION))
     }
 
+    /*@Test
+    fun onBackPressedUpdatesLocation() {
+        var act = launchSettingsLocation()
 
-    @Test
-    fun mapZoomsInWhenDoubleTapping() {
+        var TEST_LOCATION: String? = null
+        var location: String? = null
+        act.onActivity { it ->
+            val locSer = AndroidLocationService(ApplicationProvider.getApplicationContext())
+            val loc = locSer.getCurrentLocation()
+            location = it.findViewById<TextView>(R.id.my_current).text.toString()
+            TEST_LOCATION = loc?.let {
+                AndroidLocationService.getCurrentLocationStringFromLocation(
+                    ApplicationProvider.getApplicationContext(), it
+                )
+            }
+        }
+
+        Espresso.pressBackUnconditionally()
+
+        act = launchSettingsLocation()
+    }
+
+     */
+
+    private fun launchSettingsLocation(): ActivityScenario<SettingsLocation> {
+        val TEST_USER_LOCATION = AndroidLocationService.getCurrentLocationStringFromUser(
+            ApplicationProvider.getApplicationContext(),
+            fakeUser
+        )
         val intent =
             Intent(ApplicationProvider.getApplicationContext(), SettingsLocation::class.java)
-        intent.putExtra(EXTRA_LOCATION, TEST_LOCATION)
+        intent.putExtra(EXTRA_LOCATION, TEST_USER_LOCATION)
 
-        ActivityScenario.launch<SettingsLocation>(intent)
-
-        Thread.sleep(1000)
-        onView(withId(R.id.map)).perform(click(), click())
-        Thread.sleep(1000)
+        return ActivityScenario.launch(intent)
     }
+
 }

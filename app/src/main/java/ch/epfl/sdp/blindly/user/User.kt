@@ -323,85 +323,102 @@ class User private constructor(
         fun <T> updateUser(user: User, field: String, newValue: T): User {
             when (field) {
                 USERNAME -> {
-                    if (newValue !is String)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
-                    user.username = newValue
+                    assertIsString(newValue)
+                    user.username = newValue as String
                 }
                 LOCATION -> {
-                    if (newValue !is List<*>)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<Double>")
-                    if (newValue.size == SIZE_OF_LOCATION_LIST)
-                        user.location = newValue as List<Double>
-                    else
-                        throw IllegalArgumentException(
-                            "Expected ageRange.size to be " +
-                                    "$SIZE_OF_LOCATION_LIST but got: ${newValue.size} instead"
-                        )
+                    assertIsLocation(newValue)
+                    user.location = newValue as List<Double>
                 }
                 BIRTHDAY -> {
-                    if (newValue !is String)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
-                    user.birthday = newValue
+                    assertIsString(newValue)
+                    user.birthday = newValue as String
                 }
                 GENDER -> {
-                    if (newValue !is String)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
-                    user.gender = newValue
+                    assertIsString(newValue)
+                    user.gender = newValue as String
                 }
                 SEXUAL_ORIENTATIONS -> {
-                    if (newValue !is List<*>)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+                    assertIsListOfString(newValue)
                     user.sexualOrientations = newValue as List<String>
                 }
                 SHOW_ME -> {
-                    if (newValue !is String)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
-                    user.showMe = newValue
+                    assertIsString(newValue)
+                    user.showMe = newValue as String
                 }
                 PASSIONS -> {
-                    if (newValue !is List<*>)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+                    assertIsListOfString(newValue)
                     user.passions = newValue as List<String>
                 }
                 RADIUS -> {
-                    if (newValue !is Int)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be an Int")
-                    user.radius = newValue
+                    assertIsInt(newValue)
+                    user.radius = newValue as Int
                 }
                 MATCHES -> {
-                    if (newValue !is List<*>)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+                    assertIsListOfString(newValue)
                     user.matches = newValue as List<String>
                 }
                 LIKES -> {
-                    if (newValue !is List<*>)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+                    assertIsListOfString(newValue)
                     user.likes = newValue as List<String>
                 }
                 DESCRIPTION -> {
-                    if (newValue !is String)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
-                    user.description = newValue
+                    assertIsString(newValue)
+                    user.description = newValue as String
                 }
                 RECORDING_PATH -> {
-                    if (newValue !is String)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a String")
-                    user.recordingPath = newValue
+                    assertIsString(newValue)
+                    user.recordingPath = newValue as String
                 }
                 AGE_RANGE -> {
-                    if (newValue !is List<*>)
-                        throw java.lang.IllegalArgumentException("Expected newValue to be a List<Int>")
-                    if (newValue.size == SIZE_OF_AGE_RANGE_LIST)
-                        user.ageRange = newValue as List<Int>
-                    else
-                        throw IllegalArgumentException(
-                            "Expected ageRange.size to be " +
-                                    "$SIZE_OF_AGE_RANGE_LIST but got: ${newValue.size} instead"
-                        )
+                    assertIsAgeRange(newValue)
+                    user.ageRange = newValue as List<Int>
                 }
             }
             return user
         }
+
+        private fun <T> assertIsListOfString(newValue: T) {
+            if (newValue !is List<*>)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+            if (newValue[0] !is String)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+        }
+
+        private fun <T> assertIsAgeRange(newValue: T) {
+            if (newValue !is List<*>)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<Int>")
+            if (newValue[0] !is Int)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<Int>")
+            if (newValue.size != SIZE_OF_AGE_RANGE_LIST)
+                throw IllegalArgumentException(
+                "Expected ageRange.size to be " +
+                        "$SIZE_OF_AGE_RANGE_LIST but got: ${newValue.size} instead"
+            )
+        }
+
+        private fun <T> assertIsLocation(newValue: T) {
+            if (newValue !is List<*>)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<Double>")
+            if (newValue[0] !is Double)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<Double>")
+            if (newValue.size != SIZE_OF_LOCATION_LIST)
+                throw IllegalArgumentException(
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_LOCATION_LIST but got: ${newValue.size} instead"
+                )
+        }
+
+        private fun <T> assertIsString(newValue: T) {
+            if (newValue !is String)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a String")
+        }
+
+        private fun <T> assertIsInt(newValue: T) {
+            if (newValue !is Int)
+                throw java.lang.IllegalArgumentException("Expected newValue to be an Int")
+        }
+
     }
 
     /* This is for debugging in tests, you're free to modify it if you need to (but don't forget

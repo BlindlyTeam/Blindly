@@ -16,9 +16,9 @@ import ch.epfl.sdp.blindly.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-private const val WOMEN = "Women"
-private const val MEN = "Men"
-private const val EVERYONE = "Everyone"
+const val WOMEN = "Women"
+const val MEN = "Men"
+const val EVERYONE = "Everyone"
 
 /**
  * Activity to modify the show me of the User

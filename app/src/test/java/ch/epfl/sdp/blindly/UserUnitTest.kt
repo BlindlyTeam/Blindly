@@ -4,6 +4,7 @@ import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocat
 import ch.epfl.sdp.blindly.user.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.nullValue
 import org.junit.Test
 
 class UserUnitTest {
@@ -11,7 +12,7 @@ class UserUnitTest {
         private const val username = "Jane Doe"
         private const val username2 = "Alice and Bob"
         private val location = createLocationTableEPFL()
-        private val location2 = listOf<Double>(1.0, 2.0)
+        private val location2 = listOf(1.0, 2.0)
         private const val birthday = "01.01.2001"
         private const val birthday2 = "01.02.1980"
         private const val gender = "Woman"
@@ -37,8 +38,11 @@ class UserUnitTest {
 
         private const val WRONG_INPUT_FOR_STRING = 5
         private const val WRONG_INPUT_FOR_LIST = "String"
-        private val WRONG_INPUT_FOR_INT = listOf("Int")
+        private val WRONG_INPUT_FOR_LIST_STRING = listOf(5.0, 4)
+        private val WRONG_INPUT_FOR_LIST_INT = listOf("Int")
+        private val WRONG_INPUT_FOR_LIST_DOUBLE = listOf("Int")
         private val WRONG_INPUT_SIZE = listOf(45.6, 4, 5, 6)
+        private val WRONG_INPUT_FOR_INT = listOf("Int")
     }
 
     @Test
@@ -149,10 +153,15 @@ class UserUnitTest {
     }
 
     @Test
-    fun getUserAgeIsCorrect() {
+    fun getUserAgeIsCorrectWhenBirthdayIsNotNull() {
         val user = buildUser()
         val TEST_AGE = 20
         assertThat(User.getUserAge(user), equalTo(TEST_AGE))
+    }
+
+    @Test
+    fun getUserAgeReturnsNullWhenBirthdayIsNull() {
+        assertThat(User.getUserAge(null), nullValue())
     }
 
     @Test
@@ -186,6 +195,12 @@ class UserUnitTest {
     fun updateLocationWithOtherThanListThrowsException() {
         val user = buildUser()
         User.updateUser(user, LOCATION, WRONG_INPUT_FOR_LIST)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updateLocationWithOtherThanListOfDoubleThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, LOCATION, WRONG_INPUT_FOR_LIST_DOUBLE)
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -233,6 +248,12 @@ class UserUnitTest {
         User.updateUser(user, SEXUAL_ORIENTATIONS, WRONG_INPUT_FOR_LIST)
     }
 
+    @Test(expected = IllegalArgumentException::class)
+    fun updateSexualOrientationsWithOtherThanListOfStringThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, SEXUAL_ORIENTATIONS, WRONG_INPUT_FOR_LIST_STRING)
+    }
+
     @Test
     fun updateShowMeIsCorrect() {
         val user = buildUser()
@@ -257,6 +278,12 @@ class UserUnitTest {
     fun updatePassionsWithOtherThanListThrowsException() {
         val user = buildUser()
         User.updateUser(user, PASSIONS, WRONG_INPUT_FOR_LIST)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updatePassionsWithOtherThanListOfStringThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, PASSIONS, WRONG_INPUT_FOR_LIST_STRING)
     }
 
     @Test
@@ -285,6 +312,12 @@ class UserUnitTest {
         User.updateUser(user, MATCHES, WRONG_INPUT_FOR_LIST)
     }
 
+    @Test(expected = IllegalArgumentException::class)
+    fun updateMatchesWithOtherThanListOfStringThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, MATCHES, WRONG_INPUT_FOR_LIST_STRING)
+    }
+
     @Test
     fun updateLikesIsCorrect() {
         val user = buildUser()
@@ -298,6 +331,11 @@ class UserUnitTest {
         User.updateUser(user, LIKES, WRONG_INPUT_FOR_LIST)
     }
 
+    @Test(expected = IllegalArgumentException::class)
+    fun updateLikesWithOtherThanListOfStringThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, LIKES, WRONG_INPUT_FOR_LIST_STRING)
+    }
 
     @Test
     fun updateDescriptionIsCorrect() {
@@ -336,6 +374,12 @@ class UserUnitTest {
     fun updateAgeRangeWithOtherThanListThrowsException() {
         val user = buildUser()
         User.updateUser(user, AGE_RANGE, WRONG_INPUT_FOR_LIST)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updateAgeRangeWithOtherThanListOfIntThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, AGE_RANGE, WRONG_INPUT_FOR_LIST_INT)
     }
 
     @Test(expected = IllegalArgumentException::class)
