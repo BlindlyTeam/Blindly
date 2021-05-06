@@ -102,7 +102,7 @@ class User private constructor(
                 this.location = location
             else
                 throw IllegalArgumentException(
-                    "Expected ageRange.size to be " +
+                    "Expected location.size to be " +
                             "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead"
                 )
         }
@@ -404,7 +404,7 @@ class User private constructor(
                 throw java.lang.IllegalArgumentException("Expected newValue to be a List<Double>")
             if (newValue.size != SIZE_OF_LOCATION_LIST)
                 throw IllegalArgumentException(
-                    "Expected ageRange.size to be " +
+                    "Expected location.size to be " +
                             "$SIZE_OF_LOCATION_LIST but got: ${newValue.size} instead"
                 )
         }

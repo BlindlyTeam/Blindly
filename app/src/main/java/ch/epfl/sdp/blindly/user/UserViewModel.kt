@@ -39,12 +39,23 @@ class UserViewModel @AssistedInject constructor(
         userUpdate()
     }
 
+    /**
+     * Set the _user MutableLiveData to observe the userRepo
+     *
+     */
     fun userUpdate() {
         viewModelScope.launch {
             _user.value = userRepo.getUser(userId)
         }
     }
 
+    /**
+     * Update the given field with the new value
+     *
+     * @param T either a String, an Int, or a List<*>
+     * @param field the filed to be updated
+     * @param newValue the new value of the field to be updated
+     */
     fun <T> updateField(field: String, newValue: T) {
         viewModelScope.launch {
             userRepo.updateProfile(userId, field, newValue)

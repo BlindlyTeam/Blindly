@@ -78,30 +78,6 @@ class SettingsLocationTest {
         assertThat(location, equalTo(TEST_LOCATION))
     }
 
-    /*@Test
-    fun onBackPressedUpdatesLocation() {
-        var act = launchSettingsLocation()
-
-        var TEST_LOCATION: String? = null
-        var location: String? = null
-        act.onActivity { it ->
-            val locSer = AndroidLocationService(ApplicationProvider.getApplicationContext())
-            val loc = locSer.getCurrentLocation()
-            location = it.findViewById<TextView>(R.id.my_current).text.toString()
-            TEST_LOCATION = loc?.let {
-                AndroidLocationService.getCurrentLocationStringFromLocation(
-                    ApplicationProvider.getApplicationContext(), it
-                )
-            }
-        }
-
-        Espresso.pressBackUnconditionally()
-
-        act = launchSettingsLocation()
-    }
-
-     */
-
     private fun launchSettingsLocation(): ActivityScenario<SettingsLocation> {
         val TEST_USER_LOCATION = AndroidLocationService.getCurrentLocationStringFromUser(
             ApplicationProvider.getApplicationContext(),
