@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly.unit_tests
 
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import ch.epfl.sdp.blindly.match.cards.Profile
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
