@@ -17,7 +17,6 @@ private const val EPFL_LONG = 6.5
  * @property context
  */
 class AndroidLocationService(private var context: Context) : LocationService {
-
     private var isGPSEnable = false
     private var isNetworkEnable = false
     private var canGetLocation = false
@@ -66,9 +65,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
                     )
                     locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER))
                 }
-
             }
-
         } catch (e: SecurityException) {
             throw e
         }

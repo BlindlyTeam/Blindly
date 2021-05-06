@@ -13,7 +13,11 @@ import javax.inject.Inject
 private const val TAG = "MatchingAlgorithm"
 const val EVERYONE = "Everyone"
 
+/**
+ * Handles the matching algorithm that we use in our app.
+ */
 class MatchingAlgorithm {
+
     @Inject
     lateinit var userHelper: UserHelper
 

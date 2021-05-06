@@ -10,7 +10,6 @@ import ch.epfl.sdp.blindly.R
 
 /**
  * Activity to modify the show me of the User
- *
  */
 class SettingsShowMe : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +36,6 @@ class SettingsShowMe : AppCompatActivity() {
             }
         }
 
-
         if (currentShowMe != null) {
             displayCheckmark(currentShowMe!!, checks)
             setOnClickListener(showMeMen, "Men", checks)
@@ -53,7 +51,6 @@ class SettingsShowMe : AppCompatActivity() {
             setResult(RESULT_OK, intent)
             finish()
         }
-
     }
 
     private fun displayCheckmark(showMe: String, checks: List<ImageView>) {
@@ -70,5 +67,4 @@ class SettingsShowMe : AppCompatActivity() {
             }
         }
     }
-
 }

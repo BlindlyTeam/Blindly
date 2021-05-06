@@ -1,7 +1,6 @@
 package ch.epfl.sdp.blindly.di
 
 import ch.epfl.sdp.blindly.user.UserCache
-import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -10,10 +9,20 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * UserRepository module for dependency injection
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object UserRepositoryModule {
 
+    /**
+     * Return a UserRepository to be injected
+     *
+     * @param db the firebase firestore database
+     * @param userCache
+     * @return a UserRepository with these database and cache
+     */
     @Singleton
     @Provides
     fun provideUserRepository(db: FirebaseFirestore, userCache: UserCache):

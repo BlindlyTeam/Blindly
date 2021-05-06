@@ -7,10 +7,18 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * User cache module for dependency injections
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object UserCacheModule {
 
+    /**
+     * Return a UserCache to be injected
+     *
+     * @return UserCache
+     */
     @Singleton
     @Provides
     fun provideUserCache(): UserCache = UserCache()

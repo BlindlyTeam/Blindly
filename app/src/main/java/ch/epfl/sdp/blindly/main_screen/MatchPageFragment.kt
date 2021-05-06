@@ -206,7 +206,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
         return profiles
     }*/
-  
+
     /*
      * Setup the 3 buttons (like, rewind, skip)
      *
@@ -224,7 +224,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
         like.setOnClickListener {
             listenerSettings(Direction.Right, AccelerateInterpolator(), { cardStackView.swipe() })
         }
-
     }
 
     /**

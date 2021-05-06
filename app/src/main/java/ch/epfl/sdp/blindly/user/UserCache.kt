@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 
 /**
  * The local cache used to store the user's information
- *
  */
 class UserCache {
     private val cache = HashMap<String, User>()
@@ -40,5 +39,4 @@ class UserCache {
     fun contains(uid: String): Boolean {
         return cache[uid] != null
     }
-
 }

@@ -18,6 +18,7 @@ import org.junit.Test
 
 @HiltAndroidTest
 class MainScreenTest {
+
     @get:Rule
     val activityRule = ActivityScenarioRule(MainScreen::class.java)
 

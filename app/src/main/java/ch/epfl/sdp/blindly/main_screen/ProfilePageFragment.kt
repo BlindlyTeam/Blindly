@@ -30,10 +30,8 @@ import ch.epfl.sdp.blindly.user.UserViewModel.Companion.EXTRA_UID
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
 /**
  * Fragment containing the profile page
- *
  */
 @AndroidEntryPoint
 class ProfilePageFragment : Fragment() {
@@ -69,7 +67,6 @@ class ProfilePageFragment : Fragment() {
 
     /**
      * Set up the viewModel
-     *
      */
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,8 +118,10 @@ class ProfilePageFragment : Fragment() {
         setOnClickListener(settingsButton, Intent(context, Settings::class.java))
 
         viewModel.user.observe(viewLifecycleOwner) {
-            userInfoText.text = getString(R.string.user_info, it.username,
-                User.getUserAge(it))
+            userInfoText.text = getString(
+                R.string.user_info, it.username,
+                User.getUserAge(it)
+            )
             if (it.description != "") {
                 userDescriptionText.text = getString(R.string.user_description, it.description)
             }
@@ -167,5 +166,4 @@ class ProfilePageFragment : Fragment() {
             }
         }
     }
-
 }

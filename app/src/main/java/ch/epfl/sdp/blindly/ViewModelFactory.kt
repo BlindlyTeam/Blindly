@@ -39,5 +39,4 @@ class ViewModelFactory @AssistedInject constructor(
             throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
-
 }

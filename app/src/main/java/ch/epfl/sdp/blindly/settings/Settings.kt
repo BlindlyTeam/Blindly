@@ -23,7 +23,6 @@ import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
 const val EXTRA_LOCATION = "userLocation"
 const val EXTRA_SHOW_ME = "showMe"
 private const val MIN_AGE = 18
@@ -31,7 +30,6 @@ private const val MAX_AGE = 99
 
 /**
  * Activity class for the settings of the app and the user
- *
  */
 @AndroidEntryPoint
 class Settings : AppCompatActivity() {

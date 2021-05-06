@@ -8,7 +8,12 @@ import java.lang.IllegalArgumentException
 
 private const val ONE_KM_IN_METERS = 1000
 
+/**
+ * Class used to perform filtering on a list of User. It is used only in the [MatchingAlgorithm],
+ * but needed to be tested.
+ */
 class UserListFilter {
+
     /**
      * Filters a list of users, so that only the ones that are in the location and age range of
      * the current user remain.

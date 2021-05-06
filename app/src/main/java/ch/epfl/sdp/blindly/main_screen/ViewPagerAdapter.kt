@@ -7,7 +7,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 /**
  * This ViewPagerAdapter is used by the ViewPager in the MainScreen
  * to instantiate the fragments
- *
  */
 class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {

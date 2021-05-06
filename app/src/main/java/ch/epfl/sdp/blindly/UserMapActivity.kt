@@ -10,7 +10,6 @@ import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.LOCATION_PER
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.PermissionDeniedDialog.Companion.newInstance
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.isPermissionGranted
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.requestPermission
-
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -20,10 +19,12 @@ import com.google.android.gms.maps.model.MarkerOptions
 /*
  * An activity displaying two users live
  */
-class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
+class UserMapActivity : AppCompatActivity(), OnMapReadyCallback,
+    ActivityCompat.OnRequestPermissionsResultCallback {
+
     /**
      * Flag indicating whether a requested permission has been denied after returning in
-     * [.onRequestPermissionsResult].
+     * [onRequestPermissionsResult].
      */
     private var permissionDenied = false
     private lateinit var map: GoogleMap
@@ -33,7 +34,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
         setContentView(R.layout.user_map_activity)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment?
+            .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
     }
 
@@ -53,7 +54,8 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
         enableMyLocation()
 
         // Add markers from the intent
-        val points: Array<LatLng>? = intent.getParcelableArrayExtra(POINTS)?.map { p -> p as LatLng }?.toTypedArray()
+        val points: Array<LatLng>? =
+            intent.getParcelableArrayExtra(POINTS)?.map { p -> p as LatLng }?.toTypedArray()
         if (points != null) {
             for (point in points) {
                 map!!.addMarker(MarkerOptions().position(point).title("Marker in Sydney2"))
@@ -71,25 +73,35 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
         if (!::map.isInitialized) return
         // [START maps_check_location_permission]
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             map.isMyLocationEnabled = true
         } else {
             // Permission to access the location is missing. Show rationale and request permission
-            requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true
+            requestPermission(
+                this, LOCATION_PERMISSION_REQUEST_CODE,
+                Manifest.permission.ACCESS_FINE_LOCATION, true
             )
         }
         // [END maps_check_location_permission]
     }
 
-
     // [START maps_check_location_permission_result]
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
             return
         }
-        if (isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (isPermissionGranted(
+                permissions,
+                grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) {
             // Enable the my location layer if the permission has been granted.
             enableMyLocation()
         } else {
@@ -118,10 +130,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
         newInstance(true).show(supportFragmentManager, "dialog")
     }
 
-
     companion object {
-        public const val POINTS = "points";
-
+        const val POINTS = "points";
     }
-
 }

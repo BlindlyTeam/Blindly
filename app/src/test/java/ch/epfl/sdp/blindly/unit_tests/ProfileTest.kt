@@ -51,5 +51,4 @@ class ProfileTest {
     fun toStringDisplaysWell() {
         assertThat(andre1.toString() == "André, 25", equalTo(true))
     }
-
 }

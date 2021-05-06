@@ -9,10 +9,18 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Storage module for dependency injection
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object StorageModule {
 
+    /**
+     * Return a storage object to be injected
+     *
+     * @return Storage
+     */
     @Singleton
     @Provides
     fun provideFirebaseStorage(): FirebaseStorage = Firebase.storage

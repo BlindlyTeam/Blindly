@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.UserMapActivity
 import ch.epfl.sdp.blindly.settings.LAUSANNE_LATLNG
-import com.google.android.gms.maps.model.LatLng
-
 
 class MapFragment : Fragment() {
 
@@ -34,13 +32,17 @@ class MapFragment : Fragment() {
             counter = requireArguments().getInt(ARG_COUNT)
         }
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_map_page, container, false)
         val matchActivityButton = view.findViewById<Button>(R.id.open_map)
         matchActivityButton.setOnClickListener { startUserMap() }
         return view
     }
+
     private fun startUserMap() {
         val intent = Intent(activity, UserMapActivity::class.java)
         val points = arrayOf(LAUSANNE_LATLNG)

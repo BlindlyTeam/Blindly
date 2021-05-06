@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Activity that enables the user to edit his information (description, passions, etc)
- *
  */
 class EditProfile : AppCompatActivity() {
 

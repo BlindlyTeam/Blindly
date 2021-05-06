@@ -1,10 +1,7 @@
 package ch.epfl.sdp.blindly.main_screen.audio_player
 
-import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +14,6 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.recording.AudioRecord
 import ch.epfl.sdp.blindly.recording.BlindlyMediaPlayer
 import ch.epfl.sdp.blindly.recording.PRESENTATION_AUDIO_NAME
-import ch.epfl.sdp.blindly.recording.RecordingActivity
 import java.io.File
 
 /**
@@ -25,7 +21,6 @@ import java.io.File
  * Use the [AudioPlayerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-
 class AudioPlayerFragment : Fragment() {
     private val blindlyMediaPlayer = BlindlyMediaPlayer()
     private lateinit var audioRecord: AudioRecord
@@ -103,13 +98,14 @@ class AudioPlayerFragment : Fragment() {
         )
         parentFragmentManager.commit {
             val audioPlayerFragment =
-            parentFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
+                parentFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
             remove(audioPlayerFragment!!)
         }
     }
 
     companion object {
         private const val TAG = "AudioPlayer"
+
         /**
          * Use this factory method to create a new instance of this fragment
          *

@@ -32,7 +32,6 @@ const val PRESENTATION_AUDIO_NAME = "PresentationAudio.amr"
  * @property context context of the RecyclerView
  * @property listener handles clicks on items
  */
-
 class AudioLibraryAdapter(
     var recordList: ArrayList<AudioRecord>,
     private var viewHolderList: ArrayList<ViewHolder>,
@@ -140,7 +139,13 @@ class AudioLibraryAdapter(
             val notIsExpanded = !recordList[position].isExpanded
             toggleLayout(notIsExpanded, viewHolder.expandableLayout)
             recordList[position].isExpanded = notIsExpanded
-            blindlyMediaPlayer.resetRecordPlayer(recordList[position], playTimer, remainingTimer, playPauseButton, playBar)
+            blindlyMediaPlayer.resetRecordPlayer(
+                recordList[position],
+                playTimer,
+                remainingTimer,
+                playPauseButton,
+                playBar
+            )
         }
 
         blindlyMediaPlayer.setCountDownTimer(remainingTimer)
@@ -233,5 +238,4 @@ class AudioLibraryAdapter(
     interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
-
 }

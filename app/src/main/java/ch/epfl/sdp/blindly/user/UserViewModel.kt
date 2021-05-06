@@ -3,15 +3,12 @@ package ch.epfl.sdp.blindly.user
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
-import ch.epfl.sdp.blindly.user.User
-import ch.epfl.sdp.blindly.user.UserRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 /**
  * The viewModel associated with ProfilePage, it holds the livedata for a given user
- *
  */
 @RequiresApi(Build.VERSION_CODES.N)
 class UserViewModel @AssistedInject constructor(

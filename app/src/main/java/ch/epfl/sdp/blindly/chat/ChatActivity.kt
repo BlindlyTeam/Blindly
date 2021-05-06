@@ -12,9 +12,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 
-
+/**
+ * Activity class that contains the chat.
+ */
 class ChatActivity : AppCompatActivity() {
-
     private lateinit var currentUserId: String
     private lateinit var matchId: String
     private lateinit var chatId: String
@@ -86,7 +87,6 @@ class ChatActivity : AppCompatActivity() {
 
         //clear the text after sending the message
         findViewById<EditText>(R.id.newMessageText).text.clear()
-
     }
 
     /**
@@ -122,15 +122,10 @@ class ChatActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
-
-
         })
-
     }
 
     private fun getMessages(): ArrayList<Message>? {
         return chatMessages
     }
-
-
 }

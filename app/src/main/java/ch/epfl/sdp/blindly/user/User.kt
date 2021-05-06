@@ -14,7 +14,6 @@ private const val SIZE_OF_AGE_RANGE_LIST = 2
 
 /**
  * A class to represent a User
- *
  */
 @Serializable
 class User private constructor(
@@ -87,8 +86,10 @@ class User private constructor(
             if (location.size == SIZE_OF_LOCATION_LIST)
                 this.location = location
             else
-                throw IllegalArgumentException("Expected ageRange.size to be " +
-                        "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead")
+                throw IllegalArgumentException(
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead"
+                )
         }
 
         /**
@@ -193,8 +194,10 @@ class User private constructor(
             if (ageRange.size == SIZE_OF_AGE_RANGE_LIST)
                 this.ageRange = ageRange
             else
-                throw IllegalArgumentException("Expected ageRange.size to be " +
-                        "$SIZE_OF_AGE_RANGE_LIST but got: ${ageRange.size} instead")
+                throw IllegalArgumentException(
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_AGE_RANGE_LIST but got: ${ageRange.size} instead"
+                )
         }
 
         /**
@@ -300,6 +303,5 @@ class User private constructor(
     override fun toString(): String {
         return "$username"
     }
-
 }
 

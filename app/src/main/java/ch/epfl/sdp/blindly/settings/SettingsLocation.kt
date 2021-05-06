@@ -16,8 +16,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 val LAUSANNE_LATLNG = LatLng(46.5, 6.6)
 
+/**
+ * Activity that shows the position of the user on a map.
+ */
 class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
-
     private lateinit var mapView: MapView
     private var location: Location? = null
     private lateinit var locSer: LocationService
@@ -40,7 +42,6 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
         mapView = findViewById(R.id.map)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

@@ -15,12 +15,10 @@ import ch.epfl.sdp.blindly.user.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
 const val MAIN_SCREEN_DELAY: Long = 2500
 
 /**
  * The SplashScreen Activity starts when the app is launched
- *
  */
 @AndroidEntryPoint
 class SplashScreen : AppCompatActivity() {
@@ -67,5 +65,4 @@ class SplashScreen : AppCompatActivity() {
             startActivity(nextIntent)
         }
     }
-
 }

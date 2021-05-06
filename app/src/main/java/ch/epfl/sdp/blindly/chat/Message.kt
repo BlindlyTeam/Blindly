@@ -1,5 +1,8 @@
 package ch.epfl.sdp.blindly.chat
 
+/**
+ * Represents a message that can be sent to another user.
+ */
 class Message {
 
     /**
@@ -21,6 +24,4 @@ class Message {
         currentUserId = _currentUserId
         timestamp = System.currentTimeMillis()
     }
-
-
 }

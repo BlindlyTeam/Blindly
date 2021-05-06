@@ -11,7 +11,6 @@ import ch.epfl.sdp.blindly.recording.RecordingActivity
  * Page to prompt user to record an audio file for their profile.
  */
 class ProfileAudioRecording : AppCompatActivity() {
-
     private lateinit var bundle: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {

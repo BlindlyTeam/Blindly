@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MessagePageFragment : Fragment() {
+
     companion object {
         private const val ARG_COUNT = "messageArgs"
         private var counter: Int? = null
@@ -55,6 +56,4 @@ class MessagePageFragment : Fragment() {
 
         return view
     }
-
-
 }

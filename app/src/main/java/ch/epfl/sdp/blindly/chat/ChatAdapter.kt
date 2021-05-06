@@ -9,11 +9,15 @@ import ch.epfl.sdp.blindly.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-
 private const val CURRENT_USER_SENDING = 0
 private const val REMOTE_USER_SENDING = 1
 val currentFirebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
+/**
+ * Adapts the RecyclerView to become a chat.
+ *
+ * @property messageList the current list of messages
+ */
 class ChatAdapter(private val messageList: ArrayList<Message>) :
     RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
@@ -79,6 +83,4 @@ class ChatAdapter(private val messageList: ArrayList<Message>) :
         }
         return REMOTE_USER_SENDING
     }
-
-
 }

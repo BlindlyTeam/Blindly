@@ -9,10 +9,18 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Firestore module for dependy injection
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object FirestoreModule {
 
+    /**
+     * Return a Firestore object to be injected
+     *
+     * @return Firestore
+     */
     @Singleton
     @Provides
     fun provideFirebaseFirestore(): FirebaseFirestore = Firebase.firestore
