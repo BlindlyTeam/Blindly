@@ -4,12 +4,14 @@ import android.content.Context
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
 import ch.epfl.sdp.blindly.user.User
 
 private const val MIN_TIME_FOR_UPDATE = 1L
 private const val MIN_DISTANCE_FOR_UPDTAE = 1F
-private const val EPFL_LAT = 46.5
-private const val EPFL_LONG = 6.5
+private const val EPFL_LAT = 46.518
+private const val EPFL_LONG = 6.567
+private const val MAX_RESULTS = 2
 
 /**
  * The purpose of this class is to get the position of the user
@@ -18,6 +20,7 @@ private const val EPFL_LONG = 6.5
  */
 class AndroidLocationService(private var context: Context) : LocationService {
 
+    private val listeners: MutableList<LocationChangeListener> = ArrayList(1)
     private var isGPSEnable = false
     private var isNetworkEnable = false
     private var canGetLocation = false
@@ -68,7 +71,6 @@ class AndroidLocationService(private var context: Context) : LocationService {
                 }
 
             }
-
         } catch (e: SecurityException) {
             throw e
         }
@@ -76,14 +78,24 @@ class AndroidLocationService(private var context: Context) : LocationService {
     }
 
     /**
-     * Change the user's location if the previous one is different from the actual one
+     * Change the user's location if the previous one is different from the actual one and call the callbacks
      *
      * @param loc the user's previous location
      */
     override fun onLocationChanged(loc: Location) {
         location = getCurrentLocation()
+        listeners.forEach { listener -> listener.onLocationChange(BlindlyLatLng(location)) }
     }
 
+    fun addLocationChangeListener(listener: LocationChangeListener) {
+        listeners.add(listener)
+    }
+    fun removeLocationChangeListener(listener: LocationChangeListener) {
+        listeners.add(listener)
+    }
+    abstract class LocationChangeListener {
+        abstract fun onLocationChange(pos: BlindlyLatLng)
+    }
     companion object {
         fun createLocationTableEPFL(): List<Double> {
             return listOf(EPFL_LAT, EPFL_LONG)
@@ -97,16 +109,8 @@ class AndroidLocationService(private var context: Context) : LocationService {
          * @param user the user
          * @return the user's location
          */
-        fun getCurrentLocation(context: Context, user: User?): String {
-            val currentLocation = AndroidLocationService(context).getCurrentLocation()
-            val latitude = currentLocation?.latitude
-            val longitude = currentLocation?.longitude
+        fun getCurrentLocationStringFromUser(context: Context, user: User?): String {
             val geocoder = Geocoder(context)
-            //If the current location is available
-            if (latitude != null && longitude != null) {
-                return toAddress(geocoder, latitude, longitude)
-            }
-            //Else take the location stored in the database
             if (user != null) {
                 val lat = user.location?.get(0)
                 val lon = user.location?.get(1)
@@ -117,8 +121,15 @@ class AndroidLocationService(private var context: Context) : LocationService {
             return "Location not found"
         }
 
+        fun getCurrentLocationStringFromLocation(context: Context, location: Location): String {
+            val latitude = location.latitude
+            val longitude = location.longitude
+            val geocoder = Geocoder(context)
+            return toAddress(geocoder, latitude, longitude)
+        }
+
         private fun toAddress(geocoder: Geocoder, latitude: Double, longitude: Double): String {
-            val address = geocoder.getFromLocation(latitude, longitude, 5)
+            val address = geocoder.getFromLocation(latitude, longitude, MAX_RESULTS)
             val country = address[0].countryName
             val city = address[0].locality
             return "$city, $country"
