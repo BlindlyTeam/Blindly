@@ -19,18 +19,24 @@ import javax.inject.Singleton
 open class FakeUserCacheModule {
     companion object {
         private const val username = "Jane Doe"
-        private val location = createLocationTableEPFL()
+        private val location = createLocationTableEPFL() // Ecublens, Switzerland
+        private const val MULHOUSE_LAT = 47.749
+        private const val MULHOUSE_LON = 7.335
+        private val locationUpdated = listOf(MULHOUSE_LAT, MULHOUSE_LON) // Mulhouse, France
         private const val birthday = "01.01.01"
         private const val gender = "Woman"
         private val sexualOrientations = listOf("Asexual")
         private const val showMe = "Everyone"
+        private const val showMeUpdated = "Women"
         private val passions = listOf("Coffee", "Tea")
         private const val radius = 150
+        private const val radiusUpdated = 50
         private val matches: List<String> = listOf("a1", "b2")
         private val likes: List<String> = listOf("c3", "d4")
         private const val description = "Student"
         private const val recordingPath = "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
         private val ageRange = listOf(30, 50)
+        private val ageRangeUpdated = listOf(40, 50)
         val fakeUser = User.Builder()
             .setUsername(username)
             .setLocation(location)
@@ -45,6 +51,21 @@ open class FakeUserCacheModule {
             .setLikes(likes)
             .setRecordingPath(recordingPath)
             .setAgeRange(ageRange)
+            .build()
+        val fakeUserUpdated = User.Builder()
+            .setUsername(username)
+            .setLocation(locationUpdated)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMeUpdated)
+            .setPassions(passions)
+            .setRadius(radiusUpdated)
+            .setDescription(description)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setRecordingPath(recordingPath)
+            .setAgeRange(ageRangeUpdated)
             .build()
     }
 
