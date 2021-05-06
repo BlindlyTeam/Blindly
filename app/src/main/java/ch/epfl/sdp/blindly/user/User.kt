@@ -87,8 +87,10 @@ class User private constructor(
             if (location.size == SIZE_OF_LOCATION_LIST)
                 this.location = location
             else
-                throw IllegalArgumentException("Expected ageRange.size to be " +
-                        "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead")
+                throw IllegalArgumentException(
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead"
+                )
         }
 
         /**
@@ -193,8 +195,10 @@ class User private constructor(
             if (ageRange.size == SIZE_OF_AGE_RANGE_LIST)
                 this.ageRange = ageRange
             else
-                throw IllegalArgumentException("Expected ageRange.size to be " +
-                        "$SIZE_OF_AGE_RANGE_LIST but got: ${ageRange.size} instead")
+                throw IllegalArgumentException(
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_AGE_RANGE_LIST but got: ${ageRange.size} instead"
+                )
         }
 
         /**
@@ -242,7 +246,7 @@ class User private constructor(
                 val matches = get("matches") as? List<String>
                 val likes = get("likes") as? List<String>
                 val description = getString("description")!!
-                val ageRange = get("ageRange") as? List<Int>
+                val ageRange = get("ageRange") as? List<Long>
                 val recordingPath = getString("recordingPath")!!
 
                 return User(
@@ -258,7 +262,8 @@ class User private constructor(
                     likes,
                     description,
                     recordingPath,
-                    ageRange
+                    //Numbers on Firestore are Long, so we need to cast back to Int
+                    listOf(ageRange!![0].toInt(), ageRange[1].toInt())
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile", e)
