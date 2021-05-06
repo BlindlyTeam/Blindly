@@ -147,4 +147,5 @@
     <string name="button_for_sending_message">Button for sending message.</string>
     <string name="play_audio">Play Audio</string>
     <string name="record_audio">Record</string>
+    <string name="background_description">Gradient color background</string>
 </resources>

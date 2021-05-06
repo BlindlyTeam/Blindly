@@ -56,7 +56,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     companion object {
         private const val ARG_COUNT = "matchArgs"
-        private var counter: Int? = null
+        private var counter: Int? = 0
 
         /**
          * Create a new instance of MatchPageFragment
@@ -182,7 +182,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private suspend fun goBackOnMainThread(potentialProfiles: List<Profile>) {
         withContext(Main) {
             setupAdapterAndCardStackView(potentialProfiles)
-            setupAudioPlayerButton()
         }
     }
 
@@ -287,20 +286,4 @@ class MatchPageFragment : Fragment(), CardStackListener {
         func()
     }
 
-    /**
-     * Prepares the button to play an audio
-     *
-     */
-    private fun setupAudioPlayerButton() {
-        //val playAudio = fragView.findViewById<View>(R.id.play_audio_profile_button)
-        //playAudio.setOnClickListener {
-        //playAudio()
-        //Toast.makeText(context, "Ui", Toast.LENGTH_LONG).show()
-        //}
-    }
-
-    /**
-     * Plays the audio from the user
-     *
-     */
 }

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/blindly_blue"
-        android:contentDescription="SoundWaves"
+        android:contentDescription="@string/background_description"
         android:scaleType="centerCrop" />
 
     <LinearLayout
@@ -43,7 +43,6 @@
             android:id="@+id/item_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:justificationMode="inter_word"
             android:maxLines="5"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -54,7 +53,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="70dp" />
+            android:layout_marginTop="60dp" />
 
         <TextView
             android:id="@+id/play_audio_profile_text"
