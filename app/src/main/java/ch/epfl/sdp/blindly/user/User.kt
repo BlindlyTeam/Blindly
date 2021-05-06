@@ -259,7 +259,7 @@ class User private constructor(
                 val matches = get("matches") as? List<String>
                 val likes = get("likes") as? List<String>
                 val description = getString("description")!!
-                val ageRange = get("ageRange") as? List<Int>
+                val ageRange = get("ageRange") as? List<Long>
                 val recordingPath = getString("recordingPath")!!
 
                 return User(
@@ -275,7 +275,8 @@ class User private constructor(
                     likes,
                     description,
                     recordingPath,
-                    ageRange
+                    //Numbers on Firestore are Long, so we need to cast back to Int
+                    listOf(ageRange!![0].toInt(), ageRange[1].toInt())
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile", e)
