@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly.user
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.room.Entity
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
@@ -18,19 +19,19 @@ private const val SIZE_OF_AGE_RANGE_LIST = 2
  */
 @Serializable
 class User private constructor(
-    val username: String?,
-    val location: List<Double>?,
-    val birthday: String?,
-    val gender: String?,
-    val sexualOrientations: List<String>?,
-    val showMe: String?,
-    val passions: List<String>?,
-    val radius: Int?,
-    val matches: List<String>?,
-    val likes: List<String>?,
-    val description: String?,
-    val recordingPath: String?,
-    val ageRange: List<Int>?
+    var username: String?,
+    var location: List<Double>?,
+    var birthday: String?,
+    var gender: String?,
+    var sexualOrientations: List<String>?,
+    var showMe: String?,
+    var passions: List<String>?,
+    var radius: Int?,
+    var matches: List<String>?,
+    var likes: List<String>?,
+    var description: String?,
+    var recordingPath: String?,
+    var ageRange: List<Int>?
 ) {
 
     /**
@@ -87,7 +88,7 @@ class User private constructor(
             if (location.size == SIZE_OF_LOCATION_LIST)
                 this.location = location
             else
-                throw IllegalArgumentException("Expected ageRange.size to be " +
+                throw IllegalArgumentException("Expected location.size to be " +
                         "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead")
         }
 
