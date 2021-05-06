@@ -26,7 +26,8 @@ open class FakeUserCacheModule {
         private const val showMe = "Everyone"
         private val passions = listOf("Coffee", "Tea")
         private const val radius = 150
-        private val matches: List<String> = listOf()
+        private val matches: List<String> = listOf("a1", "b2")
+        private val likes: List<String> = listOf("c3", "d4")
         private const val description = "Student"
         private const val recordingPath = "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
         private val ageRange = listOf(30, 50)
@@ -41,6 +42,7 @@ open class FakeUserCacheModule {
             .setRadius(radius)
             .setDescription(description)
             .setMatches(matches)
+            .setLikes(likes)
             .setRecordingPath(recordingPath)
             .setAgeRange(ageRange)
             .build()
