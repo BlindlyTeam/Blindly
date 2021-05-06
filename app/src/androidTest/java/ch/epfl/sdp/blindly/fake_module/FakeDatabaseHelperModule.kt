@@ -1,14 +1,8 @@
 package ch.epfl.sdp.blindly.fake_module
 
-import android.os.Handler
-import android.os.Looper
 import ch.epfl.sdp.blindly.di.DatabaseHelperModule
-import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
 import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
-import ch.epfl.sdp.blindly.helpers.DatatbaseHelper.Companion.getConversationId
 import ch.epfl.sdp.blindly.helpers.Message
-import ch.epfl.sdp.blindly.settings.LAUSANNE_LATLNG
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.database.ChildEventListener
@@ -21,10 +15,9 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
-import org.mockito.stubbing.Answer
-import java.lang.reflect.Field
-import javax.inject.Singleton
 import org.mockito.kotlin.any
+import org.mockito.stubbing.Answer
+import javax.inject.Singleton
 
 
 @Module
