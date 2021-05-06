@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.recording.RecordingActivity
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -143,8 +144,7 @@ class ProfilePageTest {
 
     }
 
-    //TODO not yet implemented
-    /*@Test
+    @Test
     fun recordButtonFiresRecordingActivity() {
         //Create and show the audio player
         onView(withId(R.id.play_audio_profile_button)).perform(click())
@@ -163,8 +163,6 @@ class ProfilePageTest {
         val audioFragment = fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
         assert(audioFragment == null)
     }
-
-     */
 
     private fun getAudioPlayerFragment(): Fragment? {
         val fragmentManager = fragment.childFragmentManager

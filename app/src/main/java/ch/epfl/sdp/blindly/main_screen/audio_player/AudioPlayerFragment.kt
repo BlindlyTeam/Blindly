@@ -53,7 +53,6 @@ class AudioPlayerFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
 
         val file = File("${context?.filesDir?.absolutePath}/$PRESENTATION_AUDIO_NAME")
-        //TODO Can we obtain the duration from a File?
         audioRecord = AudioRecord(
             file.name,
             "",
@@ -80,15 +79,12 @@ class AudioPlayerFragment : Fragment() {
         recordDuration = view.findViewById(R.id.record_duration)
         recordDuration.text = audioRecord.durationText
 
-        //TODO will have to refactor the RecordingActivity, to accept a User as Bundle
-        /*
         val recordButton = view.findViewById<Button>(R.id.record_button)
         recordButton.setOnClickListener {
             val intent = Intent(context, RecordingActivity::class.java)
             removeFragment()
             startActivity(intent)
         }
-        */
 
         return view
     }

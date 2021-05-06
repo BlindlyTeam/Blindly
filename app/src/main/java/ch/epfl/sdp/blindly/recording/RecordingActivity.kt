@@ -88,14 +88,14 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
         val bundle = intent.extras
-        val userBuilder: User.Builder =
-            bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
+        val userBuilder: User.Builder? =
+            bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }
 
         // Initialise the RecyclerView that will contain the recordings.
         recordingRecyclerView = findViewById(R.id.recordingList)
         recordingRecyclerView.layoutManager = LinearLayoutManager(this)
         adapter =
-            AudioLibraryAdapter(ArrayList(), ArrayList(), this, this, userBuilder, user, storage)
+            AudioLibraryAdapter(ArrayList(), ArrayList(), this, this, userBuilder, user, storage, this)
         recordingRecyclerView.adapter = adapter
     }
 

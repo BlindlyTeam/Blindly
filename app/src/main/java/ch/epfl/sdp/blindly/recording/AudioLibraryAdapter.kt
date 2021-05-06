@@ -2,8 +2,11 @@ package ch.epfl.sdp.blindly.recording
 
 import android.content.Context
 import android.content.Intent
+import android.icu.text.AlphabeticIndex
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +17,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
+import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_USER
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import ch.epfl.sdp.blindly.user.User
@@ -38,9 +42,10 @@ class AudioLibraryAdapter(
     private var viewHolderList: ArrayList<ViewHolder>,
     var context: Context,
     private val listener: OnItemClickListener,
-    private var userBuilder: User.Builder,
-    private val user: UserHelper,
-    private val storage: FirebaseStorage
+    private var userBuilder: User.Builder?,
+    private val userHelper: UserHelper,
+    private val storage: FirebaseStorage,
+    private val activity: RecordingActivity,
 ) : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
     var blindlyMediaPlayer = BlindlyMediaPlayer()
     private lateinit var recordingPath: String
@@ -140,7 +145,13 @@ class AudioLibraryAdapter(
             val notIsExpanded = !recordList[position].isExpanded
             toggleLayout(notIsExpanded, viewHolder.expandableLayout)
             recordList[position].isExpanded = notIsExpanded
-            blindlyMediaPlayer.resetRecordPlayer(recordList[position], playTimer, remainingTimer, playPauseButton, playBar)
+            blindlyMediaPlayer.resetRecordPlayer(
+                recordList[position],
+                playTimer,
+                remainingTimer,
+                playPauseButton,
+                playBar
+            )
         }
 
         blindlyMediaPlayer.setCountDownTimer(remainingTimer)
@@ -161,7 +172,7 @@ class AudioLibraryAdapter(
         }
 
         /*
-         * If the select button is clicked, the selected file is saved and the user is sent to the
+         * If the select button is clicked, the selected file is saved and the userHelper is sent to the
          * profile finished activity.
          */
         viewHolder.selectButton.setOnClickListener {
@@ -196,35 +207,46 @@ class AudioLibraryAdapter(
      */
     private fun saveRecording(position: Int) {
         val filePath = recordList[position].filePath
-        val newName = PRESENTATION_AUDIO_NAME
         val currentRecording = File(filePath)
-        val newFile = File("${context.filesDir.absolutePath}/$newName")
+        val newFile = File("${context.filesDir.absolutePath}/$PRESENTATION_AUDIO_NAME")
         currentRecording.copyTo(
             newFile,
             overwrite = true
         )
-        val userId = user.getUserId()
-        recordingPath = "Recordings/$userId-$newName"
+        val userId = userHelper.getUserId()
+        recordingPath = "Recordings/$userId-$PRESENTATION_AUDIO_NAME"
         val storageRef = storage.reference.child(recordingPath)
-        userBuilder.setRecordingPath(recordingPath)
+        userBuilder?.setRecordingPath(recordingPath)
         storageRef.putFile(Uri.fromFile(newFile)).addOnSuccessListener {
-            startProfileFinished()
+            if (userBuilder != null)
+                startProfileFinished()
+            else
+                startProfilePage(activity)
         }.addOnFailureListener {
             Toast.makeText(context, "Failed to upload the recording. Try again.", Toast.LENGTH_LONG)
                 .show()
-            startProfileFinished()
+            if (userBuilder != null)
+                startProfileFinished()
+            else
+                startProfilePage(activity)
         }
     }
 
     private fun startProfileFinished() {
         val bundle = Bundle()
-        bundle.putSerializable(
-            EXTRA_USER,
-            Json.encodeToString(User.Builder.serializer(), userBuilder)
-        )
+        if (userBuilder != null) {
+            bundle.putSerializable(
+                EXTRA_USER,
+                Json.encodeToString(User.Builder.serializer(), userBuilder!!)
+            )
+        }
         val intent = Intent(context, ProfileFinished::class.java)
         intent.putExtras(bundle)
         startActivity(context, intent, null)
+    }
+
+    private fun startProfilePage(activity: RecordingActivity) {
+        activity.onBackPressed()
     }
 
     /**
