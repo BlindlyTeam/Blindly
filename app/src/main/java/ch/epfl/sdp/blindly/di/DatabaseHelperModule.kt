@@ -8,16 +8,16 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
- * UserHelper Module fore dependency injection
+ * DatabaseHelper Module for dependency injection
  */
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseHelperModule {
 
     /**
-     * Return a UserHelper to be injected
+     * Return a DatabaseHelper to be injected
      *
-     * @return UserHelper
+     * @return DatabaseHelper
      */
     @Singleton
     @Provides
