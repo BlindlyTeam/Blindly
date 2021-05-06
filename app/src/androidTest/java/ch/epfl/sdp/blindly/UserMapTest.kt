@@ -5,9 +5,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import ch.epfl.sdp.blindly.UserMapActivity.Companion.MATCH_ID
 import ch.epfl.sdp.blindly.UserMapActivity.Companion.MATCH_NAME
 import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
@@ -16,8 +14,8 @@ import ch.epfl.sdp.blindly.helpers.Message
 import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.junit.Assert.assertEquals
 import org.hamcrest.MatcherAssert
+import org.hamcrest.Matchers.equalTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,6 +24,7 @@ import javax.inject.Inject
 
 const val OTHER_USER_ID = "other_user_id"
 const val OTHER_USER_NAME = "An other user"
+const val FUTURE_COMPLETED = "An other user"
 
 @HiltAndroidTest
 class UserMapTest {
@@ -50,7 +49,7 @@ class UserMapTest {
         )
 
         ActivityScenario.launch<UserMapActivity>(intent)
-        onView(withId(R.id.map)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        onView(withId(R.id.map)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
 
     @Test
@@ -61,7 +60,7 @@ class UserMapTest {
         )
         intent.putExtra(MATCH_ID, OTHER_USER_ID)
         ActivityScenario.launch<UserMapActivity>(intent)
-        onView(withId(R.id.map)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        onView(withId(R.id.map)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
     @Test
     fun openAndDisplayUserAndName() {
@@ -72,12 +71,11 @@ class UserMapTest {
         intent.putExtra(MATCH_ID, OTHER_USER_ID)
         intent.putExtra(MATCH_NAME, OTHER_USER_NAME)
         ActivityScenario.launch<UserMapActivity>(intent)
-        onView(withId(R.id.map)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        onView(withId(R.id.map)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
     @Test
     fun activitySendsLocation() {
         // Constant to check future constant completion
-        val completed = "Location received"
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
             UserMapActivity::class.java
@@ -93,18 +91,17 @@ class UserMapTest {
         database.getLocationLiveDatabase(user.getUserId()!!, OTHER_USER_ID).addListener(object :
             DatatbaseHelper.BlindlyLiveDatabase.EventListener<BlindlyLatLng>() {
             override fun onMessageReceived(message: Message<BlindlyLatLng>) {
-                future.complete(completed)
+                future.complete(FUTURE_COMPLETED)
             }
             override fun onMessageUpdated(message: Message<BlindlyLatLng>) {
-                future.complete(completed)
+                future.complete(FUTURE_COMPLETED)
             }
         })
-        assertEquals(completed, future.get())
+        assertThat(future.get(), equalTo(FUTURE_COMPLETED))
     }
     @Test
     fun receiveInvalidLocation() {
         // Constant to check future constant completion
-        val completed = "Location received"
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
             UserMapActivity::class.java
@@ -122,11 +119,11 @@ class UserMapTest {
             liveDb.addListener(object :
                 DatatbaseHelper.BlindlyLiveDatabase.EventListener<BlindlyLatLng>() {
                 override fun onMessageReceived(message: Message<BlindlyLatLng>) {
-                    future.complete(completed)
+                    future.complete(FUTURE_COMPLETED)
                 }
 
                 override fun onMessageUpdated(message: Message<BlindlyLatLng>) {
-                    future.complete(completed)
+                    future.complete(FUTURE_COMPLETED)
                 }
             })
             // Invalid data
@@ -134,7 +131,7 @@ class UserMapTest {
         }
         // We wait for the future to complete without other assert, because
         // we want to check that the activity doesn't crash
-        assertEquals(completed, future.get())
+        assertThat(future.get(), equalTo(FUTURE_COMPLETED))
     }
 
 }
