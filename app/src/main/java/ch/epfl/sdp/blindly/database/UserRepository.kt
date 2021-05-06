@@ -1,9 +1,11 @@
-package ch.epfl.sdp.blindly.user
+package ch.epfl.sdp.blindly.database
 
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
+import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await

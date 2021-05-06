@@ -3,6 +3,10 @@ package ch.epfl.sdp.blindly.main_screen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import ch.epfl.sdp.blindly.main_screen.fragments.MapFragment
+import ch.epfl.sdp.blindly.main_screen.fragments.MatchPageFragment
+import ch.epfl.sdp.blindly.main_screen.fragments.MessagePageFragment
+import ch.epfl.sdp.blindly.main_screen.fragments.ProfilePageFragment
 
 /**
  * This ViewPagerAdapter is used by the ViewPager in the MainScreen

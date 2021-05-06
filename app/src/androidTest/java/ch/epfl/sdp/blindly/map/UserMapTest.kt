@@ -9,8 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.UserMapActivity
-import ch.epfl.sdp.blindly.UserMapActivity.Companion.POINTS
+import ch.epfl.sdp.blindly.map.UserMapActivity.Companion.POINTS
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

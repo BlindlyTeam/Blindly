@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.viewmodel
 
 import android.os.Build
 import android.os.Bundle
@@ -7,8 +7,7 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import ch.epfl.sdp.blindly.user.UserViewModel
-import ch.epfl.sdp.blindly.user.UserRepository
+import ch.epfl.sdp.blindly.database.UserRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

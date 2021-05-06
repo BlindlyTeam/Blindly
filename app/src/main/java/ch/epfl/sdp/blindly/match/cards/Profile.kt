@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.match
+package ch.epfl.sdp.blindly.match.cards
 
 import android.os.Parcel
 import android.os.Parcelable

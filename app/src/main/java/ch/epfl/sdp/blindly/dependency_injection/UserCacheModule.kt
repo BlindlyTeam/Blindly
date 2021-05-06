@@ -1,6 +1,6 @@
-package ch.epfl.sdp.blindly.di
+package ch.epfl.sdp.blindly.dependency_injection
 
-import ch.epfl.sdp.blindly.user.UserCache
+import ch.epfl.sdp.blindly.user.storage.UserCache
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

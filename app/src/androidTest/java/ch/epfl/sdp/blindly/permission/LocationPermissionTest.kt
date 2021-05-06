@@ -9,7 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.UserMapActivity
+import ch.epfl.sdp.blindly.map.UserMapActivity
 import ch.epfl.sdp.blindly.permissions.LocationPermission
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.requestPermission

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly
+package ch.epfl.sdp.blindly.map
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.PermissionDeniedDialog.Companion.newInstance
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.isPermissionGranted

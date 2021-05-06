@@ -1,7 +1,7 @@
-package ch.epfl.sdp.blindly.di
+package ch.epfl.sdp.blindly.dependency_injection
 
-import ch.epfl.sdp.blindly.user.UserCache
-import ch.epfl.sdp.blindly.user.UserRepository
+import ch.epfl.sdp.blindly.user.storage.UserCache
+import ch.epfl.sdp.blindly.database.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides

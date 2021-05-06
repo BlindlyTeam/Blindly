@@ -2,7 +2,7 @@ package ch.epfl.sdp.blindly.fake_module
 
 import android.os.Handler
 import android.os.Looper
-import ch.epfl.sdp.blindly.di.FirestoreModule
+import ch.epfl.sdp.blindly.dependency_injection.FirestoreModule
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import com.google.android.gms.tasks.TaskCompletionSource

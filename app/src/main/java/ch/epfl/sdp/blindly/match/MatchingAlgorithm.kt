@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserRepository
+import ch.epfl.sdp.blindly.database.UserRepository
 import com.google.firebase.firestore.Query
 import javax.inject.Inject
 

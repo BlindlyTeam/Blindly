@@ -2,7 +2,7 @@ package ch.epfl.sdp.blindly.unit_tests
 
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
-import ch.epfl.sdp.blindly.user.UserCache
+import ch.epfl.sdp.blindly.user.storage.UserCache
 import org.junit.Assert.*
 import org.junit.Test
 

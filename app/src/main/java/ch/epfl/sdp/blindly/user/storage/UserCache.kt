@@ -1,7 +1,8 @@
-package ch.epfl.sdp.blindly.user
+package ch.epfl.sdp.blindly.user.storage
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import ch.epfl.sdp.blindly.user.User
 
 /**
  * The local cache used to store the user's information

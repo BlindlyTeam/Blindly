@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.di
+package ch.epfl.sdp.blindly.dependency_injection
 
 import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.Module

@@ -3,7 +3,7 @@ package ch.epfl.sdp.blindly.fake_module
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import ch.epfl.sdp.blindly.di.UserHelperModule
+import ch.epfl.sdp.blindly.dependency_injection.UserHelperModule
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.tasks.TaskCompletionSource
 import dagger.Module

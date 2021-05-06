@@ -1,9 +1,9 @@
 package ch.epfl.sdp.blindly.fake_module
 
-import ch.epfl.sdp.blindly.di.UserCacheModule
+import ch.epfl.sdp.blindly.dependency_injection.UserCacheModule
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
-import ch.epfl.sdp.blindly.user.UserCache
+import ch.epfl.sdp.blindly.user.storage.UserCache
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent

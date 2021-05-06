@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen
+package ch.epfl.sdp.blindly.main_screen.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.match.Profile
-import ch.epfl.sdp.blindly.match.CardStackAdapter
+import ch.epfl.sdp.blindly.match.cards.Profile
+import ch.epfl.sdp.blindly.match.cards.CardStackAdapter
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*

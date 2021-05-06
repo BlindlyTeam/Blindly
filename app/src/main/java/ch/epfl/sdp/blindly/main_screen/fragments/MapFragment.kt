@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen
+package ch.epfl.sdp.blindly.main_screen.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.UserMapActivity
+import ch.epfl.sdp.blindly.map.UserMapActivity
 import ch.epfl.sdp.blindly.settings.LAUSANNE_LATLNG
 
 class MapFragment : Fragment() {

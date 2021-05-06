@@ -1,8 +1,10 @@
-package ch.epfl.sdp.blindly.user
+package ch.epfl.sdp.blindly.viewmodel
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
+import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.database.UserRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch

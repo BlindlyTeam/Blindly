@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.di
+package ch.epfl.sdp.blindly.dependency_injection
 
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage

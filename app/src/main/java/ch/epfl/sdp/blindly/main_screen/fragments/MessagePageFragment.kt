@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen
+package ch.epfl.sdp.blindly.main_screen.fragments
 
 import android.content.Intent
 import android.os.Bundle

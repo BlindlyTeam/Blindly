@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen
+package ch.epfl.sdp.blindly.main_screen.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -18,15 +18,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import ch.epfl.sdp.blindly.EditProfile
+import ch.epfl.sdp.blindly.profile_edit.EditProfile
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.ViewModelAssistedFactory
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import ch.epfl.sdp.blindly.main_screen.audio_player.AudioPlayerFragment
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserViewModel
-import ch.epfl.sdp.blindly.user.UserViewModel.Companion.EXTRA_UID
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel.Companion.EXTRA_UID
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
