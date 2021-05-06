@@ -1,6 +1,8 @@
 package ch.epfl.sdp.blindly.match
 
 import android.content.Context
+import android.media.MediaPlayer
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 
 /**
  * An adapter to display the cards in the match activity as a stack
@@ -17,7 +21,8 @@ import ch.epfl.sdp.blindly.R
  * @property profiles the profiles to show
  */
 class CardStackAdapter(
-    private var profiles: List<Profile> = emptyList()
+    private var profiles: List<Profile> = emptyList(),
+    private var storage: FirebaseStorage
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     private lateinit var context: Context
 
@@ -49,8 +54,7 @@ class CardStackAdapter(
         holder.description.text = profile.description
         holder.passions.text = profile.passions
         holder.playButton.setOnClickListener {
-            //playAudio()
-            Toast.makeText(context, "Ui", Toast.LENGTH_LONG).show()
+            playAudio(profile.recordingPath)
         }
     }
 
@@ -74,6 +78,20 @@ class CardStackAdapter(
         var description: TextView = view.findViewById(R.id.item_description)
         var passions: TextView = view.findViewById(R.id.item_passions)
         var playButton: Button = view.findViewById(R.id.play_audio_profile_button)
+    }
+
+    private fun playAudio(recordingPath: String) {
+        // Create a storage reference from our app
+        val storageRef = storage.reference
+        // Create a reference with the recordingPath
+        val pathRef = storageRef.child(recordingPath)
+        val audioFile = File.createTempFile("Audio", "amr")
+        pathRef.getFile(audioFile).addOnSuccessListener {
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(context, Uri.fromFile(audioFile))
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+        }
     }
 
 }

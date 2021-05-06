@@ -21,6 +21,7 @@ import ch.epfl.sdp.blindly.match.Profile
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserRepository
+import com.google.firebase.storage.FirebaseStorage
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
@@ -50,6 +51,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     @Inject
     lateinit var userRepository: UserRepository
+
+    @Inject
+    lateinit var storage: FirebaseStorage
 
     companion object {
         private const val ARG_COUNT = "matchArgs"
@@ -167,7 +171,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
      *
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        adapter = CardStackAdapter(potentialMatches)
+        adapter = CardStackAdapter(potentialMatches, storage)
         setupCardStackView(fragView)
     }
 
@@ -235,7 +239,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
                     user.username!!,
                     User.getUserAge(user)!!,
                     user.description!!,
-                    user.passions!!.joinToString(", \n")
+                    user.passions!!.joinToString(", \n"),
+                    user.recordingPath!!
                 )
             )
         }

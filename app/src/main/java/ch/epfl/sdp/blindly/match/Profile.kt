@@ -10,12 +10,15 @@ import android.os.Parcelable
  * @property name
  * @property age
  * @property description
+ * @property passions
+ * @property recordingPath
  */
 data class Profile(
     val name: String,
     val age: Int,
     val description: String,
     val passions: String,
+    val recordingPath: String,
 ) : Parcelable {
     companion object {
         @JvmField
@@ -36,6 +39,7 @@ data class Profile(
     constructor(source: Parcel) : this(
         source.readString()!!,
         source.readInt(),
+        source.readString()!!,
         source.readString()!!,
         source.readString()!!
     )
@@ -58,6 +62,9 @@ data class Profile(
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(name)
         dest?.writeInt(age)
+        dest?.writeString(description)
+        dest?.writeString(passions)
+        dest?.writeString(recordingPath)
     }
 
     override fun toString(): String {

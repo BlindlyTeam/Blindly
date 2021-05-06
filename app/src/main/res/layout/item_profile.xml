@@ -61,7 +61,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="80dp"
             android:text="@string/play_audio_profile"
             android:textAlignment="center"
             android:textSize="18sp"
