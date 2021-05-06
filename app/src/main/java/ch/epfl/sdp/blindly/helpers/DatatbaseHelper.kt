@@ -20,7 +20,7 @@ class DatatbaseHelper {
          * @param otherUserId the user to converse with
          * @return the conversation id
          */
-        fun getConversationId(userId: String, otherUserId: String): String {
+        private fun getConversationId(userId: String, otherUserId: String): String {
             //this is done to get the same chatId from both sides
             return if (userId < otherUserId) {
                 "($userId, $otherUserId)"
