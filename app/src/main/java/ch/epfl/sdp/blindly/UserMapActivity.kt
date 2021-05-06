@@ -57,7 +57,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
 
         // Cancel loading if we can't get the user id
         val currentUserId = userHelper.getUserId() ?: return
-        val matchId = intent.extras?.getString(MATCH_ID) ?: "default_user"
+        val matchId = intent.extras?.getString(MATCH_ID) ?: DEFAULT_MATCH_ID
         matchName = intent.extras?.getString(MATCH_NAME) ?: getString(R.string.default_label_map_pin)
 
         locationDatabase = databaseHelper.getLocationLiveDatabase(currentUserId, matchId)
@@ -181,6 +181,7 @@ class UserMapActivity: AppCompatActivity(), OnMapReadyCallback, ActivityCompat.O
     companion object {
         const val MATCH_ID = "matchedId"
         const val MATCH_NAME = "matchedName"
+        const val DEFAULT_MATCH_ID = "default_user"
     }
 
 }
