@@ -59,7 +59,7 @@ class LiveChatTest {
         release()
     }
 
-    private fun withViewCount(viewMatcher: Matcher<View>, expectedCount: Int): Matcher<View?>? {
+    private fun withViewCount(viewMatcher: Matcher<View>, expectedCount: Int): Matcher<View?> {
         return object : TypeSafeMatcher<View?>() {
             var actualCount = -1
             override fun describeTo(description: Description) {
@@ -71,7 +71,7 @@ class LiveChatTest {
                 }
             }
 
-            protected override fun matchesSafely(root: View?): Boolean {
+            override fun matchesSafely(root: View?): Boolean {
                 actualCount = 0
                 val iterable = TreeIterables.breadthFirstViewTraversal(root)
                 actualCount =
@@ -81,7 +81,7 @@ class LiveChatTest {
         }
     }
 
-    private fun withMatcherPredicate(matcher: Matcher<View>): Predicate<View?>? {
+    private fun withMatcherPredicate(matcher: Matcher<View>): Predicate<View?> {
         return Predicate<View?> { view -> matcher.matches(view) }
     }
 
@@ -91,7 +91,7 @@ class LiveChatTest {
 
         closeSoftKeyboard()
         val buttonUpdate = onView(withId(R.id.sendButton))
-        buttonUpdate.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+        buttonUpdate.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         buttonUpdate.perform(click())
     }
     @Test
@@ -112,7 +112,7 @@ class LiveChatTest {
     fun sendingEmptyMessageDoesntDoAnything() {
         for (i in 0..3) {
             val buttonUpdate = onView(withId(R.id.sendButton))
-            buttonUpdate.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+            buttonUpdate.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
             buttonUpdate.perform(click())
         }
         sendMessage()
