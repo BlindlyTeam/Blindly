@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.match
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
@@ -8,6 +9,7 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 
 private const val TAG = "MatchingAlgorithm"
 const val EVERYONE = "Everyone"
@@ -53,11 +55,15 @@ class MatchingAlgorithm(
             }
 
             //Wait on the query to be done before continuing
-            val users = query.get().await()
-            for (user in users) {
-                if (user.id != userid) {
-                    matches += user.toUser()
+            try {
+                val users = query.get().await()
+                for (user in users) {
+                    if (user.id != userid) {
+                        matches += user.toUser()
+                    }
                 }
+            } catch (exception: Exception){
+                Log.w(TAG, "Error getting users : ", exception)
             }
         }
         val nonNullMatches = matches.filterNotNull()
