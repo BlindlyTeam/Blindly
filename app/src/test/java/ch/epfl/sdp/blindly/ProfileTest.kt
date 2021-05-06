@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.unit_tests
+package ch.epfl.sdp.blindly
 
 import ch.epfl.sdp.blindly.match.cards.Profile
 import org.hamcrest.MatcherAssert.assertThat

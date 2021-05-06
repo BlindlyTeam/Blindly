@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.unit_tests
+package ch.epfl.sdp.blindly
 
 import ch.epfl.sdp.blindly.recording.AudioRecord
 import org.junit.Test
