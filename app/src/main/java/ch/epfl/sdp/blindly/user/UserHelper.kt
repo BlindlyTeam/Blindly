@@ -26,6 +26,7 @@ class UserHelper {
         private const val USER_COLLECTION: String = "usersMeta"
         const val DEFAULT_RADIUS = 80
         const val DEFAULT_RANGE = 10
+        const val EXTRA_UID = "uid"
     }
 
     /**
