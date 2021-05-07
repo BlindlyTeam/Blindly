@@ -114,6 +114,7 @@ dependencies {
     // Mockito framework
     // We have to use dexmaker version as we want to be able to mock final classes
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito-inline:2.28.1'
+    androidTestImplementation "org.mockito.kotlin:mockito-kotlin:2.2.11"
 
     // Hilt
     def hilt_version = '2.33-beta'
@@ -157,8 +158,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             '**/*_Factory.class',
             '**/*_MembersInjector.class',
             '**/di/**',
-            '**/UserHelper.kt',
-            '**/UserRepository.kt'
+            '**/UserHelper.*',
+            '**/UserRepository.*'
     ]
     def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/java"
