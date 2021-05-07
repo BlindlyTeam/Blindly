@@ -28,6 +28,7 @@ import javax.inject.Inject
  * create an instance of this fragment.
  */
 
+private const val MY_AUDIO_RECORD = "My Audio Record"
 class AudioPlayerFragment : Fragment() {
     private val blindlyMediaPlayer = BlindlyMediaPlayer()
     private lateinit var audioRecord: AudioRecord
@@ -55,7 +56,7 @@ class AudioPlayerFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
         val file = File("${context?.filesDir?.absolutePath}/$PRESENTATION_AUDIO_NAME")
         audioRecord = AudioRecord(
-            "My Audio Record",
+            MY_AUDIO_RECORD,
             "",
             file.path,
             true
