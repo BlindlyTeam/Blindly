@@ -90,17 +90,6 @@
             android:layout_below="@+id/current_location_text"
             android:layout_toStartOf="@id/location_space_3" />
 
-        <ImageView
-            android:contentDescription="@string/check_mark"
-            android:id="@+id/checkmark_img"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_below="@+id/location_space_4"
-            android:layout_toStartOf="@id/location_space_3"
-            app:srcCompat="@drawable/checkmark_img"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="278dp" />
-
         <Space
             android:id="@+id/location_space_3"
             android:layout_width="10dp"
@@ -114,21 +103,6 @@
             android:layout_height="1dp"
             android:layout_below="@+id/google_location_img"
             android:background="?android:attr/listDivider" />
-
-        <Space
-            android:id="@+id/space"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_below="@+id/divider2" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_below="@+id/space"
-            android:text="@string/add_new_location"
-            android:textAllCaps="false"
-            android:textSize="16sp" />
 
     </RelativeLayout>
 

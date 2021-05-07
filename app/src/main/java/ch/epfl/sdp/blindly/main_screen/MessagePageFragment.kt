@@ -48,7 +48,7 @@ class MessagePageFragment : Fragment() {
         val intent = Intent(context, ChatActivity::class.java)
 
         // TODO : This is where we pass the UID of the matched User
-        val bundle = bundleOf("matchedId" to "by60RUne87Oahiryoz6tP2B6BKt2")
+        val bundle = bundleOf("matchedId" to "k88kodjaRGWmOSweWQudRLtwoWn1")
 
         intent.putExtras(bundle)
         view?.findViewById<Button>(R.id.button_chat)?.setOnClickListener { startActivity(intent) }
