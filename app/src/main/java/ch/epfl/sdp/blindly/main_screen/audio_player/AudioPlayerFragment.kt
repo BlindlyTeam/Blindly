@@ -55,7 +55,7 @@ class AudioPlayerFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
         val file = File("${context?.filesDir?.absolutePath}/$PRESENTATION_AUDIO_NAME")
         audioRecord = AudioRecord(
-            file.name,
+            "My Audio Record",
             "",
             file.path,
             true

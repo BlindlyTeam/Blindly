@@ -144,15 +144,6 @@ class ProfilePageTest {
 
     }
 
-    @Test
-    fun recordButtonFiresRecordingActivity() {
-        //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
-
-        onView(withId(R.id.record_button)).perform(click())
-        intended(hasComponent(RecordingActivity::class.java.name))
-    }
-
     private fun getAudioPlayerFragment(): Fragment? {
         val fragmentManager = fragment.childFragmentManager
         return fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
