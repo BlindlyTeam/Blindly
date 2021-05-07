@@ -28,6 +28,7 @@ import javax.inject.Inject
  * create an instance of this fragment.
  */
 
+private const val MY_AUDIO_RECORD = "My Audio Record"
 class AudioPlayerFragment : Fragment() {
     private val blindlyMediaPlayer = BlindlyMediaPlayer()
     private lateinit var audioRecord: AudioRecord
@@ -54,9 +55,8 @@ class AudioPlayerFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
         val file = File("${context?.filesDir?.absolutePath}/$PRESENTATION_AUDIO_NAME")
-
         audioRecord = AudioRecord(
-            file.name,
+            MY_AUDIO_RECORD,
             "",
             file.path,
             true
@@ -81,15 +81,12 @@ class AudioPlayerFragment : Fragment() {
         recordDuration = view.findViewById(R.id.record_duration)
         recordDuration.text = audioRecord.durationText
 
-        //TODO will have to refactor the RecordingActivity, to accept a User as Bundle
-        /*
         val recordButton = view.findViewById<Button>(R.id.record_button)
         recordButton.setOnClickListener {
             val intent = Intent(context, RecordingActivity::class.java)
             removeFragment()
             startActivity(intent)
         }
-        */
 
         return view
     }
