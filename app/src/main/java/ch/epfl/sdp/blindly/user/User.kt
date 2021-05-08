@@ -259,7 +259,7 @@ class User private constructor(
                 val matches = get("matches") as? List<String>
                 val likes = get("likes") as? List<String>
                 val description = getString("description")!!
-                val ageRange = get("ageRange") as? List<Long>
+                val ageRange = get("ageRange") as? List<Int>
                 val recordingPath = getString("recordingPath")!!
 
                 return User(
@@ -393,9 +393,9 @@ class User private constructor(
                 throw java.lang.IllegalArgumentException("Expected newValue to be a List<Int>")
             if (newValue.size != SIZE_OF_AGE_RANGE_LIST)
                 throw IllegalArgumentException(
-                "Expected ageRange.size to be " +
-                        "$SIZE_OF_AGE_RANGE_LIST but got: ${newValue.size} instead"
-            )
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_AGE_RANGE_LIST but got: ${newValue.size} instead"
+                )
         }
 
         private fun <T> assertIsLocation(newValue: T) {

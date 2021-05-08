@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfile">
+    tools:context=".edit_info.EditProfile">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </androidx.fragment.app.FragmentContainerView>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/edit_profile_toolbar"
@@ -17,4 +23,265 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/edit_profile_info" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/general_info_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_profile_toolbar"
+        android:layout_marginStart="10dp"
+        android:text="@string/general_info"
+        android:textColor="@color/blindly_purple_secondary"
+        android:textSize="16sp"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/general_info_text"
+        android:background="?android:attr/listDivider" />
+
+    <Button
+        android:id="@+id/username_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider"
+        android:background="@color/transparent"
+        android:onClick="startUsernameEdit" />
+
+    <TextView
+        android:id="@+id/edit_username_text"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider"
+        android:layout_marginStart="10dp"
+        android:gravity="center"
+        android:text="@string/username"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/username_arrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/divider"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/arrow_button_to_show_username"
+        app:srcCompat="@drawable/arrow_button" />
+
+    <TextView
+        android:id="@+id/username_text"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/username_arrow"
+        android:gravity="center"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/divider_username"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/edit_username_text"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/birthday_text"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider_username"
+        android:layout_marginStart="10dp"
+        android:gravity="center"
+        android:text="@string/birthday"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/my_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider_username"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/username_arrow"
+        android:gravity="center"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/divider_birthday"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/birthday_text"
+        android:background="?android:attr/listDivider" />
+
+    <Button
+        android:id="@+id/gender_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider_birthday"
+        android:background="@color/transparent"
+        android:onClick="startGenderEdit" />
+
+    <TextView
+        android:id="@+id/edit_gender_text"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider_birthday"
+        android:layout_marginStart="10dp"
+        android:gravity="center"
+        android:text="@string/gender"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/gender_arrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/divider_birthday"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/arrow_button_to_show_gender"
+        app:srcCompat="@drawable/arrow_button" />
+
+    <TextView
+        android:id="@+id/gender_text"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider_birthday"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/gender_arrow"
+        android:gravity="center"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/divider_gender"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/edit_gender_text"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/my_sexual_orientations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_gender_text"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/my_sexual_orientations"
+        android:textColor="@color/blindly_purple_secondary"
+        android:textSize="16sp"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/divider_sexual_orientations"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/my_sexual_orientations"
+        android:background="?android:attr/listDivider" />
+
+    <ImageView
+        android:id="@+id/sexual_orientations_arrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/divider_sexual_orientations"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/arrow_button_to_show_sexual_orientations"
+        app:srcCompat="@drawable/arrow_button" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/sexual_orientations_group"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_sexual_orientations"
+        android:layout_marginStart="10dp"
+        android:clickable="false"
+        app:chipSpacing="30dp"
+        app:chipSpacingHorizontal="10dp"
+        app:chipSpacingVertical="0dp"
+        app:singleLine="false">
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/sexual_orientations_button"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider_sexual_orientations"
+        android:layout_toEndOf="@id/sexual_orientations_group"
+        android:background="@color/transparent"
+        android:onClick="startSexualOrientationsEdit" />
+
+    <View
+        android:id="@+id/divider_sexual_orientations_group"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/sexual_orientations_group"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/my_passions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_sexual_orientations_group"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/my_passions"
+        android:textColor="@color/blindly_purple_secondary"
+        android:textSize="16sp"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/divider_passions"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/my_passions"
+        android:background="?android:attr/listDivider" />
+
+    <ImageView
+        android:id="@+id/passions_arrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/divider_passions"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/arrow_button_to_show_passions"
+        app:srcCompat="@drawable/arrow_button" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/passions_group"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_passions"
+        android:layout_marginStart="10dp"
+        android:clickable="false"
+        app:chipSpacing="30dp"
+        app:chipSpacingHorizontal="10dp"
+        app:chipSpacingVertical="0dp"
+        app:singleLine="false">
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/passions_button"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/divider_passions"
+        android:layout_toEndOf="@id/passions_group"
+        android:background="@color/transparent"
+        android:onClick="startPassionsEdit" />
+
+    <View
+        android:id="@+id/divider_passions_group"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/passions_group"
+        android:background="?android:attr/listDivider" />
+</RelativeLayout>

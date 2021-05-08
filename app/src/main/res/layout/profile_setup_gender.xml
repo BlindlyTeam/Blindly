@@ -61,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/woman"
+            android:textAllCaps="true"
             android:textSize="18sp" />
 
         <RadioButton
@@ -68,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/man"
+            android:textAllCaps="true"
             android:textSize="18sp" />
 
         <RadioButton
@@ -75,6 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/more"
+            android:textAllCaps="true"
             android:textSize="18sp" />
 
     </RadioGroup>

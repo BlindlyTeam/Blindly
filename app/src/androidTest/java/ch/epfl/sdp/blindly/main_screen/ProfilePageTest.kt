@@ -7,7 +7,7 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import ch.epfl.sdp.blindly.EditProfile
+import ch.epfl.sdp.blindly.edit_info.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.UserCache

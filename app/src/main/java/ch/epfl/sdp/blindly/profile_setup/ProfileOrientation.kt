@@ -16,7 +16,7 @@ private const val SELECTION_LIMIT = 3
 
 class ProfileOrientation : AppCompatActivity() {
 
-    private val sexualOriantations: ArrayList<String> = ArrayList()
+    private var sexualOrientations: ArrayList<String> = ArrayList()
     private lateinit var userBuilder: User.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,21 +51,18 @@ class ProfileOrientation : AppCompatActivity() {
             }
             //correct numbers of selection
             else -> {
-                bundleExtrasAndStartProfileShowMe(ids, chipGroup)
+                bundleExtrasAndStartProfileShowMe(chipGroup)
             }
         }
 
     }
 
     //helper function to get the choices to builder
-    private fun bundleExtrasAndStartProfileShowMe(ids: MutableList<Int>, chipGroup: ChipGroup) {
-        ids.forEach { i ->
-            val chipText = chipGroup.findViewById<Chip>(i).text.toString()
-            sexualOriantations.add(chipText)
-        }
+    private fun bundleExtrasAndStartProfileShowMe(chipGroup: ChipGroup) {
+        sexualOrientations = getChipTextsFromIds(chipGroup)
         val intent = Intent(this, ProfileShowMe::class.java)
         val bundle = Bundle()
-        userBuilder.setSexualOrientations(sexualOriantations)
+        userBuilder.setSexualOrientations(sexualOrientations)
         bundle.putSerializable(
             EXTRA_USER,
             Json.encodeToString(User.Builder.serializer(), userBuilder)
@@ -73,5 +70,23 @@ class ProfileOrientation : AppCompatActivity() {
         intent.putExtras(bundle)
 
         startActivity(intent)
+    }
+
+    companion object {
+        /**
+         * Given a chipGroup finds the corresponding text of each chip that is checked
+         *
+         * @param chipGroup
+         * @return an ArrayList<String> containing the text of each chip that is checked
+         */
+        fun getChipTextsFromIds(chipGroup: ChipGroup): ArrayList<String> {
+            val texts = arrayListOf<String>()
+            val ids = chipGroup.checkedChipIds
+            ids.forEach {
+                val chipText = chipGroup.findViewById<Chip>(it).text.toString()
+                texts.add(chipText)
+            }
+            return texts
+        }
     }
 }

@@ -17,9 +17,9 @@
     <string name="continue_str">CONTINUE</string>
     <string name="my_birthday_is">My birthday is</string>
     <string name="i_am_a">I am a</string>
-    <string name="man">MAN</string>
-    <string name="woman">WOMAN</string>
-    <string name="more">MORE</string>
+    <string name="man">Man</string>
+    <string name="woman">Woman</string>
+    <string name="more">More</string>
     <string name="queer">Queer</string>
     <string name="pansexual">Pansexual</string>
     <string name="select_up_to_3">Select up to 3.</string>
@@ -109,7 +109,7 @@
     <string name="try_to_logout">Something wrong happened, please try to log out first.</string>
     <string name="email_taken">This email is already used by another account</string>
     <string name="invalid_email">Please enter a valid e-mail</string>
-    <string name="update_email_unknown_error">An unknown error happened, please try again later</string>
+    <string name="update_email_unknown_error">An unknown error occured, please try again later</string>
     <string name="new_e_mail">New E-mail.</string>
     <string name="the_logo_of_blindly_app_a_heart_with_sound_waves_inside">The logo of Blindly app. A heart with sound waves inside.</string>
     <string name="done">Done</string>
@@ -125,6 +125,10 @@
     <string name="arrow_button_to_show_show_me_settings">Arrow button to show Show Me settings.</string>
     <string name="arrow_button_to_show_location">Arrow button to show location.</string>
     <string name="arrow_button_to_show_e_mail">Arrow button to show e-mail.</string>
+    <string name="arrow_button_to_show_username">Arrow button to show username.</string>
+    <string name="arrow_button_to_show_gender">Arrow button to show gender.</string>
+    <string name="arrow_button_to_show_sexual_orientations">Arrow button to show sexual orientations.</string>
+    <string name="arrow_button_to_show_passions">Arrow button to show passions.</string>
     <string name="facebook_application_id" translatable="false">2887339711533767</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb2887339711533767</string>
     <string name="base_timer_MM_SS">00:00</string>
@@ -148,4 +152,24 @@
     <string name="play_audio">Play Audio</string>
     <string name="record_audio">Record</string>
     <string name="default_label_map_pin">"Your match"</string>
+    <string name="general_info">General Information</string>
+    <string name="username">Username</string>
+    <string name="birthday">Birthday</string>
+    <string name="gender">Gender</string>
+    <string name="my_sexual_orientations">My Sexual Orientations</string>
+    <string name="my_passions">My Passions</string>
+    <string name="new_username">New Username</string>
+    <string name="update_username">Update Username</string>
+    <string name="update_username_unknown_error">An unknown error occured, please try again later</string>
+    <string name="username_update_success">Username succesfully updated</string>
+    <string name="new_gender">New Gender</string>
+    <string name="sexual_orientations">Sexual Orientations</string>
+    <string name="edit_select_up_to_3">Select up to 3:</string>
+    <string name="edit_select_up_to_5">Select up to 5:</string>
+    <string name="title_activity_edit_username">EditUsername</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +18,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import ch.epfl.sdp.blindly.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.ViewModelAssistedFactory
+import ch.epfl.sdp.blindly.edit_info.EditProfile
 import ch.epfl.sdp.blindly.main_screen.audio_player.AudioPlayerFragment
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
