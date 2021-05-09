@@ -43,8 +43,8 @@ class MatchProfileActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
 
-        val profileNameAge = findViewById<TextView>(R.id.profileNameAge)
-        val profileLocation = findViewById<TextView>(R.id.profileLocation)
-        val profileDescription = findViewById<TextView>(R.id.profileDescription)
+        val profileNameAge = findViewById<TextView>(R.id.profileNameAgeText)
+        val profileLocation = findViewById<TextView>(R.id.profileLocationText)
+        val profileDescription = findViewById<TextView>(R.id.profileDescriptionText)
     }
 }
