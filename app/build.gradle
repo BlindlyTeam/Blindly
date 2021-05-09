@@ -18,6 +18,8 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "OPEN_WEATHER_MAP_URL", '"https://api.openweathermap.org/data/2.5/onecall"'
+        buildConfigField "String", "OPEN_WEATHER_MAP_KEY", '"a18db25e9770e7e15e952ec6caa497b0"'
 
         testInstrumentationRunner "ch.epfl.sdp.blindly.BlindlyTestRunner"
     }
@@ -131,6 +133,9 @@ dependencies {
     def hilt_lifecycle_viewmodel = "1.0.0-alpha03"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_lifecycle_viewmodel"
     kapt "androidx.hilt:hilt-compiler:$hilt_lifecycle_viewmodel"
+
+    implementation "com.squareup.okhttp3:okhttp:4.9.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
 
 }
 
