@@ -15,7 +15,7 @@ import ch.epfl.sdp.blindly.chat.ChatActivity.Companion.MATCH_ID
 import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
 import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
 import ch.epfl.sdp.blindly.helpers.Message
-import ch.epfl.sdp.blindly.map.UserMapActivity.UserMapActivity.Companion.MATCH_NAME
+import ch.epfl.sdp.blindly.map.UserMapActivity.Companion.MATCH_NAME
 import ch.epfl.sdp.blindly.user.UserHelper
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers.equalTo
