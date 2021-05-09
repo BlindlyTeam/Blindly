@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.settings
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -12,14 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
-import ch.epfl.sdp.blindly.ViewModelAssistedFactory
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.user.AGE_RANGE
-import ch.epfl.sdp.blindly.user.RADIUS
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.DEFAULT_RADIUS
+import ch.epfl.sdp.blindly.user.AGE_RANGE
+import ch.epfl.sdp.blindly.user.RADIUS
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
-import ch.epfl.sdp.blindly.user.UserViewModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
@@ -33,7 +32,6 @@ private const val MAX_AGE = 99
 
 /**
  * Activity class for the settings of the app and the user
- *
  */
 @AndroidEntryPoint
 class Settings : AppCompatActivity() {
@@ -212,5 +210,4 @@ class Settings : AppCompatActivity() {
     fun startUpdateEmail(view: View) {
         startActivity(Intent(this, SettingsUpdateEmail::class.java))
     }
-
 }

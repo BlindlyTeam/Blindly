@@ -1,9 +1,9 @@
 package ch.epfl.sdp.blindly.fake_module
 
-import ch.epfl.sdp.blindly.di.UserRepositoryModule
+import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
-import ch.epfl.sdp.blindly.user.UserRepository
+import ch.epfl.sdp.blindly.database.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -14,8 +14,8 @@ import javax.inject.Singleton
 
 @Module
 @TestInstallIn(
-        components = [SingletonComponent::class],
-        replaces = [UserRepositoryModule::class]
+    components = [SingletonComponent::class],
+    replaces = [UserRepositoryModule::class]
 )
 open class FakeUserRepositoryModule {
 
