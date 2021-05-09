@@ -8,11 +8,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.ViewModelAssistedFactory
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.user.LOCATION
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -24,6 +24,9 @@ import javax.inject.Inject
 
 val LAUSANNE_LATLNG = LatLng(46.5, 6.6)
 
+/**
+ * Activity that shows the position of the user on a map.
+ */
 @AndroidEntryPoint
 class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
 
@@ -70,7 +73,6 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
         mapView = findViewById(R.id.map)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

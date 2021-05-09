@@ -8,11 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.helpers.Message
 
-
 private const val CURRENT_USER_SENDING = 0
 private const val REMOTE_USER_SENDING = 1
 
-class ChatAdapter(private val currentUserId: String, private val messageList: ArrayList<Message<String>>) :
+/**
+ * Adapts the RecyclerView to become a chat.
+ *
+ * @property messageList the current list of messages
+ */
+class ChatAdapter(
+    private val currentUserId: String,
+    private val messageList: ArrayList<Message<String>>
+) :
     RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     /**
@@ -76,6 +83,4 @@ class ChatAdapter(private val currentUserId: String, private val messageList: Ar
 
         return REMOTE_USER_SENDING
     }
-
-
 }
