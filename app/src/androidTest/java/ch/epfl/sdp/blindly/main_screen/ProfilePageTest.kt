@@ -7,12 +7,13 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import ch.epfl.sdp.blindly.EditProfile
+import ch.epfl.sdp.blindly.profile_edit.EditProfile
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.main_screen.fragments.ProfilePageFragment
 import ch.epfl.sdp.blindly.settings.Settings
-import ch.epfl.sdp.blindly.user.UserCache
+import ch.epfl.sdp.blindly.user.storage.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserRepository
+import ch.epfl.sdp.blindly.database.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -140,35 +141,10 @@ class ProfilePageTest {
         if (audioPlayerFragment != null) {
             assertThat(audioPlayerFragment.isVisible, `is`(true))
         }
-
     }
-
-    //TODO not yet implemented
-    /*@Test
-    fun recordButtonFiresRecordingActivity() {
-        //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
-
-        onView(withId(R.id.record_button)).perform(click())
-        intended(hasComponent(RecordingActivity::class.java.name))
-    }
-
-    @Test
-    fun recordButtonRemovedAudioPlayerFragment() {
-        //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
-
-        onView(withId(R.id.record_button)).perform(click())
-        val fragmentManager = fragment.childFragmentManager
-        val audioFragment = fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
-        assert(audioFragment == null)
-    }
-
-     */
 
     private fun getAudioPlayerFragment(): Fragment? {
         val fragmentManager = fragment.childFragmentManager
         return fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
     }
-
 }

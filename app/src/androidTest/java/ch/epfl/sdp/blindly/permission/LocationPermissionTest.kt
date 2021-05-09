@@ -9,10 +9,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.UserMapActivity
+import ch.epfl.sdp.blindly.map.UserMapActivity
 import ch.epfl.sdp.blindly.permissions.LocationPermission
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.requestPermission
+import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 
 import org.junit.Rule
@@ -20,8 +21,12 @@ import org.junit.Test
 
 @HiltAndroidTest
 class LocationPermissionTest {
+
     @get:Rule
     val activityRule = ActivityScenarioRule(UserMapActivity::class.java)
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @Test
     fun permissionDeniedDialogFragment() {
@@ -34,8 +39,6 @@ class LocationPermissionTest {
         onView(withText(R.string.location_permission_denied)).inRoot(isDialog()).check(
             ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
         )
-
-
     }
 
     @Test
@@ -48,7 +51,6 @@ class LocationPermissionTest {
         onView(withText(R.string.location_permission_denied)).inRoot(isDialog()).check(
             ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
         )
-
     }
 
     @Test

@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+/**
+ * Class that contains helpful functions regarding the user.
+ */
 class UserHelper {
     companion object {
         const val RC_SIGN_IN = 123
@@ -26,6 +29,7 @@ class UserHelper {
         private const val USER_COLLECTION: String = "usersMeta"
         const val DEFAULT_RADIUS = 80
         const val DEFAULT_RANGE = 10
+        const val EXTRA_UID = "uid"
     }
 
     /**
@@ -49,7 +53,6 @@ class UserHelper {
             AuthUI.IdpConfig.GoogleBuilder().build(),
             AuthUI.IdpConfig.FacebookBuilder().build()
         )
-
 
         return AuthUI.getInstance()
             .createSignInIntentBuilder()

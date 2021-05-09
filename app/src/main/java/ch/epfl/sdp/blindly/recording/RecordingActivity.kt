@@ -7,7 +7,6 @@ import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -30,7 +29,6 @@ import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
-
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 private const val DEFAULT_RECORD_AUDIO_DURATION = 90000
 
@@ -40,9 +38,13 @@ private const val DEFAULT_RECORD_AUDIO_DURATION = 90000
  */
 @AndroidEntryPoint
 class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
-    companion object {
-        val AUDIO_DURATION_KEY = "audio_duration"
-    }
+
+    @Inject
+    lateinit var storage: FirebaseStorage
+
+    @Inject
+    lateinit var user: UserHelper
+
     private val mediaRecorder = MediaRecorder()
 
     private lateinit var recordingRecyclerView: RecyclerView
@@ -63,12 +65,9 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
-    @Inject
-    lateinit var storage: FirebaseStorage
-
-    @Inject
-    lateinit var user: UserHelper
-
+    companion object {
+        val AUDIO_DURATION_KEY = "audio_duration"
+    }
 
     /**
      * Binds the audio record list to the adapter, sets the base view and initialise values
@@ -88,14 +87,14 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
         val bundle = intent.extras
-        val userBuilder: User.Builder =
-            bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }!!
+        val userBuilder: User.Builder? =
+            bundle?.getString(EXTRA_USER)?.let { Json.decodeFromString(it) }
 
         // Initialise the RecyclerView that will contain the recordings.
         recordingRecyclerView = findViewById(R.id.recordingList)
         recordingRecyclerView.layoutManager = LinearLayoutManager(this)
         adapter =
-            AudioLibraryAdapter(ArrayList(), ArrayList(), this, this, userBuilder, user, storage)
+            AudioLibraryAdapter(ArrayList(), ArrayList(), this, this, userBuilder, user, storage, this)
         recordingRecyclerView.adapter = adapter
     }
 

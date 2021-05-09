@@ -11,27 +11,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
-import ch.epfl.sdp.blindly.ViewModelAssistedFactory
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.user.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.DEFAULT_RADIUS
-import ch.epfl.sdp.blindly.user.UserViewModel.Companion.EXTRA_UID
+import ch.epfl.sdp.blindly.user.AGE_RANGE
+import ch.epfl.sdp.blindly.user.RADIUS
+import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
-const val EXTRA_LOCATION = "userLocation"
 const val EXTRA_SHOW_ME = "showMe"
+const val EXTRA_LOCATION = "location"
 private const val MIN_AGE = 18
 private const val MAX_AGE = 99
 
 /**
  * Activity class for the settings of the app and the user
- *
  */
 @AndroidEntryPoint
 class Settings : AppCompatActivity() {
@@ -58,11 +58,9 @@ class Settings : AppCompatActivity() {
      *
      * @param savedInstanceState
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
         instantiateViewModel()
 
         supportActionBar?.hide()
@@ -82,10 +80,10 @@ class Settings : AppCompatActivity() {
 
         //Retrieve settings from database
         viewModel.user.observe(this) {
-            location.text = AndroidLocationService.getCurrentLocation(this, it)
-            currentRadius = it.radius ?: DEFAULT_RADIUS
+            location.text = AndroidLocationService.getCurrentLocationStringFromUser(this, it)
+            this.currentRadius = it.radius ?: DEFAULT_RADIUS
             currentAgeRange = it.ageRange ?: listOf(MIN_AGE, MAX_AGE)
-            radiusSlider.value = currentRadius.toFloat()
+            radiusSlider.value = this.currentRadius.toFloat()
             showMe.text = it.showMe
             ageRangeSlider.setValues(
                 currentAgeRange[0].toFloat(),
@@ -93,7 +91,7 @@ class Settings : AppCompatActivity() {
             )
         }
 
-        //Update the radius text with initial value, and everytime the slider changes
+        //Update the currentRadius text with initial value, and everytime the slider changes
         radius.text = getString(R.string.progress_km, radiusSlider.value.toInt())
         radiusSlider.addOnChangeListener { _, value, _ ->
             radius.text = getString(R.string.progress_km, value.toInt())
@@ -106,20 +104,30 @@ class Settings : AppCompatActivity() {
         }
     }
 
-    //TODO in another branch
-    /*
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onResume() {
+        super.onResume()
+        viewModel.userUpdate()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
-        if(radiusSlider.value != currentRadius.toFloat()) {
-
+        if (radiusSlider.value != currentRadius.toFloat()) {
+            viewModel.updateField(RADIUS, radiusSlider.value.toInt())
         }
-        if(ageRangeSlider.values != listOf(currentAgeRange[0].toFloat(), currentAgeRange[1].toFloat())) {
-
+        if (ageRangeSlider.values != listOf(
+                currentAgeRange[0].toFloat(),
+                currentAgeRange[1].toFloat()
+            )
+        ) {
+            viewModel.updateField(
+                AGE_RANGE,
+                listOf(ageRangeSlider.values[0].toInt(), ageRangeSlider.values[1].toInt())
+            )
         }
         super.onBackPressed()
     }
-     */
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun instantiateViewModel() {
         val bundle = Bundle()
         bundle.putString(EXTRA_UID, userHelper.getUserId())
@@ -143,9 +151,9 @@ class Settings : AppCompatActivity() {
      * @param view
      */
     fun startLocationSettings(view: View) {
-        val currentLocation = findViewById<TextView>(R.id.current_location_text).text.toString()
+        val location = findViewById<TextView>(R.id.current_location_text).text.toString()
         val intent = Intent(this, SettingsLocation::class.java).apply {
-            putExtra(EXTRA_LOCATION, currentLocation)
+            putExtra(EXTRA_LOCATION, location)
         }
         startActivity(intent)
     }
@@ -202,5 +210,4 @@ class Settings : AppCompatActivity() {
     fun startUpdateEmail(view: View) {
         startActivity(Intent(this, SettingsUpdateEmail::class.java))
     }
-
 }

@@ -14,8 +14,10 @@ import kotlinx.serialization.json.Json
 
 private const val NONE_CHECKED = -1
 
+/**
+ * Activity that allows the users to specify which gender they want to see.
+ */
 class ProfileShowMe : AppCompatActivity() {
-
     private lateinit var userBuilder: User.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -21,192 +21,45 @@
             android:theme="?attr/actionBarTheme"
             app:title="@string/settings_show_me" />
 
-        <Button
-            android:id="@+id/done_button"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:background="@color/transparent"
-            android:text="@string/done" />
-
-        <Space
-            android:id="@+id/show_me_space"
+        <RadioGroup
+            android:id="@+id/show_me_radio_group"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_below="@+id/show_me_toolbar"
-            android:gravity="center" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/show_me_space"
-            android:background="?android:attr/listDivider" />
-
-        <Space
-            android:id="@+id/show_me_space_1"
-            android:layout_width="10dp"
-            android:layout_height="49dp"
-            android:layout_below="@+id/divider"
-            android:gravity="center" />
-
-
-        <Button
-            android:id="@+id/show_me_men_button"
-            android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:layout_below="@+id/divider"
-            android:background="@color/transparent" />
-
-        <TextView
-            android:id="@+id/men_text"
-            android:layout_width="wrap_content"
-            android:layout_height="49dp"
-            android:layout_below="@+id/divider"
-            android:layout_toEndOf="@id/show_me_space_1"
-            android:gravity="center"
-            android:text="@string/men_show_me"
-            android:textSize="15sp" />
-
-        <Space
-            android:id="@+id/show_me_space_2"
-            android:layout_width="10dp"
-            android:layout_height="49dp"
-            android:layout_below="@+id/divider"
-            android:layout_alignParentEnd="true"
-            android:gravity="center" />
-
-        <Space
-            android:id="@+id/show_me_space_3"
-            android:layout_width="25dp"
-            android:layout_height="14dp"
-            android:layout_below="@+id/divider"
-            android:layout_toStartOf="@id/show_me_space_2" />
-
-        <ImageView
-            android:id="@+id/checkmark_img_men"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_below="@+id/show_me_space_3"
-            android:layout_toStartOf="@id/show_me_space_2"
-            android:contentDescription="@string/check_mark_for_the_choice_men"
-            app:srcCompat="@drawable/checkmark_img"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="278dp" />
-
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/men_text"
-            android:background="?android:attr/listDivider" />
-
-        <Button
-            android:id="@+id/show_me_women_button"
-            android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:layout_below="@+id/divider1"
-            android:background="@color/transparent" />
-
-        <TextView
-            android:id="@+id/women_text"
-            android:layout_width="wrap_content"
-            android:layout_height="49dp"
-            android:layout_below="@+id/divider1"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp"
-            android:layout_toEndOf="@id/show_me_space_1"
-            android:gravity="center"
-            android:text="@string/women_show_me"
-            android:textSize="15sp" />
-
-        <Space
-            android:id="@+id/show_me_space_4"
-            android:layout_width="25dp"
-            android:layout_height="14dp"
-            android:layout_below="@+id/divider1"
-            android:layout_toStartOf="@id/show_me_space_2" />
-
-        <ImageView
-            android:id="@+id/checkmark_img_women"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_below="@+id/show_me_space_4"
-            android:layout_toStartOf="@id/show_me_space_2"
-            android:contentDescription="@string/check_mark_for_the_choice_women"
-            app:srcCompat="@drawable/checkmark_img"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="278dp" />
-
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/women_text"
-            android:background="?android:attr/listDivider" />
-
-        <Button
-            android:id="@+id/show_me_everyone_button"
-            android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:layout_below="@+id/divider2"
-            android:background="@color/transparent"
-            android:checkable="true"
-            android:focusable="true"
-            app:checkedIconEnabled="true" />
-
-        <TextView
-            android:id="@+id/everyone_text"
-            android:layout_width="wrap_content"
-            android:layout_height="49dp"
-            android:layout_below="@+id/divider2"
-            android:layout_toEndOf="@id/show_me_space_1"
-            android:gravity="center"
-            android:text="@string/everyone_show_me"
-            android:textSize="15sp" />
-
-        <Space
-            android:id="@+id/show_me_space_5"
-            android:layout_width="25dp"
-            android:layout_height="14dp"
-            android:layout_below="@+id/divider2"
-            android:layout_toStartOf="@id/show_me_space_2" />
-
-
-        <ImageView
-            android:id="@+id/checkmark_img_everyone"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_below="@+id/show_me_space_5"
-            android:layout_toStartOf="@id/show_me_space_2"
-            android:contentDescription="@string/check_mark_for_the_choice_everyone"
-            app:srcCompat="@drawable/checkmark_img"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="278dp" />
-
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/everyone_text"
-            android:background="?android:attr/listDivider" />
-
-        <Space
-            android:id="@+id/space"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_below="@+id/divider3"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/choice_description"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/space"
-            android:layout_toEndOf="@id/show_me_space_1"
-            android:gravity="center"
-            android:textSize="15sp" />
+            android:layout_below="@id/show_me_toolbar"
+            android:layout_marginStart="10dp"
+            android:alwaysDrawnWithCache="false"
+            android:clickable="true"
+            tools:layout_editor_absoluteX="81dp"
+            tools:layout_editor_absoluteY="229dp"
+            android:focusable="true">
 
+            <RadioButton
+                android:id="@+id/women_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/women_show_me"
+                android:visibility="visible" />
+
+            <RadioButton
+                android:id="@+id/men_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/men_show_me"
+                android:visibility="visible" />
+
+            <RadioButton
+                android:id="@+id/everyone_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/everyone_show_me"
+                android:visibility="visible" />
+        </RadioGroup>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
