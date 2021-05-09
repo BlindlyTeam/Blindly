@@ -44,11 +44,11 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".UserMapActivity" />
+        <activity android:name=".map.UserMapActivity" />
 
         <activity android:name=".settings.SettingsLocation" />
         <activity android:name=".settings.SettingsShowMe" />
-        <activity android:name=".EditProfile" />
+        <activity android:name=".profile_edit.EditProfile" />
         <activity android:name=".settings.Settings" />
         <activity android:name=".settings.SettingsUpdateEmail" />
         <activity

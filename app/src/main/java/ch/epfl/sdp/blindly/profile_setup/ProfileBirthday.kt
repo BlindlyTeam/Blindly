@@ -23,7 +23,6 @@ const val MAJORITY_AGE = 18
  * Gets the birthday of the user and do the checks on age.
  */
 class ProfileBirthday : AppCompatActivity() {
-
     private lateinit var userBuilder: User.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,5 +78,4 @@ class ProfileBirthday : AppCompatActivity() {
             LocalDate.now()
         ).years
     }
-
 }

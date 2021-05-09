@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserRepository
+import ch.epfl.sdp.blindly.database.UserRepository
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
@@ -14,11 +14,13 @@ import java.lang.Exception
 private const val TAG = "MatchingAlgorithm"
 const val EVERYONE = "Everyone"
 
+/**
+ * Handles the matching algorithm that we use in our app.
+ */
 class MatchingAlgorithm(
     private var userHelper: UserHelper,
     private var userRepository: UserRepository
 ) {
-
     private val userListFilter = UserListFilter()
 
     /**
@@ -62,7 +64,7 @@ class MatchingAlgorithm(
                         matches += user.toUser()
                     }
                 }
-            } catch (exception: Exception){
+            } catch (exception: Exception) {
                 Log.w(TAG, "Error getting users : ", exception)
             }
         }

@@ -26,5 +26,4 @@ class Message<T> {
         currentUserId = _currentUserId
         timestamp = System.currentTimeMillis()
     }
-
 }

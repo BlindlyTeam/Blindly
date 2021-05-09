@@ -8,11 +8,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.ViewModelAssistedFactory
 import ch.epfl.sdp.blindly.user.SHOW_ME
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
-import ch.epfl.sdp.blindly.user.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -22,7 +22,6 @@ const val EVERYONE = "Everyone"
 
 /**
  * Activity to modify the show me of the User
- *
  */
 @AndroidEntryPoint
 class SettingsShowMe : AppCompatActivity() {
@@ -58,7 +57,6 @@ class SettingsShowMe : AppCompatActivity() {
         viewModel.user.observe(this) {
             currentShowMe = it.showMe.toString()
         }
-
     }
 
     private fun setClickedButton(button: RadioGroup, showMe: String) {
