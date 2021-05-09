@@ -66,6 +66,19 @@ class UserRepository @Inject constructor(
         }
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private suspend fun <T> updateLocalCache(uid: String, field: String, newValue: T) {
+        val user = userCache.get(uid)
+        if(user != null) {
+            Log.d(TAG, "Updated user in local cache")
+            userCache.put(uid, User.updateUser(user, field, newValue))
+        }
+        else {
+            refreshUser(uid)
+        }
+    }
+
     /**
      * Update a given field of the user's information (and call refreshUser to update or set the
      * user in the local cache)
@@ -74,18 +87,19 @@ class UserRepository @Inject constructor(
      * @param field the field of the value to change inside the database
      * @param newValue the new value to set for the user
      */
-    /*
+
     @RequiresApi(Build.VERSION_CODES.N)
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
-        if (newValue !is String || newValue !is ArrayList<*>)
-            throw IllegalArgumentException("Expected String or ArrayList<String>")
+        if (newValue !is String && newValue !is List<*> && newValue !is Int)
+            throw IllegalArgumentException("Expected String, List<String> or Int")
+
         db.collection(USER_COLLECTION)
             .document(uid)
             .update(field, newValue)
+        Log.d(TAG, "Updated user")
         //Put updated value into the local cache
-        refreshUser(uid)
+        updateLocalCache(uid, field, newValue)
     }
-    */
 
     /**
      * Get the collection reference of the database of users.

@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +9,24 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.match.cards.Profile
 import ch.epfl.sdp.blindly.match.cards.CardStackAdapter
+import ch.epfl.sdp.blindly.match.MatchingAlgorithm
+import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.UserHelper
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 
 private const val VISIBLE_COUNT = 3
 private const val TRANSLATION_INTERVAL = 8f
@@ -31,6 +42,13 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private lateinit var manager: CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
     private lateinit var cardStackView: CardStackView
+    private lateinit var fragView: View
+
+    @Inject
+    lateinit var userHelper: UserHelper
+
+    @Inject
+    lateinit var userRepository: UserRepository
 
     companion object {
         private const val ARG_COUNT = "matchArgs"
@@ -66,16 +84,21 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * @param savedInstanceState
      * @return the fragment's view
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_match_page, container, false)
+        fragView = inflater.inflate(R.layout.fragment_match_page, container, false)
 
-        setupButtons(view)
-        setupCardStackView(view)
+        setupButtons(fragView)
+        setupManager()
 
-        return view
+        //Needs to be done in a coroutine
+        viewLifecycleOwner.lifecycleScope.launch {
+            getPotentialMatchesProfiles()
+        }
+        return fragView
     }
 
     /**
@@ -120,11 +143,10 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * Initialize the manager, the adapter and the cardStackView
+     * Initialize the manager
      *
      */
-    private fun setupCardStackView(view: View) {
-        cardStackView = view.findViewById(R.id.card_stack_view)!!
+    private fun setupManager() {
         manager = CardStackLayoutManager(context, this)
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(VISIBLE_COUNT)
@@ -137,7 +159,34 @@ class MatchPageFragment : Fragment(), CardStackListener {
         manager.setCanScrollVertical(true)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
-        adapter = CardStackAdapter(createProfiles())
+    }
+
+    /**
+     * Initialize the adapter
+     *
+     */
+    private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
+        adapter = CardStackAdapter(potentialMatches)
+        setupCardStackView(fragView)
+    }
+
+    /**
+     * Sets up the adapter on the main scope when the coroutine
+     * is done processing
+     *
+     */
+    private suspend fun setAdapterAndCartStackViewOnMainThread(input: List<Profile>) {
+        withContext(Main) {
+            setupAdapterAndCardStackView(input)
+        }
+    }
+
+    /**
+     * Initialize the cardStackView
+     *
+     */
+    private fun setupCardStackView(view: View) {
+        cardStackView = view.findViewById(R.id.card_stack_view)!!
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator.apply {
@@ -148,49 +197,23 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * create profiles for demo purpose
+     * This function calls the Matching Algorithm to get the potential matches and transforms them
+     * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done.
      *
-     * TODO: !!! PLS REMOVE IT WHEN BINDING THE ACIVITY WITH THE DATABASE !!!
-     *
-     * this function have to be replaced with calls to the matching algorithms and retrieve porfiles
-     * from the database
-     *
-     * @return a list of profiles for the matchActivity
      */
-    private fun createProfiles(): List<Profile> {
-        val profiles = ArrayList<Profile>()
-        profiles.add(Profile("Michelle", 25))
-        profiles.add(Profile("Jean", 32))
-        profiles.add(Profile("Jacques", 28))
-        profiles.add(Profile("Bernadette", 35))
-        profiles.add(Profile("Jeannine", 46))
-        profiles.add(Profile("Kilian", 25))
-        profiles.add(Profile("Melissa", 20))
-        profiles.add(Profile("Tibor", 36))
-        profiles.add(Profile("Cagin", 27))
-        profiles.add(Profile("Capucine", 21))
-        return profiles
-    }
-
-    /**
-     * This functions calls the Matching Algorithm to get the potential matches and transforms them
-     * into profiles by calling [createProfilesFromUsers].
-     *
-     * TODO: Use it to retrieve potential matches
-     * Since it is not used yet, I prefer to comment both functions for test coverage purposes.
-     *
-     * @return a list of profiles for the matchActivity
-     */
-    /*@RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun getPotentialMatchesProfiles(): List<Profile> {
-        val matchingAlgorithm = MatchingAlgorithm()
+    @RequiresApi(Build.VERSION_CODES.O)
+    private suspend fun getPotentialMatchesProfiles() {
+        val matchingAlgorithm = MatchingAlgorithm(userHelper, userRepository)
         val potentialUsers = matchingAlgorithm.getPotentialMatchesFromDatabase()
 
-        return if (potentialUsers == null) {
+        val potentialProfiles = if (potentialUsers == null) {
             listOf()
         } else {
             createProfilesFromUsers(potentialUsers)
         }
+
+        //When the work is done in this coroutine, come back to the main scope
+        setAdapterAndCartStackViewOnMainThread(potentialProfiles)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -205,9 +228,10 @@ class MatchPageFragment : Fragment(), CardStackListener {
             )
         }
         return profiles
-    }*/
+    }
 
-    /*
+
+    /**
      * Setup the 3 buttons (like, rewind, skip)
      *
      */

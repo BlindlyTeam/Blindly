@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.map.UserMapActivity
@@ -45,8 +46,10 @@ class MapFragment : Fragment() {
 
     private fun startUserMap() {
         val intent = Intent(activity, UserMapActivity::class.java)
-        val points = arrayOf(LAUSANNE_LATLNG)
-        intent.putExtra(UserMapActivity.POINTS, points)
+        // TODO : This is where we pass the UID of the matched User
+        val bundle = bundleOf("matchedId" to "TBzoT5LxhdTwcDvvEz5JXIkpVx12")
+
+        intent.putExtras(bundle)
         startActivity(intent)
     }
 }

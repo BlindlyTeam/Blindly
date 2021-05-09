@@ -7,19 +7,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
+import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
+import ch.epfl.sdp.blindly.helpers.Message
+import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.PermissionDeniedDialog.Companion.newInstance
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.isPermissionGranted
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.requestPermission
+import ch.epfl.sdp.blindly.settings.LAUSANNE_LATLNG
+import ch.epfl.sdp.blindly.user.UserHelper
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /*
  * An activity displaying two users live
  */
+@AndroidEntryPoint
 class UserMapActivity : AppCompatActivity(), OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -28,7 +39,17 @@ class UserMapActivity : AppCompatActivity(), OnMapReadyCallback,
      * [onRequestPermissionsResult].
      */
     private var permissionDenied = false
+
     private lateinit var map: GoogleMap
+    private var otherUserMarker: Marker? = null
+    private lateinit var locationDatabase: DatatbaseHelper.LocationLiveDatabase
+    private lateinit var matchName: String
+
+    @Inject
+    lateinit var databaseHelper: DatatbaseHelper
+
+    @Inject
+    lateinit var userHelper: UserHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +58,59 @@ class UserMapActivity : AppCompatActivity(), OnMapReadyCallback,
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
+
+        // Cancel loading if we can't get the user id
+        val currentUserId = userHelper.getUserId() ?: return
+        val matchId = intent.extras?.getString(MATCH_ID) ?: DEFAULT_MATCH_ID
+        matchName =
+            intent.extras?.getString(MATCH_NAME) ?: getString(R.string.default_label_map_pin)
+
+        locationDatabase = databaseHelper.getLocationLiveDatabase(currentUserId, matchId)
+        locationDatabase.addListener(object :
+            DatatbaseHelper.BlindlyLiveDatabase.EventListener<BlindlyLatLng>() {
+            override fun onMessageReceived(message: Message<BlindlyLatLng>) {
+                updateMarker(message)
+            }
+
+            override fun onMessageUpdated(message: Message<BlindlyLatLng>) {
+                updateMarker(message)
+            }
+        })
+
+        AndroidLocationService(applicationContext).addLocationChangeListener(object :
+            AndroidLocationService.LocationChangeListener() {
+            override fun onLocationChange(pos: BlindlyLatLng) {
+                locationDatabase.updateLocation(pos)
+            }
+        })
+    }
+
+    private fun updateMarker(message: Message<BlindlyLatLng>) {
+        if (!::map.isInitialized) return
+        if (message.currentUserId == userHelper.getUserId()) return
+        val pos = message.messageText ?: return
+        val latLng = pos.toLatLng() ?: return
+        tryToAddMarker(latLng)?.position = latLng
+    }
+
+    /**
+     * Sometimes google map can fail to add the marker so we
+     * retry everytime we need it
+     *
+     * @return Hopefully the marker
+     */
+    private fun tryToAddMarker(latLng: LatLng): Marker? {
+        if (otherUserMarker == null && ::map.isInitialized) {
+            otherUserMarker = map.addMarker(
+                MarkerOptions()
+                    .position(LAUSANNE_LATLNG)
+                    .title(matchName)
+            )
+            // When we first have the match position,
+            // center the map to their position
+            map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        }
+        return otherUserMarker
     }
 
     /**
@@ -53,18 +127,6 @@ class UserMapActivity : AppCompatActivity(), OnMapReadyCallback,
         map = googleMap ?: return
 
         enableMyLocation()
-
-        // Add markers from the intent
-        val points: Array<LatLng>? =
-            intent.getParcelableArrayExtra(POINTS)?.map { p -> p as LatLng }?.toTypedArray()
-        if (points != null) {
-            for (point in points) {
-                map!!.addMarker(MarkerOptions().position(point).title("Marker in Sydney2"))
-            }
-        }
-
-        // TODO move camera to user settings position
-        //map!!.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     /**
@@ -132,6 +194,8 @@ class UserMapActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     companion object {
-        const val POINTS = "points"
+        const val MATCH_ID = "matchedId"
+        const val MATCH_NAME = "matchedName"
+        const val DEFAULT_MATCH_ID = "default_user"
     }
 }

@@ -143,29 +143,6 @@ class ProfilePageTest {
         }
     }
 
-    //TODO not yet implemented
-    /*@Test
-    fun recordButtonFiresRecordingActivity() {
-        //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
-
-        onView(withId(R.id.record_button)).perform(click())
-        intended(hasComponent(RecordingActivity::class.java.name))
-    }
-
-    @Test
-    fun recordButtonRemovedAudioPlayerFragment() {
-        //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
-
-        onView(withId(R.id.record_button)).perform(click())
-        val fragmentManager = fragment.childFragmentManager
-        val audioFragment = fragmentManager.findFragmentById(R.id.fragment_audio_container_view)
-        assert(audioFragment == null)
-    }
-
-     */
-
     private fun getAudioPlayerFragment(): Fragment? {
         val fragmentManager = fragment.childFragmentManager
         return fragmentManager.findFragmentById(R.id.fragment_audio_container_view)

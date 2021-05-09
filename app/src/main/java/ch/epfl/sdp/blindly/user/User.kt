@@ -12,24 +12,38 @@ import java.time.Period
 private const val SIZE_OF_LOCATION_LIST = 2
 private const val SIZE_OF_AGE_RANGE_LIST = 2
 
+const val USERNAME = "username"
+const val LOCATION = "location"
+const val BIRTHDAY = "birthday"
+const val GENDER = "gender"
+const val SEXUAL_ORIENTATIONS = "sexualOrientations"
+const val SHOW_ME = "showMe"
+const val PASSIONS = "passions"
+const val RADIUS = "radius"
+const val MATCHES = "matches"
+const val LIKES = "likes"
+const val DESCRIPTION = "description"
+const val RECORDING_PATH = "recordingPath"
+const val AGE_RANGE = "ageRange"
+
 /**
  * A class to represent a User
  */
 @Serializable
 class User private constructor(
-    val username: String?,
-    val location: List<Double>?,
-    val birthday: String?,
-    val gender: String?,
-    val sexualOrientations: List<String>?,
-    val showMe: String?,
-    val passions: List<String>?,
-    val radius: Int?,
-    val matches: List<String>?,
-    val likes: List<String>?,
-    val description: String?,
-    val recordingPath: String?,
-    val ageRange: List<Int>?
+    var username: String?,
+    var location: List<Double>?,
+    var birthday: String?,
+    var gender: String?,
+    var sexualOrientations: List<String>?,
+    var showMe: String?,
+    var passions: List<String>?,
+    var radius: Int?,
+    var matches: List<String>?,
+    var likes: List<String>?,
+    var description: String?,
+    var recordingPath: String?,
+    var ageRange: List<Int>?
 ) {
 
     /**
@@ -87,7 +101,7 @@ class User private constructor(
                 this.location = location
             else
                 throw IllegalArgumentException(
-                    "Expected ageRange.size to be " +
+                    "Expected location.size to be " +
                             "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead"
                 )
         }
@@ -190,7 +204,6 @@ class User private constructor(
          *     ageRange[1] = maxAge
          */
         fun setAgeRange(ageRange: List<Int>) = apply {
-
             if (ageRange.size == SIZE_OF_AGE_RANGE_LIST)
                 this.ageRange = ageRange
             else
@@ -245,7 +258,7 @@ class User private constructor(
                 val matches = get("matches") as? List<String>
                 val likes = get("likes") as? List<String>
                 val description = getString("description")!!
-                val ageRange = get("ageRange") as? List<Int>
+                val ageRange = get("ageRange") as? List<Long>
                 val recordingPath = getString("recordingPath")!!
 
                 return User(
@@ -261,7 +274,8 @@ class User private constructor(
                     likes,
                     description,
                     recordingPath,
-                    ageRange
+                    //Numbers on Firestore are Long, so we need to cast back to Int
+                    listOf(ageRange!![0].toInt(), ageRange[1].toInt())
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile", e)
@@ -296,6 +310,115 @@ class User private constructor(
                 LocalDate.now()
             ).years
         }
+
+        /**
+         * Update the field of a User
+         *
+         * @param T either a String, an Int or a List<*>
+         * @param user the user to update
+         * @param field the field to update
+         * @param newValue the new value
+         * @return the updated user
+         */
+        fun <T> updateUser(user: User, field: String, newValue: T): User {
+            when (field) {
+                USERNAME -> {
+                    assertIsString(newValue)
+                    user.username = newValue as String
+                }
+                LOCATION -> {
+                    assertIsLocation(newValue)
+                    user.location = newValue as List<Double>
+                }
+                BIRTHDAY -> {
+                    assertIsString(newValue)
+                    user.birthday = newValue as String
+                }
+                GENDER -> {
+                    assertIsString(newValue)
+                    user.gender = newValue as String
+                }
+                SEXUAL_ORIENTATIONS -> {
+                    assertIsListOfString(newValue)
+                    user.sexualOrientations = newValue as List<String>
+                }
+                SHOW_ME -> {
+                    assertIsString(newValue)
+                    user.showMe = newValue as String
+                }
+                PASSIONS -> {
+                    assertIsListOfString(newValue)
+                    user.passions = newValue as List<String>
+                }
+                RADIUS -> {
+                    assertIsInt(newValue)
+                    user.radius = newValue as Int
+                }
+                MATCHES -> {
+                    assertIsListOfString(newValue)
+                    user.matches = newValue as List<String>
+                }
+                LIKES -> {
+                    assertIsListOfString(newValue)
+                    user.likes = newValue as List<String>
+                }
+                DESCRIPTION -> {
+                    assertIsString(newValue)
+                    user.description = newValue as String
+                }
+                RECORDING_PATH -> {
+                    assertIsString(newValue)
+                    user.recordingPath = newValue as String
+                }
+                AGE_RANGE -> {
+                    assertIsAgeRange(newValue)
+                    user.ageRange = newValue as List<Int>
+                }
+            }
+            return user
+        }
+
+        private fun <T> assertIsListOfString(newValue: T) {
+            if (newValue !is List<*>)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+            if (newValue[0] !is String)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<String>")
+        }
+
+        private fun <T> assertIsAgeRange(newValue: T) {
+            if (newValue !is List<*>)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<Int>")
+            if (newValue[0] !is Int)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<Int>")
+            if (newValue.size != SIZE_OF_AGE_RANGE_LIST)
+                throw IllegalArgumentException(
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_AGE_RANGE_LIST but got: ${newValue.size} instead"
+                )
+        }
+
+        private fun <T> assertIsLocation(newValue: T) {
+            if (newValue !is List<*>)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<Double>")
+            if (newValue[0] !is Double)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a List<Double>")
+            if (newValue.size != SIZE_OF_LOCATION_LIST)
+                throw IllegalArgumentException(
+                    "Expected location.size to be " +
+                            "$SIZE_OF_LOCATION_LIST but got: ${newValue.size} instead"
+                )
+        }
+
+        private fun <T> assertIsString(newValue: T) {
+            if (newValue !is String)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a String")
+        }
+
+        private fun <T> assertIsInt(newValue: T) {
+            if (newValue !is Int)
+                throw java.lang.IllegalArgumentException("Expected newValue to be an Int")
+        }
+
     }
 
     /* This is for debugging in tests, you're free to modify it if you need to (but don't forget

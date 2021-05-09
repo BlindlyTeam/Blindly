@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +26,13 @@ import ch.epfl.sdp.blindly.main_screen.audio_player.AudioPlayerFragment
 import ch.epfl.sdp.blindly.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+<<<<<<< HEAD:app/src/main/java/ch/epfl/sdp/blindly/main_screen/fragments/ProfilePageFragment.kt
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel.Companion.EXTRA_UID
+=======
+import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
+import ch.epfl.sdp.blindly.user.UserViewModel
+>>>>>>> main:app/src/main/java/ch/epfl/sdp/blindly/main_screen/ProfilePageFragment.kt
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -68,7 +74,6 @@ class ProfilePageFragment : Fragment() {
     /**
      * Set up the viewModel
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -126,6 +131,12 @@ class ProfilePageFragment : Fragment() {
                 userDescriptionText.text = getString(R.string.user_description, it.description)
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onResume() {
+        super.onResume()
+        viewModel.userUpdate()
     }
 
     /**

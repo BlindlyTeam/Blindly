@@ -13,6 +13,7 @@ import ch.epfl.sdp.blindly.map.UserMapActivity
 import ch.epfl.sdp.blindly.permissions.LocationPermission
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import ch.epfl.sdp.blindly.permissions.LocationPermission.Companion.requestPermission
+import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 
 import org.junit.Rule
@@ -23,6 +24,9 @@ class LocationPermissionTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(UserMapActivity::class.java)
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @Test
     fun permissionDeniedDialogFragment() {

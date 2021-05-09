@@ -48,10 +48,10 @@ class UserListFilter {
 
         return otherUsers.filter { user ->
             if (user.showMe == EVERYONE) {
-                currentUserAge in user.ageRange?.get(0)!!..user.ageRange[1] &&
+                currentUserAge in user.ageRange?.get(0)!!..user.ageRange!![1] &&
                         isLocatedInUserRadius(user, currentUser)
             } else {
-                currentUserAge in user.ageRange?.get(0)!!..user.ageRange[1] &&
+                currentUserAge in user.ageRange?.get(0)!!..user.ageRange!![1] &&
                         isLocatedInUserRadius(user, currentUser) &&
                         user.showMe == currentUserGender
             }
@@ -62,8 +62,8 @@ class UserListFilter {
         if (user.location == null || otherUser.location == null) {
             throw IllegalArgumentException("Cannot perform distance between null locations")
         }
-        val location = createLocation(user.location)
-        val otherLocation = createLocation(otherUser.location)
+        val location = createLocation(user.location!!)
+        val otherLocation = createLocation(otherUser.location!!)
         val distance = location.distanceTo(otherLocation)
         val radiusInMeters = (user.radius!! * ONE_KM_IN_METERS).toFloat()
         return distance <= radiusInMeters

@@ -51,6 +51,7 @@ open class FakeFirestoreModule {
                 .get()
         )
             .thenReturn(successfulTask).then { fakeUser }
+
         return db
     }
 }

@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen.audio_player
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.recording.AudioRecord
 import ch.epfl.sdp.blindly.recording.BlindlyMediaPlayer
 import ch.epfl.sdp.blindly.recording.PRESENTATION_AUDIO_NAME
+import ch.epfl.sdp.blindly.recording.RecordingActivity
 import java.io.File
 
 /**
@@ -21,6 +23,8 @@ import java.io.File
  * Use the [AudioPlayerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+private const val MY_AUDIO_RECORD = "My Audio Record"
+
 class AudioPlayerFragment : Fragment() {
     private val blindlyMediaPlayer = BlindlyMediaPlayer()
     private lateinit var audioRecord: AudioRecord
@@ -46,11 +50,9 @@ class AudioPlayerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
-
         val file = File("${context?.filesDir?.absolutePath}/$PRESENTATION_AUDIO_NAME")
-        //TODO Can we obtain the duration from a File?
         audioRecord = AudioRecord(
-            file.name,
+            MY_AUDIO_RECORD,
             "",
             file.path,
             true
@@ -75,15 +77,12 @@ class AudioPlayerFragment : Fragment() {
         recordDuration = view.findViewById(R.id.record_duration)
         recordDuration.text = audioRecord.durationText
 
-        //TODO will have to refactor the RecordingActivity, to accept a User as Bundle
-        /*
         val recordButton = view.findViewById<Button>(R.id.record_button)
         recordButton.setOnClickListener {
             val intent = Intent(context, RecordingActivity::class.java)
             removeFragment()
             startActivity(intent)
         }
-        */
 
         return view
     }
