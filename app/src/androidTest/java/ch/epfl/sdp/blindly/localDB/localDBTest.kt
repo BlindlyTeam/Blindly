@@ -19,18 +19,27 @@ class LocalDBTest {
     private val userBuilder = User.Builder()
 
     private val alice = userBuilder.setUsername("Alice")
+        .setLocation(listOf(22.5, 5.6))
         .setBirthday("29.04.1997")
         .setGender("female")
         .setSexualOrientations(listOf("male"))
         .setShowMe("male")
+        .setPassions(listOf("wine"))
         .setAgeRange(listOf(20, 30))
         .setRadius(50)
+        .setLikes(listOf("bob"))
+        .setMatches(listOf("bob"))
+        .setRecordingPath("path")
+        .setDescription("description")
         .build()
 
+    /*
     val bob = userBuilder.setUsername("Bob")
         .setBirthday("06.01.1994")
         .setAgeRange(listOf(20, 30))
         .build()
+        */
+
 
     @Before
     fun createDb() {
@@ -49,7 +58,7 @@ class LocalDBTest {
     @Throws(Exception::class)
     fun putAndRetieveUser() {
         val a = UserEntity("alice", alice)
-        userDAO.insertUser(a)
+        userDAO.insert(a)
         val username = userDAO.getUserName("alice")
         assertThat(username, equalTo(alice.username))
     }

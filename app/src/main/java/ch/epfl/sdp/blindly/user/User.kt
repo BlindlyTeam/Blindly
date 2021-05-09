@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.user
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.room.Entity
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
@@ -33,6 +32,22 @@ class User private constructor(
     var recordingPath: String?,
     var ageRange: List<Int>?
 ) {
+
+    constructor() : this(
+        "",
+        listOf(),
+        "",
+        "",
+        listOf(),
+        "",
+        listOf(),
+        0,
+        listOf(),
+        listOf(),
+        "",
+        "",
+        listOf()
+    )
 
     /**
      * A builder used to partially initialize a user during the profile_setup activities
@@ -88,8 +103,10 @@ class User private constructor(
             if (location.size == SIZE_OF_LOCATION_LIST)
                 this.location = location
             else
-                throw IllegalArgumentException("Expected location.size to be " +
-                        "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead")
+                throw IllegalArgumentException(
+                    "Expected location.size to be " +
+                            "$SIZE_OF_LOCATION_LIST but got: ${location.size} instead"
+                )
         }
 
         /**

@@ -2,46 +2,49 @@ package ch.epfl.sdp.blindly.localDB
 
 import androidx.room.*
 
+@Dao
+interface BaseDAO<T> {
+    @Insert
+    fun insert(entity: T)
+
+    @Update
+    fun update(entity: T)
+
+    @Delete
+    fun delete(entity: T)
+}
 /**
- * Class that contains all the queries that can be made for the local databse
+ * Class that contains all the queries that can be made for the local database
  *
  */
 @Dao
-interface UserDAO {
+abstract class UserDAO: BaseDAO<UserEntity> {
 
     /**
      * Insert a User in the local Database
      *
-     * @param user User to insert in the local Database
+     * @param userentity User to insert in the local Database
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUser(vararg user: UserEntity)
-
-    /**
-     * Insert a list of User in the local Database
-     *
-     * @param users list of User to insert in the local Database
-     */
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllUser(vararg users: List<UserEntity>)
+    abstract fun insertUser(userentity: UserEntity)
 
     /**
      * Update the information about a User in the local Databse
      *
-     * @param user User to be updated
+     * @param userentity User to be updated
      * @return the number of columns changed
      */
     @Update
-    fun updateUser(vararg user: UserEntity): Int
+    abstract fun updateUser(userentity: UserEntity): Int
 
     /**
      * Delete the information about a User in the local Database
      *
-     * @param user User to be deleted
+     * @param userentity User to be deleted
      * @return the number of rows deleted
      */
     @Delete
-    fun deleteUser(vararg user: UserEntity): Int
+    abstract fun deleteUser(userentity: UserEntity): Int
 
     /**
      * Get the username from a given uid
@@ -50,6 +53,5 @@ interface UserDAO {
      * @return the user's name
      */
     @Query("SELECT username FROM userentity WHERE uid = :id ")
-    fun getUserName(id: String): String?
-
+    abstract fun getUserName(id: String): String?
 }
