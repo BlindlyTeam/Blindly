@@ -132,6 +132,6 @@ class UserMapActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     companion object {
-        const val POINTS = "points";
+        const val POINTS = "points"
     }
 }
