@@ -11,7 +11,7 @@ class UserConverter {
     }
 
     @TypeConverter
-    fun fromStringToLoscation(str: String): List<Double> {
+    fun fromStringToLocation(str: String): List<Double> {
         val values = str.split(",")
         return listOf(values[0].toDouble(), values[1].toDouble())
     }
