@@ -144,7 +144,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * Initialize the manager
-     *
      */
     private fun setupManager() {
         manager = CardStackLayoutManager(context, this)
@@ -163,7 +162,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * Initialize the adapter
-     *
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
         adapter = CardStackAdapter(potentialMatches)
@@ -173,9 +171,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
     /**
      * Sets up the adapter on the main scope when the coroutine
      * is done processing
-     *
      */
-    private suspend fun setAdapterAndCartStackViewOnMainThread(input: List<Profile>) {
+    private suspend fun setAdapterAndCardStackViewOnMainThread(input: List<Profile>) {
         withContext(Main) {
             setupAdapterAndCardStackView(input)
         }
@@ -183,7 +180,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * Initialize the cardStackView
-     *
      */
     private fun setupCardStackView(view: View) {
         cardStackView = view.findViewById(R.id.card_stack_view)!!
@@ -198,8 +194,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * This function calls the Matching Algorithm to get the potential matches and transforms them
-     * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done.
-     *
+     * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun getPotentialMatchesProfiles() {
@@ -213,7 +208,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
 
         //When the work is done in this coroutine, come back to the main scope
-        setAdapterAndCartStackViewOnMainThread(potentialProfiles)
+        setAdapterAndCardStackViewOnMainThread(potentialProfiles)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -230,10 +225,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
         return profiles
     }
 
-
     /**
      * Setup the 3 buttons (like, rewind, skip)
-     *
      */
     private fun setupButtons(view: View) {
         val skip = view.findViewById<View>(R.id.skip_button)
