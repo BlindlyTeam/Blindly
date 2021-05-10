@@ -19,6 +19,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.edit_info.EditGender
 import ch.epfl.sdp.blindly.edit_info.EditProfile
 import ch.epfl.sdp.blindly.profile_setup.ProfileOrientation
+import ch.epfl.sdp.blindly.profile_setup.TEST_GENDER_WOMEN
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -36,11 +37,12 @@ import javax.inject.Inject
 
 private const val TEST_GENDER_MORE = "More"
 private const val TEST_GENDER_MAN = "Man"
+private const val TEST_GENDER_WOMAN = "Woman"
+private const val TEST_GENDER_FLOWER = "AFlower"
 
 private const val WOMAN = R.id.woman_radio_button
 private const val MAN = R.id.man_radio_button
 private const val MORE = R.id.more_radio_button
-private const val NO_BUTTON_SELECTED = -1
 
 private const val BLANK_SPECIFICATION = "   "
 private const val INCORRECT_CHARS_SPECIFICATION = "Abc;;de"
@@ -78,59 +80,100 @@ class EditGenderTest {
     }
 
     @Test
-    fun clickingOnRadioButtonWorks() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
-        intent.putExtra(GENDER, TEST_GENDER_MORE)
+    fun genderTextForMoreIsMoreIfMoreIsNotSelectedAtTheStart() {
+        var intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
+        intent.putExtra(GENDER, TEST_GENDER_WOMAN)
         activity = ActivityScenario.launch(intent)
+        onView(withId(MORE)).check(matches(withText(TEST_GENDER_MORE)))
 
-        getRadioGroup()
-        assertThat(radioGroup.checkedRadioButtonId, equalTo(MORE))
-        onView(withId(WOMAN)).perform(click())
-        assertThat(radioGroup.checkedRadioButtonId, equalTo(WOMAN))
-        onView(withId(MAN)).perform(click())
-        assertThat(radioGroup.checkedRadioButtonId, equalTo(MAN))
+        intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
+        intent.putExtra(GENDER, TEST_GENDER_WOMEN)
+        activity = ActivityScenario.launch(intent)
+        onView(withId(MORE)).check(matches(withText(TEST_GENDER_MORE)))
     }
 
     @Test
-    fun editGenderIsVisibleOnlyIfMoreIsClicked() {
+    fun genderTextForMoreIsIntentIfIntentDifferentFromManOrWoman() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
-        intent.putExtra(GENDER, TEST_GENDER_MORE)
+        intent.putExtra(GENDER, TEST_GENDER_FLOWER)
         activity = ActivityScenario.launch(intent)
-        //More is clicked as it was passed as an intent
-        getRadioGroup()
-        val editGender = onView(withId(R.id.edit_gender))
-        editGender.check(matches(isDisplayed()))
 
-        //Clicking on another gender hised the editText
-        onView(withId(WOMAN)).perform(click())
-        editGender.check(matches(not(isDisplayed())))
-
-        //Clicking on more shows the editText
-        onView(withId(MORE)).perform(click())
-        editGender.check(matches(isDisplayed()))
+        onView(withId(MORE)).check(matches(withText(TEST_GENDER_FLOWER)))
     }
 
     @Test
-    fun editGenderIsNotVisibleOnCreateIfMoreIsNotClicked() {
+    fun ifMoreIsNotCheckedGenderEditorIsHidden() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
         intent.putExtra(GENDER, TEST_GENDER_MAN)
         activity = ActivityScenario.launch(intent)
 
-        getRadioGroup()
-        val editGender = onView(withId(R.id.edit_gender))
-        editGender.check(matches(not(isDisplayed())))
+        onView(withId(WOMAN)).perform(click())
+
+        onView(withId(R.id.edit_gender)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.edit_gender_button)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.update_gender_more)).check(matches(not(isDisplayed())))
     }
 
     @Test
-    fun whenExtraIsNullNoButtonIsClicked() {
+    fun ifMoreIsCheckedAndTextIsMoreGenderEditorIsDisplayed() {
+        val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
+        intent.putExtra(GENDER, TEST_GENDER_WOMAN)
+        activity = ActivityScenario.launch(intent)
+
+        onView(withId(MORE)).perform(click())
+        onView(withId(R.id.update_gender_more)).check(matches(isDisplayed()))
+        onView(withId(R.id.edit_gender)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun ifMoreTextIsCustomeThanEditGenderButtonIsDisplayed() {
+        val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
+        intent.putExtra(GENDER, TEST_GENDER_FLOWER)
+        activity = ActivityScenario.launch(intent)
+        onView(withId(R.id.edit_gender_button)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun clickingOnEditGenderDisplayesGenderEditor() {
+        val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
+        intent.putExtra(GENDER, TEST_GENDER_FLOWER)
+        activity = ActivityScenario.launch(intent)
+
+        onView(withId(R.id.edit_gender_button)).perform(click())
+        onView(withId(R.id.update_gender_more)).check(matches(isDisplayed()))
+        onView(withId(R.id.edit_gender)).check(matches(isDisplayed()))
+    }
+
+
+    @Test
+    fun whenExtraIsNullMoreIsClicked() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
         activity = ActivityScenario.launch(intent)
         getRadioGroup()
         assertThat(
             radioGroup.checkedRadioButtonId, equalTo(
-                NO_BUTTON_SELECTED
+                MORE
             )
         )
+    }
+
+    @Test
+    fun correctGenderMoreSetsMoreTextsToNewGender() {
+        val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
+        intent.putExtra(GENDER, TEST_GENDER_MORE)
+        activity = ActivityScenario.launch(intent)
+
+        onView(withId(R.id.edit_gender_button)).perform(click())
+
+
+        onView(withId(R.id.edit_gender)).perform(
+            ViewActions.clearText(),
+            ViewActions.typeText(TEST_GENDER_FLOWER)
+        )
+        Espresso.closeSoftKeyboard()
+
+        onView(withId(R.id.update_gender_more)).perform(click())
+        onView(withId(MORE)).check(matches(withText(TEST_GENDER_FLOWER)))
     }
 
     @Test
@@ -139,13 +182,15 @@ class EditGenderTest {
         intent.putExtra(GENDER, TEST_GENDER_MORE)
         activity = ActivityScenario.launch(intent)
 
+        onView(withId(R.id.edit_gender_button)).perform(click())
+
         onView(withId(R.id.edit_gender)).perform(
             ViewActions.clearText(),
             ViewActions.typeText(INCORRECT_CHARS_SPECIFICATION)
         )
         Espresso.closeSoftKeyboard()
 
-        Espresso.pressBack()
+        onView(withId(R.id.update_gender_more)).perform(click())
         onView(withId(R.id.warning2_p4_2))
             .check(
                 matches(
@@ -164,13 +209,15 @@ class EditGenderTest {
         intent.putExtra(GENDER, TEST_GENDER_MORE)
         activity = ActivityScenario.launch(intent)
 
+        onView(withId(R.id.edit_gender_button)).perform(click())
+
         onView(withId(R.id.edit_gender)).perform(
             ViewActions.clearText(),
             ViewActions.typeText(NO_INPUT)
         )
         Espresso.closeSoftKeyboard()
 
-        Espresso.pressBack()
+        onView(withId(R.id.update_gender_more)).perform(click())
         onView(withId(R.id.warning1_p4_2))
             .check(
                 matches(
@@ -188,13 +235,15 @@ class EditGenderTest {
         intent.putExtra(GENDER, TEST_GENDER_MORE)
         activity = ActivityScenario.launch(intent)
 
+        onView(withId(R.id.edit_gender_button)).perform(click())
+
         onView(withId(R.id.edit_gender)).perform(
             ViewActions.clearText(),
             ViewActions.typeText(BLANK_SPECIFICATION)
         )
         Espresso.closeSoftKeyboard()
 
-        Espresso.pressBack()
+        onView(withId(R.id.update_gender_more)).perform(click())
         onView(withId(R.id.warning1_p4_2))
             .check(
                 matches(

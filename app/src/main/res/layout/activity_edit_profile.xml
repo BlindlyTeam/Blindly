@@ -205,16 +205,14 @@
         android:clickable="false"
         app:chipSpacing="30dp"
         app:chipSpacingHorizontal="10dp"
-        app:chipSpacingVertical="0dp"
-        app:singleLine="false">
+        app:chipSpacingVertical="0dp">
     </com.google.android.material.chip.ChipGroup>
 
     <Button
         android:id="@+id/sexual_orientations_button"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/divider_sexual_orientations"
-        android:layout_toEndOf="@id/sexual_orientations_group"
         android:background="@color/transparent"
         android:onClick="startSexualOrientationsEdit" />
 
@@ -271,10 +269,9 @@
 
     <Button
         android:id="@+id/passions_button"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/divider_passions"
-        android:layout_toEndOf="@id/passions_group"
         android:background="@color/transparent"
         android:onClick="startPassionsEdit" />
 

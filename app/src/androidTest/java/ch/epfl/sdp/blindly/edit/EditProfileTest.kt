@@ -2,13 +2,15 @@ package ch.epfl.sdp.blindly.edit
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.edit_info.*
+import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.user.*
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -53,14 +55,82 @@ class EditProfileTest {
     }
 
     @Test
+    fun usernameIsDisplayedProperly() {
+        val TEST_USERNAME = fakeUser.username
+        onView(withId(R.id.username_text))
+            .check(
+                matches(
+                    withText(
+                        TEST_USERNAME
+                    )
+                )
+            )
+    }
+
+    @Test
+    fun birthdayIsProperlyDisplayed() {
+        val TEST_BIRTHDAY = fakeUser.birthday
+        onView(withId(R.id.my_birthday))
+            .check(
+                matches(
+                    withText(
+                        TEST_BIRTHDAY
+                    )
+                )
+            )
+    }
+
+    @Test
+    fun genderIsProperlyDisplayed() {
+        val TEST_GENDER = fakeUser.gender
+        onView(withId(R.id.gender_text))
+            .check(
+                matches(
+                    withText(
+                        TEST_GENDER
+                    )
+                )
+            )
+    }
+
+    @Test
+    fun sexualOrientationsAreProperlyDisplayed() {
+        val TEST_SEXUAL_ORIENTATIONS = fakeUser.sexualOrientations
+        if (TEST_SEXUAL_ORIENTATIONS != null) {
+            onView(withId(R.id.sexual_orientations_group)).check(
+                matches(
+                    hasChildCount(
+                        TEST_SEXUAL_ORIENTATIONS.size
+                    )
+                )
+            )
+        }
+    }
+
+    @Test
+    fun passionsAreProperlyDisplayed() {
+        val TEST_PASSIONS = fakeUser.passions
+        if (TEST_PASSIONS != null) {
+            onView(withId(R.id.passions_group)).check(
+                matches(
+                    hasChildCount(
+                        TEST_PASSIONS.size
+                    )
+                )
+            )
+        }
+    }
+
+    @Test
     fun clickingOnUsernameFiresEditUsername() {
         onView(withId(R.id.username_button)).perform(click())
         intended(hasComponent(EditUsername::class.java.name))
     }
 
+
     @Test
     fun clickingOnGenderFiresEditGender() {
-        val TEST_GENDER = "Woman"
+        val TEST_GENDER = fakeUser.gender
         onView(withId(R.id.gender_button)).perform(click())
         intended(
             allOf(
@@ -72,7 +142,7 @@ class EditProfileTest {
 
     @Test
     fun clickingOnSexualOrientationsFiresEditSexualOrientations() {
-        val TEST_SEXUAL_ORIENTATIONS = arrayListOf(GAY, LESBIAN)
+        val TEST_SEXUAL_ORIENTATIONS = fakeUser.sexualOrientations
         onView(withId(R.id.sexual_orientations_button)).perform(click())
         intended(
             allOf(
@@ -84,7 +154,7 @@ class EditProfileTest {
 
     @Test
     fun clickingOnPassionsFiresEditPassions() {
-        val TEST_PASSIONS = arrayListOf(TEA, COFFEE)
+        val TEST_PASSIONS = fakeUser.passions
         onView(withId(R.id.passions_button)).perform(click())
         intended(
             allOf(

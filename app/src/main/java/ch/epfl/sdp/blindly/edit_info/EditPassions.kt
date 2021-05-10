@@ -8,39 +8,39 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.PASSIONS
 import com.google.android.material.chip.ChipGroup
 
-const val BRUNCH = "Brunch"
-const val WINE = "Wine"
-const val FASHION = "Fashion"
-const val CYCLING = "Cycling"
-const val RUNNING = "Running"
-const val TEA = "Tea"
-const val COFFEE = "Coffee"
-const val COMEDY = "Comedy"
-const val WALKING = "Walking"
-const val BOARD_GAMES = "Borad Games"
-const val YOGA = "Yoga"
-const val KARAOKE = "Karaoke"
-const val DOG_LOVER = "Dog Lover"
-const val GAMER = "Gamer"
-const val ART = "Art"
-const val COCKTAILS = "Cocktails"
-const val DANCING = "Dancing"
-const val PHOTOGRAPHY = "Photography"
-const val WRITER = "Writer"
-const val FOODIE = "Foodie"
-const val BAKING = "Baking"
-const val SWIMMING = "Swimming"
-const val NETFLIX = "Netflix"
-const val OUTDOORS = "Outdoors"
-const val MUSIC = "Music"
-const val MOVIES = "Movies"
-const val CLIMBING = "Climbing"
-const val FISHING = "Fishing"
-const val CAT_LOVER = "Cat Lover"
-const val READING = "Reading"
-const val FOOTBALL = "Football"
-const val SPIRITUALITY = "Spirituality"
-const val GARDENING = "Gardening"
+private const val BRUNCH = "Brunch"
+private const val WINE = "Wine"
+private const val FASHION = "Fashion"
+private const val CYCLING = "Cycling"
+private const val RUNNING = "Running"
+private const val TEA = "Tea"
+private const val COFFEE = "Coffee"
+private const val COMEDY = "Comedy"
+private const val WALKING = "Walking"
+private const val BOARD_GAMES = "Borad Games"
+private const val YOGA = "Yoga"
+private const val KARAOKE = "Karaoke"
+private const val DOG_LOVER = "Dog Lover"
+private const val GAMER = "Gamer"
+private const val ART = "Art"
+private const val COCKTAILS = "Cocktails"
+private const val DANCING = "Dancing"
+private const val PHOTOGRAPHY = "Photography"
+private const val WRITER = "Writer"
+private const val FOODIE = "Foodie"
+private const val BAKING = "Baking"
+private const val SWIMMING = "Swimming"
+private const val NETFLIX = "Netflix"
+private const val OUTDOORS = "Outdoors"
+private const val MUSIC = "Music"
+private const val MOVIES = "Movies"
+private const val CLIMBING = "Climbing"
+private const val FISHING = "Fishing"
+private const val CAT_LOVER = "Cat Lover"
+private const val READING = "Reading"
+private const val FOOTBALL = "Football"
+private const val SPIRITUALITY = "Spirituality"
+private const val GARDENING = "Gardening"
 
 private const val SELECTION_LIMIT = 5
 
@@ -56,7 +56,7 @@ class EditPassions : AppCompatActivity() {
         val passions = intent.getStringArrayListExtra(PASSIONS)
         chipGroup = findViewById(R.id.passions_chip_group)
         if (passions != null)
-            setCheckedChips(passions)
+            setCheckedChips(chipGroup, passions)
     }
 
     override fun onBackPressed() {
@@ -90,11 +90,12 @@ class EditPassions : AppCompatActivity() {
     }
 
     /**
-     * Set the chipGroup to reflect the given passions
+     * Check the chip from the chipGroup given an ArrayList of Strings
      *
-     * @param passions
+     * @param chipGroup the chipGroup in which the chip can be checked
+     * @param passions the ArrayList<String> containing the text of the chip to check
      */
-    private fun setCheckedChips(passions: ArrayList<String>) {
+    private fun setCheckedChips(chipGroup: ChipGroup, passions: ArrayList<String>) {
         passions.forEach {
             when (it) {
                 BRUNCH -> chipGroup.check(R.id.chip10)

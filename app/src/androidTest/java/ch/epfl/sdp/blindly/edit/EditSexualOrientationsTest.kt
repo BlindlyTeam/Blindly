@@ -30,6 +30,16 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
+private const val STRAIGHT = "Straight"
+private const val LESBIAN = "Lesbian"
+private const val GAY = "Gay"
+private const val BISEXUAL = "Bisexual"
+private const val ASEXUAL = "Asexual"
+private const val DEMISEXUAL = "Demisexual"
+private const val PANSEXUAL = "Pansexual"
+private const val QUEER = "Queer"
+private const val QUESTIONING = "Questioning"
+
 private const val ERROR_MESSAGE_1 = "Please select at least one!"
 private const val ERROR_MESSAGE_2 = "You can not select more than 3!"
 

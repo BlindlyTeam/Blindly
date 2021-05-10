@@ -9,15 +9,15 @@ import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
 import com.google.android.material.chip.ChipGroup
 
 //Not private as they will be used in the EditProfile activity too
-const val STRAIGHT = "Straight"
-const val LESBIAN = "Lesbian"
-const val GAY = "Gay"
-const val BISEXUAL = "Bisexual"
-const val ASEXUAL = "Asexual"
-const val DEMISEXUAL = "Demisexual"
-const val PANSEXUAL = "Pansexual"
-const val QUEER = "Queer"
-const val QUESTIONING = "Questioning"
+private const val STRAIGHT = "Straight"
+private const val LESBIAN = "Lesbian"
+private const val GAY = "Gay"
+private const val BISEXUAL = "Bisexual"
+private const val ASEXUAL = "Asexual"
+private const val DEMISEXUAL = "Demisexual"
+private const val PANSEXUAL = "Pansexual"
+private const val QUEER = "Queer"
+private const val QUESTIONING = "Questioning"
 private const val SELECTION_LIMIT = 3
 
 class EditSexualOrientations : AppCompatActivity() {
