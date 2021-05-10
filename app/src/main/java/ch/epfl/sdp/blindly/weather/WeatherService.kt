@@ -175,6 +175,9 @@ class WeatherService {
         callback: WeatherResultCallback
     ) {
         val u: HttpUrl? =  url.toHttpUrlOrNull()
+        // URL is either always valid or never valid as it is a build-time constant
+        // so if the checks pass once it will always. There therefore is no need
+        // to take action on runtime if it is invalid as it always will be
         val url = u!!.newBuilder()
             .addQueryParameter("appId", openWeatherMapAppId)
             .addQueryParameter("lang", language)
