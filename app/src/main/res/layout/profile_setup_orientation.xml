@@ -60,17 +60,17 @@
         app:layout_constraintVertical_bias="0.206" />
 
     <TextView
-        android:id="@+id/warning_p5_1"
+        android:id="@+id/at_least_1_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/please_select_at_least_one"
         android:textColor="#FF0000"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/warning_p5_2"
+        app:layout_constraintStart_toStartOf="@+id/no_more_than_3_warning"
         app:layout_constraintTop_toBottomOf="@+id/text_p5" />
 
     <TextView
-        android:id="@+id/warning_p5_2"
+        android:id="@+id/no_more_than_3_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/you_can_t_select_more_than_3"
@@ -97,7 +97,7 @@
         app:layout_constraintVertical_bias="0.677">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip1"
+            android:id="@+id/straight_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -107,7 +107,7 @@
             app:chipBackgroundColor="@color/chip_state_colors" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip2"
+            android:id="@+id/lesbian_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -117,7 +117,7 @@
             app:chipBackgroundColor="@color/chip_state_colors" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip3"
+            android:id="@+id/gay_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -127,7 +127,7 @@
             app:chipBackgroundColor="@color/chip_state_colors" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip4"
+            android:id="@+id/bisexual_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -137,7 +137,7 @@
             app:chipBackgroundColor="@color/chip_state_colors" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip5"
+            android:id="@+id/asexual_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -147,7 +147,7 @@
             app:chipBackgroundColor="@color/chip_state_colors" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip6"
+            android:id="@+id/demisexual_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -157,7 +157,7 @@
             app:chipBackgroundColor="@color/chip_state_colors" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip7"
+            android:id="@+id/pansexual_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -166,7 +166,7 @@
             app:chipBackgroundColor="@color/chip_state_colors" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip8"
+            android:id="@+id/queer_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -175,7 +175,7 @@
             app:chipBackgroundColor="@color/chip_state_colors" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip9"
+            android:id="@+id/questionning_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"

@@ -13,6 +13,9 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.enums.Passions
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations.*
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.FirebaseFirestore
@@ -61,9 +64,9 @@ class EditSexualOrientationsTest {
     @Test
     fun chipFromIntentAreClicked() {
         val TEST_SEXUAL_ORIENTATIONS = arrayListOf(
-            arrayListOf(STRAIGHT, LESBIAN, GAY),
-            arrayListOf(BISEXUAL, ASEXUAL, DEMISEXUAL),
-            arrayListOf(PANSEXUAL, QUEER, QUESTIONING)
+            arrayListOf(STRAIGHT.asString, LESBIAN.asString, GAY.asString),
+            arrayListOf(BISEXUAL.asString, ASEXUAL.asString, DEMISEXUAL.asString),
+            arrayListOf(PANSEXUAL.asString, QUEER.asString, QUESTIONING.asString)
         )
 
         TEST_SEXUAL_ORIENTATIONS.forEach {
@@ -98,19 +101,13 @@ class EditSexualOrientationsTest {
 
     }
 
+
     private fun getCheckedChipIds(sexualOrientations: ArrayList<String>): ArrayList<Int> {
         val ids = arrayListOf<Int>()
-        sexualOrientations.forEach {
-            when (it) {
-                STRAIGHT -> ids.add(R.id.chip1)
-                LESBIAN -> ids.add(R.id.chip2)
-                GAY -> ids.add(R.id.chip3)
-                BISEXUAL -> ids.add(R.id.chip4)
-                ASEXUAL -> ids.add(R.id.chip5)
-                DEMISEXUAL -> ids.add(R.id.chip6)
-                PANSEXUAL -> ids.add(R.id.chip7)
-                QUEER -> ids.add(R.id.chip8)
-                QUESTIONING -> ids.add(R.id.chip9)
+        sexualOrientations.forEach { p ->
+            SexualOrientations.values().forEach { v ->
+                if(v.asString == p)
+                    ids.add(v.id)
             }
         }
         return ids
@@ -124,7 +121,7 @@ class EditSexualOrientationsTest {
 
         Espresso.pressBack()
 
-        onView(withId(R.id.warning_p5_1))
+        onView(withId(R.id.at_least_1_warning))
             .check(
                 matches(
                     withText(
@@ -134,7 +131,7 @@ class EditSexualOrientationsTest {
                     )
                 )
             )
-        onView(withId(R.id.warning_p5_1))
+        onView(withId(R.id.at_least_1_warning))
             .check(
                 matches(
                     isDisplayed()
@@ -147,14 +144,14 @@ class EditSexualOrientationsTest {
         val intent =
             Intent(ApplicationProvider.getApplicationContext(), EditSexualOrientations::class.java)
         activity = ActivityScenario.launch(intent)
-        onView(withId(R.id.chip1)).perform(click())
-        onView(withId(R.id.chip2)).perform(click())
-        onView(withId(R.id.chip3)).perform(click())
-        onView(withId(R.id.chip4)).perform(click())
+        onView(withId(R.id.straight_chip)).perform(click())
+        onView(withId(R.id.lesbian_chip)).perform(click())
+        onView(withId(R.id.gay_chip)).perform(click())
+        onView(withId(R.id.bisexual_chip)).perform(click())
 
         Espresso.pressBack()
 
-        onView(withId(R.id.warning_p5_2))
+        onView(withId(R.id.no_more_than_3_warning))
             .check(
                 matches(
                     withText(
@@ -164,7 +161,7 @@ class EditSexualOrientationsTest {
                     )
                 )
             )
-        onView(withId(R.id.warning_p5_2))
+        onView(withId(R.id.no_more_than_3_warning))
             .check(
                 matches(
                     isDisplayed()

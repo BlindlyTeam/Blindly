@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.EditText
@@ -32,33 +34,36 @@ class EditUsername : AppCompatActivity() {
         button.setOnClickListener {
             button.startAnimation(bounce)
             Handler(Looper.getMainLooper()).postDelayed({
-                findViewById<TextView>(R.id.warning1_p2).visibility = View.INVISIBLE
-                findViewById<TextView>(R.id.warning2_p2).visibility = View.INVISIBLE
-                findViewById<TextView>(R.id.warning3_p2).visibility = View.INVISIBLE
-                findViewById<TextView>(R.id.update_username_success_notice).visibility =
-                    View.INVISIBLE
-                findViewById<TextView>(R.id.update_username_failure_notice).visibility =
-                    View.INVISIBLE
-
+                hideAllWarning()
                 val username = findViewById<EditText>(R.id.edit_username).text.toString()
                 if (!username.matches(REGEX)) {
-                    findViewById<TextView>(R.id.warning3_p2).visibility = View.VISIBLE
+                    findViewById<TextView>(R.id.warning3_p2).visibility = VISIBLE
                 } else {
                     val len = username.length
                     when {
                         len < MIN_LENGTH -> {
-                            findViewById<TextView>(R.id.warning1_p2).visibility = View.VISIBLE
+                            findViewById<TextView>(R.id.warning1_p2).visibility = VISIBLE
                         }
                         len > MAX_LENGTH -> {
-                            findViewById<TextView>(R.id.warning2_p2).visibility = View.VISIBLE
+                            findViewById<TextView>(R.id.warning2_p2).visibility = VISIBLE
                         }
                         else -> {
                             findViewById<TextView>(R.id.update_username_success_notice).visibility =
-                                View.VISIBLE
+                                VISIBLE
                         }
                     }
                 }
             }, ProfilePageFragment.BOUNCE_DURATION)
         }
+    }
+
+    private fun hideAllWarning() {
+        findViewById<TextView>(R.id.warning1_p2).visibility = INVISIBLE
+        findViewById<TextView>(R.id.warning2_p2).visibility = INVISIBLE
+        findViewById<TextView>(R.id.warning3_p2).visibility = INVISIBLE
+        findViewById<TextView>(R.id.update_username_success_notice).visibility =
+            INVISIBLE
+        findViewById<TextView>(R.id.update_username_failure_notice).visibility =
+            INVISIBLE
     }
 }

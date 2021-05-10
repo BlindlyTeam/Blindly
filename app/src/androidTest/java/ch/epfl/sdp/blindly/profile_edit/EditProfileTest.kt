@@ -13,6 +13,12 @@ import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.enums.Gender
+import ch.epfl.sdp.blindly.user.enums.Gender.WOMAN
+import ch.epfl.sdp.blindly.user.enums.Passions
+import ch.epfl.sdp.blindly.user.enums.Passions.*
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations.*
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -64,7 +70,7 @@ class EditProfileTest {
 
     @Test
     fun clickingOnGenderFiresEditGender() {
-        val TEST_GENDER = "Woman"
+        val TEST_GENDER = WOMAN.asString
         onView(withId(R.id.gender_button)).perform(click())
         intended(
             allOf(
@@ -76,7 +82,10 @@ class EditProfileTest {
 
     @Test
     fun clickingOnSexualOrientationsFiresEditSexualOrientations() {
-        val TEST_SEXUAL_ORIENTATIONS = arrayListOf(GAY, LESBIAN)
+        val TEST_SEXUAL_ORIENTATIONS = arrayListOf(
+            GAY.asString,
+            LESBIAN.asString
+        )
         onView(withId(R.id.sexual_orientations_button)).perform(click())
         intended(
             allOf(
@@ -88,7 +97,7 @@ class EditProfileTest {
 
     @Test
     fun clickingOnPassionsFiresEditPassions() {
-        val TEST_PASSIONS = arrayListOf(TEA, COFFEE)
+        val TEST_PASSIONS = arrayListOf(TEA.asString, COFFEE.asString)
         onView(withId(R.id.passions_button)).perform(click())
         intended(
             allOf(

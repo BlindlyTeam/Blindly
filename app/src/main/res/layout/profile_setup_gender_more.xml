@@ -47,7 +47,7 @@
         app:layout_constraintVertical_bias="0.955" />
 
     <TextView
-        android:id="@+id/warning1_p4_2"
+        android:id="@+id/please_specify_warning"
         android:layout_width="300dp"
         android:layout_height="28dp"
         android:text="@string/please_specify"
@@ -61,14 +61,14 @@
         app:layout_constraintVertical_bias="0.261" />
 
     <TextView
-        android:id="@+id/warning2_p4_2"
+        android:id="@+id/use_only_letters_warning"
         android:layout_width="268dp"
         android:layout_height="32dp"
         android:text="@string/please_use_only_letters"
         android:textColor="#FF0000"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/warning1_p4_2"
+        app:layout_constraintStart_toStartOf="@+id/please_specify_warning"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.263" />
 

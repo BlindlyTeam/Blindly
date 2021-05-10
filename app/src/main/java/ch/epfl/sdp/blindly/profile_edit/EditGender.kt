@@ -1,22 +1,17 @@
 package ch.epfl.sdp.blindly.profile_edit
 
 import android.os.Bundle
-import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.GENDER
+import ch.epfl.sdp.blindly.user.enums.Gender.*
 
 private val REGEX = Regex("^[a-zA-Z]*$")
-
-private const val WOMAN = "Woman"
-private const val MAN = "Man"
-private const val MORE = "More"
-private const val WOMAN_ID = R.id.woman_radio_button
-private const val MAN_ID = R.id.man_radio_button
-private const val MORE_ID = R.id.more_radio_button
 
 class EditGender : AppCompatActivity() {
 
@@ -34,16 +29,16 @@ class EditGender : AppCompatActivity() {
         if(gender != null)
             setCheckedRadioButton(gender)
 
-        if (radioGroup.checkedRadioButtonId == MORE_ID)
-            editGender.visibility = View.VISIBLE
+        if (radioGroup.checkedRadioButtonId == MORE.id)
+            editGender.visibility = VISIBLE
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == MORE_ID) {
-                editGender.visibility = View.VISIBLE
+            if (checkedId == MORE.id) {
+                editGender.visibility = VISIBLE
             } else {
-                editGender.visibility = View.INVISIBLE
-                findViewById<TextView>(R.id.warning1_p4_2).visibility = View.INVISIBLE
-                findViewById<TextView>(R.id.warning2_p4_2).visibility = View.INVISIBLE
+                editGender.visibility = INVISIBLE
+                findViewById<TextView>(R.id.please_specify_warning).visibility = INVISIBLE
+                findViewById<TextView>(R.id.use_only_letters_warning).visibility = INVISIBLE
             }
         }
 
@@ -60,19 +55,19 @@ class EditGender : AppCompatActivity() {
 
     private fun genderMoreIsCorrect(): Boolean {
         val editGender = findViewById<EditText>(R.id.edit_gender).text.toString()
-        findViewById<TextView>(R.id.warning1_p4_2).visibility = View.INVISIBLE
-        findViewById<TextView>(R.id.warning2_p4_2).visibility = View.INVISIBLE
+        findViewById<TextView>(R.id.please_specify_warning).visibility = INVISIBLE
+        findViewById<TextView>(R.id.use_only_letters_warning).visibility = INVISIBLE
 
         return if (!editGender.matches(REGEX)) {
             //incorrect format, output error
-            findViewById<TextView>(R.id.warning2_p4_2).visibility = View.VISIBLE
+            findViewById<TextView>(R.id.use_only_letters_warning).visibility = VISIBLE
             false
         } else {
             if (editGender.isNotEmpty()) {
                 true
             } else {
                 //empty text, output error
-                findViewById<TextView>(R.id.warning1_p4_2).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.please_specify_warning).visibility = VISIBLE
                 false
             }
         }
@@ -80,9 +75,9 @@ class EditGender : AppCompatActivity() {
 
     private fun setCheckedRadioButton(gender: String) {
         when(gender) {
-            WOMAN -> radioGroup.check(WOMAN_ID)
-            MAN -> radioGroup.check(MAN_ID)
-            MORE -> radioGroup.check(MORE_ID)
+            WOMAN.asString -> radioGroup.check(WOMAN.id)
+            MAN.asString -> radioGroup.check(MAN.id)
+            else -> radioGroup.check(MORE.id)
         }
     }
 }

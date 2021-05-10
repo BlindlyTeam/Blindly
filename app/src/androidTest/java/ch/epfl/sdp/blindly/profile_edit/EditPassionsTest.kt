@@ -7,12 +7,14 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.enums.Passions.*
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.FirebaseFirestore
@@ -61,13 +63,53 @@ class EditPassionsTest {
     @Test
     fun chipFromIntentAreChecked() {
         val TEST_PASSIONS = arrayListOf(
-            arrayListOf(BRUNCH, WINE, FASHION, CYCLING, RUNNING),
-            arrayListOf(TEA, COFFEE, COMEDY, WALKING, BOARD_GAMES),
-            arrayListOf(YOGA, KARAOKE, DOG_LOVER, GAMER, ART),
-            arrayListOf(COCKTAILS, DANCING, PHOTOGRAPHY, WRITER, FOODIE),
-            arrayListOf(BAKING, SWIMMING, NETFLIX, OUTDOORS, MUSIC),
-            arrayListOf(MOVIES, CLIMBING, FISHING, CAT_LOVER, READING),
-            arrayListOf(FOOTBALL, SPIRITUALITY, GARDENING)
+            arrayListOf(
+                BRUNCH.asString,
+                WINE.asString,
+                FASHION.asString,
+                CYCLING.asString,
+                RUNNING.asString
+            ),
+            arrayListOf(
+                TEA.asString,
+                COFFEE.asString,
+                COMEDY.asString,
+                WALKING.asString,
+                BOARD_GAMES.asString
+            ),
+            arrayListOf(
+                YOGA.asString,
+                KARAOKE.asString,
+                DOG_LOVER.asString,
+                GAMER.asString,
+                ART.asString
+            ),
+            arrayListOf(
+                COCKTAILS.asString,
+                DANCING.asString,
+                PHOTOGRAPHY.asString,
+                WRITER.asString,
+                FOODIE.asString
+            ),
+            arrayListOf(
+                BAKING.asString,
+                SWIMMING.asString,
+                NETFLIX.asString,
+                OUTDOORS.asString,
+                MUSIC.asString
+            ),
+            arrayListOf(
+                MOVIES.asString,
+                CLIMBING.asString,
+                FISHING.asString,
+                CAT_LOVER.asString,
+                READING.asString
+            ),
+            arrayListOf(
+                FOOTBALL.asString,
+                SPIRITUALITY.asString,
+                GARDENING.asString
+            )
         )
 
         TEST_PASSIONS.forEach {
@@ -100,7 +142,7 @@ class EditPassionsTest {
 
         Espresso.pressBack()
 
-        onView(withId(R.id.warning_p7_1))
+        onView(withId(R.id.at_least_one_warning))
             .check(
                 matches(
                     withText(
@@ -110,12 +152,6 @@ class EditPassionsTest {
                     )
                 )
             )
-        onView(withId(R.id.warning_p7_1))
-            .check(
-                matches(
-                    isDisplayed()
-                )
-            )
     }
 
     @Test
@@ -123,16 +159,16 @@ class EditPassionsTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditPassions::class.java)
         activity = ActivityScenario.launch(intent)
 
-        onView(withId(R.id.chip10)).perform(click())
-        onView(withId(R.id.chip11)).perform(click())
-        onView(withId(R.id.chip12)).perform(click())
-        onView(withId(R.id.chip13)).perform(click())
-        onView(withId(R.id.chip14)).perform(click())
-        onView(withId(R.id.chip15)).perform(click())
+        onView(withId(R.id.brunch_chip)).perform(click())
+        onView(withId(R.id.wine_chip)).perform(click())
+        onView(withId(R.id.fashion_chip)).perform(click())
+        onView(withId(R.id.cycling_chip)).perform(click())
+        onView(withId(R.id.running_chip)).perform(click())
+        onView(withId(R.id.tea_chip)).perform(click())
 
         Espresso.pressBack()
 
-        onView(withId(R.id.warning_p7_2))
+        onView(withId(R.id.no_more_than_5_warning))
             .check(
                 matches(
                     withText(
@@ -140,12 +176,6 @@ class EditPassionsTest {
                             ERROR_MESSAGE_2
                         )
                     )
-                )
-            )
-        onView(withId(R.id.warning_p7_2))
-            .check(
-                matches(
-                    isDisplayed()
                 )
             )
     }
@@ -159,41 +189,10 @@ class EditPassionsTest {
 
     private fun getCheckedChipIds(passions: ArrayList<String>): ArrayList<Int> {
         val ids = arrayListOf<Int>()
-        passions.forEach {
-            when (it) {
-                BRUNCH -> ids.add(R.id.chip10)
-                WINE -> ids.add(R.id.chip11)
-                FASHION -> ids.add(R.id.chip12)
-                CYCLING -> ids.add(R.id.chip13)
-                RUNNING -> ids.add(R.id.chip14)
-                TEA -> ids.add(R.id.chip15)
-                COFFEE -> ids.add(R.id.chip16)
-                COMEDY -> ids.add(R.id.chip17)
-                WALKING -> ids.add(R.id.chip18)
-                BOARD_GAMES -> ids.add(R.id.chip19)
-                YOGA -> ids.add(R.id.chip20)
-                KARAOKE -> ids.add(R.id.chip21)
-                DOG_LOVER -> ids.add(R.id.chip22)
-                GAMER -> ids.add(R.id.chip23)
-                ART -> ids.add(R.id.chip24)
-                COCKTAILS -> ids.add(R.id.chip25)
-                DANCING -> ids.add(R.id.chip26)
-                PHOTOGRAPHY -> ids.add(R.id.chip27)
-                WRITER -> ids.add(R.id.chip28)
-                FOODIE -> ids.add(R.id.chip29)
-                BAKING -> ids.add(R.id.chip30)
-                SWIMMING -> ids.add(R.id.chip31)
-                NETFLIX -> ids.add(R.id.chip32)
-                OUTDOORS -> ids.add(R.id.chip33)
-                MUSIC -> ids.add(R.id.chip34)
-                MOVIES -> ids.add(R.id.chip35)
-                CLIMBING -> ids.add(R.id.chip36)
-                FISHING -> ids.add(R.id.chip37)
-                CAT_LOVER -> ids.add(R.id.chip38)
-                READING -> ids.add(R.id.chip39)
-                FOOTBALL -> ids.add(R.id.chip40)
-                SPIRITUALITY -> ids.add(R.id.chip41)
-                GARDENING -> ids.add(R.id.chip42)
+        passions.forEach { p ->
+            values().forEach { v ->
+                if(v.asString == p)
+                    ids.add(v.id)
             }
         }
         return ids
