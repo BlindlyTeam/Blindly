@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly.fake_module
 
-import ch.epfl.sdp.blindly.di.DatabaseHelperModule
+import ch.epfl.sdp.blindly.dependency_injection.DatabaseHelperModule
 import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
 import ch.epfl.sdp.blindly.helpers.Message
 import com.google.android.gms.tasks.Task
@@ -15,7 +15,6 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
-import org.mockito.kotlin.any
 import org.mockito.stubbing.Answer
 import javax.inject.Singleton
 

@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.chat
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,13 +10,15 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
 import ch.epfl.sdp.blindly.helpers.Message
 import ch.epfl.sdp.blindly.user.UserHelper
-import com.google.firebase.auth.FirebaseAuth
+
+/**
+ * Activity class that contains the chat.
+ */
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
-
     private lateinit var currentUserId: String
     private lateinit var matchId: String
     private lateinit var chatReference: DatatbaseHelper.ChatLiveDatabase
@@ -27,12 +28,14 @@ class ChatActivity : AppCompatActivity() {
 
     @Inject
     lateinit var databaseHelper: DatatbaseHelper
+
     @Inject
     lateinit var userHelper: UserHelper
 
     companion object {
         const val MATCH_ID: String = "matchedId";
     }
+
     /**
      * Gets the current user's uid and also uid of the matched user via Bundle;
      * from those it forms a chatID which we'll use to refer in the Realtime Database
@@ -82,7 +85,6 @@ class ChatActivity : AppCompatActivity() {
 
         //clear the text after sending the message
         findViewById<EditText>(R.id.newMessageText).text.clear()
-
     }
 
     /**
@@ -91,7 +93,8 @@ class ChatActivity : AppCompatActivity() {
      * adapter and scroll to the last message's position.
      */
     private fun receiveMessages() {
-        chatReference.addListener(object : DatatbaseHelper.BlindlyLiveDatabase.EventListener<String>() {
+        chatReference.addListener(object :
+            DatatbaseHelper.BlindlyLiveDatabase.EventListener<String>() {
             override fun onMessageReceived(message: Message<String>) {
                 chatMessages?.add(message)
                 findViewById<RecyclerView>(R.id.recyclerView).adapter?.notifyDataSetChanged()
@@ -99,12 +102,9 @@ class ChatActivity : AppCompatActivity() {
 
             }
         })
-
     }
 
     private fun getMessages(): ArrayList<Message<String>>? {
         return chatMessages
     }
-
-
 }

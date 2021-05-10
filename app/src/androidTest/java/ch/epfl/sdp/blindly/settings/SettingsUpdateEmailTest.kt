@@ -31,6 +31,7 @@ import javax.inject.Inject
 
 @HiltAndroidTest
 class SettingsUpdateEmailTest {
+
     @get:Rule
     val activityRule = ActivityScenarioRule(SettingsUpdateEmail::class.java)
 
@@ -54,29 +55,30 @@ class SettingsUpdateEmailTest {
     @Test
     fun emailIsCorrect() {
         onView(withId(R.id.update_email_field)).check(
-                ViewAssertions.matches(
-                        withHint(
-                                user.getEmail()
-                        )
+            ViewAssertions.matches(
+                withHint(
+                    user.getEmail()
                 )
+            )
         )
     }
 
     @Test
     fun emailUpdateWorks() {
         onView(withId(R.id.update_email_field))
-                .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL))
+            .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL))
 
         closeSoftKeyboard()
         val buttonUpdate = onView(withId(R.id.update_email_button))
         buttonUpdate.perform(click())
         Thread.sleep(2000)
         onView(withId(R.id.update_email_success_notice)).check(
-                ViewAssertions.matches(
-                        Matchers.allOf(
-                                withText(R.string.email_update_success),
-                                withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
-                        ))
+            ViewAssertions.matches(
+                Matchers.allOf(
+                    withText(R.string.email_update_success),
+                    withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+                )
+            )
         )
     }
 
@@ -89,47 +91,58 @@ class SettingsUpdateEmailTest {
         Mockito.`when`(user.setEmail(FakeUserHelperModule.SECOND_EMAIL)).thenReturn(successfulTask)
 
         onView(withId(R.id.update_email_field))
-                .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL))
+            .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL))
 
         closeSoftKeyboard()
         val buttonUpdate = onView(withId(R.id.update_email_button))
         buttonUpdate.perform(click())
         onView(withId(R.id.update_email_failure_notice)).check(
-                ViewAssertions.matches(
-                        Matchers.allOf(
-                                withText(expectedResId),
-                                withEffectiveVisibility(Visibility.VISIBLE)
-                        ))
+            ViewAssertions.matches(
+                Matchers.allOf(
+                    withText(expectedResId),
+                    withEffectiveVisibility(Visibility.VISIBLE)
+                )
+            )
         )
     }
 
     @Test
     fun emailUpdateInvalidEmail() {
-        emailUpdateErrorIsHandled(FirebaseAuthInvalidCredentialsException("aaa", "bbb"),
-                R.string.invalid_email)
+        emailUpdateErrorIsHandled(
+            FirebaseAuthInvalidCredentialsException("aaa", "bbb"),
+            R.string.invalid_email
+        )
     }
 
     @Test
     fun emailUpdateUserCollision() {
-        emailUpdateErrorIsHandled(FirebaseAuthUserCollisionException("aaa", "bbb"),
-                R.string.email_taken)
+        emailUpdateErrorIsHandled(
+            FirebaseAuthUserCollisionException("aaa", "bbb"),
+            R.string.email_taken
+        )
     }
 
     @Test
     fun emailUpdateInvalidUser() {
-        emailUpdateErrorIsHandled(FirebaseAuthInvalidUserException("aaa", "bbb"),
-                R.string.try_to_logout)
+        emailUpdateErrorIsHandled(
+            FirebaseAuthInvalidUserException("aaa", "bbb"),
+            R.string.try_to_logout
+        )
     }
 
     @Test
     fun emailUpdateNeedRecentLogin() {
-        emailUpdateErrorIsHandled(FirebaseAuthRecentLoginRequiredException("aaa", "bbb"),
-                R.string.try_to_logout)
+        emailUpdateErrorIsHandled(
+            FirebaseAuthRecentLoginRequiredException("aaa", "bbb"),
+            R.string.try_to_logout
+        )
     }
 
     @Test
     fun emailUpdateOtherError() {
-        emailUpdateErrorIsHandled(java.lang.Exception("aaa"),
-                R.string.update_email_unknown_error)
+        emailUpdateErrorIsHandled(
+            java.lang.Exception("aaa"),
+            R.string.update_email_unknown_error
+        )
     }
 }

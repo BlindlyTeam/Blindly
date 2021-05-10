@@ -18,8 +18,13 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
+/**
+ * Activity that tells the user that the profile setup is finished, and sets everything up
+ * on the database.
+ */
 @AndroidEntryPoint
 class ProfileFinished : AppCompatActivity() {
+
     @Inject
     lateinit var user: UserHelper
 

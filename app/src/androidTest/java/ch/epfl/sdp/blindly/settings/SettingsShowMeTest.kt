@@ -10,10 +10,10 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
-import ch.epfl.sdp.blindly.user.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserRepository
+import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -22,6 +22,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
+
+private const val TEST_SHOW_ME = "Women"
 
 @HiltAndroidTest
 class SettingsShowMeTest {
@@ -118,7 +120,7 @@ class SettingsShowMeTest {
         return showMeGroup
     }
 
-    private fun getShowMeId() : Int {
+    private fun getShowMeId(): Int {
         return when (fakeUser.showMe) {
             WOMEN -> R.id.women_radio_button
             MEN -> R.id.men_radio_button

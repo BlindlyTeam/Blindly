@@ -262,7 +262,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
         like.setOnClickListener {
             listenerSettings(Direction.Right, AccelerateInterpolator(), { cardStackView.swipe() })
         }
-
     }
 
     /**
@@ -285,5 +284,4 @@ class MatchPageFragment : Fragment(), CardStackListener {
         manager.setSwipeAnimationSetting(settings)
         func()
     }
-
 }

@@ -21,6 +21,7 @@ data class Profile(
     val recordingPath: String,
 ) : Parcelable {
     companion object {
+
         @JvmField
         val CREATOR: Parcelable.Creator<Profile> = object : Parcelable.Creator<Profile> {
             override fun createFromParcel(source: Parcel?): Profile {

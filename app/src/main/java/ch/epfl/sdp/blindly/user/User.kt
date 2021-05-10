@@ -28,7 +28,6 @@ const val AGE_RANGE = "ageRange"
 
 /**
  * A class to represent a User
- *
  */
 @Serializable
 class User private constructor(
@@ -393,9 +392,9 @@ class User private constructor(
                 throw java.lang.IllegalArgumentException("Expected newValue to be a List<Int>")
             if (newValue.size != SIZE_OF_AGE_RANGE_LIST)
                 throw IllegalArgumentException(
-                "Expected ageRange.size to be " +
-                        "$SIZE_OF_AGE_RANGE_LIST but got: ${newValue.size} instead"
-            )
+                    "Expected ageRange.size to be " +
+                            "$SIZE_OF_AGE_RANGE_LIST but got: ${newValue.size} instead"
+                )
         }
 
         private fun <T> assertIsLocation(newValue: T) {
@@ -427,6 +426,5 @@ class User private constructor(
     override fun toString(): String {
         return "$username"
     }
-
 }
 

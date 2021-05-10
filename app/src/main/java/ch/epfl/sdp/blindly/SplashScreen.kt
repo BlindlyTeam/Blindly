@@ -11,16 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.animations.BounceInterpolator
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserRepository
+import ch.epfl.sdp.blindly.database.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
 
 const val MAIN_SCREEN_DELAY: Long = 2500
 
 /**
  * The SplashScreen Activity starts when the app is launched
- *
  */
 @AndroidEntryPoint
 class SplashScreen : AppCompatActivity() {
@@ -67,5 +65,4 @@ class SplashScreen : AppCompatActivity() {
             startActivity(nextIntent)
         }
     }
-
 }

@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly
 
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import ch.epfl.sdp.blindly.match.cards.Profile
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
@@ -53,5 +53,4 @@ class ProfileTest {
     fun toStringDisplaysWell() {
         assertThat(andre1.toString() == "André, 25, Description André 1", equalTo(true))
     }
-
 }
