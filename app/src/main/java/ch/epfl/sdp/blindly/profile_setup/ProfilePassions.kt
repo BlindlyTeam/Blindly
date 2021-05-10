@@ -14,8 +14,11 @@ import kotlinx.serialization.json.Json
 
 private const val SELECTION_LIMIT = 5
 
+/**
+ * Activity that asks for the passions of the user. The user has to select passions from
+ * a list of chips.
+ */
 class ProfilePassions : AppCompatActivity() {
-
     private lateinit var userBuilder: User.Builder
     private var passions: ArrayList<String> = ArrayList()
 

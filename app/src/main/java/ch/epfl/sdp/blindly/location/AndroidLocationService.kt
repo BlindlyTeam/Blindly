@@ -69,7 +69,6 @@ class AndroidLocationService(private var context: Context) : LocationService {
                     )
                     locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER))
                 }
-
             }
         } catch (e: SecurityException) {
             throw e
@@ -90,12 +89,15 @@ class AndroidLocationService(private var context: Context) : LocationService {
     fun addLocationChangeListener(listener: LocationChangeListener) {
         listeners.add(listener)
     }
+
     fun removeLocationChangeListener(listener: LocationChangeListener) {
         listeners.add(listener)
     }
+
     abstract class LocationChangeListener {
         abstract fun onLocationChange(pos: BlindlyLatLng)
     }
+
     companion object {
         fun createLocationTableEPFL(): List<Double> {
             return listOf(EPFL_LAT, EPFL_LONG)

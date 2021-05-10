@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".edit_info.EditUsername">
+    tools:context=".profile_edit.EditUsername">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/username_toolbar"

@@ -12,8 +12,10 @@ import ch.epfl.sdp.blindly.user.User
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+/**
+ * Activity that asks the gender of the user.
+ */
 class ProfileGender : AppCompatActivity() {
-
     private lateinit var userBuilder: User.Builder
     private lateinit var nextIntent: Intent
     private lateinit var gender: String

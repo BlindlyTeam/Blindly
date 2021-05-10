@@ -12,8 +12,10 @@ import kotlinx.serialization.json.Json
 
 private val REGEX = Regex("^[a-zA-Z]*$")
 
+/**
+ * Activity that allows the user to specify a certain gender.
+ */
 class ProfileGenderMore : AppCompatActivity() {
-
     private lateinit var userBuilder: User.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {

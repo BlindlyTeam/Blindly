@@ -15,7 +15,6 @@ private const val PLAYBAR_DELAY = 10L
 /**
  * Utility class functions that contains all the functions needed for
  * a mediaPlayer to work
- *
  */
 class BlindlyMediaPlayer {
     var mediaPlayer: MediaPlayer? = null

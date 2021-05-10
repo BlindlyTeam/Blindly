@@ -14,6 +14,9 @@ import kotlinx.serialization.json.Json
 
 private const val SELECTION_LIMIT = 3
 
+/**
+ * Activity that asks for the sexual orientation of the user
+ */
 class ProfileOrientation : AppCompatActivity() {
 
     private var sexualOrientations: ArrayList<String> = ArrayList()
@@ -54,7 +57,6 @@ class ProfileOrientation : AppCompatActivity() {
                 bundleExtrasAndStartProfileShowMe(chipGroup)
             }
         }
-
     }
 
     //helper function to get the choices to builder

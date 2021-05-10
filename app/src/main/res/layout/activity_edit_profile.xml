@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".edit_info.EditProfile">
+    tools:context=".profile_edit.EditProfile">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_view"

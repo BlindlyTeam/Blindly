@@ -30,10 +30,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
-        <activity android:name=".edit_info.EditSexualOrientations"></activity>
-        <activity android:name=".edit_info.EditPassions" />
-        <activity android:name=".edit_info.EditGender" />
-        <activity android:name=".edit_info.EditUsername" />
+        <activity android:name=".profile_edit.EditProfile" />
+        <activity android:name=".profile_edit.EditSexualOrientations"></activity>
+        <activity android:name=".profile_edit.EditPassions" />
+        <activity android:name=".profile_edit.EditGender" />
+        <activity android:name=".profile_edit.EditUsername" />
         <activity android:name=".chat.ChatActivity" />
         <activity android:name=".profile_setup.ProfileAudioRecording" />
         <activity android:name=".profile_setup.ProfileFinished" />
@@ -49,11 +50,9 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity android:name=".UserMapActivity" />
+        <activity android:name=".map.UserMapActivity" />
         <activity android:name=".settings.SettingsLocation" />
         <activity android:name=".settings.SettingsShowMe" />
-        <activity android:name=".edit_info.EditProfile" />
         <activity android:name=".settings.Settings" />
         <activity android:name=".settings.SettingsUpdateEmail" />
         <activity

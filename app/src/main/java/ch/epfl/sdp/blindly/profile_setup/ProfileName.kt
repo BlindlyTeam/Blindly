@@ -9,12 +9,14 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.User
 import kotlinx.serialization.json.Json
 
-
 private const val MIN_LENGTH = 2
 private const val MAX_LENGTH = 20
 const val EXTRA_USER = "user"
 private val REGEX = Regex("^[a-zA-Z]*$")
 
+/**
+ * Activity that asks for the name of the user.
+ */
 class ProfileName : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
