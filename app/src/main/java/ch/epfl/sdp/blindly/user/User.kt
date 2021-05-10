@@ -46,22 +46,6 @@ class User private constructor(
     var ageRange: List<Int>?
 ) {
 
-    constructor() : this(
-        "",
-        listOf(),
-        "",
-        "",
-        listOf(),
-        "",
-        listOf(),
-        0,
-        listOf(),
-        listOf(),
-        "",
-        "",
-        listOf()
-    )
-
     /**
      * A builder used to partially initialize a user during the profile_setup activities
      * Made serializable so that it can be put in a bundle and passed as extra
