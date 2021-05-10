@@ -1,9 +1,9 @@
 package ch.epfl.sdp.blindly.fake_module
 
-import ch.epfl.sdp.blindly.di.UserCacheModule
+import ch.epfl.sdp.blindly.dependency_injection.UserCacheModule
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
-import ch.epfl.sdp.blindly.user.UserCache
+import ch.epfl.sdp.blindly.user.storage.UserCache
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -34,7 +34,8 @@ open class FakeUserCacheModule {
         private val matches: List<String> = listOf("a1", "b2")
         private val likes: List<String> = listOf("c3", "d4")
         private const val description = "Student"
-        private const val recordingPath = "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
+        private const val recordingPath =
+            "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
         private val ageRange = listOf(30, 50)
         private val ageRangeUpdated = listOf(40, 50)
         val fakeUser = User.Builder()

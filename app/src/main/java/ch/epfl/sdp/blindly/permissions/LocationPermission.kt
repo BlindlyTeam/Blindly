@@ -16,6 +16,7 @@ import ch.epfl.sdp.blindly.R
  * Handle the location permission logic
  */
 open class LocationPermission {
+
     /**
      * Utility class for access to runtime permissions.
      */
@@ -26,6 +27,7 @@ open class LocationPermission {
          * @see .onRequestPermissionsResult
          */
         const val LOCATION_PERMISSION_REQUEST_CODE = 1
+
         /**
          * Requests the fine location permission. If a rationale with an additional explanation should
          * be shown to the user, displays a dialog that triggers the request.
@@ -38,7 +40,7 @@ open class LocationPermission {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
                 // Display a dialog with rationale.
                 RationaleDialog.newInstance(requestId, finishActivity)
-                        .show(activity.supportFragmentManager, "dialog")
+                    .show(activity.supportFragmentManager, "dialog")
             } else {
                 // Location permission has not been granted yet, request it.
                 ActivityCompat.requestPermissions(
@@ -57,8 +59,8 @@ open class LocationPermission {
          */
         @JvmStatic
         fun isPermissionGranted(
-                grantPermissions: Array<String>, grantResults: IntArray,
-                permission: String
+            grantPermissions: Array<String>, grantResults: IntArray,
+            permission: String
         ): Boolean {
             for (i in grantPermissions.indices) {
                 if (permission == grantPermissions[i]) {
@@ -89,6 +91,7 @@ open class LocationPermission {
                 const val ARGUMENT_FINISH_ACTIVITY = "finish"
             }
         }
+
         /**
          * A dialog that displays a permission denied message.
          */
@@ -97,9 +100,9 @@ open class LocationPermission {
                 finishActivity =
                     arguments?.getBoolean(ARGUMENT_FINISH_ACTIVITY) ?: false
                 return AlertDialog.Builder(activity)
-                        .setMessage(R.string.location_permission_denied)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .create()
+                    .setMessage(R.string.location_permission_denied)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .create()
             }
 
             companion object {
@@ -131,26 +134,27 @@ open class LocationPermission {
         class RationaleDialog : FinishOnDismissDialog() {
             override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
                 val requestCode =
-                        arguments?.getInt(ARGUMENT_PERMISSION_REQUEST_CODE) ?: 0
+                    arguments?.getInt(ARGUMENT_PERMISSION_REQUEST_CODE) ?: 0
                 finishActivity =
-                        arguments?.getBoolean(ARGUMENT_FINISH_ACTIVITY) ?: false
+                    arguments?.getBoolean(ARGUMENT_FINISH_ACTIVITY) ?: false
                 return AlertDialog.Builder(activity)
-                        .setMessage(R.string.permission_rationale_location)
-                        .setPositiveButton(android.R.string.ok) { _, _ -> // After click on Ok, request the permission.
-                            ActivityCompat.requestPermissions(
-                                requireActivity(),
-                                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                                requestCode
-                            )
-                            // Do not finish the Activity while requesting permission.
-                            finishActivity = false
-                        }
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .create()
+                    .setMessage(R.string.permission_rationale_location)
+                    .setPositiveButton(android.R.string.ok) { _, _ -> // After click on Ok, request the permission.
+                        ActivityCompat.requestPermissions(
+                            requireActivity(),
+                            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                            requestCode
+                        )
+                        // Do not finish the Activity while requesting permission.
+                        finishActivity = false
+                    }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .create()
             }
 
             companion object {
                 private const val ARGUMENT_PERMISSION_REQUEST_CODE = "requestCode"
+
                 /**
                  * Creates a new instance of a dialog displaying the rationale for the use of the location
                  * permission.

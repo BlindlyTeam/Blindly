@@ -14,8 +14,12 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+/**
+ * Activity to change the email of the user.
+ */
 @AndroidEntryPoint
 class SettingsUpdateEmail : AppCompatActivity() {
+
     @Inject
     lateinit var user: UserHelper
 
@@ -61,6 +65,4 @@ class SettingsUpdateEmail : AppCompatActivity() {
             failureNotice.setText(errMsg)
         }
     }
-
-
 }

@@ -7,14 +7,12 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile_setup.ProfileName
-import ch.epfl.sdp.blindly.permissions.LocationPermission
-
-private const val FINE_LOCATION_PERMISSION_CODE = 2
 
 /**
  * Page to ask user to enable location. If allowed Profile Setup pages show up in order.
  */
 class LocationPermissionActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_permission)
@@ -32,8 +30,13 @@ class LocationPermissionActivity : AppCompatActivity() {
             )
         }
     }
+
     // [START maps_check_location_permission_result]
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode != LocationPermission.LOCATION_PERMISSION_REQUEST_CODE) {
             return
@@ -56,5 +59,4 @@ class LocationPermissionActivity : AppCompatActivity() {
             // [END_EXCLUDE]
         }
     }
-
 }
