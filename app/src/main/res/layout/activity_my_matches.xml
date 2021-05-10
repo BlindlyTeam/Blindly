@@ -12,7 +12,7 @@
     <!--tools:context=".recording.RecordingActivity"> -->
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_matches_list"
+        android:id="@+id/my_matches_recyler_view"
         android:layout_width="match_parent"
         android:layout_height="460dp" />
 </LinearLayout>
