@@ -47,7 +47,7 @@
                     android:layout_marginEnd="32dp"
                     android:backgroundTint="@android:color/white"
                     android:contentDescription="Play pause Button"
-                    android:src="@drawable/rewind_blue"
+                    android:src="@drawable/play_button"
                     app:fabSize="mini"
                     app:rippleColor="@color/purple_200" />
 
