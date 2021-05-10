@@ -3,6 +3,10 @@ package ch.epfl.sdp.blindly.localDB
 import androidx.room.TypeConverter
 import java.lang.StringBuilder
 
+/**
+ * Class that help the local database to store complex types (lists)
+ *
+ */
 class UserConverter {
 
     @TypeConverter
@@ -44,5 +48,4 @@ class UserConverter {
         val values = str.split(",")
         return listOf(values[0].toInt(), values[1].toInt())
     }
-
 }
