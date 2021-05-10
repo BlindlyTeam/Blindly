@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toStartOf="@+id/rewind_button"
+                    android:layout_toStartOf="@id/play_pause_button"
                     android:backgroundTint="@android:color/white"
                     android:contentDescription="Skip Button"
                     android:src="@drawable/skip_red"
@@ -39,14 +39,14 @@
                     app:rippleColor="@color/purple_200" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/rewind_button"
+                    android:id="@+id/play_pause_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:backgroundTint="@android:color/white"
-                    android:contentDescription="Rewind Button"
+                    android:contentDescription="Play pause Button"
                     android:src="@drawable/rewind_blue"
                     app:fabSize="mini"
                     app:rippleColor="@color/purple_200" />
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/rewind_button"
+                    android:layout_toEndOf="@+id/play_pause_button"
                     android:backgroundTint="@android:color/white"
                     android:contentDescription="Like Button"
                     android:src="@drawable/like_green"

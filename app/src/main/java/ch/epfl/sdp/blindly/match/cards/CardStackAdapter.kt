@@ -6,7 +6,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +23,7 @@ class CardStackAdapter(
     private var storage: FirebaseStorage
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     private lateinit var context: Context
+    private lateinit var recordingPath: String
 
     /**
      * Called when the RecyclerView needs a new ViewHolder of the given type to represent an item
@@ -48,13 +48,10 @@ class CardStackAdapter(
         val profile = profiles[position]
         val v = holder.itemView.findViewById(R.id.item_image) as ImageView
         v.setImageResource(R.drawable.background)
-        holder.name.text = profile.name
-        holder.age.text = profile.age.toString()
-        holder.description.text = profile.description
-        holder.passions.text = profile.passions
-        holder.playButton.setOnClickListener {
-            playAudio(profile.recordingPath)
-        }
+        holder.name_age.text = "${profile.name}, ${profile.age}"
+        holder.gender.text = profile.gender
+        holder.distance.text = "${profile.distance} km away"
+        recordingPath = profile.recordingPath
     }
 
     /**
@@ -72,14 +69,17 @@ class CardStackAdapter(
      * @param view containing the attributes
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.item_name)
-        var age: TextView = view.findViewById(R.id.item_age)
-        var description: TextView = view.findViewById(R.id.item_description)
-        var passions: TextView = view.findViewById(R.id.item_passions)
-        var playButton: Button = view.findViewById(R.id.play_audio_profile_button)
+        val name_age: TextView = view.findViewById(R.id.item_name_age)
+        val gender: TextView = view.findViewById(R.id.item_gender)
+        val distance: TextView = view.findViewById(R.id.item_distance)
     }
 
-    private fun playAudio(recordingPath: String) {
+    /**
+     * Plays or pause the audio from the user on the card
+     *
+     * @param recordingPath
+     */
+    fun playPauseAudio() {
         // Create a storage reference from our app
         val storageRef = storage.reference
         // Create a reference with the recordingPath
@@ -92,5 +92,4 @@ class CardStackAdapter(
             mediaPlayer.start()
         }
     }
-
 }

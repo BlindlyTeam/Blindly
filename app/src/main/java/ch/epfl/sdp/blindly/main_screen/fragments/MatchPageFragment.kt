@@ -1,12 +1,12 @@
 package ch.epfl.sdp.blindly.main_screen.fragments
 
+import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import androidx.annotation.RequiresApi
@@ -28,12 +28,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 private const val VISIBLE_COUNT = 3
 private const val TRANSLATION_INTERVAL = 8f
 private const val SCALE_INTERVAL = 0.95f
 private const val SWIPE_THRESHOLD = 0.3f
 private const val MAX_DEGREE = 30f
+private const val M_TO_KM = 1000
 
 /**
  * Fragment to swipe potential matches
@@ -226,18 +228,20 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createProfilesFromUsers(users: List<User>?): List<Profile> {
+    private suspend fun createProfilesFromUsers(users: List<User>?): List<Profile> {
         if (users == null) {
             return listOf()
         }
+        val userid = userHelper.getUserId()!!
+        val currentUser = userRepository.getUser(userid)
         val profiles = ArrayList<Profile>()
         for (user in users) {
             profiles.add(
                 Profile(
                     user.username!!,
                     User.getUserAge(user)!!,
-                    user.description!!,
-                    user.passions!!.joinToString(", \n"),
+                    user.gender!!,
+                    computeDistance(currentUser?.location!!, user.location!!),
                     user.recordingPath!!
                 )
             )
@@ -254,9 +258,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
         skip.setOnClickListener {
             listenerSettings(Direction.Left, AccelerateInterpolator(), { cardStackView.swipe() })
         }
-        val rewind = view.findViewById<View>(R.id.rewind_button)
+        val rewind = view.findViewById<View>(R.id.play_pause_button)
         rewind.setOnClickListener {
-            listenerSettings(Direction.Bottom, DecelerateInterpolator(), { cardStackView.rewind() })
+            adapter.playPauseAudio()
         }
         val like = view.findViewById<View>(R.id.like_button)
         like.setOnClickListener {
@@ -283,5 +287,17 @@ class MatchPageFragment : Fragment(), CardStackListener {
             .build()
         manager.setSwipeAnimationSetting(settings)
         func()
+    }
+
+    private fun computeDistance(thisLocation: List<Double>, otherLocation: List<Double>): Int {
+        val thisLoc = Location("")
+        thisLoc.latitude = thisLocation[0]
+        thisLoc.longitude = thisLocation[1]
+
+        val otherLoc = Location("")
+        otherLoc.latitude = otherLocation[0]
+        otherLoc.longitude = otherLocation[1]
+
+        return thisLoc.distanceTo(otherLoc).roundToInt()/M_TO_KM
     }
 }

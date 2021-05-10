@@ -6,12 +6,10 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
 class ProfileTest {
-    private val andre1 = Profile("André", 25, "Description André 1", "Wine, Coffee", "PathAndré1")
-    private val andre2 = Profile("André", 24, "Description André 2", "Wine, Coffee", "PathAndré2")
-    private val pierre1 =
-        Profile("Pierre", 25, "Description Pierre 1", "Wine, Coffee", "PathPierre1")
-    private val pierre2 =
-        Profile("Pierre", 24, "Description Pierre 2", "Wine, Coffee", "PathPierre2")
+    private val andre1 = Profile("André", 25, "Man", 42, "PathAndré")
+    private val andre2 = Profile("André", 24, "Man", 42, "PathAndré2")
+    private val pierre1 = Profile("Pierre", 25, "Man", 42, "PathPierre1")
+    private val pierre2 = Profile("Pierre", 24, "Man", 42, "PathPierre2")
 
     @Test
     fun equalsIsTrueWithSameProfile() {
@@ -51,6 +49,6 @@ class ProfileTest {
 
     @Test
     fun toStringDisplaysWell() {
-        assertThat(andre1.toString() == "André, 25, Description André 1", equalTo(true))
+        assertThat(andre1.toString() == "André, 25, Man", equalTo(true))
     }
 }
