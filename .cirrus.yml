@@ -5,6 +5,7 @@ check_android_task:
     TARGET: google_apis
     ARCH: x86
     CC_TEST_REPORTER_ID: ENCRYPTED[34b218be3c6d106c32f6b1bcfa283f6dd5bada3d144f2d2bc05df6d3e255efa92750804c4d203c44dc23811ea72905d3]
+    OPEN_WEATHER_MAP_KEY: ENCRYPTED[0c5f7d9ccce4d617877147c97133a504b45a006108a40692ec67e85f3e296b72b8d6ab715474deb22c41122f6b7715eb]
   container:
     image: reactivecircus/android-emulator-$API_LEVEL:latest
     kvm: true
@@ -14,6 +15,8 @@ check_android_task:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:
     $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-window -gpu swiftshader_indirect -no-snapshot -no-audio -no-boot-anim -camera-back none
+  set_open_weather_map_key:
+    echo "OPEN_WEATHER_MAP_KEY=\"${OPEN_WEATHER_MAP_KEY}\"" >> local.properties
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest

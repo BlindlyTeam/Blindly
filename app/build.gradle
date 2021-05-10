@@ -8,6 +8,9 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
+Properties localProperties = new Properties()
+localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -19,7 +22,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "OPEN_WEATHER_MAP_URL", '"https://api.openweathermap.org/data/2.5/onecall"'
-        buildConfigField "String", "OPEN_WEATHER_MAP_KEY", '"a18db25e9770e7e15e952ec6caa497b0"'
+        buildConfigField "String", "OPEN_WEATHER_MAP_KEY", localProperties.getProperty('OPEN_WEATHER_MAP_KEY')
 
         testInstrumentationRunner "ch.epfl.sdp.blindly.BlindlyTestRunner"
     }
