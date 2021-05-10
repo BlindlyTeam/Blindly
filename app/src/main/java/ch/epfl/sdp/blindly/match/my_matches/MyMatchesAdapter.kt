@@ -18,6 +18,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
 import ch.epfl.sdp.blindly.chat.ChatActivity
 import ch.epfl.sdp.blindly.map.UserMapActivity
+import ch.epfl.sdp.blindly.match.cards.CardStackAdapter
 
 
 class MyMatchesAdapter(
@@ -78,7 +79,7 @@ class MyMatchesAdapter(
      * @return a new view, which defines the UI of the list items
      */
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.my_matched_user_item, null)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.my_matched_user_item, null)
         viewHolderList.add(ViewHolder(view))
         return ViewHolder(view)
     }
