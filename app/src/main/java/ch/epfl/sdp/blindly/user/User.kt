@@ -28,7 +28,6 @@ const val AGE_RANGE = "ageRange"
 
 /**
  * A class to represent a User
- *
  */
 @Serializable
 class User private constructor(
@@ -427,6 +426,5 @@ class User private constructor(
     override fun toString(): String {
         return "$username"
     }
-
 }
 

@@ -56,6 +56,4 @@ class ChatTest {
         private const val USER_ID_1 = "2938473dsgfd298"
         private const val USER_ID_2 = "293s73dshfd298"
     }
-
-
 }

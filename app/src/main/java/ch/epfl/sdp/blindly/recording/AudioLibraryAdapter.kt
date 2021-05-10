@@ -255,5 +255,4 @@ class AudioLibraryAdapter(
     interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
-
 }
