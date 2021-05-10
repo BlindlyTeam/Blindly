@@ -68,6 +68,17 @@ class WeekWeather(val daily: Array<DayWeather>) {
 class Weather(val description: String, private val icon: String) {
     companion object {
         private val ICON_MAP = mapOf(
+            // Day icons
+            "01d" to R.drawable.weather_01d,
+            "02d" to R.drawable.weather_02d,
+            "03d" to R.drawable.weather_03d,
+            "04d" to R.drawable.weather_04d,
+            "09d" to R.drawable.weather_09d,
+            "10d" to R.drawable.weather_10d,
+            "11d" to R.drawable.weather_11d,
+            "13d" to R.drawable.weather_13d,
+            "50d" to R.drawable.weather_50d,
+            // night icons
             "01n" to R.drawable.weather_01n,
             "02n" to R.drawable.weather_02n,
             "03n" to R.drawable.weather_03n,
