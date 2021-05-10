@@ -258,8 +258,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
         skip.setOnClickListener {
             listenerSettings(Direction.Left, AccelerateInterpolator(), { cardStackView.swipe() })
         }
-        val rewind = view.findViewById<View>(R.id.play_pause_button)
-        rewind.setOnClickListener {
+        val playPause = view.findViewById<View>(R.id.play_pause_button)
+        playPause.setOnClickListener {
             adapter.playPauseAudio()
         }
         val like = view.findViewById<View>(R.id.like_button)
@@ -298,6 +298,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
         otherLoc.latitude = otherLocation[0]
         otherLoc.longitude = otherLocation[1]
 
-        return thisLoc.distanceTo(otherLoc).roundToInt()/M_TO_KM
+        return thisLoc.distanceTo(otherLoc).roundToInt() / M_TO_KM
     }
 }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- https://qiita.com/ntsk/items/dac92596742e18470a55 -->
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,6 +17,7 @@
         android:background="@color/blindly_blue"
         android:contentDescription="@string/background_description"
         android:scaleType="centerCrop" />
+
     <Button
         android:id="@+id/play_audio_profile_button"
         style="@style/Widget.Theme.Blindly.Play.Audio.Button"
@@ -37,23 +37,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="26sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/item_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/item_name_age"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/item_name_age"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/item_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/item_gender"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/item_gender"/>
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
