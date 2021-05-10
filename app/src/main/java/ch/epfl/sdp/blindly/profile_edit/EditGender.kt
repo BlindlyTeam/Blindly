@@ -68,8 +68,7 @@ class EditGender : AppCompatActivity() {
             findViewById<TextView>(R.id.warning2_p4_2).visibility = View.VISIBLE
             false
         } else {
-            val len = editGender.length
-            if (len > 0) {
+            if (editGender.isNotEmpty()) {
                 true
             } else {
                 //empty text, output error

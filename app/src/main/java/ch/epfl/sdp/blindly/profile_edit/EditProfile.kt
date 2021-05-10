@@ -37,7 +37,7 @@ class EditProfile : AppCompatActivity() {
 
     fun startSexualOrientationsEdit(view: View) {
         val intent = Intent(this, EditSexualOrientations::class.java)
-        //TODO replace with sexual orientations form the database
+        //TODO replace with sexual orientations from the database
         val sexualOrientations = arrayListOf(GAY, LESBIAN)
         intent.putStringArrayListExtra(SEXUAL_ORIENTATIONS, sexualOrientations)
         startActivity(intent)
@@ -45,7 +45,7 @@ class EditProfile : AppCompatActivity() {
 
     fun startPassionsEdit(view: View) {
         val intent = Intent(this, EditPassions::class.java)
-        //TODO replace with sexual orientations form the database
+        //TODO replace with passions from the database
         val passions = arrayListOf(TEA, COFFEE)
         intent.putStringArrayListExtra(PASSIONS, passions)
         startActivity(intent)
