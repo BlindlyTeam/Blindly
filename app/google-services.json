@@ -1,50 +1,14 @@
 {
   "project_info": {
     "project_number": "738788434561",
+    "firebase_url": "https://blindly-24119-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "blindly-24119",
     "storage_bucket": "blindly-24119.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:738788434561:android:dadc1d6b285bf282c16380",
-        "android_client_info": {
-          "package_name": "ch.epfl.sdb.blindly"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "738788434561-lhincul675gov0ero2387utsvqgp25ll.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ch.epfl.sdb.blindly",
-            "certificate_hash": "c936401ccf45d28a5b708f429819fc60f74f0214"
-          }
-        },
-        {
-          "client_id": "738788434561-j5frrafdgrq2q6cr04pge0vlr0l9d7vq.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBD3r72HpkZc7VrYF-d96e3I3l9QfKx7Qk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "738788434561-j5frrafdgrq2q6cr04pge0vlr0l9d7vq.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:738788434561:android:4039c4ea1d059b4bc16380",
+        "mobilesdk_app_id": "1:738788434561:android:80aaf4d636d97050c16380",
         "android_client_info": {
           "package_name": "ch.epfl.sdp.blindly"
         }
