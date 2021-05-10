@@ -162,41 +162,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * Initialize the adapter
-     *
-     */
-    private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        adapter = CardStackAdapter(potentialMatches)
-        setupCardStackView(fragView)
-    }
-
-    /**
-     * Sets up the adapter on the main scope when the coroutine
-     * is done processing
-     *
-     */
-    private suspend fun setAdapterAndCartStackViewOnMainThread(input: List<Profile>) {
-        withContext(Main) {
-            setupAdapterAndCardStackView(input)
-        }
-    }
-
-    /**
-     * Initialize the cardStackView
-     *
-     */
-    private fun setupCardStackView(view: View) {
-        cardStackView = view.findViewById(R.id.card_stack_view)!!
-        cardStackView.layoutManager = manager
-        cardStackView.adapter = adapter
-        cardStackView.itemAnimator.apply {
-            if (this is DefaultItemAnimator) {
-                supportsChangeAnimations = false
-            }
-        }
-    }
-
-    /**
      * This function calls the Matching Algorithm to get the potential matches and transforms them
      * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done.
      *
@@ -215,6 +180,46 @@ class MatchPageFragment : Fragment(), CardStackListener {
         //When the work is done in this coroutine, come back to the main scope
         setAdapterAndCartStackViewOnMainThread(potentialProfiles)
     }
+
+    /**
+     * Sets up the adapter on the main scope when the coroutine
+     * is done processing
+     *
+     */
+    private suspend fun setAdapterAndCartStackViewOnMainThread(input: List<Profile>) {
+        withContext(Main) {
+            setupAdapterAndCardStackView(input)
+        }
+    }
+
+    /**
+     * Initialize the adapter
+     *
+     */
+    private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
+        adapter = CardStackAdapter(potentialMatches)
+        setupCardStackView(fragView)
+    }
+    /**
+     * Initialize the cardStackView
+     *
+     */
+    private fun setupCardStackView(view: View) {
+        cardStackView = view.findViewById(R.id.card_stack_view)!!
+        cardStackView.layoutManager = manager
+        cardStackView.adapter = adapter
+        cardStackView.itemAnimator.apply {
+            if (this is DefaultItemAnimator) {
+                supportsChangeAnimations = false
+            }
+        }
+    }
+
+
+
+
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createProfilesFromUsers(users: List<User>?): List<Profile> {
