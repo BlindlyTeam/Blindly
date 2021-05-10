@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly;
 
-import ch.epfl.sdp.blindly.match.CardStackAdapter
-import ch.epfl.sdp.blindly.match.Profile
+import ch.epfl.sdp.blindly.match.cards.CardStackAdapter
+import ch.epfl.sdp.blindly.match.cards.Profile
 import com.google.firebase.storage.FirebaseStorage
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
