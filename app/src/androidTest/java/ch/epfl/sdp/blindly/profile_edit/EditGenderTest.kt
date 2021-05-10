@@ -79,7 +79,7 @@ class EditGenderTest {
         onView(withId(MORE)).check(matches(withText(TEST_GENDER_MORE)))
 
         intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
-        intent.putExtra(GENDER, TEST_GENDER_WOMEN)
+        intent.putExtra(GENDER, TEST_GENDER_WOMAN)
         activity = ActivityScenario.launch(intent)
         onView(withId(MORE)).check(matches(withText(TEST_GENDER_MORE)))
     }

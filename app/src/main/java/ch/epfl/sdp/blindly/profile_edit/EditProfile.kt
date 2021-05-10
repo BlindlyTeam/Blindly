@@ -3,25 +3,21 @@ package ch.epfl.sdp.blindly.profile_edit
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
-import ch.epfl.sdp.blindly.ViewModelAssistedFactory
-import ch.epfl.sdp.blindly.profile_setup.ProfileOrientation
-import ch.epfl.sdp.blindly.user.*
+import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 import javax.inject.Inject
 
 

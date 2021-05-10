@@ -3,13 +3,12 @@ package ch.epfl.sdp.blindly.profile_edit
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.main_screen.ProfilePageFragment
+import ch.epfl.sdp.blindly.main_screen.fragments.ProfilePageFragment
 import ch.epfl.sdp.blindly.user.GENDER
 
 private val REGEX = Regex("^[a-zA-Z]*$")
