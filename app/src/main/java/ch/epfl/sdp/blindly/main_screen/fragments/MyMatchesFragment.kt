@@ -15,12 +15,11 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.match.my_matches.MyMatch
 import ch.epfl.sdp.blindly.match.my_matches.MyMatchesAdapter
-import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.UserHelper
-import com.google.firebase.firestore.Query
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 private const val TAG = "MyMatches"
@@ -83,67 +82,59 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     ): View {
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.activity_my_matches, container, false)
-        var myMatches = ArrayList<MyMatch>()
-        myMatches = arrayListOf()
+
         //Needs to be done in a coroutine
         viewLifecycleOwner.lifecycleScope.launch {
-            myMatches = getMyMatches()!!
+            getMyMatches()
         }
-        val adapter =
-            context?.let {
-                MyMatchesAdapter(
-                    myMatches,
-                    ArrayList(),
-                    requireContext(),
-                    this
-                )
-            }!!
-        setupRecylerView(fragView )
+
         return fragView
     }
 
 
-
     @RequiresApi(Build.VERSION_CODES.N)
-    private suspend fun getMyMatches(): ArrayList<MyMatch>? {
+    private suspend fun getMyMatches() {
         val userId = userHelper.getUserId()!!
-        val currentUser = userRepository.getUser(userId)
         var myMatches: ArrayList<MyMatch>? = arrayListOf()
+        var myMatchesUids: List<String> = listOf()
+
+        val document = userRepository.getCollectionReference().document(userId)
 
 
-        val query: Query? = currentUser!!.matches?.let {
-            userRepository.getCollectionReference()
-                .whereArrayContains("matches", it)
-        }
-        try {
-            val userIds = query?.get()?.await()
-            if (userIds != null) {
-                for (userId in userIds) {
-                    myMatches!!.add(MyMatch(userId.toUser()!!.username!!, userId.toString(), false))
-//                    userRepository.getUser(userId.toString())?.username?.let {
-//                        MyMatch(
-//                            it,
-//                            userId.toString(), false
-//                        )
-//                    }?.let { myMatches!!.add(it) }
+        document.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document = task.result
+                if (document != null) {
+                    myMatchesUids = document?.get("matches") as List<String>
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            } else {
+                Log.d(TAG, "get failed with ", task.exception)
+            }
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                for (userId in myMatchesUids) {
+                    myMatches!!.add(MyMatch(userRepository.getUser(userId)?.username!!, userId, false))
+                }
+                if (myMatches != null) {
+                    setAdapterOnMainThread(myMatches)
                 }
             }
-        } catch (exception: Exception) {
-            Log.w(TAG, "Error getting users : ", exception)
-        }
 
-        return myMatches
+        }
     }
 
-    private fun setupRecylerView(view: View ){
+    private suspend fun setAdapterOnMainThread(input: ArrayList<MyMatch>) {
+        withContext(Dispatchers.Main) {
+            setupRecylerView(fragView, input)
+        }
+    }
+
+    private fun setupRecylerView(view: View, input: ArrayList<MyMatch>) {
         myMatchesRecyclerView = view.findViewById(R.id.my_matches_recyler_view)
         myMatchesRecyclerView.layoutManager = LinearLayoutManager(context)
-        var myMatches = ArrayList<MyMatch>()
-        myMatches = arrayListOf()
-
-        myMatches.add( MyMatch("abc", "asdasd", false))
-        myMatches.add(MyMatch("asdadasd","Asdsad", true))
-        adapter = MyMatchesAdapter(myMatches, arrayListOf(), requireContext(), this)
+        adapter = MyMatchesAdapter(input, arrayListOf(), requireContext(), this)
         myMatchesRecyclerView.adapter = adapter
     }
 
