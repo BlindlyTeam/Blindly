@@ -31,7 +31,7 @@ enum class TemperatureUnit {
  * @property night Temperature during the night
  * @property unit the unit used for the temperatures
  */
-// @SerializedName is for the mapping to the json of the API calls
+// @Json is for the mapping to the json of the API calls
 class DayTemperature(
     val day: Double,
     @Json(name="morn") val morning: Double,
