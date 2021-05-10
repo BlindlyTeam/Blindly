@@ -47,9 +47,7 @@
     <string name="settings_show_me">Show Me</string>
     <string name="current_location">CURRENT LOCATION</string>
     <string name="my_current_location">My Current Location</string>
-    <string name="check_mark">check_mark </string>
     <string name="pointer">pointer</string>
-    <string name="add_new_location">Add New Location</string>
     <string name="men_show_me">Men</string>
     <string name="women_show_me">Women</string>
     <string name="everyone_show_me">Everyone</string>
@@ -112,7 +110,6 @@
     <string name="update_email_unknown_error">An unknown error happened, please try again later</string>
     <string name="new_e_mail">New E-mail.</string>
     <string name="the_logo_of_blindly_app_a_heart_with_sound_waves_inside">The logo of Blindly app. A heart with sound waves inside.</string>
-    <string name="done">Done</string>
     <string name="check_mark_for_the_choice_women">Check mark for the choice Women.</string>
     <string name="check_mark_for_the_choice_men">Check mark for the choice Men.</string>
     <string name="check_mark_for_the_choice_everyone">Check mark for the choice Everyone.</string>
