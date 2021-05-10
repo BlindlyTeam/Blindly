@@ -14,12 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.match.cards.CardStackAdapter
+import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.match.MatchingAlgorithm
+import ch.epfl.sdp.blindly.match.cards.CardStackAdapter
 import ch.epfl.sdp.blindly.match.cards.Profile
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserRepository
 import com.google.firebase.storage.FirebaseStorage
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
