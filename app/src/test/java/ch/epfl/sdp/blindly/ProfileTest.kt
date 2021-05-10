@@ -1,24 +1,11 @@
-package ch.epfl.sdp.blindly.match
+package ch.epfl.sdp.blindly
 
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
+import ch.epfl.sdp.blindly.match.Profile
 import org.hamcrest.Matchers.equalTo
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
-@HiltAndroidTest
 class ProfileTest {
-
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
-
-    @Before
-    fun setup() {
-        hiltRule.inject()
-    }
-
     private val andre1 = Profile("André", 25, "Description André 1", "Wine, Coffee", "PathAndré1")
     private val andre2 = Profile("André", 24, "Description André 2", "Wine, Coffee", "PathAndré2")
     private val pierre1 =
