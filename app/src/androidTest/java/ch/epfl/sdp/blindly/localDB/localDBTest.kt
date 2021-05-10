@@ -56,10 +56,109 @@ class LocalDBTest {
 
     @Test
     @Throws(Exception::class)
-    fun putAndRetieveUser() {
+    fun putAndRetieveUserUsername() {
         val a = UserEntity("alice", alice)
-        userDAO.insert(a)
+        userDAO.insertUser(a)
         val username = userDAO.getUserName("alice")
-        assertThat(username, equalTo(alice.username))
+        assertThat(username, equalTo("Alice"))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserLocation() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val location = userDAO.getUserLocation("alice")
+        assertThat(location, equalTo(listOf(22.5, 5.6)))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserBirthday() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val birthday = userDAO.getUserBirthday("alice")
+        assertThat(birthday, equalTo("29.04.1997"))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserGender() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val gender = userDAO.getUserGender("alice")
+        assertThat(gender, equalTo("female"))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserShowMe() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val showMe = userDAO.getUserShowMe("alice")
+        assertThat(showMe, equalTo("male"))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserPassions() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val passions = userDAO.getUserPassions("alice")
+        assertThat(passions, equalTo(listOf("wine")))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserAgeRange() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val ageRange = userDAO.getUserAgeRange("alice")
+        assertThat(ageRange, equalTo(listOf(20, 30)))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserRadius() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val radius = userDAO.getUserRadius("alice")
+        assertThat(radius, equalTo(50))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserMatches() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val matches = userDAO.getUserMatches("alice")
+        assertThat(matches, equalTo(listOf("bob")))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserLikes() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val likes = userDAO.getUserLikes("alice")
+        assertThat(likes, equalTo(listOf("bob")))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserRecordingPath() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val recordingPath = userDAO.getUserRecordingPath("alice")
+        assertThat(recordingPath, equalTo("path"))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetieveUserDescription() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val description = userDAO.getUserDescription("alice")
+        assertThat(description, equalTo("description"))
     }
 }

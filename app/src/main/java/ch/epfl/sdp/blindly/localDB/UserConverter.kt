@@ -18,9 +18,13 @@ class UserConverter {
 
     @TypeConverter
     fun fromStringListToString(sl: List<String>): String {
+        val len = sl.size
         val str = StringBuilder()
-        for(s in sl) {
-            str.append(s).append(",")
+        for(i in 0 until len) {
+            str.append(sl[i])
+            if (i != len - 1) {
+                str.append(",")
+            }
         }
         return str.toString()
     }

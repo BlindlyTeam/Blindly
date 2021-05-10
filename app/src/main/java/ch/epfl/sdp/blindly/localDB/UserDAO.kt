@@ -1,24 +1,14 @@
 package ch.epfl.sdp.blindly.localDB
 
 import androidx.room.*
+import ch.epfl.sdp.blindly.user.User
 
-@Dao
-interface BaseDAO<T> {
-    @Insert
-    fun insert(entity: T)
-
-    @Update
-    fun update(entity: T)
-
-    @Delete
-    fun delete(entity: T)
-}
 /**
  * Class that contains all the queries that can be made for the local database
  *
  */
 @Dao
-abstract class UserDAO: BaseDAO<UserEntity> {
+interface UserDAO {
 
     /**
      * Insert a User in the local Database
@@ -26,7 +16,15 @@ abstract class UserDAO: BaseDAO<UserEntity> {
      * @param userentity User to insert in the local Database
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertUser(userentity: UserEntity)
+    fun insertUser(userentity: UserEntity)
+
+    /**
+     * Insert multiple users in the local Database
+     *
+     * @param userentity Users to insert in the local Database
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAllUsers(vararg userentity: UserEntity)
 
     /**
      * Update the information about a User in the local Databse
@@ -35,7 +33,7 @@ abstract class UserDAO: BaseDAO<UserEntity> {
      * @return the number of columns changed
      */
     @Update
-    abstract fun updateUser(userentity: UserEntity): Int
+    fun updateUser(userentity: UserEntity): Int
 
     /**
      * Delete the information about a User in the local Database
@@ -44,7 +42,32 @@ abstract class UserDAO: BaseDAO<UserEntity> {
      * @return the number of rows deleted
      */
     @Delete
-    abstract fun deleteUser(userentity: UserEntity): Int
+    fun deleteUser(userentity: UserEntity): Int
+
+    /**
+     * Get the userinfos from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's infos
+     */
+    @Query("SELECT * FROM userentity WHERE uid = :id")
+    fun getUserInfo(id: String): UserEntity?
+
+    /**
+     * Get the user from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user
+     */
+    fun getUser(id: String): User? {
+        val ue: UserEntity? = getUserInfo(id)
+        return if(ue === null) null else User.Builder().setUsername(ue.username!!).setLocation(ue.location!!)
+            .setBirthday(ue.birthday!!).setGender(ue.gender!!)
+            .setSexualOrientations(ue.sexualOrientations!!).setShowMe(ue.showMe!!)
+            .setPassions(ue.passions!!).setRadius(ue.radius!!).setMatches(ue.matches!!)
+            .setLikes(ue.likes!!).setDescription(ue.description!!)
+            .setRecordingPath(ue.recordingPath!!).setAgeRange(ue.ageRange!!).build()
+    }
 
     /**
      * Get the username from a given uid
@@ -53,5 +76,129 @@ abstract class UserDAO: BaseDAO<UserEntity> {
      * @return the user's name
      */
     @Query("SELECT username FROM userentity WHERE uid = :id ")
-    abstract fun getUserName(id: String): String?
+    fun getUserName(id: String): String?
+
+    /**
+     * Get the location from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's location
+     */
+    @Query("SELECT location FROM userentity WHERE uid = :id")
+    fun getUserLocationValue(id: String): String?
+
+
+    fun getUserLocation(id: String): List<Double> {
+        val loc = getUserLocationValue(id)?.split(",")
+        if(loc != null) {
+            return listOf(loc[0].toDouble(), loc[1].toDouble())
+        }
+        return listOf(22.5, 6.5)
+    }
+    /**
+     * Get the birthday from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's birthday
+     */
+    @Query("SELECT birthday FROM userentity WHERE uid = :id")
+    fun getUserBirthday(id: String): String?
+
+    /**
+     * Get the gender from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's gender
+     */
+    @Query("SELECT gender FROM userentity WHERE uid = :id")
+    fun getUserGender(id: String): String?
+
+    /**
+     * Get the sexualOrientation from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's sexualOrientation
+     */
+    @Query("SELECT sexualOrientations FROM userentity WHERE uid = :id")
+    fun getUserSexualOrientation(id: String): List<String>?
+
+    /**
+     * Get the showMe from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's showMe
+     */
+    @Query("SELECT showMe FROM userentity WHERE uid = :id")
+    fun getUserShowMe(id: String): String?
+
+    /**
+     * Get the passions from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's passions
+     */
+    @Query("SELECT passions FROM userentity WHERE uid = :id")
+    fun getUserPassions(id: String): List<String>?
+
+    /**
+     * Get the radius from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's radius
+     */
+    @Query("SELECT radius FROM userentity WHERE uid = :id")
+    fun getUserRadius(id: String): Int?
+
+    /**
+     * Get the matches from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's matches
+     */
+    @Query("SELECT matches FROM userentity WHERE uid = :id")
+    fun getUserMatches(id: String): List<String>?
+
+    /**
+     * Get the likes from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's likes
+     */
+    @Query("SELECT likes FROM userentity WHERE uid = :id")
+    fun getUserLikes(id: String): List<String>?
+
+    /**
+     * Get the description from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's description
+     */
+    @Query("SELECT description FROM userentity WHERE uid = :id")
+    fun getUserDescription(id: String): String?
+
+    /**
+     * Get the recordingPath from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's recordingPath
+     */
+    @Query("SELECT recordingPath FROM userentity WHERE uid = :id")
+    fun getUserRecordingPath(id: String): String?
+
+    /**
+     * Get the ageRange from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's ageRange
+     */
+    @Query("SELECT agerange FROM userentity WHERE uid = :id")
+    fun getUserAgeRangeValue(id: String): String?
+
+    fun getUserAgeRange(id: String): List<Int> {
+        val ageRange = getUserAgeRangeValue(id)?.split(",")
+        if(ageRange != null) {
+            return listOf(ageRange[0].toInt(), ageRange[1].toInt())
+        }
+        return listOf(18, 99)
+    }
 }
