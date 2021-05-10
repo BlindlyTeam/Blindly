@@ -14,9 +14,9 @@
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:background="@color/blindly_purple"
-            app:srcCompat="@mipmap/blindly_launcher_foreground" />
+            app:srcCompat="@drawable/sound_waves" />
 
         <TextView
             android:id="@+id/profileNameAgeText"
@@ -26,7 +26,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="5dp"
-            android:text="Add name, age"
+            android:text="Name, age"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -38,7 +38,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginStart="25dp"
             android:layout_marginBottom="10dp"
-            android:text="Add gender"
+            android:text="Gender"
             android:textAlignment="center"
             android:textSize="18sp" />
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Add location"
+                android:text="Location"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:layout_marginBottom="20dp"/>
@@ -84,7 +84,7 @@
                 android:layout_below="@id/user_info_text"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
-                android:text="Add description"
+                android:text="Description"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -95,7 +95,7 @@
                 android:layout_below="@id/user_info_text"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
-                android:text="Add passions"
+                android:text="Passions"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -106,7 +106,7 @@
                 android:layout_below="@id/user_info_text"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
-                android:text="Add orientations"
+                android:text="Sexual orientations"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
