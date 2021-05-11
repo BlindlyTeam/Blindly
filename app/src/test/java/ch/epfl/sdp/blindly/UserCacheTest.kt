@@ -20,7 +20,6 @@ class UserCacheTest {
         private const val radius = 150
         private val matches: List<String> = listOf("a1", "b2")
         private val likes: List<String> = listOf("c3", "d4")
-        private const val description = "Student"
         private const val recordingPath =
             "gs://blindly-24119.appspot.com/Recordings/DBrGTHNkj9Z3VaKIeQCJrL3FANg2-PresentationAudio.amr"
 
@@ -33,7 +32,6 @@ class UserCacheTest {
             .setShowMe(show_me)
             .setPassions(passions)
             .setRadius(radius)
-            .setDescription(description)
             .setMatches(matches)
             .setLikes(likes)
             .setRecordingPath(recordingPath)

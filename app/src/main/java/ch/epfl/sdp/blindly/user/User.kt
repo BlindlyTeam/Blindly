@@ -22,7 +22,6 @@ const val PASSIONS = "passions"
 const val RADIUS = "radius"
 const val MATCHES = "matches"
 const val LIKES = "likes"
-const val DESCRIPTION = "description"
 const val RECORDING_PATH = "recordingPath"
 const val AGE_RANGE = "ageRange"
 
@@ -41,7 +40,6 @@ class User private constructor(
     var radius: Int?,
     var matches: List<String>?,
     var likes: List<String>?,
-    var description: String?,
     var recordingPath: String?,
     var ageRange: List<Int>?
 ) {
@@ -77,7 +75,6 @@ class User private constructor(
         var radius: Int? = null,
         var matches: List<String> = listOf(),
         var likes: List<String> = listOf(),
-        var description: String? = null,
         var recordingPath: String? = null,
         var ageRange: List<Int> = listOf()
     ) {
@@ -179,15 +176,6 @@ class User private constructor(
         }
 
         /**
-         * Set the description in the UserBuilder
-         *
-         * @param description the description of the User
-         */
-        fun setDescription(description: String) = apply {
-            this.description = description
-        }
-
-        /**
          * Set the recording path in the UserBuilder
          *
          * @param recordingPath the path to the recording
@@ -230,7 +218,6 @@ class User private constructor(
                 radius,
                 matches,
                 likes,
-                description,
                 recordingPath,
                 ageRange
             )
@@ -257,7 +244,6 @@ class User private constructor(
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as? List<String>
                 val likes = get("likes") as? List<String>
-                val description = getString("description")!!
                 val ageRange = get("ageRange") as? List<Long>
                 val recordingPath = getString("recordingPath")!!
 
@@ -272,7 +258,6 @@ class User private constructor(
                     radius,
                     matches,
                     likes,
-                    description,
                     recordingPath,
                     //Numbers on Firestore are Long, so we need to cast back to Int
                     listOf(ageRange!![0].toInt(), ageRange[1].toInt())
@@ -361,10 +346,6 @@ class User private constructor(
                 LIKES -> {
                     assertIsListOfString(newValue)
                     user.likes = newValue as List<String>
-                }
-                DESCRIPTION -> {
-                    assertIsString(newValue)
-                    user.description = newValue as String
                 }
                 RECORDING_PATH -> {
                     assertIsString(newValue)

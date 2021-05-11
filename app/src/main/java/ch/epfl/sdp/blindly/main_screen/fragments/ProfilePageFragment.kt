@@ -121,9 +121,6 @@ class ProfilePageFragment : Fragment() {
                 R.string.user_info, it.username,
                 User.getUserAge(it)
             )
-            if (it.description != "") {
-                userDescriptionText.text = getString(R.string.user_description, it.description)
-            }
         }
     }
 

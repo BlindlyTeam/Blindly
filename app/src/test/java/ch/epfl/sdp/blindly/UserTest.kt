@@ -29,8 +29,6 @@ class UserTest {
         private val matches2: List<String> = listOf("A3Verg34vrE3")
         private val likes: List<String> = listOf("c3", "d4")
         private val likes2: List<String> = listOf("efh14fjnaA")
-        private const val description = "Student"
-        private const val description2 = "Employee"
         private val ageRange = listOf(30, 40)
         private val ageRange2 = listOf(20, 60)
         private val recordingPath = "/user/Presentation.amr"
@@ -106,12 +104,6 @@ class UserTest {
     }
 
     @Test
-    fun setDescriptionIsCorrect() {
-        val userBuilder = User.Builder().setDescription(description)
-        assertThat(userBuilder.description, equalTo(description))
-    }
-
-    @Test
     fun setAgeRangeIsCorrect() {
         val userBuilder = User.Builder().setAgeRange(ageRange)
         assertThat(userBuilder.ageRange, equalTo(ageRange))
@@ -145,7 +137,6 @@ class UserTest {
         assertThat(user.showMe, equalTo(showMe))
         assertThat(user.passions, equalTo(passions))
         assertThat(user.radius, equalTo(radius))
-        assertThat(user.description, equalTo(description))
         assertThat(user.matches, equalTo(matches))
         assertThat(user.likes, equalTo(likes))
         assertThat(user.ageRange, equalTo(ageRange))
@@ -338,19 +329,6 @@ class UserTest {
     }
 
     @Test
-    fun updateDescriptionIsCorrect() {
-        val user = buildUser()
-        User.updateUser(user, DESCRIPTION, description2)
-        assertThat(user.description, equalTo(description2))
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun updateDescriptionWithOtherThanStringThrowsException() {
-        val user = buildUser()
-        User.updateUser(user, DESCRIPTION, WRONG_INPUT_FOR_STRING)
-    }
-
-    @Test
     fun updateRecordingPathIsCorrect() {
         val user = buildUser()
         User.updateUser(user, RECORDING_PATH, recordingPath2)
@@ -398,7 +376,6 @@ class UserTest {
             .setShowMe(showMe)
             .setPassions(passions)
             .setRadius(radius)
-            .setDescription(description)
             .setMatches(matches)
             .setLikes(likes)
             .setLikes(likes)
