@@ -12,7 +12,7 @@ import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.recording.RecordingActivity
+import ch.epfl.sdp.blindly.audio.RecordingActivity
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
