@@ -138,7 +138,7 @@ class LocalDBTest {
 
     @Test
     @Throws(Exception::class)
-    fun putAndRetieveUserMatches() {
+    fun putAndRetrieveUsersMatches() {
         val a = UserEntity("alice", alice)
         userDAO.insertUser(a)
         val matches = userDAO.getUserMatches("alice")
