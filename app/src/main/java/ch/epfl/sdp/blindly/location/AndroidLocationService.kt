@@ -4,7 +4,6 @@ import android.content.Context
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
-import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
 import ch.epfl.sdp.blindly.user.User
 
 private const val MIN_TIME_FOR_UPDATE = 1L
