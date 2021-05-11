@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.match
+package ch.epfl.sdp.blindly.main_screen.match.algorithm
 
 import android.location.Location
 import android.os.Build

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.match
+package ch.epfl.sdp.blindly.main_screen.match
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.match.cards
+package ch.epfl.sdp.blindly.main_screen.match.cards
 
 import android.content.Context
 import android.media.MediaPlayer
