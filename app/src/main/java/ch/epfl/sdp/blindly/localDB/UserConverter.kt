@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import java.lang.StringBuilder
 
 /**
- * Class that help the local database to store complex types (lists)
+ * Class that helps the local database to store complex types (lists)
  *
  */
 class UserConverter {
