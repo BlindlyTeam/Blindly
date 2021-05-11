@@ -9,6 +9,7 @@ import org.junit.Test
 
 class UserTest {
     companion object {
+        private const val uid = "abcd"
         private const val username = "Jane Doe"
         private const val username2 = "Alice and Bob"
         private val location = createLocationTableEPFL()
@@ -29,8 +30,6 @@ class UserTest {
         private val matches2: List<String> = listOf("A3Verg34vrE3")
         private val likes: List<String> = listOf("c3", "d4")
         private val likes2: List<String> = listOf("efh14fjnaA")
-        private const val description = "Student"
-        private const val description2 = "Employee"
         private val ageRange = listOf(30, 40)
         private val ageRange2 = listOf(20, 60)
         private val recordingPath = "/user/Presentation.amr"
@@ -43,6 +42,12 @@ class UserTest {
         private val WRONG_INPUT_FOR_LIST_DOUBLE = listOf("Int")
         private val WRONG_INPUT_SIZE = listOf(45.6, 4, 5, 6)
         private val WRONG_INPUT_FOR_INT = listOf("Int")
+    }
+
+    @Test
+    fun setUidIsCorrect() {
+        val userBuilder = User.Builder().setUid(uid)
+        assertThat(userBuilder.uid, equalTo(uid))
     }
 
     @Test
@@ -106,12 +111,6 @@ class UserTest {
     }
 
     @Test
-    fun setDescriptionIsCorrect() {
-        val userBuilder = User.Builder().setDescription(description)
-        assertThat(userBuilder.description, equalTo(description))
-    }
-
-    @Test
     fun setAgeRangeIsCorrect() {
         val userBuilder = User.Builder().setAgeRange(ageRange)
         assertThat(userBuilder.ageRange, equalTo(ageRange))
@@ -137,6 +136,7 @@ class UserTest {
     fun buildBuilsCorrectUser() {
         val user = buildUser()
 
+        assertThat(user.uid, equalTo(uid))
         assertThat(user.username, equalTo(username))
         assertThat(user.location, equalTo(location))
         assertThat(user.birthday, equalTo(birthday))
@@ -145,7 +145,6 @@ class UserTest {
         assertThat(user.showMe, equalTo(showMe))
         assertThat(user.passions, equalTo(passions))
         assertThat(user.radius, equalTo(radius))
-        assertThat(user.description, equalTo(description))
         assertThat(user.matches, equalTo(matches))
         assertThat(user.likes, equalTo(likes))
         assertThat(user.ageRange, equalTo(ageRange))
@@ -338,19 +337,6 @@ class UserTest {
     }
 
     @Test
-    fun updateDescriptionIsCorrect() {
-        val user = buildUser()
-        User.updateUser(user, DESCRIPTION, description2)
-        assertThat(user.description, equalTo(description2))
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun updateDescriptionWithOtherThanStringThrowsException() {
-        val user = buildUser()
-        User.updateUser(user, DESCRIPTION, WRONG_INPUT_FOR_STRING)
-    }
-
-    @Test
     fun updateRecordingPathIsCorrect() {
         val user = buildUser()
         User.updateUser(user, RECORDING_PATH, recordingPath2)
@@ -390,6 +376,7 @@ class UserTest {
 
     private fun buildUser(): User {
         return User.Builder()
+            .setUid(uid)
             .setUsername(username)
             .setLocation(location)
             .setBirthday(birthday)
@@ -398,7 +385,6 @@ class UserTest {
             .setShowMe(showMe)
             .setPassions(passions)
             .setRadius(radius)
-            .setDescription(description)
             .setMatches(matches)
             .setLikes(likes)
             .setLikes(likes)

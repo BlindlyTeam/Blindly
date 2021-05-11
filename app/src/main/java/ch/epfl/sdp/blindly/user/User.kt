@@ -4,6 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
@@ -22,7 +23,6 @@ const val PASSIONS = "passions"
 const val RADIUS = "radius"
 const val MATCHES = "matches"
 const val LIKES = "likes"
-const val DESCRIPTION = "description"
 const val RECORDING_PATH = "recordingPath"
 const val AGE_RANGE = "ageRange"
 
@@ -31,6 +31,7 @@ const val AGE_RANGE = "ageRange"
  */
 @Serializable
 class User private constructor(
+    @Exclude var uid: String?,
     var username: String?,
     var location: List<Double>?,
     var birthday: String?,
@@ -41,7 +42,6 @@ class User private constructor(
     var radius: Int?,
     var matches: List<String>?,
     var likes: List<String>?,
-    var description: String?,
     var recordingPath: String?,
     var ageRange: List<Int>?
 ) {
@@ -50,6 +50,7 @@ class User private constructor(
      * A builder used to partially initialize a user during the profile_setup activities
      * Made serializable so that it can be put in a bundle and passed as extra
      *
+     * @property uid the uid of the User
      * @property username the username of the User
      * @property location the location of the User
      * @property birthday the birthday of the User
@@ -61,12 +62,12 @@ class User private constructor(
      *     passions of the User
      * @property radius the radius in which the User want the matching algorithm to look in
      * @property matches a List<User> containing the Users the User has a match with
-     * @property description the description of the User
      * @property recordingPath the path to the recording of the user
      * @property ageRange the ageRange of the User
      */
     @Serializable
     data class Builder(
+        var uid: String? = null,
         var username: String? = null,
         var location: List<Double>? = null,
         var birthday: String? = null,
@@ -77,10 +78,18 @@ class User private constructor(
         var radius: Int? = null,
         var matches: List<String> = listOf(),
         var likes: List<String> = listOf(),
-        var description: String? = null,
         var recordingPath: String? = null,
         var ageRange: List<Int> = listOf()
     ) {
+
+        /**
+         * Set the uid in the UserBuilder
+         *
+         * @param uid the username of the User
+         */
+        fun setUid(uid: String) = apply {
+            this.uid = uid
+        }
 
         /**
          * Set the username in the UserBuilder
@@ -179,15 +188,6 @@ class User private constructor(
         }
 
         /**
-         * Set the description in the UserBuilder
-         *
-         * @param description the description of the User
-         */
-        fun setDescription(description: String) = apply {
-            this.description = description
-        }
-
-        /**
          * Set the recording path in the UserBuilder
          *
          * @param recordingPath the path to the recording
@@ -220,6 +220,7 @@ class User private constructor(
          */
         fun build(): User {
             return User(
+                uid,
                 username,
                 location,
                 birthday,
@@ -230,7 +231,6 @@ class User private constructor(
                 radius,
                 matches,
                 likes,
-                description,
                 recordingPath,
                 ageRange
             )
@@ -247,6 +247,7 @@ class User private constructor(
          */
         fun DocumentSnapshot.toUser(): User? {
             try {
+                val uid = id
                 val username = getString("username")!!
                 val location = get("location") as? List<Double>
                 val birthday = getString("birthday")!!
@@ -257,11 +258,11 @@ class User private constructor(
                 val radius = getField<Int>("radius")!!
                 val matches = get("matches") as? List<String>
                 val likes = get("likes") as? List<String>
-                val description = getString("description")!!
                 val ageRange = get("ageRange") as? List<Long>
                 val recordingPath = getString("recordingPath")!!
 
                 return User(
+                    uid,
                     username,
                     location,
                     birthday,
@@ -272,7 +273,6 @@ class User private constructor(
                     radius,
                     matches,
                     likes,
-                    description,
                     recordingPath,
                     //Numbers on Firestore are Long, so we need to cast back to Int
                     listOf(ageRange!![0].toInt(), ageRange[1].toInt())
@@ -361,10 +361,6 @@ class User private constructor(
                 LIKES -> {
                     assertIsListOfString(newValue)
                     user.likes = newValue as List<String>
-                }
-                DESCRIPTION -> {
-                    assertIsString(newValue)
-                    user.description = newValue as String
                 }
                 RECORDING_PATH -> {
                     assertIsString(newValue)
