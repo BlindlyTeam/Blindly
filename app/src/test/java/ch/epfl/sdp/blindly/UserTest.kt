@@ -9,6 +9,7 @@ import org.junit.Test
 
 class UserTest {
     companion object {
+        private const val uid = "abcd"
         private const val username = "Jane Doe"
         private const val username2 = "Alice and Bob"
         private val location = createLocationTableEPFL()
@@ -41,6 +42,12 @@ class UserTest {
         private val WRONG_INPUT_FOR_LIST_DOUBLE = listOf("Int")
         private val WRONG_INPUT_SIZE = listOf(45.6, 4, 5, 6)
         private val WRONG_INPUT_FOR_INT = listOf("Int")
+    }
+
+    @Test
+    fun setUidIsCorrect() {
+        val userBuilder = User.Builder().setUid(uid)
+        assertThat(userBuilder.uid, equalTo(uid))
     }
 
     @Test
@@ -129,6 +136,7 @@ class UserTest {
     fun buildBuilsCorrectUser() {
         val user = buildUser()
 
+        assertThat(user.uid, equalTo(uid))
         assertThat(user.username, equalTo(username))
         assertThat(user.location, equalTo(location))
         assertThat(user.birthday, equalTo(birthday))
@@ -368,6 +376,7 @@ class UserTest {
 
     private fun buildUser(): User {
         return User.Builder()
+            .setUid(uid)
             .setUsername(username)
             .setLocation(location)
             .setBirthday(birthday)
