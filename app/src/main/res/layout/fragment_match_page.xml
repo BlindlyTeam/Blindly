@@ -33,7 +33,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@id/play_pause_button"
                     android:backgroundTint="@android:color/white"
-                    android:contentDescription="Skip Button"
+                    android:contentDescription="@string/skip_image_description"
                     android:src="@drawable/skip_red"
                     app:fabSize="auto"
                     app:rippleColor="@color/purple_200" />
@@ -46,7 +46,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:backgroundTint="@android:color/white"
-                    android:contentDescription="Play pause Button"
+                    android:contentDescription="@string/play_pause_image_description"
                     android:src="@drawable/play_button"
                     app:fabSize="mini"
                     app:rippleColor="@color/purple_200" />
@@ -58,7 +58,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/play_pause_button"
                     android:backgroundTint="@android:color/white"
-                    android:contentDescription="Like Button"
+                    android:contentDescription="@string/like_image_description"
                     android:src="@drawable/like_green"
                     app:fabSize="auto"
                     app:rippleColor="@color/purple_200" />

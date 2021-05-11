@@ -9,6 +9,8 @@ import android.os.Parcelable
  *
  * @property name
  * @property age
+ * @property gender
+ * @property distance
  * @property recordingPath
  */
 data class Profile(
