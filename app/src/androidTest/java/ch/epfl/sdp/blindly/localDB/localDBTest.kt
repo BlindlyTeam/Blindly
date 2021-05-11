@@ -147,7 +147,7 @@ class LocalDBTest {
 
     @Test
     @Throws(Exception::class)
-    fun putAndRetieveUserLikes() {
+    fun putAndRetrieveUsersLikes() {
         val a = UserEntity("alice", alice)
         userDAO.insertUser(a)
         val likes = userDAO.getUserLikes("alice")
