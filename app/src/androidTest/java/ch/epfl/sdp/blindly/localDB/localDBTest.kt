@@ -156,7 +156,7 @@ class LocalDBTest {
 
     @Test
     @Throws(Exception::class)
-    fun putAndRetieveUserRecordingPath() {
+    fun putAndRetrieveUsersRecordingPath() {
         val a = UserEntity("alice", alice)
         userDAO.insertUser(a)
         val recordingPath = userDAO.getUserRecordingPath("alice")
