@@ -47,9 +47,7 @@
     <string name="settings_show_me">Show Me</string>
     <string name="current_location">CURRENT LOCATION</string>
     <string name="my_current_location">My Current Location</string>
-    <string name="check_mark">check_mark </string>
     <string name="pointer">pointer</string>
-    <string name="add_new_location">Add New Location</string>
     <string name="men_show_me">Men</string>
     <string name="women_show_me">Women</string>
     <string name="everyone_show_me">Everyone</string>
@@ -112,17 +110,10 @@
     <string name="update_email_unknown_error">An unknown error happened, please try again later</string>
     <string name="new_e_mail">New E-mail.</string>
     <string name="the_logo_of_blindly_app_a_heart_with_sound_waves_inside">The logo of Blindly app. A heart with sound waves inside.</string>
-    <string name="done">Done</string>
-    <string name="check_mark_for_the_choice_women">Check mark for the choice Women.</string>
-    <string name="check_mark_for_the_choice_men">Check mark for the choice Men.</string>
-    <string name="check_mark_for_the_choice_everyone">Check mark for the choice Everyone.</string>
-    <string name="lausanne_switzerland">Lausanne, Switzerland</string>
     <string name="progress_km">%1$dkm</string>
-    <string name="account_deleted">Your account has been deleted</string>
     <string name="selected_age_range">%1$d - %2$d</string>
     <string name="not_logged_in">NOT LOGGED-IN</string>
     <string name="logout_error">LOGOUT ERROR</string>
-    <string name="arrow_button_to_show_show_me_settings">Arrow button to show Show Me settings.</string>
     <string name="arrow_button_to_show_location">Arrow button to show location.</string>
     <string name="arrow_button_to_show_e_mail">Arrow button to show e-mail.</string>
     <string name="facebook_application_id" translatable="false">2887339711533767</string>
@@ -130,14 +121,12 @@
     <string name="base_timer_MM_SS">00:00</string>
     <string name="play_pause_button">Play/Pause button</string>
     <string name="select">Select</string>
-    <string name="main_goto_map">Map</string>
     <string name="user_info">%1$s, %2$d</string>
     <string name="location_permission_denied">Permission denied</string>
     <string name="permission_required_toast">Permssion required</string>
     <string name="user_description">%1$s</string>
     <string name="add_user_description">Add description</string>
     <string name="permission_rationale_location">Allow us to get your current location</string>
-    <string name="go_to_match_display">Let\'s see some matches</string>
     <string name="chat">Chat!</string>
     <string name="new_message">New Message</string>
     <string name="enable_location">Enable Location</string>
@@ -145,7 +134,10 @@
     <string name="location_pin_image">Location pin image.</string>
     <string name="user_map">User map</string>
     <string name="button_for_sending_message">Button for sending message.</string>
-    <string name="play_audio">Play Audio</string>
     <string name="record_audio">Record</string>
+    <string name="background_description">Gradient color background</string>
     <string name="default_label_map_pin">"Your match"</string>
+    <string name="play_pause_image_description">"Play pause Button</string>
+    <string name="skip_image_description">"Skip Button</string>
+    <string name="like_image_description">"Like Button</string>
 </resources>

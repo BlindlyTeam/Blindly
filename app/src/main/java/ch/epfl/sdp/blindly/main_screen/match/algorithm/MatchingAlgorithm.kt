@@ -3,13 +3,12 @@ package ch.epfl.sdp.blindly.main_screen.match.algorithm
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.database.UserRepository
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
 
 private const val TAG = "MatchingAlgorithm"
 const val EVERYONE = "Everyone"

@@ -1,12 +1,12 @@
 package ch.epfl.sdp.blindly.main_screen.match
 
+import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import androidx.annotation.RequiresApi
@@ -15,11 +15,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
-import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
 import ch.epfl.sdp.blindly.main_screen.match.algorithm.MatchingAlgorithm
+import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
+import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+import com.google.firebase.storage.FirebaseStorage
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
@@ -27,12 +28,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 private const val VISIBLE_COUNT = 3
 private const val TRANSLATION_INTERVAL = 8f
 private const val SCALE_INTERVAL = 0.95f
 private const val SWIPE_THRESHOLD = 0.3f
 private const val MAX_DEGREE = 30f
+private const val M_TO_KM = 1000
 
 /**
  * Fragment to swipe potential matches
@@ -50,9 +53,12 @@ class MatchPageFragment : Fragment(), CardStackListener {
     @Inject
     lateinit var userRepository: UserRepository
 
+    @Inject
+    lateinit var storage: FirebaseStorage
+
     companion object {
         private const val ARG_COUNT = "matchArgs"
-        private var counter: Int? = null
+        private var counter: Int? = 0
 
         /**
          * Create a new instance of MatchPageFragment
@@ -94,9 +100,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
         setupButtons(fragView)
         setupManager()
 
-        //Needs to be done in a coroutine
+        //Do network-fetching work in a coroutine
         viewLifecycleOwner.lifecycleScope.launch {
-            getPotentialMatchesProfiles()
+            handleCoroutine()
         }
         return fragView
     }
@@ -166,7 +172,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
      *
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        adapter = CardStackAdapter(potentialMatches)
+        adapter = CardStackAdapter(potentialMatches, storage)
         setupCardStackView(fragView)
     }
 
@@ -175,9 +181,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * is done processing
      *
      */
-    private suspend fun setAdapterAndCartStackViewOnMainThread(input: List<Profile>) {
+    private suspend fun goBackOnMainThread(potentialProfiles: List<Profile>) {
         withContext(Main) {
-            setupAdapterAndCardStackView(input)
+            setupAdapterAndCardStackView(potentialProfiles)
         }
     }
 
@@ -196,40 +202,52 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private suspend fun handleCoroutine() {
+        val potentialProfiles = getPotentialMatchesProfiles()
+
+        //When the work is done in this coroutine, come back to the main scope
+        goBackOnMainThread(potentialProfiles)
+    }
+
     /**
      * This function calls the Matching Algorithm to get the potential matches and transforms them
      * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done.
      *
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun getPotentialMatchesProfiles() {
+    private suspend fun getPotentialMatchesProfiles(): List<Profile> {
         val matchingAlgorithm = MatchingAlgorithm(userHelper, userRepository)
         val potentialUsers = matchingAlgorithm.getPotentialMatchesFromDatabase()
 
-        val potentialProfiles = if (potentialUsers == null) {
+        return if (potentialUsers == null) {
             listOf()
         } else {
             createProfilesFromUsers(potentialUsers)
         }
-
-        //When the work is done in this coroutine, come back to the main scope
-        setAdapterAndCartStackViewOnMainThread(potentialProfiles)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createProfilesFromUsers(users: List<User>?): List<Profile> {
+    private suspend fun createProfilesFromUsers(users: List<User>?): List<Profile> {
         if (users == null) {
             return listOf()
         }
+        val userid = userHelper.getUserId()!!
+        val currentUser = userRepository.getUser(userid)
         val profiles = ArrayList<Profile>()
         for (user in users) {
             profiles.add(
-                Profile(user.username!!, User.getUserAge(user)!!)
+                Profile(
+                    user.username!!,
+                    User.getUserAge(user)!!,
+                    user.gender!!,
+                    computeDistance(currentUser?.location!!, user.location!!),
+                    user.recordingPath!!
+                )
             )
         }
         return profiles
     }
-
 
     /**
      * Setup the 3 buttons (like, rewind, skip)
@@ -240,9 +258,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
         skip.setOnClickListener {
             listenerSettings(Direction.Left, AccelerateInterpolator(), { cardStackView.swipe() })
         }
-        val rewind = view.findViewById<View>(R.id.rewind_button)
-        rewind.setOnClickListener {
-            listenerSettings(Direction.Bottom, DecelerateInterpolator(), { cardStackView.rewind() })
+        val playPause = view.findViewById<View>(R.id.play_pause_button)
+        playPause.setOnClickListener {
+            adapter.playPauseAudio()
         }
         val like = view.findViewById<View>(R.id.like_button)
         like.setOnClickListener {
@@ -269,5 +287,17 @@ class MatchPageFragment : Fragment(), CardStackListener {
             .build()
         manager.setSwipeAnimationSetting(settings)
         func()
+    }
+
+    private fun computeDistance(thisLocation: List<Double>, otherLocation: List<Double>): Int {
+        val thisLoc = Location("")
+        thisLoc.latitude = thisLocation[0]
+        thisLoc.longitude = thisLocation[1]
+
+        val otherLoc = Location("")
+        otherLoc.latitude = otherLocation[0]
+        otherLoc.longitude = otherLocation[1]
+
+        return thisLoc.distanceTo(otherLoc).roundToInt() / M_TO_KM
     }
 }

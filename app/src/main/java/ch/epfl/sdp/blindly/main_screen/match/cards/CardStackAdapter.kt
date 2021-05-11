@@ -1,5 +1,8 @@
 package ch.epfl.sdp.blindly.main_screen.match.cards
 
+import android.content.Context
+import android.media.MediaPlayer
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 
 /**
  * An adapter to display the cards in the match activity as a stack
@@ -14,8 +19,11 @@ import ch.epfl.sdp.blindly.R
  * @property profiles the profiles to show
  */
 class CardStackAdapter(
-    private var profiles: List<Profile> = emptyList()
+    private var profiles: List<Profile> = emptyList(),
+    private var storage: FirebaseStorage
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+    private lateinit var context: Context
+    private lateinit var recordingPath: String
 
     /**
      * Called when the RecyclerView needs a new ViewHolder of the given type to represent an item
@@ -25,7 +33,8 @@ class CardStackAdapter(
      * @return a ViewHolder that holds a View of the given type
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
+        context = parent.context
+        val inflater = LayoutInflater.from(context)
         return ViewHolder(inflater.inflate(R.layout.item_profile, parent, false))
     }
 
@@ -38,9 +47,11 @@ class CardStackAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val profile = profiles[position]
         val v = holder.itemView.findViewById(R.id.item_image) as ImageView
-        v.setImageResource(R.mipmap.blindly_launcher_foreground)
-        holder.name.text = profile.name
-        holder.age.text = profile.age.toString()
+        v.setImageResource(R.drawable.background)
+        holder.name_age.text = "${profile.name}, ${profile.age}"
+        holder.gender.text = profile.gender
+        holder.distance.text = "${profile.distance} km away"
+        recordingPath = profile.recordingPath
     }
 
     /**
@@ -58,7 +69,27 @@ class CardStackAdapter(
      * @param view containing the attributes
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.item_name)
-        var age: TextView = view.findViewById(R.id.item_age)
+        val name_age: TextView = view.findViewById(R.id.item_name_age)
+        val gender: TextView = view.findViewById(R.id.item_gender)
+        val distance: TextView = view.findViewById(R.id.item_distance)
+    }
+
+    /**
+     * Plays or pause the audio from the user on the card
+     *
+     * @param recordingPath
+     */
+    fun playPauseAudio() {
+        // Create a storage reference from our app
+        val storageRef = storage.reference
+        // Create a reference with the recordingPath
+        val pathRef = storageRef.child(recordingPath)
+        val audioFile = File.createTempFile("Audio", "amr")
+        pathRef.getFile(audioFile).addOnSuccessListener {
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(context, Uri.fromFile(audioFile))
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+        }
     }
 }
