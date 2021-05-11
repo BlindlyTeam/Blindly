@@ -165,7 +165,7 @@ class LocalDBTest {
 
     @Test
     @Throws(Exception::class)
-    fun putAndRetieveUserDescription() {
+    fun putAndRetrieveUsersDescription() {
         val a = UserEntity("alice", alice)
         userDAO.insertUser(a)
         val description = userDAO.getUserDescription("alice")
