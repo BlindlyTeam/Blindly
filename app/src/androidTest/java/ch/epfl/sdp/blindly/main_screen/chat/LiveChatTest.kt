@@ -28,7 +28,6 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-
 const val OTHER_USER_ID = "other_user_id"
 const val TEST_MESSAGE = "This is a test message"
 
@@ -117,6 +116,5 @@ class LiveChatTest {
         }
         sendMessage()
         onView(withId(R.id.recyclerView)).check(matches(withViewCount(withText(TEST_MESSAGE), 2)))
-
     }
 }

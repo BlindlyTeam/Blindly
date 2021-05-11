@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly.main_screen.match
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.main_screen.match.UserListFilter
+import ch.epfl.sdp.blindly.main_screen.match.algorithm.UserListFilter
 import ch.epfl.sdp.blindly.user.User
 import org.junit.Test
 import org.hamcrest.MatcherAssert.assertThat
