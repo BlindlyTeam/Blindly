@@ -3,12 +3,14 @@ package ch.epfl.sdp.blindly.profile_setup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.View.VISIBLE
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.enums.Gender.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -43,22 +45,22 @@ class ProfileGender : AppCompatActivity() {
         when {
             //No radio button is checked
             radioGroup.checkedRadioButtonId == -1 -> {
-                findViewById<TextView>(R.id.warning_p4).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.warning_p4).visibility = VISIBLE
             }
             //more option is checked
             radioButtonMore.isChecked -> {
                 nextIntent = Intent(this, ProfileGenderMore::class.java)
-                gender = "More"
+                gender = MORE.asString
                 bundleExtrasAndStartActivity()
             }
             //women is checked
             radioButtonWomen.isChecked -> {
-                gender = "Woman"
+                gender = WOMAN.asString
                 bundleExtrasAndStartActivity()
             }
             //man is checked
             else -> {
-                gender = "Man"
+                gender = MAN.asString
                 bundleExtrasAndStartActivity()
             }
         }

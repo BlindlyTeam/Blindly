@@ -62,7 +62,7 @@ class TestProfileOrientation {
         val buttonContinue = onView(withId(R.id.button_p5))
         buttonContinue.perform(click())
 
-        onView(withId(R.id.warning_p5_1))
+        onView(withId(R.id.at_least_1_warning))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
@@ -77,15 +77,15 @@ class TestProfileOrientation {
 
     @Test
     fun moreThanAllowedInputOutputsError() {
-        onView(withId(R.id.chip1)).perform(click())
-        onView(withId(R.id.chip2)).perform(click())
-        onView(withId(R.id.chip3)).perform(click())
-        onView(withId(R.id.chip4)).perform(click())
+        onView(withId(R.id.straight_chip)).perform(click())
+        onView(withId(R.id.lesbian_chip)).perform(click())
+        onView(withId(R.id.gay_chip)).perform(click())
+        onView(withId(R.id.bisexual_chip)).perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p5))
         buttonContinue.perform(click())
 
-        onView(withId(R.id.warning_p5_2))
+        onView(withId(R.id.no_more_than_3_warning))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
@@ -100,9 +100,9 @@ class TestProfileOrientation {
 
     @Test
     fun correctInputFiresProfileShowMe() {
-        onView(withId(R.id.chip1)).perform(click())
-        onView(withId(R.id.chip2)).perform(click())
-        onView(withId(R.id.chip3)).perform(click())
+        onView(withId(R.id.straight_chip)).perform(click())
+        onView(withId(R.id.lesbian_chip)).perform(click())
+        onView(withId(R.id.gay_chip)).perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p5))
         buttonContinue.perform(click())

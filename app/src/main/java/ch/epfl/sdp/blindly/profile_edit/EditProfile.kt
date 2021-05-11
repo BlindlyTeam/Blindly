@@ -20,7 +20,6 @@ import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
 /**
  * Activity that enables the user to edit his information (description, passions, etc)
  *

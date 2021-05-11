@@ -15,6 +15,8 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.enums.Gender
+import ch.epfl.sdp.blindly.user.enums.Gender.*
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -27,15 +29,6 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-private const val TEST_GENDER_MORE = "More"
-private const val TEST_GENDER_MAN = "Man"
-private const val TEST_GENDER_WOMAN = "Woman"
-private const val TEST_GENDER_FLOWER = "AFlower"
-
-private const val WOMAN = R.id.woman_radio_button
-private const val MAN = R.id.man_radio_button
-private const val MORE = R.id.more_radio_button
-
 private const val BLANK_SPECIFICATION = "   "
 private const val INCORRECT_CHARS_SPECIFICATION = "Abc;;de"
 private const val NO_INPUT = ""
@@ -44,6 +37,14 @@ private const val ERROR_CHARACTERS = "Please use only letters."
 
 @HiltAndroidTest
 class EditGenderTest {
+    private val TEST_GENDER_MORE = MORE.asString
+    private val TEST_GENDER_MAN = MAN.asString
+    private val TEST_GENDER_WOMAN = WOMAN.asString
+    private val TEST_GENDER_FLOWER = "AFlower"
+
+    private val WOMAN_ID = WOMAN.id
+    private val MAN_ID = MAN.id
+    private val MORE_ID = MORE.id
 
     @get:Rule
     val activityRule = ActivityScenarioRule(EditProfile::class.java)
@@ -76,12 +77,12 @@ class EditGenderTest {
         var intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
         intent.putExtra(GENDER, TEST_GENDER_WOMAN)
         activity = ActivityScenario.launch(intent)
-        onView(withId(MORE)).check(matches(withText(TEST_GENDER_MORE)))
+        onView(withId(MORE_ID)).check(matches(withText(TEST_GENDER_MORE)))
 
         intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
         intent.putExtra(GENDER, TEST_GENDER_WOMAN)
         activity = ActivityScenario.launch(intent)
-        onView(withId(MORE)).check(matches(withText(TEST_GENDER_MORE)))
+        onView(withId(MORE_ID)).check(matches(withText(TEST_GENDER_MORE)))
     }
 
     @Test
@@ -90,7 +91,8 @@ class EditGenderTest {
         intent.putExtra(GENDER, TEST_GENDER_FLOWER)
         activity = ActivityScenario.launch(intent)
 
-        onView(withId(MORE)).check(matches(withText(TEST_GENDER_FLOWER)))
+        onView(withId(MORE_ID)).check(matches(withText(TEST_GENDER_FLOWER)))
+
     }
 
     @Test
@@ -99,7 +101,7 @@ class EditGenderTest {
         intent.putExtra(GENDER, TEST_GENDER_MAN)
         activity = ActivityScenario.launch(intent)
 
-        onView(withId(WOMAN)).perform(click())
+        onView(withId(WOMAN_ID)).perform(click())
 
         onView(withId(R.id.edit_gender)).check(matches(not(isDisplayed())))
         onView(withId(R.id.edit_gender_button)).check(matches(not(isDisplayed())))
@@ -112,7 +114,7 @@ class EditGenderTest {
         intent.putExtra(GENDER, TEST_GENDER_WOMAN)
         activity = ActivityScenario.launch(intent)
 
-        onView(withId(MORE)).perform(click())
+        onView(withId(MORE_ID)).perform(click())
         onView(withId(R.id.update_gender_more)).check(matches(isDisplayed()))
         onView(withId(R.id.edit_gender)).check(matches(isDisplayed()))
     }
@@ -122,6 +124,7 @@ class EditGenderTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
         intent.putExtra(GENDER, TEST_GENDER_FLOWER)
         activity = ActivityScenario.launch(intent)
+
         onView(withId(R.id.edit_gender_button)).check(matches(isDisplayed()))
     }
 
@@ -144,7 +147,7 @@ class EditGenderTest {
         getRadioGroup()
         assertThat(
             radioGroup.checkedRadioButtonId, equalTo(
-                MORE
+                MORE_ID
             )
         )
     }
@@ -165,13 +168,13 @@ class EditGenderTest {
         Espresso.closeSoftKeyboard()
 
         onView(withId(R.id.update_gender_more)).perform(click())
-        onView(withId(MORE)).check(matches(withText(TEST_GENDER_FLOWER)))
+        onView(withId(MORE_ID)).check(matches(withText(TEST_GENDER_FLOWER)))
     }
 
     @Test
     fun incorrectCharOutputsError() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
-        intent.putExtra(GENDER, TEST_GENDER_MORE)
+        intent.putExtra(GENDER, Gender.MORE.asString)
         activity = ActivityScenario.launch(intent)
 
         onView(withId(R.id.edit_gender_button)).perform(click())
@@ -183,7 +186,7 @@ class EditGenderTest {
         Espresso.closeSoftKeyboard()
 
         onView(withId(R.id.update_gender_more)).perform(click())
-        onView(withId(R.id.warning2_p4_2))
+        onView(withId(R.id.use_only_letters_warning))
             .check(
                 matches(
                     withText(
@@ -193,7 +196,7 @@ class EditGenderTest {
                     )
                 )
             )
-        onView(withId(R.id.warning2_p4_2))
+        onView(withId(R.id.use_only_letters_warning))
             .check(
                 matches(
                     isDisplayed()
@@ -204,7 +207,7 @@ class EditGenderTest {
     @Test
     fun noInputOutputsError() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
-        intent.putExtra(GENDER, TEST_GENDER_MORE)
+        intent.putExtra(GENDER, MORE.asString)
         activity = ActivityScenario.launch(intent)
 
         onView(withId(R.id.edit_gender_button)).perform(click())
@@ -216,7 +219,7 @@ class EditGenderTest {
         Espresso.closeSoftKeyboard()
 
         onView(withId(R.id.update_gender_more)).perform(click())
-        onView(withId(R.id.warning1_p4_2))
+        onView(withId(R.id.please_specify_warning))
             .check(
                 matches(
                     withText(
@@ -224,7 +227,7 @@ class EditGenderTest {
                     )
                 )
             )
-        onView(withId(R.id.warning1_p4_2))
+        onView(withId(R.id.please_specify_warning))
             .check(
                 matches(
                     isDisplayed()
@@ -236,7 +239,7 @@ class EditGenderTest {
     @Test
     fun blankInputOutputsError() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
-        intent.putExtra(GENDER, TEST_GENDER_MORE)
+        intent.putExtra(GENDER, MORE.asString)
         activity = ActivityScenario.launch(intent)
 
         onView(withId(R.id.edit_gender_button)).perform(click())
@@ -248,7 +251,7 @@ class EditGenderTest {
         Espresso.closeSoftKeyboard()
 
         onView(withId(R.id.update_gender_more)).perform(click())
-        onView(withId(R.id.warning1_p4_2))
+        onView(withId(R.id.please_specify_warning))
             .check(
                 matches(
                     withText(

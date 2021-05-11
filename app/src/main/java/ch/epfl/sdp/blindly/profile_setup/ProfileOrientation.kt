@@ -3,6 +3,8 @@ package ch.epfl.sdp.blindly.profile_setup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
@@ -37,8 +39,8 @@ class ProfileOrientation : AppCompatActivity() {
      * @param view the current view
      */
     fun startProfileShowMe(view: View) {
-        findViewById<TextView>(R.id.warning_p5_1).visibility = View.INVISIBLE
-        findViewById<TextView>(R.id.warning_p5_2).visibility = View.INVISIBLE
+        findViewById<TextView>(R.id.at_least_1_warning).visibility = INVISIBLE
+        findViewById<TextView>(R.id.no_more_than_3_warning).visibility = INVISIBLE
 
         val chipGroup = findViewById<ChipGroup>(R.id.chipGroup_p5)
         val ids = chipGroup.checkedChipIds
@@ -47,10 +49,10 @@ class ProfileOrientation : AppCompatActivity() {
         when {
             //none selected
             size < 1 -> {
-                findViewById<TextView>(R.id.warning_p5_1).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.at_least_1_warning).visibility = VISIBLE
             }
             size > SELECTION_LIMIT -> {
-                findViewById<TextView>(R.id.warning_p5_2).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.no_more_than_3_warning).visibility = VISIBLE
             }
             //correct numbers of selection
             else -> {

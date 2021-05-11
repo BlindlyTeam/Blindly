@@ -15,6 +15,12 @@ import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.enums.Gender
+import ch.epfl.sdp.blindly.user.enums.Gender.WOMAN
+import ch.epfl.sdp.blindly.user.enums.Passions
+import ch.epfl.sdp.blindly.user.enums.Passions.*
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations.*
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule

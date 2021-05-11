@@ -65,7 +65,7 @@ class TestProfileGenderMore {
         closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        onView(withId(R.id.warning2_p4_2))
+        onView(withId(R.id.use_only_letters_warning))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
@@ -85,7 +85,7 @@ class TestProfileGenderMore {
         closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        onView(withId(R.id.warning1_p4_2))
+        onView(withId(R.id.please_specify_warning))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
@@ -103,7 +103,7 @@ class TestProfileGenderMore {
         closeSoftKeyboard()
         val buttonContinue = onView(withId(R.id.button_p4_2))
         buttonContinue.perform(click())
-        onView(withId(R.id.warning1_p4_2))
+        onView(withId(R.id.please_specify_warning))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(

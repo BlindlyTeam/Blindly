@@ -1,23 +1,15 @@
 package ch.epfl.sdp.blindly.profile_edit
 
 import android.os.Bundle
-import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations
 import com.google.android.material.chip.ChipGroup
 
-//Not private as they will be used in the EditProfile activity too
-private const val STRAIGHT = "Straight"
-private const val LESBIAN = "Lesbian"
-private const val GAY = "Gay"
-private const val BISEXUAL = "Bisexual"
-private const val ASEXUAL = "Asexual"
-private const val DEMISEXUAL = "Demisexual"
-private const val PANSEXUAL = "Pansexual"
-private const val QUEER = "Queer"
-private const val QUESTIONING = "Questioning"
 private const val SELECTION_LIMIT = 3
 
 class EditSexualOrientations : AppCompatActivity() {
@@ -31,7 +23,7 @@ class EditSexualOrientations : AppCompatActivity() {
 
         chipGroup = findViewById(R.id.sexual_orientations_chip_group)
         val sexualOrientations = intent.getStringArrayListExtra(SEXUAL_ORIENTATIONS)
-        if(sexualOrientations != null)
+        if (sexualOrientations != null)
             setCheckedChip(sexualOrientations)
     }
 
@@ -42,8 +34,8 @@ class EditSexualOrientations : AppCompatActivity() {
     }
 
     private fun sexualOrientationsAreCorrect(): Boolean {
-        findViewById<TextView>(R.id.warning_p5_1).visibility = View.INVISIBLE
-        findViewById<TextView>(R.id.warning_p5_2).visibility = View.INVISIBLE
+        findViewById<TextView>(R.id.at_least_1_warning).visibility = INVISIBLE
+        findViewById<TextView>(R.id.no_more_than_3_warning).visibility = INVISIBLE
 
         val ids = chipGroup.checkedChipIds
         val size = ids.size
@@ -51,11 +43,11 @@ class EditSexualOrientations : AppCompatActivity() {
         return when {
             //none selected
             size < 1 -> {
-                findViewById<TextView>(R.id.warning_p5_1).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.at_least_1_warning).visibility = VISIBLE
                 false
             }
             size > SELECTION_LIMIT -> {
-                findViewById<TextView>(R.id.warning_p5_2).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.no_more_than_3_warning).visibility = VISIBLE
                 false
             }
             //correct numbers of selection
@@ -66,17 +58,10 @@ class EditSexualOrientations : AppCompatActivity() {
     }
 
     private fun setCheckedChip(sexualOrientations: ArrayList<String>) {
-        sexualOrientations.forEach {
-            when(it) {
-                STRAIGHT -> chipGroup.check(R.id.chip1)
-                LESBIAN -> chipGroup.check(R.id.chip2)
-                GAY -> chipGroup.check(R.id.chip3)
-                BISEXUAL -> chipGroup.check(R.id.chip4)
-                ASEXUAL -> chipGroup.check(R.id.chip5)
-                DEMISEXUAL -> chipGroup.check(R.id.chip6)
-                PANSEXUAL -> chipGroup.check(R.id.chip7)
-                QUEER -> chipGroup.check(R.id.chip8)
-                QUESTIONING -> chipGroup.check(R.id.chip9)
+        sexualOrientations.forEach { p ->
+            SexualOrientations.values().forEach { v ->
+                if(v.asString == p)
+                    chipGroup.check(v.id)
             }
         }
     }

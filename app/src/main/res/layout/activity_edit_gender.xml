@@ -81,7 +81,7 @@
         android:visibility="invisible"/>
 
     <TextView
-        android:id="@+id/warning1_p4_2"
+        android:id="@+id/please_specify_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/gender_radio_group"
@@ -92,7 +92,7 @@
         android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/warning2_p4_2"
+        android:id="@+id/use_only_letters_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/gender_radio_group"

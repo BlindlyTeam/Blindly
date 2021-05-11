@@ -3,11 +3,12 @@ package ch.epfl.sdp.blindly.profile_setup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.User
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -38,8 +39,8 @@ class ProfilePassions : AppCompatActivity() {
      * @param view the current view
      */
     fun startProfileAudioRecording(view: View) {
-        findViewById<TextView>(R.id.warning_p7_1).visibility = View.INVISIBLE
-        findViewById<TextView>(R.id.warning_p7_2).visibility = View.INVISIBLE
+        findViewById<TextView>(R.id.at_least_one_warning).visibility = INVISIBLE
+        findViewById<TextView>(R.id.no_more_than_5_warning).visibility = INVISIBLE
 
         val chipGroup = findViewById<ChipGroup>(R.id.chipGroup_p7)
         val ids = chipGroup.checkedChipIds
@@ -48,10 +49,10 @@ class ProfilePassions : AppCompatActivity() {
         when {
             //none selected
             size < 1 -> {
-                findViewById<TextView>(R.id.warning_p7_1).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.at_least_one_warning).visibility = VISIBLE
             }
             size > SELECTION_LIMIT -> {
-                findViewById<TextView>(R.id.warning_p7_2).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.no_more_than_5_warning).visibility = VISIBLE
             }
             //correct numbers of selection
             else -> {
