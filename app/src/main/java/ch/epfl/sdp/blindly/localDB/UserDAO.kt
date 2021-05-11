@@ -3,6 +3,10 @@ package ch.epfl.sdp.blindly.localDB
 import androidx.room.*
 import ch.epfl.sdp.blindly.user.User
 
+private val DEFAULT_LOCATION: List<Double> = listOf(46.52, 5.57)
+private const val MIN_AGE = 18
+private const val MAX_AGE = 99
+
 /**
  * Class that contains all the queries that can be made for the local database
  *
@@ -93,7 +97,7 @@ interface UserDAO {
         if(loc != null) {
             return listOf(loc[0].toDouble(), loc[1].toDouble())
         }
-        return listOf(22.5, 6.5)
+        return DEFAULT_LOCATION
     }
     /**
      * Get the birthday from a given uid
@@ -199,6 +203,6 @@ interface UserDAO {
         if(ageRange != null) {
             return listOf(ageRange[0].toInt(), ageRange[1].toInt())
         }
-        return listOf(18, 99)
+        return listOf(MIN_AGE, MAX_AGE)
     }
 }

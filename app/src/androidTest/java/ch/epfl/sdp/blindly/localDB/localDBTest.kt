@@ -22,23 +22,33 @@ class LocalDBTest {
         .setLocation(listOf(22.5, 5.6))
         .setBirthday("29.04.1997")
         .setGender("female")
-        .setSexualOrientations(listOf("male"))
+        .setSexualOrientations(listOf("bisexual"))
         .setShowMe("male")
         .setPassions(listOf("wine"))
         .setAgeRange(listOf(20, 30))
         .setRadius(50)
         .setLikes(listOf("bob"))
         .setMatches(listOf("bob"))
-        .setRecordingPath("path")
-        .setDescription("description")
+        .setRecordingPath("alice/path")
+        .setDescription("description_alice")
         .build()
 
-    /*
-    val bob = userBuilder.setUsername("Bob")
+
+    private val bob = userBuilder.setUsername("Bob")
+        .setLocation(listOf(22.5, 6.5))
         .setBirthday("06.01.1994")
+        .setGender("male")
+        .setSexualOrientations(listOf("gay"))
+        .setShowMe("male")
+        .setPassions(listOf("music"))
         .setAgeRange(listOf(20, 30))
+        .setRadius(50)
+        .setLikes(listOf("Mike"))
+        .setMatches(listOf("Mike"))
+        .setRecordingPath("bob/path")
+        .setDescription("decription_bob")
         .build()
-        */
+
 
 
     @Before
@@ -150,7 +160,7 @@ class LocalDBTest {
         val a = UserEntity("alice", alice)
         userDAO.insertUser(a)
         val recordingPath = userDAO.getUserRecordingPath("alice")
-        assertThat(recordingPath, equalTo("path"))
+        assertThat(recordingPath, equalTo("alice/path"))
     }
 
     @Test
@@ -159,6 +169,49 @@ class LocalDBTest {
         val a = UserEntity("alice", alice)
         userDAO.insertUser(a)
         val description = userDAO.getUserDescription("alice")
-        assertThat(description, equalTo("description"))
+        assertThat(description, equalTo("description_alice"))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetrieveUser() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val user = userDAO.getUser("alice")
+        assertThat(user!!.javaClass.toString(), equalTo(User::class.toString()))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putMultipleUsers() {
+        val a = UserEntity("alice", alice)
+        val b = UserEntity("bob", bob)
+        userDAO.insertAllUsers(a, b)
+        val first = userDAO.getUserName("alice")
+        val second = userDAO.getUserName("bob")
+        assertThat(listOf(first, second), equalTo(listOf("Alice", "Bob")))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndDeleteUser() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        userDAO.deleteUser(a)
+        val user = userDAO.getUser("alice")
+        assertThat(user, equalTo(null))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndUpdateUser() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val alice2 = alice
+        alice2.radius = 80
+        val a2 = UserEntity("alice", alice2)
+        userDAO.updateUser(a2)
+        val newRadius = userDAO.getUserRadius("alice")
+        assertThat(newRadius, equalTo(80))
     }
 }
