@@ -2,7 +2,7 @@ package ch.epfl.sdp.blindly.weather
 
 import ch.epfl.sdp.blindly.BuildConfig
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.helpers.BlindlyLatLng
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi

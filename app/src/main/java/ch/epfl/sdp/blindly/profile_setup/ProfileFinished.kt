@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.MainScreen
-import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
+import ch.epfl.sdp.blindly.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.AndroidEntryPoint

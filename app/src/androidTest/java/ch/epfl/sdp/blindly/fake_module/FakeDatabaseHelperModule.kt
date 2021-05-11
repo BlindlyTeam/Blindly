@@ -1,8 +1,8 @@
 package ch.epfl.sdp.blindly.fake_module
 
 import ch.epfl.sdp.blindly.dependency_injection.DatabaseHelperModule
-import ch.epfl.sdp.blindly.database.DatabaseHelper
-import ch.epfl.sdp.blindly.main_screen.chat.Message
+import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
+import ch.epfl.sdp.blindly.helpers.Message
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.database.ChildEventListener
@@ -32,8 +32,8 @@ open class FakeDatabaseHelperModule {
      */
     @Singleton
     @Provides
-    open fun provideDatabaseHelper(): DatabaseHelper {
-        val db = mock(DatabaseHelper::class.java)
+    open fun provideDatabaseHelper(): DatatbaseHelper {
+        val db = mock(DatatbaseHelper::class.java)
         // Return a mocked location live database
         `when`(db.getLocationLiveDatabase(anyString(), anyString()))
             .thenAnswer(Answer {
@@ -52,25 +52,25 @@ open class FakeDatabaseHelperModule {
             })
         return db
     }
-    private val mockedChatDatabases = HashMap<String, DatabaseHelper.ChatLiveDatabase>(1)
+    private val mockedChatDatabases = HashMap<String, DatatbaseHelper.ChatLiveDatabase>(1)
     private fun getChatMockDb(
         userId: String,
         otherUserId: String
-    ): DatabaseHelper.ChatLiveDatabase {
+    ): DatatbaseHelper.ChatLiveDatabase {
         return mockedChatDatabases.getOrPut(userId,  {
-            DatabaseHelper.ChatLiveDatabase(
+            DatatbaseHelper.ChatLiveDatabase(
                 getMockedDbRef(otherUserId),
                 userId
             )
         })
     }
-    private val mockedLocationDatabases = HashMap<String, DatabaseHelper.LocationLiveDatabase>(1)
+    private val mockedLocationDatabases = HashMap<String, DatatbaseHelper.LocationLiveDatabase>(1)
     private fun getLocationMockDb(
         userId: String,
         otherUserId: String
-    ): DatabaseHelper.LocationLiveDatabase {
+    ): DatatbaseHelper.LocationLiveDatabase {
         return mockedLocationDatabases.getOrPut(userId, {
-            DatabaseHelper.LocationLiveDatabase(
+            DatatbaseHelper.LocationLiveDatabase(
                 getMockedDbRef(otherUserId),
                 userId
             )

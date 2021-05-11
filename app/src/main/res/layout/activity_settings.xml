@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="false"
-    tools:context=".main_screen.profile.settings.Settings"
+    tools:context=".settings.Settings"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar

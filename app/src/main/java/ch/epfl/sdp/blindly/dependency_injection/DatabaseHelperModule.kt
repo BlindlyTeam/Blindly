@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly.dependency_injection
 
-import ch.epfl.sdp.blindly.database.DatabaseHelper
+import ch.epfl.sdp.blindly.helpers.DatatbaseHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,5 +21,5 @@ object DatabaseHelperModule {
      */
     @Singleton
     @Provides
-    fun provideDatabaseHelper(): DatabaseHelper = DatabaseHelper()
+    fun provideDatabaseHelper(): DatatbaseHelper = DatatbaseHelper()
 }

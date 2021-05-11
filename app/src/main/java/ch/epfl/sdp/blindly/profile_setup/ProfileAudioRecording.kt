@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.audio.RecordingActivity
+import ch.epfl.sdp.blindly.recording.RecordingActivity
 
 /**
  * Page to prompt user to record an audio file for their profile.

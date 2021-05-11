@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly
 
-import ch.epfl.sdp.blindly.audio.AudioRecord
+import ch.epfl.sdp.blindly.recording.AudioRecord
 import org.junit.Test
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
