@@ -60,7 +60,7 @@ class MyMatchesAdapter(
     /**
      * Collapses all record layouts in the view.
      */
-    fun collapseLayouts() {
+    private fun collapseLayouts() {
         for (i in 0 until my_matches.size) {
             if (my_matches[i].isExpanded) {
                 val viewHolder = viewHolderList[i]
