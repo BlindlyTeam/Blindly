@@ -18,6 +18,7 @@ import javax.inject.Singleton
 )
 open class FakeUserCacheModule {
     companion object {
+        private const val uid = "abcd1234"
         private const val username = "Jane Doe"
         private val location = createLocationTableEPFL() // Ecublens, Switzerland
         private const val MULHOUSE_LAT = 47.749
@@ -33,12 +34,12 @@ open class FakeUserCacheModule {
         private const val radiusUpdated = 50
         private val matches: List<String> = listOf("a1", "b2")
         private val likes: List<String> = listOf("c3", "d4")
-        private const val description = "Student"
         private const val recordingPath =
             "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
         private val ageRange = listOf(30, 50)
         private val ageRangeUpdated = listOf(40, 50)
         val fakeUser = User.Builder()
+            .setUid(uid)
             .setUsername(username)
             .setLocation(location)
             .setBirthday(birthday)
@@ -47,13 +48,13 @@ open class FakeUserCacheModule {
             .setShowMe(showMe)
             .setPassions(passions)
             .setRadius(radius)
-            .setDescription(description)
             .setMatches(matches)
             .setLikes(likes)
             .setRecordingPath(recordingPath)
             .setAgeRange(ageRange)
             .build()
         val fakeUserUpdated = User.Builder()
+            .setUid(uid)
             .setUsername(username)
             .setLocation(locationUpdated)
             .setBirthday(birthday)
@@ -62,7 +63,6 @@ open class FakeUserCacheModule {
             .setShowMe(showMeUpdated)
             .setPassions(passions)
             .setRadius(radiusUpdated)
-            .setDescription(description)
             .setMatches(matches)
             .setLikes(likes)
             .setRecordingPath(recordingPath)

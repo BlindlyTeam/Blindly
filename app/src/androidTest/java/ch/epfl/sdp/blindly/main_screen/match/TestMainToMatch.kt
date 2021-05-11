@@ -39,7 +39,7 @@ class TestMainToMatch {
     fun cardStackAdapterIsCreatedOnFragmentCreation() {
         onView(withId(R.id.card_stack_view)).check(matches(isDisplayed()))
     }
-
+  
     //Had to remove the tests while we look for a way to test the DB input
     /*@Test
     fun firstCardIsWellDisplayed() {
