@@ -62,7 +62,7 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            MyMatchesFragment.counter = requireArguments().getInt(MyMatchesFragment.ARG_COUNT)
+            counter = requireArguments().getInt(ARG_COUNT)
         }
 
     }
@@ -95,35 +95,39 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     @RequiresApi(Build.VERSION_CODES.N)
     private suspend fun getMyMatches() {
         val userId = userHelper.getUserId()!!
-        var myMatches: ArrayList<MyMatch>? = arrayListOf()
-        var myMatchesUids: List<String> = listOf()
+        var myMatches: ArrayList<MyMatch>?
+        var myMatchesUids: List<String>
 
-        val document = userRepository.getCollectionReference().document(userId)
+        val docRef = userRepository.getCollectionReference().document(userId)
+        docRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
 
-
-        document.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val document = task.result
-                if (document != null) {
-                    myMatchesUids = document?.get("matches") as List<String>
-                } else {
-                    Log.d(TAG, "No such document")
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: ${snapshot.data}")
+                myMatchesUids = snapshot["matches"] as List<String>
+                viewLifecycleOwner.lifecycleScope.launch {
+                    myMatches = arrayListOf()
+                    for (userId in myMatchesUids) {
+                        myMatches!!.add(
+                            MyMatch(
+                                userRepository.getUser(userId)?.username!!,
+                                userId,
+                                false
+                            )
+                        )
+                    }
+                    myMatches?.let { setAdapterOnMainThread(it) }
                 }
             } else {
-                Log.d(TAG, "get failed with ", task.exception)
+                Log.d(TAG, "Current data: null")
             }
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                for (userId in myMatchesUids) {
-                    myMatches!!.add(MyMatch(userRepository.getUser(userId)?.username!!, userId, false))
-                }
-                if (myMatches != null) {
-                    setAdapterOnMainThread(myMatches)
-                }
-            }
-
         }
+
     }
+
 
     private suspend fun setAdapterOnMainThread(input: ArrayList<MyMatch>) {
         withContext(Dispatchers.Main) {
