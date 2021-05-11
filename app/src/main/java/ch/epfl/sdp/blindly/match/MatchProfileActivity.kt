@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -26,6 +29,12 @@ class MatchProfileActivity : AppCompatActivity() {
     @Inject
     lateinit var userRepository: UserRepository
 
+    @Inject
+    lateinit var userHelper: UserHelper
+
+    @Inject
+    lateinit var assistedFactory: ViewModelAssistedFactory
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +42,7 @@ class MatchProfileActivity : AppCompatActivity() {
 
         // Cancels loading if the profileID isn't given in the Bundle
         val profileID = intent.extras?.getString(PROFILE_ID) ?: return
-
-        MainScope().launch {
-            val userShown = userRepository.getUser(profileID)
-            if (userShown != null) {
-                setUserView(userShown)
-            }
-        }
+        instantiateViewModel(profileID)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -59,5 +62,14 @@ class MatchProfileActivity : AppCompatActivity() {
         profileOrientations.text = user.sexualOrientations?.joinToString(", ")
             ?: NO_ORIENTATIONS
         profilePassions.text = user.passions?.joinToString(", ") ?: NO_PASSIONS
+    }
+
+    private fun instantiateViewModel(uid: String) {
+        val bundle = Bundle()
+        bundle.putString(UserHelper.EXTRA_UID, uid)
+
+        val viewModelFactory = assistedFactory.create(this, bundle)
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 }
