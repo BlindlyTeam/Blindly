@@ -7,9 +7,9 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class UserCacheTest {
-    companion object {
-        private val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
 
+    companion object {
+        private const val uid = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
         private const val username = "Jane Doe"
         private val location = createLocationTableEPFL()
         private const val birthday = "01.01.2001"
@@ -24,6 +24,7 @@ class UserCacheTest {
             "gs://blindly-24119.appspot.com/Recordings/DBrGTHNkj9Z3VaKIeQCJrL3FANg2-PresentationAudio.amr"
 
         val TEST_USER: User = User.Builder()
+            .setUid(uid)
             .setUsername(username)
             .setLocation(location)
             .setBirthday(birthday)
@@ -41,27 +42,27 @@ class UserCacheTest {
     @Test
     fun emptyCacheReturnsNull() {
         val userCache = UserCache()
-        assertEquals(null, userCache.get(TEST_UID))
+        assertEquals(null, userCache.get(uid))
     }
 
     @Test
     fun getAfterPutReturnNonNullUser() {
         val userCache = UserCache()
 
-        userCache.put(TEST_UID, TEST_USER)
-        assertEquals(TEST_USER, userCache.get(TEST_UID))
+        userCache.put(uid, TEST_USER)
+        assertEquals(TEST_USER, userCache.get(uid))
     }
 
     @Test
     fun containsReturnsFalseWhenUserIsNotCached() {
         val userCache = UserCache()
-        assertFalse(userCache.contains(TEST_UID))
+        assertFalse(userCache.contains(uid))
     }
 
     @Test
     fun containsReturnsTrueWhenUserIsCached() {
         val userCache = UserCache()
-        userCache.put(TEST_UID, TEST_USER)
-        assertTrue(userCache.contains(TEST_UID))
+        userCache.put(uid, TEST_USER)
+        assertTrue(userCache.contains(uid))
     }
 }

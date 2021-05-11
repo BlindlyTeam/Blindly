@@ -4,6 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
@@ -30,6 +31,7 @@ const val AGE_RANGE = "ageRange"
  */
 @Serializable
 class User private constructor(
+    @Exclude var uid: String?,
     var username: String?,
     var location: List<Double>?,
     var birthday: String?,
@@ -48,6 +50,7 @@ class User private constructor(
      * A builder used to partially initialize a user during the profile_setup activities
      * Made serializable so that it can be put in a bundle and passed as extra
      *
+     * @property uid the uid of the User
      * @property username the username of the User
      * @property location the location of the User
      * @property birthday the birthday of the User
@@ -59,12 +62,12 @@ class User private constructor(
      *     passions of the User
      * @property radius the radius in which the User want the matching algorithm to look in
      * @property matches a List<User> containing the Users the User has a match with
-     * @property description the description of the User
      * @property recordingPath the path to the recording of the user
      * @property ageRange the ageRange of the User
      */
     @Serializable
     data class Builder(
+        var uid: String? = null,
         var username: String? = null,
         var location: List<Double>? = null,
         var birthday: String? = null,
@@ -78,6 +81,15 @@ class User private constructor(
         var recordingPath: String? = null,
         var ageRange: List<Int> = listOf()
     ) {
+
+        /**
+         * Set the uid in the UserBuilder
+         *
+         * @param uid the username of the User
+         */
+        fun setUid(uid: String) = apply {
+            this.uid = uid
+        }
 
         /**
          * Set the username in the UserBuilder
@@ -208,6 +220,7 @@ class User private constructor(
          */
         fun build(): User {
             return User(
+                uid,
                 username,
                 location,
                 birthday,
@@ -234,6 +247,7 @@ class User private constructor(
          */
         fun DocumentSnapshot.toUser(): User? {
             try {
+                val uid = id
                 val username = getString("username")!!
                 val location = get("location") as? List<Double>
                 val birthday = getString("birthday")!!
@@ -248,6 +262,7 @@ class User private constructor(
                 val recordingPath = getString("recordingPath")!!
 
                 return User(
+                    uid,
                     username,
                     location,
                     birthday,

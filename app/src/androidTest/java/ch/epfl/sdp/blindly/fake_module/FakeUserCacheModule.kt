@@ -18,6 +18,7 @@ import javax.inject.Singleton
 )
 open class FakeUserCacheModule {
     companion object {
+        private const val uid = "abcd1234"
         private const val username = "Jane Doe"
         private val location = createLocationTableEPFL() // Ecublens, Switzerland
         private const val MULHOUSE_LAT = 47.749
@@ -38,6 +39,7 @@ open class FakeUserCacheModule {
         private val ageRange = listOf(30, 50)
         private val ageRangeUpdated = listOf(40, 50)
         val fakeUser = User.Builder()
+            .setUid(uid)
             .setUsername(username)
             .setLocation(location)
             .setBirthday(birthday)
@@ -52,6 +54,7 @@ open class FakeUserCacheModule {
             .setAgeRange(ageRange)
             .build()
         val fakeUserUpdated = User.Builder()
+            .setUid(uid)
             .setUsername(username)
             .setLocation(locationUpdated)
             .setBirthday(birthday)
