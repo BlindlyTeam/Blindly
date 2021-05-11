@@ -29,7 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
-        <activity android:name=".chat.ChatActivity" />
+        <activity android:name="ch.epfl.sdp.blindly.main_screen.chat.ChatActivity" />
         <activity android:name=".profile_setup.ProfileAudioRecording" />
         <activity android:name=".profile_setup.ProfileFinished" />
         <activity android:name=".profile_setup.ProfilePassions" />
@@ -44,17 +44,17 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".map.UserMapActivity" />
+        <activity android:name="ch.epfl.sdp.blindly.main_screen.map.UserMapActivity" />
 
-        <activity android:name=".settings.SettingsLocation" />
-        <activity android:name=".settings.SettingsShowMe" />
-        <activity android:name=".profile_edit.EditProfile" />
-        <activity android:name=".settings.Settings" />
-        <activity android:name=".settings.SettingsUpdateEmail" />
+        <activity android:name="ch.epfl.sdp.blindly.main_screen.profile.settings.SettingsLocation" />
+        <activity android:name="ch.epfl.sdp.blindly.main_screen.profile.settings.SettingsShowMe" />
+        <activity android:name="ch.epfl.sdp.blindly.main_screen.profile.profile_edit.EditProfile" />
+        <activity android:name="ch.epfl.sdp.blindly.main_screen.profile.settings.Settings" />
+        <activity android:name="ch.epfl.sdp.blindly.main_screen.profile.settings.SettingsUpdateEmail" />
         <activity
             android:name=".main_screen.MainScreen"
             android:theme="@style/Theme.Blindly.NoActionBar" />
-        <activity android:name=".permissions.LocationPermissionActivity" />
+        <activity android:name="ch.epfl.sdp.blindly.location.permissions.LocationPermissionActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,7 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".recording.RecordingActivity" />
+        <activity android:name=".audio.RecordingActivity" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             tools:replace="android:value"
