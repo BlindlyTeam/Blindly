@@ -16,8 +16,6 @@ import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import javax.inject.Inject
 
 private const val PROFILE_ID = "profileID"
-private const val NO_PASSIONS = "No passions provided"
-private const val NO_ORIENTATIONS = "No sexual orientations provided"
 
 /**
  * Activity that shows more details about a potential match
