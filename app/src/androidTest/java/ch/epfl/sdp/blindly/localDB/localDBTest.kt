@@ -129,7 +129,7 @@ class LocalDBTest {
 
     @Test
     @Throws(Exception::class)
-    fun putAndRetieveUserRadius() {
+    fun putAndRetrieveUsersRadius() {
         val a = UserEntity("alice", alice)
         userDAO.insertUser(a)
         val radius = userDAO.getUserRadius("alice")
