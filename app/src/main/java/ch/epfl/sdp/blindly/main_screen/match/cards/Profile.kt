@@ -9,13 +9,18 @@ import android.os.Parcelable
  *
  * @property name
  * @property age
+ * @property gender
+ * @property distance
+ * @property recordingPath
  */
 data class Profile(
     val name: String,
     val age: Int,
+    val gender: String,
+    val distance: Int,
+    val recordingPath: String,
 ) : Parcelable {
     companion object {
-        private var counter = 0L
 
         @JvmField
         val CREATOR: Parcelable.Creator<Profile> = object : Parcelable.Creator<Profile> {
@@ -32,7 +37,13 @@ data class Profile(
     /**
      * A constructor for a profile from a parcel
      */
-    constructor(source: Parcel) : this(source.readString()!!, source.readInt())
+    constructor(source: Parcel) : this(
+        source.readString()!!,
+        source.readInt(),
+        source.readString()!!,
+        source.readInt(),
+        source.readString()!!
+    )
 
     /**
      * Object doesn't contain a content descriptor
@@ -52,9 +63,12 @@ data class Profile(
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(name)
         dest?.writeInt(age)
+        dest?.writeString(gender)
+        dest?.writeInt(distance)
+        dest?.writeString(recordingPath)
     }
 
     override fun toString(): String {
-        return "$name, $age"
+        return "$name, $age, $gender"
     }
 }
