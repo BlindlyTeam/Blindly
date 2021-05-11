@@ -13,7 +13,6 @@ import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
-import kotlinx.coroutines.*
 import javax.inject.Inject
 
 private const val PROFILE_ID = "profileID"
@@ -43,25 +42,19 @@ class MatchProfileActivity : AppCompatActivity() {
         // Cancels loading if the profileID isn't given in the Bundle
         val profileID = intent.extras?.getString(PROFILE_ID) ?: return
         instantiateViewModel(profileID)
-    }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setUserView(user: User) {
         val profileNameAge = findViewById<TextView>(R.id.profileNameAgeText)
         val profileLocation = findViewById<TextView>(R.id.profileLocationText)
-        val profileDescription = findViewById<TextView>(R.id.profileDescriptionText)
         val profileOrientations = findViewById<TextView>(R.id.profileOrientationsText)
         val profilePassions = findViewById<TextView>(R.id.profilePassionsText)
 
-        val age = user.birthday?.let { User.getAgeFromBirthday(it) }
-        val locationText = AndroidLocationService.getCurrentLocationStringFromUser(this,
-            user)
-        profileNameAge.text = "${user.username}, $age"
-        profileLocation.text = locationText
-        profileDescription.text = user.description
-        profileOrientations.text = user.sexualOrientations?.joinToString(", ")
-            ?: NO_ORIENTATIONS
-        profilePassions.text = user.passions?.joinToString(", ") ?: NO_PASSIONS
+        viewModel.user.observe(this) {
+            val age = User.getAgeFromBirthday(it.birthday!!)
+            profileNameAge.text = "${it.username}, $age"
+            profileLocation.text = AndroidLocationService.getCurrentLocationStringFromUser(this, it)
+            profileOrientations.text = it.sexualOrientations!!.joinToString(", ")
+            profilePassions.text = "Likes ${it.passions!!.joinToString(", \n")}"
+        }
     }
 
     private fun instantiateViewModel(uid: String) {
