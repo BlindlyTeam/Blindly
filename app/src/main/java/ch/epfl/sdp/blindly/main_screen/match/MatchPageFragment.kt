@@ -17,7 +17,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
-import ch.epfl.sdp.blindly.main_screen.match.MatchingAlgorithm
+import ch.epfl.sdp.blindly.main_screen.match.algorithm.MatchingAlgorithm
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.yuyakaido.android.cardstackview.*
