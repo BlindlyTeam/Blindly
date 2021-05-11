@@ -43,7 +43,6 @@ class EditGenderTest {
     private val TEST_GENDER_FLOWER = "AFlower"
 
     private val WOMAN_ID = WOMAN.id
-    private val MAN_ID = MAN.id
     private val MORE_ID = MORE.id
 
     @get:Rule
@@ -174,7 +173,7 @@ class EditGenderTest {
     @Test
     fun incorrectCharOutputsError() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
-        intent.putExtra(GENDER, Gender.MORE.asString)
+        intent.putExtra(GENDER, MORE.asString)
         activity = ActivityScenario.launch(intent)
 
         onView(withId(R.id.edit_gender_button)).perform(click())

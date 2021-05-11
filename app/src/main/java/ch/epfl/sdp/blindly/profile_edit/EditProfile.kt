@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
@@ -48,10 +47,13 @@ class EditProfile : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val bundle = Bundle()
-        bundle.putString(UserHelper.EXTRA_UID, userHelper.getUserId())
-        val viewModelFactory = assistedFactory.create(this, bundle)
-        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
+        val uid = userHelper.getUserId()
+        viewModel = UserViewModel.instantiateViewModel(
+            uid,
+            assistedFactory,
+            this,
+            this
+        )
 
         val username = findViewById<TextView>(R.id.username_text)
         val birthday = findViewById<TextView>(R.id.my_birthday)

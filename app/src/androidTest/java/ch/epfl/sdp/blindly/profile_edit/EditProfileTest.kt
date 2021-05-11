@@ -1,7 +1,11 @@
 package ch.epfl.sdp.blindly.profile_edit
 
+import android.content.Intent
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
@@ -15,11 +19,8 @@ import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.enums.Gender
-import ch.epfl.sdp.blindly.user.enums.Gender.WOMAN
-import ch.epfl.sdp.blindly.user.enums.Passions
+import ch.epfl.sdp.blindly.user.enums.Gender.MAN
 import ch.epfl.sdp.blindly.user.enums.Passions.*
-import ch.epfl.sdp.blindly.user.enums.SexualOrientations
 import ch.epfl.sdp.blindly.user.enums.SexualOrientations.*
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
@@ -169,6 +170,104 @@ class EditProfileTest {
             allOf(
                 hasComponent(EditPassions::class.java.name),
                 hasExtra(PASSIONS, TEST_PASSIONS)
+            )
+        )
+    }
+
+    @Test
+    fun onBackPressedInEditGenderUpdatesTheDatabase() {
+        val TEST_GENDER_UPDATE = MAN
+        val gender = fakeUser.gender // Woman
+        val intent = Intent(ApplicationProvider.getApplicationContext(), EditGender::class.java)
+        intent.putExtra(GENDER, gender)
+        ActivityScenario.launch<EditGender>(intent)
+
+        onView(withId(TEST_GENDER_UPDATE.id)).perform(click())
+        Espresso.pressBackUnconditionally()
+
+        val editProfileIntent =
+            Intent(ApplicationProvider.getApplicationContext(), EditProfile::class.java)
+        ActivityScenario.launch<EditProfile>(editProfileIntent)
+        onView(withId(R.id.gender_text)).check(
+            matches(
+                withText(
+                    TEST_GENDER_UPDATE.asString
+                )
+            )
+        )
+    }
+
+    @Test
+    fun onBackPressedInEditPassionsUpdatesTheDatabase() {
+        val TEST_PASSIONS_UPDATE = arrayListOf(COFFEE.asString, TEA.asString, MOVIES.asString, BRUNCH.asString)
+        val passions = arrayListOf<String>()
+        fakeUser.passions?.forEach {
+            passions.add(it)
+        } // listOf("Coffee", "Tea", "Movies")
+        val intent = Intent(ApplicationProvider.getApplicationContext(), EditPassions::class.java)
+        intent.putStringArrayListExtra(PASSIONS, passions)
+        ActivityScenario.launch<EditPassions>(intent)
+
+        onView(withId(MOVIES.id)).perform(click())
+        onView(withId(BRUNCH.id)).perform(click())
+        Espresso.pressBackUnconditionally()
+
+        val editProfileIntent =
+            Intent(ApplicationProvider.getApplicationContext(), EditProfile::class.java)
+        ActivityScenario.launch<EditProfile>(editProfileIntent)
+        onView(withId(R.id.passions_group)).check(
+            matches(
+                hasChildCount(
+                    TEST_PASSIONS_UPDATE.size
+                )
+            )
+        )
+    }
+
+    @Test
+    fun onBackPressedInEditSexualOrientationsUpdatesTheDatabase() {
+        val TEST_SEXUAL_ORIENTATIONS_UPDATE = arrayListOf(ASEXUAL.asString, BISEXUAL.asString)
+        val sexualOrientations = arrayListOf<String>()
+        fakeUser.sexualOrientations?.forEach {
+            sexualOrientations.add(it)
+        } // listOf("Asexual")
+        val intent = Intent(ApplicationProvider.getApplicationContext(), EditSexualOrientations::class.java)
+        intent.putStringArrayListExtra(SEXUAL_ORIENTATIONS, sexualOrientations)
+        ActivityScenario.launch<EditSexualOrientations>(intent)
+
+        onView(withId(BISEXUAL.id)).perform(click())
+        Espresso.pressBackUnconditionally()
+
+        val editProfileIntent =
+            Intent(ApplicationProvider.getApplicationContext(), EditProfile::class.java)
+        ActivityScenario.launch<EditProfile>(editProfileIntent)
+        onView(withId(R.id.sexual_orientations_group)).check(
+            matches(
+                hasChildCount(
+                    TEST_SEXUAL_ORIENTATIONS_UPDATE.size
+                )
+            )
+        )
+    }
+
+    @Test
+    fun onBackPressedInEditUsernameUpdatesTheDatabase() {
+        val TEST_USERNAME_UPDATE = "Jack"
+        val intent = Intent(ApplicationProvider.getApplicationContext(), EditUsername::class.java)
+        ActivityScenario.launch<EditUsername>(intent)
+
+        onView(withId(R.id.edit_username)).perform(clearText(), typeText(TEST_USERNAME_UPDATE))
+        Espresso.closeSoftKeyboard()
+        onView(withId(R.id.update_username)).perform(click())
+
+        val editProfileIntent =
+            Intent(ApplicationProvider.getApplicationContext(), EditProfile::class.java)
+        ActivityScenario.launch<EditProfile>(editProfileIntent)
+        onView(withId(R.id.username_text)).check(
+            matches(
+                withText(
+                    TEST_USERNAME_UPDATE
+                )
             )
         )
     }

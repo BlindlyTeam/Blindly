@@ -1,10 +1,14 @@
 package ch.epfl.sdp.blindly.viewmodel
 
+import android.app.Activity
 import android.os.Build
+import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
+import androidx.savedstate.SavedStateRegistryOwner
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -18,10 +22,6 @@ class UserViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
     userRepository: UserRepository
 ) : ViewModel() {
-
-    companion object {
-        private const val TAG = "UserViewModel"
-    }
 
     private var userRepo: UserRepository = userRepository
 
@@ -54,6 +54,25 @@ class UserViewModel @AssistedInject constructor(
     fun <T> updateField(field: String, newValue: T) {
         viewModelScope.launch {
             userRepo.updateProfile(userId, field, newValue)
+        }
+    }
+
+    companion object {
+        private const val TAG = "UserViewModel"
+
+        fun instantiateViewModel(
+            uid: String?,
+            assistedFactory: ViewModelAssistedFactory,
+            owner: SavedStateRegistryOwner,
+            viewModelStoreOwner: ViewModelStoreOwner
+        ): UserViewModel {
+            val bundle = Bundle()
+            bundle.putString(EXTRA_UID, uid)
+            val viewModelFactory = assistedFactory.create(owner, bundle)
+            return ViewModelProvider(
+                viewModelStoreOwner,
+                viewModelFactory
+            )[UserViewModel::class.java]
         }
     }
 }

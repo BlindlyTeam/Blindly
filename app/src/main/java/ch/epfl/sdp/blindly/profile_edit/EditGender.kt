@@ -1,25 +1,37 @@
 package ch.epfl.sdp.blindly.profile_edit
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import android.view.animation.AnimationUtils
-import android.widget.*
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.view.animation.AnimationUtils
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.fragments.ProfilePageFragment
 import ch.epfl.sdp.blindly.user.GENDER
+import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.enums.Gender.*
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private val REGEX = Regex("^[a-zA-Z]*$")
 
+@AndroidEntryPoint
 class EditGender : AppCompatActivity() {
+
+    @Inject
+    lateinit var userHelper: UserHelper
+
+    @Inject
+    lateinit var assistedFactory: ViewModelAssistedFactory
+
+    private lateinit var viewModel: UserViewModel
 
     private lateinit var radioGroup: RadioGroup
     private lateinit var gender: String
@@ -28,6 +40,14 @@ class EditGender : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_gender)
         supportActionBar?.hide()
+
+        val uid = userHelper.getUserId()
+        viewModel = UserViewModel.instantiateViewModel(
+            uid,
+            assistedFactory,
+            this,
+            this
+        )
 
         gender = intent.getStringExtra(GENDER).toString()
         val editGender = findViewById<EditText>(R.id.edit_gender)
@@ -40,7 +60,7 @@ class EditGender : AppCompatActivity() {
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             val more = findViewById<RadioButton>(MORE.id)
             if (checkedId == MORE.id) {
-                if(more.text == MORE.asString)
+                if (more.text == MORE.asString)
                     showGenderEditor()
                 else
                     edit.visibility = VISIBLE
@@ -57,15 +77,19 @@ class EditGender : AppCompatActivity() {
             edit.startAnimation(bounce)
             Handler(Looper.getMainLooper()).postDelayed({
                 showGenderEditor()
-                edit.visibility = View.INVISIBLE
+                edit.visibility = INVISIBLE
             }, ProfilePageFragment.BOUNCE_DURATION)
         }
 
-       setUpdateOnClickListener(updateGender)
+        setUpdateOnClickListener(updateGender)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
-        //TODO update in firestore if radioGroup.checkedChip.text != gender
+        val checkedChipId = radioGroup.checkedRadioButtonId
+        val checkedChip = findViewById<RadioButton>(checkedChipId)
+        if (checkedChip.text != gender)
+            viewModel.updateField(GENDER, checkedChip.text.toString())
         super.onBackPressed()
     }
 
@@ -78,7 +102,6 @@ class EditGender : AppCompatActivity() {
             updateGender.startAnimation(bounce)
             Handler(Looper.getMainLooper()).postDelayed({
                 hideAllWarnings()
-                //TODO update in firestore
                 if (genderMoreIsCorrect()) {
                     more.text = editGender.text
                     editGender.text.clear()
