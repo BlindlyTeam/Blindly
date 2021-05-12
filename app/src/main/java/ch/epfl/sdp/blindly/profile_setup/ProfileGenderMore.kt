@@ -3,6 +3,8 @@ package ch.epfl.sdp.blindly.profile_setup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
@@ -34,14 +36,14 @@ class ProfileGenderMore : AppCompatActivity() {
      * @param view the current view
      */
     fun startProfileOrientation(view: View) {
-        findViewById<TextView>(R.id.warning1_p4_2).visibility = View.INVISIBLE
-        findViewById<TextView>(R.id.warning2_p4_2).visibility = View.INVISIBLE
+        findViewById<TextView>(R.id.please_specify_warning).visibility = INVISIBLE
+        findViewById<TextView>(R.id.use_only_letters_warning).visibility = INVISIBLE
 
         val gender = findViewById<TextView>(R.id.text_p4_2).text.toString().trim()
 
         if (!gender.matches(REGEX)) {
             //incorrect format, output error
-            findViewById<TextView>(R.id.warning2_p4_2).visibility = View.VISIBLE
+            findViewById<TextView>(R.id.use_only_letters_warning).visibility = VISIBLE
         } else {
             val len = gender.length
             if (len > 0) {
@@ -57,7 +59,7 @@ class ProfileGenderMore : AppCompatActivity() {
                 startActivity(intent)
             } else {
                 //empty text, output error
-                findViewById<TextView>(R.id.warning1_p4_2).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.please_specify_warning).visibility = VISIBLE
             }
         }
     }
