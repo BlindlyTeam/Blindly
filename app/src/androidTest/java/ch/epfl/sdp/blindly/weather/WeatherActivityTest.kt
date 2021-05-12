@@ -48,6 +48,16 @@ private val DAY_TEMPERATURE_2 = DayTemperature(
 )
 private val DAY_WEATHER_2= DayWeather(DAY_TEMPERATURE_2, arrayOf(WEATHER), DAY)
 private val WEEK_WEATHER_2 = WeekWeather(Array(7) { DAY_WEATHER_2 })
+
+private val DAY_TEMPERATURE_FAHRENHEIT = DayTemperature(
+    TEMPERATURE_2,
+    TEMPERATURE_2,
+    TEMPERATURE_2,
+    TEMPERATURE_2,
+    TemperatureUnit.IMPERIAL
+)
+private val DAY_WEATHER_FAHRENHEIT= DayWeather(DAY_TEMPERATURE_FAHRENHEIT, arrayOf(WEATHER), DAY)
+private val WEEK_WEATHER_FAHRENHEIT = WeekWeather(Array(7) { DAY_WEATHER_FAHRENHEIT })
 @HiltAndroidTest
 class WeatherActivityTest {
     @get:Rule
@@ -83,7 +93,7 @@ class WeatherActivityTest {
         `when`(weather.nextWeek(any(), any(), any()))
             .then(FakeWeatherServiceModule.answerResult(WEEK_WEATHER_2))
 
-        onView(withId(R.id.swiperefresh)).perform(swipeDown())
+        performRefresh()
 
         verifyMockCalledAgainAndViewUpdated()
 
@@ -110,8 +120,36 @@ class WeatherActivityTest {
         `when`(weather.nextWeek(any(), any(), any()))
             .then(FakeWeatherServiceModule.answerResult(WEEK_WEATHER_2))
 
-        onView(withId(R.id.swiperefresh)).perform(swipeDown())
+        performRefresh()
         verifyMockCalledAgainAndViewUpdated()
+        assertNotRefreshing()
+    }
+    @Test
+    fun unitsAreCorrectlyDisplayed() {
+        onView(withId(R.id.weather_day_1_day))
+            .check(
+                matches(
+                    withText(
+                        // We only roughly check, it's up to the implementation to choose
+                        // the precision of the display
+                        containsString("°C")
+                    )
+                )
+            )
+        `when`(weather.nextWeek(any(), any(), any()))
+            .then(FakeWeatherServiceModule.answerResult(WEEK_WEATHER_FAHRENHEIT))
+        performRefresh()
+
+        onView(withId(R.id.weather_day_1_day))
+            .check(
+                matches(
+                    withText(
+                        // We only roughly check, it's up to the implementation to choose
+                        // the precision of the display
+                        containsString("°F")
+                    )
+                )
+            )
         assertNotRefreshing()
     }
     @Test
@@ -124,10 +162,14 @@ class WeatherActivityTest {
                 )
                 callback.onWeatherFailure(Exception("TEST EXCEPTION"))
             }))
-
-        onView(withId(R.id.swiperefresh)).perform(swipeDown())
+        
+        performRefresh()
 
         assertNotRefreshing()
+    }
+
+    private fun performRefresh() {
+        onView(withId(R.id.swiperefresh)).perform(swipeDown())
     }
 
     private fun assertNotRefreshing() {

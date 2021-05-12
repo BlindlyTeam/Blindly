@@ -42,6 +42,18 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         setRefreshing(true)
     }
 
+    private fun temperatureToString(temperature: Double, unit: TemperatureUnit) =
+        when (unit) {
+            TemperatureUnit.IMPERIAL -> String.format(
+                getString(R.string.fahrenheit_temperature),
+                temperature.toInt()
+            );
+            TemperatureUnit.METRIC -> String.format(
+                getString(R.string.celsius_temperature),
+                temperature.toInt()
+            );
+        }
+
     /**
      * Maps the weather info to the view
      *
@@ -50,48 +62,62 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun setWeatherInfo(weather: WeekWeather) {
         // Skip today
         weather.daily.drop(1).forEachIndexed { index, dayWeather ->
-            // Set the icon
-            val iconId = resources.getIdentifier(
-                "weather_day_${(index + 1)}_icon",
-                "id",
-                packageName
-            )
-            val icon = dayWeather.weather[0].getIconDrawableId()
-            if (icon != null)
-                findViewById<ImageView>(iconId)?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        applicationContext,
-                        icon
-                    )
-                )
-
-            val day = resources.getIdentifier(
-                "weather_day_${(index + 1)}_day", "id",
-                packageName
-            )
-            findViewById<TextView>(day)?.text = dayWeather.temperature.day.toString()
-
-            val evening = resources.getIdentifier(
-                "weather_day_${(index + 1)}_evening",
-                "id",
-                packageName
-            )
-            findViewById<TextView>(evening)?.text = dayWeather.temperature.evening.toString()
-
-            val dayName = resources.getIdentifier(
-                "weather_day_${(index + 1)}_name",
-                "id",
-                packageName
-            )
-            findViewById<TextView>(dayName)?.text = dayWeather.day
-
-            val containerId = resources.getIdentifier(
-                "weather_day_${(index + 1)}",
-                "id",
-                packageName
-            )
-            findViewById<View>(containerId)?.visibility = VISIBLE
+            dayWeather.weather[0].getIconDrawableId()?.let { setIcon(index, it) }
+            val unit = dayWeather.temperature.unit
+            setDay(index, temperatureToString(dayWeather.temperature.day, unit))
+            setEvening(index, temperatureToString(dayWeather.temperature.evening, unit))
+            dayWeather.day?.let { setDayName(index, it) }
+            setContainerVisibility(index, VISIBLE)
         }
+    }
+
+    private fun setIcon(index: Int, drawableId: Int) {
+        val iconId = resources.getIdentifier(
+            "weather_day_${(index + 1)}_icon",
+            "id",
+            packageName
+        )
+        findViewById<ImageView>(iconId)?.setImageDrawable(
+            ContextCompat.getDrawable(
+                applicationContext,
+                drawableId
+            )
+        )
+    }
+
+    private fun setDay(index: Int, text: String) {
+        val day = resources.getIdentifier(
+            "weather_day_${(index + 1)}_day", "id",
+            packageName
+        )
+        findViewById<TextView>(day)?.text = text
+    }
+
+    private fun setEvening(index: Int, text: String) {
+        val evening = resources.getIdentifier(
+            "weather_day_${(index + 1)}_evening",
+            "id",
+            packageName
+        )
+        findViewById<TextView>(evening)?.text = text
+    }
+
+    private fun setDayName(index: Int, text: String) {
+        val dayName = resources.getIdentifier(
+            "weather_day_${(index + 1)}_name",
+            "id",
+            packageName
+        )
+        findViewById<TextView>(dayName)?.text = text
+    }
+
+    private fun setContainerVisibility(index: Int, visibility: Int) {
+        val containerId = resources.getIdentifier(
+            "weather_day_${(index + 1)}",
+            "id",
+            packageName
+        )
+        findViewById<View>(containerId)?.visibility = visibility
     }
 
     // load a custom actionbar with a refresh button

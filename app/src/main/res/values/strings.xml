@@ -170,4 +170,6 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="menu_refresh">Refresh</string>
     <string name="weather_update_failed">Can\'t get weather data now, try again later</string>
+    <string name="fahrenheit_temperature">%d °F</string>
+    <string name="celsius_temperature">%d °C</string>
 </resources>
