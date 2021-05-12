@@ -2,7 +2,6 @@ package ch.epfl.sdp.blindly.main_screen.fragments
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,47 +84,11 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
 
         //Needs to be done in a coroutine
         viewLifecycleOwner.lifecycleScope.launch {
-            getMyMatches()
+            val userId = userHelper.getUserId()!!
+            userRepository.getMyMatches(viewLifecycleOwner, userId, ::setAdapterOnMainThread)
         }
 
         return fragView
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private suspend fun getMyMatches() {
-        val userId = userHelper.getUserId()!!
-        var myMatches: ArrayList<MyMatch>?
-        var myMatchesUids: List<String>
-
-        val docRef = userRepository.getCollectionReference().document(userId)
-        docRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e)
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null && snapshot.exists()) {
-                Log.d(TAG, "Current data: ${snapshot.data}")
-                myMatchesUids = snapshot["matches"] as List<String>
-                viewLifecycleOwner.lifecycleScope.launch {
-                    myMatches = arrayListOf()
-                    for (userId in myMatchesUids) {
-                        myMatches!!.add(
-                            MyMatch(
-                                userRepository.getUser(userId)?.username!!,
-                                userId,
-                                false
-                            )
-                        )
-                    }
-                    myMatches?.let { setAdapterOnMainThread(it) }
-                }
-            } else {
-                Log.d(TAG, "Current data: null")
-            }
-        }
-
     }
 
 
