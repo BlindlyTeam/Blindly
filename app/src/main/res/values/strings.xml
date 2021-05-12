@@ -161,6 +161,9 @@
     <string name="edit_select_up_to_3">Select up to 3:</string>
     <string name="edit_select_up_to_5">Select up to 5:</string>
     <string name="title_activity_edit_username">EditUsername</string>
+<<<<<<< HEAD
     <string name="edit_gender">Edit</string>
     <string name="update_gender">Update Gender</string>
+=======
+>>>>>>> main
 </resources>

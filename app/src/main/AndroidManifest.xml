@@ -29,8 +29,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
+<<<<<<< HEAD
         <activity android:name=".main_screen.chat.ChatActivity" />
+=======
+>>>>>>> main
         <activity android:name=".profile_setup.ProfileAudioRecording" />
+        <activity android:name=".main_screen.chat.ChatActivity" />
         <activity android:name=".profile_setup.ProfileFinished" />
         <activity android:name=".profile_setup.ProfilePassions" />
         <activity android:name=".profile_setup.ProfileShowMe" />
