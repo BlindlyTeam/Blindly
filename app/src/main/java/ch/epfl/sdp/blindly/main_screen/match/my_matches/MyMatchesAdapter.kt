@@ -96,7 +96,7 @@ class MyMatchesAdapter(
         viewHolder.matchedName.text = my_matches[position].name
 
         /*
-         * When the layout containing the name and duration is clicked, the layout expands or
+         * When the layout containing the name is clicked, the layout expands or
          * collapses, and the layout is reset so that it is brand new when re-opened.
          */
         viewHolder.userNameLayout.setOnClickListener {
