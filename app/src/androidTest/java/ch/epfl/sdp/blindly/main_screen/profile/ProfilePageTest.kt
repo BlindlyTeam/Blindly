@@ -7,20 +7,13 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-<<<<<<< HEAD
-import ch.epfl.sdp.blindly.main_screen.profile.edit.EditProfile
-=======
->>>>>>> main
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.profile.settings.Settings
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.MainScreen
-<<<<<<< HEAD
-=======
 import ch.epfl.sdp.blindly.main_screen.profile.edit.EditProfile
->>>>>>> main
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
