@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".map.UserMapActivity">
+    tools:context=".main_screen.map.UserMapActivity">
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
