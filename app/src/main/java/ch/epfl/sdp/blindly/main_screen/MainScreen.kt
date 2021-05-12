@@ -12,7 +12,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val MATCH = "Match"
-private const val MESSAGE = "Message"
 private const val PROFILE = "Profile"
 private const val MY_MATCHES = "My Matches"
 private const val EXIT_DIALOG_TITLE = "Exit the app."
@@ -26,7 +25,7 @@ private const val ANSWER_NO = "No"
  */
 @AndroidEntryPoint
 class MainScreen : AppCompatActivity() {
-    private val tabTitles = arrayListOf(MATCH, MESSAGE, PROFILE, MY_MATCHES)
+    private val tabTitles = arrayListOf(MATCH, MY_MATCHES, PROFILE)
 
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager2? = null
