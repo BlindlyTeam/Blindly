@@ -60,6 +60,16 @@ class UserViewModel @AssistedInject constructor(
     companion object {
         private const val TAG = "UserViewModel"
 
+        /**
+         * Instantiate the UserViewModel with the given parameters
+         *
+         * @param uid the uid of the user to observe
+         * @param assistedFactory the pre injected assistedFactory in the activity that
+         *     requires the viewModel
+         * @param owner the activity that needs the viewModel
+         * @param viewModelStoreOwner the activity that needs the viewModel
+         * @return an instance of UserViewModel
+         */
         fun instantiateViewModel(
             uid: String?,
             assistedFactory: ViewModelAssistedFactory,

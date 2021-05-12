@@ -141,38 +141,20 @@ class EditProfileTest {
 
     @Test
     fun clickingOnGenderFiresEditGender() {
-        val TEST_GENDER = fakeUser.gender
         onView(withId(R.id.gender_button)).perform(click())
-        intended(
-            allOf(
-                hasComponent(EditGender::class.java.name),
-                hasExtra(GENDER, TEST_GENDER)
-            )
-        )
+        intended(hasComponent(EditGender::class.java.name))
     }
 
     @Test
     fun clickingOnSexualOrientationsFiresEditSexualOrientations() {
-        val TEST_SEXUAL_ORIENTATIONS = fakeUser.sexualOrientations
         onView(withId(R.id.sexual_orientations_button)).perform(click())
-        intended(
-            allOf(
-                hasComponent(EditSexualOrientations::class.java.name),
-                hasExtra(SEXUAL_ORIENTATIONS, TEST_SEXUAL_ORIENTATIONS)
-            )
-        )
+        intended(hasComponent(EditSexualOrientations::class.java.name))
     }
 
     @Test
     fun clickingOnPassionsFiresEditPassions() {
-        val TEST_PASSIONS = fakeUser.passions
         onView(withId(R.id.passions_button)).perform(click())
-        intended(
-            allOf(
-                hasComponent(EditPassions::class.java.name),
-                hasExtra(PASSIONS, TEST_PASSIONS)
-            )
-        )
+        intended(hasComponent(EditPassions::class.java.name))
     }
 
     @Test
