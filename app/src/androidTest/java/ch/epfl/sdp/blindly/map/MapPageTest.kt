@@ -42,7 +42,7 @@ class MapPageTest {
     fun afterEach() {
         release()
     }
-
+/*
     private suspend fun goToProfileFragment() {
         // Wait for everything to settle to avoid race conditions
         // Waiting synchronously isn't a problem since there are no other
@@ -74,4 +74,5 @@ class MapPageTest {
 
         intended(hasComponent(UserMapActivity::class.java.name))
     }
+*/
 }
