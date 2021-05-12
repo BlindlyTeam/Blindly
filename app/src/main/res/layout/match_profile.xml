@@ -20,7 +20,7 @@
             app:srcCompat="@drawable/sound_waves" />
 
         <TextView
-            android:id="@+id/profileNameAgeText"
+            android:id="@+id/matchProfileNameAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -33,7 +33,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/profileGenderText"
+            android:id="@+id/matchProfileGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -56,7 +56,7 @@
                 app:srcCompat="@drawable/google_location_img" />
 
             <TextView
-                android:id="@+id/profileLocationText"
+                android:id="@+id/matchProfileLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -72,38 +72,47 @@
             android:layout_height="1dp"
             android:background="?android:attr/listDivider" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/matchProfileOrientations"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:orientation="vertical">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:clickable="false"
+            app:chipSpacing="30dp"
+            app:chipSpacingHorizontal="10dp"
+            app:chipSpacingVertical="0dp">
+        </com.google.android.material.chip.ChipGroup>
 
-            <TextView
-                android:id="@+id/profileOrientationsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/user_info_text"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
-                android:text="Sexual orientations"
-                android:textAlignment="center"
-                android:textSize="18sp" />
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/matchProfilePassions"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="60dp"
+            android:clickable="false"
+            app:chipSpacing="30dp"
+            app:chipSpacingHorizontal="10dp"
+            app:chipSpacingVertical="0dp">
+        </com.google.android.material.chip.ChipGroup>
 
-            <TextView
-                android:id="@+id/profilePassionsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/user_info_text"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="25dp"
-                android:text="Passions"
-                android:textAlignment="center"
-                android:textSize="18sp" />
+        <Button
+            android:id="@+id/matchProfilePlayAudioButton"
+            style="@style/Widget.Theme.Blindly.Record.Audio.Button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal" />
 
-        </LinearLayout>
-
-        <include layout="@layout/audio_recording" />
+        <TextView
+            android:id="@+id/matchProfilePlayAudioText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/play_audio_profile"
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

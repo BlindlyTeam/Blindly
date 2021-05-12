@@ -76,8 +76,6 @@ class CardStackAdapter(
 
     /**
      * Plays or pause the audio from the user on the card
-     *
-     * @param recordingPath
      */
     fun playPauseAudio() {
         // Create a storage reference from our app
