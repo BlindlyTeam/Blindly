@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profile_edit.EditGender">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/gender_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="@string/gender" />
+
+    <RadioGroup
+        android:id="@+id/gender_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gender_toolbar"
+        android:layout_marginStart="10dp"
+        android:alwaysDrawnWithCache="false"
+        android:clickable="true"
+        tools:layout_editor_absoluteX="81dp"
+        tools:layout_editor_absoluteY="229dp"
+        android:focusable="true">
+
+        <RadioButton
+            android:id="@+id/woman_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/woman"
+            android:visibility="visible" />
+
+        <RadioButton
+            android:id="@+id/man_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/man"
+            android:visibility="visible" />
+
+        <RadioButton
+            android:id="@+id/more_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/more"
+            android:visibility="visible" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/edit_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/gender_radio_group"
+        android:layout_toEndOf="@id/gender_radio_group"
+        android:layout_marginStart="50dp"
+        android:ems="10"
+        android:hint="@string/new_gender"
+        android:autofillHints=".AUTOFILL_HINTS_GENDER"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/please_specify_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gender_radio_group"
+        android:layout_toEndOf="@id/gender_radio_group"
+        android:layout_marginStart="50dp"
+        android:text="@string/please_specify"
+        android:textColor="#FF0000"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/use_only_letters_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gender_radio_group"
+        android:layout_toEndOf="@id/gender_radio_group"
+        android:layout_marginStart="50dp"
+        android:text="@string/please_use_only_letters"
+        android:textColor="#FF0000"
+        android:visibility="invisible"/>
+
+</RelativeLayout>
