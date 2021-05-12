@@ -32,8 +32,8 @@ class MyMatchesAdapter(
      * [onBindViewHolder].
      *
      * @constructor
-     * Sets the click listener for the layout that handles the layout expand click (the one with
-     * the name and duration), and sets the visibility of the expandable layout to gone.
+     * Sets the click listener for the layout that handles the layout expand click,
+     * and sets the visibility of the expandable layout to gone.
      *
      * @param view the current view
      */
@@ -124,10 +124,10 @@ class MyMatchesAdapter(
     override fun getItemCount() = my_matches.size
 
     /**
-     * Expands or collapses the layout of the clicked audio file, and collapses other ones by
+     * Expands or collapses the layout of the clicked matched user, and collapses other ones by
      * calling [collapseLayouts].
      *
-     * @param isExpanded if the record is currently expanded in layout
+     * @param isExpanded if the matched user is currently expanded in layout
      * @param layoutExpand the layout to expand/collapse
      */
     private fun toggleLayout(isExpanded: Boolean, layoutExpand: RelativeLayout) {
