@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".settings.SettingsLocation">
+    tools:context=".main_screen.profile.settings.SettingsLocation">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"

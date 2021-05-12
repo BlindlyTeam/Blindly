@@ -1,15 +1,15 @@
 package ch.epfl.sdp.blindly
 
-import ch.epfl.sdp.blindly.match.cards.Profile
+import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
 class ProfileTest {
-    private val andre1 = Profile("André", 25)
-    private val andre2 = Profile("André", 24)
-    private val pierre1 = Profile("Pierre", 25)
-    private val pierre2 = Profile("Pierre", 24)
+    private val andre1 = Profile("André", 25, "Man", 42, "PathAndré")
+    private val andre2 = Profile("André", 24, "Man", 42, "PathAndré2")
+    private val pierre1 = Profile("Pierre", 25, "Man", 42, "PathPierre1")
+    private val pierre2 = Profile("Pierre", 24, "Man", 42, "PathPierre2")
 
     @Test
     fun equalsIsTrueWithSameProfile() {
@@ -49,6 +49,6 @@ class ProfileTest {
 
     @Test
     fun toStringDisplaysWell() {
-        assertThat(andre1.toString() == "André, 25", equalTo(true))
+        assertThat(andre1.toString() == "André, 25, Man", equalTo(true))
     }
 }

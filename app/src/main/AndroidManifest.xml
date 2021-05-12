@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ch.epfl.sdp.blindly">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -30,13 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
-        <activity android:name=".profile_edit.EditProfile" />
-        <activity android:name=".profile_edit.EditSexualOrientations"></activity>
-        <activity android:name=".profile_edit.EditPassions" />
-        <activity android:name=".profile_edit.EditGender" />
-        <activity android:name=".profile_edit.EditUsername" />
-        <activity android:name=".chat.ChatActivity" />
-        <activity android:name=".profile_setup.ProfileAudioRecording" />
+        <activity android:name=".main_screen.chat.ChatActivity" />        <activity android:name=".profile_setup.ProfileAudioRecording" />
         <activity android:name=".profile_setup.ProfileFinished" />
         <activity android:name=".profile_setup.ProfilePassions" />
         <activity android:name=".profile_setup.ProfileShowMe" />
@@ -50,15 +43,21 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".map.UserMapActivity" />
-        <activity android:name=".settings.SettingsLocation" />
-        <activity android:name=".settings.SettingsShowMe" />
-        <activity android:name=".settings.Settings" />
-        <activity android:name=".settings.SettingsUpdateEmail" />
+        <activity android:name=".main_screen.map.UserMapActivity" />
+
+        <activity android:name=".main_screen.profile.settings.SettingsLocation" />
+        <activity android:name=".main_screen.profile.settings.SettingsShowMe" />
+        <activity android:name=".main_screen.profile.profile_edit.EditProfile" />
+        <activity android:name=".profile_edit.EditSexualOrientations"></activity>
+        <activity android:name=".profile_edit.EditPassions" />
+        <activity android:name=".profile_edit.EditGender" />
+        <activity android:name=".profile_edit.EditUsername" />
+        <activity android:name=".main_screen.profile.settings.Settings" />
+        <activity android:name=".main_screen.profile.settings.SettingsUpdateEmail" />
         <activity
             android:name=".main_screen.MainScreen"
             android:theme="@style/Theme.Blindly.NoActionBar" />
-        <activity android:name=".permissions.LocationPermissionActivity" />
+        <activity android:name=".location.permissions.LocationPermissionActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,29 +65,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".recording.RecordingActivity" />
-
+        <activity android:name=".audio.RecordingActivity" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
+            tools:replace="android:value"
             android:value="@string/facebook_application_id"
-            tools:replace="android:value" />
-
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            />
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

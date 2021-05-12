@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:fillViewport="false"
     android:orientation="vertical"
-    tools:context=".settings.SettingsUpdateEmail">
+    tools:context=".main_screen.profile.settings.SettingsUpdateEmail">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/settings_toolbar"
