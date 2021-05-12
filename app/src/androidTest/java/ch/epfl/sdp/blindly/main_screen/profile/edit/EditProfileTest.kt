@@ -145,58 +145,20 @@ class EditProfileTest {
 
     @Test
     fun clickingOnGenderFiresEditGender() {
-        var TEST_GENDER: TextView? = null
-        activityRule.scenario.onActivity { activity ->
-            TEST_GENDER = activity.findViewById(R.id.gender_text)
-        }
-
         onView(withId(R.id.gender_button)).perform(click())
-        intended(
-            allOf(
-                hasComponent(EditGender::class.java.name),
-                hasExtra(GENDER, TEST_GENDER?.text)
-            )
-        )
+        intended(hasComponent(EditGender::class.java.name))
     }
 
     @Test
     fun clickingOnSexualOrientationsFiresEditSexualOrientations() {
-        var chipGroup: ChipGroup? = null
-        activityRule.scenario.onActivity { activity ->
-            chipGroup = activity.findViewById(R.id.sexual_orientations_group)
-        }
-        if (chipGroup != null) {
-            var TEST_SEXUAL_ORIENTATIONS = fakeUser.sexualOrientations
-            if (chipGroup!!.childCount == fakeUserUpdated.sexualOrientations?.size ?: 2)
-                TEST_SEXUAL_ORIENTATIONS = fakeUserUpdated.sexualOrientations
-            onView(withId(R.id.sexual_orientations_button)).perform(click())
-            intended(
-                allOf(
-                    hasComponent(EditSexualOrientations::class.java.name),
-                    hasExtra(SEXUAL_ORIENTATIONS, TEST_SEXUAL_ORIENTATIONS)
-                )
-            )
-        }
+        onView(withId(R.id.sexual_orientations_button)).perform(click())
+        intended(hasComponent(EditSexualOrientations::class.java.name))
     }
 
     @Test
     fun clickingOnPassionsFiresEditPassions() {
-        var chipGroup: ChipGroup? = null
-        activityRule.scenario.onActivity { activity ->
-            chipGroup = activity.findViewById(R.id.passions_group)
-        }
-        if (chipGroup != null) {
-            var TEST_PASSIONS = fakeUser.passions
-            if (chipGroup!!.childCount == fakeUserUpdated.passions?.size ?: 4)
-                TEST_PASSIONS = fakeUserUpdated.passions
-            onView(withId(R.id.passions_button)).perform(click())
-            intended(
-                allOf(
-                    hasComponent(EditPassions::class.java.name),
-                    hasExtra(PASSIONS, TEST_PASSIONS)
-                )
-            )
-        }
+        onView(withId(R.id.passions_button)).perform(click())
+        intended(hasComponent(EditPassions::class.java.name))
     }
 
     @Test
