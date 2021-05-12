@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.match.my_matches
+package ch.epfl.sdp.blindly.main_screen.match.my_matches
 
 import android.content.Context
 import android.content.Intent
@@ -16,9 +16,9 @@ import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
-import ch.epfl.sdp.blindly.chat.ChatActivity
-import ch.epfl.sdp.blindly.map.UserMapActivity
-import ch.epfl.sdp.blindly.match.cards.CardStackAdapter
+import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
+import ch.epfl.sdp.blindly.match.my_matches.MyMatch
 
 
 class MyMatchesAdapter(
@@ -79,7 +79,8 @@ class MyMatchesAdapter(
      * @return a new view, which defines the UI of the list items
      */
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.my_matched_user_item, null)
+        val view =
+            LayoutInflater.from(viewGroup.context).inflate(R.layout.my_matched_user_item, null)
         viewHolderList.add(ViewHolder(view))
         return ViewHolder(view)
     }
