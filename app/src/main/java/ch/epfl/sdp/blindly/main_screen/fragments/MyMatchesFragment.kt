@@ -41,7 +41,7 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
 
 
     companion object {
-        private const val ARG_COUNT = "mapArgs"
+        private const val ARG_COUNT = "myMatchesArgs"
         private var counter: Int? = null
 
         /**

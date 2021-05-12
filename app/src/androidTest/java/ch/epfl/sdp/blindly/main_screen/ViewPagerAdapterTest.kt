@@ -6,12 +6,12 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 import org.mockito.Mockito.mock
 
-private const val COUNT = 4
+private const val COUNT = 3
 private const val MATCH_POSITION = 0
-private const val MESSAGE_POSITION = 1
+private const val MY_MATCHES_POSITION = 1
 private const val PROFILE_POSITION = 2
 private const val MATCH_ARGS = "matchArgs"
-private const val MESSAGE_ARGS = "messageArgs"
+private const val MY_MATHES_ARGS = "myMatchesArgs"
 private const val PROFILE_ARGS = "profileArgs"
 
 class ViewPagerAdapterUnitTest {
@@ -19,7 +19,7 @@ class ViewPagerAdapterUnitTest {
     private val viewPagerAdapter = ViewPagerAdapter(fakeMainScreen)
 
     @Test
-    fun fragmentCountIsFour() {
+    fun fragmentCountIsCorrect() {
         assertThat(viewPagerAdapter.itemCount, equalTo(COUNT))
     }
 
@@ -35,8 +35,8 @@ class ViewPagerAdapterUnitTest {
     @Test
     fun positionOneCreatesMessageFragment() {
         assertThat(
-            viewPagerAdapter.createFragment(MESSAGE_POSITION).arguments?.get(MESSAGE_ARGS), equalTo(
-                MESSAGE_POSITION
+            viewPagerAdapter.createFragment(MY_MATCHES_POSITION).arguments?.get(MY_MATHES_ARGS), equalTo(
+                MY_MATCHES_POSITION
             )
         )
     }
