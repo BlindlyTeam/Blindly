@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.match.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatchesAdapter
 import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.AndroidEntryPoint

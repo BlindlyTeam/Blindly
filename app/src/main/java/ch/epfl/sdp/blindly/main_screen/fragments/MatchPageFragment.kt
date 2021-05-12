@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.match
+package ch.epfl.sdp.blindly.main_screen.fragments
 
 import android.location.Location
 import android.os.Build

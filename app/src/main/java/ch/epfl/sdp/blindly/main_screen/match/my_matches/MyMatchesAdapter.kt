@@ -18,7 +18,6 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
 import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
-import ch.epfl.sdp.blindly.match.my_matches.MyMatch
 
 
 class MyMatchesAdapter(
