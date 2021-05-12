@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.main_screen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import ch.epfl.sdp.blindly.main_screen.chat.MessagePageFragment
 import ch.epfl.sdp.blindly.main_screen.fragments.MatchPageFragment
 import ch.epfl.sdp.blindly.main_screen.fragments.MyMatchesFragment
 import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
@@ -28,14 +27,12 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
                 MatchPageFragment.newInstance(position)
             }
             1 -> {
-                MessagePageFragment.newInstance(position)
-            }
-            2 -> {
-                ProfilePageFragment.newInstance(position)
-            }
-            else -> {
                 MyMatchesFragment.newInstance(position)
             }
+            else -> {
+                ProfilePageFragment.newInstance(position)
+            }
+
         }
     }
 
@@ -45,6 +42,6 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
      * @return the number of fragments
      */
     override fun getItemCount(): Int {
-        return 4
+        return 3
     }
 }
