@@ -1,8 +1,13 @@
 package ch.epfl.sdp.blindly.main_screen.my_matches
 
 import android.content.Context
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.chat.ChatAdapter
 import ch.epfl.sdp.blindly.main_screen.chat.ChatTest
 import ch.epfl.sdp.blindly.main_screen.chat.Message
@@ -33,9 +38,23 @@ class MyMatchesAdapterTest {
         val list: ArrayList<MyMatch> = arrayListOf()
         val listener = mock(MyMatchesAdapter.OnItemClickListener::class.java)
         list.addAll(listOf(match1, match2))
-        val rv: RecyclerView.Adapter<MyMatchesAdapter.ViewHolder> =
+        val viewHolder: RecyclerView.Adapter<MyMatchesAdapter.ViewHolder> =
             MyMatchesAdapter(list, arrayListOf(), context , listener)
-        MatcherAssert.assertThat(rv.itemCount, IsEqual.equalTo(2))
+        MatcherAssert.assertThat(viewHolder.itemCount, IsEqual.equalTo(2))
+    }
+
+    @Test
+    fun createAdapterAndAttachToRecyclerView() {
+        val match1 = MyMatch(NAME_1, UID_1, IS_EXPANDED)
+        val match2 = MyMatch(NAME_2, UID_2, IS_EXPANDED)
+        val context = mock(Context::class.java)
+        val list: ArrayList<MyMatch> = arrayListOf()
+        val listener = mock(MyMatchesAdapter.OnItemClickListener::class.java)
+        list.addAll(listOf(match1, match2))
+        val recyclerView =  mock(RecyclerView::class.java)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        val adapter = MyMatchesAdapter(list, arrayListOf(), context , listener)
+        recyclerView.adapter = adapter
     }
 
 }
