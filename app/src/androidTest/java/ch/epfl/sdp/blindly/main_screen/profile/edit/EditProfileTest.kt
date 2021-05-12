@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
+import android.widget.TextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -15,6 +16,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
+import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUserUpdated
+import ch.epfl.sdp.blindly.profile_setup.ProfileOrientation
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
@@ -24,6 +27,7 @@ import ch.epfl.sdp.blindly.user.enums.Passions.*
 import ch.epfl.sdp.blindly.user.enums.SexualOrientations.ASEXUAL
 import ch.epfl.sdp.blindly.user.enums.SexualOrientations.BISEXUAL
 import ch.epfl.sdp.blindly.user.storage.UserCache
+import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -141,20 +145,58 @@ class EditProfileTest {
 
     @Test
     fun clickingOnGenderFiresEditGender() {
+        var TEST_GENDER: TextView? = null
+        activityRule.scenario.onActivity { activity ->
+            TEST_GENDER = activity.findViewById(R.id.gender_text)
+        }
+
         onView(withId(R.id.gender_button)).perform(click())
-        intended(hasComponent(EditGender::class.java.name))
+        intended(
+            allOf(
+                hasComponent(EditGender::class.java.name),
+                hasExtra(GENDER, TEST_GENDER?.text)
+            )
+        )
     }
 
     @Test
     fun clickingOnSexualOrientationsFiresEditSexualOrientations() {
-        onView(withId(R.id.sexual_orientations_button)).perform(click())
-        intended(hasComponent(EditSexualOrientations::class.java.name))
+        var chipGroup: ChipGroup? = null
+        activityRule.scenario.onActivity { activity ->
+            chipGroup = activity.findViewById(R.id.sexual_orientations_group)
+        }
+        if (chipGroup != null) {
+            var TEST_SEXUAL_ORIENTATIONS = fakeUser.sexualOrientations
+            if (chipGroup!!.childCount == fakeUserUpdated.sexualOrientations?.size ?: 2)
+                TEST_SEXUAL_ORIENTATIONS = fakeUserUpdated.sexualOrientations
+            onView(withId(R.id.sexual_orientations_button)).perform(click())
+            intended(
+                allOf(
+                    hasComponent(EditSexualOrientations::class.java.name),
+                    hasExtra(SEXUAL_ORIENTATIONS, TEST_SEXUAL_ORIENTATIONS)
+                )
+            )
+        }
     }
 
     @Test
     fun clickingOnPassionsFiresEditPassions() {
-        onView(withId(R.id.passions_button)).perform(click())
-        intended(hasComponent(EditPassions::class.java.name))
+        var chipGroup: ChipGroup? = null
+        activityRule.scenario.onActivity { activity ->
+            chipGroup = activity.findViewById(R.id.passions_group)
+        }
+        if (chipGroup != null) {
+            var TEST_PASSIONS = fakeUser.passions
+            if (chipGroup!!.childCount == fakeUserUpdated.passions?.size ?: 4)
+                TEST_PASSIONS = fakeUserUpdated.passions
+            onView(withId(R.id.passions_button)).perform(click())
+            intended(
+                allOf(
+                    hasComponent(EditPassions::class.java.name),
+                    hasExtra(PASSIONS, TEST_PASSIONS)
+                )
+            )
+        }
     }
 
     @Test
