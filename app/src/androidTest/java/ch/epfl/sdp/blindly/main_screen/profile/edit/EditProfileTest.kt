@@ -138,30 +138,6 @@ class EditProfileTest {
     }
 
     @Test
-    fun clickingOnUsernameFiresEditUsername() {
-        onView(withId(R.id.username_button)).perform(click())
-        intended(hasComponent(EditUsername::class.java.name))
-    }
-
-    @Test
-    fun clickingOnGenderFiresEditGender() {
-        onView(withId(R.id.gender_button)).perform(click())
-        intended(hasComponent(EditGender::class.java.name))
-    }
-
-    @Test
-    fun clickingOnSexualOrientationsFiresEditSexualOrientations() {
-        onView(withId(R.id.sexual_orientations_button)).perform(click())
-        intended(hasComponent(EditSexualOrientations::class.java.name))
-    }
-
-    @Test
-    fun clickingOnPassionsFiresEditPassions() {
-        onView(withId(R.id.passions_button)).perform(click())
-        intended(hasComponent(EditPassions::class.java.name))
-    }
-
-    @Test
     fun onBackPressedInEditGenderUpdatesTheDatabase() {
         val TEST_GENDER_UPDATE = MAN
         val gender = fakeUser.gender // Woman
