@@ -29,7 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
-        <activity android:name=".main_screen.match.algorithm.MatchProfileActivity" />
+        <activity android:name=".main_screen.chat.match_profile.MatchProfileActivity" />
         <activity android:name=".profile_setup.ProfileAudioRecording" />
         <activity android:name=".main_screen.chat.ChatActivity" />
         <activity android:name=".profile_setup.ProfileFinished" />

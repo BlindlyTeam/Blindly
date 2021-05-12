@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.chat.profile
+package ch.epfl.sdp.blindly.main_screen.chat.match_profile
 
 import android.media.MediaPlayer
 import android.net.Uri
@@ -24,7 +24,7 @@ import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 import javax.inject.Inject
 
-private const val PROFILE_ID = "profileID"
+const val PROFILE_ID = "profileID"
 
 /**
  * Activity that shows more details about a potential match

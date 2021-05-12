@@ -14,12 +14,15 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.audio.AudioPlayerFragment
+import ch.epfl.sdp.blindly.main_screen.chat.match_profile.MatchProfileActivity
+import ch.epfl.sdp.blindly.main_screen.chat.match_profile.PROFILE_ID
 import ch.epfl.sdp.blindly.main_screen.profile.edit.EditProfile
 import ch.epfl.sdp.blindly.main_screen.profile.settings.Settings
 import ch.epfl.sdp.blindly.user.User
@@ -96,7 +99,6 @@ class ProfilePageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val userInfoText = view.findViewById<TextView>(R.id.user_info_text)
-        val userDescriptionText = view.findViewById<TextView>(R.id.user_description_text)
 
         val editButton = view.findViewById<Button>(R.id.edit_info_profile_button)
         setOnClickListener(editButton, Intent(context, EditProfile::class.java))
@@ -122,6 +124,11 @@ class ProfilePageFragment : Fragment() {
                 User.getUserAge(it)
             )
         }
+
+        // This has to be removed
+        val matchButton = view.findViewById<Button>(R.id.goToMatchProfile)
+        setOnClickListener(matchButton, Intent(context, MatchProfileActivity::class.java)
+            .putExtras(bundleOf(PROFILE_ID to userHelper.getUserId())))
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
