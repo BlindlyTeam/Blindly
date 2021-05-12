@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.localDB
+package ch.epfl.sdp.blindly.database.localDB
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

@@ -1,7 +1,6 @@
-package ch.epfl.sdp.blindly.localDB
+package ch.epfl.sdp.blindly.database.localDB
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import ch.epfl.sdp.blindly.user.User
 
@@ -37,7 +36,6 @@ data class UserEntity(
     val radius: Int?,
     val matches: List<String>?,
     val likes: List<String>?,
-    val description: String?,
     val recordingPath: String?,
     val ageRange: List<Int>?
 ) {
@@ -54,7 +52,6 @@ data class UserEntity(
         radius = user.radius,
         matches = user.matches,
         likes = user.likes,
-        description = user.description,
         recordingPath = user.recordingPath,
         ageRange = user.ageRange
     )

@@ -1,8 +1,9 @@
-package ch.epfl.sdp.blindly.localDB
+package ch.epfl.sdp.blindly.database.localDB
 
 import androidx.room.*
 import ch.epfl.sdp.blindly.user.User
 
+//EPFL's location
 private val DEFAULT_LOCATION: List<Double> = listOf(46.52, 5.57)
 private const val MIN_AGE = 18
 private const val MAX_AGE = 99
@@ -20,7 +21,7 @@ interface UserDAO {
      * @param userentity User to insert in the local Database
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUser(userentity: UserEntity)
+    fun insertUser(userEntity: UserEntity)
 
     /**
      * Insert multiple users in the local Database
@@ -28,7 +29,7 @@ interface UserDAO {
      * @param userentity Users to insert in the local Database
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllUsers(vararg userentity: UserEntity)
+    fun insertAllUsers(vararg userEntity: UserEntity)
 
     /**
      * Update the information about a User in the local Databse
@@ -37,7 +38,7 @@ interface UserDAO {
      * @return the number of columns changed
      */
     @Update
-    fun updateUser(userentity: UserEntity): Int
+    fun updateUser(userEntity: UserEntity): Int
 
     /**
      * Delete the information about a User in the local Database
@@ -46,7 +47,7 @@ interface UserDAO {
      * @return the number of rows deleted
      */
     @Delete
-    fun deleteUser(userentity: UserEntity): Int
+    fun deleteUser(userEntity: UserEntity): Int
 
     /**
      * Get the userinfos from a given uid
@@ -65,12 +66,12 @@ interface UserDAO {
      */
     fun getUser(id: String): User? {
         val ue: UserEntity? = getUserInfo(id)
-        return if(ue === null) null else User.Builder().setUsername(ue.username!!).setLocation(ue.location!!)
-            .setBirthday(ue.birthday!!).setGender(ue.gender!!)
+        return if (ue === null) null else User.Builder().setUid(id).setUsername(ue.username!!)
+            .setLocation(ue.location!!).setBirthday(ue.birthday!!).setGender(ue.gender!!)
             .setSexualOrientations(ue.sexualOrientations!!).setShowMe(ue.showMe!!)
             .setPassions(ue.passions!!).setRadius(ue.radius!!).setMatches(ue.matches!!)
-            .setLikes(ue.likes!!).setDescription(ue.description!!)
-            .setRecordingPath(ue.recordingPath!!).setAgeRange(ue.ageRange!!).build()
+            .setLikes(ue.likes!!).setRecordingPath(ue.recordingPath!!).setAgeRange(ue.ageRange!!)
+            .build()
     }
 
     /**
@@ -94,11 +95,12 @@ interface UserDAO {
 
     fun getUserLocation(id: String): List<Double> {
         val loc = getUserLocationValue(id)?.split(",")
-        if(loc != null) {
+        if (loc != null) {
             return listOf(loc[0].toDouble(), loc[1].toDouble())
         }
         return DEFAULT_LOCATION
     }
+
     /**
      * Get the birthday from a given uid
      *
@@ -172,13 +174,13 @@ interface UserDAO {
     fun getUserLikes(id: String): List<String>?
 
     /**
-     * Get the description from a given uid
+     * Get the uid from a given uid
      *
      * @param id the uid to find the user
-     * @return the user's description
+     * @return the user's uid
      */
-    @Query("SELECT description FROM userentity WHERE uid = :id")
-    fun getUserDescription(id: String): String?
+    @Query("SELECT uid FROM userentity WHERE uid = :id")
+    fun getUserUid(id: String): String?
 
     /**
      * Get the recordingPath from a given uid
@@ -200,7 +202,7 @@ interface UserDAO {
 
     fun getUserAgeRange(id: String): List<Int> {
         val ageRange = getUserAgeRangeValue(id)?.split(",")
-        if(ageRange != null) {
+        if (ageRange != null) {
             return listOf(ageRange[0].toInt(), ageRange[1].toInt())
         }
         return listOf(MIN_AGE, MAX_AGE)

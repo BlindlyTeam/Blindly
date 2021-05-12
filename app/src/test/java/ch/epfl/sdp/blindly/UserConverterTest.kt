@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly
 
-import ch.epfl.sdp.blindly.localDB.UserConverter
+import ch.epfl.sdp.blindly.database.localDB.UserConverter
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test

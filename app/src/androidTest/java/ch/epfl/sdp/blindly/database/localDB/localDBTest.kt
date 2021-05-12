@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.localDB
+package ch.epfl.sdp.blindly.database.localDB
 
 import android.content.Context
 import androidx.room.Room
@@ -19,6 +19,7 @@ class LocalDBTest {
     private val userBuilder = User.Builder()
 
     private val alice = userBuilder.setUsername("Alice")
+        .setUid("alice")
         .setLocation(listOf(22.5, 5.6))
         .setBirthday("29.04.1997")
         .setGender("female")
@@ -30,11 +31,11 @@ class LocalDBTest {
         .setLikes(listOf("bob"))
         .setMatches(listOf("bob"))
         .setRecordingPath("alice/path")
-        .setDescription("description_alice")
         .build()
 
 
     private val bob = userBuilder.setUsername("Bob")
+        .setUid("bob")
         .setLocation(listOf(22.5, 6.5))
         .setBirthday("06.01.1994")
         .setGender("male")
@@ -46,7 +47,6 @@ class LocalDBTest {
         .setLikes(listOf("Mike"))
         .setMatches(listOf("Mike"))
         .setRecordingPath("bob/path")
-        .setDescription("decription_bob")
         .build()
 
 
@@ -165,11 +165,11 @@ class LocalDBTest {
 
     @Test
     @Throws(Exception::class)
-    fun putAndRetrieveUsersDescription() {
+    fun putAndRetrieveUsersUid() {
         val a = UserEntity("alice", alice)
         userDAO.insertUser(a)
-        val description = userDAO.getUserDescription("alice")
-        assertThat(description, equalTo("description_alice"))
+        val uid = userDAO.getUserUid("alice")
+        assertThat(uid, equalTo("alice"))
     }
 
     @Test
