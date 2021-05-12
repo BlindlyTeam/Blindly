@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.weather.WeatherActivity
+import ch.epfl.sdp.blindly.weather.WeatherActivity.Companion.LOCATION
 
 class WeatherFragment : Fragment() {
 
@@ -44,6 +47,7 @@ class WeatherFragment : Fragment() {
 
     private fun startWeather() {
         val intent = Intent(activity, WeatherActivity::class.java)
+        intent.putExtra(LOCATION, BlindlyLatLng(LAUSANNE_LATLNG))
         startActivity(intent)
     }
 }

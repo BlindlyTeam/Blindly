@@ -10,6 +10,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -34,8 +35,8 @@ enum class TemperatureUnit {
 // @Json is for the mapping to the json of the API calls
 class DayTemperature(
     val day: Double,
-    @Json(name="morn") val morning: Double,
-    @Json(name="eve") val evening: Double,
+    @Json(name = "morn") val morning: Double,
+    @Json(name = "eve") val evening: Double,
     val night: Double,
     val unit: TemperatureUnit = TemperatureUnit.METRIC
 ) {
@@ -47,9 +48,10 @@ class DayTemperature(
  * @property temperature The temperatures for the day
  * @property weather the weather description
  */
-class DayWeather(
-    @Json(name="temp") val temperature: DayTemperature,
-    val weather: List<Weather>
+open class DayWeather(
+    @Json(name = "temp") val temperature: DayTemperature,
+    val weather: Array<Weather>,
+    val day: String?
 ) {
 }
 
@@ -58,7 +60,7 @@ class DayWeather(
  *
  * @property daily the weather for a day
  */
-class WeekWeather(val daily: Array<DayWeather>) {
+open class WeekWeather(val daily: Array<out DayWeather>) {
 }
 /**
  * The weather during some time
@@ -88,10 +90,10 @@ class Weather(val description: String, private val icon: String) {
             "11n" to R.drawable.weather_11n,
             "13n" to R.drawable.weather_13n,
             "50n" to R.drawable.weather_50n,
-            )
+        )
     }
 
-    fun getIcon() = ICON_MAP[icon]
+    fun getIconDrawableId() = ICON_MAP[icon]
 
 }
 
@@ -159,16 +161,28 @@ class WeatherService {
 
     private var client: OkHttpClient = OkHttpClient()
 
-    abstract class WeatherResultCallback {
-        abstract fun onFailure(e: Exception)
-        abstract fun onResponse(weather: WeekWeather)
+    interface WeatherResultCallback {
+        fun onWeatherFailure(e: Exception)
+        fun onWeatherResponse(weather: WeekWeather)
     }
+
     private fun getLanguage(): String {
         var language = Locale.getDefault().displayLanguage
         if (SUPPORTED_LANGUAGES.contains(language))
             language = DEFAULT_LANG
         return language
     }
+
+    private class OpenWeatherMapWeek(
+        @Json(name = "timezone_offset") val timezoneOffset: Int,
+        val daily: Array<OpenWeatherMapDayWeather>
+    )
+    private class OpenWeatherMapDayWeather(
+        val dt: Long, @Json(name = "temp") temperature: DayTemperature,
+        weather: Array<Weather>
+    ) : DayWeather(
+        temperature, weather, null
+    )
     fun nextWeek(
         loc: BlindlyLatLng,
         language: String = getLanguage(),
@@ -191,28 +205,50 @@ class WeatherService {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                callback.onFailure(e)
+                callback.onWeatherFailure(e)
             }
 
             override fun onResponse(call: Call, response: Response) {
                 val moshi: Moshi = Moshi.Builder()
                     .addLast(KotlinJsonAdapterFactory())
                     .build()
-                val jsonAdapter: JsonAdapter<WeekWeather> = moshi.adapter(
-                    WeekWeather::class.java
+                val jsonAdapter: JsonAdapter<OpenWeatherMapWeek> = moshi.adapter(
+                    OpenWeatherMapWeek::class.java
                 )
                 val string = response.body?.string()
                 if (string == null)
-                    callback.onFailure(NullPointerException())
+                    callback.onWeatherFailure(NullPointerException())
                 else {
                     val result = jsonAdapter.fromJson(string)
                     if (result == null)
-                        callback.onFailure(NullPointerException())
-                    else
-                        callback.onResponse(result)
+                        callback.onWeatherFailure(NullPointerException())
+                    else {
+                        val timezoneOffset = result.timezoneOffset
+                        val mappedDaily = (result.daily as Array<OpenWeatherMapDayWeather>).map {
+                            DayWeather(
+                                it.temperature, it.weather, mapDate(
+                                    timezoneOffset,
+                                    it.dt
+                                )
+                            )
+                        }.toTypedArray()
+                        val mappedResult = WeekWeather(mappedDaily)
+                        callback.onWeatherResponse(mappedResult)
+                    }
                 }
             }
 
         })
+    }
+    fun mapDate(timezoneOffset: Int, dt: Long): String {
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = dt * 1000
+        val tz = TimeZone.getDefault().clone() as TimeZone
+        tz.rawOffset = timezoneOffset * 1000
+        cal.timeZone = tz
+
+        val format1 = SimpleDateFormat("EEE")
+
+        return format1.format(cal.time)
     }
 }
