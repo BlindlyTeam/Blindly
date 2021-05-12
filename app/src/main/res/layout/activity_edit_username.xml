@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".profile_edit.EditUsername">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/username_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="@string/username" />
+
+    <EditText
+        android:id="@+id/edit_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@id/username_toolbar"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/new_username"
+        android:autofillHints=".AUTOFILL_HINT_USERNAME"/>
+
+    <TextView
+        android:id="@+id/warning1_p2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_username"
+        android:layout_marginStart="10dp"
+        android:text="@string/name_can_t_be_less_than_2_characters"
+        android:textColor="#FA0000"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/warning2_p2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_username"
+        android:layout_marginStart="10dp"
+        android:text="@string/name_can_t_be_more_than_20_characters"
+        android:textColor="#FF0000"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/warning3_p2"
+        android:layout_width="169dp"
+        android:layout_height="31dp"
+        android:layout_below="@id/edit_username"
+        android:layout_marginStart="10dp"
+        android:text="@string/please_use_only_letters"
+        android:textColor="#FF0000"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/update_username_success_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_username"
+        android:layout_marginStart="10dp"
+        android:text="@string/username_update_success"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/update_username_failure_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_username"
+        android:layout_marginStart="10dp"
+        android:text="@string/update_username_unknown_error"
+        android:textColor="@color/design_default_color_error"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/update_username"
+        style="@style/Widget.Theme.Blindly.Fancy.Button"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/warning1_p2"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="75dp"
+        android:text="@string/update_username" />
+
+</RelativeLayout>
