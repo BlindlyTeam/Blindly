@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_edit
+package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.os.Build
 import android.os.Bundle

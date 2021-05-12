@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_edit
+package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.os.Build
 import android.os.Bundle
@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.main_screen.fragments.ProfilePageFragment
+import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 import ch.epfl.sdp.blindly.user.USERNAME
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
@@ -63,7 +63,7 @@ class EditUsername : AppCompatActivity() {
             Handler(Looper.getMainLooper()).postDelayed({
                 hideAllWarning()
                 val username = findViewById<EditText>(R.id.edit_username).text.toString()
-                if(usernameIsCorrect(username))
+                if (usernameIsCorrect(username))
                     viewModel.updateField(USERNAME, username)
             }, ProfilePageFragment.BOUNCE_DURATION)
         }

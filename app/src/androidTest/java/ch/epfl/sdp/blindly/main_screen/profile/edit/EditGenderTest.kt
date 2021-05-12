@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_edit
+package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
 import android.widget.RadioGroup
@@ -15,7 +15,6 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.enums.Gender
 import ch.epfl.sdp.blindly.user.enums.Gender.*
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore

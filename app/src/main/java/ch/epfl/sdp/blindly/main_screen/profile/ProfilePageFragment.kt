@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import ch.epfl.sdp.blindly.main_screen.profile.profile_edit.EditProfile
+import ch.epfl.sdp.blindly.main_screen.profile.edit.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.audio.AudioPlayerFragment
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_edit
+package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
@@ -13,7 +13,6 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.enums.Passions
 import ch.epfl.sdp.blindly.user.enums.SexualOrientations
 import ch.epfl.sdp.blindly.user.enums.SexualOrientations.*
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -106,7 +105,7 @@ class EditSexualOrientationsTest {
         val ids = arrayListOf<Int>()
         sexualOrientations.forEach { p ->
             SexualOrientations.values().forEach { v ->
-                if(v.asString == p)
+                if (v.asString == p)
                     ids.add(v.id)
             }
         }

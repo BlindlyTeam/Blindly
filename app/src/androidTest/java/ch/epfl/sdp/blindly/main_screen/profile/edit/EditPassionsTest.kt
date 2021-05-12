@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_edit
+package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
@@ -191,7 +191,7 @@ class EditPassionsTest {
         val ids = arrayListOf<Int>()
         passions.forEach { p ->
             values().forEach { v ->
-                if(v.asString == p)
+                if (v.asString == p)
                     ids.add(v.id)
             }
         }

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_edit
+package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
@@ -21,7 +21,8 @@ import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.enums.Gender.MAN
 import ch.epfl.sdp.blindly.user.enums.Passions.*
-import ch.epfl.sdp.blindly.user.enums.SexualOrientations.*
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations.ASEXUAL
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations.BISEXUAL
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -199,7 +200,8 @@ class EditProfileTest {
 
     @Test
     fun onBackPressedInEditPassionsUpdatesTheDatabase() {
-        val TEST_PASSIONS_UPDATE = arrayListOf(COFFEE.asString, TEA.asString, MOVIES.asString, BRUNCH.asString)
+        val TEST_PASSIONS_UPDATE =
+            arrayListOf(COFFEE.asString, TEA.asString, MOVIES.asString, BRUNCH.asString)
         val passions = arrayListOf<String>()
         fakeUser.passions?.forEach {
             passions.add(it)
@@ -231,7 +233,8 @@ class EditProfileTest {
         fakeUser.sexualOrientations?.forEach {
             sexualOrientations.add(it)
         } // listOf("Asexual")
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditSexualOrientations::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), EditSexualOrientations::class.java)
         intent.putStringArrayListExtra(SEXUAL_ORIENTATIONS, sexualOrientations)
         ActivityScenario.launch<EditSexualOrientations>(intent)
 
