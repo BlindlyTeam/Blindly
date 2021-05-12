@@ -1,9 +1,8 @@
-package ch.epfl.sdp.blindly.profile_edit
+package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.animation.AnimationUtils
@@ -12,7 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.main_screen.fragments.ProfilePageFragment
+import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 
 const val MIN_LENGTH = 2
 const val MAX_LENGTH = 20

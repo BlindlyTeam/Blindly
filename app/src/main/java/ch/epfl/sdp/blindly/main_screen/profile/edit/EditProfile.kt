@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.profile.profile_edit
+package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,10 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
-import ch.epfl.sdp.blindly.user.enums.Passions
-import ch.epfl.sdp.blindly.user.enums.Passions.*
-import ch.epfl.sdp.blindly.user.enums.SexualOrientations
-import ch.epfl.sdp.blindly.user.enums.SexualOrientations.*
+import ch.epfl.sdp.blindly.user.enums.Passions.COFFEE
+import ch.epfl.sdp.blindly.user.enums.Passions.TEA
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations.GAY
+import ch.epfl.sdp.blindly.user.enums.SexualOrientations.LESBIAN
 
 /**
  * Activity that enables the user to edit his information (description, passions, etc)

@@ -29,7 +29,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
-        <activity android:name=".main_screen.chat.ChatActivity" />        <activity android:name=".profile_setup.ProfileAudioRecording" />
+        <activity android:name=".profile_setup.ProfileAudioRecording" />
+        <activity android:name=".main_screen.chat.ChatActivity" />
         <activity android:name=".profile_setup.ProfileFinished" />
         <activity android:name=".profile_setup.ProfilePassions" />
         <activity android:name=".profile_setup.ProfileShowMe" />
@@ -47,11 +48,11 @@
 
         <activity android:name=".main_screen.profile.settings.SettingsLocation" />
         <activity android:name=".main_screen.profile.settings.SettingsShowMe" />
-        <activity android:name=".main_screen.profile.profile_edit.EditProfile" />
-        <activity android:name=".profile_edit.EditSexualOrientations"></activity>
-        <activity android:name=".profile_edit.EditPassions" />
-        <activity android:name=".profile_edit.EditGender" />
-        <activity android:name=".profile_edit.EditUsername" />
+        <activity android:name=".main_screen.profile.edit.EditProfile" />
+        <activity android:name=".main_screen.profile.edit.EditSexualOrientations"></activity>
+        <activity android:name=".main_screen.profile.edit.EditPassions" />
+        <activity android:name=".main_screen.profile.edit.EditGender" />
+        <activity android:name=".main_screen.profile.edit.EditUsername" />
         <activity android:name=".main_screen.profile.settings.Settings" />
         <activity android:name=".main_screen.profile.settings.SettingsUpdateEmail" />
         <activity
