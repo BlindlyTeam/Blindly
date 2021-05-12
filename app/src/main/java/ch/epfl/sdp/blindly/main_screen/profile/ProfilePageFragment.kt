@@ -18,15 +18,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import ch.epfl.sdp.blindly.main_screen.profile.profile_edit.EditProfile
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.audio.AudioPlayerFragment
-import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
+import ch.epfl.sdp.blindly.main_screen.profile.edit.EditProfile
 import ch.epfl.sdp.blindly.main_screen.profile.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

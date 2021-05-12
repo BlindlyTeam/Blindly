@@ -68,7 +68,7 @@ class TestProfilePassions {
         val buttonContinue = onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
 
-        onView(withId(R.id.warning_p7_1))
+        onView(withId(R.id.at_least_one_warning))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
@@ -83,17 +83,17 @@ class TestProfilePassions {
 
     @Test
     fun moreThanAllowedInputShowsError() {
-        onView(withId(R.id.chip10)).perform(click())
-        onView(withId(R.id.chip11)).perform(click())
-        onView(withId(R.id.chip12)).perform(click())
-        onView(withId(R.id.chip13)).perform(click())
-        onView(withId(R.id.chip14)).perform(click())
-        onView(withId(R.id.chip15)).perform(click())
+        onView(withId(R.id.brunch_chip)).perform(click())
+        onView(withId(R.id.wine_chip)).perform(click())
+        onView(withId(R.id.fashion_chip)).perform(click())
+        onView(withId(R.id.cycling_chip)).perform(click())
+        onView(withId(R.id.running_chip)).perform(click())
+        onView(withId(R.id.tea_chip)).perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
 
-        onView(withId(R.id.warning_p7_2))
+        onView(withId(R.id.no_more_than_5_warning))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
@@ -108,9 +108,9 @@ class TestProfilePassions {
 
     @Test
     fun correctInputsFiresProfileAudioRecording() {
-        onView(withId(R.id.chip10)).perform(click())
-        onView(withId(R.id.chip11)).perform(click())
-        onView(withId(R.id.chip12)).perform(click())
+        onView(withId(R.id.brunch_chip)).perform(click())
+        onView(withId(R.id.wine_chip)).perform(click())
+        onView(withId(R.id.fashion_chip)).perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p7))
         buttonContinue.perform(click())

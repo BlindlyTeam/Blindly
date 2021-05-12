@@ -43,10 +43,10 @@
             android:layout_height="27dp"
             android:text="@string/select_up_to_5"
             android:layout_toEndOf="@id/text_p7"
-            android:layout_above="@id/warning_p7_1"/>
+            android:layout_above="@id/at_least_one_warning"/>
 
         <TextView
-            android:id="@+id/warning_p7_2"
+            android:id="@+id/no_more_than_5_warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/you_can_not_select_more_than_5"
@@ -57,7 +57,7 @@
 
 
         <TextView
-            android:id="@+id/warning_p7_1"
+            android:id="@+id/at_least_one_warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/please_select_at_least_one"
@@ -70,7 +70,7 @@
             android:id="@+id/space_7_0"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_below="@id/warning_p7_1"/>
+            android:layout_below="@id/at_least_one_warning"/>
 
         <ScrollView
             android:id="@+id/scrollview_7"
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip10"
+                        android:id="@+id/brunch_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -103,7 +103,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip11"
+                        android:id="@+id/wine_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -116,7 +116,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip12"
+                        android:id="@+id/fashion_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -129,7 +129,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip13"
+                        android:id="@+id/cycling_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -142,7 +142,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip14"
+                        android:id="@+id/running_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -154,7 +154,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip15"
+                        android:id="@+id/tea_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -167,7 +167,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip16"
+                        android:id="@+id/coffee_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -179,7 +179,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip17"
+                        android:id="@+id/comedy_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -192,7 +192,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip18"
+                        android:id="@+id/walking_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -204,7 +204,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip19"
+                        android:id="@+id/board_games_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -217,7 +217,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip20"
+                        android:id="@+id/yoga_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -229,7 +229,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip21"
+                        android:id="@+id/karaoke_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -241,7 +241,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip22"
+                        android:id="@+id/dog_lover_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -253,7 +253,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip23"
+                        android:id="@+id/gamer_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -265,7 +265,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip24"
+                        android:id="@+id/art_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -277,7 +277,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip25"
+                        android:id="@+id/cocktails_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -290,7 +290,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip26"
+                        android:id="@+id/dancing_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -303,7 +303,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip27"
+                        android:id="@+id/photo_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -315,7 +315,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip28"
+                        android:id="@+id/writer_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -327,7 +327,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip29"
+                        android:id="@+id/foodie_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -340,7 +340,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip30"
+                        android:id="@+id/baking_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -352,7 +352,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip31"
+                        android:id="@+id/swimming_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -365,7 +365,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip32"
+                        android:id="@+id/netflix_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -378,7 +378,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip33"
+                        android:id="@+id/outdoors_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -391,7 +391,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip34"
+                        android:id="@+id/music_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -404,7 +404,7 @@
                         app:chipEndPadding="6dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip35"
+                        android:id="@+id/movies_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -416,7 +416,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip36"
+                        android:id="@+id/climbing_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -428,7 +428,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip37"
+                        android:id="@+id/fishing_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -440,7 +440,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip38"
+                        android:id="@+id/cat_lover_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -452,7 +452,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip39"
+                        android:id="@+id/reading_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -464,7 +464,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip40"
+                        android:id="@+id/football_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -476,7 +476,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip41"
+                        android:id="@+id/spirituality_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -488,7 +488,7 @@
                         app:chipBackgroundColor="@color/chip_state_colors" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip42"
+                        android:id="@+id/gardening_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
