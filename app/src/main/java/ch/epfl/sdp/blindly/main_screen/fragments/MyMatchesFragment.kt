@@ -91,20 +91,35 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         return fragView
     }
 
-
-    private suspend fun setAdapterOnMainThread(input: ArrayList<MyMatch>) {
+    /**
+     * Sets the adapter on main thread
+     *
+     * @param myMatches List of user's matches
+     */
+    private suspend fun setAdapterOnMainThread(myMatches: ArrayList<MyMatch>) {
         withContext(Dispatchers.Main) {
-            setupRecylerView(fragView, input)
+            setupRecylerView(fragView, myMatches)
         }
     }
 
-    private fun setupRecylerView(view: View, input: ArrayList<MyMatch>) {
+    /**
+     * Sets up the adapter for recycler view
+     *
+     * @param view Current fragment's view
+     * @param myMatches List of user's matches
+     */
+    private fun setupRecylerView(view: View, myMatches: ArrayList<MyMatch>) {
         myMatchesRecyclerView = view.findViewById(R.id.my_matches_recyler_view)
         myMatchesRecyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = MyMatchesAdapter(input, arrayListOf(), requireContext(), this)
+        adapter = MyMatchesAdapter(myMatches, arrayListOf(), requireContext(), this)
         myMatchesRecyclerView.adapter = adapter
     }
 
+    /**
+     * Handles clicks, used by collapsing and expanding layouts
+     *
+     * @param position Position of the item clicked
+     */
     override fun onItemClick(position: Int) {
         adapter.notifyItemChanged(position)
     }
