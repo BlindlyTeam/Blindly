@@ -161,4 +161,11 @@
     <string name="edit_select_up_to_3">Select up to 3:</string>
     <string name="edit_select_up_to_5">Select up to 5:</string>
     <string name="title_activity_edit_username">EditUsername</string>
+    <string name="weather">Weather</string>
+    <string name="title_activity_weather">WeatherActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>
