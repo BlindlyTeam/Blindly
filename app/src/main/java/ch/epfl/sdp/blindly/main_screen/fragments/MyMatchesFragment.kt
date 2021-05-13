@@ -21,9 +21,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-private const val TAG = "MyMatches"
-
-
 @AndroidEntryPoint
 class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
 
@@ -98,7 +95,7 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
      */
     private suspend fun setAdapterOnMainThread(myMatches: ArrayList<MyMatch>) {
         withContext(Dispatchers.Main) {
-            setupRecylerView(fragView, myMatches)
+            setupRecylerView(myMatches)
         }
     }
 
@@ -108,8 +105,8 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
      * @param view Current fragment's view
      * @param myMatches List of user's matches
      */
-    private fun setupRecylerView(view: View, myMatches: ArrayList<MyMatch>) {
-        myMatchesRecyclerView = view.findViewById(R.id.my_matches_recyler_view)
+    private fun setupRecylerView(myMatches: ArrayList<MyMatch>) {
+        myMatchesRecyclerView = fragView.findViewById(R.id.my_matches_recyler_view)
         myMatchesRecyclerView.layoutManager = LinearLayoutManager(context)
         adapter = MyMatchesAdapter(myMatches, arrayListOf(), requireContext(), this)
         myMatchesRecyclerView.adapter = adapter

@@ -19,6 +19,7 @@ import ch.epfl.sdp.blindly.animations.RecordAnimations
 import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
 
+private const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
 
 class MyMatchesAdapter(
     var my_matches: ArrayList<MyMatch>,
@@ -108,14 +109,14 @@ class MyMatchesAdapter(
 
         viewHolder.chatButton.setOnClickListener {
             val intent = Intent(context, ChatActivity::class.java)
-            val bundle = bundleOf("matchedId" to my_matches[position].uid)
+            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid)
             intent.putExtras(bundle)
             startActivity(context, intent, null)
         }
 
         viewHolder.mapButton.setOnClickListener {
             val intent = Intent(context, UserMapActivity::class.java)
-            val bundle = bundleOf("matchedId" to my_matches[position].uid)
+            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid)
             intent.putExtras(bundle)
             startActivity(context, intent, null)
         }
