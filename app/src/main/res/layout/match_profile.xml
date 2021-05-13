@@ -15,8 +15,8 @@
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/blindly_purple"
+            android:layout_height="170dp"
+            android:background="@drawable/background"
             app:srcCompat="@drawable/sound_waves" />
 
         <TextView
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
             android:text="Name, age"
             android:textAlignment="center"
@@ -72,25 +72,45 @@
             android:layout_height="1dp"
             android:background="?android:attr/listDivider" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="15dp"
+            android:text="Sexual orientations"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/matchProfileOrientations"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="10dp"
             android:clickable="false"
             app:chipSpacing="30dp"
             app:chipSpacingHorizontal="10dp"
             app:chipSpacingVertical="0dp">
         </com.google.android.material.chip.ChipGroup>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="15dp"
+            android:text="Passions"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/matchProfilePassions"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
             android:clickable="false"
             app:chipSpacing="30dp"
             app:chipSpacingHorizontal="10dp"
