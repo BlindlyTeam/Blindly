@@ -23,6 +23,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     SwipeRefreshLayout.OnRefreshListener {
     companion object {
         const val LOCATION = "location"
+        private const val WEATHER_PREFIX = "weather_day_"
     }
 
     @Inject
@@ -73,7 +74,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
 
     private fun setIcon(index: Int, drawableId: Int) {
         val iconId = resources.getIdentifier(
-            "weather_day_${(index + 1)}_icon",
+            "${WEATHER_PREFIX}${(index + 1)}_icon",
             "id",
             packageName
         )
@@ -87,7 +88,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
 
     private fun setDay(index: Int, text: String) {
         val day = resources.getIdentifier(
-            "weather_day_${(index + 1)}_day", "id",
+            "${WEATHER_PREFIX}${(index + 1)}_day", "id",
             packageName
         )
         findViewById<TextView>(day)?.text = text
@@ -95,7 +96,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
 
     private fun setEvening(index: Int, text: String) {
         val evening = resources.getIdentifier(
-            "weather_day_${(index + 1)}_evening",
+            "${WEATHER_PREFIX}${(index + 1)}_evening",
             "id",
             packageName
         )
@@ -104,7 +105,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
 
     private fun setDayName(index: Int, text: String) {
         val dayName = resources.getIdentifier(
-            "weather_day_${(index + 1)}_name",
+            "${WEATHER_PREFIX}${(index + 1)}_name",
             "id",
             packageName
         )
@@ -113,7 +114,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
 
     private fun setContainerVisibility(index: Int, visibility: Int) {
         val containerId = resources.getIdentifier(
-            "weather_day_${(index + 1)}",
+            "${WEATHER_PREFIX}${(index + 1)}",
             "id",
             packageName
         )

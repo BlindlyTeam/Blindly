@@ -156,6 +156,7 @@ class WeatherActivityTest {
     fun hideRefreshAfterFailure() {
         `when`(weather.nextWeek(any(), any(), any()))
             .then((Answer<Unit> {
+                // Ensure weather is fetched two times (at activity creation and refresh)
                 val callback: WeatherService.WeatherResultCallback = it.getArgument(
                     2,
                     WeatherService.WeatherResultCallback::class.java
@@ -182,6 +183,7 @@ class WeatherActivityTest {
     }
 
     private fun verifyMockCalledAgainAndViewUpdated() {
+        // Ensure weather is fetched two times (at activity creation and refresh)
         verify(weather, times(2)).nextWeek(any(), any(), any())
         onView(withId(R.id.weather_day_1_day))
             .check(

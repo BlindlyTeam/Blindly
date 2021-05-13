@@ -39,9 +39,9 @@ open class FakeWeatherServiceModule {
     @Singleton
     @Provides
     open fun provideWeatherService(): WeatherService {
-        val weeather = mock(WeatherService::class.java)
-        `when`(weeather.nextWeek(any(), any(), any())).then(answerResult(WEEK_WEATHER))
+        val weather = mock(WeatherService::class.java)
+        `when`(weather.nextWeek(any(), any(), any())).then(answerResult(WEEK_WEATHER))
 
-        return weeather
+        return weather
     }
 }
