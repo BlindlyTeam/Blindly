@@ -28,13 +28,11 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     private lateinit var adapter: MyMatchesAdapter
     private lateinit var fragView: View
 
-
     @Inject
     lateinit var userHelper: UserHelper
 
     @Inject
     lateinit var userRepository: UserRepository
-
 
     companion object {
         private const val ARG_COUNT = "myMatchesArgs"
@@ -102,7 +100,6 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     /**
      * Sets up the adapter for recycler view
      *
-     * @param view Current fragment's view
      * @param myMatches List of user's matches
      */
     private fun setupRecylerView(myMatches: ArrayList<MyMatch>) {
