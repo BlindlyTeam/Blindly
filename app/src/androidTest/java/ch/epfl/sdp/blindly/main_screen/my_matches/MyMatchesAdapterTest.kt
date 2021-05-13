@@ -8,18 +8,11 @@ import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatchesAdapter
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.MatcherAssert
 import org.hamcrest.core.IsEqual
-import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 
 @HiltAndroidTest
 class MyMatchesAdapterTest {
-
-    @Before
-    fun setup() {
-        MockitoAnnotations.initMocks(this)
-    }
 
     companion object {
         private const val NAME_1 = "user1"
