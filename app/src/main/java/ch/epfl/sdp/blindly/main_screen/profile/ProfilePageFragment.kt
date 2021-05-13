@@ -24,8 +24,8 @@ import ch.epfl.sdp.blindly.main_screen.profile.edit.EditProfile
 import ch.epfl.sdp.blindly.main_screen.profile.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
