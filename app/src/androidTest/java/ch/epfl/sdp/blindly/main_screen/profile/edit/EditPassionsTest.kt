@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.profile_edit
+package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
@@ -12,7 +12,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.main_screen.profile.edit.EditPassions
 import ch.epfl.sdp.blindly.main_screen.profile.edit.EditProfile
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.UserHelper
