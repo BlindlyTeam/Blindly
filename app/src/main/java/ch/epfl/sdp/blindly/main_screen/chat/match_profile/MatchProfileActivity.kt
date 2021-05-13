@@ -21,6 +21,7 @@ import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject
 
@@ -29,15 +30,10 @@ const val PROFILE_ID = "profileID"
 /**
  * Activity that shows more details about a potential match
  */
+@AndroidEntryPoint
 class MatchProfileActivity : AppCompatActivity() {
     private lateinit var viewModel: UserViewModel
     private lateinit var audioFilePath: String
-
-    @Inject
-    lateinit var userRepository: UserRepository
-
-    @Inject
-    lateinit var userHelper: UserHelper
 
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
@@ -53,6 +49,8 @@ class MatchProfileActivity : AppCompatActivity() {
         // Cancels loading if the profileID isn't given in the Bundle
         val profileID = intent.extras?.getString(PROFILE_ID) ?: return
         instantiateViewModel(profileID)
+
+        supportActionBar?.hide()
 
         val profileNameAge = findViewById<TextView>(R.id.matchProfileNameAge)
         val profileGender = findViewById<TextView>(R.id.matchProfileGender)
