@@ -24,8 +24,8 @@ import ch.epfl.sdp.blindly.main_screen.profile.edit.EditProfile
 import ch.epfl.sdp.blindly.main_screen.profile.settings.Settings
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -96,8 +96,6 @@ class ProfilePageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val userInfoText = view.findViewById<TextView>(R.id.user_info_text)
-        val userDescriptionText = view.findViewById<TextView>(R.id.user_description_text)
-
         val editButton = view.findViewById<Button>(R.id.edit_info_profile_button)
         setOnClickListener(editButton, Intent(context, EditProfile::class.java))
 
