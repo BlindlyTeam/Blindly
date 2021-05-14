@@ -1,4 +1,4 @@
-#Weak 9:
+#Week 9:
 
 ##Capucine:
 This sprint I did the UI for the EditProfile page and then linked it to the database. I also refactored the RecordingActivity so that it could be called in the ProfilePage without needing a userBuilder.
