@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 private const val MATCH = "Match"
 private const val PROFILE = "Profile"
 private const val MY_MATCHES = "My Matches"
+private const val WEATHER = "Weather"
 private const val EXIT_DIALOG_TITLE = "Exit the app."
 private const val EXIT_DIALOG_MESSAGE = "Are You Sure?"
 private const val ANSWER_YES = "Yes"
@@ -25,7 +26,9 @@ private const val ANSWER_NO = "No"
  */
 @AndroidEntryPoint
 class MainScreen : AppCompatActivity() {
-    private val tabTitles = arrayListOf(MATCH, MY_MATCHES, PROFILE)
+
+    private val tabTitles = arrayListOf(MATCH, MY_MATCHES, PROFILE, WEATHER)
+
 
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager2? = null

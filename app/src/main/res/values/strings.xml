@@ -161,6 +161,12 @@
     <string name="edit_select_up_to_3">Select up to 3:</string>
     <string name="edit_select_up_to_5">Select up to 5:</string>
     <string name="title_activity_edit_username">EditUsername</string>
+    <string name="weather">Weather</string>
+    <string name="title_activity_weather">WeatherActivity</string>
     <string name="edit_gender">Edit</string>
     <string name="update_gender">Update Gender</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="weather_update_failed">Can\'t get weather data now, try again later</string>
+    <string name="fahrenheit_temperature">%d °F</string>
+    <string name="celsius_temperature">%d °C</string>
 </resources>
