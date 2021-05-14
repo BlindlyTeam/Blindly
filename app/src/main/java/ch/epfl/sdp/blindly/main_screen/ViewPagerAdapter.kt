@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import ch.epfl.sdp.blindly.main_screen.map.MapFragment
 import ch.epfl.sdp.blindly.main_screen.chat.MessagePageFragment
+import ch.epfl.sdp.blindly.main_screen.WeatherFragment
 import ch.epfl.sdp.blindly.main_screen.match.MatchPageFragment
 import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 
@@ -32,8 +33,11 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
             2 -> {
                 ProfilePageFragment.newInstance(position)
             }
-            else -> {
+            3 -> {
                 MapFragment.newInstance(position)
+            }
+            else -> {
+                WeatherFragment.newInstance(position)
             }
         }
     }
@@ -44,6 +48,6 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
      * @return the number of fragments
      */
     override fun getItemCount(): Int {
-        return 4
+        return 5
     }
 }
