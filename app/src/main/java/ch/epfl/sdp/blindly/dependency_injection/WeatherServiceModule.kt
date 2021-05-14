@@ -8,7 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
- * UserHelper Module fore dependency injection
+ * UserHelper Module for dependency injection
  */
 @Module
 @InstallIn(SingletonComponent::class)
