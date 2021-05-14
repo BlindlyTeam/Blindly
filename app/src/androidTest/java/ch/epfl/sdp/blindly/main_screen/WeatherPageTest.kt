@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
+import ch.epfl.sdp.blindly.weather.WeatherActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -24,7 +25,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @HiltAndroidTest
-class MapPageTest {
+class WeatherPageTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(MainScreen::class.java)
@@ -50,10 +51,10 @@ class MapPageTest {
         // tasks running and we don't care about UI responsivity while testing
         suspendCoroutine { cont: Continuation<Boolean> ->
             activityRule.scenario.onActivity { act ->
-                act.viewPager!!.currentItem = 3
+                    act.viewPager!!.currentItem = 4
                 // After setting the item, wait for it to be fully shown
                 act.viewPager!!.registerOnPageChangeCallback(object :
-                    ViewPager2.OnPageChangeCallback() {
+                ViewPager2.OnPageChangeCallback() {
                     override fun onPageScrollStateChanged(state: Int) {
                         if (state == ViewPager2.SCROLL_STATE_IDLE)
                             cont.resume(true);
@@ -65,14 +66,14 @@ class MapPageTest {
 
     @Test
     fun mapButtonFiresMapActivty() {
-        onView(withId(R.id.open_map)).check(
-            ViewAssertions.matches(
-                ViewMatchers.withEffectiveVisibility(
-                    ViewMatchers.Visibility.VISIBLE
+        onView(withId(R.id.open_weather)).check(
+                ViewAssertions.matches(
+                        ViewMatchers.withEffectiveVisibility(
+                                ViewMatchers.Visibility.VISIBLE
+                        )
                 )
-            )
         ).perform(click())
 
-        intended(hasComponent(UserMapActivity::class.java.name))
+        intended(hasComponent(WeatherActivity::class.java.name))
     }
 }

@@ -45,7 +45,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
         <activity android:name=".main_screen.map.UserMapActivity" />
-
+        <activity android:name=".weather.WeatherActivity" />
         <activity android:name=".main_screen.profile.settings.SettingsLocation" />
         <activity android:name=".main_screen.profile.settings.SettingsShowMe" />
         <activity android:name=".main_screen.profile.edit.EditProfile" />
