@@ -9,7 +9,6 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
-    <!--tools:context=".recording.RecordingActivity"> -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_matches_recyler_view"
