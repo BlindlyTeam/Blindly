@@ -56,15 +56,11 @@ class EditUsername : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun setOnClickListener(button: Button) {
-        val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
         button.setOnClickListener {
-            button.startAnimation(bounce)
-            Handler(Looper.getMainLooper()).postDelayed({
-                hideAllWarning()
-                val username = findViewById<EditText>(R.id.edit_username).text.toString()
-                if (usernameIsCorrect(username))
-                    viewModel.updateField(USERNAME, username)
-            }, ProfilePageFragment.BOUNCE_DURATION)
+            hideAllWarning()
+            val username = findViewById<EditText>(R.id.edit_username).text.toString()
+            if (usernameIsCorrect(username))
+                viewModel.updateField(USERNAME, username)
         }
     }
 

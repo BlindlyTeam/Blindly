@@ -71,13 +71,9 @@ class EditGender : AppCompatActivity() {
             }
         }
 
-        val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
         edit.setOnClickListener {
-            edit.startAnimation(bounce)
-            Handler(Looper.getMainLooper()).postDelayed({
-                showGenderEditor()
-                edit.visibility = INVISIBLE
-            }, ProfilePageFragment.BOUNCE_DURATION)
+            showGenderEditor()
+            edit.visibility = INVISIBLE
         }
 
         setUpdateOnClickListener(updateGender)
@@ -96,19 +92,15 @@ class EditGender : AppCompatActivity() {
         val more = findViewById<RadioButton>(MORE.id)
         val editGender = findViewById<EditText>(R.id.edit_gender)
         val editButton = findViewById<Button>(R.id.edit_gender_button)
-        val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
         updateGender.setOnClickListener {
-            updateGender.startAnimation(bounce)
-            Handler(Looper.getMainLooper()).postDelayed({
-                hideAllWarnings()
-                if (genderMoreIsCorrect()) {
-                    more.text = editGender.text
-                    editGender.text.clear()
-                    editGender.visibility = INVISIBLE
-                    updateGender.visibility = INVISIBLE
-                    editButton.visibility = VISIBLE
-                }
-            }, ProfilePageFragment.BOUNCE_DURATION)
+            hideAllWarnings()
+            if (genderMoreIsCorrect()) {
+                more.text = editGender.text
+                editGender.text.clear()
+                editGender.visibility = INVISIBLE
+                updateGender.visibility = INVISIBLE
+                editButton.visibility = VISIBLE
+            }
         }
     }
 

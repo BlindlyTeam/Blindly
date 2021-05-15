@@ -14,11 +14,11 @@
     inner_frame_layout_padding (below variable) on round screens.
     -->
     <dimen name="inner_frame_layout_padding">5dp</dimen>
-    <!-- <dimen name="appbar_padding">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="appbar_padding_top">8dp</dimen> -->
+    <!-- <dimen name="appbar_padding">16dp</dimen> -->
     <dimen name="pill_shape_width">270dp</dimen>
     <dimen name="pill_shape_height">58dp</dimen>
+    <dimen name="small_pill_shape_width">100dp</dimen>
+    <dimen name="small_pill_shape_height">50dp</dimen>
 
     <dimen name="progress_bar_height">80dp</dimen>
 </resources>

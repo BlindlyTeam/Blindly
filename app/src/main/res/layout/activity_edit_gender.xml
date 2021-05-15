@@ -57,8 +57,8 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/edit_gender_button"
-        android:layout_width="100dp"
-        android:layout_height="45dp"
+        android:layout_width="@dimen/small_pill_shape_width"
+        android:layout_height="@dimen/small_pill_shape_height"
         android:layout_alignBottom="@id/gender_radio_group"
         android:layout_toEndOf="@id/gender_radio_group"
         android:layout_marginStart="50dp"

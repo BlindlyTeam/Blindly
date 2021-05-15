@@ -8,14 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.audio.AudioRecord
-import ch.epfl.sdp.blindly.audio.BlindlyMediaPlayer
-import ch.epfl.sdp.blindly.audio.PRESENTATION_AUDIO_NAME
-import ch.epfl.sdp.blindly.audio.RecordingActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
 
 /**
@@ -33,7 +29,7 @@ class AudioPlayerFragment : Fragment() {
     private lateinit var playBar: SeekBar
     private lateinit var remainingTimer: Chronometer
     private lateinit var playTimer: Chronometer
-    private lateinit var playPauseButton: AppCompatImageButton
+    private lateinit var playPauseButton: FloatingActionButton
 
     /**
      * Instantiates the mediaPlayer
@@ -73,9 +69,6 @@ class AudioPlayerFragment : Fragment() {
 
         recordName = view.findViewById(R.id.record_name)
         recordName.text = audioRecord.name
-
-        recordDuration = view.findViewById(R.id.record_duration)
-        recordDuration.text = audioRecord.durationText
 
         val recordButton = view.findViewById<Button>(R.id.record_button)
         recordButton.setOnClickListener {

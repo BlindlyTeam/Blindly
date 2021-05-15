@@ -9,8 +9,8 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.Chronometer
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -54,7 +54,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
 
     private var recordFilePath = ""
 
-    private lateinit var recordButton: Button
+    private lateinit var recordButton: ImageButton
     private lateinit var recordTimer: Chronometer
     private lateinit var remainingRecordTimer: Chronometer
 
@@ -146,7 +146,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
      *
      * @param button the button to be binded
      */
-    private fun bindRecordButton(button: Button) {
+    private fun bindRecordButton(button: ImageButton) {
         val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
         button.setOnClickListener {
             button.startAnimation(bounce)
@@ -226,6 +226,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         adapter.blindlyMediaPlayer.mediaPlayer?.stop()
         prepareRecording()
         mediaRecorder.start()
+        recordButton.setImageResource(R.drawable.recording_button)
     }
 
     /**
@@ -233,7 +234,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
      */
     private fun stopRecording() {
         mediaRecorder.stop()
-
+        recordButton.setImageResource(R.drawable.record_button)
         val newAudio = AudioRecord(
             "Audio file ${totalNumberOfRec + 1}",
             recordTimer.text as String, recordFilePath, false
