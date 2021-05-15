@@ -4,15 +4,16 @@ import android.content.Intent
 import android.widget.TextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.doubleClick
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.main_screen.profile.settings.EXTRA_LOCATION
 import ch.epfl.sdp.blindly.main_screen.profile.settings.Settings
-import ch.epfl.sdp.blindly.main_screen.profile.settings.SettingsLocation
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
@@ -70,6 +71,21 @@ class SettingsLocationTest {
         }
         //Should take the newly computed location instead of the one from the user
         assertThat(location, equalTo(TEST_LOCATION))
+    }
+
+    @Test
+    fun mapIsDisplayed() {
+        launchSettingsLocation()
+        val map = onView(withId(R.id.map))
+        //Double click on map
+        map.perform(doubleClick())
+        map.check(
+            matches(
+                withEffectiveVisibility(
+                    Visibility.VISIBLE
+                )
+            )
+        )
     }
 
     private fun launchSettingsLocation(): ActivityScenario<SettingsLocation> {

@@ -39,7 +39,6 @@ class EditGender : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_gender)
-        supportActionBar?.hide()
 
         val uid = userHelper.getUserId()
         viewModel = UserViewModel.instantiateViewModel(
