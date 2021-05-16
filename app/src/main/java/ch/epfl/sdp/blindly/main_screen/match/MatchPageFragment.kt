@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -47,6 +48,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private lateinit var cardStackView: CardStackView
     private lateinit var fragView: View
     private lateinit var currentCardUid: String
+    private lateinit var likedUserId: String
     private lateinit var currentUserId: String
     private lateinit var currentUser: User
 
@@ -127,9 +129,11 @@ class MatchPageFragment : Fragment(), CardStackListener {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCardSwiped(direction: Direction) {
         if (direction == Direction.Right) {
-            val updatedLikesList = currentUser.likes?.plus(currentCardUid)
+            likedUserId = currentCardUid
+            val updatedLikesList = currentUser.likes?.plus(likedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
                 userRepository.updateProfile(currentUserId, "likes", updatedLikesList)
+                checkMatch()
             }
         }
     }
@@ -301,6 +305,14 @@ class MatchPageFragment : Fragment(), CardStackListener {
         func()
     }
 
+    /**
+     * Compute the distance between the currentUser's location
+     * and the location of the user on the card
+     *
+     * @param thisLocation the location of the currentUser
+     * @param otherLocation the location of the user on the card
+     * @return the computed distance
+     */
     private fun computeDistance(thisLocation: List<Double>, otherLocation: List<Double>): Int {
         val thisLoc = Location("")
         thisLoc.latitude = thisLocation[0]
@@ -311,5 +323,28 @@ class MatchPageFragment : Fragment(), CardStackListener {
         otherLoc.longitude = otherLocation[1]
 
         return thisLoc.distanceTo(otherLoc).roundToInt() / M_TO_KM
+    }
+
+    /**
+     * When a user likes someone, check if the other liked them
+     * too and match them both
+     *
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    private suspend fun checkMatch() {
+        val otherUser = userRepository.getUser(likedUserId)
+        if (otherUser?.likes?.contains(currentUserId)!!) {
+            userRepository.updateProfile(
+                likedUserId,
+                "matches",
+                otherUser.matches?.plus(currentUserId)
+            )
+            userRepository.updateProfile(
+                currentUserId,
+                "matches",
+                currentUser.matches?.plus(likedUserId)
+            )
+            Toast.makeText(context, "It's a match !", Toast.LENGTH_SHORT).show()
+        }
     }
 }
