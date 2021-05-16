@@ -26,9 +26,6 @@ class SplashScreen : AppCompatActivity() {
     @Inject
     lateinit var user: UserHelper
 
-    @Inject
-    lateinit var userRepository: UserRepository
-
     companion object {
         const val TAG = "SplashScreen"
     }
