@@ -232,6 +232,7 @@
         android:layout_below="@id/divider_distance"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="10dp"
+        android:contentDescription="@string/arrow_button_to_show_show_me_settings"
         app:srcCompat="@drawable/arrow_button" />
 
     <View

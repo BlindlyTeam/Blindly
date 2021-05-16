@@ -15,7 +15,8 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="19dp"
-        app:srcCompat="@drawable/log_in" />
+        app:srcCompat="@drawable/log_in"
+        android:contentDescription="@string/blindly_app_logo"/>
 
     <TextView
         android:id="@+id/policy_text"
@@ -28,7 +29,7 @@
         android:gravity="center"
         android:text="@string/policy"
         android:textColor="@color/white"
-        android:textSize="13dp"/>
+        android:textSize="13sp"/>
 
     <ImageView
         android:id="@+id/email_logo"
@@ -38,7 +39,8 @@
         android:layout_marginTop="38dp"
         android:layout_marginStart="80dp"
         android:translationZ="20dp"
-        app:srcCompat="@drawable/email_logo" />
+        app:srcCompat="@drawable/email_logo"
+        android:contentDescription="@string/fui_sign_in_with_email"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/email_sign_in"
@@ -51,7 +53,7 @@
         app:shapeAppearanceOverlay="@style/PillShapeButton"
         android:text="@string/fui_sign_in_with_email"
         android:textColor="@color/blindly_grey"
-        android:textSize="13dp"/>
+        android:textSize="13sp"/>
 
     <ImageView
         android:id="@+id/google_logo"
@@ -61,19 +63,20 @@
         android:layout_marginTop="13dp"
         android:layout_marginStart="80dp"
         android:translationZ="20dp"
-        app:srcCompat="@drawable/google_logo" />
+        app:srcCompat="@drawable/google_logo"
+        android:contentDescription="@string/fui_sign_in_with_google"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/google_sign_in"
         android:layout_width="@dimen/pill_shape_width"
         android:layout_height="@dimen/pill_shape_height"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/email_sign_in"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@color/white"
-        app:shapeAppearanceOverlay="@style/PillShapeButton"
         android:text="@string/fui_sign_in_with_google"
         android:textColor="@color/blindly_grey"
-        android:textSize="13dp"/>
+        android:textSize="13sp"
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
 
     <ImageView
         android:id="@+id/phone_logo"
@@ -83,7 +86,8 @@
         android:layout_marginTop="14dp"
         android:layout_marginStart="82dp"
         android:translationZ="20dp"
-        app:srcCompat="@drawable/phone_logo" />
+        app:srcCompat="@drawable/phone_logo"
+        android:contentDescription="@string/fui_sign_in_with_phone_number"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/phone_number_sign_in"
@@ -95,7 +99,7 @@
         app:shapeAppearanceOverlay="@style/PillShapeButton"
         android:text="@string/fui_sign_in_with_phone"
         android:textColor="@color/blindly_grey"
-        android:textSize="13dp"/>
+        android:textSize="13sp"/>
 
     <ImageView
         android:id="@+id/facebook_logo"
@@ -105,7 +109,8 @@
         android:layout_marginTop="11dp"
         android:layout_marginStart="80dp"
         android:translationZ="20dp"
-        app:srcCompat="@drawable/facebook_logo" />
+        app:srcCompat="@drawable/facebook_logo"
+        android:contentDescription="@string/fui_sign_in_with_facebook"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/facebook_sign_in"
@@ -117,6 +122,5 @@
         app:shapeAppearanceOverlay="@style/PillShapeButton"
         android:text="@string/fui_sign_in_with_facebook"
         android:textColor="@color/blindly_grey"
-        android:textSize="13dp"/>
-
+        android:textSize="13sp"/>
 </RelativeLayout>

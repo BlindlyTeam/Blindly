@@ -37,7 +37,7 @@
             android:src="@drawable/skip_red"
             app:fabSize="auto"
             app:tint="@null"
-            app:rippleColor="@color/purple_200" />
+            app:rippleColor="@color/blindly_purple" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/play_pause_button"
@@ -49,6 +49,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginTop="30dp"
             android:clickable="true"
+            android:focusable="true"
             app:backgroundTint="#FFFBFB"
             app:borderWidth="1dp"
             app:fabCustomSize="49dp"
@@ -57,7 +58,7 @@
             app:srcCompat="@drawable/play_button_fab"
             app:useCompatPadding="false"
             android:contentDescription="@string/play_pause_button"
-            app:rippleColor="@color/purple_200"/>
+            app:rippleColor="@color/blindly_purple"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/like_button"
@@ -72,6 +73,6 @@
             android:src="@drawable/like_green"
             app:fabSize="auto"
             app:tint="@null"
-            app:rippleColor="@color/purple_200" />
+            app:rippleColor="@color/blindly_purple" />
     </RelativeLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

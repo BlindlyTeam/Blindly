@@ -59,6 +59,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:clickable="true"
+            android:focusable="true"
             app:backgroundTint="#FFFBFB"
             app:borderWidth="1dp"
             app:fabCustomSize="49dp"
@@ -67,7 +68,7 @@
             app:srcCompat="@drawable/play_button_fab"
             app:useCompatPadding="false"
             android:contentDescription="@string/play_pause_button"
-            app:rippleColor="@color/purple_200"/>
+            app:rippleColor="@color/blindly_purple" />
 
         <Chronometer
             android:id="@+id/audioTimer"

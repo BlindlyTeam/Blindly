@@ -28,7 +28,8 @@
         android:layout_marginEnd="50dp"
         android:layout_marginTop="56dp"
         android:layout_below="@id/recordDivider"
-        android:layout_toStartOf="@id/recordingButton" />
+        android:layout_toStartOf="@id/recordingButton"
+        android:contentDescription="@string/remaining_timer_description"/>
 
     <ImageButton
         android:id="@+id/recordingButton"
@@ -39,7 +40,8 @@
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/record_button"
-        android:backgroundTint="@color/transparent"/>
+        android:backgroundTint="@color/transparent"
+        android:contentDescription="@string/play_pause_image_description"/>
 
     <Chronometer
         android:id="@+id/recordTimer"
@@ -48,5 +50,6 @@
         android:layout_below="@id/recordDivider"
         android:layout_marginStart="50dp"
         android:layout_marginTop="66dp"
-        android:layout_toEndOf="@id/recordingButton" />
+        android:layout_toEndOf="@id/recordingButton"
+        android:contentDescription="@string/record_timer_description"/>
 </RelativeLayout>
