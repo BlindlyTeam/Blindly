@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly.main_screen.match
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private lateinit var adapter: CardStackAdapter
     private lateinit var cardStackView: CardStackView
     private lateinit var fragView: View
+    private lateinit var currentCardUid: String
+    private lateinit var currentUserId: String
+    private lateinit var currentUser: User
 
     @Inject
     lateinit var userHelper: UserHelper
@@ -117,11 +121,18 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * Do some actions when the card is swiped
+     * When the card is swiped right, add the uid to the liked profiles
      *
      * @param direction the direction the card is swiped (left, right)
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCardSwiped(direction: Direction) {
+        if(direction == Direction.Right){
+            val updatedLikesList = currentUser.likes?.plus(currentCardUid)
+            viewLifecycleOwner.lifecycleScope.launch {
+                userRepository.updateProfile(currentUserId, "likes", updatedLikesList)
+            }
+        }
     }
 
     override fun onCardRewound() {
@@ -131,12 +142,13 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * Do some action when the card appear
+     * Do some action when the card appears
      *
      * @param view in which the card is
      * @param position in the view
      */
     override fun onCardAppeared(view: View, position: Int) {
+        currentCardUid = adapter.uids[position]
     }
 
     /**
@@ -232,16 +244,17 @@ class MatchPageFragment : Fragment(), CardStackListener {
         if (users == null) {
             return listOf()
         }
-        val userid = userHelper.getUserId()!!
-        val currentUser = userRepository.getUser(userid)
+        currentUserId = userHelper.getUserId()!!
+        currentUser = userRepository.getUser(currentUserId)!!
         val profiles = ArrayList<Profile>()
         for (user in users) {
             profiles.add(
                 Profile(
+                    user.uid!!,
                     user.username!!,
                     User.getUserAge(user)!!,
                     user.gender!!,
-                    computeDistance(currentUser?.location!!, user.location!!),
+                    computeDistance(currentUser.location!!, user.location!!),
                     user.recordingPath!!
                 )
             )
