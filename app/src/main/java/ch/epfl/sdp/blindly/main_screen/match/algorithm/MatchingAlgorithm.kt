@@ -59,7 +59,7 @@ class MatchingAlgorithm(
             try {
                 val users = query.get().await()
                 for (user in users) {
-                    if (user.id != userid) {
+                    if (user.id != userid && !currentUser.likes!!.contains(user.id)) {
                         matches += user.toUser()
                     }
                 }
