@@ -45,8 +45,6 @@ class EditProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
-        supportActionBar?.hide()
-
         val uid = userHelper.getUserId()
         viewModel = UserViewModel.instantiateViewModel(
             uid,

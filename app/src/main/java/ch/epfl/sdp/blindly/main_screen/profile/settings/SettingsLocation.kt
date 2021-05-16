@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.user.LOCATION
@@ -48,9 +47,14 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings_location)
-        instantiateViewModel()
 
-        supportActionBar?.hide()
+        val uid = userHelper.getUserId()
+        viewModel = UserViewModel.instantiateViewModel(
+            uid,
+            assistedFactory,
+            this,
+            this
+        )
 
         val locSer = AndroidLocationService(this)
         location = locSer.getCurrentLocation()
@@ -112,14 +116,5 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
             viewModel.updateField(LOCATION, listOf(location!!.latitude, location!!.longitude))
         }
         super.onBackPressed()
-    }
-
-    private fun instantiateViewModel() {
-        val bundle = Bundle()
-        bundle.putString(UserHelper.EXTRA_UID, userHelper.getUserId())
-
-        val viewModelFactory = assistedFactory.create(this, bundle)
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 }

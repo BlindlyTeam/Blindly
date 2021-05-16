@@ -41,7 +41,8 @@
             android:layout_marginStart="80dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/ic_baseline_chat" />
+            android:background="@drawable/ic_baseline_chat"
+            android:contentDescription="@string/my_message_button_description"/>
 
         <ImageButton
             android:id="@+id/mapButton"
@@ -51,9 +52,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="80dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/ic_baseline_location" />
-
-
+            android:background="@drawable/ic_baseline_location"
+            android:contentDescription="@string/my_map_button_description"/>
     </RelativeLayout>
 
     <View

@@ -49,6 +49,7 @@
         android:layout_height="50dp"
         android:layout_below="@id/divider"
         android:background="@color/transparent"
+        android:foreground="?selectableItemBackground"
         android:onClick="startUsernameEdit" />
 
     <TextView
@@ -124,6 +125,7 @@
         android:layout_height="50dp"
         android:layout_below="@id/divider_birthday"
         android:background="@color/transparent"
+        android:foreground="?selectableItemBackground"
         android:onClick="startGenderEdit" />
 
     <TextView
@@ -213,7 +215,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/divider_sexual_orientations"
+        android:layout_alignBottom="@+id/sexual_orientations_group"
         android:background="@color/transparent"
+        android:foreground="?selectableItemBackground"
         android:onClick="startSexualOrientationsEdit" />
 
     <View
@@ -272,7 +276,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/divider_passions"
+        android:layout_alignBottom="@id/passions_group"
         android:background="@color/transparent"
+        android:foreground="?selectableItemBackground"
         android:onClick="startPassionsEdit" />
 
     <View

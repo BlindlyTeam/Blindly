@@ -41,6 +41,7 @@
         android:layout_height="50dp"
         android:layout_below="@id/divider"
         android:background="@color/transparent"
+        android:foreground="?selectableItemBackground"
         android:onClick="startUpdateEmail" />
 
     <TextView
@@ -107,6 +108,7 @@
         android:layout_height="50dp"
         android:layout_below="@id/divider2"
         android:background="@color/transparent"
+        android:foreground="?selectableItemBackground"
         android:onClick="startLocationSettings" />
 
     <TextView
@@ -198,6 +200,7 @@
         android:layout_height="50dp"
         android:layout_below="@id/divider_distance"
         android:background="@color/transparent"
+        android:foreground="?selectableItemBackground"
         android:onClick="startShowMeSettings" />
 
     <TextView
@@ -229,6 +232,7 @@
         android:layout_below="@id/divider_distance"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="10dp"
+        android:contentDescription="@string/arrow_button_to_show_show_me_settings"
         app:srcCompat="@drawable/arrow_button" />
 
     <View
@@ -282,27 +286,25 @@
         android:layout_below="@id/age_range_slider"
         android:background="?android:attr/listDivider" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/logout_button"
-        style="@style/Widget.Theme.Blindly.Fancy.Button"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
         android:layout_below="@+id/divider_agerange"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
         android:onClick="logout"
         android:text="@string/logout_button_text"
-        android:textSize="15sp" />
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/delete_account_button"
-        style="@style/Widget.Theme.Blindly.Fancy.Button"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
         android:layout_below="@+id/logout_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:onClick="deleteAccount"
         android:text="@string/delete_account_button_text"
-        android:textSize="15sp" />
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
 </RelativeLayout>

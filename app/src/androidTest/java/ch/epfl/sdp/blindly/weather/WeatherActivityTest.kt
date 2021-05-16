@@ -77,7 +77,7 @@ class WeatherActivityTest {
         Intents.init()
         activityRule.scenario.onActivity { activity ->
             activity.findViewById<SwipeRefreshLayout>(R.id.swiperefresh).isRefreshing = false
-            decorView = activity.getWindow().getDecorView()
+            decorView = activity.window.decorView
         }
     }
 
@@ -94,22 +94,6 @@ class WeatherActivityTest {
             .then(FakeWeatherServiceModule.answerResult(WEEK_WEATHER_2))
 
         performRefresh()
-
-        verifyMockCalledAgainAndViewUpdated()
-
-    }
-
-    @Test
-    fun buttonRefreshFetchesNewDataAndDisplayThem() {
-        // Override default result
-        `when`(weather.nextWeek(any(), any(), any()))
-            .then(FakeWeatherServiceModule.answerResult(WEEK_WEATHER_2))
-
-        // Open menu
-        Espresso.openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext);
-        // We can't use withId in action bar
-        // https://stackoverflow.com/a/24743493
-        onView(withText(R.string.menu_refresh)).perform(click())
 
         verifyMockCalledAgainAndViewUpdated()
 

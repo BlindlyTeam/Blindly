@@ -121,12 +121,6 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         findViewById<View>(containerId)?.visibility = visibility
     }
 
-    // load a custom actionbar with a refresh button
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.refresh, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id: Int = item.itemId
         if (id == R.id.menu_refresh) {
