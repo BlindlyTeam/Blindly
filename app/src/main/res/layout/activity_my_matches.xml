@@ -14,4 +14,23 @@
         android:id="@+id/my_matches_recyler_view"
         android:layout_width="match_parent"
         android:layout_height="460dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonAttractions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/audioTimer"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:contentDescription="Attractions"
+        android:focusable="true"
+        app:backgroundTint="#FFFBFB"
+        app:borderWidth="1dp"
+        app:fabCustomSize="49dp"
+        app:maxImageSize="50dp"
+        app:rippleColor="@color/blindly_purple"
+        app:srcCompat="@drawable/ic_baseline_attractions"
+        app:tint="@null"
+        app:useCompatPadding="false" />
 </LinearLayout>

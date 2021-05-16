@@ -1,10 +1,12 @@
 package ch.epfl.sdp.blindly.main_screen.match.my_matches
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -12,7 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.weather.WeatherActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -81,6 +87,9 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
             userRepository.getMyMatches(viewLifecycleOwner, userId, ::setAdapterOnMainThread)
         }
 
+        val matchActivityButton = fragView.findViewById<FloatingActionButton>(R.id.buttonAttractions)
+        matchActivityButton.setOnClickListener { startWeather() }
+
         return fragView
     }
 
@@ -114,6 +123,12 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
      */
     override fun onItemClick(position: Int) {
         adapter.notifyItemChanged(position)
+    }
+
+    private fun startWeather() {
+        val intent = Intent(activity, WeatherActivity::class.java)
+        intent.putExtra(WeatherActivity.LOCATION, BlindlyLatLng(LAUSANNE_LATLNG))
+        startActivity(intent)
     }
 }
 
