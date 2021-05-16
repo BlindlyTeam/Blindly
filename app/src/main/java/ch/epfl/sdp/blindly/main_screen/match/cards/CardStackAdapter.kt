@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.main_screen.match.cards
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

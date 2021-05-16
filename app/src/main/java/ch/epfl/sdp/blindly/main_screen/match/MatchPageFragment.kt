@@ -3,7 +3,6 @@ package ch.epfl.sdp.blindly.main_screen.match
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -127,7 +126,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
      */
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCardSwiped(direction: Direction) {
-        if(direction == Direction.Right){
+        if (direction == Direction.Right) {
             val updatedLikesList = currentUser.likes?.plus(currentCardUid)
             viewLifecycleOwner.lifecycleScope.launch {
                 userRepository.updateProfile(currentUserId, "likes", updatedLikesList)
