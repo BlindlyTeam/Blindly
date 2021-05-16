@@ -102,7 +102,7 @@ class RecordingActivityTest {
         onView(withId(R.id.playPauseButton))
             .check(
                 matches(
-                    withDrawable(android.R.drawable.ic_media_play)
+                    withDrawable(R.drawable.play_button_fab)
                 )
             )
     }
@@ -118,7 +118,7 @@ class RecordingActivityTest {
         onView(withId(R.id.playPauseButton))
             .check(
                 matches(
-                    withDrawable(android.R.drawable.ic_media_play)
+                    withDrawable(R.drawable.play_button_fab)
                 )
             )
     }

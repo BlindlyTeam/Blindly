@@ -7,72 +7,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:clipChildren="false"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/card_stack_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipChildren="false">
+            android:layout_height="500dp"
+            android:clipToPadding="false"
+            android:padding="4dp">
+        </com.yuyakaido.android.cardstackview.CardStackView>
 
-            <RelativeLayout
-                android:id="@+id/button_container"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="8dp"
-                android:clipChildren="false"
-                android:orientation="horizontal">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/skip_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_stack_view"
+            android:layout_marginTop="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/play_pause_button"
+            android:backgroundTint="@android:color/white"
+            android:contentDescription="@string/skip_image_description"
+            android:src="@drawable/skip_red"
+            app:fabSize="auto"
+            app:tint="@null"
+            app:rippleColor="@color/blindly_purple" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/skip_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/play_pause_button"
-                    android:backgroundTint="@android:color/white"
-                    android:contentDescription="@string/skip_image_description"
-                    android:src="@drawable/skip_red"
-                    app:fabSize="auto"
-                    app:rippleColor="@color/purple_200" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/play_pause_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_stack_view"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="30dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="#FFFBFB"
+            app:borderWidth="1dp"
+            app:fabCustomSize="49dp"
+            app:tint="@null"
+            app:maxImageSize="50dp"
+            app:srcCompat="@drawable/play_button_fab"
+            app:useCompatPadding="false"
+            android:contentDescription="@string/play_pause_button"
+            app:rippleColor="@color/blindly_purple"/>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/play_pause_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:backgroundTint="@android:color/white"
-                    android:contentDescription="@string/play_pause_image_description"
-                    android:src="@drawable/play_button"
-                    app:fabSize="mini"
-                    app:rippleColor="@color/purple_200" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/like_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/play_pause_button"
-                    android:backgroundTint="@android:color/white"
-                    android:contentDescription="@string/like_image_description"
-                    android:src="@drawable/like_green"
-                    app:fabSize="auto"
-                    app:rippleColor="@color/purple_200" />
-
-            </RelativeLayout>
-
-            <com.yuyakaido.android.cardstackview.CardStackView
-                android:id="@+id/card_stack_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/button_container"
-                android:clipToPadding="false"
-                android:padding="4dp"></com.yuyakaido.android.cardstackview.CardStackView>
-
-        </RelativeLayout>
-    </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_stack_view"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="25dp"
+            android:layout_toEndOf="@+id/play_pause_button"
+            android:backgroundTint="@android:color/white"
+            android:contentDescription="@string/like_image_description"
+            android:src="@drawable/like_green"
+            app:fabSize="auto"
+            app:tint="@null"
+            app:rippleColor="@color/blindly_purple" />
+    </RelativeLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -2,11 +2,9 @@ package ch.epfl.sdp.blindly.audio
 
 import android.content.Context
 import android.content.Intent
-import android.icu.text.AlphabeticIndex
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +15,12 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
-import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_USER
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.storage.FirebaseStorage
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.json.Json
 import java.io.File
 
@@ -65,7 +62,7 @@ class AudioLibraryAdapter(
         val recordDuration: TextView = view.findViewById(R.id.recordDuration)
         val nameDurationLayout: LinearLayout = view.findViewById(R.id.nameDurationLayout)
         val expandableLayout: RelativeLayout = view.findViewById(R.id.audioPlayLayout)
-        val playPauseButton: AppCompatImageButton = view.findViewById(R.id.playPauseButton)
+        val playPauseButton: FloatingActionButton = view.findViewById(R.id.playPauseButton)
         val playBar: SeekBar = view.findViewById(R.id.playBar)
         val playTimer: Chronometer = view.findViewById(R.id.audioTimer)
         val remainingTimer: Chronometer = view.findViewById(R.id.remainingTimer)

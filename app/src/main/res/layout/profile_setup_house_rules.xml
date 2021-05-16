@@ -6,42 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".profile_setup.ProfileHouseRules">
 
-    <TextView
-        android:id="@+id/guideline_3_text"
-        android:layout_width="335dp"
-        android:layout_height="54dp"
-        android:text="@string/respect_others_and_treat_them_as_you_would_like_to_be_treated"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.355"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_3"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/guideline_4_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/always_report_bad_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_4"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/guideline_2_text"
-        android:layout_width="343dp"
-        android:layout_height="30dp"
-        android:text="@string/do_not_be_too_quick_to_give_out_personal_information"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.411"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_2"
-        app:layout_constraintVertical_bias="0.0" />
-
     <ImageView
         android:id="@+id/blindly_logo_p1"
         android:layout_width="136dp"
@@ -82,19 +46,6 @@
         app:layout_constraintVertical_bias="0.369" />
 
     <TextView
-        android:id="@+id/guideline_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/u2713_stay_safe"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.602" />
-
-    <TextView
         android:id="@+id/guideline_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,23 +53,47 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/guideline_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_0_text"
-        app:layout_constraintVertical_bias="0.394" />
+        app:layout_constraintVertical_bias="0.318" />
 
     <TextView
-        android:id="@+id/guideline_3"
+        android:id="@+id/guideline_4_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/u2713_play_it_cool"
+        android:text="@string/always_report_bad_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_4"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/guideline_2_text"
+        android:layout_width="343dp"
+        android:layout_height="30dp"
+        android:text="@string/do_not_be_too_quick_to_give_out_personal_information"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_2"
+        app:layout_constraintVertical_bias="0.034" />
+
+    <TextView
+        android:id="@+id/guideline_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/u2713_stay_safe"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_2"
-        app:layout_constraintVertical_bias="0.223" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.582" />
 
     <TextView
         android:id="@+id/guideline_4"
@@ -128,10 +103,10 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintHorizontal_bias="0.094"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_3"
-        app:layout_constraintVertical_bias="0.349" />
+        app:layout_constraintVertical_bias="0.323" />
 
     <TextView
         android:id="@+id/guideline_1_text"
@@ -140,23 +115,46 @@
         android:text="@string/make_sure_your_recordings_age_and_bio_are_true_to_who_you_are"
         app:layout_constraintBottom_toTopOf="@+id/guideline_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.341"
+        app:layout_constraintHorizontal_bias="0.367"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_1"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.034" />
 
-    <Button
-        android:id="@+id/button_p1"
-        android:layout_width="230dp"
-        android:layout_height="53dp"
-        android:ellipsize="none"
-        android:onClick="startPermissionActivity"
-        android:text="@string/i_agree"
-        android:textSize="18sp"
+    <TextView
+        android:id="@+id/guideline_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/u2713_play_it_cool"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_4_text" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline_2"
+        app:layout_constraintVertical_bias="0.215" />
 
+    <TextView
+        android:id="@+id/guideline_3_text"
+        android:layout_width="335dp"
+        android:layout_height="54dp"
+        android:text="@string/respect_others_and_treat_them_as_you_would_like_to_be_treated"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.381"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_3"
+        app:layout_constraintVertical_bias="0.076" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_p1"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
+        android:onClick="startPermissionActivity"
+        android:text="@string/i_agree"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955"
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

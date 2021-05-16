@@ -77,14 +77,13 @@
         android:textColor="@color/design_default_color_error"
         android:visibility="invisible" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/update_username"
-        style="@style/Widget.Theme.Blindly.Fancy.Button"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
         android:layout_below="@id/warning1_p2"
         android:layout_marginTop="50dp"
         android:layout_marginStart="75dp"
-        android:text="@string/update_username" />
-
+        android:text="@string/update_username"
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
 </RelativeLayout>

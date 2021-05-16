@@ -74,12 +74,13 @@ class ProfilePageFragment : Fragment() {
             counter = requireArguments().getInt(ARG_COUNT)
         }
 
-        val bundle = Bundle()
-        bundle.putString(EXTRA_UID, userHelper.getUserId())
-
-        val viewModelFactory = assistedFactory.create(this, bundle)
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
+        val uid = userHelper.getUserId()
+        viewModel = UserViewModel.instantiateViewModel(
+            uid,
+            assistedFactory,
+            this,
+            this
+        )
     }
 
     override fun onCreateView(

@@ -6,17 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".profile_setup.ProfileGender">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_p4"
-        android:layout_width="231dp"
-        android:layout_height="61dp"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
         android:onClick="startProfileOrientationOrGenderMore"
         android:text="@string/continue_str"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955" />
+        app:layout_constraintVertical_bias="0.955"
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
 
     <TextView
         android:id="@+id/text_p4"
@@ -36,7 +37,7 @@
         android:id="@+id/progressBar_p4"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="413dp"
-        android:layout_height="62dp"
+        android:layout_height="@dimen/progress_bar_height"
         android:progress="33"
         app:layout_constraintBottom_toTopOf="@+id/text_p4"
         app:layout_constraintEnd_toEndOf="parent"

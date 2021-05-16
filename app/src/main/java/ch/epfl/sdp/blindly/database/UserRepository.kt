@@ -39,7 +39,6 @@ class UserRepository @Inject constructor(
      * @param uid the uid of the user to retrieve
      * @return the user with the corresponding uid or null if they doesn't exist
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     suspend fun getUser(uid: String): User? {
         val cached: User? = userCache.get(uid)
         if (cached != null) {
@@ -71,8 +70,6 @@ class UserRepository @Inject constructor(
         }
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.N)
     private suspend fun <T> updateLocalCache(uid: String, field: String, newValue: T) {
         val user = userCache.get(uid)
         if (user != null) {
@@ -92,7 +89,6 @@ class UserRepository @Inject constructor(
      * @param newValue the new value to set for the user
      */
 
-    @RequiresApi(Build.VERSION_CODES.N)
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         if (newValue !is String && newValue !is List<*> && newValue !is Int)
             throw IllegalArgumentException("Expected String, List<String> or Int")
