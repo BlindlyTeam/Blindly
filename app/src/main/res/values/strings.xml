@@ -159,7 +159,7 @@
     <string name="edit_gender">Edit</string>
     <string name="update_gender">Update Gender</string>
     <string name="menu_refresh">Refresh</string>
-    <string name="policy">By clicking on Log In, you agree with our Terms. Learn how we process you data in our Privacy Policy and Cookies Policy.</string>
+    <string name="policy">By clicking on Sing In, you agree with our Terms. Learn how we process your data in our Privacy Policy and Cookies Policy.</string>
     <string name="weather_update_failed">Can\'t get weather data now, try again later</string>
     <string name="fahrenheit_temperature">%d °F</string>
     <string name="celsius_temperature">%d °C</string>
