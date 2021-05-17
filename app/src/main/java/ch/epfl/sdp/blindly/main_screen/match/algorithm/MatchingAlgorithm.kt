@@ -5,10 +5,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.User
-import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.UserHelper
-import com.google.firebase.firestore.Query
-import kotlinx.coroutines.tasks.await
 
 private const val TAG = "MatchingAlgorithm"
 const val EVERYONE = "Everyone"
@@ -38,37 +35,25 @@ class MatchingAlgorithm(
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getPotentialMatchesFromDatabase(): List<User>? {
         val userid = userHelper.getUserId()!!
-        val currentUser = userRepository.getUser(userid)
-        val matches: MutableList<User?> = ArrayList<User?>().toMutableList()
-        var query: Query?
+        val currentUser = userRepository.getUser(userid) ?: return null
 
-        if (currentUser == null) {
-            return null
-        }
-
-        query = currentUser.passions?.let {
-            userRepository.getCollectionReference()
-                .whereArrayContainsAny("passions", it)
+        val query = currentUser.passions?.let {
+            UserRepository.Query(passions = it)
         }
         if (query != null) {
             if (currentUser.showMe != EVERYONE) {
-                query = query.whereEqualTo("gender", currentUser.showMe)
+                query.gender = currentUser.showMe
             }
 
             //Wait on the query to be done before continuing
             try {
-                val users = query.get().await()
-                for (user in users) {
-                    if (user.id != userid) {
-                        matches += user.toUser()
-                    }
-                }
+                val matches = userRepository.query(query).filter { user -> user.uid != userid }
+                val filteredList = userListFilter.filterLocationAndAgeRange(currentUser, matches)
+                return userListFilter.reversePotentialMatch(currentUser, filteredList)
             } catch (exception: Exception) {
                 Log.w(TAG, "Error getting users : ", exception)
             }
         }
-        val nonNullMatches = matches.filterNotNull()
-        val filteredList = userListFilter.filterLocationAndAgeRange(currentUser, nonNullMatches)
-        return userListFilter.reversePotentialMatch(currentUser, filteredList)
+        return null
     }
 }
