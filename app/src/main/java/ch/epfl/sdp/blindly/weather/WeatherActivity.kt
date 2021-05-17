@@ -1,7 +1,9 @@
 package ch.epfl.sdp.blindly.weather
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
+import android.provider.CalendarContract
+import android.provider.CalendarContract.Events
 import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
@@ -15,6 +17,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 
@@ -41,6 +44,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
 
         weather.nextWeek(location, callback = this)
         setRefreshing(true)
+
     }
 
     private fun temperatureToString(temperature: Double, unit: TemperatureUnit) =
@@ -162,5 +166,30 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
      */
     override fun onRefresh() {
         weather.nextWeek(location, callback = this)
+    }
+
+    private fun setCalendarEvent(
+        title: String,
+        location: String,
+        description: String,
+        date: Calendar
+    ) {
+        val calIntent = Intent(Intent.ACTION_INSERT)
+        //calIntent.type = "vnd.android.cursor.item/event"
+        calIntent.data = Events.CONTENT_URI
+        calIntent.putExtra(Events.TITLE, title)
+        calIntent.putExtra(Events.EVENT_LOCATION, location)
+        calIntent.putExtra(Events.DESCRIPTION, description)
+        calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true)
+        calIntent.putExtra(
+            CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+            date.timeInMillis
+        )
+        calIntent.putExtra(
+            CalendarContract.EXTRA_EVENT_END_TIME,
+            date.timeInMillis
+        )
+
+        startActivity(calIntent)
     }
 }
