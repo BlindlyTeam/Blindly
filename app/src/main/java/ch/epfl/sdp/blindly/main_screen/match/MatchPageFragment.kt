@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +18,8 @@ import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.match.algorithm.MatchingAlgorithm
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
 import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
+import ch.epfl.sdp.blindly.user.LIKES
+import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.firebase.storage.FirebaseStorage
@@ -132,7 +133,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
             likedUserId = currentCardUid
             val updatedLikesList = currentUser.likes?.plus(likedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
-                userRepository.updateProfile(currentUserId, "likes", updatedLikesList)
+                userRepository.updateProfile(currentUserId, LIKES, updatedLikesList)
                 checkMatch()
             }
         }
@@ -336,15 +337,14 @@ class MatchPageFragment : Fragment(), CardStackListener {
         if (otherUser?.likes?.contains(currentUserId)!!) {
             userRepository.updateProfile(
                 likedUserId,
-                "matches",
+                MATCHES,
                 otherUser.matches?.plus(currentUserId)
             )
             userRepository.updateProfile(
                 currentUserId,
-                "matches",
+                MATCHES,
                 currentUser.matches?.plus(likedUserId)
             )
-            Toast.makeText(context, "It's a match !", Toast.LENGTH_SHORT).show()
         }
     }
 }
