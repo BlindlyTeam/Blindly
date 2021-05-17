@@ -16,7 +16,6 @@ class UserCache {
      * @param uid the uid of the user to retrieve
      * @return The User if it was cached, null otherwise
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     fun get(uid: String): User? {
         return cache[uid]
     }

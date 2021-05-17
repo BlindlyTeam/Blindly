@@ -54,15 +54,15 @@
             android:visibility="visible" />
     </RadioGroup>
 
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/edit_gender_button"
-        style="@style/Widget.Theme.Blindly.Fancy.Button"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/small_pill_shape_width"
+        android:layout_height="@dimen/small_pill_shape_height"
         android:layout_alignBottom="@id/gender_radio_group"
         android:layout_toEndOf="@id/gender_radio_group"
         android:layout_marginStart="50dp"
-        android:layout_marginBottom="10dp"
+        app:shapeAppearanceOverlay="@style/PillShapeButton"
         android:text="@string/edit_gender"
         android:visibility="invisible"/>
 
@@ -102,14 +102,14 @@
         android:textColor="#FF0000"
         android:visibility="invisible"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/update_gender_more"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/edit_gender"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        style="@style/Widget.Theme.Blindly.Fancy.Button"
+        android:layout_below="@id/edit_gender"
+        app:shapeAppearanceOverlay="@style/PillShapeButton"
         android:text="@string/update_gender"
         android:visibility="invisible"/>
 

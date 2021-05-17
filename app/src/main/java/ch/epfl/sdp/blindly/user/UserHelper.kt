@@ -10,6 +10,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.profile_setup.MAJORITY_AGE
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
+import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+
 
 /**
  * Class that contains helpful functions regarding the user.
@@ -54,14 +56,25 @@ class UserHelper {
             AuthUI.IdpConfig.FacebookBuilder().build()
         )
 
+        /* You must provide a custom layout XML resource and configure at least one
+         * provider button ID. It's important that that you set the button ID for every provider
+         * that you have enabled.
+         */
+        val customLayout = AuthMethodPickerLayout.Builder(R.layout.activity_log_in)
+            .setGoogleButtonId(R.id.google_sign_in)
+            .setEmailButtonId(R.id.email_sign_in)
+            .setPhoneButtonId(R.id.phone_number_sign_in)
+            .setFacebookButtonId(R.id.facebook_sign_in)
+            .build()
+
         return AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
-            //.setLogo(R.drawable.my_great_logo) // Set logo drawable
             .setTheme(R.style.Theme_Blindly) // Set theme
             /*.setTosAndPrivacyPolicyUrls(
     "https://example.com/terms.html",
     "https://example.com/privacy.html")*/
+            .setAuthMethodPickerLayout(customLayout)
             .build()
 
     }

@@ -1,28 +1,7 @@
 <resources>
-    <!--
-    <style name="Widget.Theme.Blindly.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
-
-    <style name="Widget.Theme.Blindly.ButtonBar.Fullscreen" parent="">
-        <item name="android:background">@color/black_overlay</item>
-        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
-    </style>
-
-    <style name="Widget.Theme.Blindly.Arrow.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@drawable/arrow_button</item>
-        <item name="textAllCaps">true</item>
-        <item name="backgroundTint">@null</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-    </style> -->
-
-    <style name="Widget.Theme.Blindly.Fancy.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@drawable/pill_shape_button_blindly</item>
-        <item name="textAllCaps">true</item>
-        <item name="backgroundTint">@null</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
+    <style name="PillShapeButton">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
     <style name="Widget.Theme.Blindly.Record.Audio.Button" parent="Widget.MaterialComponents.Button">
@@ -56,21 +35,4 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
     </style>
-
-    <style name="Widget.Theme.Blindly.Arrow.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@drawable/arrow_button</item>
-        <item name="textAllCaps">true</item>
-        <item name="backgroundTint">@null</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-    </style>
-
-    <style name="Widget.Theme.Blindly.Record.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@drawable/record</item>
-        <item name="textAllCaps">true</item>
-        <item name="backgroundTint">@null</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-    </style>
-
 </resources>
