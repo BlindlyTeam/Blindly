@@ -1,25 +1,49 @@
 package ch.epfl.sdp.blindly.main_screen.profile.edit
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.profile_setup.ProfileOrientation
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
+import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.enums.SexualOrientations
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import com.google.android.material.chip.ChipGroup
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val SELECTION_LIMIT = 3
 
+@AndroidEntryPoint
 class EditSexualOrientations : AppCompatActivity() {
+
+    @Inject
+    lateinit var userHelper: UserHelper
+
+    @Inject
+    lateinit var assistedFactory: ViewModelAssistedFactory
+
+    private lateinit var viewModel: UserViewModel
 
     private lateinit var chipGroup: ChipGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_sexual_orientations)
-        supportActionBar?.hide()
+
+        val uid = userHelper.getUserId()
+        viewModel = UserViewModel.instantiateViewModel(
+            uid,
+            assistedFactory,
+            this,
+            this
+        )
 
         chipGroup = findViewById(R.id.sexual_orientations_chip_group)
         val sexualOrientations = intent.getStringArrayListExtra(SEXUAL_ORIENTATIONS)
@@ -27,8 +51,13 @@ class EditSexualOrientations : AppCompatActivity() {
             setCheckedChip(sexualOrientations)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
         if (sexualOrientationsAreCorrect()) {
+            viewModel.updateField(
+                SEXUAL_ORIENTATIONS,
+                ProfileOrientation.getChipTextsFromIds(chipGroup)
+            )
             super.onBackPressed()
         }
     }
@@ -60,7 +89,7 @@ class EditSexualOrientations : AppCompatActivity() {
     private fun setCheckedChip(sexualOrientations: ArrayList<String>) {
         sexualOrientations.forEach { p ->
             SexualOrientations.values().forEach { v ->
-                if(v.asString == p)
+                if (v.asString == p)
                     chipGroup.check(v.id)
             }
         }

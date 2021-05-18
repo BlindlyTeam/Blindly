@@ -6,19 +6,14 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.SHOW_ME
 import ch.epfl.sdp.blindly.user.UserHelper
-import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
+import ch.epfl.sdp.blindly.user.enums.ShowMe.*
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
-const val WOMEN = "Women"
-const val MEN = "Men"
-const val EVERYONE = "Everyone"
 
 /**
  * Activity to modify the show me of the User
@@ -41,8 +36,13 @@ class SettingsShowMe : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings_show_me)
 
-        instantiateViewModel()
-        supportActionBar?.hide()
+        val uid = userHelper.getUserId()
+        viewModel = UserViewModel.instantiateViewModel(
+            uid,
+            assistedFactory,
+            this,
+            this
+        )
 
         showMe = intent.getStringExtra(EXTRA_SHOW_ME).toString()
         val showMeGroup = findViewById<RadioGroup>(R.id.show_me_radio_group)
@@ -61,9 +61,9 @@ class SettingsShowMe : AppCompatActivity() {
 
     private fun setClickedButton(button: RadioGroup, showMe: String) {
         when (showMe) {
-            WOMEN -> button.check(R.id.women_radio_button)
-            MEN -> button.check(R.id.men_radio_button)
-            EVERYONE -> button.check(R.id.everyone_radio_button)
+            WOMEN.asString -> button.check(WOMEN.id)
+            MEN.asString -> button.check(MEN.id)
+            EVERYONE.asString -> button.check(EVERYONE.id)
         }
     }
 
@@ -81,14 +81,5 @@ class SettingsShowMe : AppCompatActivity() {
             viewModel.updateField(SHOW_ME, currentShowMe)
         }
         super.onBackPressed()
-    }
-
-    private fun instantiateViewModel() {
-        val bundle = Bundle()
-        bundle.putString(EXTRA_UID, userHelper.getUserId())
-
-        val viewModelFactory = assistedFactory.create(this, bundle)
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 }

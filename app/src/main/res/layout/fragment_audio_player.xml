@@ -37,17 +37,6 @@
             android:layout_alignParentStart="true"
             tools:layout_marginLeft="20dp" />
 
-        <TextView
-            android:id="@+id/record_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/base_timer_MM_SS"
-            android:textColor="#716E6E"
-            android:textSize="14sp"
-            android:layout_alignParentEnd="true"/>
-
         <SeekBar
             android:id="@+id/play_bar"
             android:layout_width="380dp"
@@ -57,17 +46,26 @@
             android:paddingTop="10dp"
             android:layout_below="@+id/record_name"/>
 
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/play_pause_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_below="@id/audio_timer"
             android:layout_marginStart="80dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:layout_alignParentStart="true"
-            app:srcCompat="@android:drawable/ic_media_play"
-            android:contentDescription="@string/play_pause_button"/>
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="#FFFBFB"
+            app:borderWidth="1dp"
+            app:fabCustomSize="49dp"
+            app:tint="@null"
+            app:maxImageSize="50dp"
+            app:srcCompat="@drawable/play_button_fab"
+            app:useCompatPadding="false"
+            android:contentDescription="@string/play_pause_button"
+            app:rippleColor="@color/blindly_purple"/>
 
         <Chronometer
             android:id="@+id/audio_timer"
@@ -75,7 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/play_bar"
             android:layout_marginStart="30dp"
-            android:textColor="#716E6E" />
+            android:textColor="#716E6E"
+            android:contentDescription="@string/record_timer_description"/>
 
         <Chronometer
             android:id="@+id/remaining_timer"
@@ -84,18 +83,20 @@
             android:layout_below="@id/play_bar"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="30dp"
-            android:textColor="#716E6E" />
+            android:textColor="#716E6E"
+            android:contentDescription="@string/remaining_timer_description"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/record_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/small_pill_shape_width"
+            android:layout_height="@dimen/small_pill_shape_height"
             android:layout_below="@id/remaining_timer"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="80dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/record_audio" />
+            android:text="@string/record_audio"
+            app:shapeAppearanceOverlay="@style/PillShapeButton"/>
 
         <Space
             android:id="@+id/audio_play_space"
@@ -104,5 +105,4 @@
             android:layout_below="@id/play_pause_button"/>
 
     </RelativeLayout>
-
 </LinearLayout>

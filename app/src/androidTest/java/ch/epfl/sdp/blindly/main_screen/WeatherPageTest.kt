@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.map
+package ch.epfl.sdp.blindly.main_screen
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -10,8 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.main_screen.MainScreen
-import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
+import ch.epfl.sdp.blindly.weather.WeatherActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -24,7 +23,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @HiltAndroidTest
-class MapPageTest {
+class WeatherPageTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(MainScreen::class.java)
@@ -65,7 +64,7 @@ class MapPageTest {
 
     @Test
     fun mapButtonFiresMapActivty() {
-        onView(withId(R.id.open_map)).check(
+        onView(withId(R.id.open_weather)).check(
             ViewAssertions.matches(
                 ViewMatchers.withEffectiveVisibility(
                     ViewMatchers.Visibility.VISIBLE
@@ -73,6 +72,6 @@ class MapPageTest {
             )
         ).perform(click())
 
-        intended(hasComponent(UserMapActivity::class.java.name))
+        intended(hasComponent(WeatherActivity::class.java.name))
     }
 }

@@ -43,14 +43,13 @@
         android:textColor="@color/design_default_color_error"
         android:visibility="gone" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/update_email_button"
-        style="@style/Widget.Theme.Blindly.Fancy.Button"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
         android:layout_marginTop="50dp"
         android:layout_marginStart="75dp"
         android:onClick="updateEmail"
-        android:text="@string/update_email" />
-
+        android:text="@string/update_email"
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
 </LinearLayout>
