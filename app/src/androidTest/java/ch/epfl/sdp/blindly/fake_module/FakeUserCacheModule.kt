@@ -20,16 +20,20 @@ open class FakeUserCacheModule {
     companion object {
         private const val uid = "abcd1234"
         private const val username = "Jane Doe"
+        private const val usernameUpdated = "Jack"
         private val location = createLocationTableEPFL() // Ecublens, Switzerland
         private const val MULHOUSE_LAT = 47.749
         private const val MULHOUSE_LON = 7.335
         private val locationUpdated = listOf(MULHOUSE_LAT, MULHOUSE_LON) // Mulhouse, France
         private const val birthday = "01.01.01"
         private const val gender = "Woman"
+        private const val genderUpdated = "Man"
         private val sexualOrientations = listOf("Asexual")
+        private val sexualOrientationsUpdated = listOf("Asexual", "Bisexual")
         private const val showMe = "Everyone"
         private const val showMeUpdated = "Women"
         private val passions = listOf("Coffee", "Tea")
+        private val passionsUpdated = listOf("Coffee", "Tea", "Movies", "Brunch")
         private const val radius = 150
         private const val radiusUpdated = 50
         private val matches: List<String> = listOf("a1", "b2")
@@ -55,13 +59,13 @@ open class FakeUserCacheModule {
             .build()
         val fakeUserUpdated = User.Builder()
             .setUid(uid)
-            .setUsername(username)
+            .setUsername(usernameUpdated)
             .setLocation(locationUpdated)
             .setBirthday(birthday)
-            .setGender(gender)
-            .setSexualOrientations(sexualOrientations)
+            .setGender(genderUpdated)
+            .setSexualOrientations(sexualOrientationsUpdated)
             .setShowMe(showMeUpdated)
-            .setPassions(passions)
+            .setPassions(passionsUpdated)
             .setRadius(radiusUpdated)
             .setMatches(matches)
             .setLikes(likes)

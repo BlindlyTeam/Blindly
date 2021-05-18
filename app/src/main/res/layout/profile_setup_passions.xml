@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -18,23 +18,18 @@
             android:id="@+id/progressBar_p7"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="416dp"
-            android:layout_height="66dp"
+            android:layout_height="@dimen/progress_bar_height"
             android:progress="78" />
-
-        <Space
-            android:id="@+id/space_7_1"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_below="@id/progressBar_p7"/>
 
         <TextView
             android:id="@+id/text_p7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
             android:text="@string/passions"
             android:textColor="#000000"
             android:textSize="36sp"
-            android:layout_below="@id/space_7_1"
+            android:layout_below="@id/progressBar_p7"
             android:paddingHorizontal="50dp"/>
 
         <TextView
@@ -502,20 +497,15 @@
             </LinearLayout>
         </ScrollView>
 
-        <Space
-            android:id="@+id/space_7"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_below="@id/scrollview_7"/>
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_p7"
-            android:layout_width="231dp"
-            android:layout_height="61dp"
+            android:layout_width="@dimen/pill_shape_width"
+            android:layout_height="@dimen/pill_shape_height"
             android:onClick="startProfileAudioRecording"
             android:text="@string/continue_str"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/space_7"/>
-
+            android:layout_marginTop="78dp"
+            android:layout_below="@id/scrollview_7"
+            app:shapeAppearanceOverlay="@style/PillShapeButton" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

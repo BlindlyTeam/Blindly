@@ -8,7 +8,8 @@ import android.os.SystemClock
 import android.widget.Chronometer
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.AppCompatImageButton
+import ch.epfl.sdp.blindly.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 private const val PLAYBAR_DELAY = 10L
 
@@ -36,7 +37,7 @@ class BlindlyMediaPlayer {
         playBar: SeekBar,
         playTimer: Chronometer,
         remainingTimer: Chronometer,
-        playPauseButton: AppCompatImageButton,
+        playPauseButton: FloatingActionButton,
         audioRecord: AudioRecord
     ) {
         val movePlayBarThread = createPlayBarThread(playBar)
@@ -85,7 +86,7 @@ class BlindlyMediaPlayer {
     fun bindSeekBarNavigation(
         playBar: SeekBar, playTimer: Chronometer,
         remainingTimer: Chronometer,
-        playPauseButton: AppCompatImageButton,
+        playPauseButton: FloatingActionButton,
         movePlayBarThread: Runnable, audioRecord: AudioRecord
     ) {
         playBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -146,7 +147,7 @@ class BlindlyMediaPlayer {
     fun resetRecordPlayer(
         audioRecord: AudioRecord, playTimer: Chronometer,
         remainingTimer: Chronometer,
-        playPauseButton: AppCompatImageButton, playBar: SeekBar
+        playPauseButton: FloatingActionButton, playBar: SeekBar
     ) {
         createMediaPlayer(audioRecord.filePath)
         mediaPlayer?.setOnCompletionListener {
@@ -217,7 +218,7 @@ class BlindlyMediaPlayer {
      */
     fun setStoppedView(
         playTimer: Chronometer, remainingTimer: Chronometer,
-        playPauseButton: AppCompatImageButton, isPause: Boolean
+        playPauseButton: FloatingActionButton, isPause: Boolean
     ) {
         playTimer.stop()
         remainingTimer.stop()
@@ -226,13 +227,13 @@ class BlindlyMediaPlayer {
         } else {
             isPlayerStopped = true
         }
-        playPauseButton.setImageResource(android.R.drawable.ic_media_play)
+        playPauseButton.setImageResource(R.drawable.play_button_fab)
     }
 
     private fun setPlayView(
         playTimer: Chronometer, remainingTimer: Chronometer,
         playBar: SeekBar, movePlayBarThread: Runnable,
-        playPauseButton: AppCompatImageButton
+        playPauseButton: FloatingActionButton
     ) {
         playTimer.start()
         remainingTimer.start()
@@ -244,7 +245,7 @@ class BlindlyMediaPlayer {
             mediaPlayer!!.duration,
             mediaPlayer!!.currentPosition
         )
-        playPauseButton.setImageResource(android.R.drawable.ic_media_pause)
+        playPauseButton.setImageResource(R.drawable.pause_button_fab)
     }
 
     /**
@@ -261,7 +262,7 @@ class BlindlyMediaPlayer {
         audioRecord: AudioRecord,
         playTimer: Chronometer,
         remainingTimer: Chronometer,
-        playPauseButton: AppCompatImageButton,
+        playPauseButton: FloatingActionButton,
         playBar: SeekBar,
         movePlayBarThread: Runnable
     ) {

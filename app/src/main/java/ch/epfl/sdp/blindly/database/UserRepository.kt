@@ -3,13 +3,18 @@ package ch.epfl.sdp.blindly.database
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+import kotlin.reflect.KSuspendFunction1
 
 /**
  * The main access to Firebase firestore
@@ -34,7 +39,6 @@ class UserRepository @Inject constructor(
      * @param uid the uid of the user to retrieve
      * @return the user with the corresponding uid or null if they doesn't exist
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     suspend fun getUser(uid: String): User? {
         val cached: User? = userCache.get(uid)
         if (cached != null) {
@@ -66,15 +70,12 @@ class UserRepository @Inject constructor(
         }
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.N)
     private suspend fun <T> updateLocalCache(uid: String, field: String, newValue: T) {
         val user = userCache.get(uid)
-        if(user != null) {
+        if (user != null) {
             Log.d(TAG, "Updated user in local cache")
             userCache.put(uid, User.updateUser(user, field, newValue))
-        }
-        else {
+        } else {
             refreshUser(uid)
         }
     }
@@ -88,7 +89,6 @@ class UserRepository @Inject constructor(
      * @param newValue the new value to set for the user
      */
 
-    @RequiresApi(Build.VERSION_CODES.N)
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         if (newValue !is String && newValue !is List<*> && newValue !is Int)
             throw IllegalArgumentException("Expected String, List<String> or Int")
@@ -109,4 +109,44 @@ class UserRepository @Inject constructor(
     fun getCollectionReference(): CollectionReference {
         return db.collection(USER_COLLECTION)
     }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    suspend fun getMyMatches(
+        viewLifecycleOwner: LifecycleOwner,
+        userId: String,
+        setupAdapter: KSuspendFunction1<ArrayList<MyMatch>, Unit>
+    ) {
+        var myMatchesUids: List<String>
+        var myMatches: ArrayList<MyMatch>?
+        val docRef = getCollectionReference().document(userId)
+        docRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: ${snapshot.data}")
+                myMatchesUids = snapshot["matches"] as List<String>
+                viewLifecycleOwner.lifecycleScope.launch {
+                    myMatches = arrayListOf()
+                    for (userId in myMatchesUids) {
+                        myMatches!!.add(
+                            MyMatch(
+                                getUser(userId)?.username!!,
+                                userId,
+                                false
+                            )
+                        )
+                    }
+                    setupAdapter(myMatches!!)
+
+                }
+            } else {
+                Log.d(TAG, "Current data: null")
+            }
+        }
+
+    }
+
 }

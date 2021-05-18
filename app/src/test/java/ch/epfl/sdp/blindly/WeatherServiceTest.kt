@@ -25,12 +25,12 @@ class WeatherServiceTest {
     fun callWorks() {
         val future: CompletableFuture<String> = CompletableFuture()
         WeatherService().nextWeek(BlindlyLatLng(LAUSANNE_LATLNG), callback = object :
-            WeatherService.WeatherResultCallback() {
-            override fun onFailure(e: Exception) {
+            WeatherService.WeatherResultCallback {
+            override fun onWeatherFailure(e: Exception) {
                 future.completeExceptionally(e)
             }
 
-            override fun onResponse(weather: WeekWeather) {
+            override fun onWeatherResponse(weather: WeekWeather) {
                 println(weather)
                 assertThat(weather.daily.size, greaterThanOrEqualTo(WEEK_LENGHT))
                 weather.daily.forEach {
@@ -80,7 +80,7 @@ class WeatherServiceTest {
         "50n")
 
         icons.forEach {
-            val icon = Weather("Weather", it).getIcon()
+            val icon = Weather("Weather", it).getIconDrawableId()
             assertThat(icon, not(equalTo(0)))
             assertThat(icon, not(nullValue()))
         }
@@ -89,6 +89,6 @@ class WeatherServiceTest {
     @Test
     fun testDayWeather() {
         val dayTemp = DayTemperature(day, morning, evening, night)
-        assertThat(DayWeather(dayTemp, listOf()).temperature, equalTo(dayTemp))
+        assertThat(DayWeather(dayTemp, arrayOf(), "MER").temperature, equalTo(dayTemp))
     }
 }
