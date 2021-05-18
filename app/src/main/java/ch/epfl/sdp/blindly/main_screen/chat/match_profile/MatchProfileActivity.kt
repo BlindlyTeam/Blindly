@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService
+import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
@@ -24,8 +25,6 @@ import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject
-
-const val PROFILE_ID = "profileID"
 
 /**
  * Activity that shows more details about a potential match
@@ -47,7 +46,7 @@ class MatchProfileActivity : AppCompatActivity() {
         setContentView(R.layout.match_profile)
 
         // Cancels loading if the profileID isn't given in the Bundle
-        val profileID = intent.extras?.getString(PROFILE_ID) ?: return
+        val profileID = intent.extras?.getString(ChatActivity.MATCH_ID) ?: return
         instantiateViewModel(profileID)
 
         supportActionBar?.hide()
