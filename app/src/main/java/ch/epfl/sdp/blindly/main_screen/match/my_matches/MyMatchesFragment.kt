@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -14,8 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.location.BlindlyLatLng
-import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.weather.WeatherActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,6 +28,7 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     private lateinit var myMatchesRecyclerView: RecyclerView
     private lateinit var adapter: MyMatchesAdapter
     private lateinit var fragView: View
+    private lateinit var userId: String
 
     @Inject
     lateinit var userHelper: UserHelper
@@ -62,7 +60,6 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         if (arguments != null) {
             counter = requireArguments().getInt(ARG_COUNT)
         }
-
     }
 
 
@@ -81,14 +78,22 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.activity_my_matches, container, false)
 
+
         //Needs to be done in a coroutine
         viewLifecycleOwner.lifecycleScope.launch {
-            val userId = userHelper.getUserId()!!
+            userId = userHelper.getUserId()!!
             userRepository.getMyMatches(viewLifecycleOwner, userId, ::setAdapterOnMainThread)
         }
 
-        val matchActivityButton = fragView.findViewById<FloatingActionButton>(R.id.buttonAttractions)
-        matchActivityButton.setOnClickListener { startWeather() }
+        // listens the
+        val weatherActivityButton =
+            fragView.findViewById<FloatingActionButton>(R.id.buttonAttractions)
+        weatherActivityButton.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                userId = userHelper.getUserId()!!
+                startWeather()
+            }
+        }
 
         return fragView
     }
@@ -125,9 +130,11 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         adapter.notifyItemChanged(position)
     }
 
-    private fun startWeather() {
+    // gets the location of user and starts WeatherActivity
+    private suspend fun startWeather() {
         val intent = Intent(activity, WeatherActivity::class.java)
-        intent.putExtra(WeatherActivity.LOCATION, BlindlyLatLng(LAUSANNE_LATLNG))
+        val location = userRepository.getLocation(userId)
+        intent.putExtra(WeatherActivity.LOCATION, location)
         startActivity(intent)
     }
 }
