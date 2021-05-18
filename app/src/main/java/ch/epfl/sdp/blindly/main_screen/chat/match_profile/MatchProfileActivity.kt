@@ -33,6 +33,7 @@ import javax.inject.Inject
 class MatchProfileActivity : AppCompatActivity() {
     private lateinit var viewModel: UserViewModel
     private lateinit var audioFilePath: String
+    private var mediaPlayer: MediaPlayer? = null
 
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
@@ -68,13 +69,28 @@ class MatchProfileActivity : AppCompatActivity() {
             user.passions?.let { it -> setCheckedChips(profilePassions, it) }
             audioFilePath = user.recordingPath!!
         }
+
+        prepareMediaPlayer()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
     private fun bindPlayButton(button: Button) {
         val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
         button.setOnClickListener {
             button.startAnimation(bounce)
-            playAudio(it)
+
+            if (mediaPlayer!!.isPlaying) {
+                mediaPlayer?.stop()
+            }
+            else {
+                mediaPlayer?.start()
+            }
         }
     }
 
@@ -95,17 +111,16 @@ class MatchProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun playAudio(view: View) {
+    private fun prepareMediaPlayer() {
         // Create a storage reference from our app
         val storageRef = storage.reference
         // Create a reference with the recordingPath
         val pathRef = storageRef.child(audioFilePath)
         val audioFile = File.createTempFile("Audio", "amr")
         pathRef.getFile(audioFile).addOnSuccessListener {
-            val mediaPlayer = MediaPlayer()
-            mediaPlayer.setDataSource(this, Uri.fromFile(audioFile))
-            mediaPlayer.prepare()
-            mediaPlayer.start()
+            mediaPlayer = MediaPlayer()
+            mediaPlayer!!.setDataSource(this, Uri.fromFile(audioFile))
+            mediaPlayer!!.prepare()
         }
     }
 }
