@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/passions_toolbar"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
         android:text="@string/edit_select_up_to_5"
         android:textColor="@color/blindly_purple_secondary"
         android:textSize="16sp"
@@ -32,9 +33,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/select_text"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_marginTop="@dimen/margin_extra_small"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/brunch_chip"
@@ -452,6 +453,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/passions_chip_group"
+        android:layout_marginTop="@dimen/margin"
         android:layout_centerHorizontal="true"
         android:text="@string/you_can_not_select_more_than_5"
         android:textColor="#FF0000"
@@ -462,6 +464,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/passions_chip_group"
+        android:layout_marginTop="@dimen/margin"
         android:layout_centerHorizontal="true"
         android:text="@string/please_select_at_least_one"
         android:textColor="#FF0000"

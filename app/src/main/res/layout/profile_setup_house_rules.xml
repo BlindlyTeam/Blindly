@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,152 +9,117 @@
     <ImageView
         android:id="@+id/blindly_logo_p1"
         android:layout_width="136dp"
-        android:layout_height="304dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin"
         android:contentDescription="@string/blindly_app_logo"
-        app:layout_constraintBottom_toTopOf="@+id/welcome_text_p1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/blindly_dark_heart" />
 
     <TextView
         android:id="@+id/welcome_text_p1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/blindly_logo_p1"
         android:fontFamily="sans-serif"
         android:text="@string/welcome_to_blindly"
         android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.311" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/guideline_0_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/please_follow_these_rules_while_enjoying_the_app"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.369" />
+        android:layout_below="@id/welcome_text_p1"
+        android:layout_marginTop="@dimen/margin_extra_small"
+        android:layout_centerHorizontal="true"
+        android:text="@string/please_follow_these_rules_while_enjoying_the_app" />
 
     <TextView
         android:id="@+id/guideline_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@id/guideline_1_text"
+        android:layout_marginStart="@dimen/margin"
         android:text="@string/u2713_be_yourself"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_0_text"
-        app:layout_constraintVertical_bias="0.318" />
+        android:textColor="#000000" />
 
     <TextView
-        android:id="@+id/guideline_4_text"
+        android:id="@+id/guideline_1_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/always_report_bad_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_4"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/guideline_2_text"
-        android:layout_width="343dp"
-        android:layout_height="30dp"
-        android:text="@string/do_not_be_too_quick_to_give_out_personal_information"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_2"
-        app:layout_constraintVertical_bias="0.034" />
+        android:layout_above="@id/guideline_2"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:text="@string/make_sure_your_recordings_age_and_bio_are_true_to_who_you_are" />
 
     <TextView
         android:id="@+id/guideline_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@id/guideline_2_text"
+        android:layout_marginStart="@dimen/margin"
         android:text="@string/u2713_stay_safe"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.582" />
+        android:textColor="#000000" />
 
     <TextView
-        android:id="@+id/guideline_4"
+        android:id="@+id/guideline_2_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/u2713_be_proactive"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_3"
-        app:layout_constraintVertical_bias="0.323" />
-
-    <TextView
-        android:id="@+id/guideline_1_text"
-        android:layout_width="332dp"
-        android:layout_height="48dp"
-        android:text="@string/make_sure_your_recordings_age_and_bio_are_true_to_who_you_are"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.367"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_1"
-        app:layout_constraintVertical_bias="0.034" />
+        android:layout_above="@id/guideline_3"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:text="@string/do_not_be_too_quick_to_give_out_personal_information" />
 
     <TextView
         android:id="@+id/guideline_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@id/guideline_3_text"
+        android:layout_marginStart="@dimen/margin"
         android:text="@string/u2713_play_it_cool"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.088"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_2"
-        app:layout_constraintVertical_bias="0.215" />
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/guideline_3_text"
-        android:layout_width="335dp"
-        android:layout_height="54dp"
-        android:text="@string/respect_others_and_treat_them_as_you_would_like_to_be_treated"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.381"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_3"
-        app:layout_constraintVertical_bias="0.076" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/guideline_4"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:text="@string/respect_others_and_treat_them_as_you_would_like_to_be_treated" />
+
+
+    <TextView
+        android:id="@+id/guideline_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/guideline_4_text"
+        android:layout_marginStart="@dimen/margin"
+        android:text="@string/u2713_be_proactive"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/guideline_4_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_p1"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:text="@string/always_report_bad_behavior" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_p1"
         android:layout_width="@dimen/pill_shape_width"
         android:layout_height="@dimen/pill_shape_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin"
         android:onClick="startPermissionActivity"
         android:text="@string/i_agree"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955"
         app:shapeAppearanceOverlay="@style/PillShapeButton" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
