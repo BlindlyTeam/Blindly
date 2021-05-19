@@ -68,7 +68,6 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
      * @param savedInstanceState
      * @return the fragment's view
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {

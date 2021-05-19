@@ -9,16 +9,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recordingList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/recordDivider" />
+        android:layout_height="490dp" />
 
     <View
         android:id="@+id/recordDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginBottom="30dp"
-        android:layout_above="@+id/recordingButton"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/recordingList"
         android:background="?android:attr/listDivider" />
 
     <Chronometer
@@ -28,8 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="58dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="56dp"
+        android:layout_below="@id/recordDivider"
         android:layout_toStartOf="@id/recordingButton"
         android:contentDescription="@string/remaining_timer_description"/>
 
@@ -37,8 +35,8 @@
         android:id="@+id/recordingButton"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:layout_marginBottom="30dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/recordDivider"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/record_button"
@@ -49,9 +47,9 @@
         android:id="@+id/recordTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/recordDivider"
         android:layout_marginStart="50dp"
-        android:layout_marginBottom="65dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="66dp"
         android:layout_toEndOf="@id/recordingButton"
         android:contentDescription="@string/record_timer_description"/>
 </RelativeLayout>

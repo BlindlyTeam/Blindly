@@ -90,7 +90,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * @param savedInstanceState
      * @return the fragment's view
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -202,7 +201,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun handleCoroutine() {
         val potentialProfiles = getPotentialMatchesProfiles()
 
@@ -215,7 +213,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done.
      *
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun getPotentialMatchesProfiles(): List<Profile> {
         val matchingAlgorithm = MatchingAlgorithm(userHelper, userRepository)
         val potentialUsers = matchingAlgorithm.getPotentialMatchesFromDatabase()
@@ -227,7 +224,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun createProfilesFromUsers(users: List<User>?): List<Profile> {
         if (users == null) {
             return listOf()

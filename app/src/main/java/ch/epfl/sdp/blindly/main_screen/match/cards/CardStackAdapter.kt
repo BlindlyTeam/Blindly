@@ -48,7 +48,7 @@ class CardStackAdapter(
         val profile = profiles[position]
         val v = holder.itemView.findViewById(R.id.item_image) as ImageView
         v.setImageResource(R.drawable.background)
-        holder.name_age.text = "${profile.name}, ${profile.age}"
+        holder.nameAge.text = "${profile.name}, ${profile.age}"
         holder.gender.text = profile.gender
         holder.distance.text = "${profile.distance} km away"
         recordingPath = profile.recordingPath
@@ -69,7 +69,7 @@ class CardStackAdapter(
      * @param view containing the attributes
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name_age: TextView = view.findViewById(R.id.item_name_age)
+        val nameAge: TextView = view.findViewById(R.id.item_name_age)
         val gender: TextView = view.findViewById(R.id.item_gender)
         val distance: TextView = view.findViewById(R.id.item_distance)
     }
@@ -77,7 +77,6 @@ class CardStackAdapter(
     /**
      * Plays or pause the audio from the user on the card
      *
-     * @param recordingPath
      */
     fun playPauseAudio() {
         // Create a storage reference from our app

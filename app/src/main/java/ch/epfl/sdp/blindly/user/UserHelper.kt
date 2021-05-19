@@ -151,7 +151,6 @@ class UserHelper {
      *
      * @param userBuilder a builder from which a User can be built
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setUserProfile(userBuilder: User.Builder) {
         val database = Firebase.firestore
         val uid = getUserId()

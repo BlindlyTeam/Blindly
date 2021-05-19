@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly.profile_setup
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
@@ -14,6 +15,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.time.LocalDate
 import java.time.Period
+import java.util.*
 
 private const val PAD_CHAR = '0'
 private const val FORMAT = 2
@@ -41,7 +43,6 @@ class ProfileBirthday : AppCompatActivity() {
      * the builder and starts the ProfileGender activity
      * @param view the current view
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun startProfileGender(view: View) {
         findViewById<TextView>(R.id.warning_p3).visibility = View.INVISIBLE
         val datePicker: DatePicker = findViewById<View>(R.id.datePicker) as DatePicker
@@ -70,12 +71,19 @@ class ProfileBirthday : AppCompatActivity() {
         }
     }
 
-    //Helper function to get the age via day, month, year inputs
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getAge(year: Int, month: Int, dayOfMonth: Int): Int {
-        return Period.between(
-            LocalDate.of(year, month, dayOfMonth),
-            LocalDate.now()
-        ).years
+    private fun getAge(year: Int, month: Int, day: Int): Int {
+        val calendar = GregorianCalendar()
+
+        val y = calendar.get(Calendar.YEAR)
+        //For some unknown reason, months are indexed from 0 to 11...
+        val m = calendar.get(Calendar.MONTH) + 1
+        val d = calendar.get(Calendar.DAY_OF_MONTH)
+        var age = y - year
+        if ((m < month) || ((m == month) && (d < day))) {
+            --age
+        }
+        if(age < 0)
+            throw IllegalArgumentException("Age < 0");
+        return age
     }
 }
