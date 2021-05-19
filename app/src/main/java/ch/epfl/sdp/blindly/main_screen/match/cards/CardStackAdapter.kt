@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
-import com.google.firebase.storage.FirebaseStorage
+import ch.epfl.sdp.blindly.audio.Recordings
 import java.io.File
 
 /**
@@ -20,7 +20,7 @@ import java.io.File
  */
 class CardStackAdapter(
     private var profiles: List<Profile> = emptyList(),
-    private var storage: FirebaseStorage
+    private var recordings: Recordings
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     private lateinit var context: Context
     private lateinit var recordingPath: String
@@ -80,16 +80,19 @@ class CardStackAdapter(
      * @param recordingPath
      */
     fun playPauseAudio() {
-        // Create a storage reference from our app
-        val storageRef = storage.reference
-        // Create a reference with the recordingPath
-        val pathRef = storageRef.child(recordingPath)
+
         val audioFile = File.createTempFile("Audio", "amr")
-        pathRef.getFile(audioFile).addOnSuccessListener {
-            val mediaPlayer = MediaPlayer()
-            mediaPlayer.setDataSource(context, Uri.fromFile(audioFile))
-            mediaPlayer.prepare()
-            mediaPlayer.start()
-        }
+        recordings.getFile(recordingPath, audioFile, object : Recordings.RecordingOperationCallback() {
+            override fun onSuccess() {
+                val mediaPlayer = MediaPlayer()
+                mediaPlayer.setDataSource(context, Uri.fromFile(audioFile))
+                mediaPlayer.prepare()
+                mediaPlayer.start()
+            }
+
+            override fun onError() {
+                // Dismiss, it's only play...
+            }
+        })
     }
 }
