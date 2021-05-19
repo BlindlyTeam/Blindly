@@ -5,14 +5,12 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
 import ch.epfl.sdp.blindly.user.User
@@ -32,7 +30,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MatchProfileActivity : AppCompatActivity() {
     private lateinit var viewModel: UserViewModel
-    private lateinit var audioFilePath: String
+    private var audioFilePath: String? = null
     private var mediaPlayer: MediaPlayer? = null
 
     @Inject
@@ -67,10 +65,13 @@ class MatchProfileActivity : AppCompatActivity() {
             profileLocation.text = AndroidLocationService.getCurrentLocationStringFromUser(this, user)
             user.sexualOrientations?.let { it -> setCheckedChips(profileOrientations, it) }
             user.passions?.let { it -> setCheckedChips(profilePassions, it) }
-            audioFilePath = user.recordingPath!!
+            audioFilePath = user.recordingPath
         }
 
-        prepareMediaPlayer()
+        // The condition can be removed once we're sure that every user has an audio file path
+        // attached to it
+        if (audioFilePath != null)
+            prepareMediaPlayer()
     }
 
     override fun onStop() {
@@ -115,7 +116,7 @@ class MatchProfileActivity : AppCompatActivity() {
         // Create a storage reference from our app
         val storageRef = storage.reference
         // Create a reference with the recordingPath
-        val pathRef = storageRef.child(audioFilePath)
+        val pathRef = storageRef.child(audioFilePath!!)
         val audioFile = File.createTempFile("Audio", "amr")
         pathRef.getFile(audioFile).addOnSuccessListener {
             mediaPlayer = MediaPlayer()
