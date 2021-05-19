@@ -54,7 +54,7 @@ class CardStackAdapter(
         )
         holder.gender.text = profile.gender
         holder.distance.text = context.getString(
-            R.string.distance_text, profile.distance
+            R.string.distance_text, profile.distance.toString()
         )
         recordingPath = profile.recordingPath
         uids.add(profile.uid)
