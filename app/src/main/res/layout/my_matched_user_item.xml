@@ -51,8 +51,8 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/com_facebook_profile_picture_blank_square"
-            android:contentDescription="@string/my_message_button_description"/>
+            android:background="@drawable/ic_baseline_person_24"
+            android:contentDescription="Profile button"/>
 
         <ImageButton
             android:id="@+id/mapButton"

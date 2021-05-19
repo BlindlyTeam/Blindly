@@ -44,7 +44,7 @@ class MatchProfileActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.match_profile)
+        setContentView(R.layout.activity_match_profile)
 
         // Cancels loading if the profileID isn't given in the Bundle
         val profileID = intent.extras?.getString(ChatActivity.MATCH_ID) ?: return
