@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -110,6 +111,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         viewLifecycleOwner.lifecycleScope.launch {
             handleCoroutine()
         }
+        fragView.findViewById<TextView>(R.id.no_profile_text).text = getString(R.string.loading_profiles)
         return fragView
     }
 
@@ -162,6 +164,10 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * @param position in the view
      */
     override fun onCardDisappeared(view: View, position: Int) {
+        if (position == adapter.itemCount - 1) {
+            fragView.findViewById<TextView>(R.id.no_profile_text).text =
+                getString(R.string.no_more_swipes)
+        }
     }
 
     /**
@@ -215,6 +221,13 @@ class MatchPageFragment : Fragment(), CardStackListener {
             if (this is DefaultItemAnimator) {
                 supportsChangeAnimations = false
             }
+        }
+        //Set the message text if no profiles are available
+        if (adapter.itemCount == 0) {
+            fragView.findViewById<TextView>(R.id.no_profile_text).text =
+                getString(R.string.no_available_swipe)
+        } else {
+            fragView.findViewById<TextView>(R.id.no_profile_text).text = ""
         }
     }
 
