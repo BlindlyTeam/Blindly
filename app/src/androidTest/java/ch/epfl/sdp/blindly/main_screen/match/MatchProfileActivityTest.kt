@@ -1,6 +1,5 @@
 package ch.epfl.sdp.blindly.main_screen.match
 
-import android.location.Location
 import androidx.core.os.bundleOf
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -9,11 +8,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
-import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
 import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
-import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
@@ -59,7 +55,7 @@ class MatchProfileActivityTest {
     fun afterEach() {
         Intents.release()
     }
-    
+
     // Tests don't work, I don't know why :(. Here is a useless test to compensate coverage
 
     @Test
