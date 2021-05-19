@@ -1,21 +1,25 @@
 package ch.epfl.sdp.blindly.main_screen.chat
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.DatabaseHelper
+import ch.epfl.sdp.blindly.main_screen.chat.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.user.UserHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Activity class that contains the chat.
  */
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
     private lateinit var currentUserId: String
@@ -32,7 +36,8 @@ class ChatActivity : AppCompatActivity() {
     lateinit var userHelper: UserHelper
 
     companion object {
-        const val MATCH_ID: String = "matchedId";
+        const val MATCH_ID: String = "matchedId"
+        const val USERNAME: String = "username"
     }
 
     /**
@@ -59,6 +64,17 @@ class ChatActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.recyclerView).layoutManager = mChatLayoutManager
         findViewById<RecyclerView>(R.id.recyclerView).adapter =
             getMessages()?.let { ChatAdapter(currentUserId, it) }
+
+        val matchName = intent.extras?.getString(USERNAME)
+
+        if (matchName != null) {
+            val nameBar = findViewById<Toolbar>(R.id.matchNameBar)
+            nameBar.title = intent.extras?.getString(USERNAME)
+            nameBar.setOnClickListener {
+                launchMatchProfileActivity()
+            }
+            setSupportActionBar(nameBar)
+        }
 
         receiveMessages()
     }
@@ -105,5 +121,12 @@ class ChatActivity : AppCompatActivity() {
 
     private fun getMessages(): ArrayList<Message<String>>? {
         return chatMessages
+    }
+
+    private fun launchMatchProfileActivity() {
+        val intent = Intent(this, MatchProfileActivity::class.java)
+        val bundle = bundleOf(MATCH_ID to matchId)
+        intent.putExtras(bundle)
+        ContextCompat.startActivity(this, intent, null)
     }
 }

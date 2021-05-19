@@ -88,7 +88,6 @@ class UserRepository @Inject constructor(
      * @param field the field of the value to change inside the database
      * @param newValue the new value to set for the user
      */
-
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         if (newValue !is String && newValue !is List<*> && newValue !is Int)
             throw IllegalArgumentException("Expected String, List<String> or Int")
@@ -146,7 +145,5 @@ class UserRepository @Inject constructor(
                 Log.d(TAG, "Current data: null")
             }
         }
-
     }
-
 }

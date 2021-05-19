@@ -21,6 +21,7 @@ import ch.epfl.sdp.blindly.main_screen.chat.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
 
 private const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
+private const val BUNDLE_MATCHED_USERNAME_LABEL = "username"
 
 class MyMatchesAdapter(
     var my_matches: ArrayList<MyMatch>,
@@ -108,10 +109,10 @@ class MyMatchesAdapter(
             my_matches[position].isExpanded = notIsExpanded
         }
 
-
         viewHolder.chatButton.setOnClickListener {
             val intent = Intent(context, ChatActivity::class.java)
-            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid)
+            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid,
+                BUNDLE_MATCHED_USERNAME_LABEL to my_matches[position].name)
             intent.putExtras(bundle)
             startActivity(context, intent, null)
         }
