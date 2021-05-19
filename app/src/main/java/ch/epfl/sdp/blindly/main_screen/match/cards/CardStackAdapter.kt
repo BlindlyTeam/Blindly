@@ -49,9 +49,13 @@ class CardStackAdapter(
         val profile = profiles[position]
         val v = holder.itemView.findViewById(R.id.item_image) as ImageView
         v.setImageResource(R.drawable.background)
-        holder.nameAge.text = "${profile.name}, ${profile.age}"
+        holder.nameAge.text = context.getString(
+            R.string.name_age_text, profile.name, profile.age
+        )
         holder.gender.text = profile.gender
-        holder.distance.text = "${profile.distance} km away"
+        holder.distance.text = context.getString(
+            R.string.distance_text, profile.distance
+        )
         recordingPath = profile.recordingPath
         uids.add(profile.uid)
     }
