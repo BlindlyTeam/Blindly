@@ -3,8 +3,8 @@ package ch.epfl.sdp.blindly.main_screen.my_matches
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
-import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
-import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatchesAdapter
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.MatcherAssert
 import org.hamcrest.core.IsEqual

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.chat.match_profile
+package ch.epfl.sdp.blindly.main_screen.my_matches.match_profile
 
 import android.media.MediaPlayer
 import android.net.Uri
@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel

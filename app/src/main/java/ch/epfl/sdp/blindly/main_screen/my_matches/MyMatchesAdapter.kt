@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.match.my_matches
+package ch.epfl.sdp.blindly.main_screen.my_matches
 
 import android.content.Context
 import android.content.Intent
@@ -16,8 +16,8 @@ import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
-import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
-import ch.epfl.sdp.blindly.main_screen.chat.match_profile.MatchProfileActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
 
 private const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
@@ -111,7 +111,8 @@ class MyMatchesAdapter(
 
         viewHolder.chatButton.setOnClickListener {
             val intent = Intent(context, ChatActivity::class.java)
-            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid,
+            val bundle = bundleOf(
+                BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid,
                 BUNDLE_MATCHED_USERNAME_LABEL to my_matches[position].name)
             intent.putExtras(bundle)
             startActivity(context, intent, null)

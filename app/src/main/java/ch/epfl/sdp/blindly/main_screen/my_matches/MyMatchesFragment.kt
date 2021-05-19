@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.match.my_matches
+package ch.epfl.sdp.blindly.main_screen.my_matches
 
 import android.os.Build
 import android.os.Bundle

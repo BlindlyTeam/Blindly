@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.chat
+package ch.epfl.sdp.blindly.main_screen.my_matches.chat
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.DatabaseHelper
-import ch.epfl.sdp.blindly.main_screen.chat.match_profile.MatchProfileActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

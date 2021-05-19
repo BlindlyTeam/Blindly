@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly
 
-import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test

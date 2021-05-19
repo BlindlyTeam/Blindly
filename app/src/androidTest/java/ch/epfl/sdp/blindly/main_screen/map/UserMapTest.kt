@@ -11,10 +11,10 @@ import ch.epfl.sdp.blindly.R
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import androidx.test.espresso.matcher.ViewMatchers.*
-import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity.Companion.MATCH_ID
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity.Companion.MATCH_ID
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.database.DatabaseHelper
-import ch.epfl.sdp.blindly.main_screen.chat.Message
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.Message
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity.Companion.MATCH_NAME
 import ch.epfl.sdp.blindly.user.UserHelper
 import org.hamcrest.MatcherAssert

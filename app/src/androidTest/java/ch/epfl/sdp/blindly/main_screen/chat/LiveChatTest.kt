@@ -6,14 +6,13 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.init
-import androidx.test.espresso.intent.Intents.release
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.util.TreeIterables
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.DatabaseHelper
-import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.common.base.Predicate
 import com.google.common.collect.Iterables

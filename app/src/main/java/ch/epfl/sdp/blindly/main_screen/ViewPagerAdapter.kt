@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import ch.epfl.sdp.blindly.main_screen.match.MatchPageFragment
-import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatchesFragment
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesFragment
 import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 
 

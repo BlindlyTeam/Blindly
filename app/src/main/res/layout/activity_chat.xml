@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="4dp"
-    tools:context=".main_screen.chat.ChatActivity">
+    tools:context=".main_screen.my_matches.chat.ChatActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/matchNameBar"

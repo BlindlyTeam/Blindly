@@ -11,8 +11,8 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
-import ch.epfl.sdp.blindly.main_screen.chat.match_profile.MatchProfileActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

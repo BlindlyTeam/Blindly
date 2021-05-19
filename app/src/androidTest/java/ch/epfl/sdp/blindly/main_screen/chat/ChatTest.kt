@@ -2,8 +2,8 @@ package ch.epfl.sdp.blindly.main_screen.chat
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ch.epfl.sdp.blindly.main_screen.chat.Message
-import ch.epfl.sdp.blindly.main_screen.chat.ChatAdapter
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatAdapter
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.Message
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert
 import org.hamcrest.core.IsEqual
