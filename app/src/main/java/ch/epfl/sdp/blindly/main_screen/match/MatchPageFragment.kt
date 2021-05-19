@@ -111,7 +111,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
         viewLifecycleOwner.lifecycleScope.launch {
             handleCoroutine()
         }
-        fragView.findViewById<TextView>(R.id.no_profile_text).text = getString(R.string.loading_profiles)
+        fragView.findViewById<TextView>(R.id.no_profile_text).text =
+            getString(R.string.loading_profiles)
         return fragView
     }
 
