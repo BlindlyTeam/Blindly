@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.chat
+package ch.epfl.sdp.blindly.main_screen.my_matches.chat
 
 import android.view.View
 import androidx.core.os.bundleOf
@@ -32,6 +32,7 @@ const val TEST_MESSAGE = "This is a test message"
 
 @HiltAndroidTest
 class LiveChatTest {
+
     @get:Rule
     val activityRule = ActivityScenarioRule(
         ChatActivity::class.java,
@@ -43,6 +44,7 @@ class LiveChatTest {
 
     @Inject
     lateinit var user: UserHelper
+
     @Inject
     lateinit var liveDb: DatabaseHelper
 
@@ -92,6 +94,7 @@ class LiveChatTest {
         buttonUpdate.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         buttonUpdate.perform(click())
     }
+
     @Test
     fun sendReceiveWorks() {
         sendMessage()
