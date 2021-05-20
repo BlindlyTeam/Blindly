@@ -167,5 +167,6 @@
     <string name="remaining_timer_description">Chronometer for remaining time</string>
     <string name="my_message_button_description">Message Button</string>
     <string name="my_map_button_description">Map Button</string>
-    <string name="attractions">Attractions</string>
+    <string name="add_event">Add Event</string>
+    <string name="button_for_weather_and_event_page">Button for weather and event page.</string>
 </resources>
