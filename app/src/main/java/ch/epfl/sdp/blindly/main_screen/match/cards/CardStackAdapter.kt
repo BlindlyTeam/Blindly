@@ -24,6 +24,7 @@ class CardStackAdapter(
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     private lateinit var context: Context
     private lateinit var recordingPath: String
+    var uids = ArrayList<String>()
 
     /**
      * Called when the RecyclerView needs a new ViewHolder of the given type to represent an item
@@ -48,10 +49,15 @@ class CardStackAdapter(
         val profile = profiles[position]
         val v = holder.itemView.findViewById(R.id.item_image) as ImageView
         v.setImageResource(R.drawable.background)
-        holder.name_age.text = "${profile.name}, ${profile.age}"
+        holder.nameAge.text = context.getString(
+            R.string.name_age_text, profile.name, profile.age
+        )
         holder.gender.text = profile.gender
-        holder.distance.text = "${profile.distance} km away"
+        holder.distance.text = context.getString(
+            R.string.distance_text, profile.distance.toString()
+        )
         recordingPath = profile.recordingPath
+        uids.add(profile.uid)
     }
 
     /**
@@ -69,7 +75,7 @@ class CardStackAdapter(
      * @param view containing the attributes
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name_age: TextView = view.findViewById(R.id.item_name_age)
+        val nameAge: TextView = view.findViewById(R.id.item_name_age)
         val gender: TextView = view.findViewById(R.id.item_gender)
         val distance: TextView = view.findViewById(R.id.item_distance)
     }

@@ -6,10 +6,10 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
 class ProfileTest {
-    private val andre1 = Profile("André", 25, "Man", 42, "PathAndré")
-    private val andre2 = Profile("André", 24, "Man", 42, "PathAndré2")
-    private val pierre1 = Profile("Pierre", 25, "Man", 42, "PathPierre1")
-    private val pierre2 = Profile("Pierre", 24, "Man", 42, "PathPierre2")
+    private val andre1 = Profile("UID1", "André", 25, "Man", 42, "PathAndré")
+    private val andre2 = Profile("UID2", "André", 24, "Man", 42, "PathAndré2")
+    private val pierre1 = Profile("UID3", "Pierre", 25, "Man", 42, "PathPierre1")
+    private val pierre2 = Profile("UID4", "Pierre", 24, "Man", 42, "PathPierre2")
 
     @Test
     fun equalsIsTrueWithSameProfile() {
