@@ -22,9 +22,4 @@ object AppDatabaseModule {
         return Room.databaseBuilder(appContext, AppDatabase::class.java, "LocalDataBase")
             .build()
     }
-
-    @Provides
-    fun provideUserDAO(appDatabase: AppDatabase): UserDAO {
-        return appDatabase.UserDAO()
-    }
 }

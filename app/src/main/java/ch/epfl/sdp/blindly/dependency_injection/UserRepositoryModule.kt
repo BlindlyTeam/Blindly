@@ -2,6 +2,7 @@ package ch.epfl.sdp.blindly.dependency_injection
 
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.database.localDB.AppDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -19,12 +20,13 @@ object UserRepositoryModule {
     /**
      * Return a UserRepository to be injected
      *
-     * @param db the firebase firestore database
+     * @param firestoreDB the firebase firestore database
      * @param userCache
+     * @param localDB the local room database
      * @return a UserRepository with these database and cache
      */
     @Singleton
     @Provides
-    fun provideUserRepository(db: FirebaseFirestore, userCache: UserCache):
-            UserRepository = UserRepository(db, userCache)
+    fun provideUserRepository(firestoreDB: FirebaseFirestore, userCache: UserCache, localDB: AppDatabase):
+            UserRepository = UserRepository(firestoreDB, userCache, localDB)
 }

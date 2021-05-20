@@ -5,6 +5,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import ch.epfl.sdp.blindly.database.localDB.AppDatabase
+import ch.epfl.sdp.blindly.database.localDB.UserDAO
+import ch.epfl.sdp.blindly.database.localDB.UserEntity
 import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
@@ -24,8 +27,10 @@ import kotlin.reflect.KSuspendFunction1
  */
 class UserRepository @Inject constructor(
     private val db: FirebaseFirestore,
-    private val userCache: UserCache
+    private val userCache: UserCache,
+    localDB: AppDatabase,
 ) {
+    private val userDAO: UserDAO = localDB.UserDAO()
 
     companion object {
         private const val TAG = "UserRepository"
@@ -45,6 +50,10 @@ class UserRepository @Inject constructor(
             Log.d(TAG, "Found user with uid: $uid in cache")
             return cached
         }
+        val localUser = userDAO.getUser(uid)
+        if(localUser != null) {
+            return localUser
+        }
         return refreshUser(uid)
     }
 
@@ -61,6 +70,7 @@ class UserRepository @Inject constructor(
             if (freshUser != null) {
                 Log.d(TAG, "Put User \"$uid\" in local cache")
                 userCache.put(uid, freshUser)
+                userDAO.insertUser(UserEntity(uid, freshUser))
             }
             Log.d(TAG, "Retrieve User \"$uid\" in firestore")
             return freshUser
@@ -70,11 +80,13 @@ class UserRepository @Inject constructor(
         }
     }
 
-    private suspend fun <T> updateLocalCache(uid: String, field: String, newValue: T) {
+    private suspend fun <T> updateLocalCacheAndDB(uid: String, field: String, newValue: T) {
         val user = userCache.get(uid)
         if (user != null) {
             Log.d(TAG, "Updated user in local cache")
-            userCache.put(uid, User.updateUser(user, field, newValue))
+            val updatedUser = User.updateUser(user, field, newValue)
+            userCache.put(uid, updatedUser)
+            userDAO.updateUser(UserEntity(uid, updatedUser))
         } else {
             refreshUser(uid)
         }
@@ -98,7 +110,7 @@ class UserRepository @Inject constructor(
             .update(field, newValue)
         Log.d(TAG, "Updated user")
         //Put updated value into the local cache
-        updateLocalCache(uid, field, newValue)
+        updateLocalCacheAndDB(uid, field, newValue)
     }
 
     /**
