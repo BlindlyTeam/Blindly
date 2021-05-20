@@ -16,21 +16,21 @@
         android:layout_height="485dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/buttonAttractions"
+        android:id="@+id/buttonWeatherEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="30dp"
+        app:borderWidth="1dp"
         android:clickable="true"
-        android:contentDescription="@string/attractions"
+        android:contentDescription="@string/button_for_weather_and_event_page"
         android:focusable="true"
         app:backgroundTint="#FFFBFB"
-        app:borderWidth="1dp"
         app:fabCustomSize="49dp"
-        app:maxImageSize="50dp"
+        app:maxImageSize="40dp"
         app:rippleColor="@color/blindly_purple"
-        app:srcCompat="@drawable/ic_baseline_attractions"
+        app:srcCompat="@drawable/calendar_event_icon"
         app:tint="@null"
         app:useCompatPadding="false" />
 </LinearLayout>

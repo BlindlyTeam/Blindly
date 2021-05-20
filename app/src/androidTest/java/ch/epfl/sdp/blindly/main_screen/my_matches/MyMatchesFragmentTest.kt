@@ -66,7 +66,7 @@ class MyMatchesFragmentTest {
 
     @Test
     fun mapButtonFiresMapActivty() {
-        Espresso.onView(ViewMatchers.withId(R.id.buttonAttractions)).check(
+        Espresso.onView(ViewMatchers.withId(R.id.buttonWeatherEvent)).check(
             ViewAssertions.matches(
                 ViewMatchers.withEffectiveVisibility(
                     ViewMatchers.Visibility.VISIBLE

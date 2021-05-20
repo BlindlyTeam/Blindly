@@ -85,9 +85,8 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
             userRepository.getMyMatches(viewLifecycleOwner, userId, ::setAdapterOnMainThread)
         }
 
-        // listens the
         val weatherActivityButton =
-            fragView.findViewById<FloatingActionButton>(R.id.buttonAttractions)
+            fragView.findViewById<FloatingActionButton>(R.id.buttonWeatherEvent)
         weatherActivityButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 userId = userHelper.getUserId()!!
