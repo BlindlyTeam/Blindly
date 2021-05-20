@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.GrantPermissionRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.fake_module.FakeWeatherServiceModule
 import ch.epfl.sdp.blindly.fake_module.FakeWeatherServiceModule.Companion.DAY
@@ -63,6 +64,10 @@ class WeatherActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(WeatherActivity::class.java, bundleOf(Pair(LOCATION, BlindlyLatLng(
         LAUSANNE_LATLNG))))
+
+    @get:Rule
+    var permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
