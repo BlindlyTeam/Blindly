@@ -7,8 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeDown
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -37,6 +36,10 @@ import org.mockito.kotlin.verify
 import org.mockito.stubbing.Answer
 import java.util.*
 import javax.inject.Inject
+
+private const val YEAR = 2021
+private const val MONTH = 8
+private const val DAY_OF_MONTH : Int = 8
 
 
 private const val CALENDAR_EVENT_TITLE = "Blindly Date"
@@ -99,7 +102,7 @@ class WeatherActivityTest {
     @Test
     fun setDayAndAddEvent() {
         val date = Calendar.getInstance()
-        date.set(2021, 6, 20)
+        date.set(YEAR, MONTH, DAY_OF_MONTH)
         val calIntent = Intent(Intent.ACTION_INSERT)
         calIntent.data = CalendarContract.Events.CONTENT_URI
         calIntent.putExtra(CalendarContract.Events.TITLE, CALENDAR_EVENT_TITLE)
@@ -112,13 +115,6 @@ class WeatherActivityTest {
             CalendarContract.EXTRA_EVENT_END_TIME,
             date.timeInMillis
         )
-
-        onView(
-            allOf(
-                withId(R.id.dateCalendarView),
-                withParent(withId(R.id.weather_layout))
-            )
-        ).check(matches(isDisplayed()))
 
         onView(
             allOf(
