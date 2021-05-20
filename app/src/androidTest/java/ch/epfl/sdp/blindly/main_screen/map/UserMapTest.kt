@@ -37,10 +37,6 @@ class UserMapTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-    @get:Rule
-    var permissionRule: GrantPermissionRule =
-        GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
-
     @Inject
     lateinit var user: UserHelper
 
