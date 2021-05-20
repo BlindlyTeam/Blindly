@@ -7,9 +7,7 @@ import android.provider.CalendarContract.Events
 import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,6 +16,7 @@ import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -33,15 +32,28 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     lateinit var weather: WeatherService
 
     private lateinit var location: BlindlyLatLng
+    private lateinit var calendarView: CalendarView
+    private var calendar = Calendar.getInstance()
+    private val today = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
 
         val refreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
+        val eventButton = findViewById<Button>(R.id.eventButton)
+        calendarView = findViewById(R.id.dateCalendarView)
+        calendarView.minDate = calendar.timeInMillis - 1000
+
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            computeDayIndexAndSetBackground(year, month, dayOfMonth)
+        }
+        eventButton.setOnClickListener {
+            setCalendarEvent("Blindly Date", calendar)
+        }
+
         refreshLayout.setOnRefreshListener(this)
         location = (intent.extras?.get(LOCATION) ?: BlindlyLatLng(LAUSANNE_LATLNG)) as BlindlyLatLng
-
         weather.nextWeek(location, callback = this)
         setRefreshing(true)
 
@@ -65,8 +77,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
      * @param weather the weather to be shown
      */
     private fun setWeatherInfo(weather: WeekWeather) {
-        // Skip today
-        weather.daily.drop(1).forEachIndexed { index, dayWeather ->
+        weather.daily.forEachIndexed { index, dayWeather ->
             dayWeather.weather[0].getIconDrawableId()?.let { setIcon(index, it) }
             val unit = dayWeather.temperature.unit
             setDay(index, temperatureToString(dayWeather.temperature.day, unit))
@@ -168,18 +179,10 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         weather.nextWeek(location, callback = this)
     }
 
-    private fun setCalendarEvent(
-        title: String,
-        location: String,
-        description: String,
-        date: Calendar
-    ) {
+    private fun setCalendarEvent(title: String, date: Calendar) {
         val calIntent = Intent(Intent.ACTION_INSERT)
-        //calIntent.type = "vnd.android.cursor.item/event"
         calIntent.data = Events.CONTENT_URI
         calIntent.putExtra(Events.TITLE, title)
-        calIntent.putExtra(Events.EVENT_LOCATION, location)
-        calIntent.putExtra(Events.DESCRIPTION, description)
         calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true)
         calIntent.putExtra(
             CalendarContract.EXTRA_EVENT_BEGIN_TIME,
@@ -189,7 +192,47 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
             CalendarContract.EXTRA_EVENT_END_TIME,
             date.timeInMillis
         )
-
+        finish()
         startActivity(calIntent)
     }
+
+    private fun computeDayIndexAndSetBackground(year: Int, month: Int, dayOfMonth: Int) {
+        calendar.set(year, month, dayOfMonth)
+        calendarView.date = calendar.timeInMillis
+
+        val selectedDate = Calendar.getInstance()
+        selectedDate.set(year, month, dayOfMonth)
+        val diff: Long = selectedDate.timeInMillis - today.timeInMillis
+        val dayIndex = TimeUnit.MILLISECONDS.toDays(diff)
+
+        setColoredBackgroundForSelectedDay(dayIndex)
+    }
+
+    private fun setColoredBackgroundForSelectedDay(index: Long) {
+        for (i in 0..5) {
+            val layoutId = resources.getIdentifier(
+                "${WEATHER_PREFIX}${(i + 1)}",
+                "id",
+                packageName
+            )
+            if (i.toLong() == index) {
+
+                findViewById<LinearLayout>(layoutId).setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.blindly_blue_transparent
+                    )
+                )
+            } else {
+                findViewById<LinearLayout>(layoutId).setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.white
+                    )
+                )
+            }
+        }
+    }
+
 }
+
