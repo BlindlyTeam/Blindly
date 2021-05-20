@@ -3,11 +3,13 @@ package ch.epfl.sdp.blindly.main_screen.match
 import androidx.core.os.bundleOf
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.init
+import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
 import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -39,7 +41,7 @@ class MatchProfileActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(
         MatchProfileActivity::class.java,
-        bundleOf(ChatActivity.MATCH_ID to "abcd")
+        bundleOf(ChatActivity.MATCH_ID to TEST_UID)
     )
 
     @get:Rule
@@ -48,12 +50,12 @@ class MatchProfileActivityTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        Intents.init()
+        init()
     }
 
     @After
     fun afterEach() {
-        Intents.release()
+        release()
     }
 
     // Tests don't work, I don't know why :(. Here is a useless test to compensate coverage
@@ -64,7 +66,8 @@ class MatchProfileActivityTest {
         onView(withId(R.id.matchProfileGender)).check(matches(isDisplayed()))
     }
 
-    /*@Test
+    /*
+    @Test
     fun userNameAgeIsCorrectlyDisplayed() {
         val userAge = User.getAgeFromBirthday(fakeUser.birthday!!)
 
@@ -115,5 +118,6 @@ class MatchProfileActivityTest {
         for (passion in fakeUser.passions!!) {
             onView(withId(R.id.matchProfilePassions)).check(matches(withChild(withText(passion))))
         }
-    }*/
+    }
+    */
 }

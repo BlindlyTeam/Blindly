@@ -9,13 +9,14 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.location.AndroidLocationService
+import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.getCurrentLocationStringFromUser
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
-import ch.epfl.sdp.blindly.user.User
-import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.User.Companion.getAgeFromBirthday
+import ch.epfl.sdp.blindly.user.storage.UserCache
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel.Companion.instantiateViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -39,6 +40,12 @@ class MatchProfileActivity : AppCompatActivity() {
     @Inject
     lateinit var storage: FirebaseStorage
 
+    @Inject
+    lateinit var userRepository: UserRepository
+
+    @Inject
+    lateinit var userCache: UserCache
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +53,10 @@ class MatchProfileActivity : AppCompatActivity() {
 
         // Cancels loading if the profileID isn't given in the Bundle
         val profileID = intent.extras?.getString(ChatActivity.MATCH_ID) ?: return
-        instantiateViewModel(profileID)
+        viewModel = instantiateViewModel(
+            profileID, assistedFactory,
+            this, this
+        )
 
         supportActionBar?.hide()
 
@@ -59,10 +69,10 @@ class MatchProfileActivity : AppCompatActivity() {
         bindPlayButton(findViewById(R.id.matchProfilePlayAudioButton))
 
         viewModel.user.observe(this) { user ->
-            val age = User.getAgeFromBirthday(user.birthday!!)
+            val age = getAgeFromBirthday(user.birthday!!)
             profileNameAge.text = "${user.username}, $age"
             profileGender.text = user.gender
-            profileLocation.text = AndroidLocationService.getCurrentLocationStringFromUser(this, user)
+            profileLocation.text = getCurrentLocationStringFromUser(this, user)
             user.sexualOrientations?.let { it -> setCheckedChips(profileOrientations, it) }
             user.passions?.let { it -> setCheckedChips(profilePassions, it) }
             audioFilePath = user.recordingPath
@@ -88,20 +98,10 @@ class MatchProfileActivity : AppCompatActivity() {
 
             if (mediaPlayer!!.isPlaying) {
                 mediaPlayer?.stop()
-            }
-            else {
+            } else {
                 mediaPlayer?.start()
             }
         }
-    }
-
-    private fun instantiateViewModel(uid: String) {
-        val bundle = Bundle()
-        bundle.putString(UserHelper.EXTRA_UID, uid)
-
-        val viewModelFactory = assistedFactory.create(this, bundle)
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 
     private fun setCheckedChips(chipGroup: ChipGroup, text: List<String>) {
