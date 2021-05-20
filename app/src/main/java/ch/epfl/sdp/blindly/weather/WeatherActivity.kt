@@ -26,6 +26,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     companion object {
         const val LOCATION = "location"
         private const val WEATHER_PREFIX = "weather_day_"
+        private const val CALENDAR_EVENT_TITLE = "Blindly Date"
     }
 
     @Inject
@@ -43,13 +44,18 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         val refreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
         val eventButton = findViewById<Button>(R.id.eventButton)
         calendarView = findViewById(R.id.dateCalendarView)
-        calendarView.minDate = calendar.timeInMillis - 1000
 
+        // make today as the first clickable day
+        calendarView.minDate = calendar.timeInMillis
+
+        // listen to changes to calendar and update weather images
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             computeDayIndexAndSetBackground(year, month, dayOfMonth)
         }
+
+        //set calendar event if button is clicked
         eventButton.setOnClickListener {
-            setCalendarEvent("Blindly Date", calendar)
+            setCalendarEvent(CALENDAR_EVENT_TITLE, calendar)
         }
 
         refreshLayout.setOnRefreshListener(this)
@@ -179,6 +185,13 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         weather.nextWeek(location, callback = this)
     }
 
+    /**
+     * Forms a new Calendar Event in Google Calendar App,
+     * closes the current activity as this page is no longer needed. 
+     *
+     * @param title Title of the event to add to Calendar
+     * @param date Date of the event to add to Calendar
+     */
     private fun setCalendarEvent(title: String, date: Calendar) {
         val calIntent = Intent(Intent.ACTION_INSERT)
         calIntent.data = Events.CONTENT_URI
@@ -196,6 +209,15 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         startActivity(calIntent)
     }
 
+    /**
+     * Takes the new date, compares with today and gets the result as an index.
+     * Then sends the result to setColoredBackgroundForSelectedDay to highlight
+     * the weather of the chosen day
+     *
+     * @param year Year of selected date
+     * @param month Month of selected date
+     * @param dayOfMonth Day of selected date
+     */
     private fun computeDayIndexAndSetBackground(year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(year, month, dayOfMonth)
         calendarView.date = calendar.timeInMillis
@@ -208,14 +230,20 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         setColoredBackgroundForSelectedDay(dayIndex)
     }
 
-    private fun setColoredBackgroundForSelectedDay(index: Long) {
+    /**
+     * If index is between the days we showed, (0 to 5 included, with 0 as today)
+     * then highlight that day, otherwise set the background to white.
+     *
+     * @param indexOfDay Index of the day chosen (with 0 as today)
+     */
+    private fun setColoredBackgroundForSelectedDay(indexOfDay: Long) {
         for (i in 0..5) {
             val layoutId = resources.getIdentifier(
                 "${WEATHER_PREFIX}${(i + 1)}",
                 "id",
                 packageName
             )
-            if (i.toLong() == index) {
+            if (i.toLong() == indexOfDay) {
 
                 findViewById<LinearLayout>(layoutId).setBackgroundColor(
                     ContextCompat.getColor(
