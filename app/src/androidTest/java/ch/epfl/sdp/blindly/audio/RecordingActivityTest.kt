@@ -11,14 +11,15 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.actionOnChild
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
+import ch.epfl.sdp.blindly.audio.RecordingActivity.Companion.AUDIO_DURATION_KEY
 import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.profile_setup.*
-import ch.epfl.sdp.blindly.audio.RecordingActivity.Companion.AUDIO_DURATION_KEY
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -64,6 +65,9 @@ class RecordingActivityTest {
     fun setup() {
         hiltRule.inject()
         Intents.init()
+        activityRule.scenario.onActivity {
+            it.permissionToRecordAccepted = true
+        }
     }
 
     @After
