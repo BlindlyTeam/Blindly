@@ -14,6 +14,7 @@ import android.os.Parcelable
  * @property recordingPath
  */
 data class Profile(
+    val uid: String,
     val name: String,
     val age: Int,
     val gender: String,
@@ -39,6 +40,7 @@ data class Profile(
      */
     constructor(source: Parcel) : this(
         source.readString()!!,
+        source.readString()!!,
         source.readInt(),
         source.readString()!!,
         source.readInt(),
@@ -61,6 +63,7 @@ data class Profile(
      * @param flags error flag
      */
     override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeString(uid)
         dest?.writeString(name)
         dest?.writeInt(age)
         dest?.writeString(gender)
