@@ -1,21 +1,16 @@
 package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.utils.Date
 import ch.epfl.sdp.blindly.user.User
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import java.time.LocalDate
-import java.time.Period
-import java.util.*
 
 private const val PAD_CHAR = '0'
 private const val FORMAT = 2
@@ -49,7 +44,7 @@ class ProfileBirthday : AppCompatActivity() {
         val day: Int = datePicker.dayOfMonth
         val month: Int = datePicker.month + 1 //month correction
         val year: Int = datePicker.year
-        val age = getAge(year, month, day)
+        val age = Date(day, month, year).getAge()
 
         if (age < MAJORITY_AGE) {
             findViewById<TextView>(R.id.warning_p3).visibility = View.VISIBLE
@@ -69,21 +64,5 @@ class ProfileBirthday : AppCompatActivity() {
 
             startActivity(intent)
         }
-    }
-
-    private fun getAge(year: Int, month: Int, day: Int): Int {
-        val calendar = GregorianCalendar()
-
-        val y = calendar.get(Calendar.YEAR)
-        //For some unknown reason, months are indexed from 0 to 11...
-        val m = calendar.get(Calendar.MONTH) + 1
-        val d = calendar.get(Calendar.DAY_OF_MONTH)
-        var age = y - year
-        if ((m < month) || ((m == month) && (d < day))) {
-            --age
-        }
-        if(age < 0)
-            throw IllegalArgumentException("Age < 0");
-        return age
     }
 }

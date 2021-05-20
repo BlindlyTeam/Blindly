@@ -1,15 +1,11 @@
 package ch.epfl.sdp.blindly.user
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
+import ch.epfl.sdp.blindly.utils.Date
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
-import java.time.Period
-import java.util.*
 
 private const val SIZE_OF_LOCATION_LIST = 2
 private const val SIZE_OF_AGE_RANGE_LIST = 2
@@ -287,33 +283,15 @@ class User private constructor(
         /**
          * Compute the age of the user
          *
-         * @param user: the user whose age we want to compute
+         * @param user the user whose age we want to compute
          * @return an Int containing the age of the User
          */
         fun getUserAge(user: User?): Int? {
             val birthday = user?.birthday
-            if (birthday != null) {
-                return getAgeFromBirthday(birthday)
-            }
+            val date = Date.getDate(birthday)
+            if(date != null)
+                return date.getAge()
             return null
-        }
-
-        fun getAgeFromBirthday(birthday: String): Int {
-            val (day, month, year) = birthday.split('.').map { s -> s.toInt() }
-            val calendar = GregorianCalendar()
-
-            val y = calendar.get(Calendar.YEAR)
-            //For some unknown reason months are indexed from 0 to 11...
-            val m = calendar.get(Calendar.MONTH) + 1
-            val d = calendar.get(Calendar.DAY_OF_MONTH)
-
-            var age = y - year
-            if ((m < month) || ((m == month) && (d < day))) {
-                --age
-            }
-            if(age < 0)
-                throw IllegalArgumentException("Age < 0");
-            return age
         }
 
         /**

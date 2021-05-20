@@ -2,14 +2,13 @@ package ch.epfl.sdp.blindly.user
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.profile_setup.MAJORITY_AGE
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
+import ch.epfl.sdp.blindly.utils.Date
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -156,9 +155,13 @@ class UserHelper {
         val uid = getUserId()
         if (uid != null) {
             val birthday = userBuilder.birthday
-            val age = birthday?.let { User.getAgeFromBirthday(it) }
+            val date = Date.getDate(birthday)
+            var age = MAJORITY_AGE
+            if(date != null) {
+                age  = date.getAge()
+            }
             val minAge =
-                if (age!! >= MAJORITY_AGE + DEFAULT_RANGE)
+                if (age >= MAJORITY_AGE + DEFAULT_RANGE)
                     age - DEFAULT_RANGE
                 else MAJORITY_AGE
             val maxAge = age + DEFAULT_RANGE
