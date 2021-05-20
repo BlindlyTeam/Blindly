@@ -4,10 +4,10 @@ import android.content.Intent
 import android.provider.CalendarContract
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Lifecycle
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -39,7 +39,7 @@ import javax.inject.Inject
 
 private const val YEAR = 2021
 private const val MONTH = 8
-private const val DAY_OF_MONTH : Int = 8
+private const val DAY_OF_MONTH: Int = 8
 
 
 private const val CALENDAR_EVENT_TITLE = "Blindly Date"
@@ -126,10 +126,6 @@ class WeatherActivityTest {
         intended(IntentMatchers.hasExtraWithKey(CalendarContract.EXTRA_EVENT_ALL_DAY))
         intended(IntentMatchers.hasExtraWithKey(CalendarContract.EXTRA_EVENT_BEGIN_TIME))
         intended(IntentMatchers.hasExtraWithKey(CalendarContract.EXTRA_EVENT_END_TIME))
-
-        Thread.sleep(2000)
-        assertThat(activityRule.scenario.state, `is`(Lifecycle.State.DESTROYED))
-
     }
 
 
