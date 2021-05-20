@@ -13,6 +13,7 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.GrantPermissionRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.actionOnChild
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
@@ -59,6 +60,10 @@ class RecordingActivityTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule<RecordingActivity>(intent)
+
+    @get:Rule
+    var permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.RECORD_AUDIO)
 
     @Before
     fun setup() {
