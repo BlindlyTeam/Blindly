@@ -129,7 +129,6 @@ class ProfilePageTest {
 
         assertThat(getAudioPlayerFragment(), `is`(nullValue()))
     }
-    */
 
     @Test
     fun playAudioButtonCreateAudioPlayerFragment() {
@@ -146,6 +145,7 @@ class ProfilePageTest {
             assertThat(audioPlayerFragment.isVisible, `is`(true))
         }
     }
+    */
 
     private fun getAudioPlayerFragment(): Fragment? {
         val fragmentManager = fragment.childFragmentManager
