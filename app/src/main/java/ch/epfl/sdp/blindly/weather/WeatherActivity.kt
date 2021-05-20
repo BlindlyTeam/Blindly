@@ -44,9 +44,15 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         val refreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
         val eventButton = findViewById<Button>(R.id.eventButton)
         calendarView = findViewById(R.id.dateCalendarView)
+        calendarView.firstDayOfWeek = Calendar.MONDAY
 
         // make today as the first clickable day
         calendarView.minDate = calendar.timeInMillis
+        computeDayIndexAndSetBackground(
+            today.get(Calendar.YEAR),
+            today.get(Calendar.MONTH),
+            today.get(Calendar.DAY_OF_MONTH)
+        )
 
         // listen to changes to calendar and update weather images
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
@@ -187,7 +193,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
 
     /**
      * Forms a new Calendar Event in Google Calendar App,
-     * closes the current activity as this page is no longer needed. 
+     * closes the current activity as this page is no longer needed.
      *
      * @param title Title of the event to add to Calendar
      * @param date Date of the event to add to Calendar
@@ -221,7 +227,6 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun computeDayIndexAndSetBackground(year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(year, month, dayOfMonth)
         calendarView.date = calendar.timeInMillis
-
         val selectedDate = Calendar.getInstance()
         selectedDate.set(year, month, dayOfMonth)
         val diff: Long = selectedDate.timeInMillis - today.timeInMillis
