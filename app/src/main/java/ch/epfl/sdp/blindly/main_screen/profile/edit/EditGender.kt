@@ -2,16 +2,12 @@ package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.enums.Gender.*
