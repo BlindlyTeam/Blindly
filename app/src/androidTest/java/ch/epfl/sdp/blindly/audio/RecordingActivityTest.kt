@@ -14,6 +14,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.GrantPermissionRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.actionOnChild
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
@@ -59,15 +60,16 @@ class RecordingActivityTest {
     var hiltRule = HiltAndroidRule(this)
 
     @get:Rule
+    var permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.RECORD_AUDIO)
+
+    @get:Rule
     val activityRule = ActivityScenarioRule<RecordingActivity>(intent)
 
     @Before
     fun setup() {
         hiltRule.inject()
         Intents.init()
-        activityRule.scenario.onActivity {
-            it.permissionToRecordAccepted = true
-        }
     }
 
     @After
