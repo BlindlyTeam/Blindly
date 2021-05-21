@@ -88,7 +88,7 @@ class TestProfilePassions {
         onView(withId(R.id.fashion_chip)).perform(click())
         onView(withId(R.id.cycling_chip)).perform(click())
         onView(withId(R.id.running_chip)).perform(click())
-        onView(withId(R.id.tea_chip)).perform(click())
+        onView(withId(R.id.coffee_chip)).perform(click())
 
         val buttonContinue = onView(withId(R.id.button_p7))
         buttonContinue.perform(click())
