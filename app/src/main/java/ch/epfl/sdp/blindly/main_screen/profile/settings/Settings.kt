@@ -1,12 +1,12 @@
 package ch.epfl.sdp.blindly.main_screen.profile.settings
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
@@ -17,7 +17,6 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.DEFAULT_RADIUS
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
-import com.firebase.ui.auth.AuthUI
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +26,14 @@ const val EXTRA_SHOW_ME = "showMe"
 const val EXTRA_LOCATION = "location"
 private const val MIN_AGE = 18
 private const val MAX_AGE = 99
+private const val LOGOUT_DIALOG_TITLE = "Logout."
+private const val LOGOUT_DIALOG_MESSAGE = "Are you sure you want to log out?"
+private const val ANSWER_LOG_OUT = "Log out"
+private const val ANSWER_CANCEL = "Cancel"
+private const val DELETE_DIALOG_TITLE = "Delete account."
+private const val DELETE_DIALOG_MESSAGE = "Are you sure you want to delete your account?"
+private const val ANSWER_DELETE = "Delete account"
+
 
 /**
  * Activity class for the settings of the app and the user
@@ -169,19 +176,29 @@ class Settings : AppCompatActivity() {
      * @param view
      */
     fun logout(view: View) {
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener { // user is now signed out
-                startActivity(Intent(this, SplashScreen::class.java))
-                finish()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.logout_error),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        val positiveAnswerListener = DialogInterface.OnClickListener{ dialog, _ ->
+            dialog.dismiss()
+            userHelper.logout(this)
+                .addOnCompleteListener { // user is now signed out
+                    startActivity(Intent(this, SplashScreen::class.java))
+                    this.finishAffinity()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.logout_error),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+        }
+
+        showAlertDialog(
+            LOGOUT_DIALOG_TITLE,
+            LOGOUT_DIALOG_MESSAGE,
+            ANSWER_LOG_OUT,
+            ANSWER_CANCEL,
+            positiveAnswerListener
+        )
     }
 
     /**
@@ -190,8 +207,48 @@ class Settings : AppCompatActivity() {
      * @param view
      */
     fun deleteAccount(view: View) {
-        //For now, just return to the main activity
-        startActivity(Intent(this, SplashScreen::class.java))
+        val positiveAnswerListener = DialogInterface.OnClickListener {dialog, _ ->
+            dialog.dismiss()
+            userHelper.delete(this)
+                .addOnCompleteListener {
+                    viewModel.deleteUser()
+                    startActivity(Intent(this, SplashScreen::class.java))
+                    this.finishAffinity()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.delete_error),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+        }
+
+        showAlertDialog(
+            DELETE_DIALOG_TITLE,
+            DELETE_DIALOG_MESSAGE,
+            ANSWER_DELETE,
+            ANSWER_CANCEL,
+            positiveAnswerListener
+        )
+    }
+
+    private fun showAlertDialog(
+        title: String,
+        message: String,
+        positiveAnswer: String,
+        negativeAnswer: String,
+        positiveAnswerListener: DialogInterface.OnClickListener
+    ) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton(positiveAnswer, positiveAnswerListener)
+        builder.setNegativeButton(negativeAnswer) { dialog, _ ->
+            dialog.dismiss()
+        }
+        val alert: AlertDialog = builder.create()
+        alert.show()
     }
 
     /**

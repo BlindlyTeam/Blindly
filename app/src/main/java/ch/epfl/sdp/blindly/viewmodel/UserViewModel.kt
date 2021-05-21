@@ -1,14 +1,14 @@
 package ch.epfl.sdp.blindly.viewmodel
 
-import android.app.Activity
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.RequiresApi
+import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -53,6 +53,12 @@ class UserViewModel @AssistedInject constructor(
     fun <T> updateField(field: String, newValue: T) {
         viewModelScope.launch {
             userRepo.updateProfile(userId, field, newValue)
+        }
+    }
+
+    fun deleteUser() {
+        viewModelScope.launch {
+            userRepo.deleteUser(userId)
         }
     }
 

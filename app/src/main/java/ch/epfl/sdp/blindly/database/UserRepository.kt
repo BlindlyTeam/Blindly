@@ -165,4 +165,17 @@ class UserRepository @Inject constructor(
 
     }
 
+    fun deleteUser(uid: String) {
+        //TODO remove the user from the localDB and file from firestore storage and from realtime database
+        db.collection(USER_COLLECTION).document(uid)
+            .delete()
+            .addOnSuccessListener {
+                userCache.remove(uid)
+                Log.d(TAG, "DocumentSnapshot successfully deleted!")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error deleting document", e)
+            }
+    }
+
 }

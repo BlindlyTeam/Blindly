@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.user
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
@@ -128,13 +129,18 @@ class UserHelper {
      */
     private fun isNewUser(user: FirebaseUser): Boolean {
         val metadata = user.metadata
+        Log.d(TAG, "creation = ${metadata?.creationTimestamp}, last = ${metadata?.lastSignInTimestamp}")
         return metadata?.creationTimestamp == metadata?.lastSignInTimestamp
     }
 
-    fun delete(activity: Activity, onComplete: OnCompleteListener<Void>) {
-        AuthUI.getInstance()
+    fun delete(activity: Activity): Task<Void> {
+        return AuthUI.getInstance()
             .delete(activity)
-            .addOnCompleteListener(onComplete)
+    }
+
+    fun logout(context: Context): Task<Void> {
+        return AuthUI.getInstance()
+            .signOut(context)
     }
 
     fun isLoggedIn(): Boolean {
@@ -199,23 +205,5 @@ class UserHelper {
      */
     fun getEmail(): String? {
         return FirebaseAuth.getInstance().currentUser?.email
-    }
-
-    /**
-     * Enable the user to change their password
-     *
-     * @param password the new password
-     */
-    fun updatePassword(password: String) {
-        val user = FirebaseAuth.getInstance().currentUser
-
-        user!!.updatePassword(password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(Companion.TAG, "User password updated.")
-                } else {
-                    Log.d(Companion.TAG, "Error: Could not update password.")
-                }
-            }
     }
 }
