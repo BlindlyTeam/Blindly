@@ -127,7 +127,6 @@ class UserRepository @Inject constructor(
         return db.collection(USER_COLLECTION)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     suspend fun getMyMatches(
         viewLifecycleOwner: LifecycleOwner,
         userId: String,

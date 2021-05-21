@@ -74,8 +74,6 @@ class SettingsShowMe : AppCompatActivity() {
         }
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
         if (currentShowMe != showMe) {
             viewModel.updateField(SHOW_ME, currentShowMe)
