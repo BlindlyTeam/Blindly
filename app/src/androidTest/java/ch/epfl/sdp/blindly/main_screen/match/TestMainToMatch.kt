@@ -20,7 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-private const val LOADING_MESSAGE = "Profiles are loading, please wait..."
+private const val LOADING_MESSAGE = "Profiles are loading, please wait…"
 
 @HiltAndroidTest
 class TestMainToMatch {
