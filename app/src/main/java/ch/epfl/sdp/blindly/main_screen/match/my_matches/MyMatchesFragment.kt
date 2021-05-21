@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen.match.my_matches
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.weather.WeatherActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +28,7 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     private lateinit var myMatchesRecyclerView: RecyclerView
     private lateinit var adapter: MyMatchesAdapter
     private lateinit var fragView: View
+    private lateinit var userId: String
 
     @Inject
     lateinit var userHelper: UserHelper
@@ -56,7 +60,6 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         if (arguments != null) {
             counter = requireArguments().getInt(ARG_COUNT)
         }
-
     }
 
 
@@ -74,10 +77,20 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.activity_my_matches, container, false)
 
+
         //Needs to be done in a coroutine
         viewLifecycleOwner.lifecycleScope.launch {
-            val userId = userHelper.getUserId()!!
+            userId = userHelper.getUserId()!!
             userRepository.getMyMatches(viewLifecycleOwner, userId, ::setAdapterOnMainThread)
+        }
+
+        val weatherActivityButton =
+            fragView.findViewById<FloatingActionButton>(R.id.buttonWeatherEvent)
+        weatherActivityButton.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                userId = userHelper.getUserId()!!
+                startWeather()
+            }
         }
 
         return fragView
@@ -113,6 +126,14 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
      */
     override fun onItemClick(position: Int) {
         adapter.notifyItemChanged(position)
+    }
+
+    // gets the location of user and starts WeatherActivity
+    private suspend fun startWeather() {
+        val intent = Intent(activity, WeatherActivity::class.java)
+        val location = userRepository.getLocation(userId)
+        intent.putExtra(WeatherActivity.LOCATION, location)
+        startActivity(intent)
     }
 }
 

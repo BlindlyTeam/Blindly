@@ -1,15 +1,17 @@
-package ch.epfl.sdp.blindly.main_screen
+package ch.epfl.sdp.blindly.main_screen.my_matches
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.weather.WeatherActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -22,8 +24,10 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+
 @HiltAndroidTest
-class WeatherPageTest {
+class MyMatchesFragmentTest {
+
 
     @get:Rule
     val activityRule = ActivityScenarioRule(MainScreen::class.java)
@@ -49,7 +53,7 @@ class WeatherPageTest {
         // tasks running and we don't care about UI responsivity while testing
         suspendCoroutine { cont: Continuation<Boolean> ->
             activityRule.scenario.onActivity { act ->
-                act.viewPager!!.currentItem = 3
+                act.viewPager!!.currentItem = 1
                 // After setting the item, wait for it to be fully shown
                 act.viewPager!!.registerOnPageChangeCallback(object :
                     ViewPager2.OnPageChangeCallback() {
@@ -64,14 +68,14 @@ class WeatherPageTest {
 
     @Test
     fun mapButtonFiresMapActivty() {
-        onView(withId(R.id.open_weather)).check(
-            ViewAssertions.matches(
-                ViewMatchers.withEffectiveVisibility(
+        onView(withId(R.id.buttonWeatherEvent)).check(
+            matches(
+                withEffectiveVisibility(
                     ViewMatchers.Visibility.VISIBLE
                 )
             )
         ).perform(click())
-
         intended(hasComponent(WeatherActivity::class.java.name))
     }
+
 }
