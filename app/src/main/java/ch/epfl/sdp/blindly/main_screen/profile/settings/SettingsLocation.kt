@@ -110,7 +110,6 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
         mapView.onLowMemory()
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
         if (currentLocation != userLocation && location != null) {
             viewModel.updateField(LOCATION, listOf(location!!.latitude, location!!.longitude))

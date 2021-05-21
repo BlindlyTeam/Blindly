@@ -19,7 +19,6 @@ import ch.epfl.sdp.blindly.user.User
  * @property radius
  * @property matches
  * @property likes
- * @property description
  * @property recordingPath
  * @property ageRange
  */
