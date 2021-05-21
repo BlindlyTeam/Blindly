@@ -17,17 +17,17 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:background="@drawable/background"
-            app:srcCompat="@drawable/sound_waves" />
+            app:srcCompat="@drawable/sound_waves"
+            android:contentDescription="@string/match_profile_background_description" />
 
         <TextView
             android:id="@+id/matchProfileNameAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
-            android:text="Name, age"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -36,10 +36,9 @@
             android:id="@+id/matchProfileGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="25dp"
             android:layout_marginBottom="10dp"
-            android:text="Gender"
             android:textAlignment="center"
             android:textSize="18sp" />
 
@@ -53,15 +52,17 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="10dp"
-                app:srcCompat="@drawable/google_location_img" />
+                android:layout_marginStart="25dp"
+                app:srcCompat="@drawable/google_location_img"
+                android:contentDescription="@string/location_pin_image"/>
 
             <TextView
                 android:id="@+id/matchProfileLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
-                android:text="Location"
+                android:layout_marginStart="25dp"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -75,10 +76,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="25dp"
             android:layout_marginTop="15dp"
-            android:text="Sexual orientations"
+            android:text="@string/sexual_orientations"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -97,10 +98,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="25dp"
             android:layout_marginTop="15dp"
-            android:text="Passions"
+            android:text="@string/passions"
             android:textAlignment="center"
             android:textSize="16sp" />
 

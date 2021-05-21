@@ -52,7 +52,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/ic_baseline_person_24"
-            android:contentDescription="Profile button"/>
+            android:contentDescription="@string/my_profile_button_description"/>
 
         <ImageButton
             android:id="@+id/mapButton"

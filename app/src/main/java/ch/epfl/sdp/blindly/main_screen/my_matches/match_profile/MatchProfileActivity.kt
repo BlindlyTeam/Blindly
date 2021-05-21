@@ -10,11 +10,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.audio.RecordingActivity
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.getCurrentLocationStringFromUser
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
-import ch.epfl.sdp.blindly.user.User.Companion.getAgeFromBirthday
+import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel.Companion.instantiateViewModel
@@ -23,8 +22,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
@@ -78,8 +75,10 @@ class MatchProfileActivity : AppCompatActivity() {
         bindPlayButton(findViewById(R.id.matchProfilePlayAudioButton))
 
         viewModel.user.observe(this) { user ->
-            val age = getAgeFromBirthday(user.birthday!!)
-            profileNameAge.text = "${user.username}, $age"
+            profileNameAge.text = getString(
+                R.string.user_info, user.username,
+                User.getUserAge(user)
+            )
             profileGender.text = user.gender
             profileLocation.text = getCurrentLocationStringFromUser(this, user)
             user.sexualOrientations?.let { it -> setCheckedChips(profileOrientations, it) }
