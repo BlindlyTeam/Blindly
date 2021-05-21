@@ -10,8 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
+
+/**
+ * Enum that represents the different states of a MediaPlayer
+ *
+ */
+enum class MediaPlayerStates { STOP, PLAY, PAUSE }
 
 /**
  * An adapter to display the cards in the match activity as a stack
@@ -19,12 +26,14 @@ import java.io.File
  * @property profiles the profiles to show
  */
 class CardStackAdapter(
-    private var profiles: List<Profile> = emptyList(),
-    private var storage: FirebaseStorage
+    private val profiles: List<Profile> = emptyList(),
+    private val storage: FirebaseStorage,
+    private val view: View
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     private lateinit var context: Context
-    private lateinit var recordingPath: String
-    var uids = ArrayList<String>()
+    val uids = ArrayList<String>()
+    val mediaPlayers = ArrayList<MediaPlayer>()
+    private val mediaPlayerStates = ArrayList<MediaPlayerStates>()
 
     /**
      * Called when the RecyclerView needs a new ViewHolder of the given type to represent an item
@@ -36,6 +45,11 @@ class CardStackAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         val inflater = LayoutInflater.from(context)
+        //Initialize the mediaPlayers' list
+        for (i in 0 until itemCount) {
+            mediaPlayers.add(MediaPlayer())
+            mediaPlayerStates.add(MediaPlayerStates.STOP)
+        }
         return ViewHolder(inflater.inflate(R.layout.item_profile, parent, false))
     }
 
@@ -56,7 +70,8 @@ class CardStackAdapter(
         holder.distance.text = context.getString(
             R.string.distance_text, profile.distance.toString()
         )
-        recordingPath = profile.recordingPath
+        //Initialize the corresponding mediaPlayer and save the uid
+        initializeMediaPlayer(position, profile.recordingPath)
         uids.add(profile.uid)
     }
 
@@ -81,19 +96,55 @@ class CardStackAdapter(
     }
 
     /**
-     * Plays or pause the audio from the user on the card
+     * Plays or pauses the audio from the user on the card
      */
-    fun playPauseAudio() {
+    fun playPauseAudio(position: Int) {
+        val mediaPlayer = mediaPlayers[position]
+        val playPauseButton = view.findViewById<ImageView>(R.id.play_pause_button)
+        when (mediaPlayerStates[position]) {
+            MediaPlayerStates.STOP -> {
+                mediaPlayer.prepare()
+                mediaPlayer.start()
+                mediaPlayerStates[position] = MediaPlayerStates.PLAY
+                playPauseButton.setImageResource(R.drawable.pause_button_fab)
+            }
+            MediaPlayerStates.PAUSE -> {
+                mediaPlayer.start()
+                mediaPlayerStates[position] = MediaPlayerStates.PLAY
+                playPauseButton.setImageResource(R.drawable.pause_button_fab)
+            }
+            MediaPlayerStates.PLAY -> {
+                mediaPlayer.pause()
+                mediaPlayerStates[position] = MediaPlayerStates.PAUSE
+                playPauseButton.setImageResource(R.drawable.play_button_fab)
+            }
+        }
+    }
+
+    /**
+     * Creates the mediaplayer of the card at the
+     * given position, found in the given recordingPath
+     *
+     * @param position
+     * @param recordingPath
+     */
+    private fun initializeMediaPlayer(position: Int, recordingPath: String) {
         // Create a storage reference from our app
         val storageRef = storage.reference
         // Create a reference with the recordingPath
         val pathRef = storageRef.child(recordingPath)
-        val audioFile = File.createTempFile("Audio", "amr")
+        val audioFile = File.createTempFile("Audio_$position", "amr")
         pathRef.getFile(audioFile).addOnSuccessListener {
-            val mediaPlayer = MediaPlayer()
+            val mediaPlayer = mediaPlayers[position]
             mediaPlayer.setDataSource(context, Uri.fromFile(audioFile))
-            mediaPlayer.prepare()
-            mediaPlayer.start()
+            mediaPlayer.setOnCompletionListener {
+                it.stop()
+                mediaPlayerStates[position] = MediaPlayerStates.STOP
+                view.findViewById<ImageView>(R.id.play_pause_button)
+                    .setImageResource(R.drawable.play_button_fab)
+            }
+            //Enable the button clicks again
+            view.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable = true
         }
     }
 }

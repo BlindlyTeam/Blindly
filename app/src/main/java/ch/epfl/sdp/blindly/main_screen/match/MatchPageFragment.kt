@@ -23,6 +23,7 @@ import ch.epfl.sdp.blindly.user.LIKES
 import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.storage.FirebaseStorage
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,6 +54,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private lateinit var likedUserId: String
     private lateinit var currentUserId: String
     private lateinit var currentUser: User
+    private var currentPosition = -1
 
     @Inject
     lateinit var userHelper: UserHelper
@@ -111,8 +113,12 @@ class MatchPageFragment : Fragment(), CardStackListener {
         viewLifecycleOwner.lifecycleScope.launch {
             handleCoroutine()
         }
+        // While waiting for the profiles to load, show a message and
+        // disable the play/pause button
         fragView.findViewById<TextView>(R.id.no_profile_text).text =
             getString(R.string.loading_profiles)
+        fragView.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable = false
+
         return fragView
     }
 
@@ -127,6 +133,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * When the card is swiped right, add the uid to the liked profiles
+     * and check for matches
      *
      * @param direction the direction the card is swiped (left, right)
      */
@@ -149,30 +156,38 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * Do some action when the card appears
+     * When the card appears, save the uid of the user
+     * on the card along with its position
      *
      * @param view in which the card is
      * @param position in the view
      */
     override fun onCardAppeared(view: View, position: Int) {
         currentCardUid = adapter.uids[position]
+        currentPosition = position
     }
 
     /**
-     * Do some action when the card disappears
+     * When the card disappears, stops the mediaPlayer,
+     * displays a message if the last card has been swiped
+     * and launches the next mediaPlayer if there is one
      *
      * @param view in which the card was
      * @param position in the view
      */
     override fun onCardDisappeared(view: View, position: Int) {
+        adapter.mediaPlayers[position].stop()
         if (position == adapter.itemCount - 1) {
             fragView.findViewById<TextView>(R.id.no_profile_text).text =
                 getString(R.string.no_more_swipes)
+            fragView.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable = false
+        } else {
+            adapter.playPauseAudio(position + 1)
         }
     }
 
     /**
-     * Initialize the manager
+     * Initializes the manager
      */
     private fun setupManager() {
         manager = CardStackLayoutManager(context, this)
@@ -190,10 +205,10 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * Initialize the adapter
+     * Initializes the adapter
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        adapter = CardStackAdapter(potentialMatches, storage)
+        adapter = CardStackAdapter(potentialMatches, storage, fragView)
         setupCardStackView(fragView)
     }
 
@@ -285,7 +300,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
         val playPause = view.findViewById<View>(R.id.play_pause_button)
         playPause.setOnClickListener {
-            adapter.playPauseAudio()
+            adapter.playPauseAudio(currentPosition)
         }
         val like = view.findViewById<View>(R.id.like_button)
         like.setOnClickListener {
@@ -339,7 +354,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * too and match them both
      *
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     private suspend fun checkMatch() {
         val otherUser = userRepository.getUser(likedUserId)
         if (otherUser?.likes?.contains(currentUserId)!!) {
