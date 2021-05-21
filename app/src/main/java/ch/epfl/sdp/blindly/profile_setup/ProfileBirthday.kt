@@ -1,19 +1,16 @@
 package ch.epfl.sdp.blindly.profile_setup
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.utils.Date
 import ch.epfl.sdp.blindly.user.User
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import java.time.LocalDate
-import java.time.Period
 
 private const val PAD_CHAR = '0'
 private const val FORMAT = 2
@@ -41,14 +38,13 @@ class ProfileBirthday : AppCompatActivity() {
      * the builder and starts the ProfileGender activity
      * @param view the current view
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun startProfileGender(view: View) {
         findViewById<TextView>(R.id.warning_p3).visibility = View.INVISIBLE
         val datePicker: DatePicker = findViewById<View>(R.id.datePicker) as DatePicker
         val day: Int = datePicker.dayOfMonth
         val month: Int = datePicker.month + 1 //month correction
         val year: Int = datePicker.year
-        val age = getAge(year, month, day)
+        val age = Date(day, month, year).getAge()
 
         if (age < MAJORITY_AGE) {
             findViewById<TextView>(R.id.warning_p3).visibility = View.VISIBLE
@@ -68,14 +64,5 @@ class ProfileBirthday : AppCompatActivity() {
 
             startActivity(intent)
         }
-    }
-
-    //Helper function to get the age via day, month, year inputs
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getAge(year: Int, month: Int, dayOfMonth: Int): Int {
-        return Period.between(
-            LocalDate.of(year, month, dayOfMonth),
-            LocalDate.now()
-        ).years
     }
 }

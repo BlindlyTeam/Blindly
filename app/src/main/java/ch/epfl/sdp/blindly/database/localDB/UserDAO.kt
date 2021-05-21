@@ -18,7 +18,7 @@ interface UserDAO {
     /**
      * Insert a User in the local Database
      *
-     * @param userentity User to insert in the local Database
+     * @param userEntity User to insert in the local Database
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(userEntity: UserEntity)
@@ -26,7 +26,7 @@ interface UserDAO {
     /**
      * Insert multiple users in the local Database
      *
-     * @param userentity Users to insert in the local Database
+     * @param userEntity Users to insert in the local Database
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllUsers(vararg userEntity: UserEntity)
@@ -34,7 +34,7 @@ interface UserDAO {
     /**
      * Update the information about a User in the local Databse
      *
-     * @param userentity User to be updated
+     * @param userEntity User to be updated
      * @return the number of columns changed
      */
     @Update
@@ -43,7 +43,7 @@ interface UserDAO {
     /**
      * Delete the information about a User in the local Database
      *
-     * @param userentity User to be deleted
+     * @param userEntity User to be deleted
      * @return the number of rows deleted
      */
     @Delete

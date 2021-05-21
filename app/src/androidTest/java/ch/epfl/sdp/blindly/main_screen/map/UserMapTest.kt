@@ -11,6 +11,7 @@ import ch.epfl.sdp.blindly.R
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.rule.GrantPermissionRule
 import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity.Companion.MATCH_ID
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.database.DatabaseHelper
@@ -36,8 +37,13 @@ class UserMapTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+    @get:Rule
+    var permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
+
     @Inject
     lateinit var user: UserHelper
+
     @Inject
     lateinit var database: DatabaseHelper
 

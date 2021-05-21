@@ -43,14 +43,12 @@ class ProfileFinished : AppCompatActivity() {
      *
      * @param v the current view
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun startMainScreen(v: View) {
         setUser()
         val intent = Intent(this, MainScreen::class.java)
         startActivity(intent)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUser() {
         val location = getCurrentLocation()
         userBuilder.setLocation(
