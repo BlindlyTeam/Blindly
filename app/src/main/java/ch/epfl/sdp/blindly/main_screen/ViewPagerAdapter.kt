@@ -31,13 +31,10 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
                 MyMatchesFragment.newInstance(position)
             }
 
-            2 -> {
+            else -> {
                 ProfilePageFragment.newInstance(position)
             }
 
-            else -> {
-                WeatherFragment.newInstance(position)
-            }
         }
 
     }
@@ -49,7 +46,7 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
      */
     override fun getItemCount(): Int {
 
-        return 4
+        return 3
 
     }
 }
