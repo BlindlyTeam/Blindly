@@ -2,7 +2,8 @@ package ch.epfl.sdp.blindly.utils
 
 import java.util.*
 
-open class Date(val day: Int, val month: Int, val year: Int): DateInterface {
+open class Date(private val day: Int, private val month: Int, private val year: Int) :
+    DateInterface {
 
     override fun getAge(): Int {
         val calendar = GregorianCalendar()
@@ -20,6 +21,20 @@ open class Date(val day: Int, val month: Int, val year: Int): DateInterface {
             throw IllegalArgumentException("Age < 0");
         return age
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Date)
+            return false
+        return day == other.day && month == other.month && year == other.year
+    }
+
+    override fun hashCode(): Int {
+        var result = day
+        result = 31 * result + month
+        result = 31 * result + year
+        return result
+    }
+
     companion object {
         /**
          * Given a birthday computes the tuple (day, month, year)

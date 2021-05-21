@@ -4,10 +4,15 @@ interface DateInterface {
     /**
      * Compute the age of a user given his day, month and year of birth
      *
-     * @param year the year during which the user was born
-     * @param month the month during which the user was born
-     * @param day the day on which the user was born
      * @return the age of the user
      */
     fun getAge(): Int
+
+    /**
+     * @return true if the two dates haves the same day, month and year false otherwise
+     */
+    override fun equals(other: Any?): Boolean
+
+    override fun hashCode(): Int
+
 }
