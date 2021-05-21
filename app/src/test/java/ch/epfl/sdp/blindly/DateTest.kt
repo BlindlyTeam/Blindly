@@ -32,4 +32,4 @@ class DateTest {
         val TEST_DATE = Date.getDate(TEST_BIRTHDAY)
         assertThat(TEST_DATE, nullValue())
     }
-} 
+}
