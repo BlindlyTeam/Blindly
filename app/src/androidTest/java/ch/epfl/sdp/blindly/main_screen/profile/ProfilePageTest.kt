@@ -98,7 +98,7 @@ class ProfilePageTest {
         val audioPlayerFragment = getAudioPlayerFragment()
         assertThat(audioPlayerFragment, `is`(nullValue()))
     }
-    
+
     @Test
     fun playAudioButtonCreatesAudioPlayerFragment() {
         //Create and show the audio player

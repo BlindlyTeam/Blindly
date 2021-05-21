@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import org.mockito.Mockito
+import java.lang.IllegalStateException
 import javax.inject.Singleton
 
 @Module
@@ -19,14 +20,14 @@ import javax.inject.Singleton
 )
 open class FakeUserCacheModule {
     companion object {
-        private const val uid = "abcd1234"
+        private const val uid = TEST_UID
         private const val username = "Jane Doe"
         private const val usernameUpdated = "Jack"
         private val location = createLocationTableEPFL() // Ecublens, Switzerland
         private const val MULHOUSE_LAT = 47.749
         private const val MULHOUSE_LON = 7.335
         private val locationUpdated = listOf(MULHOUSE_LAT, MULHOUSE_LON) // Mulhouse, France
-        private const val birthday = "01.01.01"
+        private const val birthday = "01.01.2001"
         private const val gender = "Woman"
         private const val genderUpdated = "Man"
         private val sexualOrientations = listOf("Asexual")

@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.audio.RecordingActivity
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.getCurrentLocationStringFromUser
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
@@ -22,6 +23,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
@@ -30,6 +33,7 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class MatchProfileActivity : AppCompatActivity() {
+    private var profileID: String? = null
     private lateinit var viewModel: UserViewModel
     private var audioFilePath: String? = null
     private var mediaPlayer: MediaPlayer? = null
@@ -52,11 +56,16 @@ class MatchProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_match_profile)
 
         // Cancels loading if the profileID isn't given in the Bundle
-        val profileID = intent.extras?.getString(ChatActivity.MATCH_ID) ?: return
-        viewModel = instantiateViewModel(
-            profileID, assistedFactory,
-            this, this
-        )
+        if (intent.extras?.containsKey(ChatActivity.MATCH_ID) == true) {
+            profileID = intent.extras!!.getString(ChatActivity.MATCH_ID)
+
+            viewModel = instantiateViewModel(
+                profileID, assistedFactory,
+                this, this
+            )
+        } else {
+            return
+        }
 
         supportActionBar?.hide()
 

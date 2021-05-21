@@ -1,6 +1,8 @@
-package ch.epfl.sdp.blindly.main_screen.match
+package ch.epfl.sdp.blindly.main_screen.my_matches.match_profile
 
-import androidx.core.os.bundleOf
+import android.content.Intent
+import android.location.Location
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.init
@@ -9,9 +11,11 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
+import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
-import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
+import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,6 +29,10 @@ import javax.inject.Inject
 
 @HiltAndroidTest
 class MatchProfileActivityTest {
+    private val intent = Intent(
+        ApplicationProvider.getApplicationContext(),
+        MatchProfileActivity::class.java
+    ).putExtra(ChatActivity.MATCH_ID, TEST_UID)
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -39,10 +47,7 @@ class MatchProfileActivityTest {
     lateinit var userHelper: UserHelper
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(
-        MatchProfileActivity::class.java,
-        bundleOf(ChatActivity.MATCH_ID to TEST_UID)
-    )
+    val activityRule = ActivityScenarioRule<MatchProfileActivity>(intent)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -58,15 +63,6 @@ class MatchProfileActivityTest {
         release()
     }
 
-    // Tests don't work, I don't know why :(. Here is a useless test to compensate coverage
-
-    @Test
-    fun placeHolderTextsAreDisplayed() {
-        onView(withId(R.id.matchProfileNameAge)).check(matches(isDisplayed()))
-        onView(withId(R.id.matchProfileGender)).check(matches(isDisplayed()))
-    }
-
-    /*
     @Test
     fun userNameAgeIsCorrectlyDisplayed() {
         val userAge = User.getAgeFromBirthday(fakeUser.birthday!!)
@@ -119,5 +115,4 @@ class MatchProfileActivityTest {
             onView(withId(R.id.matchProfilePassions)).check(matches(withChild(withText(passion))))
         }
     }
-    */
 }
