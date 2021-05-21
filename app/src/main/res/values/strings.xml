@@ -158,7 +158,6 @@
     <string name="weather">Weather</string>
     <string name="edit_gender">Edit</string>
     <string name="update_gender">Update Gender</string>
-    <string name="menu_refresh">Refresh</string>
     <string name="policy">By clicking on Log In, you agree with our Terms. Learn how we process you data in our Privacy Policy and Cookies Policy.</string>
     <string name="weather_update_failed">Can\'t get weather data now, try again later</string>
     <string name="fahrenheit_temperature">%d °F</string>
@@ -169,7 +168,7 @@
     <string name="my_map_button_description">Map Button</string>
     <string name="name_age_text">%1$s, %2$d</string>
     <string name="distance_text">%1$s km away</string>
-    <string name="no_more_swipes">You swiped everyone...\nCome back later!</string>
-    <string name="no_available_swipe">No profile available...\nCome back later!</string>
-    <string name="loading_profiles">Profiles are loading, please wait...</string>
+    <string name="no_more_swipes">You swiped everyone…\nCome back later!</string>
+    <string name="no_available_swipe">No profile available…\nCome back later!</string>
+    <string name="loading_profiles">Profiles are loading, please wait…</string>
 </resources>
