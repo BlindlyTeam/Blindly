@@ -51,7 +51,6 @@ class EditPassions : AppCompatActivity() {
             setCheckedChips(chipGroup, passions)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
         if (passionsAreCorrect()) {
             viewModel.updateField(PASSIONS, ProfileOrientation.getChipTextsFromIds(chipGroup))

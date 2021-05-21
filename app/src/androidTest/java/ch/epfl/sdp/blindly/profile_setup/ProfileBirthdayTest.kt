@@ -25,7 +25,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-const val TEST_BIRTHDAY = "18.03.2003"
+const val TEST_BIRTHDAY = "16.05.2003"
 private const val ERROR_AGE = "The minimum age requirement is 18 years old."
 
 @RunWith(AndroidJUnit4::class)
@@ -75,7 +75,7 @@ class TestProfileBirthday {
 
     @Test
     fun adultAgeFiresProfileGender() {
-        onView(withId(R.id.datePicker)).perform(PickerActions.setDate(2003, 3, 18))
+        onView(withId(R.id.datePicker)).perform(PickerActions.setDate(2003, 5, 16))
         onView(withId(R.id.button_p3)).perform(click())
 
         TEST_USER.setBirthday(TEST_BIRTHDAY)

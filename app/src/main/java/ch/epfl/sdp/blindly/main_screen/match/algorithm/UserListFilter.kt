@@ -21,7 +21,6 @@ class UserListFilter {
      * @param otherUsers the list of other users
      * @return the filtered list of users
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun filterLocationAndAgeRange(currentUser: User, otherUsers: List<User>): List<User> {
         val minAge = currentUser.ageRange?.get(0)
         val maxAge = currentUser.ageRange?.get(1)
@@ -40,7 +39,6 @@ class UserListFilter {
      * @param otherUsers
      * @return the filtered list of user
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun reversePotentialMatch(currentUser: User, otherUsers: List<User>): List<User> {
         val currentUserGender = currentUser.gender
         val currentUserAge = User.getUserAge(currentUser)
