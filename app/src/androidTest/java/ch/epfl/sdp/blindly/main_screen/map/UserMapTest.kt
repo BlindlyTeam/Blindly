@@ -42,6 +42,7 @@ class UserMapTest {
 
     @Inject
     lateinit var user: UserHelper
+
     @Inject
     lateinit var database: DatabaseHelper
 

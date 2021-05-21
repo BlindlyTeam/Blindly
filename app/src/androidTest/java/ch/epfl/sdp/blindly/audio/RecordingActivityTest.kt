@@ -11,15 +11,16 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.actionOnChild
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions.Companion.childOfViewAtPositionWithMatcher
+import ch.epfl.sdp.blindly.audio.RecordingActivity.Companion.AUDIO_DURATION_KEY
 import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.profile_setup.*
-import ch.epfl.sdp.blindly.audio.RecordingActivity.Companion.AUDIO_DURATION_KEY
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -37,6 +38,8 @@ private const val AUDIO_FILE_ONE = "Audio file 1"
 private const val TEST_MAXIMUM_AUDIO_DURATION = 13000
 private const val FIVE_SECONDS = 5000L
 private const val TWO_SECONDS = 2000L
+private const val TWO_HUNDRED = 200L
+private const val FIVE_HUNDRED = 500L
 
 @HiltAndroidTest
 class RecordingActivityTest {
@@ -59,6 +62,10 @@ class RecordingActivityTest {
     var hiltRule = HiltAndroidRule(this)
 
     @get:Rule
+    var permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.RECORD_AUDIO)
+
+    @get:Rule
     val activityRule = ActivityScenarioRule<RecordingActivity>(intent)
 
     @get:Rule
@@ -78,14 +85,14 @@ class RecordingActivityTest {
 
     @Test
     fun recordNameIsCorrectlyDisplayed() {
-        createRecord(200L)
+        createRecord(TWO_HUNDRED)
         val recordName = onView(withId(R.id.recordName))
         recordName.check(matches(withText(AUDIO_FILE_ONE)))
     }
 
     @Test
     fun recordingActivityFiresProfileFinished() {
-        createRecord(200L)
+        createRecord(TWO_HUNDRED)
         onView(withId(R.id.nameDurationLayout))
             .perform(click())
 
@@ -97,7 +104,7 @@ class RecordingActivityTest {
 
     @Test
     fun playPauseButtonChangesBackgroundWhenClickedTwice() {
-        createRecord(500L)
+        createRecord(FIVE_HUNDRED)
         onView(withId(R.id.nameDurationLayout))
             .perform(click())
         onView(withId(R.id.playPauseButton))
@@ -114,7 +121,7 @@ class RecordingActivityTest {
 
     @Test
     fun playPauseButtonChangesBackgroundWhenPlayIsFinished() {
-        createRecord(500L)
+        createRecord(FIVE_HUNDRED)
         onView(withId(R.id.nameDurationLayout))
             .perform(click())
         onView(withId(R.id.playPauseButton))
@@ -130,7 +137,7 @@ class RecordingActivityTest {
 
     @Test
     fun startRecordingCollapsesRecords() {
-        createRecord(200L)
+        createRecord(TWO_HUNDRED)
         onView(withId(R.id.nameDurationLayout))
             .perform(click())
         onView(withId(R.id.recordingButton))
@@ -147,7 +154,7 @@ class RecordingActivityTest {
     fun maximumDurationStopsRecording() {
         val recordButton = onView(withId(R.id.recordingButton))
         recordButton.perform(click())
-        Thread.sleep(TEST_MAXIMUM_AUDIO_DURATION + 500L)
+        Thread.sleep(TEST_MAXIMUM_AUDIO_DURATION + FIVE_HUNDRED)
         onView(withId(R.id.nameDurationLayout))
             .check(
                 matches(

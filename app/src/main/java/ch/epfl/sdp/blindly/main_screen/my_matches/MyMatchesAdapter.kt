@@ -95,7 +95,6 @@ class MyMatchesAdapter(
      * @param viewHolder the ViewHolder of the current item
      * @param position the position of the item in the RecyclerView
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.matchedName.text = my_matches[position].name
 
