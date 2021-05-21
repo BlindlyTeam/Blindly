@@ -1,20 +1,19 @@
 package ch.epfl.sdp.blindly.weather
 
+import android.content.Intent
+import android.provider.CalendarContract
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.RootMatchers.withDecorView
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.platform.app.InstrumentationRegistry
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.fake_module.FakeWeatherServiceModule
 import ch.epfl.sdp.blindly.fake_module.FakeWeatherServiceModule.Companion.DAY
@@ -32,13 +31,17 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.stubbing.Answer
+import java.util.*
 import javax.inject.Inject
 
-private val TEMPERATURE_2 = 9999.0
+private const val YEAR = 2021
+private const val MONTH = 8
+private const val DAY_OF_MONTH: Int = 8
+private const val CALENDAR_EVENT_TITLE = "Blindly Date"
+private const val TEMPERATURE_2 = 9999.0
 private val DAY_TEMPERATURE_2 = DayTemperature(
     TEMPERATURE_2,
     TEMPERATURE_2,
@@ -46,7 +49,7 @@ private val DAY_TEMPERATURE_2 = DayTemperature(
     TEMPERATURE_2,
     TemperatureUnit.METRIC
 )
-private val DAY_WEATHER_2= DayWeather(DAY_TEMPERATURE_2, arrayOf(WEATHER), DAY)
+private val DAY_WEATHER_2 = DayWeather(DAY_TEMPERATURE_2, arrayOf(WEATHER), DAY)
 private val WEEK_WEATHER_2 = WeekWeather(Array(7) { DAY_WEATHER_2 })
 
 private val DAY_TEMPERATURE_FAHRENHEIT = DayTemperature(
@@ -56,13 +59,21 @@ private val DAY_TEMPERATURE_FAHRENHEIT = DayTemperature(
     TEMPERATURE_2,
     TemperatureUnit.IMPERIAL
 )
-private val DAY_WEATHER_FAHRENHEIT= DayWeather(DAY_TEMPERATURE_FAHRENHEIT, arrayOf(WEATHER), DAY)
+private val DAY_WEATHER_FAHRENHEIT = DayWeather(DAY_TEMPERATURE_FAHRENHEIT, arrayOf(WEATHER), DAY)
 private val WEEK_WEATHER_FAHRENHEIT = WeekWeather(Array(7) { DAY_WEATHER_FAHRENHEIT })
+
 @HiltAndroidTest
 class WeatherActivityTest {
     @get:Rule
-    val activityRule = ActivityScenarioRule(WeatherActivity::class.java, bundleOf(Pair(LOCATION, BlindlyLatLng(
-        LAUSANNE_LATLNG))))
+    val activityRule = ActivityScenarioRule(
+        WeatherActivity::class.java, bundleOf(
+            Pair(
+                LOCATION, BlindlyLatLng(
+                    LAUSANNE_LATLNG
+                )
+            )
+        )
+    )
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -86,6 +97,34 @@ class WeatherActivityTest {
         Intents.release()
     }
 
+    @Test
+    fun setDayAndAddEvent() {
+        val date = Calendar.getInstance()
+        date.set(YEAR, MONTH, DAY_OF_MONTH)
+        val calIntent = Intent(Intent.ACTION_INSERT)
+        calIntent.data = CalendarContract.Events.CONTENT_URI
+        calIntent.putExtra(CalendarContract.Events.TITLE, CALENDAR_EVENT_TITLE)
+        calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true)
+        calIntent.putExtra(
+            CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+            date.timeInMillis
+        )
+        calIntent.putExtra(
+            CalendarContract.EXTRA_EVENT_END_TIME,
+            date.timeInMillis
+        )
+
+        onView(
+            allOf(
+                withId(R.id.eventButton),
+                withParent(withId(R.id.weather_layout))
+            )
+        ).perform(click())
+        intended(hasExtraWithKey(CalendarContract.Events.TITLE))
+        intended(hasExtraWithKey(CalendarContract.EXTRA_EVENT_ALL_DAY))
+        intended(hasExtraWithKey(CalendarContract.EXTRA_EVENT_BEGIN_TIME))
+        intended(hasExtraWithKey(CalendarContract.EXTRA_EVENT_END_TIME))
+    }
 
     @Test
     fun dragToRefreshFetchesNewDataAndDisplayThem() {
@@ -94,7 +133,6 @@ class WeatherActivityTest {
             .then(FakeWeatherServiceModule.answerResult(WEEK_WEATHER_2))
 
         performRefresh()
-
         verifyMockCalledAgainAndViewUpdated()
 
     }
@@ -108,6 +146,7 @@ class WeatherActivityTest {
         verifyMockCalledAgainAndViewUpdated()
         assertNotRefreshing()
     }
+
     @Test
     fun unitsAreCorrectlyDisplayed() {
         onView(withId(R.id.weather_day_1_day))
@@ -136,6 +175,7 @@ class WeatherActivityTest {
             )
         assertNotRefreshing()
     }
+
     @Test
     fun hideRefreshAfterFailure() {
         `when`(weather.nextWeek(any(), any(), any()))
@@ -147,9 +187,8 @@ class WeatherActivityTest {
                 )
                 callback.onWeatherFailure(Exception("TEST EXCEPTION"))
             }))
-        
-        performRefresh()
 
+        performRefresh()
         assertNotRefreshing()
     }
 
@@ -181,3 +220,5 @@ class WeatherActivityTest {
             )
     }
 }
+
+

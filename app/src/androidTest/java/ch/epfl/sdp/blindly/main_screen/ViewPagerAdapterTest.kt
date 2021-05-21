@@ -7,7 +7,7 @@ import org.junit.Test
 import org.mockito.Mockito.mock
 
 
-private const val COUNT = 4
+private const val COUNT = 3
 
 private const val MATCH_POSITION = 0
 private const val MY_MATCHES_POSITION = 1

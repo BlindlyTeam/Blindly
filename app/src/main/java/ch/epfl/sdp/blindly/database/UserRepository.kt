@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -46,6 +48,21 @@ class UserRepository @Inject constructor(
             return cached
         }
         return refreshUser(uid)
+    }
+
+    /**
+     * Get the location of the user, wrap it as a BlindlyLatLng
+     * and return it to use with WeatherActivity
+     *
+     * @param uid UID of the current user
+     * @return a BlindlyLatLng location for weather activity
+     */
+    suspend fun getLocation(uid: String): BlindlyLatLng {
+        val user = getUser(uid)
+        if (user != null) {
+            return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
+        }
+        return BlindlyLatLng(LAUSANNE_LATLNG)
     }
 
     /**
