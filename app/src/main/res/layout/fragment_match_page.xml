@@ -26,7 +26,6 @@
             android:clipToPadding="false"
             android:padding="4dp" />
 
-
         <TextView
             android:id="@+id/no_profile_text"
             android:layout_width="wrap_content"
@@ -62,16 +61,16 @@
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:clickable="true"
-            android:contentDescription="@string/play_pause_button"
             android:focusable="true"
             app:backgroundTint="#FFFBFB"
             app:borderWidth="1dp"
             app:fabCustomSize="49dp"
-            app:maxImageSize="50dp"
-            app:rippleColor="@color/blindly_purple"
-            app:srcCompat="@drawable/play_button_fab"
             app:tint="@null"
-            app:useCompatPadding="false" />
+            app:maxImageSize="50dp"
+            app:srcCompat="@drawable/play_button_fab"
+            app:useCompatPadding="false"
+            android:contentDescription="@string/play_pause_button"
+            app:rippleColor="@color/blindly_purple"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/like_button"
@@ -85,7 +84,7 @@
             android:contentDescription="@string/like_image_description"
             android:src="@drawable/like_green"
             app:fabSize="auto"
-            app:rippleColor="@color/blindly_purple"
-            app:tint="@null" />
+            app:tint="@null"
+            app:rippleColor="@color/blindly_purple" />
     </RelativeLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

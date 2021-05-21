@@ -1,42 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".profile_setup.ProfileGender">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_p4"
-        android:layout_width="@dimen/pill_shape_width"
-        android:layout_height="@dimen/pill_shape_height"
-        android:onClick="startProfileOrientationOrGenderMore"
-        android:text="@string/continue_str"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955"
-        app:shapeAppearanceOverlay="@style/PillShapeButton" />
-
-    <TextView
-        android:id="@+id/text_p4"
-        android:layout_width="196dp"
-        android:layout_height="108dp"
-        android:text="@string/i_am_a"
-        android:textColor="#000000"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.246"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.191" />
-
     <ProgressBar
         android:id="@+id/progressBar_p4"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="413dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/progress_bar_height"
         android:progress="33"
         app:layout_constraintBottom_toTopOf="@+id/text_p4"
@@ -46,16 +19,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/text_p4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar_p4"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:text="@string/i_am_a"
+        android:textColor="#000000"
+        android:textSize="36sp" />
+
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="301dp"
-        android:layout_height="139dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_p4"
-        app:layout_constraintVertical_bias="0.392">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_double"
+        android:layout_centerVertical="true">
 
         <RadioButton
             android:id="@+id/sex1_user"
@@ -85,16 +65,23 @@
 
     <TextView
         android:id="@+id/warning_p4"
-        android:layout_width="234dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radioGroup"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_alignStart="@id/radioGroup"
         android:text="@string/please_select_one"
         android:textColor="#FF0000"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.299"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.773" />
+        android:visibility="invisible" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_p4"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin"
+        android:onClick="startProfileOrientationOrGenderMore"
+        android:text="@string/continue_str"
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
+</RelativeLayout>
