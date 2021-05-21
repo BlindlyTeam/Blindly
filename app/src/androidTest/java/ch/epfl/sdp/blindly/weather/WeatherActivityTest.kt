@@ -11,7 +11,6 @@ import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -41,8 +40,6 @@ import javax.inject.Inject
 private const val YEAR = 2021
 private const val MONTH = 8
 private const val DAY_OF_MONTH: Int = 8
-
-
 private const val CALENDAR_EVENT_TITLE = "Blindly Date"
 private const val TEMPERATURE_2 = 9999.0
 private val DAY_TEMPERATURE_2 = DayTemperature(
@@ -129,7 +126,6 @@ class WeatherActivityTest {
         intended(hasExtraWithKey(CalendarContract.EXTRA_EVENT_END_TIME))
     }
 
-
     @Test
     fun dragToRefreshFetchesNewDataAndDisplayThem() {
         // Override default result
@@ -137,7 +133,6 @@ class WeatherActivityTest {
             .then(FakeWeatherServiceModule.answerResult(WEEK_WEATHER_2))
 
         performRefresh()
-
         verifyMockCalledAgainAndViewUpdated()
 
     }
@@ -194,7 +189,6 @@ class WeatherActivityTest {
             }))
 
         performRefresh()
-
         assertNotRefreshing()
     }
 

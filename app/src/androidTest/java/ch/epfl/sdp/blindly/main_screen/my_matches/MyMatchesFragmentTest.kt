@@ -1,11 +1,13 @@
 package ch.epfl.sdp.blindly.main_screen.my_matches
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
@@ -37,12 +39,12 @@ class MyMatchesFragmentTest {
     fun setup() {
         hiltRule.inject()
         runBlocking { goToProfileFragment() }
-        Intents.init()
+        init()
     }
 
     @After
     fun afterEach() {
-        Intents.release()
+        release()
     }
 
     private suspend fun goToProfileFragment() {
@@ -66,14 +68,14 @@ class MyMatchesFragmentTest {
 
     @Test
     fun mapButtonFiresMapActivty() {
-        onView(ViewMatchers.withId(R.id.buttonWeatherEvent)).check(
-            ViewAssertions.matches(
-                ViewMatchers.withEffectiveVisibility(
+        onView(withId(R.id.buttonWeatherEvent)).check(
+            matches(
+                withEffectiveVisibility(
                     ViewMatchers.Visibility.VISIBLE
                 )
             )
-        ).perform(ViewActions.click())
-        Intents.intended(IntentMatchers.hasComponent(WeatherActivity::class.java.name))
+        ).perform(click())
+        intended(hasComponent(WeatherActivity::class.java.name))
     }
 
 }

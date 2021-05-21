@@ -27,6 +27,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         const val LOCATION = "location"
         private const val WEATHER_PREFIX = "weather_day_"
         private const val CALENDAR_EVENT_TITLE = "Blindly Date"
+        private const val DEF_TYPE = "id"
     }
 
     @Inject
@@ -102,7 +103,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun setIcon(index: Int, drawableId: Int) {
         val iconId = resources.getIdentifier(
             "${WEATHER_PREFIX}${(index + 1)}_icon",
-            "id",
+            DEF_TYPE ,
             packageName
         )
         findViewById<ImageView>(iconId)?.setImageDrawable(
@@ -124,7 +125,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun setEvening(index: Int, text: String) {
         val evening = resources.getIdentifier(
             "${WEATHER_PREFIX}${(index + 1)}_evening",
-            "id",
+            DEF_TYPE ,
             packageName
         )
         findViewById<TextView>(evening)?.text = text
@@ -133,7 +134,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun setDayName(index: Int, text: String) {
         val dayName = resources.getIdentifier(
             "${WEATHER_PREFIX}${(index + 1)}_name",
-            "id",
+            DEF_TYPE ,
             packageName
         )
         findViewById<TextView>(dayName)?.text = text
@@ -142,7 +143,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun setContainerVisibility(index: Int, visibility: Int) {
         val containerId = resources.getIdentifier(
             "${WEATHER_PREFIX}${(index + 1)}",
-            "id",
+            DEF_TYPE ,
             packageName
         )
         findViewById<View>(containerId)?.visibility = visibility
@@ -245,7 +246,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         for (i in 0..5) {
             val layoutId = resources.getIdentifier(
                 "${WEATHER_PREFIX}${(i + 1)}",
-                "id",
+                DEF_TYPE ,
                 packageName
             )
             if (i.toLong() == indexOfDay) {
