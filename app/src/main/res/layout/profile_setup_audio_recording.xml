@@ -1,49 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".profile_setup.ProfileAudioRecording">
 
+    <ProgressBar
+        android:id="@+id/progressBar_p8"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/progress_bar_height"
+        android:progress="89" />
+
+    <TextView
+        android:id="@+id/text1_p8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBar_p8"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin_end"
+        android:text="@string/present_yourself_record"
+        android:textColor="#000000"
+        android:textSize="36sp" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_p8"
         android:layout_width="@dimen/pill_shape_width"
         android:layout_height="@dimen/pill_shape_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin"
         android:onClick="startRecordingActivity"
         android:text="@string/continue_str"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955"
         app:shapeAppearanceOverlay="@style/PillShapeButton" />
-
-    <TextView
-        android:id="@+id/text1_p8"
-        android:layout_width="230dp"
-        android:layout_height="196dp"
-        android:text="@string/present_yourself_record"
-        android:textColor="#000000"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.192"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.167" />
-
-    <ProgressBar
-        android:id="@+id/progressBar_p8"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="413dp"
-        android:layout_height="@dimen/progress_bar_height"
-        android:progress="89"
-        app:layout_constraintBottom_toTopOf="@+id/text1_p8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

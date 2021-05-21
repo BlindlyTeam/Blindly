@@ -92,7 +92,5 @@ class EditUsername : AppCompatActivity() {
         findViewById<TextView>(R.id.warning3_p2).visibility = INVISIBLE
         findViewById<TextView>(R.id.update_username_success_notice).visibility =
             INVISIBLE
-        findViewById<TextView>(R.id.update_username_failure_notice).visibility =
-            INVISIBLE
     }
 }
