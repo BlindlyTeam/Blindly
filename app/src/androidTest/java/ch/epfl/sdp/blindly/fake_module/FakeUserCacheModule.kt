@@ -10,7 +10,6 @@ import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import org.mockito.Mockito
-import java.lang.IllegalStateException
 import javax.inject.Singleton
 
 @Module
