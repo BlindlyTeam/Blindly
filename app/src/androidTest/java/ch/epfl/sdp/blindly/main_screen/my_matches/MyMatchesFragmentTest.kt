@@ -1,6 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen.my_matches
 
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
@@ -66,7 +66,7 @@ class MyMatchesFragmentTest {
 
     @Test
     fun mapButtonFiresMapActivty() {
-        Espresso.onView(ViewMatchers.withId(R.id.buttonWeatherEvent)).check(
+        onView(ViewMatchers.withId(R.id.buttonWeatherEvent)).check(
             ViewAssertions.matches(
                 ViewMatchers.withEffectiveVisibility(
                     ViewMatchers.Visibility.VISIBLE

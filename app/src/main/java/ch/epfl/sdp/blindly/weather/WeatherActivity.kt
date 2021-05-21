@@ -1,9 +1,10 @@
 package ch.epfl.sdp.blindly.weather
 
 import android.content.Intent
+import android.content.Intent.ACTION_INSERT
 import android.os.Bundle
 import android.provider.CalendarContract
-import android.provider.CalendarContract.Events
+import android.provider.CalendarContract.*
 import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
@@ -199,16 +200,16 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
      * @param date Date of the event to add to Calendar
      */
     private fun setCalendarEvent(title: String, date: Calendar) {
-        val calIntent = Intent(Intent.ACTION_INSERT)
-        calIntent.data = Events.CONTENT_URI
+        val calIntent = Intent(ACTION_INSERT)
+        calIntent.data = CONTENT_URI
         calIntent.putExtra(Events.TITLE, title)
-        calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true)
+        calIntent.putExtra(EXTRA_EVENT_ALL_DAY, true)
         calIntent.putExtra(
-            CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+            EXTRA_EVENT_BEGIN_TIME,
             date.timeInMillis
         )
         calIntent.putExtra(
-            CalendarContract.EXTRA_EVENT_END_TIME,
+            EXTRA_EVENT_END_TIME,
             date.timeInMillis
         )
         finish()

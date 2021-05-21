@@ -12,6 +12,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
@@ -122,10 +123,10 @@ class WeatherActivityTest {
                 withParent(withId(R.id.weather_layout))
             )
         ).perform(click())
-        intended(IntentMatchers.hasExtraWithKey(CalendarContract.Events.TITLE))
-        intended(IntentMatchers.hasExtraWithKey(CalendarContract.EXTRA_EVENT_ALL_DAY))
-        intended(IntentMatchers.hasExtraWithKey(CalendarContract.EXTRA_EVENT_BEGIN_TIME))
-        intended(IntentMatchers.hasExtraWithKey(CalendarContract.EXTRA_EVENT_END_TIME))
+        intended(hasExtraWithKey(CalendarContract.Events.TITLE))
+        intended(hasExtraWithKey(CalendarContract.EXTRA_EVENT_ALL_DAY))
+        intended(hasExtraWithKey(CalendarContract.EXTRA_EVENT_BEGIN_TIME))
+        intended(hasExtraWithKey(CalendarContract.EXTRA_EVENT_END_TIME))
     }
 
 
