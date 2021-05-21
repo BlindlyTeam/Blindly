@@ -98,10 +98,7 @@ class ProfilePageTest {
         val audioPlayerFragment = getAudioPlayerFragment()
         assertThat(audioPlayerFragment, `is`(nullValue()))
     }
-
-    // Try to fix Cirrus :(
-
-    /*
+    
     @Test
     fun playAudioButtonCreatesAudioPlayerFragment() {
         //Create and show the audio player
@@ -145,7 +142,6 @@ class ProfilePageTest {
             assertThat(audioPlayerFragment.isVisible, `is`(true))
         }
     }
-    */
 
     private fun getAudioPlayerFragment(): Fragment? {
         val fragmentManager = fragment.childFragmentManager
