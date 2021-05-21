@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +9,7 @@
     <ProgressBar
         android:id="@+id/progressBar_p5"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="413dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/progress_bar_height"
         android:progress="56"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,82 +19,61 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_p5"
-        android:layout_width="@dimen/pill_shape_width"
-        android:layout_height="@dimen/pill_shape_height"
-        android:onClick="startProfileShowMe"
-        android:text="@string/continue_str"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955"
-        app:shapeAppearanceOverlay="@style/PillShapeButton" />
-
     <TextView
         android:id="@+id/text_p5"
-        android:layout_width="230dp"
-        android:layout_height="117dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar_p5"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin_end"
+        android:layout_marginTop="@dimen/margin"
         android:text="@string/my_sexual_orientation_is"
         android:textColor="#000000"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.246"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.191" />
-
+        android:textSize="36sp" />
 
     <TextView
         android:id="@+id/guideline_p5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_up_to_3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.854"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.206" />
+        android:layout_alignBottom="@id/text_p5"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/margin_extra_small"
+        android:layout_marginEnd="@dimen/margin_double"
+        android:text="@string/select_up_to_3" />
 
     <TextView
         android:id="@+id/at_least_1_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/text_p5"
+        android:layout_alignStart="@id/text_p5"
         android:text="@string/please_select_at_least_one"
         android:textColor="#FF0000"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/no_more_than_3_warning"
-        app:layout_constraintTop_toBottomOf="@+id/text_p5" />
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/no_more_than_3_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/text_p5"
+        android:layout_alignStart="@id/text_p5"
         android:text="@string/you_can_t_select_more_than_3"
         android:textColor="#FF0000"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.21"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_p5" />
+        android:visibility="invisible" />
 
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup_p5"
-        android:layout_width="324dp"
-        android:layout_height="235dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/text_p5"
+        android:layout_marginTop="@dimen/margin_double"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
         app:chipSpacing="30dp"
         app:chipSpacingHorizontal="30dp"
-        app:chipSpacingVertical="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.677">
+        app:chipSpacingVertical="20dp">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/straight_chip"
@@ -183,4 +162,15 @@
             app:checkedIconVisible="false"
             app:chipBackgroundColor="@color/chip_state_colors" />
     </com.google.android.material.chip.ChipGroup>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_p5"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin"
+        android:onClick="startProfileShowMe"
+        android:text="@string/continue_str"
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
+</RelativeLayout>

@@ -1,65 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main_screen.profile.settings.SettingsShowMe">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/show_me_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="@string/settings_show_me" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/show_me_toolbar"
+    <RadioGroup
+        android:id="@+id/show_me_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/show_me_toolbar"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:alwaysDrawnWithCache="false"
+        android:clickable="true"
+        tools:layout_editor_absoluteX="81dp"
+        tools:layout_editor_absoluteY="229dp"
+        android:focusable="true">
+
+        <RadioButton
+            android:id="@+id/women_radio_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:title="@string/settings_show_me" />
-
-        <RadioGroup
-            android:id="@+id/show_me_radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/show_me_toolbar"
-            android:layout_marginStart="10dp"
-            android:alwaysDrawnWithCache="false"
             android:clickable="true"
-            tools:layout_editor_absoluteX="81dp"
-            tools:layout_editor_absoluteY="229dp"
-            android:focusable="true">
+            android:focusable="true"
+            android:text="@string/women_show_me"
+            android:visibility="visible" />
 
-            <RadioButton
-                android:id="@+id/women_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="@string/women_show_me"
-                android:visibility="visible" />
+        <RadioButton
+            android:id="@+id/men_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/men_show_me"
+            android:visibility="visible" />
 
-            <RadioButton
-                android:id="@+id/men_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="@string/men_show_me"
-                android:visibility="visible" />
-
-            <RadioButton
-                android:id="@+id/everyone_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="@string/everyone_show_me"
-                android:visibility="visible" />
-        </RadioGroup>
-    </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RadioButton
+            android:id="@+id/everyone_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/everyone_show_me"
+            android:visibility="visible" />
+    </RadioGroup>
+</RelativeLayout>
