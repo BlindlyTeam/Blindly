@@ -3,12 +3,12 @@ package ch.epfl.sdp.blindly.main_screen.my_matches.match_profile
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.getCurrentLocationStringFromUser
@@ -33,7 +33,7 @@ class MatchProfileActivity : AppCompatActivity() {
     private var profileID: String? = null
     private lateinit var viewModel: UserViewModel
     private var audioFilePath: String? = null
-    private lateinit var mediaPlayer: MediaPlayer
+    private var mediaPlayer: MediaPlayer? = null
 
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
@@ -94,15 +94,15 @@ class MatchProfileActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        mediaPlayer.stop()
-        mediaPlayer.release()
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
     }
 
     private fun bindPlayButton(button: Button) {
         val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
         button.setOnClickListener {
             button.startAnimation(bounce)
-            mediaPlayer.start()
+            mediaPlayer?.start()
         }
     }
 
@@ -122,11 +122,11 @@ class MatchProfileActivity : AppCompatActivity() {
         val audioFile = File.createTempFile("MatchProfile_Audio", "amr")
         pathRef.getFile(audioFile).addOnSuccessListener {
             mediaPlayer = MediaPlayer()
-            mediaPlayer.setDataSource(this, Uri.fromFile(audioFile))
-            mediaPlayer.setOnCompletionListener {
+            mediaPlayer!!.setDataSource(this, Uri.fromFile(audioFile))
+            mediaPlayer!!.setOnCompletionListener {
                 it.stop()
             }
-            mediaPlayer.prepare()
+            mediaPlayer!!.prepare()
         }
     }
 }
