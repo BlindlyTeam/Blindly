@@ -65,7 +65,7 @@ class MatchProfileActivityTest {
 
     @Test
     fun userNameAgeIsCorrectlyDisplayed() {
-        val userAge = User.getAgeFromBirthday(fakeUser.birthday!!)
+        val userAge = User.getUserAge(fakeUser)
 
         onView(withId(R.id.matchProfileNameAge)).check(
             matches(
