@@ -175,7 +175,6 @@
     <string name="no_available_swipe">No profile available…\nCome back later!</string>
     <string name="loading_profiles">Profiles are loading, please wait…</string>
     <string name="match_profile_background_description">Gradient background with sound waves</string>
-    <string name="sexual_orientations">Sexual orientations</string>
     <string name="passions">Passions</string>
     <string name="my_profile_button_description">Profile button</string>
 </resources>
