@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/settings_toolbar"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
         android:text="@string/account_settings"
         android:textColor="@color/blindly_purple_secondary"
         android:textSize="16sp"
@@ -38,7 +39,7 @@
     <Button
         android:id="@+id/email_button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/cell_height"
         android:layout_below="@id/divider"
         android:background="@color/transparent"
         android:foreground="?selectableItemBackground"
@@ -47,9 +48,9 @@
     <TextView
         android:id="@+id/email_text"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/cell_height"
         android:layout_below="@id/divider"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_small"
         android:gravity="center"
         android:text="@string/email"
         android:textSize="15sp"
@@ -57,21 +58,21 @@
 
     <ImageView
         android:id="@+id/email_arrow"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="@dimen/arrow_width"
+        android:layout_height="@dimen/arrow_height"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/divider"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="@dimen/margin_top_arrow"
+        android:layout_marginEnd="@dimen/margin_small"
         android:contentDescription="@string/arrow_button_to_show_e_mail"
         app:srcCompat="@drawable/arrow_button" />
 
     <TextView
         android:id="@+id/email_address_text"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/cell_height"
         android:layout_below="@id/divider"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/margin_extra_small"
         android:layout_toStartOf="@id/email_arrow"
         android:gravity="center"
         android:textSize="15sp" />
@@ -88,8 +89,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/divider_mail"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="@dimen/cell_height"
+        android:layout_marginStart="@dimen/margin_small"
         android:text="@string/discovery_settings"
         android:textColor="@color/blindly_purple_secondary"
         android:textSize="16sp"
@@ -105,7 +106,7 @@
     <Button
         android:id="@+id/location_button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/cell_height"
         android:layout_below="@id/divider2"
         android:background="@color/transparent"
         android:foreground="?selectableItemBackground"
@@ -114,9 +115,9 @@
     <TextView
         android:id="@+id/location_text"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/cell_height"
         android:layout_below="@id/divider2"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_small"
         android:gravity="center"
         android:text="@string/location"
         android:textSize="15sp"
@@ -125,8 +126,8 @@
     <TextView
         android:id="@+id/current_location_text"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="@dimen/cell_height"
+        android:layout_marginEnd="@dimen/margin_extra_small"
         android:layout_below="@id/divider2"
         android:layout_toStartOf="@id/location_arrow"
         android:gravity="center"
@@ -134,12 +135,12 @@
 
     <ImageView
         android:id="@+id/location_arrow"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="@dimen/arrow_width"
+        android:layout_height="@dimen/arrow_height"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/divider2"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="@dimen/margin_top_arrow"
+        android:layout_marginEnd="@dimen/margin_small"
         android:contentDescription="@string/arrow_button_to_show_location"
         app:srcCompat="@drawable/arrow_button" />
 
@@ -155,7 +156,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/divider_location"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="5dp"
         android:gravity="top"
         android:text="@string/maximum_distance"
@@ -169,7 +170,7 @@
         android:layout_below="@id/divider_location"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="39dp"
         android:gravity="top"
         android:textSize="15sp" />
 
@@ -178,6 +179,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/maximum_distance_text"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
         android:gravity="center"
         android:stepSize="1"
         android:value="50"
@@ -206,9 +209,9 @@
     <TextView
         android:id="@+id/looking_for_text"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/cell_height"
         android:layout_below="@id/divider_distance"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_small"
         android:gravity="center"
         android:text="@string/looking_for"
         android:textSize="15sp"
@@ -217,21 +220,21 @@
     <TextView
         android:id="@+id/show_me_text"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/cell_height"
         android:layout_below="@id/divider_distance"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/margin_extra_small"
         android:layout_toStartOf="@id/show_me_arrow"
         android:gravity="center"
         android:textSize="15sp" />
 
     <ImageView
         android:id="@+id/show_me_arrow"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="@dimen/arrow_width"
+        android:layout_height="@dimen/arrow_height"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/divider_distance"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="@dimen/margin_top_arrow"
+        android:layout_marginEnd="@dimen/margin_small"
         android:contentDescription="@string/arrow_button_to_show_show_me_settings"
         app:srcCompat="@drawable/arrow_button" />
 
@@ -247,7 +250,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider_showme"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/age_range"
@@ -261,7 +264,7 @@
         android:layout_below="@+id/divider_showme"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="39dp"
         android:gravity="top"
         android:textSize="15sp" />
 
@@ -270,6 +273,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/age_range_text"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
         android:gravity="center"
         android:stepSize="1"
         android:valueFrom="18"
@@ -290,9 +295,10 @@
         android:id="@+id/logout_button"
         android:layout_width="@dimen/pill_shape_width"
         android:layout_height="@dimen/pill_shape_height"
-        android:layout_below="@+id/divider_agerange"
+        android:layout_below="@id/divider_agerange"
+        android:layout_marginTop="@dimen/margin"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
+        android:layout_marginBottom="@dimen/margin_small"
         android:onClick="logout"
         android:text="@string/logout_button_text"
         app:shapeAppearanceOverlay="@style/PillShapeButton" />
@@ -301,9 +307,8 @@
         android:id="@+id/delete_account_button"
         android:layout_width="@dimen/pill_shape_width"
         android:layout_height="@dimen/pill_shape_height"
-        android:layout_below="@+id/logout_button"
+        android:layout_below="@id/logout_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:onClick="deleteAccount"
         android:text="@string/delete_account_button_text"
         app:shapeAppearanceOverlay="@style/PillShapeButton" />

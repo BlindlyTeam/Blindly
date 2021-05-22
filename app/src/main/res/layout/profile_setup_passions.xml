@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".profile_setup.ProfilePassions">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
-
-
         <ProgressBar
             android:id="@+id/progressBar_p7"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="416dp"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/progress_bar_height"
             android:progress="78" />
 
@@ -25,487 +17,485 @@
             android:id="@+id/text_p7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_below="@id/progressBar_p7"
+            android:layout_marginTop="@dimen/margin"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin_end"
             android:text="@string/passions"
             android:textColor="#000000"
-            android:textSize="36sp"
-            android:layout_below="@id/progressBar_p7"
-            android:paddingHorizontal="50dp"/>
+            android:textSize="36sp"/>
 
         <TextView
             android:id="@+id/guideline_p7"
-            android:layout_width="110dp"
-            android:layout_height="27dp"
-            android:text="@string/select_up_to_5"
-            android:layout_toEndOf="@id/text_p7"
-            android:layout_above="@id/at_least_one_warning"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/text_p7"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/margin_double"
+            android:layout_marginBottom="@dimen/margin_extra_small"
+            android:text="@string/select_up_to_5"/>
 
         <TextView
             android:id="@+id/no_more_than_5_warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/text_p7"
+            android:layout_marginStart="@dimen/margin"
             android:text="@string/you_can_not_select_more_than_5"
             android:textColor="#FF0000"
-            android:visibility="invisible"
-            android:layout_below="@id/text_p7"
-            android:paddingHorizontal="25dp"/>
-
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/at_least_one_warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/text_p7"
+            android:layout_marginStart="@dimen/margin"
             android:text="@string/please_select_at_least_one"
             android:textColor="#FF0000"
-            android:visibility="invisible"
-            android:layout_below="@id/text_p7"
-            android:paddingHorizontal="25dp"/>
+            android:visibility="invisible"/>
 
-        <Space
-            android:id="@+id/space_7_0"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_below="@id/at_least_one_warning"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/button_p7"
+        android:layout_below="@id/text_p7"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin">
 
-        <ScrollView
-            android:id="@+id/scrollview_7"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="290dp"
-            android:layout_below="@id/space_7_0"
-            android:paddingHorizontal="25dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup_p7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup_p7"
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/brunch_chip"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/brunch"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/brunch_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/brunch"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/wine_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/wine"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/wine_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/wine"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/fashion_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/fashion"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/fashion_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/fashion"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/cycling_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/cycling"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/cycling_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/cycling"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/running_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/running"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/running_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/running"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/coffee_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/coffee"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/tea_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/tea"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/comedy_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/comedy"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/coffee_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/coffee"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/walking_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/walking"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/comedy_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/comedy"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/board_games_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/board_games"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/walking_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/walking"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/karaoke_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/karaoke"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/board_games_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/board_games"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/dog_lover_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/dog_lover"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/yoga_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/yoga"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/yoga_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/yoga"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/karaoke_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/karaoke"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/cocktails_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/cocktails"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/dog_lover_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/dog_lover"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/dancing_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/dancing"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/gamer_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/gamer"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/photo_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/photography"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/art_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/art"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/foodie_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/foodie"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/cocktails_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/cocktails"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/baking_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/baking"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/dancing_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/dancing"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/swimming_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/swimming"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/photo_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/photography"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/netflix_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/netflix"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/writer_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/writer"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/outdoors_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/outdoors"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/foodie_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/foodie"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/music_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/music"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/baking_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/baking"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/movies_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/movies"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/swimming_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/swimming"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/climbing_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/climbing"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/netflix_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/netflix"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/fishing_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/fishing"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/outdoors_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/outdoors"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/art_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/art"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/music_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/music"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors"
-                        app:chipEndPadding="6dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/writer_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/writer"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/movies_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/movies"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/cat_lover_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/cat_lover"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/climbing_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/climbing"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/reading_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/reading"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/fishing_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/fishing"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/football_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/football"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/cat_lover_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/cat_lover"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gamer_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/gamer"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/reading_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/reading"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/spirituality_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/spirituality"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/football_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/football"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gardening_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/gardening"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/spirituality_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/spirituality"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/tea_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:text="@string/tea"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_state_colors"
+                    app:chipEndPadding="6dp" />
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+    </ScrollView>
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/gardening_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:text="@string/gardening"
-                        android:textAlignment="center"
-                        app:checkedIconEnabled="false"
-                        app:checkedIconVisible="false"
-                        app:chipBackgroundColor="@color/chip_state_colors" />
-                </com.google.android.material.chip.ChipGroup>
-            </LinearLayout>
-        </ScrollView>
-
-        <com.google.android.material.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
             android:id="@+id/button_p7"
             android:layout_width="@dimen/pill_shape_width"
             android:layout_height="@dimen/pill_shape_height"
             android:onClick="startProfileAudioRecording"
             android:text="@string/continue_str"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="78dp"
-            android:layout_below="@id/scrollview_7"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin"
             app:shapeAppearanceOverlay="@style/PillShapeButton" />
-    </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

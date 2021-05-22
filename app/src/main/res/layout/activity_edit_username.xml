@@ -20,8 +20,9 @@
         android:id="@+id/edit_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginTop="@dimen/margin_small"
         android:layout_below="@id/username_toolbar"
         android:ems="10"
         android:inputType="textPersonName"
@@ -33,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_username"
-        android:layout_marginStart="10dp"
+        android:layout_alignStart="@id/edit_username"
         android:text="@string/name_can_t_be_less_than_2_characters"
         android:textColor="#FA0000"
         android:visibility="invisible" />
@@ -43,17 +44,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_username"
-        android:layout_marginStart="10dp"
+        android:layout_alignStart="@id/edit_username"
         android:text="@string/name_can_t_be_more_than_20_characters"
         android:textColor="#FF0000"
         android:visibility="invisible" />
 
     <TextView
         android:id="@+id/warning3_p2"
-        android:layout_width="169dp"
-        android:layout_height="31dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/edit_username"
-        android:layout_marginStart="10dp"
+        android:layout_alignStart="@id/edit_username"
         android:text="@string/please_use_only_letters"
         android:textColor="#FF0000"
         android:visibility="invisible" />
@@ -63,18 +64,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_username"
-        android:layout_marginStart="10dp"
+        android:layout_alignStart="@id/edit_username"
         android:text="@string/username_update_success"
-        android:visibility="invisible" />
-
-    <TextView
-        android:id="@+id/update_username_failure_notice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edit_username"
-        android:layout_marginStart="10dp"
-        android:text="@string/update_username_unknown_error"
-        android:textColor="@color/design_default_color_error"
         android:visibility="invisible" />
 
     <com.google.android.material.button.MaterialButton
