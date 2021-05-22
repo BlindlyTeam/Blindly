@@ -68,10 +68,6 @@ class RecordingActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule<RecordingActivity>(intent)
 
-    @get:Rule
-    var permissionRule: GrantPermissionRule =
-        GrantPermissionRule.grant(android.Manifest.permission.RECORD_AUDIO)
-
     @Before
     fun setup() {
         hiltRule.inject()
