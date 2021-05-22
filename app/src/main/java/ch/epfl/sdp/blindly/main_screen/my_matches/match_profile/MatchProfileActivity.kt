@@ -33,7 +33,7 @@ class MatchProfileActivity : AppCompatActivity() {
     private var profileID: String? = null
     private lateinit var viewModel: UserViewModel
     private var audioFilePath: String? = null
-    private var mediaPlayer: MediaPlayer? = null
+    private lateinit var mediaPlayer: MediaPlayer
 
     @Inject
     lateinit var assistedFactory: ViewModelAssistedFactory
@@ -94,21 +94,15 @@ class MatchProfileActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        mediaPlayer?.stop()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        mediaPlayer.stop()
+        mediaPlayer.release()
     }
 
     private fun bindPlayButton(button: Button) {
         val bounce = AnimationUtils.loadAnimation(this, R.anim.bouncy_button)
         button.setOnClickListener {
             button.startAnimation(bounce)
-
-            if (mediaPlayer!!.isPlaying) {
-                mediaPlayer?.stop()
-            } else {
-                mediaPlayer?.start()
-            }
+            mediaPlayer.start()
         }
     }
 
@@ -125,11 +119,14 @@ class MatchProfileActivity : AppCompatActivity() {
         val storageRef = storage.reference
         // Create a reference with the recordingPath
         val pathRef = storageRef.child(audioFilePath!!)
-        val audioFile = File.createTempFile("Audio", "amr")
+        val audioFile = File.createTempFile("MatchProfile_Audio", "amr")
         pathRef.getFile(audioFile).addOnSuccessListener {
             mediaPlayer = MediaPlayer()
-            mediaPlayer!!.setDataSource(this, Uri.fromFile(audioFile))
-            mediaPlayer!!.prepare()
+            mediaPlayer.setDataSource(this, Uri.fromFile(audioFile))
+            mediaPlayer.setOnCompletionListener {
+                it.stop()
+            }
+            mediaPlayer.prepare()
         }
     }
 }
