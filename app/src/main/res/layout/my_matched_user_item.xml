@@ -51,7 +51,8 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/ic_baseline_person_24"
+            android:background="@drawable/profile_fragment_icon"
+            android:backgroundTint="@color/blindly_grey"
             android:contentDescription="@string/my_profile_button_description"/>
 
         <ImageButton

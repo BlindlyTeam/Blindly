@@ -15,10 +15,10 @@ import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.getCurrentL
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.storage.UserCache
+import ch.epfl.sdp.blindly.utils.ChipGroupUtils.Companion.setCheckedChips
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel.Companion.instantiateViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,7 +58,8 @@ class MatchProfileActivity : AppCompatActivity() {
 
             viewModel = instantiateViewModel(
                 profileID, assistedFactory,
-                this, this
+                this,
+                this
             )
         } else {
             return
@@ -81,8 +82,8 @@ class MatchProfileActivity : AppCompatActivity() {
             )
             profileGender.text = user.gender
             profileLocation.text = getCurrentLocationStringFromUser(this, user)
-            user.sexualOrientations?.let { it -> setCheckedChips(profileOrientations, it) }
-            user.passions?.let { it -> setCheckedChips(profilePassions, it) }
+            user.sexualOrientations?.let { it -> setCheckedChips(profileOrientations, it, this) }
+            user.passions?.let { it -> setCheckedChips(profilePassions, it, this) }
             audioFilePath = user.recordingPath
         }
 
@@ -103,14 +104,6 @@ class MatchProfileActivity : AppCompatActivity() {
         button.setOnClickListener {
             button.startAnimation(bounce)
             mediaPlayer?.start()
-        }
-    }
-
-    private fun setCheckedChips(chipGroup: ChipGroup, text: List<String>) {
-        for (t in text) {
-            val chip = Chip(this)
-            chip.text = t
-            chipGroup.addView(chip)
         }
     }
 

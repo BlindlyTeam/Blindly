@@ -14,7 +14,7 @@ import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -32,7 +32,7 @@ class MatchProfileActivityTest {
     private val intent = Intent(
         ApplicationProvider.getApplicationContext(),
         MatchProfileActivity::class.java
-    ).putExtra(ChatActivity.MATCH_ID, TEST_UID)
+    ).putExtra(BUNDLE_MATCHED_UID_LABEL, TEST_UID)
 
     @Inject
     lateinit var userRepository: UserRepository
