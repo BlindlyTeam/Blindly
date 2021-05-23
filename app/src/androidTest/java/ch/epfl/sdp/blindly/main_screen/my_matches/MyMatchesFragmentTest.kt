@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.GrantPermissionRule
 import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.MainScreen
@@ -31,6 +32,10 @@ class MyMatchesFragmentTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(MainScreen::class.java)
+
+    @get:Rule
+    var permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

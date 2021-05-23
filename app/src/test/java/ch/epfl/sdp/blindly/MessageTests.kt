@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly
 
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
-import ch.epfl.sdp.blindly.main_screen.chat.Message
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.Message
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*

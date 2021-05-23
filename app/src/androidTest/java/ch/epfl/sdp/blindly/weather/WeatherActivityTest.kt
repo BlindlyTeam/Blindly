@@ -14,6 +14,7 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.GrantPermissionRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.fake_module.FakeWeatherServiceModule
 import ch.epfl.sdp.blindly.fake_module.FakeWeatherServiceModule.Companion.DAY
@@ -74,6 +75,10 @@ class WeatherActivityTest {
             )
         )
     )
+
+    @get:Rule
+    var permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

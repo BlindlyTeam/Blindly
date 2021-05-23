@@ -97,7 +97,6 @@ class CardStackAdapter(
 
     /**
      * Plays or pauses the audio from the user on the card
-     *
      */
     fun playPauseAudio(position: Int) {
         val mediaPlayer = mediaPlayers[position]

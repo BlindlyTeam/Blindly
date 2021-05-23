@@ -5,20 +5,17 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import ch.epfl.sdp.blindly.R
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
-import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity.Companion.MATCH_ID
-import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.DatabaseHelper
-import ch.epfl.sdp.blindly.main_screen.chat.Message
-import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
+import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity.Companion.MATCH_NAME
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.Message
 import ch.epfl.sdp.blindly.user.UserHelper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers.equalTo
 import org.junit.Before
@@ -69,7 +66,7 @@ class UserMapTest {
             ApplicationProvider.getApplicationContext(),
             UserMapActivity::class.java
         )
-        intent.putExtra(MATCH_ID, OTHER_USER_ID)
+        intent.putExtra(BUNDLE_MATCHED_UID_LABEL, OTHER_USER_ID)
         ActivityScenario.launch<UserMapActivity>(intent)
         onView(withId(R.id.map)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
@@ -79,7 +76,7 @@ class UserMapTest {
             ApplicationProvider.getApplicationContext(),
             UserMapActivity::class.java
         )
-        intent.putExtra(MATCH_ID, OTHER_USER_ID)
+        intent.putExtra(BUNDLE_MATCHED_UID_LABEL, OTHER_USER_ID)
         intent.putExtra(MATCH_NAME, OTHER_USER_NAME)
         ActivityScenario.launch<UserMapActivity>(intent)
         onView(withId(R.id.map)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
@@ -91,7 +88,7 @@ class UserMapTest {
             ApplicationProvider.getApplicationContext(),
             UserMapActivity::class.java
         )
-        intent.putExtra(MATCH_ID, OTHER_USER_ID)
+        intent.putExtra(BUNDLE_MATCHED_UID_LABEL, OTHER_USER_ID)
         intent.putExtra(MATCH_NAME, OTHER_USER_NAME)
         ActivityScenario.launch<UserMapActivity>(intent)
 
@@ -123,7 +120,7 @@ class UserMapTest {
             ApplicationProvider.getApplicationContext(),
             UserMapActivity::class.java
         )
-        intent.putExtra(MATCH_ID, OTHER_USER_ID)
+        intent.putExtra(BUNDLE_MATCHED_UID_LABEL, OTHER_USER_ID)
         intent.putExtra(MATCH_NAME, OTHER_USER_NAME)
         val scenario = ActivityScenario.launch<UserMapActivity>(intent)
 
