@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.getCurrentLocationStringFromUser
-import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
@@ -53,8 +53,8 @@ class MatchProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_match_profile)
 
         // Cancels loading if the profileID isn't given in the Bundle
-        if (intent.extras?.containsKey(ChatActivity.MATCH_ID) == true) {
-            profileID = intent.extras!!.getString(ChatActivity.MATCH_ID)
+        if (intent.extras?.containsKey(BUNDLE_MATCHED_UID_LABEL) == true) {
+            profileID = intent.extras!!.getString(BUNDLE_MATCHED_UID_LABEL)
 
             viewModel = instantiateViewModel(
                 profileID, assistedFactory,

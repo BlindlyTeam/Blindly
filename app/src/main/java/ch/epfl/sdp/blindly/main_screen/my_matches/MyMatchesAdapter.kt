@@ -20,15 +20,17 @@ import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
 import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
 
-private const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
-private const val BUNDLE_MATCHED_USERNAME_LABEL = "username"
-
 class MyMatchesAdapter(
     var my_matches: ArrayList<MyMatch>,
     private var viewHolderList: ArrayList<ViewHolder>,
     var context: Context,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<MyMatchesAdapter.ViewHolder>() {
+
+    companion object {
+        const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
+        const val BUNDLE_MATCHED_USERNAME_LABEL = "username"
+    }
 
     /**
      * Custom ViewHolder class that contains all the elements that will be used later on in
