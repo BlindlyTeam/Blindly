@@ -1,19 +1,24 @@
 package ch.epfl.sdp.blindly.main_screen.my_matches.chat
 
+import android.content.Intent
 import android.view.View
-import androidx.core.os.bundleOf
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.init
-import androidx.test.espresso.intent.Intents.release
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.util.TreeIterables
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.DatabaseHelper
+import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
+import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_USERNAME_LABEL
+import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.common.base.Predicate
 import com.google.common.collect.Iterables
@@ -28,17 +33,18 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-const val OTHER_USER_ID = "other_user_id"
 const val TEST_MESSAGE = "This is a test message"
 
 @HiltAndroidTest
-class LiveChatTest {
+class ChatActivityTest {
+    private val intent = Intent(
+        ApplicationProvider.getApplicationContext(),
+        ChatActivity::class.java
+    ).putExtra(BUNDLE_MATCHED_UID_LABEL, TEST_UID)
+        .putExtra(BUNDLE_MATCHED_USERNAME_LABEL, fakeUser.username)
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(
-        ChatActivity::class.java,
-        bundleOf(BUNDLE_MATCHED_UID_LABEL to OTHER_USER_ID)
-    )
+    val activityRule = ActivityScenarioRule<ChatActivity>(intent)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -119,5 +125,16 @@ class LiveChatTest {
         }
         sendMessage()
         onView(withId(R.id.recyclerView)).check(matches(withViewCount(withText(TEST_MESSAGE), 2)))
+    }
+
+    @Test
+    fun userNameIsCorrectlyDisplayedInActionBar() {
+        onView(withId(R.id.matchNameBar)).check(matches(hasDescendant(withText(fakeUser.username))))
+    }
+
+    @Test
+    fun clickingOnActionBarFiresMatchProfile() {
+        onView(withId(R.id.matchNameBar)).perform(click())
+        intended(hasComponent(MatchProfileActivity::class.java.name))
     }
 }

@@ -25,10 +25,8 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-
 @HiltAndroidTest
 class MyMatchesFragmentTest {
-
 
     @get:Rule
     val activityRule = ActivityScenarioRule(MainScreen::class.java)
@@ -43,7 +41,7 @@ class MyMatchesFragmentTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        runBlocking { goToProfileFragment() }
+        runBlocking { goToMyMatchFragment() }
         init()
     }
 
@@ -52,7 +50,7 @@ class MyMatchesFragmentTest {
         release()
     }
 
-    private suspend fun goToProfileFragment() {
+    private suspend fun goToMyMatchFragment() {
         // Wait for everything to settle to avoid race conditions
         // Waiting synchronously isn't a problem since there are no other
         // tasks running and we don't care about UI responsivity while testing
