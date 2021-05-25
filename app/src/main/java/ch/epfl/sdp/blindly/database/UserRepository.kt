@@ -14,8 +14,10 @@ import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.reflect.KSuspendFunction1
 
@@ -51,7 +53,10 @@ class UserRepository @Inject constructor(
             Log.d(TAG, "Found user with uid: $uid in cache")
             return cached
         }
-        val localUser = userDAO.getUser(uid)
+        val localUser: User?
+        withContext(Dispatchers.IO) {
+            localUser = userDAO.getUser(uid)
+        }
         if(localUser != null) {
             Log.d(TAG, "Found user with uid: $uid in local DB")
             return localUser
@@ -72,7 +77,9 @@ class UserRepository @Inject constructor(
             if (freshUser != null) {
                 Log.d(TAG, "Put User \"$uid\" in local cache and local DB")
                 userCache.put(uid, freshUser)
-                userDAO.insertUser(UserEntity(uid, freshUser))
+                withContext(Dispatchers.IO) {
+                    userDAO.insertUser(UserEntity(uid, freshUser))
+                }
             }
             Log.d(TAG, "Retrieve User \"$uid\" in firestore")
             return freshUser
@@ -88,7 +95,9 @@ class UserRepository @Inject constructor(
             Log.d(TAG, "Updated user in local cache and local DB")
             val updatedUser = User.updateUser(user, field, newValue)
             userCache.put(uid, updatedUser)
-            userDAO.updateUser(UserEntity(uid, updatedUser))
+            withContext(Dispatchers.IO) {
+                userDAO.updateUser(UserEntity(uid, updatedUser))
+            }
         } else {
             refreshUser(uid)
         }
