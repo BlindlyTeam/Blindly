@@ -30,6 +30,7 @@ class UserRepository @Inject constructor(
     private val userCache: UserCache,
     localDB: AppDatabase,
 ) {
+
     private val userDAO: UserDAO = localDB.UserDAO()
 
     companion object {
@@ -52,6 +53,7 @@ class UserRepository @Inject constructor(
         }
         val localUser = userDAO.getUser(uid)
         if(localUser != null) {
+            Log.d(TAG, "Found user with uid: $uid in local DB")
             return localUser
         }
         return refreshUser(uid)
@@ -68,7 +70,7 @@ class UserRepository @Inject constructor(
             val freshUser = db.collection(USER_COLLECTION)
                 .document(uid).get().await().toUser()
             if (freshUser != null) {
-                Log.d(TAG, "Put User \"$uid\" in local cache")
+                Log.d(TAG, "Put User \"$uid\" in local cache and local DB")
                 userCache.put(uid, freshUser)
                 userDAO.insertUser(UserEntity(uid, freshUser))
             }
@@ -83,7 +85,7 @@ class UserRepository @Inject constructor(
     private suspend fun <T> updateLocalCacheAndDB(uid: String, field: String, newValue: T) {
         val user = userCache.get(uid)
         if (user != null) {
-            Log.d(TAG, "Updated user in local cache")
+            Log.d(TAG, "Updated user in local cache and local DB")
             val updatedUser = User.updateUser(user, field, newValue)
             userCache.put(uid, updatedUser)
             userDAO.updateUser(UserEntity(uid, updatedUser))

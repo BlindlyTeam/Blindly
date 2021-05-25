@@ -20,6 +20,7 @@ object AppDatabaseModule {
     @Provides
     fun provideAppDataBase(@ApplicationContext appContext: Context): AppDatabase {
         return Room.databaseBuilder(appContext, AppDatabase::class.java, "LocalDataBase")
+            .allowMainThreadQueries()
             .build()
     }
 }
