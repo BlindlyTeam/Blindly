@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.chat
+package ch.epfl.sdp.blindly.main_screen.my_matches.chat
 
 import android.view.LayoutInflater
 import android.view.View

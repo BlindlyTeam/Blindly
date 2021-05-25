@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="4dp"
-    tools:context=".main_screen.chat.ChatActivity">
+    tools:context=".main_screen.my_matches.chat.ChatActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/matchNameBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="4dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:nestedScrollingEnabled="false"
         android:paddingStart="8dp"
         android:paddingTop="8dp"
@@ -21,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/matchNameBar"
         app:layout_constraintVertical_bias="0.0"
         app:stackFromEnd="true" />
 
@@ -69,6 +79,5 @@
             app:srcCompat="@android:drawable/ic_menu_send"
             app:tint="@color/light_blue_900" />
     </LinearLayout>
-
-
+  
 </androidx.constraintlayout.widget.ConstraintLayout>

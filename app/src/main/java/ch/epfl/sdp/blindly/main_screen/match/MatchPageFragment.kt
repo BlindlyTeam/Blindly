@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -18,8 +19,11 @@ import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.match.algorithm.MatchingAlgorithm
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
 import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
+import ch.epfl.sdp.blindly.user.LIKES
+import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.storage.FirebaseStorage
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +50,11 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private lateinit var adapter: CardStackAdapter
     private lateinit var cardStackView: CardStackView
     private lateinit var fragView: View
+    private lateinit var currentCardUid: String
+    private lateinit var likedUserId: String
+    private lateinit var currentUserId: String
+    private lateinit var currentUser: User
+    private var currentPosition = -1
 
     @Inject
     lateinit var userHelper: UserHelper
@@ -90,7 +99,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * @param savedInstanceState
      * @return the fragment's view
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -104,6 +112,12 @@ class MatchPageFragment : Fragment(), CardStackListener {
         viewLifecycleOwner.lifecycleScope.launch {
             handleCoroutine()
         }
+        // While waiting for the profiles to load, show a message and
+        // disable the play/pause button
+        fragView.findViewById<TextView>(R.id.no_profile_text).text =
+            getString(R.string.loading_profiles)
+        fragView.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable = false
+
         return fragView
     }
 
@@ -117,11 +131,21 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * Do some actions when the card is swiped
+     * When the card is swiped right, add the uid to the liked profiles
+     * and check for matches
      *
      * @param direction the direction the card is swiped (left, right)
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCardSwiped(direction: Direction) {
+        if (direction == Direction.Right) {
+            likedUserId = currentCardUid
+            val updatedLikesList = currentUser.likes?.plus(likedUserId)
+            viewLifecycleOwner.lifecycleScope.launch {
+                userRepository.updateProfile(currentUserId, LIKES, updatedLikesList)
+                checkMatch()
+            }
+        }
     }
 
     override fun onCardRewound() {
@@ -131,26 +155,38 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * Do some action when the card appear
+     * When the card appears, save the uid of the user
+     * on the card along with its position
      *
      * @param view in which the card is
      * @param position in the view
      */
     override fun onCardAppeared(view: View, position: Int) {
+        currentCardUid = adapter.uids[position]
+        currentPosition = position
     }
 
     /**
-     * Do some action when the card disappears
+     * When the card disappears, stops the mediaPlayer,
+     * displays a message if the last card has been swiped
+     * and launches the next mediaPlayer if there is one
      *
      * @param view in which the card was
      * @param position in the view
      */
     override fun onCardDisappeared(view: View, position: Int) {
+        adapter.mediaPlayers[position].stop()
+        if (position == adapter.itemCount - 1) {
+            fragView.findViewById<TextView>(R.id.no_profile_text).text =
+                getString(R.string.no_more_swipes)
+            fragView.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable = false
+        } else {
+            adapter.playPauseAudio(position + 1)
+        }
     }
 
     /**
-     * Initialize the manager
-     *
+     * Initializes the manager
      */
     private fun setupManager() {
         manager = CardStackLayoutManager(context, this)
@@ -168,18 +204,16 @@ class MatchPageFragment : Fragment(), CardStackListener {
     }
 
     /**
-     * Initialize the adapter
-     *
+     * Initializes the adapter
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        adapter = CardStackAdapter(potentialMatches, storage)
+        adapter = CardStackAdapter(potentialMatches, storage, fragView)
         setupCardStackView(fragView)
     }
 
     /**
      * Sets up the adapter on the main scope when the coroutine
      * is done processing
-     *
      */
     private suspend fun goBackOnMainThread(potentialProfiles: List<Profile>) {
         withContext(Main) {
@@ -189,7 +223,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * Initialize the cardStackView
-     *
      */
     private fun setupCardStackView(view: View) {
         cardStackView = view.findViewById(R.id.card_stack_view)!!
@@ -200,9 +233,15 @@ class MatchPageFragment : Fragment(), CardStackListener {
                 supportsChangeAnimations = false
             }
         }
+        //Set the message text if no profiles are available
+        if (adapter.itemCount == 0) {
+            fragView.findViewById<TextView>(R.id.no_profile_text).text =
+                getString(R.string.no_available_swipe)
+        } else {
+            fragView.findViewById<TextView>(R.id.no_profile_text).text = ""
+        }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun handleCoroutine() {
         val potentialProfiles = getPotentialMatchesProfiles()
 
@@ -212,10 +251,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * This function calls the Matching Algorithm to get the potential matches and transforms them
-     * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done.
-     *
+     * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun getPotentialMatchesProfiles(): List<Profile> {
         val matchingAlgorithm = MatchingAlgorithm(userHelper, userRepository)
         val potentialUsers = matchingAlgorithm.getPotentialMatchesFromDatabase()
@@ -227,21 +264,21 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun createProfilesFromUsers(users: List<User>?): List<Profile> {
         if (users == null) {
             return listOf()
         }
-        val userid = userHelper.getUserId()!!
-        val currentUser = userRepository.getUser(userid)
+        currentUserId = userHelper.getUserId()!!
+        currentUser = userRepository.getUser(currentUserId)!!
         val profiles = ArrayList<Profile>()
         for (user in users) {
             profiles.add(
                 Profile(
+                    user.uid!!,
                     user.username!!,
                     User.getUserAge(user)!!,
                     user.gender!!,
-                    computeDistance(currentUser?.location!!, user.location!!),
+                    computeDistance(currentUser.location!!, user.location!!),
                     user.recordingPath!!
                 )
             )
@@ -251,7 +288,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * Setup the 3 buttons (like, rewind, skip)
-     *
      */
     private fun setupButtons(view: View) {
         val skip = view.findViewById<View>(R.id.skip_button)
@@ -260,7 +296,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
         val playPause = view.findViewById<View>(R.id.play_pause_button)
         playPause.setOnClickListener {
-            adapter.playPauseAudio()
+            adapter.playPauseAudio(currentPosition)
         }
         val like = view.findViewById<View>(R.id.like_button)
         like.setOnClickListener {
@@ -289,6 +325,14 @@ class MatchPageFragment : Fragment(), CardStackListener {
         func()
     }
 
+    /**
+     * Compute the distance between the currentUser's location
+     * and the location of the user on the card
+     *
+     * @param thisLocation the location of the currentUser
+     * @param otherLocation the location of the user on the card
+     * @return the computed distance
+     */
     private fun computeDistance(thisLocation: List<Double>, otherLocation: List<Double>): Int {
         val thisLoc = Location("")
         thisLoc.latitude = thisLocation[0]
@@ -299,5 +343,26 @@ class MatchPageFragment : Fragment(), CardStackListener {
         otherLoc.longitude = otherLocation[1]
 
         return thisLoc.distanceTo(otherLoc).roundToInt() / M_TO_KM
+    }
+
+    /**
+     * When a user likes someone, check if the other liked them
+     * too and match them both
+     *
+     */
+    private suspend fun checkMatch() {
+        val otherUser = userRepository.getUser(likedUserId)
+        if (otherUser?.likes?.contains(currentUserId)!!) {
+            userRepository.updateProfile(
+                likedUserId,
+                MATCHES,
+                otherUser.matches?.plus(currentUserId)
+            )
+            userRepository.updateProfile(
+                currentUserId,
+                MATCHES,
+                currentUser.matches?.plus(likedUserId)
+            )
+        }
     }
 }

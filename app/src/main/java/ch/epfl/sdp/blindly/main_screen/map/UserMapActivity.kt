@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.database.DatabaseHelper
-import ch.epfl.sdp.blindly.main_screen.chat.Message
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.Message
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.permissions.LocationPermission.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import ch.epfl.sdp.blindly.location.permissions.LocationPermission.Companion.PermissionDeniedDialog.Companion.newInstance

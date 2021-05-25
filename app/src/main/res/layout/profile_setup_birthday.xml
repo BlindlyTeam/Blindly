@@ -1,76 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".profile_setup.ProfileBirthday">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_p3"
-        android:layout_width="@dimen/pill_shape_width"
-        android:layout_height="@dimen/pill_shape_height"
-        android:onClick="startProfileGender"
-        android:text="@string/continue_str"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955"
-        app:shapeAppearanceOverlay="@style/PillShapeButton" />
-
     <ProgressBar
         android:id="@+id/progressBar_p3"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="413dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/progress_bar_height"
-        android:progress="22"
-        app:layout_constraintBottom_toTopOf="@+id/text_p3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:progress="22" />
 
     <TextView
         android:id="@+id/text_p3"
-        android:layout_width="196dp"
-        android:layout_height="108dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBar_p3"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin_end"
         android:text="@string/my_birthday_is"
         android:textColor="#000000"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.192"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.167" />
+        android:textSize="36sp" />
 
 
     <DatePicker
         android:id="@+id/datePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_p3" />
+        android:datePickerMode="spinner" />
 
     <TextView
         android:id="@+id/warning_p3"
-        android:layout_width="270dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/datePicker"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_alignStart="@id/datePicker"
+        android:layout_alignEnd="@+id/datePicker"
         android:text="@string/the_minimum_age_requirement_is_18_years_old"
         android:textColor="#FF0000"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.581"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.653" />
+        android:visibility="invisible" />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_p3"
+        android:layout_width="@dimen/pill_shape_width"
+        android:layout_height="@dimen/pill_shape_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin"
+        android:onClick="startProfileGender"
+        android:text="@string/continue_str"
+        app:shapeAppearanceOverlay="@style/PillShapeButton" />
+</RelativeLayout>

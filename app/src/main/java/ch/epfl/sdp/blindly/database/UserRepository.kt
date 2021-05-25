@@ -8,7 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.database.localDB.AppDatabase
 import ch.epfl.sdp.blindly.database.localDB.UserDAO
 import ch.epfl.sdp.blindly.database.localDB.UserEntity
-import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
+import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -65,6 +67,21 @@ class UserRepository @Inject constructor(
     }
 
     /**
+     * Get the location of the user, wrap it as a BlindlyLatLng
+     * and return it to use with WeatherActivity
+     *
+     * @param uid UID of the current user
+     * @return a BlindlyLatLng location for weather activity
+     */
+    suspend fun getLocation(uid: String): BlindlyLatLng {
+        val user = getUser(uid)
+        if (user != null) {
+            return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
+        }
+        return BlindlyLatLng(LAUSANNE_LATLNG)
+    }
+
+    /**
      * Look for the user with the corresponding uid in firestore and store it in the local cache
      *
      * @param uid the uid of the user to retrieve in firestore
@@ -111,7 +128,6 @@ class UserRepository @Inject constructor(
      * @param field the field of the value to change inside the database
      * @param newValue the new value to set for the user
      */
-
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         if (newValue !is String && newValue !is List<*> && newValue !is Int)
             throw IllegalArgumentException("Expected String, List<String> or Int")
@@ -133,7 +149,6 @@ class UserRepository @Inject constructor(
         return db.collection(USER_COLLECTION)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     suspend fun getMyMatches(
         viewLifecycleOwner: LifecycleOwner,
         userId: String,
@@ -169,7 +184,5 @@ class UserRepository @Inject constructor(
                 Log.d(TAG, "Current data: null")
             }
         }
-
     }
-
 }

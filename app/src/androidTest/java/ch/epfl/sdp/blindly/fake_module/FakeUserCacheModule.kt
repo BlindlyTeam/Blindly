@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.fake_module
 
 import ch.epfl.sdp.blindly.dependency_injection.UserCacheModule
+import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -18,14 +19,14 @@ import javax.inject.Singleton
 )
 open class FakeUserCacheModule {
     companion object {
-        private const val uid = "abcd1234"
+        private const val uid = TEST_UID
         private const val username = "Jane Doe"
         private const val usernameUpdated = "Jack"
         private val location = createLocationTableEPFL() // Ecublens, Switzerland
         private const val MULHOUSE_LAT = 47.749
         private const val MULHOUSE_LON = 7.335
         private val locationUpdated = listOf(MULHOUSE_LAT, MULHOUSE_LON) // Mulhouse, France
-        private const val birthday = "01.01.01"
+        private const val birthday = "01.01.2001"
         private const val gender = "Woman"
         private const val genderUpdated = "Man"
         private val sexualOrientations = listOf("Asexual")
@@ -78,7 +79,7 @@ open class FakeUserCacheModule {
     @Provides
     open fun provideUserCache(): UserCache {
         val userCache = Mockito.mock(UserCache::class.java)
-        Mockito.`when`(userCache.get(FakeUserHelperModule.TEST_UID)).thenReturn(fakeUser)
+        Mockito.`when`(userCache.get(TEST_UID)).thenReturn(fakeUser)
         return userCache
     }
 }

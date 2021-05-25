@@ -35,7 +35,6 @@ class MatchingAlgorithm(
      *
      * @return a list of users that can be showed in the swiping interface
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getPotentialMatchesFromDatabase(): List<User>? {
         val userid = userHelper.getUserId()!!
         val currentUser = userRepository.getUser(userid)
@@ -59,7 +58,7 @@ class MatchingAlgorithm(
             try {
                 val users = query.get().await()
                 for (user in users) {
-                    if (user.id != userid) {
+                    if (user.id != userid && !currentUser.likes!!.contains(user.id)) {
                         matches += user.toUser()
                     }
                 }

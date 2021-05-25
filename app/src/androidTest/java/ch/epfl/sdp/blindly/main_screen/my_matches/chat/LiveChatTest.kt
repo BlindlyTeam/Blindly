@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.chat
+package ch.epfl.sdp.blindly.main_screen.my_matches.chat
 
 import android.view.View
 import androidx.core.os.bundleOf
@@ -13,7 +13,7 @@ import androidx.test.espresso.util.TreeIterables
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.DatabaseHelper
-import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.common.base.Predicate
 import com.google.common.collect.Iterables
@@ -33,10 +33,11 @@ const val TEST_MESSAGE = "This is a test message"
 
 @HiltAndroidTest
 class LiveChatTest {
+
     @get:Rule
     val activityRule = ActivityScenarioRule(
         ChatActivity::class.java,
-        bundleOf(ChatActivity.MATCH_ID to OTHER_USER_ID)
+        bundleOf(BUNDLE_MATCHED_UID_LABEL to OTHER_USER_ID)
     )
 
     @get:Rule
@@ -44,6 +45,7 @@ class LiveChatTest {
 
     @Inject
     lateinit var user: UserHelper
+
     @Inject
     lateinit var liveDb: DatabaseHelper
 
@@ -93,6 +95,7 @@ class LiveChatTest {
         buttonUpdate.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         buttonUpdate.perform(click())
     }
+
     @Test
     fun sendReceiveWorks() {
         sendMessage()
