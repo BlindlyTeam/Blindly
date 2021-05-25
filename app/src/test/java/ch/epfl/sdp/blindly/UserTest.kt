@@ -32,8 +32,9 @@ class UserTest {
         private val likes2: List<String> = listOf("efh14fjnaA")
         private val ageRange = listOf(30, 40)
         private val ageRange2 = listOf(20, 60)
-        private val recordingPath = "/user/Presentation.amr"
-        private val recordingPath2 = "/user/PresentationNew.amr"
+        private const val recordingPath = "/user/Presentation.amr"
+        private const val recordingPath2 = "/user/PresentationNew.amr"
+        private val reported = listOf("erdgae43ergag", "Aeadhyt34j")
 
         private const val WRONG_INPUT_FOR_STRING = 5
         private const val WRONG_INPUT_FOR_LIST = "String"
@@ -42,6 +43,7 @@ class UserTest {
         private val WRONG_INPUT_FOR_LIST_DOUBLE = listOf("Int")
         private val WRONG_INPUT_SIZE = listOf(45.6, 4, 5, 6)
         private val WRONG_INPUT_FOR_INT = listOf("Int")
+        private val WRONG_INPUT_FOR_BOOLEAN = listOf(true)
     }
 
     @Test
@@ -149,6 +151,8 @@ class UserTest {
         assertThat(user.likes, equalTo(likes))
         assertThat(user.ageRange, equalTo(ageRange))
         assertThat(user.recordingPath, equalTo(recordingPath))
+        assertThat(user.deleted, equalTo(false))
+        assertThat(user.reported, equalTo(listOf()))
     }
 
     @Test
@@ -372,6 +376,38 @@ class UserTest {
     fun updateAgeRangeWithListWithSizeGreaterThanTwoThrowsException() {
         val user = buildUser()
         User.updateUser(user, AGE_RANGE, WRONG_INPUT_SIZE)
+    }
+
+    @Test
+    fun updateReportedIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, REPORTED, reported)
+        assertThat(user.reported, equalTo(reported))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updateReportedWithOtherThanListThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, REPORTED, WRONG_INPUT_FOR_LIST)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updateReportedWithOtherThanListOfStringThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, REPORTED, WRONG_INPUT_FOR_LIST_STRING)
+    }
+
+    @Test
+    fun updateDeletedIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, DELETED, true)
+        assertThat(user.deleted, equalTo(true))
+    }
+
+    @Test(expected = java.lang.IllegalArgumentException::class)
+    fun updateDeleteWithWithOtherThanBooleanThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, DELETED, WRONG_INPUT_FOR_BOOLEAN)
     }
 
     private fun buildUser(): User {

@@ -2,15 +2,15 @@ package ch.epfl.sdp.blindly.main_screen.match.my_matches
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
@@ -93,32 +93,54 @@ class MyMatchesAdapter(
      * @param position the position of the item in the RecyclerView
      */
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.matchedName.text = my_matches[position].name
+        val myMatch = my_matches[position]
+        viewHolder.matchedName.text = myMatch.name
+
+        if (myMatch.isDeleted) {
+            viewHolder.matchedName.setTextColor(getColor(context, R.color.blindly_grey))
+            viewHolder.chatButton.setBackgroundResource(R.drawable.ic_grey_chat)
+            viewHolder.mapButton.setBackgroundResource(R.drawable.ic_grey_location)
+        }
 
         /*
          * When the layout containing the name is clicked, the layout expands or
          * collapses, and the layout is reset so that it is brand new when re-opened.
          */
         viewHolder.userNameLayout.setOnClickListener {
-            val notIsExpanded = !my_matches[position].isExpanded
+            val notIsExpanded = !myMatch.isExpanded
             toggleLayout(notIsExpanded, viewHolder.expandableChatAndMapLayout)
             my_matches[position].isExpanded = notIsExpanded
         }
 
 
         viewHolder.chatButton.setOnClickListener {
+            if (myMatch.isDeleted) {
+                showNoLongerAvailableToast()
+            }
             val intent = Intent(context, ChatActivity::class.java)
-            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid)
+            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to myMatch.uid)
             intent.putExtras(bundle)
             startActivity(context, intent, null)
         }
 
         viewHolder.mapButton.setOnClickListener {
-            val intent = Intent(context, UserMapActivity::class.java)
-            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid)
-            intent.putExtras(bundle)
-            startActivity(context, intent, null)
+            if (myMatch.isDeleted) {
+                showNoLongerAvailableToast()
+            } else {
+                val intent = Intent(context, UserMapActivity::class.java)
+                val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to myMatch.uid)
+                intent.putExtras(bundle)
+                startActivity(context, intent, null)
+            }
         }
+    }
+
+    private fun showNoLongerAvailableToast() {
+        Toast.makeText(
+            context,
+            context.getString(R.string.user_no_longer_available),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun getItemCount() = my_matches.size

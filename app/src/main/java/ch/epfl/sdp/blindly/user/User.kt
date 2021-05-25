@@ -22,6 +22,8 @@ const val MATCHES = "matches"
 const val LIKES = "likes"
 const val RECORDING_PATH = "recordingPath"
 const val AGE_RANGE = "ageRange"
+const val REPORTED = "reported"
+const val DELETED = "deleted"
 
 /**
  * A class to represent a User
@@ -40,7 +42,9 @@ class User private constructor(
     var matches: List<String>?,
     var likes: List<String>?,
     var recordingPath: String?,
-    var ageRange: List<Int>?
+    var ageRange: List<Int>?,
+    var deleted: Boolean,
+    var reported: List<String>?
 ) {
 
     /**
@@ -78,7 +82,6 @@ class User private constructor(
         var recordingPath: String? = null,
         var ageRange: List<Int> = listOf()
     ) {
-
         /**
          * Set the uid in the UserBuilder
          *
@@ -211,7 +214,8 @@ class User private constructor(
         }
 
         /**
-         * Build a User from the UserBuilder parameters
+         * Build a User from the UserBuilder parameters, by default a User cannot be deleted at
+         * creation and the reported list is empty
          *
          * @return a User
          */
@@ -229,7 +233,9 @@ class User private constructor(
                 matches,
                 likes,
                 recordingPath,
-                ageRange
+                ageRange,
+                false,
+                listOf()
             )
         }
     }
@@ -245,18 +251,20 @@ class User private constructor(
         fun DocumentSnapshot.toUser(): User? {
             try {
                 val uid = id
-                val username = getString("username")!!
-                val location = get("location") as? List<Double>
-                val birthday = getString("birthday")!!
-                val gender = getString("gender")!!
-                val sexualOrientations = get("sexualOrientations") as? List<String>
-                val showMe = getString("showMe")!!
-                val passions = get("passions") as? List<String>
-                val radius = getField<Int>("radius")!!
-                val matches = get("matches") as? List<String>
-                val likes = get("likes") as? List<String>
-                val ageRange = get("ageRange") as? List<Long>
-                val recordingPath = getString("recordingPath")!!
+                val username = getString(USERNAME)!!
+                val location = get(LOCATION) as? List<Double>
+                val birthday = getString(BIRTHDAY)!!
+                val gender = getString(GENDER)!!
+                val sexualOrientations = get(SEXUAL_ORIENTATIONS) as? List<String>
+                val showMe = getString(SHOW_ME)!!
+                val passions = get(PASSIONS) as? List<String>
+                val radius = getField<Int>(RADIUS)!!
+                val matches = get(MATCHES) as? List<String>
+                val likes = get(LIKES) as? List<String>
+                val ageRange = get(AGE_RANGE) as? List<Long>
+                val recordingPath = getString(RECORDING_PATH)!!
+                val deleted = getField<Boolean>(DELETED)!!
+                val reported = get(REPORTED) as? List<String>
 
                 return User(
                     uid,
@@ -271,8 +279,12 @@ class User private constructor(
                     matches,
                     likes,
                     recordingPath,
-                    //Numbers on Firestore are Long, so we need to cast back to Int
-                    listOf(ageRange!![0].toInt(), ageRange[1].toInt())
+                    listOf(
+                        ageRange!![0].toInt(),
+                        ageRange[1].toInt()
+                    ), //Numbers on Firestore are Long, so we need to cast back to Int
+                    deleted,
+                    reported
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile", e)
@@ -289,7 +301,7 @@ class User private constructor(
         fun getUserAge(user: User?): Int? {
             val birthday = user?.birthday
             val date = Date.getDate(birthday)
-            if(date != null)
+            if (date != null)
                 return date.getAge()
             return null
         }
@@ -353,6 +365,14 @@ class User private constructor(
                     assertIsAgeRange(newValue)
                     user.ageRange = newValue as List<Int>
                 }
+                REPORTED -> {
+                    assertIsListOfString(newValue)
+                    user.reported = newValue as List<String>
+                }
+                DELETED -> {
+                    assertIsBoolean(newValue)
+                    user.deleted = newValue as Boolean
+                }
             }
             return user
         }
@@ -396,6 +416,11 @@ class User private constructor(
         private fun <T> assertIsInt(newValue: T) {
             if (newValue !is Int)
                 throw java.lang.IllegalArgumentException("Expected newValue to be an Int")
+        }
+
+        private fun <T> assertIsBoolean(newValue: T) {
+            if (newValue !is Boolean)
+                throw java.lang.IllegalArgumentException("Expected newValue to be a Boolean")
         }
 
     }

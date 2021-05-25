@@ -1,13 +1,14 @@
 package ch.epfl.sdp.blindly.database
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
+import ch.epfl.sdp.blindly.user.DELETED
+import ch.epfl.sdp.blindly.user.LIKES
+import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -119,6 +120,43 @@ class UserRepository @Inject constructor(
     }
 
     /**
+     * Deletes a user
+     *
+     * @param uid the uid of th euser to delete
+     */
+    suspend fun deleteUser(uid: String) {
+        //TODO remove the user from the localDB
+        updateProfile(uid, DELETED, true)
+        userCache.remove(uid)
+    }
+
+    /**
+     * Remove a user from either the Matches or Liked list from all user that contains them
+     *
+     * @param field either MATCHES or LIKES
+     * @param uid the uid of the user to remove from all lists
+     */
+    suspend fun removeFieldFromUser(field: String, uid: String) {
+        var updatedList: ArrayList<String>? = null
+        val snapshot = db.collection(USER_COLLECTION).whereArrayContains(field, uid).get().await()
+        val users = snapshot.map { s -> s.toUser() }
+        users.forEach { user ->
+            if (user != null) {
+                when (field) {
+                    LIKES ->
+                        updatedList = user.likes as ArrayList<String>?
+                    MATCHES ->
+                        updatedList = user.matches as ArrayList<String>?
+                }
+            }
+            updatedList?.remove(uid)
+            if (user != null) {
+                user.uid?.let { updateProfile(it, field, updatedList) }
+            }
+        }
+    }
+
+    /**
      * Get the collection reference of the database of users.
      *
      * @return the reference of the database
@@ -140,18 +178,20 @@ class UserRepository @Inject constructor(
                 Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
             }
-
+//TODO if the getuser(uid) is null add deletedMatch
             if (snapshot != null && snapshot.exists()) {
                 Log.d(TAG, "Current data: ${snapshot.data}")
                 myMatchesUids = snapshot["matches"] as List<String>
                 viewLifecycleOwner.lifecycleScope.launch {
                     myMatches = arrayListOf()
                     for (userId in myMatchesUids) {
+                        val user = getUser(userId)
                         myMatches!!.add(
                             MyMatch(
-                                getUser(userId)?.username!!,
+                                user?.username!!,
                                 userId,
-                                false
+                                false,
+                                user.deleted
                             )
                         )
                     }
@@ -162,20 +202,5 @@ class UserRepository @Inject constructor(
                 Log.d(TAG, "Current data: null")
             }
         }
-
     }
-
-    fun deleteUser(uid: String) {
-        //TODO remove the user from the localDB and file from firestore storage and from realtime database
-        db.collection(USER_COLLECTION).document(uid)
-            .delete()
-            .addOnSuccessListener {
-                userCache.remove(uid)
-                Log.d(TAG, "DocumentSnapshot successfully deleted!")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error deleting document", e)
-            }
-    }
-
 }

@@ -209,9 +209,9 @@ class Settings : AppCompatActivity() {
     fun deleteAccount(view: View) {
         val positiveAnswerListener = DialogInterface.OnClickListener {dialog, _ ->
             dialog.dismiss()
+            viewModel.deleteUser()
             userHelper.delete(this)
                 .addOnCompleteListener {
-                    viewModel.deleteUser()
                     startActivity(Intent(this, SplashScreen::class.java))
                     this.finishAffinity()
                 }

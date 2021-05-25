@@ -1,15 +1,14 @@
 package ch.epfl.sdp.blindly.viewmodel
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import ch.epfl.sdp.blindly.SplashScreen
+import ch.epfl.sdp.blindly.audio.AudioStorage
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.user.LIKES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
+import com.google.firebase.storage.FirebaseStorage
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
@@ -19,10 +18,9 @@ import kotlinx.coroutines.launch
  */
 class UserViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
-    userRepository: UserRepository
+    val userRepository: UserRepository,
+    val storage: FirebaseStorage
 ) : ViewModel() {
-
-    private var userRepo: UserRepository = userRepository
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
@@ -39,7 +37,7 @@ class UserViewModel @AssistedInject constructor(
      */
     fun userUpdate() {
         viewModelScope.launch {
-            _user.value = userRepo.getUser(userId)
+            _user.value = userRepository.getUser(userId)
         }
     }
 
@@ -52,13 +50,15 @@ class UserViewModel @AssistedInject constructor(
      */
     fun <T> updateField(field: String, newValue: T) {
         viewModelScope.launch {
-            userRepo.updateProfile(userId, field, newValue)
+            userRepository.updateProfile(userId, field, newValue)
         }
     }
 
     fun deleteUser() {
         viewModelScope.launch {
-            userRepo.deleteUser(userId)
+            AudioStorage(storage).removeAudio(userId)
+            userRepository.deleteUser(userId) //set the flag to 1
+            userRepository.removeFieldFromUser(LIKES, userId)
         }
     }
 
