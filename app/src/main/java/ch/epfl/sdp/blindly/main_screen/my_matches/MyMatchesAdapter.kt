@@ -171,7 +171,6 @@ class MyMatchesAdapter(
                                 my_matches[position].uid
                             )
                         }
-                    notifyDataSetChanged()
                 }
             }
             builder.setNegativeButton(
