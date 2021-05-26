@@ -317,10 +317,17 @@ class UserTest {
     }
 
     @Test
-    fun updateMatchesIsCorrect() {
+    fun updateMatchesWithNonEmptyListIsCorrect() {
         val user = buildUser()
         User.updateUser(user, MATCHES, matches2)
         assertThat(user.matches, equalTo(matches2))
+    }
+
+    @Test
+    fun updateMatchesWithEmptyListIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, MATCHES, emptyMatches)
+        assertThat(user.matches, equalTo(listOf()))
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -330,10 +337,17 @@ class UserTest {
     }
 
     @Test
-    fun updateLikesIsCorrect() {
+    fun updateLikesWithNonEmptyListIsCorrect() {
         val user = buildUser()
         User.updateUser(user, LIKES, likes2)
         assertThat(user.likes, equalTo(likes2))
+    }
+
+    @Test
+    fun updateLikesWithEmptyListIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, LIKES, emptyLikes)
+        assertThat(user.likes, equalTo(listOf()))
     }
 
     @Test(expected = IllegalArgumentException::class)

@@ -47,12 +47,6 @@ open class FakeUserHelperModule {
 
         Mockito.`when`(user.isLoggedIn()).thenReturn(true)
 
-        val tcs = TaskCompletionSource<Void>()
-        tcs.setResult(null)
-        val st = tcs.task
-        val fakeContext = mock(Context::class.java)
-        Mockito.`when`(user.logout(fakeContext)).thenReturn(st)
-
         return user
     }
 }

@@ -351,17 +351,17 @@ class User private constructor(
                 }
                 MATCHES -> {
                     val newMatches = newValue as List<String>
-                    if(newMatches.isNotEmpty()){
+                    if (newMatches.isNotEmpty()) { //newMatches is a non empty list, the type must be a string
                         assertIsListOfString(newValue)
-                        user.matches = newMatches
                     }
+                    user.matches = newMatches
                 }
                 LIKES -> {
                     val newLikes = newValue as List<String>
-                    if(newLikes.isNotEmpty()){
+                    if (newLikes.isNotEmpty()) { // newLikes is a non empty list, the type must be a string
                         assertIsListOfString(newValue)
-                        user.likes = newLikes
                     }
+                    user.likes = newLikes
                 }
                 RECORDING_PATH -> {
                     assertIsString(newValue)

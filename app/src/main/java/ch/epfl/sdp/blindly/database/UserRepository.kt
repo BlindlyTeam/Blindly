@@ -107,7 +107,8 @@ class UserRepository @Inject constructor(
      * @param newValue the new value to set for the user
      */
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
-        if (newValue !is String && newValue !is List<*> && newValue !is Int)
+        Log.d(TAG, "Updating field: $field")
+        if (newValue !is String && newValue !is List<*> && newValue !is Int && newValue !is Boolean)
             throw IllegalArgumentException("Expected String, List<String> or Int")
 
         db.collection(USER_COLLECTION)
@@ -136,6 +137,8 @@ class UserRepository @Inject constructor(
      * @param uid the uid of the user to remove from all lists
      */
     suspend fun removeFieldFromUser(field: String, uid: String) {
+        if(field != MATCHES && field != LIKES)
+            throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
         var updatedList: ArrayList<String>? = null
         val snapshot = db.collection(USER_COLLECTION).whereArrayContains(field, uid).get().await()
         val users = snapshot.map { s -> s.toUser() }
@@ -147,9 +150,7 @@ class UserRepository @Inject constructor(
                     MATCHES ->
                         updatedList = user.matches as ArrayList<String>?
                 }
-            }
-            updatedList?.remove(uid)
-            if (user != null) {
+                updatedList?.remove(uid)
                 user.uid?.let { updateProfile(it, field, updatedList) }
             }
         }
@@ -163,6 +164,8 @@ class UserRepository @Inject constructor(
      * @param matchId matched user's ID
      */
     suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String) {
+        if(field != MATCHES && field != LIKES)
+            throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
         var updatedList: ArrayList<String>? = arrayListOf()
         val user = getUser(userId)
         if (user != null) {
@@ -173,9 +176,7 @@ class UserRepository @Inject constructor(
                     updatedList = user.matches as ArrayList<String>?
             }
             updatedList?.remove(matchId)
-            if (user != null) {
-                user.uid?.let { updateProfile(it, field, updatedList) }
-            }
+            user.uid?.let { updateProfile(it, field, updatedList) }
         }
     }
 
