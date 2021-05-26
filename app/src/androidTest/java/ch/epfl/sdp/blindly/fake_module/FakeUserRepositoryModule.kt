@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
+import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID2
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.user.User
@@ -37,30 +38,33 @@ open class FakeUserRepositoryModule {
     companion object {
         private const val USER_COLLECTION: String = "usersMeta"
         private const val uid = TEST_UID
+        private const val uid2 = TEST_UID2
         private const val username = "Jane Doe"
-        private const val usernameUpdated = "Jack"
+        private const val username2 = "Jack"
         private val location =
             AndroidLocationService.createLocationTableEPFL() // Ecublens, Switzerland
         private const val MULHOUSE_LAT = 47.749
         private const val MULHOUSE_LON = 7.335
-        private val locationUpdated = listOf(MULHOUSE_LAT, MULHOUSE_LON) // Mulhouse, France
+        private val location2 = listOf(MULHOUSE_LAT, MULHOUSE_LON) // Mulhouse, France
         private const val birthday = "01.01.01"
         private const val gender = "Woman"
-        private const val genderUpdated = "Man"
+        private const val gender2 = "Man"
         private val sexualOrientations = listOf("Asexual")
-        private val sexualOrientationsUpdated = listOf("Asexual", "Bisexual")
+        private val sexualOrientations2 = listOf("Asexual", "Bisexual")
         private const val showMe = "Everyone"
-        private const val showMeUpdated = "Women"
+        private const val showMe2 = "Women"
         private val passions = listOf("Coffee", "Tea")
-        private val passionsUpdated = listOf("Coffee", "Tea", "Movies", "Brunch")
+        private val passions2 = listOf("Coffee", "Tea", "Movies", "Brunch")
         private const val radius = 150
-        private const val radiusUpdated = 50
-        private val matches: List<String> = listOf("a1", "b2")
-        private val likes: List<String> = listOf("c3", "d4")
+        private const val radius2 = 50
+        private val matches: List<String> = listOf(TEST_UID2)
+        private val matches2: List<String> = listOf(TEST_UID)
+        private val likes: List<String> = listOf(TEST_UID2)
+        private val likes2: List<String> = listOf(TEST_UID)
         private const val recordingPath =
             "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
         private val ageRange = listOf(30, 50)
-        private val ageRangeUpdated = listOf(40, 50)
+        private val ageRange2 = listOf(40, 50)
         val fakeUser = User.Builder()
             .setUid(uid)
             .setUsername(username)
@@ -76,20 +80,20 @@ open class FakeUserRepositoryModule {
             .setRecordingPath(recordingPath)
             .setAgeRange(ageRange)
             .build()
-        val fakeUserUpdated = User.Builder()
-            .setUid(uid)
-            .setUsername(usernameUpdated)
-            .setLocation(locationUpdated)
+        val fakeUser2 = User.Builder()
+            .setUid(uid2)
+            .setUsername(username2)
+            .setLocation(location2)
             .setBirthday(birthday)
-            .setGender(genderUpdated)
-            .setSexualOrientations(sexualOrientationsUpdated)
-            .setShowMe(showMeUpdated)
-            .setPassions(passionsUpdated)
-            .setRadius(radiusUpdated)
-            .setMatches(matches)
-            .setLikes(likes)
+            .setGender(gender2)
+            .setSexualOrientations(sexualOrientations2)
+            .setShowMe(showMe2)
+            .setPassions(passions2)
+            .setRadius(radius2)
+            .setMatches(matches2)
+            .setLikes(likes2)
             .setRecordingPath(recordingPath)
-            .setAgeRange(ageRangeUpdated)
+            .setAgeRange(ageRange2)
             .build()
     }
 
@@ -135,6 +139,8 @@ open class FakeUserRepositoryModule {
         userRepository.stub {
             onBlocking { userRepository.getUser(TEST_UID) }.doReturn(fakeUser)
             onBlocking { userRepository.refreshUser(TEST_UID) }.doReturn(fakeUser)
+            onBlocking { userRepository.getUser(TEST_UID2) }.doReturn(fakeUser2)
+            onBlocking { userRepository.refreshUser(TEST_UID2) }.doReturn(fakeUser2)
         }
         //return UserRepositoryModule.provideUserRepository()
         return (object: UserRepository {
@@ -161,9 +167,8 @@ open class FakeUserRepositoryModule {
                 userId: String,
                 setupAdapter: KSuspendFunction1<MutableList<MyMatch>, Unit>
             ) {
-                setupAdapter(mutableListOf(MyMatch("aaa", "222", true)))
+                setupAdapter(mutableListOf(MyMatch(fakeUser2.username!!, fakeUser2.uid!!, false)))
             }
-
         })
     }
 }

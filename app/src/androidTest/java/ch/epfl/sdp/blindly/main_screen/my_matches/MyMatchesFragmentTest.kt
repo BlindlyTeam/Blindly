@@ -12,7 +12,13 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
+import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.storage.UserCache
 import ch.epfl.sdp.blindly.weather.WeatherActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -21,6 +27,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -37,6 +44,15 @@ class MyMatchesFragmentTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var userHelper: UserHelper
+
+    @Inject
+    lateinit var userRepository: UserRepository
+
+    @Inject
+    lateinit var userCache: UserCache
 
     @Before
     fun setup() {
@@ -70,7 +86,7 @@ class MyMatchesFragmentTest {
     }
 
     @Test
-    fun mapButtonFiresMapActivty() {
+    fun weatherButtonFiresWeatherActivty() {
         onView(withId(R.id.buttonWeatherEvent)).check(
             matches(
                 withEffectiveVisibility(
@@ -81,4 +97,24 @@ class MyMatchesFragmentTest {
         intended(hasComponent(WeatherActivity::class.java.name))
     }
 
+    @Test
+    fun chatButtonFiresChatActivity() {
+        onView(withId(R.id.userNameLayout)).perform(click())
+        onView(withId(R.id.chatButton)).perform(click())
+        intended(hasComponent(ChatActivity::class.java.name))
+    }
+
+    @Test
+    fun profileButtonFiresMatchProfileActivity() {
+        onView(withId(R.id.userNameLayout)).perform(click())
+        onView(withId(R.id.profileButton)).perform(click())
+        intended(hasComponent(MatchProfileActivity::class.java.name))
+    }
+
+    @Test
+    fun mapButtonFiresUserMapActivity() {
+        onView(withId(R.id.userNameLayout)).perform(click())
+        onView(withId(R.id.mapButton)).perform(click())
+        intended(hasComponent(UserMapActivity::class.java.name))
+    }
 }
