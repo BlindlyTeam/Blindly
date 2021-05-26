@@ -18,4 +18,4 @@ exclude_patterns:
 - "**test"
 - "**/UserHelper.kt"
 - "**/dependency_injection/"
-- "**/UserRepository.kt"
+- "**/UserRepositoryImpl.kt"
