@@ -134,13 +134,7 @@ open class FakeUserRepositoryModule {
     @Singleton
     @Provides
     open fun provideUserRepository(): UserRepository {
-        val userRepository = mock(UserRepository::class.java)
-        userRepository.stub {
-            onBlocking { userRepository.getUser(TEST_UID) }.doReturn(fakeUser)
-            onBlocking { userRepository.refreshUser(TEST_UID) }.doReturn(fakeUser)
-        }
-        //return UserRepositoryModule.provideUserRepository()
-        return (object: UserRepository {
+        return (Mockito.spy(object: UserRepository {
             val db = HashMap<String, User>()
             override suspend fun getUser(uid: String): User? {
                 return db.getOrDefault(uid, fakeUser)
@@ -196,6 +190,6 @@ open class FakeUserRepositoryModule {
                 setupAdapter(mutableListOf(MyMatch(fakeUser.username!!, fakeUser.uid!!, true)))
             }
 
-        })
+        }))
     }
 }
