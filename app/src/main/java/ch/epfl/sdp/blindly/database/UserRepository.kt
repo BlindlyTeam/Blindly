@@ -68,9 +68,7 @@ class UserRepository @Inject constructor(
                     updatedList = user.matches as ArrayList<String>?
             }
             updatedList?.remove(matchId)
-            if (user != null) {
-                user.uid?.let { updateProfile(it, field, updatedList) }
-            }
+            user.uid?.let { updateProfile(it, field, updatedList) }
         }
     }
 
@@ -150,7 +148,7 @@ class UserRepository @Inject constructor(
         return db.collection(USER_COLLECTION)
     }
 
-    suspend fun getMyMatchesUids(
+    suspend fun getMyMatches(
         viewLifecycleOwner: LifecycleOwner,
         userId: String,
         setupAdapter: KSuspendFunction1<ArrayList<MyMatch>, Unit>
@@ -179,43 +177,6 @@ class UserRepository @Inject constructor(
                         )
                     }
                     setupAdapter(myMatches!!)
-                }
-            } else {
-                Log.d(TAG, "Current data: null")
-            }
-        }
-    }
-
-    suspend fun getMyMatches(
-        viewLifecycleOwner: LifecycleOwner,
-        userId: String,
-        setupAdapter: KSuspendFunction1<ArrayList<MyMatch>, Unit>
-    ) {
-        var myMatchesUids: List<String>
-        var myMatches: ArrayList<MyMatch>?
-        val docRef = getCollectionReference().document(userId)
-        docRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e)
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null && snapshot.exists()) {
-                Log.d(TAG, "Current data: ${snapshot.data}")
-                myMatchesUids = snapshot["matches"] as List<String>
-                viewLifecycleOwner.lifecycleScope.launch {
-                    myMatches = arrayListOf()
-                    for (userId in myMatchesUids) {
-                        myMatches!!.add(
-                            MyMatch(
-                                getUser(userId)?.username!!,
-                                userId,
-                                false
-                            )
-                        )
-                    }
-                    setupAdapter(myMatches!!)
-
                 }
             } else {
                 Log.d(TAG, "Current data: null")

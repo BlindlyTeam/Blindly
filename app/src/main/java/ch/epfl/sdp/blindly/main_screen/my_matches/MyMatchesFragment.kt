@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +23,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
-
     private lateinit var myMatchesRecyclerView: RecyclerView
     private lateinit var adapter: MyMatchesAdapter
     private lateinit var fragView: View
@@ -60,7 +60,6 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         }
     }
 
-
     /**
      * Setup the view and retrieve the profiles to show on the match activity
      *
@@ -74,8 +73,6 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     ): View {
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.activity_my_matches, container, false)
-
-        var myMatchesUids: List<String>?
 
         //Needs to be done in a coroutine
         viewLifecycleOwner.lifecycleScope.launch {
@@ -133,22 +130,6 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         val location = userRepository.getLocation(userId)
         intent.putExtra(WeatherActivity.LOCATION, location)
         startActivity(intent)
-    }
-
-    private fun setUpMyMatchesAsync(myMatchesUids: List<String>) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val myMatches: ArrayList<MyMatch> = arrayListOf()
-            for (uid in myMatchesUids) {
-                myMatches.add(
-                    MyMatch(
-                        userRepository.getUser(uid)?.username!!,
-                        uid,
-                        false
-                    )
-                )
-            }
-            setAdapterOnMainThread(myMatches)
-        }
     }
 }
 
