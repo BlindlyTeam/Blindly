@@ -207,6 +207,11 @@ class SettingsTest {
     }
 
     @Test
+    fun deleteUserRemoveUserFromStorageAndCache() {
+
+    }
+
+    @Test
     fun clickingOnLogoutButtonAndThenCancelStayInSettings() {
         onView(withId(R.id.logout_button)).perform(click())
         onView(withText(ANSWER_CANCEL)).perform(click())

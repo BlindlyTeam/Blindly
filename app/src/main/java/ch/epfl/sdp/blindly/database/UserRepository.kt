@@ -126,6 +126,7 @@ class UserRepository @Inject constructor(
      */
     suspend fun deleteUser(uid: String) {
         //TODO remove the user from the localDB
+        removeFieldFromUser(LIKES, uid)
         updateProfile(uid, DELETED, true)
         userCache.remove(uid)
     }
@@ -137,7 +138,7 @@ class UserRepository @Inject constructor(
      * @param uid the uid of the user to remove from all lists
      */
     suspend fun removeFieldFromUser(field: String, uid: String) {
-        if(field != MATCHES && field != LIKES)
+        if (field != MATCHES && field != LIKES)
             throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
         var updatedList: ArrayList<String>? = null
         val snapshot = db.collection(USER_COLLECTION).whereArrayContains(field, uid).get().await()
@@ -163,8 +164,8 @@ class UserRepository @Inject constructor(
      * @param userId current user's ID
      * @param matchId matched user's ID
      */
-    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String) {
-        if(field != MATCHES && field != LIKES)
+    suspend fun removeMatchFromAUser(field: String, userId: String, matchId: String) {
+        if (field != MATCHES && field != LIKES)
             throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
         var updatedList: ArrayList<String>? = arrayListOf()
         val user = getUser(userId)

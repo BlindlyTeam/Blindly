@@ -59,13 +59,10 @@ class UserViewModel @AssistedInject constructor(
         viewModelScope.launch {
             AudioStorage(storage).removeAudio(userId)
             userRepository.deleteUser(userId) //set the flag to 1
-            userRepository.removeFieldFromUser(LIKES, userId)
         }
     }
 
     companion object {
-        private const val TAG = "UserViewModel"
-
         /**
          * Instantiate the UserViewModel with the given parameters
          *
