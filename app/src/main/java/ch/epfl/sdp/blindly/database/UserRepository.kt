@@ -1,8 +1,6 @@
 package ch.epfl.sdp.blindly.database
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.database.localDB.AppDatabase
@@ -10,7 +8,10 @@ import ch.epfl.sdp.blindly.database.localDB.UserDAO
 import ch.epfl.sdp.blindly.database.localDB.UserEntity
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
+import ch.epfl.sdp.blindly.user.LIKES
+import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -64,6 +65,30 @@ class UserRepository @Inject constructor(
             return localUser
         }
         return refreshUser(uid)
+    }
+
+    /**
+     * Removes another liked or matched user from current user.
+     *
+     * @param field field to remove a User (either from LIKES or MATCHES)
+     * @param userId current user's ID
+     * @param matchId matched user's ID
+     */
+    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String) {
+        var updatedList: ArrayList<String>? = arrayListOf()
+        val user = getUser(userId)
+        if (user != null) {
+            when (field) {
+                LIKES ->
+                    updatedList = user.likes as ArrayList<String>?
+                MATCHES ->
+                    updatedList = user.matches as ArrayList<String>?
+            }
+            updatedList?.remove(matchId)
+            if (user != null) {
+                user.uid?.let { updateProfile(it, field, updatedList) }
+            }
+        }
     }
 
     /**
