@@ -174,7 +174,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             '**/*_MembersInjector.class',
             '**/di/**',
             '**/UserHelper.*',
-            '**/UserRepository.*'
+            '**/UserRepositoryImpl.*'
     ]
     def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/java"
