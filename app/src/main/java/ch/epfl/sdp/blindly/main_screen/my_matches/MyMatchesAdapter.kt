@@ -123,17 +123,21 @@ class MyMatchesAdapter(
             }
             val intent = Intent(context, ChatActivity::class.java)
             val bundle = bundleOf(
-                BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid,
-                BUNDLE_MATCHED_USERNAME_LABEL to my_matches[position].name)
+                BUNDLE_MATCHED_UID_LABEL to myMatch.uid,
+                BUNDLE_MATCHED_USERNAME_LABEL to myMatch.name)
             intent.putExtras(bundle)
             startActivity(context, intent, null)
         }
 
         viewHolder.profileButton.setOnClickListener {
-            val intent = Intent(context, MatchProfileActivity::class.java)
-            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid)
-            intent.putExtras(bundle)
-            startActivity(context, intent, null)
+            if (myMatch.isDeleted) {
+                showNoLongerAvailableToast()
+            } else {
+                val intent = Intent(context, MatchProfileActivity::class.java)
+                val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to myMatch.uid)
+                intent.putExtras(bundle)
+                startActivity(context, intent, null)
+            }
         }
 
         viewHolder.mapButton.setOnClickListener {
