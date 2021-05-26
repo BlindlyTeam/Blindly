@@ -80,5 +80,23 @@ class MyMatchesAdapterTest {
         adapter.notifyDataSetChanged()
     }
 
-
+    @Test
+    fun clickingOnAdpaterExpandName() {
+        val match1 = MyMatch(NAME_1, UID_1, IS_EXPANDED, false)
+        val match2 = MyMatch(NAME_2, UID_2, IS_EXPANDED, true)
+        val list: ArrayList<MyMatch> = arrayListOf()
+        val listener = mock(MyMatchesAdapter.OnItemClickListener::class.java)
+        list.addAll(listOf(match1, match2))
+        val rv = RecyclerView(ApplicationProvider.getApplicationContext())
+        rv.layoutManager = LinearLayoutManager(ApplicationProvider.getApplicationContext())
+        val adapter = MyMatchesAdapter(
+            list,
+            arrayListOf(),
+            ApplicationProvider.getApplicationContext(),
+            listener
+        )
+        rv.adapter = adapter
+        adapter.my_matches.add(MyMatch(NAME_1, UID_2, IS_EXPANDED, IS_DELETED))
+        adapter.notifyDataSetChanged()
+    }
 }

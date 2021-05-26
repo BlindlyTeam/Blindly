@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly.main_screen.profile.settings
 import android.content.Intent
 import android.view.View
 import android.widget.TextView
+import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -42,6 +43,10 @@ private const val TEST_AGE_RANGE = "40 - 60"
 private const val TEST_LOWER_AGE = 40
 private const val TEST_HIGHER_AGE = 60
 private const val TEST_RADIUS_VAL = 80
+
+private const val ANSWER_LOG_OUT = "Log out"
+private const val ANSWER_CANCEL = "Cancel"
+private const val ANSWER_DELETE = "Delete account"
 
 @HiltAndroidTest
 class SettingsTest {
@@ -187,6 +192,27 @@ class SettingsTest {
     @Test
     fun clickingOnLogoutButtonFiresSplashScreen() {
         onView(withId(R.id.logout_button)).perform(click())
+        onView(withText(ANSWER_LOG_OUT)).perform(click())
+        Thread.sleep(1000)
+
+        intended(
+            hasComponent(SplashScreen::class.java.name)
+        )
+        assertThat(activityRule.scenario.state, Matchers.`is`(Lifecycle.State.DESTROYED))
+    }
+
+    @Test
+    fun clickingOnLogoutButtonAndThenCancelStayInSettings() {
+        onView(withId(R.id.logout_button)).perform(click())
+        onView(withText(ANSWER_CANCEL)).perform(click())
+        Thread.sleep(500)
+        assertThat(activityRule.scenario.state, Matchers.`is`(Lifecycle.State.RESUMED))
+    }
+
+    @Test
+    fun clickingOnDeleteAccountButtonFiresSplashScreen() {
+        onView(withId(R.id.delete_account_button)).perform(click())
+        onView(withText(ANSWER_DELETE)).perform(click())
         Thread.sleep(1000)
         intended(
             hasComponent(SplashScreen::class.java.name)
@@ -194,12 +220,11 @@ class SettingsTest {
     }
 
     @Test
-    fun clickingOnDeleteAccountButtonFiresSplashScreen() {
+    fun clickingOnDeleteButtonAndThenCancelStayInSettings() {
         onView(withId(R.id.delete_account_button)).perform(click())
-        Thread.sleep(1000)
-        intended(
-            hasComponent(SplashScreen::class.java.name)
-        )
+        onView(withText(ANSWER_CANCEL)).perform(click())
+        Thread.sleep(500)
+        assertThat(activityRule.scenario.state, Matchers.`is`(Lifecycle.State.RESUMED))
     }
 
     @Test

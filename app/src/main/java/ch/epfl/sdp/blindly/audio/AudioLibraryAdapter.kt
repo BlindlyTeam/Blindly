@@ -2,7 +2,6 @@ package ch.epfl.sdp.blindly.audio
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
@@ -212,9 +210,9 @@ class AudioLibraryAdapter(
         )
         val userId = userHelper.getUserId()
         recordingPath = "Recordings/$userId-$PRESENTATION_AUDIO_NAME"
-        val storageRef = storage.reference.child(recordingPath)
         userBuilder?.setRecordingPath(recordingPath)
-        storageRef.putFile(Uri.fromFile(newFile)).addOnSuccessListener {
+
+        AudioStorage(storage).addAudio(recordingPath, newFile).addOnSuccessListener {
             if (userBuilder != null)
                 startProfileFinished()
             else
