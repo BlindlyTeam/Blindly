@@ -160,7 +160,7 @@ open class FakeUserRepositoryModule {
                 userId: String,
                 setupAdapter: KSuspendFunction1<MutableList<MyMatch>, Unit>
             ) {
-                setupAdapter(mutableListOf(MyMatch("aaa", "222", true)))
+                setupAdapter(mutableListOf(MyMatch(fakeUser.username!!, fakeUser.uid!!, true)))
             }
 
         })
