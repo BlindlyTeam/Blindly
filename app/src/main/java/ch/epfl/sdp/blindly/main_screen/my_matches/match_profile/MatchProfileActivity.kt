@@ -4,12 +4,14 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.audio.Recordings
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.getCurrentLocationStringFromUser
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
@@ -39,7 +41,7 @@ class MatchProfileActivity : AppCompatActivity() {
     lateinit var assistedFactory: ViewModelAssistedFactory
 
     @Inject
-    lateinit var storage: FirebaseStorage
+    lateinit var recordings: Recordings;
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -108,18 +110,26 @@ class MatchProfileActivity : AppCompatActivity() {
     }
 
     private fun prepareMediaPlayer() {
-        // Create a storage reference from our app
-        val storageRef = storage.reference
-        // Create a reference with the recordingPath
-        val pathRef = storageRef.child(audioFilePath!!)
         val audioFile = File.createTempFile("MatchProfile_Audio", "amr")
-        pathRef.getFile(audioFile).addOnSuccessListener {
-            mediaPlayer = MediaPlayer()
-            mediaPlayer!!.setDataSource(this, Uri.fromFile(audioFile))
-            mediaPlayer!!.setOnCompletionListener {
-                it.stop()
+        recordings.getFile(
+            audioFilePath!!,
+            audioFile,
+            object : Recordings.RecordingOperationCallback() {
+                override fun onSuccess() {
+                    mediaPlayer = MediaPlayer()
+                    mediaPlayer!!.setDataSource(this@MatchProfileActivity, Uri.fromFile(audioFile))
+                    mediaPlayer!!.setOnCompletionListener {
+                        it.stop()
+                    }
+                    mediaPlayer!!.prepare()
+                }
+
+                override fun onError() {
+                    // Discard
+                    Log.e("Blindly", "Can't play a file")
+                }
             }
-            mediaPlayer!!.prepare()
-        }
+        )
     }
+
 }

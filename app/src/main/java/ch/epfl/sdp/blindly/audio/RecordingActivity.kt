@@ -21,7 +21,6 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_USER
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
-import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -40,7 +39,7 @@ private const val DEFAULT_RECORD_AUDIO_DURATION = 90000
 class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
 
     @Inject
-    lateinit var storage: FirebaseStorage
+    lateinit var recordings: Recordings
 
     @Inject
     lateinit var user: UserHelper
@@ -94,7 +93,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         recordingRecyclerView = findViewById(R.id.recordingList)
         recordingRecyclerView.layoutManager = LinearLayoutManager(this)
         adapter =
-            AudioLibraryAdapter(ArrayList(), ArrayList(), this, this, userBuilder, user, storage, this)
+            AudioLibraryAdapter(ArrayList(), ArrayList(), this, this, userBuilder, user, recordings, this)
         recordingRecyclerView.adapter = adapter
     }
 

@@ -1,10 +1,12 @@
 package ch.epfl.sdp.blindly.user
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.profile_setup.MAJORITY_AGE
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
@@ -217,5 +219,11 @@ class UserHelper {
                     Log.d(Companion.TAG, "Error: Could not update password.")
                 }
             }
+    }
+
+    fun logout(context: Context): Task<Void> {
+        return AuthUI.getInstance()
+            .signOut(context)
+
     }
 }
