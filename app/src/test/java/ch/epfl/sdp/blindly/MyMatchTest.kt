@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly
 
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
@@ -29,7 +30,8 @@ class MyMatchTest {
 
     @Test
     fun myMatchIsExpandedSetCorrectly() {
-        val myMatch = MyMatch(NAME, USER_ID, IS_EXPANDED, IS_DELETED)
+        val myMatch = MyMatch(NAME, USER_ID, IS_EXPANDED, true)
         assertThat(myMatch.isExpanded, equalTo(IS_EXPANDED))
+        assertThat(myMatch.isDeleted, `is`(true))
     }
 }

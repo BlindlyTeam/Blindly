@@ -17,6 +17,7 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.DEFAULT_RADIUS
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
+import com.google.android.gms.tasks.Task
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
@@ -176,20 +177,10 @@ class Settings : AppCompatActivity() {
      * @param view
      */
     fun logout(view: View) {
-        val positiveAnswerListener = DialogInterface.OnClickListener{ dialog, _ ->
+        val positiveAnswerOnClickListener = DialogInterface.OnClickListener { dialog, _ ->
+            val task = userHelper.logout(this)
+            settingsListener(task, getString(R.string.logout_error))
             dialog.dismiss()
-            userHelper.logout(this)
-                .addOnCompleteListener { // user is now signed out
-                    startActivity(Intent(this, SplashScreen::class.java))
-                    this.finishAffinity()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.logout_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
         }
 
         showAlertDialog(
@@ -197,7 +188,7 @@ class Settings : AppCompatActivity() {
             LOGOUT_DIALOG_MESSAGE,
             ANSWER_LOG_OUT,
             ANSWER_CANCEL,
-            positiveAnswerListener
+            positiveAnswerOnClickListener
         )
     }
 
@@ -207,21 +198,11 @@ class Settings : AppCompatActivity() {
      * @param view
      */
     fun deleteAccount(view: View) {
-        val positiveAnswerListener = DialogInterface.OnClickListener {dialog, _ ->
-            dialog.dismiss()
+        val positiveAnswerOnClickListener = DialogInterface.OnClickListener { dialog, _ ->
             viewModel.deleteUser()
-            userHelper.delete(this)
-                .addOnCompleteListener {
-                    startActivity(Intent(this, SplashScreen::class.java))
-                    this.finishAffinity()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.delete_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+            val task = userHelper.delete(this)
+            settingsListener(task, getString(R.string.delete_error))
+            dialog.dismiss()
         }
 
         showAlertDialog(
@@ -229,8 +210,22 @@ class Settings : AppCompatActivity() {
             DELETE_DIALOG_MESSAGE,
             ANSWER_DELETE,
             ANSWER_CANCEL,
-            positiveAnswerListener
+            positiveAnswerOnClickListener
         )
+    }
+
+    private fun settingsListener(task: Task<Void>?, error: String) {
+        task?.addOnCompleteListener {
+            startActivity(Intent(this, SplashScreen::class.java))
+            this.finishAffinity()
+        }
+        task?.addOnFailureListener {
+            Toast.makeText(
+                applicationContext,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun showAlertDialog(
@@ -238,12 +233,12 @@ class Settings : AppCompatActivity() {
         message: String,
         positiveAnswer: String,
         negativeAnswer: String,
-        positiveAnswerListener: DialogInterface.OnClickListener
+        positiveAnswerOnClickListener: DialogInterface.OnClickListener
     ) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle(title)
         builder.setMessage(message)
-        builder.setPositiveButton(positiveAnswer, positiveAnswerListener)
+        builder.setPositiveButton(positiveAnswer, positiveAnswerOnClickListener)
         builder.setNegativeButton(negativeAnswer) { dialog, _ ->
             dialog.dismiss()
         }

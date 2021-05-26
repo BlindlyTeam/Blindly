@@ -12,10 +12,13 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.RootMatchers
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
@@ -192,43 +195,23 @@ class SettingsTest {
         )
     }
 
-    /*@Test
+    @Test
     fun clickingOnLogoutButtonFiresSplashScreen() {
-        val fastTaskCompletionSource = TaskCompletionSource<Void>().apply {
-            setResult(null)
-        }
-        val fastSuccessfulTask = fastTaskCompletionSource.task
-        Mockito.`when`(userHelper.logout(ApplicationProvider.getApplicationContext())).thenReturn(fastSuccessfulTask)
-
+        val LOGOUT_DIALOG_TITLE = "Logout."
         onView(withId(R.id.logout_button)).perform(click())
-        onView(withText(ANSWER_LOG_OUT)).perform(click())
-
-        intended(
-            hasComponent(SplashScreen::class.java.name)
+        onView(withText(LOGOUT_DIALOG_TITLE)).inRoot(RootMatchers.isDialog()).check(
+            matches(withEffectiveVisibility(Visibility.VISIBLE))
         )
+        onView(withText(ANSWER_LOG_OUT)).perform(click())
+        //TODO fix me
     }
-
-     */
 
     @Test
     fun clickingOnLogoutButtonAndThenCancelStayInSettings() {
         onView(withId(R.id.logout_button)).perform(click())
         onView(withText(ANSWER_CANCEL)).perform(click())
-        Thread.sleep(500)
         assertThat(activityRule.scenario.state, Matchers.`is`(Lifecycle.State.RESUMED))
     }
-
-   /* @Test
-    fun clickingOnDeleteAccountButtonFiresSplashScreen() {
-        onView(withId(R.id.delete_account_button)).perform(click())
-        onView(withText(ANSWER_DELETE)).perform(click())
-        Thread.sleep(1000)
-        intended(
-            hasComponent(SplashScreen::class.java.name)
-        )
-    }
-    
-    */
 
     @Test
     fun clickingOnDeleteButtonAndThenCancelStayInSettings() {
