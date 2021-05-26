@@ -1,11 +1,11 @@
 package ch.epfl.sdp.blindly.database
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
-import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
+import ch.epfl.sdp.blindly.user.LIKES
+import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import kotlin.reflect.KSuspendFunction1
 
@@ -19,6 +19,16 @@ interface UserRepository {
      */
     suspend fun getUser(uid: String): User?
 
+
+/**
+ * Removes another liked or matched user from current user.
+ *
+ * @param field field to remove a User (either from LIKES or MATCHES)
+ * @param userId current user's ID
+ * @param matchId matched user's ID
+ */
+suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String)
+
     /**
      * Get the location of the user, wrap it as a BlindlyLatLng
      * and return it to use with WeatherActivity
@@ -26,14 +36,7 @@ interface UserRepository {
      * @param uid UID of the current user
      * @return a BlindlyLatLng location for weather activity
      */
-    suspend fun getLocation(uid: String): BlindlyLatLng {
-        val user = getUser(uid)
-        if (user != null) {
-            return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
-        }
-        return BlindlyLatLng(LAUSANNE_LATLNG)
-    }
-
+    suspend fun getLocation(uid: String): BlindlyLatLng
     /**
      * Look for the user with the corresponding uid in firestore and store it in the local cache
      *

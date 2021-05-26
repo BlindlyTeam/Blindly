@@ -115,7 +115,7 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     private fun setupRecylerView(myMatches: MutableList<MyMatch>) {
         myMatchesRecyclerView = fragView.findViewById(R.id.my_matches_recyler_view)
         myMatchesRecyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = MyMatchesAdapter(myMatches, arrayListOf(), requireContext(), this)
+        adapter = MyMatchesAdapter(myMatches, arrayListOf(), requireContext(), this, userHelper, userRepository)
         myMatchesRecyclerView.adapter = adapter
     }
 

@@ -5,7 +5,11 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
+import ch.epfl.sdp.blindly.user.LIKES
+import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -46,6 +50,45 @@ class UserRepositoryImpl constructor(
             return cached
         }
         return refreshUser(uid)
+    }
+
+    /**
+     * Removes another liked or matched user from current user.
+     *
+     * @param field field to remove a User (either from LIKES or MATCHES)
+     * @param userId current user's ID
+     * @param matchId matched user's ID
+     */
+    override suspend fun removeMatchFromAUser(field: String, userId: String, matchId: String) {
+        var updatedList: ArrayList<String>? = arrayListOf()
+        val user = getUser(userId)
+        if (user != null) {
+            when (field) {
+                LIKES ->
+                    updatedList = user.likes as ArrayList<String>?
+                MATCHES ->
+                    updatedList = user.matches as ArrayList<String>?
+            }
+            updatedList?.remove(matchId)
+            if (user != null) {
+                user.uid?.let { updateProfile(it, field, updatedList) }
+            }
+        }
+    }
+
+    /**
+     * Get the location of the user, wrap it as a BlindlyLatLng
+     * and return it to use with WeatherActivity
+     *
+     * @param uid UID of the current user
+     * @return a BlindlyLatLng location for weather activity
+     */
+    override suspend fun getLocation(uid: String): BlindlyLatLng {
+        val user = getUser(uid)
+        if (user != null) {
+            return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
+        }
+        return BlindlyLatLng(LAUSANNE_LATLNG)
     }
 
     /**

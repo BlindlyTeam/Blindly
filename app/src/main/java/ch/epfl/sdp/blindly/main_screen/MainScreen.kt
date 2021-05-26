@@ -12,14 +12,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
-private const val MATCH = "Match"
-private const val PROFILE = "Profile"
-private const val MY_MATCHES = "My Matches"
-private const val WEATHER = "Weather"
+
 private const val EXIT_DIALOG_TITLE = "Exit the app."
 private const val EXIT_DIALOG_MESSAGE = "Are You Sure?"
-private const val ANSWER_YES = "Yes"
-private const val ANSWER_NO = "No"
+const val ANSWER_YES = "Yes"
+const val ANSWER_NO = "No"
 
 /**
  * This activity holds the three fragments (Match, Message and Profile page)
