@@ -1,35 +1,47 @@
 package ch.epfl.sdp.blindly.main_screen.my_matches
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
+import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.main_screen.ANSWER_NO
+import ch.epfl.sdp.blindly.main_screen.ANSWER_YES
+import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
 import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
-import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
+import ch.epfl.sdp.blindly.user.LIKES
+import ch.epfl.sdp.blindly.user.MATCHES
+import ch.epfl.sdp.blindly.user.UserHelper
+import kotlinx.coroutines.runBlocking
+
 
 class MyMatchesAdapter(
     var my_matches: ArrayList<MyMatch>,
     private var viewHolderList: ArrayList<ViewHolder>,
     var context: Context,
-    private val listener: OnItemClickListener
+    private val listener: OnItemClickListener,
+    val userHelper: UserHelper,
+    val userRepository: UserRepository
 ) : RecyclerView.Adapter<MyMatchesAdapter.ViewHolder>() {
+
 
     companion object {
         const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
         const val BUNDLE_MATCHED_USERNAME_LABEL = "username"
+        const val REMOVE_USER_WARNING_TITLE = "Remove User?"
+        const val REMOVE_USER_WARNING_MESSAGE =
+            "You'll no longer have this user as a match. Are you sure?"
     }
 
     /**
@@ -49,6 +61,7 @@ class MyMatchesAdapter(
         val chatButton: AppCompatImageButton = view.findViewById(R.id.chatButton)
         val profileButton: AppCompatImageButton = view.findViewById(R.id.profileButton)
         val mapButton: AppCompatImageButton = view.findViewById(R.id.mapButton)
+        val removeMatchButton: AppCompatImageButton = view.findViewById(R.id.removeMatchButton)
 
         init {
             userNameLayout.setOnClickListener(this)
@@ -114,7 +127,8 @@ class MyMatchesAdapter(
             val intent = Intent(context, ChatActivity::class.java)
             val bundle = bundleOf(
                 BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid,
-                BUNDLE_MATCHED_USERNAME_LABEL to my_matches[position].name)
+                BUNDLE_MATCHED_USERNAME_LABEL to my_matches[position].name
+            )
             intent.putExtras(bundle)
             startActivity(context, intent, null)
         }
@@ -132,6 +146,40 @@ class MyMatchesAdapter(
             intent.putExtras(bundle)
             startActivity(context, intent, null)
         }
+        // On click, prompt user a message whether they are sure to remove a match
+        // If so remove the user
+        viewHolder.removeMatchButton.setOnClickListener {
+            val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+            builder.setTitle(REMOVE_USER_WARNING_TITLE)
+            builder.setMessage(REMOVE_USER_WARNING_MESSAGE)
+            builder.setPositiveButton(ANSWER_YES) { dialog, _ ->
+                dialog.dismiss()
+                runBlocking {
+                    userHelper.getUserId()
+                        ?.let { it1 ->
+                            userRepository.removeMatchFromAUser(
+                                LIKES,
+                                it1,
+                                my_matches[position].uid
+                            )
+                        }
+                    userHelper.getUserId()
+                        ?.let { it1 ->
+                            userRepository.removeMatchFromAUser(
+                                MATCHES,
+                                it1,
+                                my_matches[position].uid
+                            )
+                        }
+                }
+            }
+            builder.setNegativeButton(
+                ANSWER_NO
+            ) { dialog, _ -> dialog.dismiss() }
+            val alert: AlertDialog = builder.create()
+            alert.show()
+        }
+
     }
 
     override fun getItemCount() = my_matches.size

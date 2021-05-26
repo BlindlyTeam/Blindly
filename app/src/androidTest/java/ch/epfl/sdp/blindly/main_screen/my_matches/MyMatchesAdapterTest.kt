@@ -3,16 +3,43 @@ package ch.epfl.sdp.blindly.main_screen.my_matches
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
-import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
-import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter
+import androidx.test.espresso.intent.Intents
+import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.user.UserHelper
+import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.MatcherAssert
 import org.hamcrest.core.IsEqual
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
+import javax.inject.Inject
 
 @HiltAndroidTest
 class MyMatchesAdapterTest {
+
+
+    @Inject
+    lateinit var userHelper: UserHelper
+
+    @Inject
+    lateinit var userRepository: UserRepository
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Before
+    fun setup() {
+        hiltRule.inject()
+        Intents.init()
+    }
+
+    @After
+    fun afterEach() {
+        Intents.release()
+    }
 
     companion object {
         private const val NAME_1 = "user1"
@@ -35,7 +62,9 @@ class MyMatchesAdapterTest {
                 list,
                 arrayListOf(),
                 ApplicationProvider.getApplicationContext(),
-                listener
+                listener,
+                userHelper,
+                userRepository
             )
 
         MatcherAssert.assertThat(viewHolder.itemCount, IsEqual.equalTo(2))
@@ -53,7 +82,9 @@ class MyMatchesAdapterTest {
                 list,
                 arrayListOf(),
                 ApplicationProvider.getApplicationContext(),
-                listener
+                listener,
+                userHelper,
+                userRepository
             )
         val defaultType = 0
         MatcherAssert.assertThat(viewHolder.getItemViewType(0), IsEqual.equalTo(defaultType))
@@ -72,7 +103,9 @@ class MyMatchesAdapterTest {
             list,
             arrayListOf(),
             ApplicationProvider.getApplicationContext(),
-            listener
+            listener,
+            userHelper,
+            userRepository
         )
         rv.adapter = adapter
         adapter.my_matches.add(MyMatch(NAME_1, UID_2, IS_EXPANDED))
