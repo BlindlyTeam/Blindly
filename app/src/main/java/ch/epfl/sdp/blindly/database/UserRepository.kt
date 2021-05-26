@@ -54,12 +54,12 @@ class UserRepository @Inject constructor(
      * Removes another liked or matched user from current user.
      *
      * @param field field to remove a User (either from LIKES or MATCHES)
-     * @param userUid current user's UID
-     * @param matchUid matched user's UID
+     * @param userId current user's ID
+     * @param matchId matched user's ID
      */
-    suspend fun removeMatchFromAUser(field: String, userUid: String, matchUid:String) {
-        var updatedList: ArrayList<String>? = null
-        val user = getUser(userUid)
+    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String) {
+        var updatedList: ArrayList<String>? = arrayListOf()
+        val user = getUser(userId)
         if (user != null) {
             when (field) {
                 LIKES ->
@@ -67,7 +67,7 @@ class UserRepository @Inject constructor(
                 MATCHES ->
                     updatedList = user.matches as ArrayList<String>?
             }
-            updatedList?.remove(matchUid)
+            updatedList?.remove(matchId)
             if (user != null) {
                 user.uid?.let { updateProfile(it, field, updatedList) }
             }
