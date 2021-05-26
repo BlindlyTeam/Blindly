@@ -19,3 +19,4 @@ exclude_patterns:
 - "**/UserHelper.kt"
 - "**/dependency_injection/"
 - "**/UserRepository.kt"
+- "**/AudioStorage.kt"
