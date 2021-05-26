@@ -6,7 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.database.localDB.AppDatabase
 import ch.epfl.sdp.blindly.database.localDB.UserDAO
 import ch.epfl.sdp.blindly.database.localDB.UserEntity
-import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
