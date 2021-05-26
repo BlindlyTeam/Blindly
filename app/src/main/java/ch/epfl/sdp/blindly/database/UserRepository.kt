@@ -3,8 +3,8 @@ package ch.epfl.sdp.blindly.database
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.DELETED
 import ch.epfl.sdp.blindly.user.LIKES
@@ -156,6 +156,30 @@ class UserRepository @Inject constructor(
     }
 
     /**
+     * Removes another liked or matched user from current user.
+     *
+     * @param field field to remove a User (either from LIKES or MATCHES)
+     * @param userId current user's ID
+     * @param matchId matched user's ID
+     */
+    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String) {
+        var updatedList: ArrayList<String>? = arrayListOf()
+        val user = getUser(userId)
+        if (user != null) {
+            when (field) {
+                LIKES ->
+                    updatedList = user.likes as ArrayList<String>?
+                MATCHES ->
+                    updatedList = user.matches as ArrayList<String>?
+            }
+            updatedList?.remove(matchId)
+            if (user != null) {
+                user.uid?.let { updateProfile(it, field, updatedList) }
+            }
+        }
+    }
+
+    /**
      * Get the collection reference of the database of users.
      *
      * @return the reference of the database
@@ -177,7 +201,7 @@ class UserRepository @Inject constructor(
                 Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
             }
-//TODO if the getuser(uid) is null add deletedMatch
+
             if (snapshot != null && snapshot.exists()) {
                 Log.d(TAG, "Current data: ${snapshot.data}")
                 myMatchesUids = snapshot["matches"] as List<String>

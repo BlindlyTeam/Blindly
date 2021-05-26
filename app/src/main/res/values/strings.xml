@@ -177,6 +177,7 @@
     <string name="loading_profiles">Profiles are loading, please wait…</string>
     <string name="match_profile_background_description">Gradient background with sound waves</string>
     <string name="my_profile_button_description">Profile button</string>
+    <string name="button_to_remove_a_match">Button to remove a match.</string>
     <string name="logout">User</string>
     <string name="user_no_longer_available">This user is no longer available.</string>
 </resources>

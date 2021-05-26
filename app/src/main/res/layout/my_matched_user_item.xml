@@ -26,6 +26,14 @@
             android:textSize="24sp"
             tools:layout_marginLeft="20dp" />
 
+        <ImageButton
+            android:id="@+id/removeMatchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/remove_my_match_icon"
+            android:contentDescription="@string/button_to_remove_a_match" />
+
     </LinearLayout>
 
     <LinearLayout
