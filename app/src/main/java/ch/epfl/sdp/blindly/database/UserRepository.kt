@@ -124,6 +124,42 @@ class UserRepository @Inject constructor(
         return db.collection(USER_COLLECTION)
     }
 
+    suspend fun getMyMatchesUids(
+        viewLifecycleOwner: LifecycleOwner,
+        userId: String,
+        setupAdapter: KSuspendFunction1<ArrayList<MyMatch>, Unit>
+    ) {
+        var myMatchesUids: List<String>
+        var myMatches: ArrayList<MyMatch>?
+        val docRef = getCollectionReference().document(userId)
+        docRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: ${snapshot.data}")
+                myMatchesUids = snapshot["matches"] as List<String>
+                viewLifecycleOwner.lifecycleScope.launch {
+                    myMatches = arrayListOf()
+                    for (uid in myMatchesUids) {
+                        myMatches!!.add(
+                            MyMatch(
+                                getUser(uid)?.username!!,
+                                uid,
+                                false
+                            )
+                        )
+                    }
+                    setupAdapter(myMatches!!)
+                }
+            } else {
+                Log.d(TAG, "Current data: null")
+            }
+        }
+    }
+
     suspend fun getMyMatches(
         viewLifecycleOwner: LifecycleOwner,
         userId: String,

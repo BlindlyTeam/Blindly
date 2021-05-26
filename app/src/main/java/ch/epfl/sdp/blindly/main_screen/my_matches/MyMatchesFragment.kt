@@ -1,12 +1,10 @@
 package ch.epfl.sdp.blindly.main_screen.my_matches
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -77,6 +75,7 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.activity_my_matches, container, false)
 
+        var myMatchesUids: List<String>?
 
         //Needs to be done in a coroutine
         viewLifecycleOwner.lifecycleScope.launch {
@@ -134,6 +133,22 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         val location = userRepository.getLocation(userId)
         intent.putExtra(WeatherActivity.LOCATION, location)
         startActivity(intent)
+    }
+
+    private fun setUpMyMatchesAsync(myMatchesUids: List<String>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val myMatches: ArrayList<MyMatch> = arrayListOf()
+            for (uid in myMatchesUids) {
+                myMatches.add(
+                    MyMatch(
+                        userRepository.getUser(uid)?.username!!,
+                        uid,
+                        false
+                    )
+                )
+            }
+            setAdapterOnMainThread(myMatches)
+        }
     }
 }
 
