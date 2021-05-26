@@ -1,14 +1,11 @@
 package ch.epfl.sdp.blindly.user
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
+import ch.epfl.sdp.blindly.utils.Date
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
-import java.time.Period
 
 private const val SIZE_OF_LOCATION_LIST = 2
 private const val SIZE_OF_AGE_RANGE_LIST = 2
@@ -278,7 +275,7 @@ data class User private constructor(
                     listOf(ageRange!![0].toInt(), ageRange[1].toInt())
                 )
             } catch (e: Exception) {
-                Log.e(TAG, "Error converting user profile", e)
+                Log.e(TAG, "Error converting user profile for id $id", e)
                 return null
             }
         }
@@ -286,29 +283,15 @@ data class User private constructor(
         /**
          * Compute the age of the user
          *
-         * @param user: the user whose age we want to compute
+         * @param user the user whose age we want to compute
          * @return an Int containing the age of the User
          */
-        @RequiresApi(Build.VERSION_CODES.O)
         fun getUserAge(user: User?): Int? {
             val birthday = user?.birthday
-            if (birthday != null) {
-                return getAgeFromBirthday(birthday)
-            }
+            val date = Date.getDate(birthday)
+            if(date != null)
+                return date.getAge()
             return null
-        }
-
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun getAgeFromBirthday(birthday: String): Int {
-            val (day, month, year) = birthday.split('.')
-            return Period.between(
-                LocalDate.of(
-                    year.toInt(),
-                    month.toInt(),
-                    day.toInt()
-                ),
-                LocalDate.now()
-            ).years
         }
 
         /**

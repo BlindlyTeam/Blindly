@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ch.epfl.sdp.blindly">
+    package="ch.epfl.sdp.blindly" >
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -29,7 +29,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Blindly"
         tools:ignore="ExtraText">
-        <activity android:name=".main_screen.chat.ChatActivity" />
+        <activity android:name=".main_screen.my_matches.match_profile.MatchProfileActivity" />
+        <activity android:name=".main_screen.my_matches.chat.ChatActivity" />
         <activity android:name=".profile_setup.ProfileAudioRecording" />
         <activity android:name=".profile_setup.ProfileFinished" />
         <activity android:name=".profile_setup.ProfilePassions" />
@@ -44,6 +45,7 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
+      
         <activity android:name=".main_screen.map.UserMapActivity" />
         <activity android:name=".weather.WeatherActivity" />
         <activity android:name=".main_screen.profile.settings.SettingsLocation" />
@@ -67,24 +69,28 @@
             </intent-filter>
         </activity>
         <activity android:name=".audio.RecordingActivity" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            tools:replace="android:value"
             android:value="@string/facebook_application_id"
-            />
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            tools:replace="android:value" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

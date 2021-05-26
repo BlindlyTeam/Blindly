@@ -1,10 +1,7 @@
 package ch.epfl.sdp.blindly.audio
 
-import android.media.MediaPlayer
 import android.net.Uri
-import android.widget.Toast
-import com.google.android.gms.tasks.Task
-import com.google.firebase.storage.FileDownloadTask
+import android.util.Log
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
@@ -22,7 +19,10 @@ class FirebaseRecordings(private val storage: FirebaseStorage) : Recordings {
      */
     override fun putFile(recordingPath: String, file: File, callback: Recordings.RecordingOperationCallback) {
         getPathRef(recordingPath).putFile(Uri.fromFile(file)).addOnCompleteListener {
-            callback.onSuccess()
+            if(it.isSuccessful)
+                callback.onSuccess()
+            else
+                callback.onError()
         }.addOnFailureListener {
             callback.onError()
         }.addOnCanceledListener { callback.onError() }
@@ -37,7 +37,10 @@ class FirebaseRecordings(private val storage: FirebaseStorage) : Recordings {
      */
     override fun getFile(recordingPath: String, file: File, callback: Recordings.RecordingOperationCallback) {
         getPathRef(recordingPath).getFile(file).addOnCompleteListener {
-            callback.onSuccess()
+            if(it.isSuccessful)
+                callback.onSuccess()
+            else
+                callback.onError()
         }.addOnFailureListener {
             callback.onError()
         }.addOnCanceledListener { callback.onError() }

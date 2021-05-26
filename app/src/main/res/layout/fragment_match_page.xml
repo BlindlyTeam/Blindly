@@ -20,16 +20,28 @@
             android:id="@+id/card_stack_view"
             android:layout_width="match_parent"
             android:layout_height="500dp"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/play_pause_button"
+            android:layout_marginBottom="33dp"
             android:clipToPadding="false"
-            android:padding="4dp">
-        </com.yuyakaido.android.cardstackview.CardStackView>
+            android:padding="4dp" />
+
+        <TextView
+            android:id="@+id/no_profile_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="@color/blindly_purple"
+            android:textSize="26sp"
+            android:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/skip_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card_stack_view"
-            android:layout_marginTop="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/play_pause_button"
             android:backgroundTint="@android:color/white"
@@ -43,11 +55,11 @@
             android:id="@+id/play_pause_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card_stack_view"
+            android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginBottom="32dp"
             android:clickable="true"
             android:focusable="true"
             app:backgroundTint="#FFFBFB"
@@ -64,9 +76,9 @@
             android:id="@+id/like_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card_stack_view"
+            android:layout_alignParentBottom="true"
             android:layout_centerVertical="true"
-            android:layout_marginTop="25dp"
+            android:layout_marginBottom="30dp"
             android:layout_toEndOf="@+id/play_pause_button"
             android:backgroundTint="@android:color/white"
             android:contentDescription="@string/like_image_description"

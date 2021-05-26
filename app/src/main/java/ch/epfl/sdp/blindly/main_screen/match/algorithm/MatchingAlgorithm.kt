@@ -32,7 +32,6 @@ class MatchingAlgorithm(
      *
      * @return a list of users that can be showed in the swiping interface
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getPotentialMatchesFromDatabase(): List<User>? {
         val userid = userHelper.getUserId()!!
         val currentUser = userRepository.getUser(userid) ?: return null
@@ -47,7 +46,7 @@ class MatchingAlgorithm(
 
             //Wait on the query to be done before continuing
             try {
-                val matches = userRepository.query(query).filter { user -> user.uid != userid }
+                val matches = userRepository.query(query).filter { user -> user.uid != userid && !currentUser.likes!!.contains(user.uid) }
                 val filteredList = userListFilter.filterLocationAndAgeRange(currentUser, matches)
                 return userListFilter.reversePotentialMatch(currentUser, filteredList)
             } catch (exception: Exception) {

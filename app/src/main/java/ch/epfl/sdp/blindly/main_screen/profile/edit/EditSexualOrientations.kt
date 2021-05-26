@@ -51,7 +51,6 @@ class EditSexualOrientations : AppCompatActivity() {
             setCheckedChip(sexualOrientations)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
         if (sexualOrientationsAreCorrect()) {
             viewModel.updateField(

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.chat
+package ch.epfl.sdp.blindly.main_screen.my_matches.chat
 
 /**
  * A message to send to another user using [DatatbaseHelper]

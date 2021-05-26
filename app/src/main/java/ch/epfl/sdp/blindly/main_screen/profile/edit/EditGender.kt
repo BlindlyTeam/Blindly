@@ -79,7 +79,6 @@ class EditGender : AppCompatActivity() {
         setUpdateOnClickListener(updateGender)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
         val checkedChipId = radioGroup.checkedRadioButtonId
         val checkedChip = findViewById<RadioButton>(checkedChipId)

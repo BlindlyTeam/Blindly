@@ -37,7 +37,6 @@ class EditUsername : AppCompatActivity() {
 
     private lateinit var viewModel: UserViewModel
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_username)
@@ -54,7 +53,6 @@ class EditUsername : AppCompatActivity() {
         setOnClickListener(updateUsername)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun setOnClickListener(button: Button) {
         button.setOnClickListener {
             hideAllWarning()
@@ -93,8 +91,6 @@ class EditUsername : AppCompatActivity() {
         findViewById<TextView>(R.id.warning2_p2).visibility = INVISIBLE
         findViewById<TextView>(R.id.warning3_p2).visibility = INVISIBLE
         findViewById<TextView>(R.id.update_username_success_notice).visibility =
-            INVISIBLE
-        findViewById<TextView>(R.id.update_username_failure_notice).visibility =
             INVISIBLE
     }
 }

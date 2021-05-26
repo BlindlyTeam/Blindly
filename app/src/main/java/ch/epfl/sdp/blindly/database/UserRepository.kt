@@ -3,7 +3,9 @@ package ch.epfl.sdp.blindly.database
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
-import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
+import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.User
 import kotlin.reflect.KSuspendFunction1
 
@@ -16,6 +18,21 @@ interface UserRepository {
      * @return the user with the corresponding uid or null if they doesn't exist
      */
     suspend fun getUser(uid: String): User?
+
+    /**
+     * Get the location of the user, wrap it as a BlindlyLatLng
+     * and return it to use with WeatherActivity
+     *
+     * @param uid UID of the current user
+     * @return a BlindlyLatLng location for weather activity
+     */
+    suspend fun getLocation(uid: String): BlindlyLatLng {
+        val user = getUser(uid)
+        if (user != null) {
+            return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
+        }
+        return BlindlyLatLng(LAUSANNE_LATLNG)
+    }
 
     /**
      * Look for the user with the corresponding uid in firestore and store it in the local cache
@@ -33,7 +50,6 @@ interface UserRepository {
      * @param field the field of the value to change inside the database
      * @param newValue the new value to set for the user
      */
-
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T)
 
     /**
@@ -43,13 +59,11 @@ interface UserRepository {
      */
     suspend fun query(query: Query): List<User>
 
-    @RequiresApi(Build.VERSION_CODES.N)
     suspend fun getMyMatches(
         viewLifecycleOwner: LifecycleOwner,
         userId: String,
         setupAdapter: KSuspendFunction1<MutableList<MyMatch>, Unit>
     )
-
     /**
      * Query for the user repositiry
      *

@@ -208,24 +208,30 @@ class AudioLibraryAdapter(
             overwrite = true
         )
         val userId = userHelper.getUserId()
-        if (userId == null) {
-            saveRecordingsError()
-        } else {
-            recordings.putFile(Recordings.getPresentationAudionName(userId), newFile, object :
-                Recordings.RecordingOperationCallback() {
-                override fun onSuccess() {
-                    if (userBuilder != null)
-                        startProfileFinished()
-                    else
-                        startProfilePage(activity)
-                }
+        recordingPath = "Recordings/$userId-$PRESENTATION_AUDIO_NAME"
+        userBuilder?.setRecordingPath(recordingPath)
+        recordings.putFile(recordingPath, newFile, object :
+            Recordings.RecordingOperationCallback() {
+            override fun onSuccess() {
+                if (userBuilder != null)
+                    startProfileFinished()
+                else
+                    startProfilePage(activity)
+            }
 
-                override fun onError() {
-                    saveRecordingsError()
-                }
-
-            })
-        }
+            override fun onError() {
+                Toast.makeText(
+                    context,
+                    "Failed to upload the recording. Try again.",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+                if (userBuilder != null)
+                    startProfileFinished()
+                else
+                    startProfilePage(activity)
+            }
+        })
     }
 
     private fun saveRecordingsError() {

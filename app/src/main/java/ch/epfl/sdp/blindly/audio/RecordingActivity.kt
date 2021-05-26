@@ -59,7 +59,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
 
     private var totalNumberOfRec = 0
 
-    private var maximumAudioDuration = DEFAULT_RECORD_AUDIO_DURATION;
+    private var maximumAudioDuration = DEFAULT_RECORD_AUDIO_DURATION
 
     var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)

@@ -1,20 +1,18 @@
 package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.utils.ChipGroupUtils.Companion.setCheckedChips
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -65,13 +63,12 @@ class EditProfile : AppCompatActivity() {
             gender.text = user.gender
             genderText = user.gender
             sexualOrientationsText = user.sexualOrientations
-            sexualOrientationsText?.let { setCheckedChips(sexualOrientations, it) }
+            sexualOrientationsText?.let { setCheckedChips(sexualOrientations, it, this) }
             passionsText = user.passions
-            passionsText?.let { setCheckedChips(passions, it) }
+            passionsText?.let { setCheckedChips(passions, it, this) }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onResume() {
         super.onResume()
         sexualOrientations.removeAllViews()
@@ -111,14 +108,6 @@ class EditProfile : AppCompatActivity() {
         }
         intent.putStringArrayListExtra(PASSIONS, passions)
         startActivity(intent)
-    }
-
-    private fun setCheckedChips(chipGroup: ChipGroup, text: List<String>) {
-        for (t in text) {
-            val chip = Chip(this)
-            chip.text = t
-            chipGroup.addView(chip)
-        }
     }
 
     companion object {

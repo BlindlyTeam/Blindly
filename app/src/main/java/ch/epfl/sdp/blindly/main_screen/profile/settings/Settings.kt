@@ -106,13 +106,11 @@ class Settings : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onResume() {
         super.onResume()
         viewModel.userUpdate()
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
         if (radiusSlider.value != currentRadius.toFloat()) {
             viewModel.updateField(RADIUS, radiusSlider.value.toInt())

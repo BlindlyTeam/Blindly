@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly.main_screen
 import android.app.AlertDialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING
@@ -27,7 +28,11 @@ private const val ANSWER_NO = "No"
 @AndroidEntryPoint
 class MainScreen : AppCompatActivity() {
 
-    private val tabTitles = arrayListOf(MATCH, MY_MATCHES, PROFILE, WEATHER)
+    private val tabIcons = arrayListOf(
+        R.drawable.possible_matches_fragment_icon,
+        R.drawable.my_matches_fragment_icon,
+        R.drawable.profile_fragment_icon
+    )
 
 
     var tabLayout: TabLayout? = null
@@ -41,7 +46,7 @@ class MainScreen : AppCompatActivity() {
 
         viewPager!!.adapter = ViewPagerAdapter(this)
         TabLayoutMediator(tabLayout!!, viewPager!!) { tab, position ->
-            tab.text = tabTitles[position]
+            tab.icon = ResourcesCompat.getDrawable(resources, tabIcons[position], null);
         }.attach()
         viewPager!!.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {

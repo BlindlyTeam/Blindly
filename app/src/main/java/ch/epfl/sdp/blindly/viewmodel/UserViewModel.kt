@@ -1,6 +1,5 @@
 package ch.epfl.sdp.blindly.viewmodel
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -8,7 +7,6 @@ import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -17,7 +15,6 @@ import kotlinx.coroutines.launch
 /**
  * The viewModel associated with ProfilePage, it holds the livedata for a given user
  */
-@RequiresApi(Build.VERSION_CODES.N)
 class UserViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
     userRepository: UserRepository

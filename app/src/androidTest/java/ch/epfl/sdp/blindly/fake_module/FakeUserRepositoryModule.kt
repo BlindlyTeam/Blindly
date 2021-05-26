@@ -7,7 +7,7 @@ import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.location.AndroidLocationService
-import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.updateUser
 import ch.epfl.sdp.blindly.user.storage.UserCache

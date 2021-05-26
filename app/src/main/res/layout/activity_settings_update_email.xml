@@ -21,8 +21,9 @@
         android:id="@+id/update_email_field"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
         android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
         android:hint="@string/new_e_mail"
         android:inputType="textWebEmailAddress" />
@@ -31,7 +32,8 @@
         android:id="@+id/update_email_success_notice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
         android:text="@string/email_update_success"
         android:visibility="gone" />
 
@@ -39,7 +41,8 @@
         android:id="@+id/update_email_failure_notice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
         android:textColor="@color/design_default_color_error"
         android:visibility="gone" />
 
@@ -47,7 +50,7 @@
         android:id="@+id/update_email_button"
         android:layout_width="@dimen/pill_shape_width"
         android:layout_height="@dimen/pill_shape_height"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/cell_height"
         android:layout_marginStart="75dp"
         android:onClick="updateEmail"
         android:text="@string/update_email"
