@@ -41,7 +41,7 @@ class MatchProfileActivity : AppCompatActivity() {
     lateinit var assistedFactory: ViewModelAssistedFactory
 
     @Inject
-    lateinit var recordings: Recordings;
+    lateinit var recordings: Recordings
 
     @Inject
     lateinit var userRepository: UserRepository
