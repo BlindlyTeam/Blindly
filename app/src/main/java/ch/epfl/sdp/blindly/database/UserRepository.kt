@@ -3,8 +3,8 @@ package ch.epfl.sdp.blindly.database
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
-import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.DELETED
 import ch.epfl.sdp.blindly.user.LIKES
@@ -106,7 +106,6 @@ class UserRepository @Inject constructor(
      * @param field the field of the value to change inside the database
      * @param newValue the new value to set for the user
      */
-
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         if (newValue !is String && newValue !is List<*> && newValue !is Int)
             throw IllegalArgumentException("Expected String, List<String> or Int")

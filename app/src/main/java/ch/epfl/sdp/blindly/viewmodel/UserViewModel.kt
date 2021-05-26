@@ -1,5 +1,6 @@
 package ch.epfl.sdp.blindly.viewmodel
 
+import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner

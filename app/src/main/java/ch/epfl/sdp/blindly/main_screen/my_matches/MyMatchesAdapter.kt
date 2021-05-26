@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.match.my_matches
+package ch.epfl.sdp.blindly.main_screen.my_matches
 
 import android.content.Context
 import android.content.Intent
@@ -16,10 +16,9 @@ import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
-import ch.epfl.sdp.blindly.main_screen.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
+import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
-
-private const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
 
 class MyMatchesAdapter(
     var my_matches: ArrayList<MyMatch>,
@@ -27,6 +26,11 @@ class MyMatchesAdapter(
     var context: Context,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<MyMatchesAdapter.ViewHolder>() {
+
+    companion object {
+        const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
+        const val BUNDLE_MATCHED_USERNAME_LABEL = "username"
+    }
 
     /**
      * Custom ViewHolder class that contains all the elements that will be used later on in
@@ -41,8 +45,9 @@ class MyMatchesAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val matchedName: TextView = view.findViewById(R.id.matchedUserName)
         val userNameLayout: LinearLayout = view.findViewById(R.id.userNameLayout)
-        val expandableChatAndMapLayout: RelativeLayout = view.findViewById(R.id.chatAndMapLayout)
+        val expandableChatAndMapLayout: LinearLayout = view.findViewById(R.id.chatAndMapLayout)
         val chatButton: AppCompatImageButton = view.findViewById(R.id.chatButton)
+        val profileButton: AppCompatImageButton = view.findViewById(R.id.profileButton)
         val mapButton: AppCompatImageButton = view.findViewById(R.id.mapButton)
 
         init {
@@ -112,13 +117,21 @@ class MyMatchesAdapter(
             my_matches[position].isExpanded = notIsExpanded
         }
 
-
         viewHolder.chatButton.setOnClickListener {
             if (myMatch.isDeleted) {
                 showNoLongerAvailableToast()
             }
             val intent = Intent(context, ChatActivity::class.java)
-            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to myMatch.uid)
+            val bundle = bundleOf(
+                BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid,
+                BUNDLE_MATCHED_USERNAME_LABEL to my_matches[position].name)
+            intent.putExtras(bundle)
+            startActivity(context, intent, null)
+        }
+
+        viewHolder.profileButton.setOnClickListener {
+            val intent = Intent(context, MatchProfileActivity::class.java)
+            val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to my_matches[position].uid)
             intent.putExtras(bundle)
             startActivity(context, intent, null)
         }
@@ -152,7 +165,7 @@ class MyMatchesAdapter(
      * @param isExpanded if the matched user is currently expanded in layout
      * @param layoutExpand the layout to expand/collapse
      */
-    private fun toggleLayout(isExpanded: Boolean, layoutExpand: RelativeLayout) {
+    private fun toggleLayout(isExpanded: Boolean, layoutExpand: LinearLayout) {
         collapseLayouts()
         if (isExpanded) {
             RecordAnimations.expand(layoutExpand)

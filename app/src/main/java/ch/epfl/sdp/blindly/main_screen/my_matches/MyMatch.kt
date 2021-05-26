@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.match.my_matches
+package ch.epfl.sdp.blindly.main_screen.my_matches
 
 /**
  * Data class for the shown matches
