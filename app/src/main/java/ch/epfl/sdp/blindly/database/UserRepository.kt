@@ -1,15 +1,20 @@
 package ch.epfl.sdp.blindly.database
 
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+import kotlin.reflect.KSuspendFunction1
 
 /**
  * The main access to Firebase firestore
@@ -119,13 +124,40 @@ class UserRepository @Inject constructor(
         return db.collection(USER_COLLECTION)
     }
 
-    /**
-     * Returns the uids of the matches of a given user.
-     *
-     * @param userId the id of the user
-     * @return the list of uids, or null if the user can't be retrieved
-     */
-    suspend fun getMyMatchesUids(userId: String): List<String>? {
-        return getUser(userId)?.matches
+    suspend fun getMyMatches(
+        viewLifecycleOwner: LifecycleOwner,
+        userId: String,
+        setupAdapter: KSuspendFunction1<ArrayList<MyMatch>, Unit>
+    ) {
+        var myMatchesUids: List<String>
+        var myMatches: ArrayList<MyMatch>?
+        val docRef = getCollectionReference().document(userId)
+        docRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: ${snapshot.data}")
+                myMatchesUids = snapshot["matches"] as List<String>
+                viewLifecycleOwner.lifecycleScope.launch {
+                    myMatches = arrayListOf()
+                    for (userId in myMatchesUids) {
+                        myMatches!!.add(
+                            MyMatch(
+                                getUser(userId)?.username!!,
+                                userId,
+                                false
+                            )
+                        )
+                    }
+                    setupAdapter(myMatches!!)
+
+                }
+            } else {
+                Log.d(TAG, "Current data: null")
+            }
+        }
     }
 }

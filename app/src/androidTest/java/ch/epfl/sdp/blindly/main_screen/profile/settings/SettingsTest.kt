@@ -20,8 +20,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
-import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUserUpdated
-import ch.epfl.sdp.blindly.main_screen.profile.settings.*
+import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser2
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.android.material.slider.RangeSlider
@@ -262,7 +261,7 @@ class SettingsTest {
         }
         assertThat(radiusSlider, equalTo(fakeUser.radius))
         //Update radius
-        val TEST_RADIUS = fakeUserUpdated.radius
+        val TEST_RADIUS = fakeUser2.radius
         onView(withId(R.id.location_slider)).perform(TEST_RADIUS?.let { setSliderValue(it) })
         //Press back button
         val activity = pressBackAndRelaunchSettings()
@@ -329,7 +328,7 @@ class SettingsTest {
     }
 
     private fun getFakeUser2AgeRange(): List<Float>? {
-        val userAgeRange2 = fakeUserUpdated.ageRange
+        val userAgeRange2 = fakeUser2.ageRange
 
         return userAgeRange2?.get(0)?.let { listOf(it.toFloat(), userAgeRange2[1].toFloat()) }
     }
