@@ -338,12 +338,18 @@ class User private constructor(
                     user.radius = newValue as Int
                 }
                 MATCHES -> {
-                    assertIsListOfString(newValue)
-                    user.matches = newValue as List<String>
+                    val newMatches = newValue as List<String>
+                    if(newMatches.isNotEmpty()){
+                        assertIsListOfString(newValue)
+                        user.matches = newMatches
+                    }
                 }
                 LIKES -> {
-                    assertIsListOfString(newValue)
-                    user.likes = newValue as List<String>
+                    val newLikes = newValue as List<String>
+                    if(newLikes.isNotEmpty()){
+                        assertIsListOfString(newValue)
+                        user.likes = newLikes
+                    }
                 }
                 RECORDING_PATH -> {
                     assertIsString(newValue)
