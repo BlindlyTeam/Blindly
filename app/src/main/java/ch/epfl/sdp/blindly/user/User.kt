@@ -30,7 +30,7 @@ const val AGE_RANGE = "ageRange"
  * A class to represent a User
  */
 @Serializable
-class User private constructor(
+data class User private constructor(
     @Exclude var uid: String?,
     var username: String?,
     var location: List<Double>?,

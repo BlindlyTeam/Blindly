@@ -1,20 +1,10 @@
 package ch.epfl.sdp.blindly.database
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.main_screen.match.my_matches.MyMatch
 import ch.epfl.sdp.blindly.user.User
-import ch.epfl.sdp.blindly.user.User.Companion.toUser
-import ch.epfl.sdp.blindly.user.storage.UserCache
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
 import kotlin.reflect.KSuspendFunction1
 
 interface UserRepository {
@@ -57,7 +47,7 @@ interface UserRepository {
     suspend fun getMyMatches(
         viewLifecycleOwner: LifecycleOwner,
         userId: String,
-        setupAdapter: KSuspendFunction1<ArrayList<MyMatch>, Unit>
+        setupAdapter: KSuspendFunction1<MutableList<MyMatch>, Unit>
     )
 
     /**

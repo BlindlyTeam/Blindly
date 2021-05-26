@@ -11,10 +11,8 @@ import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
 import kotlin.reflect.KSuspendFunction1
 
 /**
@@ -23,7 +21,7 @@ import kotlin.reflect.KSuspendFunction1
  * @property db the instance of FirebaseFirestore
  * @property userCache the local cache
  */
-class UserRepositoryImpl(
+class UserRepositoryImpl constructor(
     private val db: FirebaseFirestore,
     private val userCache: UserCache
 ) : UserRepository {
@@ -137,7 +135,7 @@ class UserRepositoryImpl(
     override suspend fun getMyMatches(
         viewLifecycleOwner: LifecycleOwner,
         userId: String,
-        setupAdapter: KSuspendFunction1<ArrayList<MyMatch>, Unit>
+        setupAdapter: KSuspendFunction1<MutableList<MyMatch>, Unit>
     ) {
         var myMatchesUids: List<String>
         var myMatches: ArrayList<MyMatch>?

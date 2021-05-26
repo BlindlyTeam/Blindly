@@ -22,8 +22,8 @@ import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
 private const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
 
 class MyMatchesAdapter(
-    var my_matches: ArrayList<MyMatch>,
-    private var viewHolderList: ArrayList<ViewHolder>,
+    var my_matches: MutableList<MyMatch>,
+    private var viewHolderList: MutableList<ViewHolder>,
     var context: Context,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<MyMatchesAdapter.ViewHolder>() {
