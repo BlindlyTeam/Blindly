@@ -29,8 +29,8 @@ class UserTest {
         private val matches: List<String> = listOf("a1", "b2")
         private val matches2: List<String> = listOf("A3Verg34vrE3")
         private val likes: List<String> = listOf("c3", "d4")
-        private val emptyLikes : List<String> = listOf()
-        private val emptyMatches : List<String> = listOf()
+        private val emptyLikes: List<String> = listOf()
+        private val emptyMatches: List<String> = listOf()
         private val likes2: List<String> = listOf("efh14fjnaA")
         private val ageRange = listOf(30, 40)
         private val ageRange2 = listOf(20, 60)
@@ -320,12 +320,6 @@ class UserTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun updateMatchesWithOtherThanListThrowsException() {
-        val user = buildUser()
-        User.updateUser(user, MATCHES, WRONG_INPUT_FOR_LIST)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
     fun updateMatchesWithOtherThanListOfStringThrowsException() {
         val user = buildUser()
         User.updateUser(user, MATCHES, WRONG_INPUT_FOR_LIST_STRING)
@@ -336,12 +330,6 @@ class UserTest {
         val user = buildUser()
         User.updateUser(user, LIKES, likes2)
         assertThat(user.likes, equalTo(likes2))
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun updateLikesWithOtherThanListThrowsException() {
-        val user = buildUser()
-        User.updateUser(user, LIKES, WRONG_INPUT_FOR_LIST)
     }
 
     @Test(expected = IllegalArgumentException::class)
