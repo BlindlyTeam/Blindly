@@ -359,6 +359,9 @@ data class User private constructor(
                     assertIsAgeRange(newValue)
                     user.ageRange = newValue as List<Int>
                 }
+                else -> {
+                    throw java.lang.IllegalArgumentException("Incorrect field")
+                }
             }
             return user
         }

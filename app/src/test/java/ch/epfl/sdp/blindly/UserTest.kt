@@ -45,6 +45,7 @@ class UserTest {
         private val WRONG_INPUT_FOR_LIST_DOUBLE = listOf("Int")
         private val WRONG_INPUT_SIZE = listOf(45.6, 4, 5, 6)
         private val WRONG_INPUT_FOR_INT = listOf("Int")
+        private const val WRONG_USERNAME_FIELD = "name"
     }
 
     @Test
@@ -148,7 +149,7 @@ class UserTest {
     }
 
     @Test
-    fun buildBuilsCorrectUser() {
+    fun buildBuildsCorrectUser() {
         val user = buildUser()
 
         assertThat(user.uid, equalTo(uid))
@@ -320,6 +321,13 @@ class UserTest {
         assertThat(user.matches, equalTo(matches2))
     }
 
+    @Test
+    fun updateMatchesEmptyIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, MATCHES, listOf<String>())
+        assertThat(user.matches, equalTo(matches))
+    }
+
     @Test(expected = IllegalArgumentException::class)
     fun updateMatchesWithOtherThanListOfStringThrowsException() {
         val user = buildUser()
@@ -331,6 +339,13 @@ class UserTest {
         val user = buildUser()
         User.updateUser(user, LIKES, likes2)
         assertThat(user.likes, equalTo(likes2))
+    }
+
+    @Test
+    fun updateLikesEmptyIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, LIKES, listOf<String>())
+        assertThat(user.likes, equalTo(likes))
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -375,6 +390,12 @@ class UserTest {
     fun updateAgeRangeWithListWithSizeGreaterThanTwoThrowsException() {
         val user = buildUser()
         User.updateUser(user, AGE_RANGE, WRONG_INPUT_SIZE)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updateWithWrongFieldThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, WRONG_USERNAME_FIELD, username2)
     }
 
     @Test
