@@ -204,7 +204,7 @@ class SettingsTest {
 
     @Test
     fun locationIsCorrectlyRetrieved() {
-        val TEST_LOCATION = "Ecublens, Switzerland"
+        val TEST_LOCATION: String = "Ecublens, Switzerland"
         val location = onView(withId(R.id.current_location_text))
         location.check(matches(withText(TEST_LOCATION)))
     }

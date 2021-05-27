@@ -24,7 +24,7 @@ import javax.inject.Singleton
 
 open class FakeAppDatabaseModule {
     companion object {
-        val fakeUser = FakeUserCacheModule.fakeUser
+        val fakeUser = FakeUserRepositoryModule.fakeUser
     }
 
     @Singleton

@@ -3,9 +3,6 @@ package ch.epfl.sdp.blindly.database
 import androidx.lifecycle.LifecycleOwner
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
-import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
-import ch.epfl.sdp.blindly.user.LIKES
-import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import kotlin.reflect.KSuspendFunction1
 
@@ -20,14 +17,14 @@ interface UserRepository {
 
     suspend fun getUser(uid: String): User?
 
-/**
- * Removes another liked or matched user from current user.
- *
- * @param field field to remove a User (either from LIKES or MATCHES)
- * @param userId current user's ID
- * @param matchId matched user's ID
- */
-suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String)
+    /**
+     * Removes another liked or matched user from current user.
+     *
+     * @param field field to remove a User (either from LIKES or MATCHES)
+     * @param userId current user's ID
+     * @param matchId matched user's ID
+     */
+    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String)
 
     /**
      * Get the location of the user, wrap it as a BlindlyLatLng
