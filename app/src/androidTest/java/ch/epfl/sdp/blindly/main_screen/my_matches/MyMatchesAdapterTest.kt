@@ -20,7 +20,6 @@ import javax.inject.Inject
 @HiltAndroidTest
 class MyMatchesAdapterTest {
 
-
     @Inject
     lateinit var userHelper: UserHelper
 
@@ -45,6 +44,7 @@ class MyMatchesAdapterTest {
         private const val NAME_1 = "user1"
         private const val UID_1 = "uid1"
         private const val IS_EXPANDED = false
+        private const val IS_DELETED = false
         private const val NAME_2 = "user2"
         private const val UID_2 = "uid2"
 
@@ -52,8 +52,8 @@ class MyMatchesAdapterTest {
 
     @Test
     fun recyclerViewShowsCorrectCount() {
-        val match1 = MyMatch(NAME_1, UID_1, IS_EXPANDED)
-        val match2 = MyMatch(NAME_2, UID_2, IS_EXPANDED)
+        val match1 = MyMatch(NAME_1, UID_1, IS_EXPANDED, IS_DELETED)
+        val match2 = MyMatch(NAME_2, UID_2, IS_EXPANDED, IS_DELETED)
         val list: ArrayList<MyMatch> = arrayListOf()
         val listener = mock(MyMatchesAdapter.OnItemClickListener::class.java)
         list.addAll(listOf(match1, match2))
@@ -72,8 +72,8 @@ class MyMatchesAdapterTest {
 
     @Test
     fun itemTypeIsCorrect() {
-        val match1 = MyMatch(NAME_1, UID_1, IS_EXPANDED)
-        val match2 = MyMatch(NAME_2, UID_2, IS_EXPANDED)
+        val match1 = MyMatch(NAME_1, UID_1, IS_EXPANDED, IS_DELETED)
+        val match2 = MyMatch(NAME_2, UID_2, IS_EXPANDED, IS_DELETED)
         val list: ArrayList<MyMatch> = arrayListOf()
         val listener = mock(MyMatchesAdapter.OnItemClickListener::class.java)
         list.addAll(listOf(match1, match2))
@@ -92,8 +92,8 @@ class MyMatchesAdapterTest {
 
     @Test
     fun setupAdapterForRecyclerView() {
-        val match1 = MyMatch(NAME_1, UID_1, IS_EXPANDED)
-        val match2 = MyMatch(NAME_2, UID_2, IS_EXPANDED)
+        val match1 = MyMatch(NAME_1, UID_1, IS_EXPANDED, true)
+        val match2 = MyMatch(NAME_2, UID_2, IS_EXPANDED, false)
         val list: ArrayList<MyMatch> = arrayListOf()
         val listener = mock(MyMatchesAdapter.OnItemClickListener::class.java)
         list.addAll(listOf(match1, match2))
@@ -108,9 +108,7 @@ class MyMatchesAdapterTest {
             userRepository
         )
         rv.adapter = adapter
-        adapter.my_matches.add(MyMatch(NAME_1, UID_2, IS_EXPANDED))
+        adapter.my_matches.add(MyMatch(NAME_1, UID_2, IS_EXPANDED, IS_DELETED))
         adapter.notifyDataSetChanged()
     }
-
-
 }

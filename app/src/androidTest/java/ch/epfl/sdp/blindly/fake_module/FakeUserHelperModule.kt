@@ -32,10 +32,9 @@ open class FakeUserHelperModule {
     open fun provideUserHelper(): UserHelper {
         val user = mock(UserHelper::class.java)
         Mockito.`when`(user.getEmail()).thenReturn(PRIMARY_EMAIL)
+
         val taskCompletionSource = TaskCompletionSource<Void>()
-
         Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setResult(null) }, 1000L)
-
         val successfulTask = taskCompletionSource.task
 
         Mockito.`when`(user.setEmail(SECOND_EMAIL)).thenReturn(successfulTask)
@@ -49,6 +48,7 @@ open class FakeUserHelperModule {
         Mockito.`when`(user.isLoggedIn()).thenReturn(true)
 
         Mockito.`when`(user.logout(any())).thenReturn(successfulTask)
+        Mockito.`when`(user.delete(any())).thenReturn(successfulTask)
         return user
     }
 }

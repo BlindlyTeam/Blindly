@@ -65,4 +65,13 @@ class UserCacheTest {
         userCache.put(uid, TEST_USER)
         assertTrue(userCache.contains(uid))
     }
+
+    @Test
+    fun userIsNotInCacheOnceTheyHaveBeenRemoved() {
+        val userCache = UserCache()
+        userCache.put(uid, TEST_USER)
+        assertTrue(userCache.contains(uid))
+        userCache.remove(uid)
+        assertFalse(userCache.contains(uid))
+    }
 }

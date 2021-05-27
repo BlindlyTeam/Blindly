@@ -57,7 +57,6 @@ class SplashScreen : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d(TAG, "data: $data")
         super.onActivityResult(requestCode, resultCode, data)
         val nextIntent = user.handleAuthResult(this, resultCode, data)
         // Open the rest if the login is successful

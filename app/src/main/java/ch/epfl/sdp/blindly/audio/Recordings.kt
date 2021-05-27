@@ -26,9 +26,10 @@ interface Recordings {
      */
     fun getFile(recordingPath: String, file: File, callback: RecordingOperationCallback)
 
+    fun deleteFile(recordingPath: String, callback: RecordingOperationCallback)
+
     companion object {
         private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.amr"
-
         fun getPresentationAudionName(userId: String) = "Recordings/$userId-${PRESENTATION_AUDIO_NAME}"
     }
 }

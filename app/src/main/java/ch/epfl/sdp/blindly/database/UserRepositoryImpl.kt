@@ -8,9 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
-import ch.epfl.sdp.blindly.user.LIKES
-import ch.epfl.sdp.blindly.user.MATCHES
-import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.*
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.CollectionReference
@@ -50,30 +48,6 @@ class UserRepositoryImpl constructor(
             return cached
         }
         return refreshUser(uid)
-    }
-
-    /**
-     * Removes another liked or matched user from current user.
-     *
-     * @param field field to remove a User (either from LIKES or MATCHES)
-     * @param userId current user's ID
-     * @param matchId matched user's ID
-     */
-    override suspend fun removeMatchFromAUser(field: String, userId: String, matchId: String) {
-        var updatedList: ArrayList<String>? = arrayListOf()
-        val user = getUser(userId)
-        if (user != null) {
-            when (field) {
-                LIKES ->
-                    updatedList = user.likes as ArrayList<String>?
-                MATCHES ->
-                    updatedList = user.matches as ArrayList<String>?
-            }
-            updatedList?.remove(matchId)
-            if (user != null) {
-                user.uid?.let { updateProfile(it, field, updatedList) }
-            }
-        }
     }
 
     /**
@@ -133,7 +107,8 @@ class UserRepositoryImpl constructor(
      */
 
     override suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
-        if (newValue !is String && newValue !is List<*> && newValue !is Int)
+        Log.d(TAG, "Updating field: $field")
+        if (newValue !is String && newValue !is List<*> && newValue !is Int && newValue !is Boolean)
             throw IllegalArgumentException("Expected String, List<String> or Int")
 
         db.collection(USER_COLLECTION)
@@ -142,6 +117,67 @@ class UserRepositoryImpl constructor(
         Log.d(TAG, "Updated user")
         //Put updated value into the local cache
         updateLocalCache(uid, field, newValue)
+    }
+
+    /**
+     * Deletes a user
+     *
+     * @param uid the uid of th euser to delete
+     */
+    override suspend fun deleteUser(uid: String) {
+        //TODO remove the user from the localDB
+        removeFieldFromUser(LIKES, uid)
+        updateProfile(uid, DELETED, true)
+        userCache.remove(uid)
+    }
+
+    /**
+     * Remove a user from either the Matches or Liked list from all user that contains them
+     *
+     * @param field either MATCHES or LIKES
+     * @param uid the uid of the user to remove from all lists
+     */
+    override suspend fun removeFieldFromUser(field: String, uid: String) {
+        if (field != MATCHES && field != LIKES)
+            throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
+        var updatedList: ArrayList<String>? = null
+        val snapshot = db.collection(USER_COLLECTION).whereArrayContains(field, uid).get().await()
+        val users = snapshot.map { s -> s.toUser() }
+        users.forEach { user ->
+            if (user != null) {
+                when (field) {
+                    LIKES ->
+                        updatedList = user.likes as ArrayList<String>?
+                    MATCHES ->
+                        updatedList = user.matches as ArrayList<String>?
+                }
+                updatedList?.remove(uid)
+                user.uid?.let { updateProfile(it, field, updatedList) }
+            }
+        }
+    }
+
+
+    /**
+     * Removes another liked or matched user from current user.
+     *
+     * @param field field to remove a User (either from LIKES or MATCHES)
+     * @param userId current user's ID
+     * @param matchId matched user's ID
+     */
+    override suspend fun removeMatchFromAUser(field: String, userId: String, matchId: String) {
+        var updatedList: ArrayList<String>? = arrayListOf()
+        val user = getUser(userId)
+        if (user != null) {
+            when (field) {
+                LIKES ->
+                    updatedList = user.likes as ArrayList<String>?
+                MATCHES ->
+                    updatedList = user.matches as ArrayList<String>?
+            }
+            updatedList?.remove(matchId)
+            user.uid?.let { updateProfile(it, field, updatedList) }
+        }
     }
 
     /**
@@ -163,12 +199,12 @@ class UserRepositoryImpl constructor(
         return query(query, internalQuery)
     }
 
-    suspend fun query(
+    private suspend fun query(
         query: UserRepository.Query,
         internalQuery: com.google.firebase.firestore.Query
     ): List<User> {
-        query.passions?.let { internalQuery.whereArrayContainsAny("passions", it) }
-        query.gender?.let { internalQuery.whereEqualTo("gender", it) }
+        query.passions?.let { internalQuery.whereArrayContainsAny(PASSIONS, it) }
+        query.gender?.let { internalQuery.whereEqualTo(GENDER, it) }
 
         return internalQuery.get().await()
             .mapNotNull { queryDocumentSnapshot -> queryDocumentSnapshot.toUser() }
@@ -191,15 +227,17 @@ class UserRepositoryImpl constructor(
 
             if (snapshot != null && snapshot.exists()) {
                 Log.d(TAG, "Current data: ${snapshot.data}")
-                myMatchesUids = snapshot["matches"] as List<String>
+                myMatchesUids = snapshot[MATCHES] as List<String>
                 viewLifecycleOwner.lifecycleScope.launch {
                     myMatches = arrayListOf()
-                    for (userId in myMatchesUids) {
+                    for (uid in myMatchesUids) {
+                        val user = getUser(uid)
                         myMatches!!.add(
                             MyMatch(
-                                getUser(userId)?.username!!,
-                                userId,
-                                false
+                                user?.username!!,
+                                uid,
+                                false,
+                                user.deleted
                             )
                         )
                     }
@@ -210,7 +248,6 @@ class UserRepositoryImpl constructor(
                 Log.d(TAG, "Current data: null")
             }
         }
-
     }
 
 }
