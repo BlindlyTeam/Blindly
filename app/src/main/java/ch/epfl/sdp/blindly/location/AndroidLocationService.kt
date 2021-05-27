@@ -130,6 +130,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
         }
 
         fun getCurrentLocationStringFromLocation(context: Context, location: Location): String {
+            Log.d(TAG, "Getting current location from a location")
             val latitude = location.latitude
             val longitude = location.longitude
             val geocoder = Geocoder(context)
