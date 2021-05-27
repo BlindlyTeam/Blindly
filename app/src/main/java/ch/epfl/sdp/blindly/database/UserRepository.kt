@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.database
 
 import androidx.lifecycle.LifecycleOwner
+import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
@@ -10,6 +11,7 @@ import ch.epfl.sdp.blindly.user.User
 import kotlin.reflect.KSuspendFunction1
 
 interface UserRepository {
+  
     /**
      * Given a uid, if the user is cached locally return this user, otherwise
      * look for the user in firestore and update the cache
@@ -26,20 +28,7 @@ interface UserRepository {
      * @param userId current user's ID
      * @param matchId matched user's ID
      */
-    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String) {
-        var updatedList: ArrayList<String>? = arrayListOf()
-        val user = getUser(userId)
-        if (user != null) {
-            when (field) {
-                LIKES ->
-                    updatedList = user.likes as ArrayList<String>?
-                MATCHES ->
-                    updatedList = user.matches as ArrayList<String>?
-            }
-            updatedList?.remove(matchId)
-            user.uid?.let { updateProfile(it, field, updatedList) }
-        }
-    }
+    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String)
 
     /**
      * Get the location of the user, wrap it as a BlindlyLatLng
@@ -48,14 +37,7 @@ interface UserRepository {
      * @param uid UID of the current user
      * @return a BlindlyLatLng location for weather activity
      */
-    suspend fun getLocation(uid: String): BlindlyLatLng {
-        val user = getUser(uid)
-        if (user != null) {
-            return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
-        }
-        return BlindlyLatLng(LAUSANNE_LATLNG)
-    }
-
+    suspend fun getLocation(uid: String): BlindlyLatLng
     /**
      * Look for the user with the corresponding uid in firestore and store it in the local cache
      *
@@ -86,6 +68,7 @@ interface UserRepository {
         userId: String,
         setupAdapter: KSuspendFunction1<MutableList<MyMatch>, Unit>
     )
+    
     /**
      * Query for the user repositiry
      *

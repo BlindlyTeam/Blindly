@@ -222,7 +222,7 @@ class AudioLibraryAdapter(
             override fun onError() {
                 Toast.makeText(
                     context,
-                    "Failed to upload the recording. Try again.",
+                    context.getString(R.string.upload_record_failed),
                     Toast.LENGTH_LONG
                 )
                     .show()
@@ -235,7 +235,7 @@ class AudioLibraryAdapter(
     }
 
     private fun saveRecordingsError() {
-        Toast.makeText(context, "Failed to upload the recording. Try again.", Toast.LENGTH_LONG)
+        Toast.makeText(context, context.getString(R.string.upload_record_failed), Toast.LENGTH_LONG)
             .show()
         if (userBuilder != null)
             startProfileFinished()

@@ -21,6 +21,7 @@ import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser2
+import ch.epfl.sdp.blindly.main_screen.profile.settings.*
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.android.material.slider.RangeSlider

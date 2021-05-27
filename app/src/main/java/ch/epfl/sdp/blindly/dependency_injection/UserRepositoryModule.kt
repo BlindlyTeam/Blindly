@@ -23,8 +23,9 @@ import kotlin.reflect.KClass
 @InstallIn(SingletonComponent::class)
 object UserRepositoryModule {
 
-    val firestore = Firebase.firestore
+    val firestore get() = Firebase.firestore
     val userCache = UserCache()
+    
     /**
      * Return a Firestore object to be injected
      *

@@ -9,6 +9,12 @@ import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID2
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
+import ch.epfl.sdp.blindly.location.AndroidLocationService
+import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
+import ch.epfl.sdp.blindly.user.LIKES
+import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.User.Companion.updateUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -65,6 +71,7 @@ open class FakeUserRepositoryModule {
             "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
         private val ageRange = listOf(30, 50)
         private val ageRange2 = listOf(40, 50)
+
         val fakeUser = User.Builder()
             .setUid(uid)
             .setUsername(username)
@@ -104,6 +111,7 @@ open class FakeUserRepositoryModule {
         Mockito.`when`(userCache.get(TEST_UID)).thenReturn(fakeUser)
         return userCache
     }
+    
     @Singleton
     @Provides
     open fun provideFirebaseFirestore(): FirebaseFirestore {
@@ -142,11 +150,41 @@ open class FakeUserRepositoryModule {
             onBlocking { userRepository.getUser(TEST_UID2) }.doReturn(fakeUser2)
             onBlocking { userRepository.refreshUser(TEST_UID2) }.doReturn(fakeUser2)
         }
-        //return UserRepositoryModule.provideUserRepository()
-        return (object: UserRepository {
+        
+        return (Mockito.spy(object: UserRepository {
             val db = HashMap<String, User>()
+            
             override suspend fun getUser(uid: String): User? {
                 return db.getOrDefault(uid, fakeUser)
+            }
+
+            override suspend fun removeMatchFromAUser(
+                field: String,
+                userId: String,
+                matchId: String
+            ) {
+                var updatedList: ArrayList<String>? = arrayListOf()
+                val user = getUser(userId)
+                if (user != null) {
+                    when (field) {
+                        LIKES ->
+                            updatedList = user.likes as ArrayList<String>?
+                        MATCHES ->
+                            updatedList = user.matches as ArrayList<String>?
+                    }
+                    updatedList?.remove(matchId)
+                    if (user != null) {
+                        user.uid?.let { updateProfile(it, field, updatedList) }
+                    }
+                }
+            }
+
+            override suspend fun getLocation(uid: String): BlindlyLatLng {
+                val user = db.getOrDefault(uid, fakeUser)
+                if (user != null) {
+                    return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
+                }
+                return BlindlyLatLng(LAUSANNE_LATLNG)
             }
 
             override suspend fun refreshUser(uid: String): User? {
@@ -169,6 +207,6 @@ open class FakeUserRepositoryModule {
             ) {
                 setupAdapter(mutableListOf(MyMatch(fakeUser2.username!!, fakeUser2.uid!!, false)))
             }
-        })
+        }))
     }
 }
