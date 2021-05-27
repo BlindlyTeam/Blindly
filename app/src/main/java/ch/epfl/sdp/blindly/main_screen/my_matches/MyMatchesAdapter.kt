@@ -173,9 +173,7 @@ class MyMatchesAdapter(
                         }
                 }
             }
-            builder.setNegativeButton(
-                ANSWER_NO
-            ) { dialog, _ -> dialog.dismiss() }
+            builder.setNegativeButton(ANSWER_NO) { dialog, _ -> dialog.dismiss() }
             val alert: AlertDialog = builder.create()
             alert.show()
         }

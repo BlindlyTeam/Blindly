@@ -3,10 +3,6 @@ package ch.epfl.sdp.blindly.database
 import androidx.lifecycle.LifecycleOwner
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
-import ch.epfl.sdp.blindly.location.BlindlyLatLng
-import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
-import ch.epfl.sdp.blindly.user.LIKES
-import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import kotlin.reflect.KSuspendFunction1
 

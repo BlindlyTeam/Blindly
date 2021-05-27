@@ -7,7 +7,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
-import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.LIKES
 import ch.epfl.sdp.blindly.user.MATCHES
@@ -193,23 +192,20 @@ class UserRepositoryImpl constructor(
                 myMatchesUids = snapshot["matches"] as List<String>
                 viewLifecycleOwner.lifecycleScope.launch {
                     myMatches = arrayListOf()
-                    for (userId in myMatchesUids) {
+                    for (uid in myMatchesUids) {
                         myMatches!!.add(
                             MyMatch(
-                                getUser(userId)?.username!!,
-                                userId,
+                                getUser(uid)?.username!!,
+                                uid,
                                 false
                             )
                         )
                     }
                     setupAdapter(myMatches!!)
-
                 }
             } else {
                 Log.d(TAG, "Current data: null")
             }
         }
-
     }
-
 }

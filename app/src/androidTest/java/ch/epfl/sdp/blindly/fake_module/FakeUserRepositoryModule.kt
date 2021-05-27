@@ -3,15 +3,14 @@ package ch.epfl.sdp.blindly.fake_module
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID2
-import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
-import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.LIKES
 import ch.epfl.sdp.blindly.user.MATCHES
@@ -27,6 +26,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import kotlinx.coroutines.launch
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.doReturn
@@ -163,19 +163,19 @@ open class FakeUserRepositoryModule {
                 userId: String,
                 matchId: String
             ) {
-                var updatedList: ArrayList<String>? = arrayListOf()
+                var updatedList: List<String>? = listOf()
                 val user = getUser(userId)
                 if (user != null) {
                     when (field) {
                         LIKES ->
-                            updatedList = user.likes as ArrayList<String>?
+                            updatedList = user.likes
                         MATCHES ->
-                            updatedList = user.matches as ArrayList<String>?
+                            updatedList = user.matches
                     }
-                    updatedList?.remove(matchId)
-                    if (user != null) {
-                        user.uid?.let { updateProfile(it, field, updatedList) }
+                    if (updatedList != null) {
+                        updatedList = updatedList - listOf(matchId)
                     }
+                    user.uid?.let { updateProfile(it, field, updatedList) }
                 }
             }
 
@@ -205,7 +205,19 @@ open class FakeUserRepositoryModule {
                 userId: String,
                 setupAdapter: KSuspendFunction1<MutableList<MyMatch>, Unit>
             ) {
-                setupAdapter(mutableListOf(MyMatch(fakeUser2.username!!, fakeUser2.uid!!, false)))
+                val myMatches: ArrayList<MyMatch> = arrayListOf()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    for (uid in fakeUser.matches!!) {
+                        myMatches.add(
+                            MyMatch(
+                                getUser(uid)?.username!!,
+                                uid,
+                                false
+                            )
+                        )
+                    }
+                    setupAdapter(myMatches)
+                }
             }
         }))
     }
