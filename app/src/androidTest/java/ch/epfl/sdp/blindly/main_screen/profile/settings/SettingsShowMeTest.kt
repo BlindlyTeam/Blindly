@@ -12,7 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
+import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.main_screen.profile.settings.*
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.enums.ShowMe.*
@@ -20,6 +20,7 @@ import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers.equalTo
 import org.junit.Before
 import org.junit.Rule
@@ -106,12 +107,13 @@ class SettingsShowMeTest {
         assertThat(showMeGroup?.checkedRadioButtonId, equalTo(TEST_SHOW_ME))
     }
 
-    private fun launchSettingsShowMe(): ActivityScenario<SettingsShowMe> {
-        val TEST_SHOW_ME = fakeUser.showMe //Everyone
-        val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
-        intent.putExtra(EXTRA_SHOW_ME, TEST_SHOW_ME)
-        return ActivityScenario.launch(intent)
-    }
+    private fun launchSettingsShowMe(): ActivityScenario<SettingsShowMe> =
+         runBlocking {
+            val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
+
+            intent.putExtra(EXTRA_SHOW_ME, userRepository.getUser(userHelper.getUserId()!!)!!.showMe)
+            return@runBlocking ActivityScenario.launch(intent)
+        }
 
     private fun getShowMeRadioButton(act: ActivityScenario<SettingsShowMe>): RadioGroup? {
         var showMeGroup: RadioGroup? = null

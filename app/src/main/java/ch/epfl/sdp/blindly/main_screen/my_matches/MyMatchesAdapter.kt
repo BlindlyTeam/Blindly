@@ -27,8 +27,8 @@ import kotlinx.coroutines.runBlocking
 
 
 class MyMatchesAdapter(
-    var my_matches: ArrayList<MyMatch>,
-    private var viewHolderList: ArrayList<ViewHolder>,
+    var my_matches: MutableList<MyMatch>,
+    private var viewHolderList: MutableList<ViewHolder>,
     var context: Context,
     private val listener: OnItemClickListener,
     val userHelper: UserHelper,

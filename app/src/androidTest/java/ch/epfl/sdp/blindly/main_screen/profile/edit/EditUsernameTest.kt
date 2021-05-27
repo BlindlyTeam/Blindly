@@ -12,7 +12,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.main_screen.profile.edit.EditProfile
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
@@ -63,7 +62,9 @@ class EditUsernameTest {
     @Test
     fun shortNameOutputsError() {
         onView(withId(R.id.edit_username))
-            .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_SHORT_NAME))
+            .perform(ViewActions.clearText())
+        onView(withId(R.id.edit_username))
+            .perform(ViewActions.replaceText(INCORRECT_SHORT_NAME))
         Espresso.closeSoftKeyboard()
         onView(withId(R.id.update_username)).perform(click())
         onView(withId(R.id.warning1_p2)).check(
@@ -85,7 +86,9 @@ class EditUsernameTest {
     @Test
     fun longNameOutputsError() {
         onView(withId(R.id.edit_username))
-            .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_LONG_NAME))
+            .perform(ViewActions.clearText())
+        onView(withId(R.id.edit_username))
+            .perform(ViewActions.replaceText(INCORRECT_LONG_NAME))
         Espresso.closeSoftKeyboard()
         onView(withId(R.id.update_username)).perform(click())
         onView(withId(R.id.warning2_p2)).check(
@@ -107,7 +110,9 @@ class EditUsernameTest {
     @Test
     fun incorrectCharsOutputError() {
         onView(withId(R.id.edit_username))
-            .perform(ViewActions.clearText(), ViewActions.typeText(INCORRECT_CHARS))
+            .perform(ViewActions.clearText())
+        onView(withId(R.id.edit_username))
+            .perform(ViewActions.replaceText(INCORRECT_CHARS))
         Espresso.closeSoftKeyboard()
         onView(withId(R.id.update_username)).perform(click())
         onView(withId(R.id.warning3_p2)).check(

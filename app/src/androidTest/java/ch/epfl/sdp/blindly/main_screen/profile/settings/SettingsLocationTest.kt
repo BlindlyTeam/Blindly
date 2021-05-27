@@ -12,7 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
+import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.profile.settings.Settings
 import ch.epfl.sdp.blindly.user.UserHelper

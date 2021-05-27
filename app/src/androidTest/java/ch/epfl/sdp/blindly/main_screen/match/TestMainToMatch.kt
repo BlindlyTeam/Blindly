@@ -7,10 +7,10 @@ import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.audio.Recordings
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
 import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
-import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.equalTo
@@ -26,7 +26,7 @@ private const val LOADING_MESSAGE = "Profiles are loading, please wait…"
 class TestMainToMatch {
 
     @Inject
-    lateinit var storage: FirebaseStorage
+    lateinit var recordings: Recordings
 
     lateinit var fragment: MatchPageFragment
 
@@ -67,7 +67,7 @@ class TestMainToMatch {
                 .add(android.R.id.content, fragment, "")
                 .commitNow()
             val profiles = createProfiles()
-            val adapter = CardStackAdapter(profiles, storage, fragment.view!!)
+            val adapter = CardStackAdapter(profiles, recordings, fragment.view!!)
             assertThat(adapter.itemCount, equalTo(profiles.size))
         }
     }
