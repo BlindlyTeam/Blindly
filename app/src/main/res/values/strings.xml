@@ -113,7 +113,7 @@
     <string name="progress_km">%1$dkm</string>
     <string name="selected_age_range">%1$d - %2$d</string>
     <string name="not_logged_in">NOT LOGGED-IN</string>
-    <string name="logout_error">Received error while trying to log out </string>
+    <string name="logout_error">Received error while trying to log out</string>
     <string name="delete_error">Received error while trying to delete the account</string>
     <string name="arrow_button_to_show_show_me_settings">Arrow button to show Show Me settings.</string>
     <string name="arrow_button_to_show_location">Arrow button to show location.</string>

@@ -22,7 +22,7 @@ const val MATCHES = "matches"
 const val LIKES = "likes"
 const val RECORDING_PATH = "recordingPath"
 const val AGE_RANGE = "ageRange"
-const val REPORTED = "reported"
+const val REPORTING_USERS = "reportingUsers"
 const val DELETED = "deleted"
 
 /**
@@ -44,7 +44,7 @@ data class User private constructor(
     var recordingPath: String?,
     var ageRange: List<Int>?,
     var deleted: Boolean,
-    var reported: List<String>?
+    var reportingUsers: List<String>?
 ) {
 
     /**
@@ -215,7 +215,7 @@ data class User private constructor(
 
         /**
          * Build a User from the UserBuilder parameters, by default a User cannot be deleted at
-         * creation and the reported list is empty
+         * creation and the reportingUsers list is empty
          *
          * @return a User
          */
@@ -264,7 +264,7 @@ data class User private constructor(
                 val ageRange = get(AGE_RANGE) as? List<Long>
                 val recordingPath = getString(RECORDING_PATH)!!
                 val deleted = getField<Boolean>(DELETED)!!
-                val reported = get(REPORTED) as? List<String>
+                val reportingUsers = get(REPORTING_USERS) as? List<String>
 
                 return User(
                     uid,
@@ -284,7 +284,7 @@ data class User private constructor(
                         ageRange[1].toInt()
                     ), //Numbers on Firestore are Long, so we need to cast back to Int
                     deleted,
-                    reported
+                    reportingUsers
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile for id $id", e)
@@ -371,9 +371,9 @@ data class User private constructor(
                     assertIsAgeRange(newValue)
                     user.ageRange = newValue as List<Int>
                 }
-                REPORTED -> {
+                REPORTING_USERS -> {
                     assertIsListOfString(newValue)
-                    user.reported = newValue as List<String>
+                    user.reportingUsers = newValue as List<String>
                 }
                 DELETED -> {
                     assertIsBoolean(newValue)

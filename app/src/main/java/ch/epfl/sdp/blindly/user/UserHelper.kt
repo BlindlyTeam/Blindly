@@ -174,7 +174,6 @@ class UserHelper {
             val maxAge = age + DEFAULT_RANGE
 
             val newUser = userBuilder.setRadius(DEFAULT_RADIUS)
-                .setMatches(listOf())
                 .setAgeRange(listOf(minAge, maxAge))
                 .build()
 

@@ -36,7 +36,7 @@ class UserTest {
         private val ageRange2 = listOf(20, 60)
         private const val recordingPath = "/user/Presentation.amr"
         private const val recordingPath2 = "/user/PresentationNew.amr"
-        private val reported = listOf("erdgae43ergag", "Aeadhyt34j")
+        private val reportingUsers = listOf("erdgae43ergag", "Aeadhyt34j")
 
         private const val WRONG_INPUT_FOR_STRING = 5
         private const val WRONG_INPUT_FOR_LIST = "String"
@@ -166,7 +166,7 @@ class UserTest {
         assertThat(user.ageRange, equalTo(ageRange))
         assertThat(user.recordingPath, equalTo(recordingPath))
         assertThat(user.deleted, equalTo(false))
-        assertThat(user.reported, equalTo(listOf()))
+        assertThat(user.reportingUsers, equalTo(listOf()))
     }
 
     @Test
@@ -395,22 +395,22 @@ class UserTest {
     }
 
     @Test
-    fun updateReportedIsCorrect() {
+    fun updateReportingUsersIsCorrect() {
         val user = buildUser()
-        User.updateUser(user, REPORTED, reported)
-        assertThat(user.reported, equalTo(reported))
+        User.updateUser(user, REPORTING_USERS, reportingUsers)
+        assertThat(user.reportingUsers, equalTo(reportingUsers))
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun updateReportedWithOtherThanListThrowsException() {
+    fun updateReportingUsersWithOtherThanListThrowsException() {
         val user = buildUser()
-        User.updateUser(user, REPORTED, WRONG_INPUT_FOR_LIST)
+        User.updateUser(user, REPORTING_USERS, WRONG_INPUT_FOR_LIST)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun updateReportedWithOtherThanListOfStringThrowsException() {
+    fun updateReportingUsersWithOtherThanListOfStringThrowsException() {
         val user = buildUser()
-        User.updateUser(user, REPORTED, WRONG_INPUT_FOR_LIST_STRING)
+        User.updateUser(user, REPORTING_USERS, WRONG_INPUT_FOR_LIST_STRING)
     }
 
     @Test

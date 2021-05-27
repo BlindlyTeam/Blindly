@@ -64,8 +64,7 @@ class UserViewModel @AssistedInject constructor(
                     Log.d(TAG, "Successfully removed the audio.")
                 }
                 override fun onError() {
-                    Log.e(TAG, "An erro roccured, the audio could not be deleted.")
-                    deleteUser() //Try again
+                    Log.e(TAG, "An error occurred, the audio could not be deleted.")
                 }
             })
             userRepository.deleteUser(userId) //set the flag to 1
