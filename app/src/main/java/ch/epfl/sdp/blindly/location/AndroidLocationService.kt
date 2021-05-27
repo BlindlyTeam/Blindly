@@ -116,7 +116,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
          */
         fun getCurrentLocationStringFromUser(context: Context, user: User?): String {
             if (user != null) {
-                if(isInternetAvailable()) {
+                //if(isInternetAvailable()) {
                     Log.d("TAG", "Network is enable: can get location from geocoder")
                     val geocoder = Geocoder(context)
                     val lat = user.location?.get(0)
@@ -124,7 +124,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
                     if (lat != null && lon != null) {
                         return toAddress(geocoder, lat, lon)
                     }
-                }
+                //}
             }
             return "Location not found"
         }
