@@ -83,11 +83,9 @@
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map"
-        android:layout_width="405dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/divider2"
-        android:layout_marginStart="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin"
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"/>
 </RelativeLayout>

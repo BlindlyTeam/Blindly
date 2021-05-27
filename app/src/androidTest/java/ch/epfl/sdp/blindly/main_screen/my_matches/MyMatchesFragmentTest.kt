@@ -43,7 +43,7 @@ class MyMatchesFragmentTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        runBlocking { goToProfileFragment() }
+        runBlocking { goToMyMatchesFragment() }
         init()
     }
 
@@ -52,7 +52,7 @@ class MyMatchesFragmentTest {
         release()
     }
 
-    private suspend fun goToProfileFragment() {
+    private suspend fun goToMyMatchesFragment() {
         // Wait for everything to settle to avoid race conditions
         // Waiting synchronously isn't a problem since there are no other
         // tasks running and we don't care about UI responsivity while testing

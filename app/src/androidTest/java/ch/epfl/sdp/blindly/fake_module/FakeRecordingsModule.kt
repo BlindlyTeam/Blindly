@@ -43,5 +43,11 @@ open class FakeRecordingsModule {
             callback.onSuccess()
         }
 
+        override fun deleteFile(
+            recordingPath: String,
+            callback: Recordings.RecordingOperationCallback
+        ) {
+            callback.onSuccess()
+        }
     }
 }

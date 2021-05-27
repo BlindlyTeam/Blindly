@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly.main_screen.profile.settings
 import android.content.Intent
 import android.view.View
 import android.widget.TextView
+import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -14,6 +15,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
@@ -21,7 +23,6 @@ import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUserUpdated
-import ch.epfl.sdp.blindly.main_screen.profile.settings.*
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.android.material.slider.RangeSlider
@@ -29,7 +30,7 @@ import com.google.android.material.slider.Slider
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
@@ -42,6 +43,10 @@ private const val TEST_AGE_RANGE = "40 - 60"
 private const val TEST_LOWER_AGE = 40
 private const val TEST_HIGHER_AGE = 60
 private const val TEST_RADIUS_VAL = 80
+
+private const val ANSWER_LOG_OUT = "Log out"
+private const val ANSWER_CANCEL = "Cancel"
+private const val ANSWER_DELETE = "Delete account"
 
 @HiltAndroidTest
 class SettingsTest {
@@ -63,7 +68,6 @@ class SettingsTest {
 
     @Inject
     lateinit var db: FirebaseFirestore
-
 
     @Before
     fun setup() {
@@ -186,20 +190,40 @@ class SettingsTest {
 
     @Test
     fun clickingOnLogoutButtonFiresSplashScreen() {
+        val LOGOUT_DIALOG_TITLE = "Logout."
         onView(withId(R.id.logout_button)).perform(click())
-        Thread.sleep(1000)
-        intended(
-            hasComponent(SplashScreen::class.java.name)
+        onView(withText(LOGOUT_DIALOG_TITLE)).inRoot(RootMatchers.isDialog()).check(
+            matches(withEffectiveVisibility(Visibility.VISIBLE))
         )
+        onView(withText(ANSWER_LOG_OUT)).perform(click())
+
+        intended(hasComponent(SplashScreen::class.java.name))
     }
 
     @Test
-    fun clickingOnDeleteAccountButtonFiresSplashScreen() {
+    fun clickingOnLogoutButtonAndThenCancelStayInSettings() {
+        onView(withId(R.id.logout_button)).perform(click())
+        onView(withText(ANSWER_CANCEL)).perform(click())
+        assertThat(activityRule.scenario.state, Matchers.`is`(Lifecycle.State.RESUMED))
+    }
+
+    @Test
+    fun clickingOnDeleteButtonAndThenCancelStayInSettings() {
         onView(withId(R.id.delete_account_button)).perform(click())
-        Thread.sleep(1000)
-        intended(
-            hasComponent(SplashScreen::class.java.name)
+        onView(withText(ANSWER_CANCEL)).perform(click())
+        Thread.sleep(500)
+        assertThat(activityRule.scenario.state, Matchers.`is`(Lifecycle.State.RESUMED))
+    }
+
+    @Test
+    fun clickingOnDeleteButtonFiresSplashScreen() {
+        val DELETE_DIALOG_TITLE = "Delete account."
+        onView(withId(R.id.delete_account_button)).perform(click())
+        onView(withText(DELETE_DIALOG_TITLE)).inRoot(RootMatchers.isDialog()).check(
+            matches(withEffectiveVisibility(Visibility.VISIBLE))
         )
+        onView(withText(ANSWER_DELETE)).perform(click())
+        intended(hasComponent(SplashScreen::class.java.name))
     }
 
     @Test

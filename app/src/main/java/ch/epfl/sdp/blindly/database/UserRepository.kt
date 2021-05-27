@@ -3,6 +3,10 @@ package ch.epfl.sdp.blindly.database
 import androidx.lifecycle.LifecycleOwner
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
+import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
+import ch.epfl.sdp.blindly.user.DELETED
+import ch.epfl.sdp.blindly.user.LIKES
+import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import kotlin.reflect.KSuspendFunction1
 
@@ -14,17 +18,7 @@ interface UserRepository {
      * @param uid the uid of the user to retrieve
      * @return the user with the corresponding uid or null if they doesn't exist
      */
-
     suspend fun getUser(uid: String): User?
-
-    /**
-     * Removes another liked or matched user from current user.
-     *
-     * @param field field to remove a User (either from LIKES or MATCHES)
-     * @param userId current user's ID
-     * @param matchId matched user's ID
-     */
-    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String)
 
     /**
      * Get the location of the user, wrap it as a BlindlyLatLng
@@ -51,6 +45,32 @@ interface UserRepository {
      * @param newValue the new value to set for the user
      */
     suspend fun <T> updateProfile(uid: String, field: String, newValue: T)
+
+
+    /**
+     * Removes another liked or matched user from current user.
+     *
+     * @param field field to remove a User (either from LIKES or MATCHES)
+     * @param userId current user's ID
+     * @param matchId matched user's ID
+     */
+    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String)
+
+    /**
+     * Remove a user from either the Matches or Liked list from all user that contains them
+     *
+     * @param field either MATCHES or LIKES
+     * @param uid the uid of the user to remove from all lists
+     */
+    suspend fun removeFieldFromUser(field: String, uid: String)
+
+
+    /**
+     * Deletes a user
+     *
+     * @param uid the uid of th euser to delete
+     */
+    suspend fun deleteUser(uid: String)
 
     /**
      * Asynchronously get the users
