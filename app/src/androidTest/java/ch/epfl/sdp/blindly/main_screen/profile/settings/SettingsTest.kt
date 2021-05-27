@@ -1,7 +1,8 @@
 package ch.epfl.sdp.blindly.main_screen.profile.settings
 
-import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
@@ -11,6 +12,7 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -18,7 +20,6 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
@@ -26,12 +27,14 @@ import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUserUpdated
+import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule
 import ch.epfl.sdp.blindly.main_screen.profile.settings.*
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -42,6 +45,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
+import org.mockito.kotlin.any
 import javax.inject.Inject
 
 private const val TEST_RADIUS = "80km"
@@ -203,12 +207,29 @@ class SettingsTest {
             matches(withEffectiveVisibility(Visibility.VISIBLE))
         )
         onView(withText(ANSWER_LOG_OUT)).perform(click())
-        //TODO fix me
+
+        intended(hasComponent(SplashScreen::class.java.name))
     }
 
     @Test
-    fun deleteUserRemoveUserFromStorageAndCache() {
+    fun logoutErrorIsHandled() {
+        //TODO fix me
+        /*val taskCompletionSource = TaskCompletionSource<Void>().apply {
+            setException(FirebaseAuthException("a", "b"))
+        }
+        val successfulTask = taskCompletionSource.task
+        Mockito.`when`(userHelper.logout(any())).thenReturn(successfulTask)
 
+        onView(withId(R.id.logout_button)).perform(click())
+        onView(withText(ANSWER_LOG_OUT)).perform(click())
+        Thread.sleep(1000)
+        onView(withText(R.string.logout_error)).check(
+            matches(
+                withEffectiveVisibility(Visibility.VISIBLE)
+            )
+        )
+
+         */
     }
 
     @Test
@@ -224,6 +245,16 @@ class SettingsTest {
         onView(withText(ANSWER_CANCEL)).perform(click())
         Thread.sleep(500)
         assertThat(activityRule.scenario.state, Matchers.`is`(Lifecycle.State.RESUMED))
+    }
+
+    @Test
+    fun clickingOnDeleteButtonFiresSplashScreen() {
+        //TODO
+    }
+
+    @Test
+    fun clickingOnDeleteDeleteUserFromUserRepository() {
+        //TODO
     }
 
     @Test

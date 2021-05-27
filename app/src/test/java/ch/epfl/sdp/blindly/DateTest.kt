@@ -8,23 +8,34 @@ import org.hamcrest.core.IsEqual.equalTo
 import org.hamcrest.core.IsNull.nullValue
 import org.junit.Test
 
+private val TEST_DATE = Date(5, 1, 2001)
+private val TEST_DATE_PRIME =  Date(5, 1, 2001)
+private val TEST_DATE_2 =  Date(5, 1, 2003)
 class DateTest {
 
     @Test
     fun getAgeComputeTheCorrectAge() {
         val TEST_AGE = 20
-        val TEST_DATE = Date(5, 1, 2001)
         assertThat(TEST_DATE.getAge(), equalTo(TEST_AGE))
     }
 
     @Test
     fun getDateReturnCorrectDateWhenBirthdayIsNotNull() {
         val TEST_BIRTHDAY = "05.01.2001"
-        val TEST_DATE = Date(5, 1, 2001)
         val date = Date.getDate(TEST_BIRTHDAY)
         if (date != null) {
-            assertThat(date == TEST_DATE, `is`(true))
+            assertThat(date, equalTo(TEST_DATE))
         }
+    }
+
+    @Test
+    fun equalReturnTrueForTheSameDate() {
+        assertThat(TEST_DATE == TEST_DATE_PRIME, `is`(true))
+    }
+
+    @Test
+    fun equalReturnsFalseForTwoDifferentDates() {
+        assertThat(TEST_DATE == TEST_DATE_2, `is`(false))
     }
 
     @Test
@@ -36,8 +47,6 @@ class DateTest {
 
     @Test
     fun hashCodeOfTwoDatesIsDifferent() {
-        val TEST_DATE_1 = Date(5, 1, 2001)
-        val TEST_DATE_2 = Date(5, 1, 2002)
-        assertThat(TEST_DATE_1.hashCode() != TEST_DATE_2.hashCode(), `is`(true))
+        assertThat(TEST_DATE.hashCode() != TEST_DATE_2.hashCode(), `is`(true))
     }
 }

@@ -214,12 +214,12 @@ class Settings : AppCompatActivity() {
         )
     }
 
-    private fun settingsListener(task: Task<Void>?, error: String) {
-        task?.addOnCompleteListener {
+    private fun settingsListener(task: Task<Void>, error: String) {
+        task.addOnCompleteListener {
             startActivity(Intent(this, SplashScreen::class.java))
             this.finishAffinity()
         }
-        task?.addOnFailureListener {
+        task.addOnFailureListener {
             Toast.makeText(
                 applicationContext,
                 error,

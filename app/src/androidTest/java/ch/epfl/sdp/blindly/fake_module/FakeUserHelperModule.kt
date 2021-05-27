@@ -1,20 +1,18 @@
 package ch.epfl.sdp.blindly.fake_module
 
-import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import androidx.test.core.app.ApplicationProvider
 import ch.epfl.sdp.blindly.dependency_injection.UserHelperModule
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.tasks.TaskCompletionSource
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
 import javax.inject.Singleton
 
 @Module
@@ -31,7 +29,7 @@ open class FakeUserHelperModule {
 
     @Singleton
     @Provides
-    open fun provideUserHelper(@ApplicationContext context: Context): UserHelper {
+    open fun provideUserHelper(): UserHelper {
         val user = mock(UserHelper::class.java)
         Mockito.`when`(user.getEmail()).thenReturn(PRIMARY_EMAIL)
 
@@ -53,9 +51,7 @@ open class FakeUserHelperModule {
             setResult(null)
         }
         val fastSuccessfulTask = fastTaskCompletionSource.task
-        //TODO This is injected (checked with a throw Exception)
-        // but at the time when the button logout is clicked, the task is still null... To fix
-        Mockito.`when`(user.logout(context)).thenReturn(fastSuccessfulTask)
+        Mockito.`when`(user.logout(any())).thenReturn(fastSuccessfulTask)
 
         return user
     }
