@@ -47,12 +47,8 @@ open class FakeUserHelperModule {
 
         Mockito.`when`(user.isLoggedIn()).thenReturn(true)
 
-        val fastTaskCompletionSource = TaskCompletionSource<Void>().apply {
-            setResult(null)
-        }
-        val fastSuccessfulTask = fastTaskCompletionSource.task
-        Mockito.`when`(user.logout(any())).thenReturn(fastSuccessfulTask)
-
+        Mockito.`when`(user.logout(any())).thenReturn(successfulTask)
+        Mockito.`when`(user.delete(any())).thenReturn(successfulTask)
         return user
     }
 }

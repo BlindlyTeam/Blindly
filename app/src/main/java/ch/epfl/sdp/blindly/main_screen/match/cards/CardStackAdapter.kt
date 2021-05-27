@@ -3,6 +3,7 @@ package ch.epfl.sdp.blindly.main_screen.match.cards
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.audio.Recordings
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
 /**
@@ -27,7 +28,7 @@ enum class MediaPlayerStates { STOP, PLAY, PAUSE }
  */
 class CardStackAdapter(
     private val profiles: List<Profile> = emptyList(),
-    private val storage: FirebaseStorage,
+    private var recordings: Recordings,
     private val view: View
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     private lateinit var context: Context
@@ -129,22 +130,31 @@ class CardStackAdapter(
      * @param recordingPath
      */
     private fun initializeMediaPlayer(position: Int, recordingPath: String) {
-        // Create a storage reference from our app
-        val storageRef = storage.reference
-        // Create a reference with the recordingPath
-        val pathRef = storageRef.child(recordingPath)
+
         val audioFile = File.createTempFile("Audio_$position", "amr")
-        pathRef.getFile(audioFile).addOnSuccessListener {
-            val mediaPlayer = mediaPlayers[position]
-            mediaPlayer.setDataSource(context, Uri.fromFile(audioFile))
-            mediaPlayer.setOnCompletionListener {
-                it.stop()
-                mediaPlayerStates[position] = MediaPlayerStates.STOP
-                view.findViewById<ImageView>(R.id.play_pause_button)
-                    .setImageResource(R.drawable.play_button_fab)
-            }
-            //Enable the button clicks again
-            view.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable = true
-        }
+        recordings.getFile(
+            recordingPath,
+            audioFile,
+            object : Recordings.RecordingOperationCallback() {
+                override fun onSuccess() {
+                    val mediaPlayer = mediaPlayers[position]
+
+                    mediaPlayer.setDataSource(context, Uri.fromFile(audioFile))
+                    mediaPlayer.setOnCompletionListener {
+                        it.stop()
+                        mediaPlayerStates[position] = MediaPlayerStates.STOP
+                        view.findViewById<ImageView>(R.id.play_pause_button)
+                            .setImageResource(R.drawable.play_button_fab)
+                    }
+                    //Enable the button clicks again
+                    view.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable =
+                        true
+                }
+
+                override fun onError() {
+                    // Dismiss, it's only play...
+                    Log.e("Blindly", "Can't play a file")
+                }
+            })
     }
 }

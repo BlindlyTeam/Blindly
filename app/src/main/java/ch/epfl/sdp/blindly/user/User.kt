@@ -29,7 +29,7 @@ const val DELETED = "deleted"
  * A class to represent a User
  */
 @Serializable
-class User private constructor(
+data class User private constructor(
     @Exclude var uid: String?,
     var username: String?,
     var location: List<Double>?,
@@ -287,7 +287,7 @@ class User private constructor(
                     reported
                 )
             } catch (e: Exception) {
-                Log.e(TAG, "Error converting user profile", e)
+                Log.e(TAG, "Error converting user profile for id $id", e)
                 return null
             }
         }

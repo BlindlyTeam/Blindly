@@ -1,15 +1,15 @@
 package ch.epfl.sdp.blindly.viewmodel
 
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import ch.epfl.sdp.blindly.audio.AudioStorage
+import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.audio.Recordings
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.user.LIKES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
-import com.google.firebase.storage.FirebaseStorage
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
@@ -19,8 +19,8 @@ import kotlinx.coroutines.launch
  */
 class UserViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
-    val userRepository: UserRepository,
-    val storage: FirebaseStorage
+    private val userRepository: UserRepository,
+    private val recordings: Recordings,
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User>()
@@ -57,12 +57,23 @@ class UserViewModel @AssistedInject constructor(
 
     fun deleteUser() {
         viewModelScope.launch {
-            AudioStorage(storage).removeAudio(userId)
+            val recordingPath = Recordings.getPresentationAudionName(userId)
+            recordings.deleteFile(recordingPath, object :
+                Recordings.RecordingOperationCallback() {
+                override fun onSuccess() {
+                    Log.d(TAG, "Successfully removed the audio.")
+                }
+                override fun onError() {
+                    Log.e(TAG, "An erro roccured, the audio could not be deleted.")
+                    deleteUser() //Try again
+                }
+            })
             userRepository.deleteUser(userId) //set the flag to 1
         }
     }
 
     companion object {
+        private const val TAG = "UserViewModel"
         /**
          * Instantiate the UserViewModel with the given parameters
          *

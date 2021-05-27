@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.profile_setup.MAJORITY_AGE
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules

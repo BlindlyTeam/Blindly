@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.audio.Recordings
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.match.algorithm.MatchingAlgorithm
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
@@ -24,7 +25,6 @@ import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.storage.FirebaseStorage
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
@@ -63,7 +63,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
     lateinit var userRepository: UserRepository
 
     @Inject
-    lateinit var storage: FirebaseStorage
+    lateinit var recordings: Recordings
 
     companion object {
         private const val ARG_COUNT = "matchArgs"
@@ -207,7 +207,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * Initializes the adapter
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        adapter = CardStackAdapter(potentialMatches, storage, fragView)
+        adapter = CardStackAdapter(potentialMatches, recordings, fragView)
         setupCardStackView(fragView)
     }
 

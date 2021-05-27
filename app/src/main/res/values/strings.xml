@@ -178,6 +178,7 @@
     <string name="match_profile_background_description">Gradient background with sound waves</string>
     <string name="my_profile_button_description">Profile button</string>
     <string name="button_to_remove_a_match">Button to remove a match.</string>
-    <string name="logout">User</string>
     <string name="user_no_longer_available">This user is no longer available.</string>
+    <string name="upload_record_failed">Failed to upload the recording. Try again.</string>
+    <string name="delete_record_error">An error occurred while tryng to delete the record.</string>
 </resources>

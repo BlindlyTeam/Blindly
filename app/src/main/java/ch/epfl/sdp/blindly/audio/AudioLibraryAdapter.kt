@@ -18,7 +18,6 @@ import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.serialization.json.Json
 import java.io.File
 
@@ -39,7 +38,7 @@ class AudioLibraryAdapter(
     private val listener: OnItemClickListener,
     private var userBuilder: User.Builder?,
     private val userHelper: UserHelper,
-    private val storage: FirebaseStorage,
+    private val recordings: Recordings,
     private val activity: RecordingActivity,
 ) : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
     var blindlyMediaPlayer = BlindlyMediaPlayer()
@@ -211,20 +210,37 @@ class AudioLibraryAdapter(
         val userId = userHelper.getUserId()
         recordingPath = "Recordings/$userId-$PRESENTATION_AUDIO_NAME"
         userBuilder?.setRecordingPath(recordingPath)
+        recordings.putFile(recordingPath, newFile, object :
+            Recordings.RecordingOperationCallback() {
+            override fun onSuccess() {
+                if (userBuilder != null)
+                    startProfileFinished()
+                else
+                    startProfilePage(activity)
+            }
 
-        AudioStorage(storage).addAudio(recordingPath, newFile).addOnSuccessListener {
-            if (userBuilder != null)
-                startProfileFinished()
-            else
-                startProfilePage(activity)
-        }.addOnFailureListener {
-            Toast.makeText(context, "Failed to upload the recording. Try again.", Toast.LENGTH_LONG)
-                .show()
-            if (userBuilder != null)
-                startProfileFinished()
-            else
-                startProfilePage(activity)
-        }
+            override fun onError() {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.upload_record_failed),
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+                if (userBuilder != null)
+                    startProfileFinished()
+                else
+                    startProfilePage(activity)
+            }
+        })
+    }
+
+    private fun saveRecordingsError() {
+        Toast.makeText(context, context.getString(R.string.upload_record_failed), Toast.LENGTH_LONG)
+            .show()
+        if (userBuilder != null)
+            startProfileFinished()
+        else
+            startProfilePage(activity)
     }
 
     private fun startProfileFinished() {
