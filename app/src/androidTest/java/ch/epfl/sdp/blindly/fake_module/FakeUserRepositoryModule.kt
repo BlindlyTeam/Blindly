@@ -246,6 +246,7 @@ open class FakeUserRepositoryModule {
                             MyMatch(
                                 getUser(uid)?.username!!,
                                 uid,
+                                false,
                                 false
                             )
                         )
