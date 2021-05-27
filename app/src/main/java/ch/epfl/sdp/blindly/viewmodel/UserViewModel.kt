@@ -1,12 +1,14 @@
 package ch.epfl.sdp.blindly.viewmodel
 
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.audio.Recordings
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -17,10 +19,9 @@ import kotlinx.coroutines.launch
  */
 class UserViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
-    userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val recordings: Recordings,
 ) : ViewModel() {
-
-    private var userRepo: UserRepository = userRepository
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
@@ -37,7 +38,7 @@ class UserViewModel @AssistedInject constructor(
      */
     fun userUpdate() {
         viewModelScope.launch {
-            _user.value = userRepo.getUser(userId)
+            _user.value = userRepository.getUser(userId)
         }
     }
 
@@ -50,13 +51,28 @@ class UserViewModel @AssistedInject constructor(
      */
     fun <T> updateField(field: String, newValue: T) {
         viewModelScope.launch {
-            userRepo.updateProfile(userId, field, newValue)
+            userRepository.updateProfile(userId, field, newValue)
+        }
+    }
+
+    fun deleteUser() {
+        viewModelScope.launch {
+            val recordingPath = Recordings.getPresentationAudionName(userId)
+            recordings.deleteFile(recordingPath, object :
+                Recordings.RecordingOperationCallback() {
+                override fun onSuccess() {
+                    Log.d(TAG, "Successfully removed the audio.")
+                }
+                override fun onError() {
+                    Log.e(TAG, "An error occurred, the audio could not be deleted.")
+                }
+            })
+            userRepository.deleteUser(userId) //set the flag to 1
         }
     }
 
     companion object {
         private const val TAG = "UserViewModel"
-
         /**
          * Instantiate the UserViewModel with the given parameters
          *

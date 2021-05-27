@@ -5,6 +5,7 @@ import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.database.UserRepositoryImpl
 import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID2
@@ -12,9 +13,11 @@ import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
+import ch.epfl.sdp.blindly.user.DELETED
 import ch.epfl.sdp.blindly.user.LIKES
 import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.User.Companion.updateUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.android.gms.tasks.TaskCompletionSource
@@ -27,10 +30,9 @@ import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.stub
 import javax.inject.Singleton
 import kotlin.reflect.KSuspendFunction1
 
@@ -43,64 +45,71 @@ open class FakeUserRepositoryModule {
 
     companion object {
         private const val USER_COLLECTION: String = "usersMeta"
-        private const val uid = TEST_UID
-        private const val uid2 = TEST_UID2
-        private const val username = "Jane Doe"
-        private const val username2 = "Jack"
-        private val location =
-            AndroidLocationService.createLocationTableEPFL() // Ecublens, Switzerland
         private const val MULHOUSE_LAT = 47.749
         private const val MULHOUSE_LON = 7.335
-        private val location2 = listOf(MULHOUSE_LAT, MULHOUSE_LON) // Mulhouse, France
-        private const val birthday = "01.01.01"
-        private const val gender = "Woman"
-        private const val gender2 = "Man"
-        private val sexualOrientations = listOf("Asexual")
-        private val sexualOrientations2 = listOf("Asexual", "Bisexual")
-        private const val showMe = "Everyone"
-        private const val showMe2 = "Women"
-        private val passions = listOf("Coffee", "Tea")
-        private val passions2 = listOf("Coffee", "Tea", "Movies", "Brunch")
-        private const val radius = 150
-        private const val radius2 = 50
-        private val matches: List<String> = listOf(TEST_UID2)
-        private val matches2: List<String> = listOf(TEST_UID)
-        private val likes: List<String> = listOf(TEST_UID2)
-        private val likes2: List<String> = listOf(TEST_UID)
-        private const val recordingPath =
-            "Recordings/OKj1UxZao3hIVtma95gWZlner9p1-PresentationAudio.amr"
-        private val ageRange = listOf(30, 50)
-        private val ageRange2 = listOf(40, 50)
 
         val fakeUser = User.Builder()
-            .setUid(uid)
-            .setUsername(username)
-            .setLocation(location)
-            .setBirthday(birthday)
-            .setGender(gender)
-            .setSexualOrientations(sexualOrientations)
-            .setShowMe(showMe)
-            .setPassions(passions)
-            .setRadius(radius)
-            .setMatches(matches)
-            .setLikes(likes)
-            .setRecordingPath(recordingPath)
-            .setAgeRange(ageRange)
+            .setUid("a1")
+            .setUsername("Jane Doe")
+            .setLocation(AndroidLocationService.createLocationTableEPFL())
+            .setBirthday("01.01.2001")
+            .setGender("Woman")
+            .setSexualOrientations(listOf("Asexual"))
+            .setShowMe("Everyone")
+            .setPassions(listOf("Coffee", "Tea"))
+            .setRadius(150)
+            .setMatches(listOf("a2", "a3"))
+            .setLikes(listOf("a2", "a3","c3", "d4"))
+            .setRecordingPath("Recordings/a1-PresentationAudio.amr")
+            .setAgeRange(listOf(18, 50))
             .build()
+
+      val fakeUserUpdated = User.Builder()
+            .setUid("a1")
+            .setUsername("Jack")
+            .setLocation(listOf(MULHOUSE_LAT, MULHOUSE_LON))
+            .setBirthday("01.01.2001")
+            .setGender("Man")
+            .setSexualOrientations(listOf("Asexual", "Bisexual"))
+            .setShowMe("Women")
+            .setPassions(listOf("Coffee", "Tea", "Movies", "Brunch"))
+            .setRadius(50)
+            .setMatches(listOf("a2", "a3"))
+            .setLikes(listOf("a2", "a3","c3", "d4"))
+            .setRecordingPath("Recordings/a1-PresentationAudio.amr")
+            .setAgeRange(listOf(40, 50))
+            .build()
+
         val fakeUser2 = User.Builder()
-            .setUid(uid2)
-            .setUsername(username2)
-            .setLocation(location2)
-            .setBirthday(birthday)
-            .setGender(gender2)
-            .setSexualOrientations(sexualOrientations2)
-            .setShowMe(showMe2)
-            .setPassions(passions2)
-            .setRadius(radius2)
-            .setMatches(matches2)
-            .setLikes(likes2)
-            .setRecordingPath(recordingPath)
-            .setAgeRange(ageRange2)
+            .setUid("a2")
+            .setUsername("Jean Paul")
+            .setLocation(AndroidLocationService.createLocationTableEPFL())
+            .setBirthday("02.02.2002")
+            .setGender("Man")
+            .setSexualOrientations(listOf("Straight", "Bisexual"))
+            .setShowMe("Everyone")
+            .setPassions(listOf("Coffee", "Tea", "Movies", "Brunch"))
+            .setRadius(50)
+            .setMatches(listOf("a1", "a3", "b5"))
+            .setLikes(listOf("a1", "a3", "b5", "d4"))
+            .setRecordingPath("Recordings/a2-PresentationAudio.amr")
+            .setAgeRange(listOf(18, 50))
+            .build()
+
+        val fakeUser3 = User.Builder()
+            .setUid("a3")
+            .setUsername("Jeanette")
+            .setLocation(AndroidLocationService.createLocationTableEPFL())
+            .setBirthday("03.03.2003")
+            .setGender("Album")
+            .setSexualOrientations(listOf("Straight", "Bisexual"))
+            .setShowMe("Everyone")
+            .setPassions(listOf("Coffee", "Tea", "Movies", "Brunch"))
+            .setRadius(50)
+            .setMatches(listOf("a1", "a2", "b5"))
+            .setLikes(listOf("a1", "a2", "b5", "d4"))
+            .setRecordingPath("Recordings/a3-PresentationAudio.amr")
+            .setAgeRange(listOf(18, 50))
             .build()
     }
 
@@ -177,6 +186,35 @@ open class FakeUserRepositoryModule {
                     }
                     user.uid?.let { updateProfile(it, field, updatedList) }
                 }
+            }
+
+            override suspend fun removeFieldFromUser(field: String, uid: String) {
+                if (field != MATCHES && field != LIKES)
+                    throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
+                var updatedList: ArrayList<String>? = null
+                var users = db.values.toList()
+                users = if(field == MATCHES)
+                    users.filter { user -> user.matches!!.contains(uid) }
+                else
+                    users.filter { user -> user.likes!!.contains(uid) }
+                users.forEach { user ->
+                    if (user != null) {
+                        when (field) {
+                            LIKES ->
+                                updatedList = user.likes as ArrayList<String>?
+                            MATCHES ->
+                                updatedList = user.matches as ArrayList<String>?
+                        }
+                        updatedList?.remove(uid)
+                        user.uid?.let { updateProfile(it, field, updatedList) }
+                    }
+                }
+            }
+
+            override suspend fun deleteUser(uid: String) {
+                removeFieldFromUser(LIKES, uid)
+                updateProfile(uid, DELETED, true)
+                //userCache.remove(uid)
             }
 
             override suspend fun getLocation(uid: String): BlindlyLatLng {

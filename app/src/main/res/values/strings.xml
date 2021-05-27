@@ -113,7 +113,8 @@
     <string name="progress_km">%1$dkm</string>
     <string name="selected_age_range">%1$d - %2$d</string>
     <string name="not_logged_in">NOT LOGGED-IN</string>
-    <string name="logout_error">LOGOUT ERROR</string>
+    <string name="logout_error">Received error while trying to log out</string>
+    <string name="delete_error">Received error while trying to delete the account</string>
     <string name="arrow_button_to_show_show_me_settings">Arrow button to show Show Me settings.</string>
     <string name="arrow_button_to_show_location">Arrow button to show location.</string>
     <string name="arrow_button_to_show_e_mail">Arrow button to show e-mail.</string>
@@ -177,5 +178,7 @@
     <string name="match_profile_background_description">Gradient background with sound waves</string>
     <string name="my_profile_button_description">Profile button</string>
     <string name="button_to_remove_a_match">Button to remove a match.</string>
+    <string name="user_no_longer_available">This user is no longer available.</string>
     <string name="upload_record_failed">Failed to upload the recording. Try again.</string>
+    <string name="delete_record_error">An error occurred while tryng to delete the record.</string>
 </resources>

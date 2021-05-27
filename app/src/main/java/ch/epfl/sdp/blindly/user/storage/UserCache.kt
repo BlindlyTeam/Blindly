@@ -39,4 +39,13 @@ class UserCache {
     fun contains(uid: String): Boolean {
         return cache[uid] != null
     }
+
+    /**
+     * Remove the user with the corresponding uid from the cache
+     *
+     * @param uid the uid of the user to remove from the cache
+     */
+    fun remove(uid: String) {
+        cache.remove(uid)
+    }
 }

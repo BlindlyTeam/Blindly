@@ -38,6 +38,8 @@ class UserTest {
         private const val recordingPath = "/user/Presentation.amr"
         private const val recordingPath2 = "/user/PresentationNew.amr"
 
+        private val reportingUsers = listOf("erdgae43ergag", "Aeadhyt34j")
+
         private const val WRONG_INPUT_FOR_STRING = 5
         private const val WRONG_INPUT_FOR_LIST = "String"
         private val WRONG_INPUT_FOR_LIST_STRING = listOf(5.0, 4)
@@ -46,6 +48,7 @@ class UserTest {
         private val WRONG_INPUT_SIZE = listOf(45.6, 4, 5, 6)
         private val WRONG_INPUT_FOR_INT = listOf("Int")
         private const val WRONG_USERNAME_FIELD = "name"
+        private val WRONG_INPUT_FOR_BOOLEAN = listOf(true)
     }
 
     @Test
@@ -165,6 +168,8 @@ class UserTest {
         assertThat(user.likes, equalTo(likes))
         assertThat(user.ageRange, equalTo(ageRange))
         assertThat(user.recordingPath, equalTo(recordingPath))
+        assertThat(user.deleted, equalTo(false))
+        assertThat(user.reportingUsers, equalTo(listOf()))
     }
 
     @Test
@@ -315,7 +320,7 @@ class UserTest {
     }
 
     @Test
-    fun updateMatchesIsCorrect() {
+    fun updateMatchesWithNonEmptyListIsCorrect() {
         val user = buildUser()
         User.updateUser(user, MATCHES, matches2)
         assertThat(user.matches, equalTo(matches2))
@@ -328,6 +333,13 @@ class UserTest {
         assertThat(user.matches, equalTo(matches))
     }
 
+    @Test
+    fun updateMatchesWithEmptyListIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, MATCHES, emptyMatches)
+        assertThat(user.matches, equalTo(listOf()))
+    }
+
     @Test(expected = IllegalArgumentException::class)
     fun updateMatchesWithOtherThanListOfStringThrowsException() {
         val user = buildUser()
@@ -335,7 +347,7 @@ class UserTest {
     }
 
     @Test
-    fun updateLikesIsCorrect() {
+    fun updateLikesWithNonEmptyListIsCorrect() {
         val user = buildUser()
         User.updateUser(user, LIKES, likes2)
         assertThat(user.likes, equalTo(likes2))
@@ -346,6 +358,13 @@ class UserTest {
         val user = buildUser()
         User.updateUser(user, LIKES, listOf<String>())
         assertThat(user.likes, equalTo(likes))
+    }
+
+    @Test
+    fun updateLikesWithEmptyListIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, LIKES, emptyLikes)
+        assertThat(user.likes, equalTo(listOf()))
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -711,6 +730,38 @@ class UserTest {
         val user1 = buildUser()
         val user2 = user1.copy()
         assertThat(user1 == user2, equalTo(true))
+    }
+
+    @Test
+    fun updateReportingUsersIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, REPORTING_USERS, reportingUsers)
+        assertThat(user.reportingUsers, equalTo(reportingUsers))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updateReportingUsersWithOtherThanListThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, REPORTING_USERS, WRONG_INPUT_FOR_LIST)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updateReportingUsersWithOtherThanListOfStringThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, REPORTING_USERS, WRONG_INPUT_FOR_LIST_STRING)
+    }
+
+    @Test
+    fun updateDeletedIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, DELETED, true)
+        assertThat(user.deleted, equalTo(true))
+    }
+
+    @Test(expected = java.lang.IllegalArgumentException::class)
+    fun updateDeleteWithWithOtherThanBooleanThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, DELETED, WRONG_INPUT_FOR_BOOLEAN)
     }
 
     private fun buildUser(): User {

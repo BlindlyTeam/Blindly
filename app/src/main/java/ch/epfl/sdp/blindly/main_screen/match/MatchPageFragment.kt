@@ -19,6 +19,7 @@ import ch.epfl.sdp.blindly.audio.Recordings
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.match.algorithm.MatchingAlgorithm
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
+import ch.epfl.sdp.blindly.main_screen.match.cards.MediaPlayerStates
 import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
 import ch.epfl.sdp.blindly.user.LIKES
 import ch.epfl.sdp.blindly.user.MATCHES
@@ -175,7 +176,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * @param position in the view
      */
     override fun onCardDisappeared(view: View, position: Int) {
-        adapter.mediaPlayers[position].stop()
+        if (adapter.mediaPlayerStates[position] != MediaPlayerStates.STOP) {
+            adapter.mediaPlayers[position].stop()
+        }
         if (position == adapter.itemCount - 1) {
             fragView.findViewById<TextView>(R.id.no_profile_text).text =
                 getString(R.string.no_more_swipes)

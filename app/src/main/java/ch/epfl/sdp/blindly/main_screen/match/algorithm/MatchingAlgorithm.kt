@@ -46,8 +46,11 @@ class MatchingAlgorithm(
 
             //Wait on the query to be done before continuing
             try {
-                val matches = userRepository.query(query).filter { user -> user.uid != userid && !currentUser.likes!!.contains(user.uid) }
-                val filteredList = userListFilter.filterLocationAndAgeRange(currentUser, matches)
+                val matches = userRepository.query(query)
+                    .filter { user -> user.uid != userid && !currentUser.likes!!.contains(user.uid) }
+                val nonDeletedMatches = matches.filter { user -> !user.deleted }
+                val filteredList =
+                    userListFilter.filterLocationAndAgeRange(currentUser, nonDeletedMatches)
                 return userListFilter.reversePotentialMatch(currentUser, filteredList)
             } catch (exception: Exception) {
                 Log.w(TAG, "Error getting users : ", exception)
