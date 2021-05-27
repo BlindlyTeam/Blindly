@@ -1,6 +1,9 @@
 package ch.epfl.sdp.blindly.dependency_injection
 
+import android.content.Context
+import androidx.room.Room
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.database.localDB.AppDatabase
 import ch.epfl.sdp.blindly.database.UserRepositoryImpl
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
@@ -9,12 +12,9 @@ import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.lang.annotation.Documented
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 import javax.inject.Singleton
-import kotlin.reflect.KClass
 
 /**
  * UserRepository module for dependency injection
@@ -25,6 +25,7 @@ object UserRepositoryModule {
 
     val firestore get() = Firebase.firestore
     val userCache = UserCache()
+
     /**
      * Return a Firestore object to be injected
      *
@@ -44,12 +45,30 @@ object UserRepositoryModule {
     fun provideUserCache(): UserCache = UserCache()
 
     /**
-     * Return a UserRepository to be injected
+     * Return a AppDatabase ot be injected
      *
-     * @return a UserRepository with these database and cache
+     * @param appContext
+     * @return AppDatabase
      */
     @Singleton
     @Provides
-    fun provideUserRepository():
-            UserRepository = UserRepositoryImpl(firestore, userCache)
+    fun provideLocalDB(@ApplicationContext appContext: Context): AppDatabase {
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "LocalDatabase").build()
+    }
+
+    /**
+     * Return a UserRepository to be injected
+     *
+     * @param appContext
+     * @return UserRepository
+     */
+    @Singleton
+    @Provides
+    fun provideUserRepository(@ApplicationContext appContext: Context):
+            UserRepository = UserRepositoryImpl(firestore, userCache, provideLocalDB(appContext))
+
+    @Singleton
+    @Provides
+    fun provideUserRepositoryImpl(@ApplicationContext appContext: Context):
+            UserRepositoryImpl = UserRepositoryImpl(firestore, userCache, provideLocalDB(appContext))
 }

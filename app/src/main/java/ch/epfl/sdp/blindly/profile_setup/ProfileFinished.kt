@@ -8,6 +8,9 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.database.localDB.AppDatabase
+import ch.epfl.sdp.blindly.database.localDB.UserDAO
+import ch.epfl.sdp.blindly.database.localDB.UserEntity
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
