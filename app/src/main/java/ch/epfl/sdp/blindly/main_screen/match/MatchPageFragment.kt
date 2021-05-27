@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.audio.Recordings
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.match.algorithm.MatchingAlgorithm
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
@@ -25,7 +26,6 @@ import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.storage.FirebaseStorage
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
@@ -64,7 +64,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
     lateinit var userRepository: UserRepository
 
     @Inject
-    lateinit var storage: FirebaseStorage
+    lateinit var recordings: Recordings
 
     companion object {
         private const val ARG_COUNT = "matchArgs"
@@ -190,7 +190,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * Initializes the manager
-     *
      */
     private fun setupManager() {
         manager = CardStackLayoutManager(context, this)
@@ -209,17 +208,15 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * Initializes the adapter
-     *
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        adapter = CardStackAdapter(potentialMatches, storage, fragView)
+        adapter = CardStackAdapter(potentialMatches, recordings, fragView)
         setupCardStackView(fragView)
     }
 
     /**
      * Sets up the adapter on the main scope when the coroutine
      * is done processing
-     *
      */
     private suspend fun goBackOnMainThread(potentialProfiles: List<Profile>) {
         withContext(Main) {
@@ -229,7 +226,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * Initialize the cardStackView
-     *
      */
     private fun setupCardStackView(view: View) {
         cardStackView = view.findViewById(R.id.card_stack_view)!!
@@ -258,8 +254,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * This function calls the Matching Algorithm to get the potential matches and transforms them
-     * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done.
-     *
+     * into profiles by calling [createProfilesFromUsers]. Returns on the main scope when it's done
      */
     private suspend fun getPotentialMatchesProfiles(): List<Profile> {
         val matchingAlgorithm = MatchingAlgorithm(userHelper, userRepository)
@@ -296,7 +291,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
     /**
      * Setup the 3 buttons (like, rewind, skip)
-     *
      */
     private fun setupButtons(view: View) {
         val skip = view.findViewById<View>(R.id.skip_button)

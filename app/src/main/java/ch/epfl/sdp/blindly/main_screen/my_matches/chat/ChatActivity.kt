@@ -1,21 +1,27 @@
-package ch.epfl.sdp.blindly.main_screen.chat
+package ch.epfl.sdp.blindly.main_screen.my_matches.chat
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.DatabaseHelper
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
+import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_USERNAME_LABEL
+import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
 import ch.epfl.sdp.blindly.user.UserHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Activity class that contains the chat.
  */
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
     private lateinit var currentUserId: String
@@ -30,10 +36,6 @@ class ChatActivity : AppCompatActivity() {
 
     @Inject
     lateinit var userHelper: UserHelper
-
-    companion object {
-        const val MATCH_ID: String = "matchedId";
-    }
 
     /**
      * Gets the current user's uid and also uid of the matched user via Bundle;
@@ -51,7 +53,7 @@ class ChatActivity : AppCompatActivity() {
         // Cancel loading if we can't get the user id
         currentUserId = userHelper.getUserId() ?: return
 
-        matchId = intent.extras?.getString(MATCH_ID) ?: "default_user"
+        matchId = intent.extras?.getString(BUNDLE_MATCHED_UID_LABEL) ?: "default_user"
 
         chatReference = databaseHelper.getChatLiveDatabase(currentUserId, matchId)
 
@@ -59,6 +61,17 @@ class ChatActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.recyclerView).layoutManager = mChatLayoutManager
         findViewById<RecyclerView>(R.id.recyclerView).adapter =
             getMessages()?.let { ChatAdapter(currentUserId, it) }
+
+        val matchName = intent.extras?.getString(BUNDLE_MATCHED_USERNAME_LABEL)
+
+        if (matchName != null) {
+            val nameBar = findViewById<Toolbar>(R.id.matchNameBar)
+            nameBar.title = matchName
+            nameBar.setOnClickListener {
+                launchMatchProfileActivity()
+            }
+            setSupportActionBar(nameBar)
+        }
 
         receiveMessages()
     }
@@ -105,5 +118,12 @@ class ChatActivity : AppCompatActivity() {
 
     private fun getMessages(): ArrayList<Message<String>>? {
         return chatMessages
+    }
+
+    private fun launchMatchProfileActivity() {
+        val intent = Intent(this, MatchProfileActivity::class.java)
+        val bundle = bundleOf(BUNDLE_MATCHED_UID_LABEL to matchId)
+        intent.putExtras(bundle)
+        ContextCompat.startActivity(this, intent, null)
     }
 }

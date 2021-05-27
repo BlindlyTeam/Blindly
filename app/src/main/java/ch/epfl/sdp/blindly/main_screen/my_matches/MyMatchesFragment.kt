@@ -1,4 +1,4 @@
-package ch.epfl.sdp.blindly.main_screen.match.my_matches
+package ch.epfl.sdp.blindly.main_screen.my_matches
 
 import android.content.Intent
 import android.os.Build
@@ -101,7 +101,7 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
      *
      * @param myMatches List of user's matches
      */
-    private suspend fun setAdapterOnMainThread(myMatches: ArrayList<MyMatch>) {
+    private suspend fun setAdapterOnMainThread(myMatches: MutableList<MyMatch>) {
         withContext(Dispatchers.Main) {
             setupRecylerView(myMatches)
         }
@@ -112,10 +112,10 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
      *
      * @param myMatches List of user's matches
      */
-    private fun setupRecylerView(myMatches: ArrayList<MyMatch>) {
+    private fun setupRecylerView(myMatches: MutableList<MyMatch>) {
         myMatchesRecyclerView = fragView.findViewById(R.id.my_matches_recyler_view)
         myMatchesRecyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = MyMatchesAdapter(myMatches, arrayListOf(), requireContext(), this)
+        adapter = MyMatchesAdapter(myMatches, arrayListOf(), requireContext(), this, userHelper, userRepository)
         myMatchesRecyclerView.adapter = adapter
     }
 

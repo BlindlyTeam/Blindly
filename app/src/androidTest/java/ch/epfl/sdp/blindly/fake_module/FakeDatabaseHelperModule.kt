@@ -2,7 +2,7 @@ package ch.epfl.sdp.blindly.fake_module
 
 import ch.epfl.sdp.blindly.dependency_injection.DatabaseHelperModule
 import ch.epfl.sdp.blindly.database.DatabaseHelper
-import ch.epfl.sdp.blindly.main_screen.chat.Message
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.Message
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.database.ChildEventListener

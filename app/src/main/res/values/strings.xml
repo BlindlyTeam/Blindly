@@ -174,4 +174,8 @@
     <string name="no_more_swipes">You swiped everyone…\nCome back later!</string>
     <string name="no_available_swipe">No profile available…\nCome back later!</string>
     <string name="loading_profiles">Profiles are loading, please wait…</string>
+    <string name="match_profile_background_description">Gradient background with sound waves</string>
+    <string name="my_profile_button_description">Profile button</string>
+    <string name="button_to_remove_a_match">Button to remove a match.</string>
+    <string name="upload_record_failed">Failed to upload the recording. Try again.</string>
 </resources>
