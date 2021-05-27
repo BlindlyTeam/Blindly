@@ -12,6 +12,7 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
 import javax.inject.Singleton
 
 @Module
@@ -46,6 +47,8 @@ open class FakeUserHelperModule {
         Mockito.`when`(user.getSignInIntent()).thenReturn(fakeIntent)
 
         Mockito.`when`(user.isLoggedIn()).thenReturn(true)
+
+        Mockito.`when`(user.logout(any())).thenReturn(successfulTask)
         return user
     }
 }

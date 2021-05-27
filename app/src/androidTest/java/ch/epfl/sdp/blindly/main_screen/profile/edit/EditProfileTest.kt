@@ -15,8 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUser
-import ch.epfl.sdp.blindly.fake_module.FakeUserCacheModule.Companion.fakeUserUpdated
+import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.profile_setup.ProfileOrientation
 import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
@@ -263,7 +262,8 @@ class EditProfileTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditUsername::class.java)
         ActivityScenario.launch<EditUsername>(intent)
 
-        onView(withId(R.id.edit_username)).perform(clearText(), typeText(TEST_USERNAME_UPDATE))
+        onView(withId(R.id.edit_username)).perform(clearText())
+        onView(withId(R.id.edit_username)).perform(replaceText(TEST_USERNAME_UPDATE))
         Espresso.closeSoftKeyboard()
         onView(withId(R.id.update_username)).perform(click())
 

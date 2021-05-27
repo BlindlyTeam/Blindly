@@ -17,7 +17,6 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.DEFAULT_RADIUS
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
-import com.firebase.ui.auth.AuthUI
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
@@ -169,8 +168,7 @@ class Settings : AppCompatActivity() {
      * @param view
      */
     fun logout(view: View) {
-        AuthUI.getInstance()
-            .signOut(this)
+        userHelper.logout(this)
             .addOnCompleteListener { // user is now signed out
                 startActivity(Intent(this, SplashScreen::class.java))
                 finish()

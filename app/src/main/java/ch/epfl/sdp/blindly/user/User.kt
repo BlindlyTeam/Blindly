@@ -27,7 +27,7 @@ const val AGE_RANGE = "ageRange"
  * A class to represent a User
  */
 @Serializable
-class User private constructor(
+data class User private constructor(
     @Exclude var uid: String?,
     var username: String?,
     var location: List<Double>?,
@@ -275,7 +275,7 @@ class User private constructor(
                     listOf(ageRange!![0].toInt(), ageRange[1].toInt())
                 )
             } catch (e: Exception) {
-                Log.e(TAG, "Error converting user profile", e)
+                Log.e(TAG, "Error converting user profile for id $id", e)
                 return null
             }
         }
