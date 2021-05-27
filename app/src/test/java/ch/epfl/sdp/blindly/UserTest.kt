@@ -327,13 +327,6 @@ class UserTest {
     }
 
     @Test
-    fun updateMatchesEmptyIsCorrect() {
-        val user = buildUser()
-        User.updateUser(user, MATCHES, listOf<String>())
-        assertThat(user.matches, equalTo(matches))
-    }
-
-    @Test
     fun updateMatchesWithEmptyListIsCorrect() {
         val user = buildUser()
         User.updateUser(user, MATCHES, emptyMatches)
@@ -351,13 +344,6 @@ class UserTest {
         val user = buildUser()
         User.updateUser(user, LIKES, likes2)
         assertThat(user.likes, equalTo(likes2))
-    }
-
-    @Test
-    fun updateLikesEmptyIsCorrect() {
-        val user = buildUser()
-        User.updateUser(user, LIKES, listOf<String>())
-        assertThat(user.likes, equalTo(likes))
     }
 
     @Test
