@@ -34,7 +34,7 @@ class CardStackAdapter(
     private lateinit var context: Context
     val uids = ArrayList<String>()
     val mediaPlayers = ArrayList<MediaPlayer>()
-    private val mediaPlayerStates = ArrayList<MediaPlayerStates>()
+    val mediaPlayerStates = ArrayList<MediaPlayerStates>()
 
     /**
      * Called when the RecyclerView needs a new ViewHolder of the given type to represent an item
