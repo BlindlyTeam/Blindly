@@ -1,13 +1,12 @@
 package ch.epfl.sdp.blindly.main_screen.my_matches
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +23,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
-
     private lateinit var myMatchesRecyclerView: RecyclerView
     private lateinit var adapter: MyMatchesAdapter
     private lateinit var fragView: View
@@ -62,7 +60,6 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
         }
     }
 
-
     /**
      * Setup the view and retrieve the profiles to show on the match activity
      *
@@ -76,7 +73,6 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     ): View {
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.activity_my_matches, container, false)
-
 
         //Needs to be done in a coroutine
         viewLifecycleOwner.lifecycleScope.launch {
