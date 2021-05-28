@@ -4,7 +4,10 @@ import android.content.Context
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.net.InetAddresses
+import android.util.Log
 import ch.epfl.sdp.blindly.user.User
+import java.net.InetAddress.getByName
 
 private const val MIN_TIME_FOR_UPDATE = 1L
 private const val MIN_DISTANCE_FOR_UPDTAE = 1F
@@ -101,6 +104,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
         fun createLocationTableEPFL(): List<Double> {
             return listOf(EPFL_LAT, EPFL_LONG)
         }
+        const val TAG = "AndroidLocationService"
 
         /**
          * Compute the user's location, either get the most recent one or take the one stored
@@ -111,18 +115,22 @@ class AndroidLocationService(private var context: Context) : LocationService {
          * @return the user's location
          */
         fun getCurrentLocationStringFromUser(context: Context, user: User?): String {
-            val geocoder = Geocoder(context)
             if (user != null) {
-                val lat = user.location?.get(0)
-                val lon = user.location?.get(1)
-                if (lat != null && lon != null) {
-                    return toAddress(geocoder, lat, lon)
-                }
+                //if(isInternetAvailable()) {
+                    Log.d("TAG", "Network is enable: can get location from geocoder")
+                    val geocoder = Geocoder(context)
+                    val lat = user.location?.get(0)
+                    val lon = user.location?.get(1)
+                    if (lat != null && lon != null) {
+                        return toAddress(geocoder, lat, lon)
+                    }
+                //}
             }
             return "Location not found"
         }
 
         fun getCurrentLocationStringFromLocation(context: Context, location: Location): String {
+            Log.d(TAG, "Getting current location from a location")
             val latitude = location.latitude
             val longitude = location.longitude
             val geocoder = Geocoder(context)
@@ -134,6 +142,15 @@ class AndroidLocationService(private var context: Context) : LocationService {
             val country = address[0].countryName
             val city = address[0].locality
             return "$city, $country"
+        }
+
+        private fun isInternetAvailable(): Boolean {
+            return try {
+                val ipAddr = getByName("google.com")
+                !ipAddr.equals("")
+            } catch (e: Exception) {
+                false
+            }
         }
     }
 }
