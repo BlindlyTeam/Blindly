@@ -53,6 +53,7 @@ class UserRepositoryImpl constructor(
             Log.d(TAG, "Found user with uid: $uid in cache")
             return cached
         }
+        /*
         val local: User?
         withContext(Dispatchers.IO) {
             local = userDAO.getUser(uid)
@@ -61,6 +62,7 @@ class UserRepositoryImpl constructor(
             Log.d(TAG, "Found user with uid: $uid in localDB")
             return local
         }
+         */
         return refreshUser(uid)
     }
 
@@ -144,10 +146,11 @@ class UserRepositoryImpl constructor(
      * @param uid the uid of th euser to delete
      */
     override suspend fun deleteUser(uid: String) {
-        //TODO remove the user from the localDB
         removeFieldFromUser(LIKES, uid)
         updateProfile(uid, DELETED, true)
         userCache.remove(uid)
+        val user = userDAO.getUser(uid)
+        userDAO.deleteUser(UserEntity(uid, user!!))
     }
 
     /**
