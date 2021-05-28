@@ -1,20 +1,17 @@
 package ch.epfl.sdp.blindly.fake_module
 
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.database.UserRepositoryImpl
 import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
-import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
-import ch.epfl.sdp.blindly.user.DELETED
-import ch.epfl.sdp.blindly.user.LIKES
-import ch.epfl.sdp.blindly.user.MATCHES
-import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.*
 import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.User.Companion.updateUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
@@ -28,8 +25,12 @@ import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.tasks.await
+import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.stub
 import javax.inject.Singleton
 import kotlin.reflect.KSuspendFunction1
 
@@ -41,12 +42,16 @@ import kotlin.reflect.KSuspendFunction1
 open class FakeUserRepositoryModule {
 
     companion object {
+        const val PRIMARY_EMAIL = "test@example.com"
+        const val SECOND_EMAIL = "test2@example.com"
+        const val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
+
         private const val USER_COLLECTION: String = "usersMeta"
         private const val MULHOUSE_LAT = 47.749
         private const val MULHOUSE_LON = 7.335
 
         val fakeUser = User.Builder()
-            .setUid("a1")
+            .setUid(TEST_UID)
             .setUsername("Jane Doe")
             .setLocation(AndroidLocationService.createLocationTableEPFL())
             .setBirthday("01.01.2001")
@@ -61,7 +66,7 @@ open class FakeUserRepositoryModule {
             .setAgeRange(listOf(18, 50))
             .build()
         val fakeUserUpdated = User.Builder()
-            .setUid("a1")
+            .setUid(TEST_UID)
             .setUsername("Jack")
             .setLocation(listOf(MULHOUSE_LAT, MULHOUSE_LON))
             .setBirthday("01.01.2001")
@@ -232,5 +237,34 @@ open class FakeUserRepositoryModule {
             }
 
         }))
+    }
+
+    @Singleton
+    @Provides
+    open fun provideUserHelper(): UserHelper {
+        val user = mock(UserHelper::class.java)
+        Mockito.`when`(user.getEmail()).thenReturn(PRIMARY_EMAIL)
+
+        val taskCompletionSource = TaskCompletionSource<Void>()
+        Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setResult(null) }, 1000L)
+        val successfulTask = taskCompletionSource.task
+
+        Mockito.`when`(user.setEmail(SECOND_EMAIL)).thenReturn(successfulTask)
+
+        Mockito.`when`(user.getUserId()).thenReturn(TEST_UID)
+
+        user.stub {
+            onBlocking { isNewUser() }.doReturn(false)
+        }
+
+        //TODO this fakeIntent may be wrong to fake
+        val fakeIntent = mock(Intent::class.java)
+        Mockito.`when`(user.getSignInIntent()).thenReturn(fakeIntent)
+
+        Mockito.`when`(user.isLoggedIn()).thenReturn(true)
+
+        Mockito.`when`(user.logout(any())).thenReturn(successfulTask)
+        Mockito.`when`(user.delete(any())).thenReturn(successfulTask)
+        return user
     }
 }
