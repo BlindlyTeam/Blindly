@@ -35,6 +35,9 @@ class UserConverter {
 
     @TypeConverter
     fun fromStringToStringList(str: String): List<String> {
+        if (str == "") {
+            return listOf()
+        }
         return str.split(",")
     }
 
