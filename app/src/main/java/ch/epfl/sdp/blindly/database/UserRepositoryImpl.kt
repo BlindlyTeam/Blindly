@@ -125,7 +125,6 @@ class UserRepositoryImpl constructor(
      * @param field the field of the value to change inside the database
      * @param newValue the new value to set for the user
      */
-
     override suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         Log.d(TAG, "Updating field: $field")
         if (newValue !is String && newValue !is List<*> && newValue !is Int && newValue !is Boolean)
@@ -262,12 +261,10 @@ class UserRepositoryImpl constructor(
                         )
                     }
                     setupAdapter(myMatches!!)
-
                 }
             } else {
                 Log.d(TAG, "Current data: null")
             }
         }
     }
-
 }

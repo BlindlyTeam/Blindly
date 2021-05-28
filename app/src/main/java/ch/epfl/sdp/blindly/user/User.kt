@@ -379,6 +379,9 @@ data class User private constructor(
                     assertIsBoolean(newValue)
                     user.deleted = newValue as Boolean
                 }
+                else -> {
+                    throw java.lang.IllegalArgumentException("Incorrect field")
+                }
             }
             return user
         }

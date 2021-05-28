@@ -3,14 +3,11 @@ package ch.epfl.sdp.blindly.database
 import androidx.lifecycle.LifecycleOwner
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
-import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
-import ch.epfl.sdp.blindly.user.DELETED
-import ch.epfl.sdp.blindly.user.LIKES
-import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import kotlin.reflect.KSuspendFunction1
 
 interface UserRepository {
+
     /**
      * Given a uid, if the user is cached locally return this user, otherwise
      * look for the user in firestore and update the cache
@@ -28,6 +25,7 @@ interface UserRepository {
      * @return a BlindlyLatLng location for weather activity
      */
     suspend fun getLocation(uid: String): BlindlyLatLng
+
     /**
      * Look for the user with the corresponding uid in firestore and store it in the local cache
      *
@@ -54,7 +52,7 @@ interface UserRepository {
      * @param userId current user's ID
      * @param matchId matched user's ID
      */
-    suspend fun removeMatchFromAUser(field: String, userId: String, matchId:String)
+    suspend fun removeMatchFromAUser(field: String, userId: String, matchId: String)
 
     /**
      * Remove a user from either the Matches or Liked list from all user that contains them
@@ -84,11 +82,12 @@ interface UserRepository {
         userId: String,
         setupAdapter: KSuspendFunction1<MutableList<MyMatch>, Unit>
     )
+
     /**
      * Query for the user repositiry
      *
      * @property passions the passions the user must have
      * @property gender the gender the user must have
      */
-    class Query(var passions: List<String>? = null, var gender: String? = null )
+    class Query(var passions: List<String>? = null, var gender: String? = null)
 }

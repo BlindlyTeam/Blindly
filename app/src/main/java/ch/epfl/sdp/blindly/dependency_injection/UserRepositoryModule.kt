@@ -25,7 +25,7 @@ object UserRepositoryModule {
 
     val firestore get() = Firebase.firestore
     val userCache = UserCache()
-
+    
     /**
      * Return a Firestore object to be injected
      *
