@@ -1,7 +1,5 @@
 package ch.epfl.sdp.blindly.user.storage
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.user.User
 
 /**

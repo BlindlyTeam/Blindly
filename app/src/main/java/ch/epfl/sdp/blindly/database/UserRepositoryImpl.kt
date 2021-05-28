@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import ch.epfl.sdp.blindly.database.localDB.AppDatabase
+import ch.epfl.sdp.blindly.database.localDB.UserEntity
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
@@ -13,8 +15,10 @@ import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import kotlin.reflect.KSuspendFunction1
 
 /**
@@ -25,8 +29,11 @@ import kotlin.reflect.KSuspendFunction1
  */
 class UserRepositoryImpl constructor(
     private val db: FirebaseFirestore,
-    private val userCache: UserCache
+    private val userCache: UserCache,
+    localDB: AppDatabase,
 ) : UserRepository {
+
+    private val userDAO = localDB.UserDAO()
 
     companion object {
         private const val TAG = "UserRepository"
@@ -45,6 +52,14 @@ class UserRepositoryImpl constructor(
         if (cached != null) {
             Log.d(TAG, "Found user with uid: $uid in cache")
             return cached
+        }
+        val local: User?
+        withContext(Dispatchers.IO) {
+            local = userDAO.getUser(uid)
+        }
+        if (local != null) {
+            Log.d(TAG, "Found user with uid: $uid in localDB")
+            return local
         }
         return refreshUser(uid)
     }
@@ -75,8 +90,11 @@ class UserRepositoryImpl constructor(
             val freshUser = db.collection(USER_COLLECTION)
                 .document(uid).get().await().toUser()
             if (freshUser != null) {
-                Log.d(TAG, "Put User \"$uid\" in local cache")
+                Log.d(TAG, "Put User \"$uid\" in local cache and local DB")
                 userCache.put(uid, freshUser)
+                withContext(Dispatchers.IO) {
+                    userDAO.insertUser(UserEntity(uid, freshUser))
+                }
             }
             Log.d(TAG, "Retrieve User \"$uid\" in firestore")
             return freshUser
@@ -86,11 +104,14 @@ class UserRepositoryImpl constructor(
         }
     }
 
-    private suspend fun <T> updateLocalCache(uid: String, field: String, newValue: T) {
+    private suspend fun <T> updateLocalCacheAndDB(uid: String, field: String, newValue: T) {
         val user = userCache.get(uid)
         if (user != null) {
-            Log.d(TAG, "Updated user in local cache")
+            Log.d(TAG, "Updated user in local cache and localDB")
             userCache.put(uid, User.updateUser(user, field, newValue))
+            withContext(Dispatchers.IO) {
+                userDAO.updateUser(UserEntity(uid, user))
+            }
         } else {
             refreshUser(uid)
         }
@@ -114,7 +135,7 @@ class UserRepositoryImpl constructor(
             .update(field, newValue)
         Log.d(TAG, "Updated user")
         //Put updated value into the local cache
-        updateLocalCache(uid, field, newValue)
+        updateLocalCacheAndDB(uid, field, newValue)
     }
 
     /**
