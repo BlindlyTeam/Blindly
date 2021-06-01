@@ -168,8 +168,7 @@ open class FakeUserRepositoryModule {
                 return db.getOrDefault(uid, fakeUser)
             }
 
-            override suspend fun removeMatchFromAUser(
-                field: String,
+            override suspend fun removeMatchFromRemovingUser(
                 userId: String,
                 matchId: String
             ) {
