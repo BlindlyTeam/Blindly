@@ -12,10 +12,7 @@ import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID3
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
-import ch.epfl.sdp.blindly.user.DELETED
-import ch.epfl.sdp.blindly.user.LIKES
-import ch.epfl.sdp.blindly.user.MATCHES
-import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.user.*
 import ch.epfl.sdp.blindly.user.User.Companion.updateUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.android.gms.tasks.TaskCompletionSource
@@ -168,23 +165,35 @@ open class FakeUserRepositoryModule {
                 return db.getOrDefault(uid, fakeUser)
             }
 
+            override suspend fun removeCurrentUserFromRemovedMatch(
+                removingUserId: String,
+                removedUserId: String
+            ) {
+                val user = getUser(removedUserId)
+                if (user != null) {
+                    var updatedMatchesList = user.matches as ArrayList<String>?
+                    updatedMatchesList?.remove(removingUserId)
+                    user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
+                }
+            }
+
             override suspend fun removeMatchFromRemovingUser(
                 userId: String,
                 matchId: String
             ) {
-                var updatedList: List<String>? = listOf()
                 val user = getUser(userId)
                 if (user != null) {
-                    when (field) {
-                        LIKES ->
-                            updatedList = user.likes
-                        MATCHES ->
-                            updatedList = user.matches
-                    }
-                    if (updatedList != null) {
-                        updatedList = updatedList - listOf(matchId)
-                    }
-                    user.uid?.let { updateProfile(it, field, updatedList) }
+                    var updatedLikesList = user.likes as ArrayList<String>?
+                    var updatedDislikesList = user.dislikes as ArrayList<String>?
+                    var updatedMatchesList = user.matches as ArrayList<String>?
+
+                    updatedLikesList?.remove(matchId)
+                    updatedDislikesList?.add(matchId)
+                    updatedMatchesList?.remove(matchId)
+
+                    user.uid?.let { updateProfile(it, LIKES, updatedLikesList) }
+                    user.uid?.let { updateProfile(it, DISLIKES, updatedDislikesList) }
+                    user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
                 }
             }
 
