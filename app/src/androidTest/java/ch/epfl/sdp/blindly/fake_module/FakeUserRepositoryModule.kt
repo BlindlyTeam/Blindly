@@ -9,6 +9,7 @@ import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID2
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID3
+import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID4
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
@@ -30,8 +31,6 @@ import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.launch
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.stub
 import javax.inject.Singleton
 import kotlin.reflect.KSuspendFunction1
 
@@ -57,8 +56,8 @@ open class FakeUserRepositoryModule {
             .setShowMe("Everyone")
             .setPassions(listOf("Coffee", "Tea"))
             .setRadius(150)
-            .setMatches(listOf(TEST_UID2))
-            .setLikes(listOf(TEST_UID2))
+            .setMatches(listOf(TEST_UID2, TEST_UID3, TEST_UID4))
+            .setLikes(listOf(TEST_UID2, TEST_UID3, TEST_UID4))
             .setRecordingPath("Recordings/a1-PresentationAudio.amr")
             .setAgeRange(listOf(18, 50))
             .build()
@@ -105,9 +104,25 @@ open class FakeUserRepositoryModule {
             .setShowMe("Everyone")
             .setPassions(listOf("Coffee", "Tea", "Movies", "Brunch"))
             .setRadius(50)
-            .setMatches(listOf("a1", "a2", "b5"))
-            .setLikes(listOf("a1", "a2", "b5", "d4"))
+            .setMatches(listOf(TEST_UID))
+            .setLikes(listOf(TEST_UID))
             .setRecordingPath("Recordings/a3-PresentationAudio.amr")
+            .setAgeRange(listOf(18, 50))
+            .build()
+
+        val fakeUser4 = User.Builder()
+            .setUid(TEST_UID4)
+            .setUsername("Eve")
+            .setLocation(AndroidLocationService.createLocationTableEPFL())
+            .setBirthday("04.04.1994")
+            .setGender("Woman")
+            .setSexualOrientations(listOf("Straight", "Bisexual"))
+            .setShowMe("Everyone")
+            .setPassions(listOf("Coffee", "Tea", "Movies", "Brunch"))
+            .setRadius(50)
+            .setMatches(listOf(TEST_UID))
+            .setLikes(listOf(TEST_UID))
+            .setRecordingPath("Recordings/a4-PresentationAudio.amr")
             .setAgeRange(listOf(18, 50))
             .build()
     }
@@ -150,21 +165,15 @@ open class FakeUserRepositoryModule {
     @Singleton
     @Provides
     open fun provideUserRepository(): UserRepository {
-        val userRepository = mock(UserRepository::class.java)
-
-        userRepository.stub {
-            onBlocking { userRepository.getUser(TEST_UID) }.doReturn(fakeUser)
-            onBlocking { userRepository.refreshUser(TEST_UID) }.doReturn(fakeUser)
-            onBlocking { userRepository.getUser(TEST_UID2) }.doReturn(fakeUser2)
-            onBlocking { userRepository.refreshUser(TEST_UID2) }.doReturn(fakeUser2)
-            onBlocking { userRepository.getUser(TEST_UID3) }.doReturn(fakeUser3)
-            onBlocking { userRepository.refreshUser(TEST_UID3) }.doReturn(fakeUser3)
-        }
-
         return (Mockito.spy(object : UserRepository {
-            val db = HashMap<String, User>()
+            val db = hashMapOf(
+                TEST_UID to fakeUser,
+                TEST_UID2 to fakeUser2,
+                TEST_UID3 to fakeUser3,
+                TEST_UID4 to fakeUser4,
+            )
 
-            override suspend fun getUser(uid: String): User? {
+            override suspend fun getUser(uid: String): User {
                 return db.getOrDefault(uid, fakeUser)
             }
 
@@ -175,18 +184,16 @@ open class FakeUserRepositoryModule {
             ) {
                 var updatedList: List<String>? = listOf()
                 val user = getUser(userId)
-                if (user != null) {
-                    when (field) {
-                        LIKES ->
-                            updatedList = user.likes
-                        MATCHES ->
-                            updatedList = user.matches
-                    }
-                    if (updatedList != null) {
-                        updatedList = updatedList - listOf(matchId)
-                    }
-                    user.uid?.let { updateProfile(it, field, updatedList) }
+                when (field) {
+                    LIKES ->
+                        updatedList = user.likes
+                    MATCHES ->
+                        updatedList = user.matches
                 }
+                if (updatedList != null) {
+                    updatedList = updatedList - listOf(matchId)
+                }
+                user.uid?.let { updateProfile(it, field, updatedList) }
             }
 
             override suspend fun removeFieldFromUser(field: String, uid: String) {
@@ -221,12 +228,12 @@ open class FakeUserRepositoryModule {
                 return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
             }
 
-            override suspend fun refreshUser(uid: String): User? {
+            override suspend fun refreshUser(uid: String): User {
                 return db.getOrDefault(uid, fakeUser)
             }
 
             override suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
-                val updatedUser = updateUser(getUser(uid)!!.copy(), field, newValue)
+                val updatedUser = updateUser(getUser(uid).copy(), field, newValue)
                 db[uid] = updatedUser
             }
 
@@ -242,14 +249,25 @@ open class FakeUserRepositoryModule {
                 val myMatches: ArrayList<MyMatch> = arrayListOf()
                 viewLifecycleOwner.lifecycleScope.launch {
                     for (uid in fakeUser.matches!!) {
-                        myMatches.add(
-                            MyMatch(
-                                getUser(uid)?.username!!,
-                                uid,
-                                false,
-                                false
+                        if (uid == fakeUser4.uid) {
+                            myMatches.add(
+                                MyMatch(
+                                    getUser(uid).username!!,
+                                    uid,
+                                    false,
+                                    true
+                                )
                             )
-                        )
+                        } else {
+                            myMatches.add(
+                                MyMatch(
+                                    getUser(uid).username!!,
+                                    uid,
+                                    false,
+                                    false
+                                )
+                            )
+                        }
                     }
                     setupAdapter(myMatches)
                 }
