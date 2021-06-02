@@ -5,11 +5,13 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
+import android.util.Log
 import android.widget.Chronometer
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.lang.Exception
 
 private const val PLAYBAR_DELAY = 10L
 
@@ -30,7 +32,7 @@ class BlindlyMediaPlayer {
      * @param playTimer
      * @param remainingTimer
      * @param playPauseButton
-     * @param audioRecord
+     * @param filePath
      */
     @RequiresApi(Build.VERSION_CODES.N)
     fun setupMediaPlayer(
@@ -38,13 +40,17 @@ class BlindlyMediaPlayer {
         playTimer: Chronometer,
         remainingTimer: Chronometer,
         playPauseButton: FloatingActionButton,
-        audioRecord: AudioRecord
+        filePath: String
     ) {
         val movePlayBarThread = createPlayBarThread(playBar)
 
         bindSeekBarNavigation(
-            playBar, playTimer, remainingTimer, playPauseButton,
-            movePlayBarThread, audioRecord
+            playBar,
+            playTimer,
+            remainingTimer,
+            playPauseButton,
+            movePlayBarThread,
+            filePath
         )
 
         setCountDownTimer(remainingTimer)
@@ -55,7 +61,7 @@ class BlindlyMediaPlayer {
          */
         playPauseButton.setOnClickListener {
             handlePlayBarClick(
-                audioRecord,
+                filePath,
                 playTimer,
                 remainingTimer,
                 playPauseButton,
@@ -65,9 +71,9 @@ class BlindlyMediaPlayer {
         }
     }
 
-    private fun createMediaPlayer(filePath: String) {
+    fun createMediaPlayer(filePathFromFile: String) {
         mediaPlayer = MediaPlayer().apply {
-            setDataSource(filePath)
+            setDataSource(filePathFromFile)
             prepare()
         }
     }
@@ -81,13 +87,14 @@ class BlindlyMediaPlayer {
      * @param remainingTimer the timer for remaining time
      * @param playPauseButton the button to play and pause the audio player
      * @param movePlayBarThread the thread on which the seekbar runs
-     * @param audioRecord the audio record
+     * @param filePath the path of the audio file
      */
     fun bindSeekBarNavigation(
         playBar: SeekBar, playTimer: Chronometer,
         remainingTimer: Chronometer,
         playPauseButton: FloatingActionButton,
-        movePlayBarThread: Runnable, audioRecord: AudioRecord
+        movePlayBarThread: Runnable,
+        filePath: String
     ) {
         playBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
@@ -111,7 +118,7 @@ class BlindlyMediaPlayer {
             override fun onStartTrackingTouch(playBar: SeekBar) {
                 isPlayBarTouched = true
                 handlePlayBarClick(
-                    audioRecord,
+                    filePath,
                     playTimer,
                     remainingTimer,
                     playPauseButton,
@@ -138,18 +145,18 @@ class BlindlyMediaPlayer {
     /**
      * Resets the view and media player of a specific record in the list.
      *
-     * @param audioRecord the audioRecord
+     * @param filePath the path of the audio file
      * @param playTimer the timer for playing
      * @param remainingTimer the timer for remaining time
      * @param playPauseButton the button to play and pause the audio player
      * @param playBar the moving seek bar for the audio file
      */
     fun resetRecordPlayer(
-        audioRecord: AudioRecord, playTimer: Chronometer,
+        filePath: String, playTimer: Chronometer,
         remainingTimer: Chronometer,
         playPauseButton: FloatingActionButton, playBar: SeekBar
     ) {
-        createMediaPlayer(audioRecord.filePath)
+        createMediaPlayer(filePath)
         mediaPlayer?.setOnCompletionListener {
             mediaPlayer?.stop()
             setStoppedView(playTimer, remainingTimer, playPauseButton, false)
@@ -251,7 +258,7 @@ class BlindlyMediaPlayer {
     /**
      * Handles clicks and drags on the seekbar
      *
-     * @param audioRecord the audio record
+     * @param filePath the path of the audio file
      * @param playTimer the timer for playing
      * @param remainingTimer the timer for the remaining time
      * @param playPauseButton the button to play or pause the audio
@@ -259,7 +266,7 @@ class BlindlyMediaPlayer {
      * @param movePlayBarThread the thread on which the seekbar runs
      */
     fun handlePlayBarClick(
-        audioRecord: AudioRecord,
+        filePath: String,
         playTimer: Chronometer,
         remainingTimer: Chronometer,
         playPauseButton: FloatingActionButton,
@@ -267,7 +274,7 @@ class BlindlyMediaPlayer {
         movePlayBarThread: Runnable
     ) {
         if (isPlayerStopped) {
-            resetRecordPlayer(audioRecord, playTimer, remainingTimer, playPauseButton, playBar)
+            resetRecordPlayer(filePath, playTimer, remainingTimer, playPauseButton, playBar)
         }
 
         if (!mediaPlayer!!.isPlaying) {

@@ -225,6 +225,7 @@ class SettingsTest {
             matches(withEffectiveVisibility(Visibility.VISIBLE))
         )
         onView(withText(ANSWER_DELETE)).perform(click())
+        Thread.sleep(500)
         intended(hasComponent(SplashScreen::class.java.name))
     }
 

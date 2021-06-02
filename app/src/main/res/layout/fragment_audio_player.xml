@@ -102,7 +102,7 @@
             android:id="@+id/audio_play_space"
             android:layout_width="wrap_content"
             android:layout_height="5dp"
-            android:layout_below="@id/play_pause_button"/>
+            android:layout_below="@id/match_play_pause_button"/>
 
     </RelativeLayout>
 </LinearLayout>

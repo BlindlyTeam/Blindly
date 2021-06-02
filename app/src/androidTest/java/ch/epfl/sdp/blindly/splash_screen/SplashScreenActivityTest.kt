@@ -1,11 +1,13 @@
 package ch.epfl.sdp.blindly.splash_screen
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -21,6 +23,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
+import org.mockito.kotlin.any
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -46,6 +49,14 @@ class SplashScreenActivityTest {
     @After
     fun afterEach() {
         release()
+    }
+
+    @Test
+    fun splashScreenGoesToMainScreen() {
+        Mockito.`when`(user.isLoggedIn()).thenReturn(true)
+        Mockito.`when`(user.handleAuthResult(any(), any(), any()))
+            .thenReturn(Intent(ApplicationProvider.getApplicationContext(), MainScreen::class.java))
+        intended(hasComponent(MainScreen::class.java.name))
     }
 
     @Test

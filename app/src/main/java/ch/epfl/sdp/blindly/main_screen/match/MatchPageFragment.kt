@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.audio.Recordings
+import ch.epfl.sdp.blindly.audio.FirebaseRecordings
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.match.algorithm.MatchingAlgorithm
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
@@ -64,7 +64,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
     lateinit var userRepository: UserRepository
 
     @Inject
-    lateinit var recordings: Recordings
+    lateinit var recordings: FirebaseRecordings
 
     companion object {
         private const val ARG_COUNT = "matchArgs"
@@ -117,7 +117,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         // disable the play/pause button
         fragView.findViewById<TextView>(R.id.no_profile_text).text =
             getString(R.string.loading_profiles)
-        fragView.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable = false
+        fragView.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable = false
 
         return fragView
     }
@@ -182,7 +182,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         if (position == adapter.itemCount - 1) {
             fragView.findViewById<TextView>(R.id.no_profile_text).text =
                 getString(R.string.no_more_swipes)
-            fragView.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable = false
+            fragView.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable = false
         } else {
             adapter.playPauseAudio(position + 1)
         }
@@ -297,7 +297,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         skip.setOnClickListener {
             listenerSettings(Direction.Left, AccelerateInterpolator(), { cardStackView.swipe() })
         }
-        val playPause = view.findViewById<View>(R.id.play_pause_button)
+        val playPause = view.findViewById<View>(R.id.match_play_pause_button)
         playPause.setOnClickListener {
             adapter.playPauseAudio(currentPosition)
         }

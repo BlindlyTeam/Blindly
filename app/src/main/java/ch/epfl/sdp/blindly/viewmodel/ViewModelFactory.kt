@@ -7,7 +7,7 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import ch.epfl.sdp.blindly.audio.Recordings
+import ch.epfl.sdp.blindly.audio.FirebaseRecordings
 import ch.epfl.sdp.blindly.database.UserRepository
 import com.google.firebase.storage.FirebaseStorage
 import dagger.assisted.Assisted
@@ -27,7 +27,7 @@ import dagger.assisted.AssistedInject
  */
 class ViewModelFactory @AssistedInject constructor(
     private val userRepository: UserRepository,
-    private val recordings: Recordings,
+    private val recordings: FirebaseRecordings,
     @Assisted owner: SavedStateRegistryOwner,
     @Assisted bundle: Bundle
 ) : AbstractSavedStateViewModelFactory(owner, bundle) {

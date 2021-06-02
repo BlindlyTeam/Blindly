@@ -11,8 +11,12 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import ch.epfl.sdp.blindly.R
+import ch.epfl.sdp.blindly.main_screen.profile.BUNDLE_UID
+import ch.epfl.sdp.blindly.viewmodel.UserViewModel
+import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.io.File
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
@@ -21,15 +25,34 @@ import java.io.File
  */
 private const val MY_AUDIO_RECORD = "My Audio Record"
 
+@AndroidEntryPoint
 class AudioPlayerFragment : Fragment() {
+
+    @Inject
+    lateinit var assistedFactory: ViewModelAssistedFactory
+
     private val blindlyMediaPlayer = BlindlyMediaPlayer()
-    private lateinit var audioRecord: AudioRecord
-    private lateinit var recordName: TextView
-    private lateinit var recordDuration: TextView
     private lateinit var playBar: SeekBar
     private lateinit var remainingTimer: Chronometer
     private lateinit var playTimer: Chronometer
     private lateinit var playPauseButton: FloatingActionButton
+    private var uid: String? = null
+    private lateinit var viewModel: UserViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            uid = it.getString(BUNDLE_UID)
+        }
+
+        viewModel = UserViewModel.instantiateViewModel(
+            uid,
+            assistedFactory,
+            this,
+            this
+        )
+    }
+
 
     /**
      * Instantiates the mediaPlayer
@@ -46,64 +69,73 @@ class AudioPlayerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
-        val file = File("${context?.filesDir?.absolutePath}/$PRESENTATION_AUDIO_NAME")
-        audioRecord = AudioRecord(
-            MY_AUDIO_RECORD,
-            "",
-            file.path,
-            true
-        )
 
         playBar = view.findViewById(R.id.play_bar)
         remainingTimer = view.findViewById(R.id.remaining_timer)
         playTimer = view.findViewById(R.id.audio_timer)
         playPauseButton = view.findViewById(R.id.play_pause_button)
 
-        blindlyMediaPlayer.setupMediaPlayer(
-            playBar,
-            playTimer,
-            remainingTimer,
-            playPauseButton,
-            audioRecord
-        )
+        initializeMediaPlayer()
 
-        recordName = view.findViewById(R.id.record_name)
-        recordName.text = audioRecord.name
+        val recordName = view.findViewById<TextView>(R.id.record_name)
+        recordName.text = MY_AUDIO_RECORD
 
         val recordButton = view.findViewById<Button>(R.id.record_button)
         recordButton.setOnClickListener {
             val intent = Intent(context, RecordingActivity::class.java)
-            removeFragment()
             startActivity(intent)
+            removeFragment()
         }
 
         return view
     }
 
-    private fun removeFragment() {
-        blindlyMediaPlayer.resetRecordPlayer(
-            audioRecord,
-            playTimer,
-            remainingTimer,
-            playPauseButton,
-            playBar
-        )
-        parentFragmentManager.commit {
-            val audioPlayerFragment =
-                parentFragmentManager.findFragmentById(R.id.fragment_audio_container_view)
-            remove(audioPlayerFragment!!)
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun initializeMediaPlayer() {
+        this.context?.let {
+            viewModel.prepareUserMediaPlayer(
+                blindlyMediaPlayer,
+                playBar,
+                remainingTimer,
+                playTimer,
+                playPauseButton,
+                it
+            )
         }
+    }
+
+
+    private fun removeFragment() {
+        viewModel.resetUserMediaPlayer(
+            blindlyMediaPlayer,
+            playBar,
+            remainingTimer,
+            playTimer,
+            playPauseButton
+        )
+        blindlyMediaPlayer.mediaPlayer?.release()
+        parentFragmentManager
+            .beginTransaction()
+            .remove(this)
+            .commitAllowingStateLoss()
     }
 
     companion object {
         private const val TAG = "AudioPlayer"
 
         /**
-         * Use this factory method to create a new instance of this fragment
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
          *
+         * @param uid the uid of the current user
          * @return A new instance of fragment AudioPlayerFragment.
          */
         @JvmStatic
-        fun newInstance() = AudioPlayerFragment()
+        fun newInstance(uid: String) =
+            AudioPlayerFragment().apply {
+                arguments = Bundle().apply {
+                    putString(BUNDLE_UID, uid)
+                }
+            }
     }
 }
