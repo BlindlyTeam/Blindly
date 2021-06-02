@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions
 import ch.epfl.sdp.blindly.database.UserRepository
+import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser3
 import ch.epfl.sdp.blindly.main_screen.ANSWER_NO
 import ch.epfl.sdp.blindly.main_screen.ANSWER_YES
@@ -194,7 +195,7 @@ class MyMatchesFragmentTest {
     }
 
     @Test
-    fun removeButtonRemovesUser() {
+    fun removeButtonRemovesUserWhenClickingYes() {
         onView(withId(R.id.my_matches_recyler_view)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 0,
@@ -206,6 +207,21 @@ class MyMatchesFragmentTest {
         )
         onView(withText(ANSWER_YES)).perform(click())
         onView(withText(fakeUser3.username)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun removeButtonDoesNotRemoveUserWhenClickingNo() {
+        onView(withId(R.id.my_matches_recyler_view)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                RecyclerViewChildActions.actionOnChild(
+                    click(),
+                    R.id.removeMatchButton
+                )
+            )
+        )
+        onView(withText(ANSWER_NO)).perform(click())
+        onView(withText(fakeUser.username)).check(matches(isDisplayed()))
     }
 
     @Test

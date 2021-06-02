@@ -28,12 +28,12 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import kotlinx.coroutines.runBlocking
 
 class MyMatchesAdapter(
-    var my_matches: MutableList<MyMatch>,
+    private var my_matches: MutableList<MyMatch>,
     private var viewHolderList: MutableList<ViewHolder>,
-    var context: Context,
+    private var context: Context,
     private val listener: OnItemClickListener,
-    val userHelper: UserHelper,
-    val userRepository: UserRepository
+    private val userHelper: UserHelper,
+    private val userRepository: UserRepository
 ) : RecyclerView.Adapter<MyMatchesAdapter.ViewHolder>() {
 
     companion object {
