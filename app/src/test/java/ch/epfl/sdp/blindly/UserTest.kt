@@ -2,10 +2,15 @@ package ch.epfl.sdp.blindly
 
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.*
+import ch.epfl.sdp.blindly.user.User.Companion.toUser
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.getField
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.nullValue
+import org.hamcrest.Matchers.*
+import org.hamcrest.core.Is
 import org.junit.Test
+import org.mockito.Mockito
+import org.mockito.kotlin.notNull
 
 class UserTest {
     companion object {
@@ -35,6 +40,7 @@ class UserTest {
         private val likes2: List<String> = listOf("efh14fjnaA")
         private val ageRange = listOf(30, 40)
         private val ageRange2 = listOf(20, 60)
+        private const val deleted = false
         private const val recordingPath = "/user/Presentation.amr"
         private const val recordingPath2 = "/user/PresentationNew.amr"
 
@@ -766,5 +772,44 @@ class UserTest {
             .setAgeRange(ageRange)
             .setRecordingPath(recordingPath)
             .build()
+    }
+
+    @Test
+    fun testDocumentSnapshotTransform() {
+        val ds = Mockito.mock(DocumentSnapshot::class.java)
+        Mockito.`when`(ds.id).thenReturn(uid)
+        Mockito.`when`(ds.getString(USERNAME)).thenReturn(username)
+        Mockito.`when`(ds.get(LOCATION)).thenReturn(location)
+        Mockito.`when`(ds.getString(BIRTHDAY)).thenReturn(birthday)
+        Mockito.`when`(ds.getString(GENDER)).thenReturn(gender)
+        Mockito.`when`(ds.get(SEXUAL_ORIENTATIONS)).thenReturn(sexualOrientations)
+        Mockito.`when`(ds.getString(SHOW_ME)).thenReturn(showMe)
+        Mockito.`when`(ds.get(PASSIONS)).thenReturn(passions)
+        Mockito.`when`(ds.getField<Int>(RADIUS)).thenReturn(radius)
+        Mockito.`when`(ds.get(MATCHES)).thenReturn(matches)
+        Mockito.`when`(ds.get(LIKES)).thenReturn(likes)
+        Mockito.`when`(ds.get(AGE_RANGE)).thenReturn(ageRange)
+        Mockito.`when`(ds.getString(RECORDING_PATH)).thenReturn(recordingPath)
+        Mockito.`when`(ds.getField<Boolean>(DELETED)).thenReturn(deleted)
+        Mockito.`when`(ds.get(REPORTING_USERS)).thenReturn(reportingUsers)
+
+
+        val user = ds.toUser()
+        assertThat(user, Is(notNullValue()))
+        user!!
+        assertThat(user.username, equalTo(username))
+        assertThat(user.location, equalTo(location))
+        assertThat(user.birthday, equalTo(birthday))
+        assertThat(user.gender, equalTo(gender))
+        assertThat(user.sexualOrientations, equalTo(sexualOrientations))
+        assertThat(user.showMe, equalTo(showMe))
+        assertThat(user.passions, equalTo(passions))
+        assertThat(user.radius, equalTo(radius))
+        assertThat(user.matches, equalTo(matches))
+        assertThat(user.likes, equalTo(likes))
+        assertThat(user.ageRange, equalTo(ageRange))
+        assertThat(user.recordingPath, equalTo(recordingPath))
+        assertThat(user.deleted, equalTo(deleted))
+        assertThat(user.reportingUsers, equalTo(reportingUsers))
     }
 }
