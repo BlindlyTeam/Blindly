@@ -1,7 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
-import android.widget.TextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -26,7 +25,6 @@ import ch.epfl.sdp.blindly.user.enums.Passions.*
 import ch.epfl.sdp.blindly.user.enums.SexualOrientations.ASEXUAL
 import ch.epfl.sdp.blindly.user.enums.SexualOrientations.BISEXUAL
 import ch.epfl.sdp.blindly.user.storage.UserCache
-import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

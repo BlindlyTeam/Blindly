@@ -53,6 +53,7 @@ class UserRepositoryImpl constructor(
             Log.d(TAG, "Found user with uid: $uid in cache")
             return cached
         }
+        /*
         val local: User?
         withContext(Dispatchers.IO) {
             local = userDAO.getUser(uid)
@@ -61,6 +62,7 @@ class UserRepositoryImpl constructor(
             Log.d(TAG, "Found user with uid: $uid in localDB")
             return local
         }
+         */
         return refreshUser(uid)
     }
 
@@ -125,7 +127,6 @@ class UserRepositoryImpl constructor(
      * @param field the field of the value to change inside the database
      * @param newValue the new value to set for the user
      */
-
     override suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         Log.d(TAG, "Updating field: $field")
         if (newValue !is String && newValue !is List<*> && newValue !is Int && newValue !is Boolean)
@@ -145,10 +146,11 @@ class UserRepositoryImpl constructor(
      * @param uid the uid of th euser to delete
      */
     override suspend fun deleteUser(uid: String) {
-        //TODO remove the user from the localDB
         removeFieldFromUser(LIKES, uid)
         updateProfile(uid, DELETED, true)
         userCache.remove(uid)
+        val user = userDAO.getUser(uid)
+        userDAO.deleteUser(UserEntity(uid, user!!))
     }
 
     /**
@@ -262,12 +264,10 @@ class UserRepositoryImpl constructor(
                         )
                     }
                     setupAdapter(myMatches!!)
-
                 }
             } else {
                 Log.d(TAG, "Current data: null")
             }
         }
     }
-
 }

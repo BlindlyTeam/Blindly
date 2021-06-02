@@ -10,6 +10,7 @@ import org.junit.Test
 class UserTest {
     companion object {
         private const val uid = "abcd"
+        private const val uid2 = "efgh"
         private const val username = "Jane Doe"
         private const val username2 = "Alice and Bob"
         private val location = createLocationTableEPFL()
@@ -36,6 +37,7 @@ class UserTest {
         private val ageRange2 = listOf(20, 60)
         private const val recordingPath = "/user/Presentation.amr"
         private const val recordingPath2 = "/user/PresentationNew.amr"
+
         private val reportingUsers = listOf("erdgae43ergag", "Aeadhyt34j")
 
         private const val WRONG_INPUT_FOR_STRING = 5
@@ -45,6 +47,7 @@ class UserTest {
         private val WRONG_INPUT_FOR_LIST_DOUBLE = listOf("Int")
         private val WRONG_INPUT_SIZE = listOf(45.6, 4, 5, 6)
         private val WRONG_INPUT_FOR_INT = listOf("Int")
+        private const val WRONG_USERNAME_FIELD = "name"
         private val WRONG_INPUT_FOR_BOOLEAN = listOf(true)
     }
 
@@ -149,7 +152,7 @@ class UserTest {
     }
 
     @Test
-    fun buildBuilsCorrectUser() {
+    fun buildBuildsCorrectUser() {
         val user = buildUser()
 
         assertThat(user.uid, equalTo(uid))
@@ -394,6 +397,327 @@ class UserTest {
         User.updateUser(user, AGE_RANGE, WRONG_INPUT_SIZE)
     }
 
+    @Test(expected = IllegalArgumentException::class)
+    fun updateWithWrongFieldThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, WRONG_USERNAME_FIELD, username2)
+    }
+
+    @Test
+    fun equalsIsTrueForSameUser() {
+        val user1 = buildUser()
+        val user2 = buildUser()
+        assertThat(user1 == user2, equalTo(true))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentUids() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid2)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentUsernames() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username2)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentLocations() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location2)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentBirthdays() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday2)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentGenders() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender2)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentSexualOrientations() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations2)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentShowMe() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe2)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentPassions() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions2)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentRadius() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius2)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentMatches() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches2)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentLikes() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes2)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentAgeRanges() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange2)
+            .setRecordingPath(recordingPath)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun equalsIsFalseForDifferentRecordingPaths() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid)
+            .setUsername(username)
+            .setLocation(location)
+            .setBirthday(birthday)
+            .setGender(gender)
+            .setSexualOrientations(sexualOrientations)
+            .setShowMe(showMe)
+            .setPassions(passions)
+            .setRadius(radius)
+            .setMatches(matches)
+            .setLikes(likes)
+            .setAgeRange(ageRange)
+            .setRecordingPath(recordingPath2)
+            .build()
+        assertThat(user1 == user2, equalTo(false))
+    }
+
+    @Test
+    fun hashCodeWorksForSameUser() {
+        val user1 = buildUser()
+        val user2 = buildUser()
+        assertThat(user1.hashCode() == user2.hashCode(), equalTo(true))
+    }
+
+    @Test
+    fun hashCodeWorksForDifferentUsers() {
+        val user1 = buildUser()
+        val user2 = User.Builder()
+            .setUid(uid2)
+            .setUsername(username2)
+            .setLocation(location2)
+            .setBirthday(birthday2)
+            .setGender(gender2)
+            .setSexualOrientations(sexualOrientations2)
+            .setShowMe(showMe2)
+            .setPassions(passions2)
+            .setRadius(radius2)
+            .setMatches(matches2)
+            .setLikes(likes2)
+            .setAgeRange(ageRange2)
+            .setRecordingPath(recordingPath2)
+            .build()
+        assertThat(user1.hashCode() == user2.hashCode(), equalTo(false))
+    }
+
+    @Test
+    fun copyWorks() {
+        val user1 = buildUser()
+        val user2 = user1.copy()
+        assertThat(user1 == user2, equalTo(true))
+    }
+
     @Test
     fun updateReportingUsersIsCorrect() {
         val user = buildUser()
@@ -438,7 +762,6 @@ class UserTest {
             .setPassions(passions)
             .setRadius(radius)
             .setMatches(matches)
-            .setLikes(likes)
             .setLikes(likes)
             .setAgeRange(ageRange)
             .setRecordingPath(recordingPath)

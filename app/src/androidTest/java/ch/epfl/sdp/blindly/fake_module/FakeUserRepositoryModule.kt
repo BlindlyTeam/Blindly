@@ -4,15 +4,13 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.database.UserRepositoryImpl
 import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
-import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.user.*
-import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.User.Companion.updateUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.android.gms.tasks.TaskCompletionSource
@@ -24,7 +22,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.launch
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
@@ -45,6 +43,8 @@ open class FakeUserRepositoryModule {
         const val PRIMARY_EMAIL = "test@example.com"
         const val SECOND_EMAIL = "test2@example.com"
         const val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
+        const val TEST_UID2 = "fdJofwEJWflhwjVREs324cdEWals"
+        const val TEST_UID3 = "adnDEO28fWLCEJWo234fwCWLjlw"
 
         private const val USER_COLLECTION: String = "usersMeta"
         private const val MULHOUSE_LAT = 47.749
@@ -60,11 +60,12 @@ open class FakeUserRepositoryModule {
             .setShowMe("Everyone")
             .setPassions(listOf("Coffee", "Tea"))
             .setRadius(150)
-            .setMatches(listOf("a2", "a3"))
-            .setLikes(listOf("a2", "a3","c3", "d4"))
+            .setMatches(listOf(TEST_UID2))
+            .setLikes(listOf(TEST_UID2))
             .setRecordingPath("Recordings/a1-PresentationAudio.amr")
             .setAgeRange(listOf(18, 50))
             .build()
+
         val fakeUserUpdated = User.Builder()
             .setUid(TEST_UID)
             .setUsername("Jack")
@@ -76,13 +77,13 @@ open class FakeUserRepositoryModule {
             .setPassions(listOf("Coffee", "Tea", "Movies", "Brunch"))
             .setRadius(50)
             .setMatches(listOf("a2", "a3"))
-            .setLikes(listOf("a2", "a3","c3", "d4"))
+            .setLikes(listOf("a2", "a3", "c3", "d4"))
             .setRecordingPath("Recordings/a1-PresentationAudio.amr")
             .setAgeRange(listOf(40, 50))
             .build()
 
         val fakeUser2 = User.Builder()
-            .setUid("a2")
+            .setUid(TEST_UID2)
             .setUsername("Jean Paul")
             .setLocation(AndroidLocationService.createLocationTableEPFL())
             .setBirthday("02.02.2002")
@@ -91,14 +92,14 @@ open class FakeUserRepositoryModule {
             .setShowMe("Everyone")
             .setPassions(listOf("Coffee", "Tea", "Movies", "Brunch"))
             .setRadius(50)
-            .setMatches(listOf("a1", "a3", "b5"))
-            .setLikes(listOf("a1", "a3", "b5", "d4"))
+            .setMatches(listOf(TEST_UID))
+            .setLikes(listOf(TEST_UID))
             .setRecordingPath("Recordings/a2-PresentationAudio.amr")
             .setAgeRange(listOf(18, 50))
             .build()
 
         val fakeUser3 = User.Builder()
-            .setUid("a3")
+            .setUid(TEST_UID3)
             .setUsername("Jeanette")
             .setLocation(AndroidLocationService.createLocationTableEPFL())
             .setBirthday("03.03.2003")
@@ -121,6 +122,7 @@ open class FakeUserRepositoryModule {
         Mockito.`when`(userCache.get(TEST_UID)).thenReturn(fakeUser)
         return userCache
     }
+
     @Singleton
     @Provides
     open fun provideFirebaseFirestore(): FirebaseFirestore {
@@ -151,8 +153,20 @@ open class FakeUserRepositoryModule {
     @Singleton
     @Provides
     open fun provideUserRepository(): UserRepository {
-        return (Mockito.spy(object: UserRepository {
+        val userRepository = mock(UserRepository::class.java)
+
+        userRepository.stub {
+            onBlocking { userRepository.getUser(TEST_UID) }.doReturn(fakeUser)
+            onBlocking { userRepository.refreshUser(TEST_UID) }.doReturn(fakeUser)
+            onBlocking { userRepository.getUser(TEST_UID2) }.doReturn(fakeUser2)
+            onBlocking { userRepository.refreshUser(TEST_UID2) }.doReturn(fakeUser2)
+            onBlocking { userRepository.getUser(TEST_UID3) }.doReturn(fakeUser3)
+            onBlocking { userRepository.refreshUser(TEST_UID3) }.doReturn(fakeUser3)
+        }
+
+        return (Mockito.spy(object : UserRepository {
             val db = HashMap<String, User>()
+
             override suspend fun getUser(uid: String): User? {
                 return db.getOrDefault(uid, fakeUser)
             }
@@ -162,19 +176,19 @@ open class FakeUserRepositoryModule {
                 userId: String,
                 matchId: String
             ) {
-                var updatedList: ArrayList<String>? = arrayListOf()
+                var updatedList: List<String>? = listOf()
                 val user = getUser(userId)
                 if (user != null) {
                     when (field) {
                         LIKES ->
-                            updatedList = user.likes as ArrayList<String>?
+                            updatedList = user.likes
                         MATCHES ->
-                            updatedList = user.matches as ArrayList<String>?
+                            updatedList = user.matches
                     }
-                    updatedList?.remove(matchId)
-                    if (user != null) {
-                        user.uid?.let { updateProfile(it, field, updatedList) }
+                    if (updatedList != null) {
+                        updatedList = updatedList - listOf(matchId)
                     }
+                    user.uid?.let { updateProfile(it, field, updatedList) }
                 }
             }
 
@@ -183,21 +197,19 @@ open class FakeUserRepositoryModule {
                     throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
                 var updatedList: ArrayList<String>? = null
                 var users = db.values.toList()
-                users = if(field == MATCHES)
+                users = if (field == MATCHES)
                     users.filter { user -> user.matches!!.contains(uid) }
                 else
                     users.filter { user -> user.likes!!.contains(uid) }
                 users.forEach { user ->
-                    if (user != null) {
-                        when (field) {
-                            LIKES ->
-                                updatedList = user.likes as ArrayList<String>?
-                            MATCHES ->
-                                updatedList = user.matches as ArrayList<String>?
-                        }
-                        updatedList?.remove(uid)
-                        user.uid?.let { updateProfile(it, field, updatedList) }
+                    when (field) {
+                        LIKES ->
+                            updatedList = user.likes as ArrayList<String>?
+                        MATCHES ->
+                            updatedList = user.matches as ArrayList<String>?
                     }
+                    updatedList?.remove(uid)
+                    user.uid?.let { updateProfile(it, field, updatedList) }
                 }
             }
 
@@ -209,10 +221,7 @@ open class FakeUserRepositoryModule {
 
             override suspend fun getLocation(uid: String): BlindlyLatLng {
                 val user = db.getOrDefault(uid, fakeUser)
-                if (user != null) {
-                    return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
-                }
-                return BlindlyLatLng(LAUSANNE_LATLNG)
+                return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
             }
 
             override suspend fun refreshUser(uid: String): User? {
@@ -233,9 +242,21 @@ open class FakeUserRepositoryModule {
                 userId: String,
                 setupAdapter: KSuspendFunction1<MutableList<MyMatch>, Unit>
             ) {
-                setupAdapter(mutableListOf(MyMatch(fakeUser.username!!, fakeUser.uid!!, true, false)))
+                val myMatches: ArrayList<MyMatch> = arrayListOf()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    for (uid in fakeUser.matches!!) {
+                        myMatches.add(
+                            MyMatch(
+                                getUser(uid)?.username!!,
+                                uid,
+                                false,
+                                false
+                            )
+                        )
+                    }
+                    setupAdapter(myMatches)
+                }
             }
-
         }))
     }
 
