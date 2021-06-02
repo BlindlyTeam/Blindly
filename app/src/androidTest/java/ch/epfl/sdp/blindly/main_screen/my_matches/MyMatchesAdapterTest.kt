@@ -8,12 +8,13 @@ import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.MatcherAssert
-import org.hamcrest.core.IsEqual
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.manipulation.Ordering
 import org.mockito.Mockito.mock
 import javax.inject.Inject
 
@@ -47,7 +48,8 @@ class MyMatchesAdapterTest {
         private const val IS_DELETED = false
         private const val NAME_2 = "user2"
         private const val UID_2 = "uid2"
-
+        private const val NAME_3 = "user3"
+        private const val UID_3 = "uid3"
     }
 
     @Test
@@ -67,7 +69,7 @@ class MyMatchesAdapterTest {
                 userRepository
             )
 
-        MatcherAssert.assertThat(viewHolder.itemCount, IsEqual.equalTo(2))
+        assertThat(viewHolder.itemCount, equalTo(2))
     }
 
     @Test
@@ -87,7 +89,7 @@ class MyMatchesAdapterTest {
                 userRepository
             )
         val defaultType = 0
-        MatcherAssert.assertThat(viewHolder.getItemViewType(0), IsEqual.equalTo(defaultType))
+        assertThat(viewHolder.getItemViewType(0), equalTo(defaultType))
     }
 
     @Test
@@ -110,5 +112,27 @@ class MyMatchesAdapterTest {
         rv.adapter = adapter
         adapter.my_matches.add(MyMatch(NAME_1, UID_2, IS_EXPANDED, IS_DELETED))
         adapter.notifyDataSetChanged()
+    }
+
+    @Test
+    fun setMyMatchesWorks() {
+        val match1 = MyMatch(NAME_1, UID_1, IS_EXPANDED, false)
+        val match2 = MyMatch(NAME_2, UID_2, IS_EXPANDED, false)
+        val list = arrayListOf(match1, match2)
+        val listener = mock(MyMatchesAdapter.OnItemClickListener::class.java)
+        val rv = RecyclerView(ApplicationProvider.getApplicationContext())
+        rv.layoutManager = LinearLayoutManager(ApplicationProvider.getApplicationContext())
+        val adapter = MyMatchesAdapter(
+            list,
+            arrayListOf(),
+            ApplicationProvider.getApplicationContext(),
+            listener,
+            userHelper,
+            userRepository
+        )
+        val match3 = MyMatch(NAME_3, UID_3, IS_EXPANDED, false)
+        val updatedList = arrayListOf(match1, match3)
+        adapter.my_matches = updatedList
+        assertThat(adapter.my_matches == updatedList, equalTo(true))
     }
 }
