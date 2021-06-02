@@ -25,6 +25,7 @@ import ch.epfl.sdp.blindly.user.LIKES
 import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.utils.CheckInternet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -210,8 +211,14 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * Initializes the adapter
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        adapter = CardStackAdapter(potentialMatches, recordings, fragView)
-        setupCardStackView(fragView)
+        if(CheckInternet.internetIsConnected()) {
+            adapter = CardStackAdapter(potentialMatches, recordings, fragView)
+            setupCardStackView(fragView)
+        } else {
+            fragView.findViewById<View>(R.id.skip_button).isClickable = false
+            fragView.findViewById<View>(R.id.play_pause_button).isClickable = false
+            fragView.findViewById<View>(R.id.like_button).isClickable = false
+        }
     }
 
     /**

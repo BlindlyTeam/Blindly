@@ -34,6 +34,7 @@ class UserRepositoryImpl constructor(
 ) : UserRepository {
 
     private val userDAO = localDB.UserDAO()
+    private val helper = UserHelper()
 
     companion object {
         private const val TAG = "UserRepository"
@@ -53,7 +54,7 @@ class UserRepositoryImpl constructor(
             Log.d(TAG, "Found user with uid: $uid in cache")
             return cached
         }
-        /*
+
         val local: User?
         withContext(Dispatchers.IO) {
             local = userDAO.getUser(uid)
@@ -62,7 +63,7 @@ class UserRepositoryImpl constructor(
             Log.d(TAG, "Found user with uid: $uid in localDB")
             return local
         }
-         */
+
         return refreshUser(uid)
     }
 
@@ -92,10 +93,14 @@ class UserRepositoryImpl constructor(
             val freshUser = db.collection(USER_COLLECTION)
                 .document(uid).get().await().toUser()
             if (freshUser != null) {
-                Log.d(TAG, "Put User \"$uid\" in local cache and local DB")
+                Log.d(TAG, "Put User \"$uid\" in local cache")
                 userCache.put(uid, freshUser)
-                withContext(Dispatchers.IO) {
-                    userDAO.insertUser(UserEntity(uid, freshUser))
+                if(helper.getUserId() == uid) {
+                    //put only the current user in the local DB
+                    Log.d(TAG, "Put User \"$uid\" in local DB")
+                    withContext(Dispatchers.IO) {
+                        userDAO.insertUser(UserEntity(uid, freshUser))
+                    }
                 }
             }
             Log.d(TAG, "Retrieve User \"$uid\" in firestore")
@@ -111,8 +116,11 @@ class UserRepositoryImpl constructor(
         if (user != null) {
             Log.d(TAG, "Updated user in local cache and localDB")
             userCache.put(uid, User.updateUser(user, field, newValue))
-            withContext(Dispatchers.IO) {
-                userDAO.updateUser(UserEntity(uid, user))
+            if(helper.getUserId() == uid) {
+                //update only the current user in the local DB
+                withContext(Dispatchers.IO) {
+                    userDAO.updateUser(UserEntity(uid, user))
+                }
             }
         } else {
             refreshUser(uid)
