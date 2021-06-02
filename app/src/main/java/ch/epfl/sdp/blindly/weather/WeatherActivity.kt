@@ -160,15 +160,16 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     }
 
     override fun onWeatherFailure(e: Exception) {
-        val duration = Toast.LENGTH_LONG
-
-        val toast = Toast.makeText(
-            applicationContext,
-            getString(R.string.weather_update_failed),
-            duration
-        )
-        toast.show()
-        setRefreshing(false)
+        runOnUiThread {
+            val duration = Toast.LENGTH_LONG
+            val toast = Toast.makeText(
+                applicationContext,
+                getString(R.string.weather_update_failed),
+                duration
+            )
+            toast.show()
+            setRefreshing(false)
+        }
     }
 
     override fun onWeatherResponse(weather: WeekWeather) {
