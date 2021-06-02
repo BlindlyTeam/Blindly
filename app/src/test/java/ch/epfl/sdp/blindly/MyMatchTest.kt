@@ -19,22 +19,26 @@ class MyMatchTest {
 
     @Test
     fun myMatchUidSetCorrectly() {
-        assertThat(myMatch1.uid, equalTo(USER_ID1))
+        myMatch1.uid = USER_ID2
+        assertThat(myMatch1.uid, equalTo(USER_ID2))
     }
 
     @Test
     fun myMatchNameSetCorrectly() {
-        assertThat(myMatch1.name, equalTo(NAME1))
+        myMatch1.name = NAME2
+        assertThat(myMatch1.name, equalTo(NAME2))
     }
 
     @Test
     fun myMatchIsExpandedSetCorrectly() {
-        assertThat(myMatch1.isExpanded == IS_EXPANDED1, equalTo(true))
+        myMatch1.isExpanded = IS_EXPANDED2
+        assertThat(myMatch1.isExpanded == IS_EXPANDED2, equalTo(true))
     }
 
     @Test
     fun myMatchIsDeletedSetCorrectly() {
-        assertThat(myMatch1.isDeleted == IS_DELETED1, equalTo(true))
+        myMatch1.isDeleted = IS_DELETED2
+        assertThat(myMatch1.isDeleted == IS_DELETED2, equalTo(true))
     }
 
     @Test
