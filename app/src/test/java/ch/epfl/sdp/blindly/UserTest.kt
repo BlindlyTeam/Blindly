@@ -30,7 +30,9 @@ class UserTest {
         private val matches: List<String> = listOf("a1", "b2")
         private val matches2: List<String> = listOf("A3Verg34vrE3")
         private val likes: List<String> = listOf("c3", "d4")
+        private val dislikes : List<String> = listOf("c1", "c2")
         private val emptyLikes: List<String> = listOf()
+        private val emptyDislikes: List<String> = listOf()
         private val emptyMatches: List<String> = listOf()
         private val likes2: List<String> = listOf("efh14fjnaA")
         private val ageRange = listOf(30, 40)
@@ -127,6 +129,12 @@ class UserTest {
     fun setEmptyMatchesListIsCorrect() {
         val userBuilder = User.Builder().setLikes(emptyMatches)
         assertThat(userBuilder.matches, equalTo(emptyMatches))
+    }
+
+    @Test
+    fun setEmptyDislikesListIsCorrect() {
+        val userBuilder = User.Builder().setLikes(emptyDislikes)
+        assertThat(userBuilder.dislikes, equalTo(emptyDislikes))
     }
 
     @Test
@@ -337,6 +345,19 @@ class UserTest {
     fun updateMatchesWithOtherThanListOfStringThrowsException() {
         val user = buildUser()
         User.updateUser(user, MATCHES, WRONG_INPUT_FOR_LIST_STRING)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun updateDislikesWithOtherThanListOfStringThrowsException() {
+        val user = buildUser()
+        User.updateUser(user, DISLIKES, WRONG_INPUT_FOR_LIST_STRING)
+    }
+
+    @Test
+    fun updateDislikesWithNonEmptyListIsCorrect() {
+        val user = buildUser()
+        User.updateUser(user, DISLIKES, dislikes)
+        assertThat(user.dislikes, equalTo(dislikes))
     }
 
     @Test
