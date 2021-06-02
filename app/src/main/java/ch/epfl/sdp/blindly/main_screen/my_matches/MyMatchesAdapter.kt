@@ -28,7 +28,7 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import kotlinx.coroutines.runBlocking
 
 class MyMatchesAdapter(
-    private var my_matches: MutableList<MyMatch>,
+    var my_matches: MutableList<MyMatch>,
     private var viewHolderList: MutableList<ViewHolder>,
     private var context: Context,
     private val listener: OnItemClickListener,

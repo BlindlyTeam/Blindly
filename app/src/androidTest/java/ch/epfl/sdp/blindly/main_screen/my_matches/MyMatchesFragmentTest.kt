@@ -25,14 +25,12 @@ import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.REM
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.REMOVE_USER_WARNING_TITLE
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
 import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
-import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import ch.epfl.sdp.blindly.weather.WeatherActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
