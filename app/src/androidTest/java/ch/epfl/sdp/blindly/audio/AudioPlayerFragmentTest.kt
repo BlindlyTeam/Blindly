@@ -71,7 +71,7 @@ class AudioPlayerFragmentTest {
         }
     }
 
-    @Test
+    /*@Test
     fun clickOnPlay() {
         onView(withId(R.id.play_pause_button)).perform(click())
     }
@@ -80,5 +80,5 @@ class AudioPlayerFragmentTest {
     fun recordFiresRecordignActivity() {
         onView(withId(R.id.record_button)).perform(click())
         intended(hasComponent(RecordingActivity::class.java.name))
-    }
+    }*/
 }

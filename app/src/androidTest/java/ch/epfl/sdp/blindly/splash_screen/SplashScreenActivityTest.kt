@@ -56,6 +56,7 @@ class SplashScreenActivityTest {
         Mockito.`when`(user.isLoggedIn()).thenReturn(true)
         Mockito.`when`(user.handleAuthResult(any(), any(), any()))
             .thenReturn(Intent(ApplicationProvider.getApplicationContext(), MainScreen::class.java))
+        Thread.sleep(500)
         intended(hasComponent(MainScreen::class.java.name))
     }
 
