@@ -152,7 +152,6 @@ class UserViewModel @AssistedInject constructor(
                     }
 
                     override fun onError() {
-                        // Discard
                         Log.e("Blindly", "Can't play a file")
                     }
                 }

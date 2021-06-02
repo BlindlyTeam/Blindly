@@ -180,7 +180,5 @@
     <string name="button_to_remove_a_match">Button to remove a match.</string>
     <string name="user_no_longer_available">This user is no longer available.</string>
     <string name="upload_record_failed">Failed to upload the recording. Try again.</string>
-    <string name="delete_record_error">An error occurred while tryng to delete the record.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_record_error">An error occurred while trying to delete the recording.</string>
 </resources>
