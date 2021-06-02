@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
+import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.profile_setup.MAJORITY_AGE
 import ch.epfl.sdp.blindly.profile_setup.ProfileHouseRules
@@ -25,7 +26,7 @@ import com.google.firebase.ktx.Firebase
 /**
  * Class that contains helpful functions regarding the user.
  */
-class UserHelper {
+class UserHelper(private val userRepository: UserRepository) {
     companion object {
         const val RC_SIGN_IN = 123
         private const val TAG = "UserHelper"
@@ -80,6 +81,8 @@ class UserHelper {
 
     }
 
+    fun getProfileSetupIntent(activity: Activity) = Intent(activity, ProfileHouseRules::class.java)
+
     /**
      * Handle the authentication result in onActivityResult
      *
@@ -92,14 +95,13 @@ class UserHelper {
      *
      * @return Null if sign-in failed, an intent to be launched otherwise
      */
-    fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Intent? {
+    suspend fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Intent? {
         val response = IdpResponse.fromResultIntent(data)
 
         if (resultCode == Activity.RESULT_OK) {
             // Successfully signed in
-            val user = FirebaseAuth.getInstance().currentUser
-            if (isNewUser(user!!)) {
-                return Intent(activity, ProfileHouseRules::class.java)
+            if (isNewUser()) {
+                return getProfileSetupIntent(activity)
             }
             return Intent(activity, MainScreen::class.java)
         } else {
@@ -128,10 +130,12 @@ class UserHelper {
      *
      * @return true if the user just created an account, false otherwise
      */
-    private fun isNewUser(user: FirebaseUser): Boolean {
-        val metadata = user.metadata
-        Log.d(TAG, "creation = ${metadata?.creationTimestamp}, last = ${metadata?.lastSignInTimestamp}")
-        return metadata?.creationTimestamp == metadata?.lastSignInTimestamp
+    suspend fun isNewUser(): Boolean {
+        val user = FirebaseAuth.getInstance().currentUser
+        return if (user == null)
+            true
+        else
+            userRepository.getUser(user.uid) == null
     }
 
     fun delete(activity: Activity): Task<Void> {
