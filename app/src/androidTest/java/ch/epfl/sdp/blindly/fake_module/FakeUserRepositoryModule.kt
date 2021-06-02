@@ -191,23 +191,17 @@ open class FakeUserRepositoryModule {
                 matchId: String
             ) {
                 val user = getUser(userId)
-                if (user != null) {
-                    var updatedLikesList = user.likes as ArrayList<String>?
-                    var updatedDislikesList = user.dislikes as ArrayList<String>?
-                    var updatedMatchesList = user.matches as ArrayList<String>?
+                val updatedLikesList = user.likes as ArrayList<String>?
+                val updatedDislikesList = user.dislikes as ArrayList<String>?
+                val updatedMatchesList = user.matches as ArrayList<String>?
 
-                    updatedLikesList?.remove(matchId)
-                    updatedDislikesList?.add(matchId)
-                    updatedMatchesList?.remove(matchId)
+                updatedLikesList?.remove(matchId)
+                updatedDislikesList?.add(matchId)
+                updatedMatchesList?.remove(matchId)
 
-                    user.uid?.let { updateProfile(it, LIKES, updatedLikesList) }
-                    user.uid?.let { updateProfile(it, DISLIKES, updatedDislikesList) }
-                    user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
-                }
-                if (updatedList != null) {
-                    updatedList = updatedList - listOf(matchId)
-                }
-                user.uid?.let { updateProfile(it, field, updatedList) }
+                user.uid?.let { updateProfile(it, LIKES, updatedLikesList) }
+                user.uid?.let { updateProfile(it, DISLIKES, updatedDislikesList) }
+                user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
             }
 
             override suspend fun removeFieldFromUser(field: String, uid: String) {
