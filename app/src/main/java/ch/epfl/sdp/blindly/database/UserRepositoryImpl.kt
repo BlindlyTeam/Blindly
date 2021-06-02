@@ -181,24 +181,49 @@ class UserRepositoryImpl constructor(
 
 
     /**
-     * Removes another liked or matched user from current user.
+     * Removes a matched user from likes and matches and adds it to dislikes.
      *
-     * @param field field to remove a User (either from LIKES or MATCHES)
      * @param userId current user's ID
      * @param matchId matched user's ID
      */
-    override suspend fun removeMatchFromAUser(field: String, userId: String, matchId: String) {
-        var updatedList: ArrayList<String>? = arrayListOf()
+    override suspend fun removeMatchFromCurrentUser(
+        userId: String,
+        matchId: String
+    ) {
         val user = getUser(userId)
         if (user != null) {
-            when (field) {
-                LIKES ->
-                    updatedList = user.likes as ArrayList<String>?
-                MATCHES ->
-                    updatedList = user.matches as ArrayList<String>?
-            }
-            updatedList?.remove(matchId)
-            user.uid?.let { updateProfile(it, field, updatedList) }
+            var updatedLikesList = user.likes as ArrayList<String>?
+            var updatedDislikesList = user.dislikes as ArrayList<String>?
+            var updatedMatchesList = user.matches as ArrayList<String>?
+
+            updatedLikesList?.remove(matchId)
+            updatedDislikesList?.add(matchId)
+            updatedMatchesList?.remove(matchId)
+
+            user.uid?.let { updateProfile(it, LIKES, updatedLikesList) }
+            user.uid?.let { updateProfile(it, DISLIKES, updatedDislikesList) }
+            user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
+        }
+    }
+
+
+    /**
+     * Removes the current user from removed user's matches
+     * It's kept in likes of remote user so that they don't reappear
+     * in their cards
+     *
+     * @param currentUserId
+     * @param removedUserId
+     */
+    override suspend fun removeCurrentUserFromRemovedMatch(
+        currentUserId: String,
+        removedUserId: String
+    ) {
+        val user = getUser(removedUserId)
+        if (user != null) {
+            var updatedMatchesList = user.matches as ArrayList<String>?
+            updatedMatchesList?.remove(currentUserId)
+            user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
         }
     }
 
