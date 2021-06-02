@@ -238,6 +238,42 @@ class MyMatchesFragmentTest {
     }
 
     @Test
+    fun doubleClickOnItemExpandsAndCollapsesLayout() {
+        onView(withId(R.id.my_matches_recyler_view)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                RecyclerViewChildActions.actionOnChild(
+                    click(),
+                    R.id.userNameLayout
+                )
+            )
+        )
+        onView(withId(R.id.my_matches_recyler_view)).check(
+            matches(
+                RecyclerViewChildActions.childOfViewAtPositionWithMatcher(
+                    R.id.chatProfileMapButtonsLayout, 0, isDisplayed()
+                )
+            )
+        )
+        onView(withId(R.id.my_matches_recyler_view)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                RecyclerViewChildActions.actionOnChild(
+                    click(),
+                    R.id.userNameLayout
+                )
+            )
+        )
+        onView(withId(R.id.my_matches_recyler_view)).check(
+            matches(
+                RecyclerViewChildActions.childOfViewAtPositionWithMatcher(
+                    R.id.chatProfileMapButtonsLayout, 0, not(isDisplayed())
+                )
+            )
+        )
+    }
+
+    @Test
     fun deletedUserNameIsGrey() {
         onView(withId(R.id.my_matches_recyler_view)).check(
             matches(
