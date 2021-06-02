@@ -186,7 +186,7 @@ class UserRepositoryImpl constructor(
      * @param userId current user's ID
      * @param matchId matched user's ID
      */
-    override suspend fun removeMatchFromRemovingUser(
+    override suspend fun removeMatchFromCurrentUser(
         userId: String,
         matchId: String
     ) {
@@ -209,20 +209,20 @@ class UserRepositoryImpl constructor(
 
     /**
      * Removes the current user from removed user's matches
-     * It's kept in likes of remote user so that they wouldn't reappear
+     * It's kept in likes of remote user so that they don't reappear
      * in their cards
      *
-     * @param removingUserId
+     * @param currentUserId
      * @param removedUserId
      */
     override suspend fun removeCurrentUserFromRemovedMatch(
-        removingUserId: String,
+        currentUserId: String,
         removedUserId: String
     ) {
         val user = getUser(removedUserId)
         if (user != null) {
             var updatedMatchesList = user.matches as ArrayList<String>?
-            updatedMatchesList?.remove(removingUserId)
+            updatedMatchesList?.remove(currentUserId)
             user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
         }
     }

@@ -177,7 +177,7 @@ open class FakeUserRepositoryModule {
                 }
             }
 
-            override suspend fun removeMatchFromRemovingUser(
+            override suspend fun removeMatchFromCurrentUser(
                 userId: String,
                 matchId: String
             ) {

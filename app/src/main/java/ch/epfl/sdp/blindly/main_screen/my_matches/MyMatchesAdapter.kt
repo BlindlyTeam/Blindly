@@ -175,7 +175,7 @@ class MyMatchesAdapter(
                 runBlocking {
                     userHelper.getUserId()
                         ?.let { it1 ->
-                            userRepository.removeMatchFromRemovingUser(
+                            userRepository.removeMatchFromCurrentUser(
                                 it1,
                                 my_matches[position].uid
                             )

@@ -52,7 +52,7 @@ interface UserRepository {
      * @param userId current user's ID
      * @param matchId matched user's ID
      */
-    suspend fun removeMatchFromRemovingUser(userId: String, matchId: String)
+    suspend fun removeMatchFromCurrentUser(userId: String, matchId: String)
 
     /**
      * Removes the current user from removed user's matches
