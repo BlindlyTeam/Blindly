@@ -23,7 +23,6 @@ const val LIKES = "likes"
 const val DISLIKES = "dislikes"
 const val RECORDING_PATH = "recordingPath"
 const val AGE_RANGE = "ageRange"
-const val REPORTING_USERS = "reportingUsers"
 const val DELETED = "deleted"
 
 /**
@@ -45,8 +44,7 @@ data class User private constructor(
     var dislikes: List<String>?,
     var recordingPath: String?,
     var ageRange: List<Int>?,
-    var deleted: Boolean,
-    var reportingUsers: List<String>?
+    var deleted: Boolean
 ) {
 
     /**
@@ -247,8 +245,7 @@ data class User private constructor(
                 dislikes,
                 recordingPath,
                 ageRange,
-                false,
-                listOf()
+                false
             )
         }
     }
@@ -278,7 +275,6 @@ data class User private constructor(
                 val ageRange = get(AGE_RANGE) as? List<Long>
                 val recordingPath = getString(RECORDING_PATH)!!
                 val deleted = getField<Boolean>(DELETED)!!
-                val reportingUsers = get(REPORTING_USERS) as? List<String>
 
                 return User(
                     uid,
@@ -298,8 +294,7 @@ data class User private constructor(
                         ageRange!![0].toInt(),
                         ageRange[1].toInt()
                     ), //Numbers on Firestore are Long, so we need to cast back to Int
-                    deleted,
-                    reportingUsers
+                    deleted
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile for id $id", e)
@@ -392,10 +387,6 @@ data class User private constructor(
                 AGE_RANGE -> {
                     assertIsAgeRange(newValue)
                     user.ageRange = newValue as List<Int>
-                }
-                REPORTING_USERS -> {
-                    assertIsListOfString(newValue)
-                    user.reportingUsers = newValue as List<String>
                 }
                 DELETED -> {
                     assertIsBoolean(newValue)
