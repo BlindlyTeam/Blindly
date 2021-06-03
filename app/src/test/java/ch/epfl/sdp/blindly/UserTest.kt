@@ -2,10 +2,15 @@ package ch.epfl.sdp.blindly
 
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.createLocationTableEPFL
 import ch.epfl.sdp.blindly.user.*
+import ch.epfl.sdp.blindly.user.User.Companion.toUser
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.getField
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.nullValue
+import org.hamcrest.Matchers.*
+import org.hamcrest.core.Is
 import org.junit.Test
+import org.mockito.Mockito
+import org.mockito.kotlin.notNull
 
 class UserTest {
     companion object {
@@ -30,13 +35,14 @@ class UserTest {
         private val matches: List<String> = listOf("a1", "b2")
         private val matches2: List<String> = listOf("A3Verg34vrE3")
         private val likes: List<String> = listOf("c3", "d4")
-        private val dislikes : List<String> = listOf("c1", "c2")
+        private val dislikes: List<String> = listOf("c1", "c2")
         private val emptyLikes: List<String> = listOf()
         private val emptyDislikes: List<String> = listOf()
         private val emptyMatches: List<String> = listOf()
         private val likes2: List<String> = listOf("efh14fjnaA")
         private val ageRange = listOf(30, 40)
         private val ageRange2 = listOf(20, 60)
+        private const val deleted = false
         private const val recordingPath = "/user/Presentation.amr"
         private const val recordingPath2 = "/user/PresentationNew.amr"
 
@@ -46,6 +52,7 @@ class UserTest {
         private val WRONG_INPUT_FOR_LIST_INT = listOf("Int")
         private val WRONG_INPUT_FOR_LIST_DOUBLE = listOf("Int")
         private val WRONG_INPUT_SIZE = listOf(45.6, 4, 5, 6)
+        private val WRONG_INT_INPUT_SIZE = listOf(1, 2, 3)
         private val WRONG_INPUT_FOR_INT = listOf("Int")
         private const val WRONG_USERNAME_FIELD = "name"
         private val WRONG_INPUT_FOR_BOOLEAN = listOf(true)
@@ -131,7 +138,7 @@ class UserTest {
 
     @Test
     fun setEmptyDislikesListIsCorrect() {
-        val userBuilder = User.Builder().setLikes(emptyDislikes)
+        val userBuilder = User.Builder().setDislikes(emptyDislikes)
         assertThat(userBuilder.dislikes, equalTo(emptyDislikes))
     }
 
@@ -412,7 +419,7 @@ class UserTest {
     @Test(expected = IllegalArgumentException::class)
     fun updateAgeRangeWithListWithSizeGreaterThanTwoThrowsException() {
         val user = buildUser()
-        User.updateUser(user, AGE_RANGE, WRONG_INPUT_SIZE)
+        User.updateUser(user, AGE_RANGE, WRONG_INT_INPUT_SIZE)
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -761,9 +768,80 @@ class UserTest {
             .setPassions(passions)
             .setRadius(radius)
             .setMatches(matches)
+            .setDislikes(dislikes)
             .setLikes(likes)
             .setAgeRange(ageRange)
             .setRecordingPath(recordingPath)
             .build()
+    }
+
+    @Test
+    fun builderConstructorIsCorrect() {
+        val user1 = User.Builder(
+            uid = uid,
+            username = username,
+            location = location,
+            birthday = birthday,
+            gender = gender,
+            sexualOrientations = sexualOrientations,
+            showMe = showMe,
+            passions = passions,
+            radius = radius,
+            matches = matches,
+            likes = likes,
+            dislikes = dislikes,
+            recordingPath = recordingPath,
+            ageRange = ageRange
+        )
+            .build()
+        val user2 = buildUser()
+        assertThat(user1.hashCode() == user2.hashCode(), equalTo(true))
+    }
+
+    @Test
+    fun testDocumentSnapshotTransform() {
+        val ds = Mockito.mock(DocumentSnapshot::class.java)
+        Mockito.`when`(ds.id).thenReturn(uid)
+        Mockito.`when`(ds.getString(USERNAME)).thenReturn(username)
+        Mockito.`when`(ds.get(LOCATION)).thenReturn(location)
+        Mockito.`when`(ds.getString(BIRTHDAY)).thenReturn(birthday)
+        Mockito.`when`(ds.getString(GENDER)).thenReturn(gender)
+        Mockito.`when`(ds.get(SEXUAL_ORIENTATIONS)).thenReturn(sexualOrientations)
+        Mockito.`when`(ds.getString(SHOW_ME)).thenReturn(showMe)
+        Mockito.`when`(ds.get(PASSIONS)).thenReturn(passions)
+        Mockito.`when`(ds.getField<Int>(RADIUS)).thenReturn(radius)
+        Mockito.`when`(ds.get(MATCHES)).thenReturn(matches)
+        Mockito.`when`(ds.get(LIKES)).thenReturn(likes)
+        Mockito.`when`(ds.get(AGE_RANGE)).thenReturn(ageRange)
+        Mockito.`when`(ds.getString(RECORDING_PATH)).thenReturn(recordingPath)
+        Mockito.`when`(ds.getField<Boolean>(DELETED)).thenReturn(deleted)
+        Mockito.`when`(ds.get(REPORTING_USERS)).thenReturn(reportingUsers)
+
+
+        val user = ds.toUser()
+        assertThat(user, Is(notNullValue()))
+        user!!
+        assertThat(user.username, equalTo(username))
+        assertThat(user.location, equalTo(location))
+        assertThat(user.birthday, equalTo(birthday))
+        assertThat(user.gender, equalTo(gender))
+        assertThat(user.sexualOrientations, equalTo(sexualOrientations))
+        assertThat(user.showMe, equalTo(showMe))
+        assertThat(user.passions, equalTo(passions))
+        assertThat(user.radius, equalTo(radius))
+        assertThat(user.matches, equalTo(matches))
+        assertThat(user.likes, equalTo(likes))
+        assertThat(user.ageRange, equalTo(ageRange))
+        assertThat(user.recordingPath, equalTo(recordingPath))
+        assertThat(user.deleted, equalTo(deleted))
+        assertThat(user.reportingUsers, equalTo(reportingUsers))
+    }
+
+    @Test
+    fun testDocumentSnapshotTransformFail() {
+        val ds = Mockito.mock(DocumentSnapshot::class.java)
+        Mockito.`when`(ds.id).thenReturn(uid)
+
+        assertThat(ds.toUser(), `is`(nullValue()))
     }
 }
