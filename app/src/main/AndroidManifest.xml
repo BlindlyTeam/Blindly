@@ -61,7 +61,9 @@
             android:name=".main_screen.MainScreen"
             android:theme="@style/Theme.Blindly.NoActionBar" />
         <activity android:name=".location.permissions.LocationPermissionActivity" />
-        <activity android:name=".SplashScreen">
+        <activity
+            android:name=".SplashScreen"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -13,6 +13,10 @@ import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.database.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 const val MAIN_SCREEN_DELAY: Long = 2500
@@ -45,23 +49,33 @@ class SplashScreen : AppCompatActivity() {
         val interpolator = BounceInterpolator(0.3, 20.0)
         beating.interpolator = interpolator
 
+        val isNewUser = GlobalScope.async { user.isNewUser() }
         heart.startAnimation(beating)
         Handler(Looper.getMainLooper()).postDelayed({
-            if (user.isLoggedIn()) {
-                val intent = Intent(this, MainScreen::class.java)
-                startActivity(intent)
-            } else {
-                startActivityForResult(user.getSignInIntent(), UserHelper.RC_SIGN_IN)
+            runBlocking {
+                if (user.isLoggedIn()) {
+                    if (!isNewUser.await()) {
+                        val intent = Intent(this@SplashScreen, MainScreen::class.java)
+                        startActivity(intent)
+                    } else {
+                        // If new user, setup profile page
+                        startActivity(user.getProfileSetupIntent(this@SplashScreen))
+                    }
+                } else {
+                    startActivityForResult(user.getSignInIntent(), UserHelper.RC_SIGN_IN)
+                }
             }
         }, MAIN_SCREEN_DELAY)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val nextIntent = user.handleAuthResult(this, resultCode, data)
-        // Open the rest if the login is successful
-        if (nextIntent != null) {
-            startActivity(nextIntent)
+        runBlocking(Dispatchers.IO) {
+            val nextIntent = user.handleAuthResult(this@SplashScreen, resultCode, data)
+            // Open the rest if the login is successful
+            if (nextIntent != null) {
+                startActivity(nextIntent)
+            }
         }
     }
 }
