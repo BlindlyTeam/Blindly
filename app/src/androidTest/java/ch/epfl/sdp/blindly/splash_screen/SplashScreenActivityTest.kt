@@ -1,19 +1,16 @@
 package ch.epfl.sdp.blindly.splash_screen
 
 import android.app.Activity
-import android.content.IntentFilter
 import android.app.Instrumentation
-import android.app.Instrumentation.ActivityMonitor
-import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import ch.epfl.sdp.blindly.R
@@ -23,16 +20,12 @@ import ch.epfl.sdp.blindly.user.UserHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.fail
-import org.hamcrest.Matchers
-import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.kotlin.any
 import java.io.ByteArrayOutputStream
-import java.time.Clock.system
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -59,7 +52,6 @@ class SplashScreenActivityTest {
         val monitor = instrumentation.addMonitor(filter, null, true)
         intended(anyIntent())
         instrumentation.removeMonitor(monitor)
-
     }
 
     @After
@@ -68,21 +60,12 @@ class SplashScreenActivityTest {
     }
 
     @Test
-    fun splashScreenGoesToMainScreen() {
-        Mockito.`when`(user.isLoggedIn()).thenReturn(true)
-        Mockito.`when`(user.handleAuthResult(any(), any(), any()))
-            .thenReturn(Intent(ApplicationProvider.getApplicationContext(), MainScreen::class.java))
-        Thread.sleep(500)
-        intended(hasComponent(MainScreen::class.java.name))
-    }
-
-    @Test
     fun splashScreenDisplaysSplashscreenDotPNG() {
         activityRule.scenario.onActivity { activity ->
             val imageView: ImageView = activity.findViewById(R.id.splashscreen_heart)
             val resIdImage: Int = R.drawable.splash_screen_foreground
 
-            if (!imageView?.let { isImageEqualToRes(it, resIdImage) }!!) {
+            if (!isImageEqualToRes(imageView, resIdImage)) {
                 fail("Expected to find splashscreen.png for splash_screen")
             }
         }
