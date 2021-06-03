@@ -34,9 +34,11 @@ data class UserEntity(
     val passions: List<String>?,
     val radius: Int?,
     val matches: List<String>?,
+    val dislikes: List<String>?,
     val likes: List<String>?,
     val recordingPath: String?,
-    val ageRange: List<Int>?
+    val ageRange: List<Int>?,
+    val deleted: Boolean
 ) {
 
     constructor(uid: String, user: User) : this(
@@ -50,8 +52,10 @@ data class UserEntity(
         passions = user.passions,
         radius = user.radius,
         matches = user.matches,
+        dislikes = user.dislikes,
         likes = user.likes,
         recordingPath = user.recordingPath,
-        ageRange = user.ageRange
+        ageRange = user.ageRange,
+        deleted = user.deleted
     )
 }

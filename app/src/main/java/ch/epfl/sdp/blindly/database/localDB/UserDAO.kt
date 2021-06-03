@@ -69,7 +69,7 @@ interface UserDAO {
         return if (ue === null) null else User.Builder().setUid(id).setUsername(ue.username!!)
             .setLocation(ue.location!!).setBirthday(ue.birthday!!).setGender(ue.gender!!)
             .setSexualOrientations(ue.sexualOrientations!!).setShowMe(ue.showMe!!)
-            .setPassions(ue.passions!!).setRadius(ue.radius!!).setMatches(ue.matches!!)
+            .setPassions(ue.passions!!).setRadius(ue.radius!!).setMatches(ue.matches!!).setDislikes(ue.dislikes!!)
             .setLikes(ue.likes!!).setRecordingPath(ue.recordingPath!!).setAgeRange(ue.ageRange!!)
             .build()
     }
@@ -207,4 +207,13 @@ interface UserDAO {
         }
         return listOf(MIN_AGE, MAX_AGE)
     }
+
+    /**
+     * Get the dislikes from a given uid
+     *
+     * @param id the uid to find the user
+     * @return the user's dislikes list
+     */
+    @Query("SELECT dislikes FROM userentity WHERE uid = :id")
+    fun getUserDislikes(id: String): List<String>
 }
