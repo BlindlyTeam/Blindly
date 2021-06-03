@@ -22,8 +22,6 @@ import ch.epfl.sdp.blindly.main_screen.ANSWER_YES
 import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.ChatActivity
 import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActivity
-import ch.epfl.sdp.blindly.user.LIKES
-import ch.epfl.sdp.blindly.user.MATCHES
 import ch.epfl.sdp.blindly.user.UserHelper
 import kotlinx.coroutines.runBlocking
 
@@ -177,20 +175,16 @@ class MyMatchesAdapter(
                 runBlocking {
                     userHelper.getUserId()
                         ?.let { it1 ->
-                            userRepository.removeMatchFromAUser(
-                                LIKES,
+                            userRepository.removeMatchFromCurrentUser(
                                 it1,
                                 my_matches[position].uid
                             )
                         }
-                    userHelper.getUserId()
-                        ?.let { it1 ->
-                            userRepository.removeMatchFromAUser(
-                                MATCHES,
-                                it1,
-                                my_matches[position].uid
-                            )
-                        }
+                    userHelper.getUserId()?.let { it1 ->
+                        userRepository.removeCurrentUserFromRemovedMatch(
+                            it1, my_matches[position].uid
+                        )
+                    }
                 }
             }
             builder.setNegativeButton(ANSWER_NO) { dialog, _ -> dialog.dismiss() }
