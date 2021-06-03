@@ -29,6 +29,7 @@ class LocalDBTest {
         .setAgeRange(listOf(20, 30))
         .setRadius(50)
         .setLikes(listOf("bob"))
+        .setDislikes(listOf("charlie"))
         .setMatches(listOf("bob"))
         .setRecordingPath("alice/path")
         .build()
@@ -45,6 +46,7 @@ class LocalDBTest {
         .setAgeRange(listOf(20, 30))
         .setRadius(50)
         .setLikes(listOf("Mike"))
+        .setDislikes(listOf("charlie"))
         .setMatches(listOf("Mike"))
         .setRecordingPath("bob/path")
         .build()
@@ -161,6 +163,15 @@ class LocalDBTest {
         userDAO.insertUser(a)
         val recordingPath = userDAO.getUserRecordingPath("alice")
         assertThat(recordingPath, equalTo("alice/path"))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun putAndRetrieveUsersDislikes() {
+        val a = UserEntity("alice", alice)
+        userDAO.insertUser(a)
+        val dislikes = userDAO.getUserDislikes("alice")
+        assertThat(dislikes, equalTo(listOf("charlie")))
     }
 
     @Test
