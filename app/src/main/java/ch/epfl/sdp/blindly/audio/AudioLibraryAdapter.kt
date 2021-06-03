@@ -10,9 +10,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
+import ch.epfl.sdp.blindly.main_screen.MainScreen
+import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_USER
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import ch.epfl.sdp.blindly.user.User
@@ -38,7 +41,7 @@ class AudioLibraryAdapter(
     private val listener: OnItemClickListener,
     private var userBuilder: User.Builder?,
     private val userHelper: UserHelper,
-    private val recordings: Recordings,
+    private val recordings: FirebaseRecordings,
     private val activity: RecordingActivity,
 ) : RecyclerView.Adapter<AudioLibraryAdapter.ViewHolder>() {
     var blindlyMediaPlayer = BlindlyMediaPlayer()
@@ -125,7 +128,7 @@ class AudioLibraryAdapter(
 
         blindlyMediaPlayer.bindSeekBarNavigation(
             playBar, playTimer, remainingTimer, playPauseButton,
-            movePlayBarThread, recordList[position]
+            movePlayBarThread, recordList[position].filePath
         )
 
         viewHolder.recordName.text = recordList[position].name
@@ -140,7 +143,7 @@ class AudioLibraryAdapter(
             toggleLayout(notIsExpanded, viewHolder.expandableLayout)
             recordList[position].isExpanded = notIsExpanded
             blindlyMediaPlayer.resetRecordPlayer(
-                recordList[position],
+                recordList[position].filePath,
                 playTimer,
                 remainingTimer,
                 playPauseButton,
@@ -156,7 +159,7 @@ class AudioLibraryAdapter(
          */
         viewHolder.playPauseButton.setOnClickListener {
             blindlyMediaPlayer.handlePlayBarClick(
-                recordList[position],
+                recordList[position].filePath,
                 playTimer,
                 remainingTimer,
                 playPauseButton,
@@ -211,12 +214,12 @@ class AudioLibraryAdapter(
         recordingPath = "Recordings/$userId-$PRESENTATION_AUDIO_NAME"
         userBuilder?.setRecordingPath(recordingPath)
         recordings.putFile(recordingPath, newFile, object :
-            Recordings.RecordingOperationCallback() {
+            FirebaseRecordings.RecordingOperationCallback() {
             override fun onSuccess() {
                 if (userBuilder != null)
                     startProfileFinished()
                 else
-                    startProfilePage(activity)
+                    startProfilePage()
             }
 
             override fun onError() {
@@ -229,18 +232,9 @@ class AudioLibraryAdapter(
                 if (userBuilder != null)
                     startProfileFinished()
                 else
-                    startProfilePage(activity)
+                    startProfilePage()
             }
         })
-    }
-
-    private fun saveRecordingsError() {
-        Toast.makeText(context, context.getString(R.string.upload_record_failed), Toast.LENGTH_LONG)
-            .show()
-        if (userBuilder != null)
-            startProfileFinished()
-        else
-            startProfilePage(activity)
     }
 
     private fun startProfileFinished() {
@@ -256,7 +250,7 @@ class AudioLibraryAdapter(
         startActivity(context, intent, null)
     }
 
-    private fun startProfilePage(activity: RecordingActivity) {
+    private fun startProfilePage() {
         activity.onBackPressed()
     }
 

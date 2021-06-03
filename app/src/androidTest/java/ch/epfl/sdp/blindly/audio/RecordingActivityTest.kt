@@ -34,7 +34,7 @@ import org.junit.Rule
 import org.junit.Test
 import java.lang.reflect.Method
 
-private const val AUDIO_FILE_ONE = "Audio file 1"
+private const val AUDIO_FILE_ONE = "Recording 1"
 private const val TEST_MAXIMUM_AUDIO_DURATION = 13000
 private const val FIVE_SECONDS = 5000L
 private const val TWO_SECONDS = 2000L

@@ -1,12 +1,12 @@
 package ch.epfl.sdp.blindly.audio
 
-import android.net.Uri
-import ch.epfl.sdp.blindly.audio.Recordings.*
-import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
-class FirebaseRecordings(private val storage: FirebaseStorage) : Recordings {
-    private fun getPathRef(recordingPath: String) = storage.reference.child(recordingPath)
+interface FirebaseRecordings {
+    abstract class RecordingOperationCallback() {
+        abstract fun onSuccess();
+        abstract fun onError()
+    }
 
     /**
      * Put [file] with key [recordingPath] in storage
@@ -15,20 +15,7 @@ class FirebaseRecordings(private val storage: FirebaseStorage) : Recordings {
      * @param file the file to store
      * @param callback callback fired on completion
      */
-    override fun putFile(
-        recordingPath: String,
-        file: File,
-        callback: RecordingOperationCallback
-    ) {
-        getPathRef(recordingPath).putFile(Uri.fromFile(file)).addOnCompleteListener {
-            if (it.isSuccessful)
-                callback.onSuccess()
-            else
-                callback.onError()
-        }.addOnFailureListener {
-            callback.onError()
-        }.addOnCanceledListener { callback.onError() }
-    }
+    fun putFile(recordingPath: String, file: File, callback: RecordingOperationCallback)
 
     /**
      * Retrieve a file with key [recordingPath] to [file]
@@ -37,33 +24,12 @@ class FirebaseRecordings(private val storage: FirebaseStorage) : Recordings {
      * @param file the destination file
      * @param callback callback fired on completion
      */
-    override fun getFile(
-        recordingPath: String,
-        file: File,
-        callback: RecordingOperationCallback
-    ) {
-        getPathRef(recordingPath).getFile(file).addOnCompleteListener {
-            if (it.isSuccessful)
-                callback.onSuccess()
-            else
-                callback.onError()
-        }.addOnFailureListener {
-            callback.onError()
-        }.addOnCanceledListener { callback.onError() }
-    }
+    fun getFile(recordingPath: String, file: File, callback: RecordingOperationCallback)
 
-    override fun deleteFile(
-        recordingPath: String,
-        callback: RecordingOperationCallback
-    ) {
-        getPathRef(recordingPath).delete().addOnCompleteListener {
-            if (it.isSuccessful)
-                callback.onSuccess()
-            else
-                callback.onError()
-        }.addOnFailureListener {
-            callback.onError()
-        }.addOnCanceledListener { callback.onError() }
-    }
+    fun deleteFile(recordingPath: String, callback: RecordingOperationCallback)
 
+    companion object {
+        private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.amr"
+        fun getPresentationAudionName(userId: String) = "Recordings/$userId-${PRESENTATION_AUDIO_NAME}"
+    }
 }

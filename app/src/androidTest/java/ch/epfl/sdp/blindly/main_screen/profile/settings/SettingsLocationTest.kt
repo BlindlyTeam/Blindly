@@ -26,8 +26,6 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-private const val TEST_LOCATION = "Lausanne, Switzerland"
-
 @HiltAndroidTest
 class SettingsLocationTest {
 
