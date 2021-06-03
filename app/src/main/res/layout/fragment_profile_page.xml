@@ -24,7 +24,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/play_audio_profile_button"
+            android:id="@+id/play_audio_profile_fragment_button"
             style="@style/Widget.Theme.Blindly.Record.Audio.Button"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -37,7 +37,7 @@
             android:id="@+id/play_audio_profile_text"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/play_audio_profile_button"
+            android:layout_below="@+id/play_audio_profile_fragment_button"
             android:layout_centerHorizontal="true"
             android:text="@string/play_audio_profile"
             android:textAlignment="center"
@@ -49,8 +49,8 @@
             style="@style/Widget.Theme.Blindly.Edit.Info.Button"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignTop="@+id/play_audio_profile_button"
-            android:layout_toStartOf="@+id/play_audio_profile_button" />
+            android:layout_alignTop="@+id/play_audio_profile_fragment_button"
+            android:layout_toStartOf="@+id/play_audio_profile_fragment_button" />
 
         <TextView
             android:id="@+id/edit_profile_info_text"
@@ -68,8 +68,8 @@
             style="@style/Widget.Theme.Blindly.Settings.Button"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignTop="@+id/play_audio_profile_button"
-            android:layout_toEndOf="@+id/play_audio_profile_button" />
+            android:layout_alignTop="@+id/play_audio_profile_fragment_button"
+            android:layout_toEndOf="@+id/play_audio_profile_fragment_button" />
 
         <TextView
             android:id="@+id/settings_profile_text"

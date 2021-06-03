@@ -146,6 +146,8 @@ class CardStackAdapter(
                         view.findViewById<ImageView>(R.id.match_play_pause_button)
                             .setImageResource(R.drawable.play_button_fab)
                     }
+
+
                     //Enable the button clicks again
                     view.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable =
                         true

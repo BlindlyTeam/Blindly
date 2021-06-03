@@ -41,13 +41,16 @@ open class FakeUserRepositoryModule {
     companion object {
         const val PRIMARY_EMAIL = "test@example.com"
         const val SECOND_EMAIL = "test2@example.com"
-        const val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
-        const val TEST_UID2 = "fdJofwEJWflhwjVREs324cdEWals"
-        const val TEST_UID3 = "adnDEO28fWLCEJWo234fwCWLjlw"
-
         private const val USER_COLLECTION: String = "usersMeta"
         private const val MULHOUSE_LAT = 47.749
         private const val MULHOUSE_LON = 7.335
+
+        const val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
+        const val TEST_UID2 = "fdJofwEJWflhwjVREs324cdEWals"
+        const val TEST_UID3 = "adnDEO28fWLCEJWo234fwCWLjlw"
+        const val TEST_UID4 = "gaCDWOIQFJf2439dsafnqkq93"
+        const val TEST_UID5 = "DEKvqr234jhfqEDIUhfqifw53jf"
+        const val TEST_UID6 = "Fql4bc19cCQWHC214kfjq1fl"
 
         val fakeUser = User.Builder()
             .setUid(TEST_UID)
@@ -59,8 +62,8 @@ open class FakeUserRepositoryModule {
             .setShowMe("Everyone")
             .setPassions(listOf("Coffee", "Tea"))
             .setRadius(150)
-            .setMatches(listOf(TEST_UID2))
-            .setLikes(listOf(TEST_UID2))
+            .setMatches(listOf(TEST_UID2, TEST_UID3, TEST_UID4))
+            .setLikes(listOf(TEST_UID2, TEST_UID3, TEST_UID4))
             .setRecordingPath("Recordings/a1-PresentationAudio.amr")
             .setAgeRange(listOf(18, 50))
             .build()
@@ -107,9 +110,25 @@ open class FakeUserRepositoryModule {
             .setShowMe("Everyone")
             .setPassions(listOf("Coffee", "Tea", "Movies", "Brunch"))
             .setRadius(50)
-            .setMatches(listOf("a1", "a2", "b5"))
-            .setLikes(listOf("a1", "a2", "b5", "d4"))
+            .setMatches(listOf(TEST_UID))
+            .setLikes(listOf(TEST_UID))
             .setRecordingPath("Recordings/a3-PresentationAudio.amr")
+            .setAgeRange(listOf(18, 50))
+            .build()
+
+        val fakeUser4 = User.Builder()
+            .setUid(TEST_UID4)
+            .setUsername("Eve")
+            .setLocation(AndroidLocationService.createLocationTableEPFL())
+            .setBirthday("04.04.1994")
+            .setGender("Woman")
+            .setSexualOrientations(listOf("Straight", "Bisexual"))
+            .setShowMe("Everyone")
+            .setPassions(listOf("Coffee", "Tea", "Movies", "Brunch"))
+            .setRadius(50)
+            .setMatches(listOf(TEST_UID))
+            .setLikes(listOf(TEST_UID))
+            .setRecordingPath("Recordings/a4-PresentationAudio.amr")
             .setAgeRange(listOf(18, 50))
             .build()
     }
@@ -152,21 +171,17 @@ open class FakeUserRepositoryModule {
     @Singleton
     @Provides
     open fun provideUserRepository(): UserRepository {
-        val userRepository = mock(UserRepository::class.java)
-
-        userRepository.stub {
-            onBlocking { userRepository.getUser(TEST_UID) }.doReturn(fakeUser)
-            onBlocking { userRepository.refreshUser(TEST_UID) }.doReturn(fakeUser)
-            onBlocking { userRepository.getUser(TEST_UID2) }.doReturn(fakeUser2)
-            onBlocking { userRepository.refreshUser(TEST_UID2) }.doReturn(fakeUser2)
-            onBlocking { userRepository.getUser(TEST_UID3) }.doReturn(fakeUser3)
-            onBlocking { userRepository.refreshUser(TEST_UID3) }.doReturn(fakeUser3)
-        }
-
         return (Mockito.spy(object : UserRepository {
-            val db = HashMap<String, User>()
+            val db = hashMapOf(
+                TEST_UID to fakeUser,
+                TEST_UID2 to fakeUser2,
+                TEST_UID3 to fakeUser3,
+                TEST_UID4 to fakeUser4,
+                /*TEST_UID5 to fakeUser5,
+                TEST_UID6 to fakeUser6*/
+            )
 
-            override suspend fun getUser(uid: String): User? {
+            override suspend fun getUser(uid: String): User {
                 return db.getOrDefault(uid, fakeUser)
             }
 
@@ -175,11 +190,9 @@ open class FakeUserRepositoryModule {
                 removedUserId: String
             ) {
                 val user = getUser(removedUserId)
-                if (user != null) {
-                    var updatedMatchesList = user.matches as ArrayList<String>?
-                    updatedMatchesList?.remove(removingUserId)
-                    user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
-                }
+                val updatedMatchesList = user.matches?.toMutableList()
+                updatedMatchesList?.remove(removingUserId)
+                user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
             }
 
             override suspend fun removeMatchFromCurrentUser(
@@ -187,25 +200,23 @@ open class FakeUserRepositoryModule {
                 matchId: String
             ) {
                 val user = getUser(userId)
-                if (user != null) {
-                    var updatedLikesList = user.likes as ArrayList<String>?
-                    var updatedDislikesList = user.dislikes as ArrayList<String>?
-                    var updatedMatchesList = user.matches as ArrayList<String>?
+                val updatedLikesList = user.likes?.toMutableList()
+                val updatedDislikesList = user.dislikes?.toMutableList()
+                val updatedMatchesList = user.matches?.toMutableList()
 
-                    updatedLikesList?.remove(matchId)
-                    updatedDislikesList?.add(matchId)
-                    updatedMatchesList?.remove(matchId)
+                updatedLikesList?.remove(matchId)
+                updatedDislikesList?.add(matchId)
+                updatedMatchesList?.remove(matchId)
 
-                    user.uid?.let { updateProfile(it, LIKES, updatedLikesList) }
-                    user.uid?.let { updateProfile(it, DISLIKES, updatedDislikesList) }
-                    user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
-                }
+                user.uid?.let { updateProfile(it, LIKES, updatedLikesList) }
+                user.uid?.let { updateProfile(it, DISLIKES, updatedDislikesList) }
+                user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
             }
 
             override suspend fun removeFieldFromUser(field: String, uid: String) {
                 if (field != MATCHES && field != LIKES)
                     throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
-                var updatedList: ArrayList<String>? = null
+                var updatedList: MutableList<String>? = null
                 var users = db.values.toList()
                 users = if (field == MATCHES)
                     users.filter { user -> user.matches!!.contains(uid) }
@@ -214,9 +225,9 @@ open class FakeUserRepositoryModule {
                 users.forEach { user ->
                     when (field) {
                         LIKES ->
-                            updatedList = user.likes as ArrayList<String>?
+                            updatedList = user.likes?.toMutableList()
                         MATCHES ->
-                            updatedList = user.matches as ArrayList<String>?
+                            updatedList = user.matches?.toMutableList()
                     }
                     updatedList?.remove(uid)
                     user.uid?.let { updateProfile(it, field, updatedList) }
@@ -234,12 +245,12 @@ open class FakeUserRepositoryModule {
                 return BlindlyLatLng(user.location?.get(0), user.location?.get(1))
             }
 
-            override suspend fun refreshUser(uid: String): User? {
+            override suspend fun refreshUser(uid: String): User {
                 return db.getOrDefault(uid, fakeUser)
             }
 
             override suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
-                val updatedUser = updateUser(getUser(uid)!!.copy(), field, newValue)
+                val updatedUser = updateUser(getUser(uid).copy(), field, newValue)
                 db[uid] = updatedUser
             }
 
@@ -255,14 +266,25 @@ open class FakeUserRepositoryModule {
                 val myMatches: ArrayList<MyMatch> = arrayListOf()
                 viewLifecycleOwner.lifecycleScope.launch {
                     for (uid in fakeUser.matches!!) {
-                        myMatches.add(
-                            MyMatch(
-                                getUser(uid)?.username!!,
-                                uid,
-                                false,
-                                false
+                        if (uid == fakeUser4.uid) {
+                            myMatches.add(
+                                MyMatch(
+                                    getUser(uid).username!!,
+                                    uid,
+                                    false,
+                                    true
+                                )
                             )
-                        )
+                        } else {
+                            myMatches.add(
+                                MyMatch(
+                                    getUser(uid).username!!,
+                                    uid,
+                                    false,
+                                    false
+                                )
+                            )
+                        }
                     }
                     setupAdapter(myMatches)
                 }
@@ -296,7 +318,6 @@ open class FakeUserRepositoryModule {
 
         Mockito.`when`(user.logout(any())).thenReturn(successfulTask)
         Mockito.`when`(user.delete(any())).thenReturn(successfulTask)
-
         return user
     }
 }
