@@ -62,13 +62,13 @@ data class Profile(
      * @param dest the destination where the parcel is writen to
      * @param flags error flag
      */
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeString(uid)
-        dest?.writeString(name)
-        dest?.writeInt(age)
-        dest?.writeString(gender)
-        dest?.writeInt(distance)
-        dest?.writeString(recordingPath)
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(uid)
+        dest.writeString(name)
+        dest.writeInt(age)
+        dest.writeString(gender)
+        dest.writeInt(distance)
+        dest.writeString(recordingPath)
     }
 
     override fun toString(): String {
