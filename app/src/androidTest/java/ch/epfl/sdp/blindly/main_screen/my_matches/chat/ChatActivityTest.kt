@@ -14,7 +14,7 @@ import androidx.test.espresso.util.TreeIterables
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.database.DatabaseHelper
-import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
+import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.TEST_UID
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_USERNAME_LABEL
