@@ -1,6 +1,7 @@
 package ch.epfl.sdp.blindly.main_screen.profile.settings
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
@@ -198,7 +199,7 @@ class SettingsTest {
             matches(withEffectiveVisibility(Visibility.VISIBLE))
         )
         onView(withText(ANSWER_LOG_OUT)).perform(click())
-
+        Thread.sleep(500)
         intended(hasComponent(SplashScreen::class.java.name))
     }
 

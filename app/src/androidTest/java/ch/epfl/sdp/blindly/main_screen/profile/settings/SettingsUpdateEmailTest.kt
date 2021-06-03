@@ -11,9 +11,8 @@ import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.main_screen.profile.settings.SettingsUpdateEmail
+import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.SECOND_EMAIL
 import ch.epfl.sdp.blindly.user.UserHelper
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -67,7 +66,7 @@ class SettingsUpdateEmailTest {
     @Test
     fun emailUpdateWorks() {
         onView(withId(R.id.update_email_field))
-            .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL))
+            .perform(clearText(), typeText(SECOND_EMAIL))
 
         closeSoftKeyboard()
         val buttonUpdate = onView(withId(R.id.update_email_button))
@@ -89,10 +88,10 @@ class SettingsUpdateEmailTest {
         val taskCompletionSource = TaskCompletionSource<Void>()
         Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setException(e) }, 1000L)
         val successfulTask = taskCompletionSource.task
-        Mockito.`when`(user.setEmail(FakeUserHelperModule.SECOND_EMAIL)).thenReturn(successfulTask)
+        Mockito.`when`(user.setEmail(SECOND_EMAIL)).thenReturn(successfulTask)
 
         onView(withId(R.id.update_email_field))
-            .perform(clearText(), typeText(FakeUserHelperModule.SECOND_EMAIL))
+            .perform(clearText(), typeText(SECOND_EMAIL))
 
         closeSoftKeyboard()
         val buttonUpdate = onView(withId(R.id.update_email_button))
