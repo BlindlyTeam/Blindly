@@ -34,7 +34,7 @@ class UserRepositoryImpl constructor(
 ) : UserRepository {
 
     private val userDAO = localDB.UserDAO()
-    private val helper = UserHelper()
+    private val helper = UserHelper(this)
 
     companion object {
         private const val TAG = "UserRepository"
