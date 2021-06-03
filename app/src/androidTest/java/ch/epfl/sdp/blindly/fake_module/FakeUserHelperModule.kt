@@ -25,9 +25,6 @@ open class FakeUserHelperModule {
         const val PRIMARY_EMAIL = "test@example.com"
         const val SECOND_EMAIL = "test2@example.com"
         const val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
-        const val TEST_UID2 = "fdJofwEJWflhwjVREs324cdEWals"
-        const val TEST_UID3 = "adnDEO28fWLCEJWo234fwCWLjlw"
-        const val TEST_UID4 = "gaCDWOIQFJf2439dsafnqkq93"
     }
 
     @Singleton

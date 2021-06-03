@@ -7,9 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
 import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
-import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID2
-import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID3
-import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID4
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
@@ -42,6 +39,11 @@ open class FakeUserRepositoryModule {
         private const val USER_COLLECTION: String = "usersMeta"
         private const val MULHOUSE_LAT = 47.749
         private const val MULHOUSE_LON = 7.335
+        const val TEST_UID2 = "fdJofwEJWflhwjVREs324cdEWals"
+        const val TEST_UID3 = "adnDEO28fWLCEJWo234fwCWLjlw"
+        const val TEST_UID4 = "gaCDWOIQFJf2439dsafnqkq93"
+        const val TEST_UID5 = "DEKvqr234jhfqEDIUhfqifw53jf"
+        const val TEST_UID6 = "Fql4bc19cCQWHC214kfjq1fl"
 
         val fakeUser = User.Builder()
             .setUid(TEST_UID)
@@ -122,6 +124,38 @@ open class FakeUserRepositoryModule {
             .setRecordingPath("Recordings/a4-PresentationAudio.amr")
             .setAgeRange(listOf(18, 50))
             .build()
+
+        val fakeUser5 = User.Builder()
+            .setUid(TEST_UID5)
+            .setUsername("Léo")
+            .setLocation(AndroidLocationService.createLocationTableEPFL())
+            .setBirthday("05.05.1995")
+            .setGender("Man")
+            .setSexualOrientations(listOf("Straight"))
+            .setShowMe("Woman")
+            .setPassions(listOf("Coffee", "Tea"))
+            .setRadius(150)
+            .setMatches(listOf())
+            .setLikes(listOf())
+            .setRecordingPath("Recordings/a5-PresentationAudio.amr")
+            .setAgeRange(listOf(18, 50))
+            .build()
+
+        val fakeUser6 = User.Builder()
+            .setUid(TEST_UID6)
+            .setUsername("Marion")
+            .setLocation(AndroidLocationService.createLocationTableEPFL())
+            .setBirthday("06.06.1996")
+            .setGender("Woman")
+            .setSexualOrientations(listOf("Straight", "Bisexual"))
+            .setShowMe("Everyone")
+            .setPassions(listOf("Coffee", "Tea"))
+            .setRadius(150)
+            .setMatches(listOf())
+            .setLikes(listOf())
+            .setRecordingPath("Recordings/a6-PresentationAudio.amr")
+            .setAgeRange(listOf(18, 50))
+            .build()
     }
 
     @Singleton
@@ -168,6 +202,8 @@ open class FakeUserRepositoryModule {
                 TEST_UID2 to fakeUser2,
                 TEST_UID3 to fakeUser3,
                 TEST_UID4 to fakeUser4,
+                TEST_UID5 to fakeUser5,
+                TEST_UID6 to fakeUser6
             )
 
             override suspend fun getUser(uid: String): User {
@@ -205,7 +241,7 @@ open class FakeUserRepositoryModule {
             override suspend fun removeFieldFromUser(field: String, uid: String) {
                 if (field != MATCHES && field != LIKES)
                     throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
-                var updatedList: ArrayList<String>? = null
+                var updatedList: MutableList<String>? = null
                 var users = db.values.toList()
                 users = if (field == MATCHES)
                     users.filter { user -> user.matches!!.contains(uid) }
@@ -214,9 +250,9 @@ open class FakeUserRepositoryModule {
                 users.forEach { user ->
                     when (field) {
                         LIKES ->
-                            updatedList = user.likes as ArrayList<String>?
+                            updatedList = user.likes?.toMutableList()
                         MATCHES ->
-                            updatedList = user.matches as ArrayList<String>?
+                            updatedList = user.matches?.toMutableList()
                     }
                     updatedList?.remove(uid)
                     user.uid?.let { updateProfile(it, field, updatedList) }

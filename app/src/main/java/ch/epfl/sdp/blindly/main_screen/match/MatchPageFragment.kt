@@ -177,7 +177,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
      */
     override fun onCardDisappeared(view: View, position: Int) {
         if (adapter.mediaPlayerStates[position] != MediaPlayerStates.STOP) {
-            adapter.mediaPlayers[position].stop()
+            adapter.mediaPlayers[position]?.stop()
         }
         if (position == adapter.itemCount - 1) {
             fragView.findViewById<TextView>(R.id.no_profile_text).text =

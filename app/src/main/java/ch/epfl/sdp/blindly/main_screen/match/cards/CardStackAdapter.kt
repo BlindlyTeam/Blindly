@@ -14,6 +14,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.audio.Recordings
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
+import java.io.IOException
 
 /**
  * Enum that represents the different states of a MediaPlayer
@@ -33,7 +34,7 @@ class CardStackAdapter(
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     private lateinit var context: Context
     val uids = ArrayList<String>()
-    val mediaPlayers = ArrayList<MediaPlayer>()
+    val mediaPlayers = ArrayList<MediaPlayer?>()
     val mediaPlayerStates = ArrayList<MediaPlayerStates>()
 
     /**
@@ -104,18 +105,18 @@ class CardStackAdapter(
         val playPauseButton = view.findViewById<ImageView>(R.id.play_pause_button)
         when (mediaPlayerStates[position]) {
             MediaPlayerStates.STOP -> {
-                mediaPlayer.prepare()
-                mediaPlayer.start()
+                mediaPlayer?.prepare()
+                mediaPlayer?.start()
                 mediaPlayerStates[position] = MediaPlayerStates.PLAY
                 playPauseButton.setImageResource(R.drawable.pause_button_fab)
             }
             MediaPlayerStates.PAUSE -> {
-                mediaPlayer.start()
+                mediaPlayer?.start()
                 mediaPlayerStates[position] = MediaPlayerStates.PLAY
                 playPauseButton.setImageResource(R.drawable.pause_button_fab)
             }
             MediaPlayerStates.PLAY -> {
-                mediaPlayer.pause()
+                mediaPlayer?.pause()
                 mediaPlayerStates[position] = MediaPlayerStates.PAUSE
                 playPauseButton.setImageResource(R.drawable.play_button_fab)
             }
@@ -139,8 +140,13 @@ class CardStackAdapter(
                 override fun onSuccess() {
                     val mediaPlayer = mediaPlayers[position]
 
-                    mediaPlayer.setDataSource(context, Uri.fromFile(audioFile))
-                    mediaPlayer.setOnCompletionListener {
+                    try {
+                        mediaPlayer?.setDataSource(context, Uri.fromFile(audioFile))
+                    } catch (e: IOException) {
+                        Log.d("CardStackAdapter", e.message!!)
+                        mediaPlayers[position] = null
+                    }
+                    mediaPlayer?.setOnCompletionListener {
                         it.stop()
                         mediaPlayerStates[position] = MediaPlayerStates.STOP
                         view.findViewById<ImageView>(R.id.play_pause_button)
