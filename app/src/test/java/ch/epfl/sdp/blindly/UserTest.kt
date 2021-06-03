@@ -10,7 +10,6 @@ import org.hamcrest.Matchers.*
 import org.hamcrest.core.Is
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.kotlin.notNull
 
 class UserTest {
     companion object {
@@ -45,8 +44,6 @@ class UserTest {
         private const val deleted = false
         private const val recordingPath = "/user/Presentation.amr"
         private const val recordingPath2 = "/user/PresentationNew.amr"
-
-        private val reportingUsers = listOf("erdgae43ergag", "Aeadhyt34j")
 
         private const val WRONG_INPUT_FOR_STRING = 5
         private const val WRONG_INPUT_FOR_LIST = "String"
@@ -184,7 +181,6 @@ class UserTest {
         assertThat(user.ageRange, equalTo(ageRange))
         assertThat(user.recordingPath, equalTo(recordingPath))
         assertThat(user.deleted, equalTo(false))
-        assertThat(user.reportingUsers, equalTo(listOf()))
     }
 
     @Test
@@ -747,25 +743,6 @@ class UserTest {
     }
 
     @Test
-    fun updateReportingUsersIsCorrect() {
-        val user = buildUser()
-        User.updateUser(user, REPORTING_USERS, reportingUsers)
-        assertThat(user.reportingUsers, equalTo(reportingUsers))
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun updateReportingUsersWithOtherThanListThrowsException() {
-        val user = buildUser()
-        User.updateUser(user, REPORTING_USERS, WRONG_INPUT_FOR_LIST)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun updateReportingUsersWithOtherThanListOfStringThrowsException() {
-        val user = buildUser()
-        User.updateUser(user, REPORTING_USERS, WRONG_INPUT_FOR_LIST_STRING)
-    }
-
-    @Test
     fun updateDeletedIsCorrect() {
         val user = buildUser()
         User.updateUser(user, DELETED, true)
@@ -837,7 +814,6 @@ class UserTest {
         Mockito.`when`(ds.get(AGE_RANGE)).thenReturn(ageRange)
         Mockito.`when`(ds.getString(RECORDING_PATH)).thenReturn(recordingPath)
         Mockito.`when`(ds.getField<Boolean>(DELETED)).thenReturn(deleted)
-        Mockito.`when`(ds.get(REPORTING_USERS)).thenReturn(reportingUsers)
 
 
         val user = ds.toUser()
@@ -856,7 +832,6 @@ class UserTest {
         assertThat(user.ageRange, equalTo(ageRange))
         assertThat(user.recordingPath, equalTo(recordingPath))
         assertThat(user.deleted, equalTo(deleted))
-        assertThat(user.reportingUsers, equalTo(reportingUsers))
     }
 
     @Test
