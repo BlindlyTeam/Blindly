@@ -179,11 +179,9 @@ open class FakeUserRepositoryModule {
                 removedUserId: String
             ) {
                 val user = getUser(removedUserId)
-                if (user != null) {
-                    var updatedMatchesList = user.matches as ArrayList<String>?
-                    updatedMatchesList?.remove(removingUserId)
-                    user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
-                }
+                val updatedMatchesList = user.matches?.toMutableList()
+                updatedMatchesList?.remove(removingUserId)
+                user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
             }
 
             override suspend fun removeMatchFromCurrentUser(
@@ -191,9 +189,9 @@ open class FakeUserRepositoryModule {
                 matchId: String
             ) {
                 val user = getUser(userId)
-                val updatedLikesList = user.likes as ArrayList<String>?
-                val updatedDislikesList = user.dislikes as ArrayList<String>?
-                val updatedMatchesList = user.matches as ArrayList<String>?
+                val updatedLikesList = user.likes?.toMutableList()
+                val updatedDislikesList = user.dislikes?.toMutableList()
+                val updatedMatchesList = user.matches?.toMutableList()
 
                 updatedLikesList?.remove(matchId)
                 updatedDislikesList?.add(matchId)
@@ -283,3 +281,4 @@ open class FakeUserRepositoryModule {
         }))
     }
 }
+

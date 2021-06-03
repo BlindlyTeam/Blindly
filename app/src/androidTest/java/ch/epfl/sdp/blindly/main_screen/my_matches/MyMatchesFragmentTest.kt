@@ -16,6 +16,7 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser
+import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser2
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser3
 import ch.epfl.sdp.blindly.main_screen.ANSWER_NO
 import ch.epfl.sdp.blindly.main_screen.ANSWER_YES
@@ -219,7 +220,7 @@ class MyMatchesFragmentTest {
             )
         )
         onView(withText(ANSWER_NO)).perform(click())
-        onView(withText(fakeUser.username)).check(matches(isDisplayed()))
+        onView(withText(fakeUser2.username)).check(matches(isDisplayed()))
     }
 
     @Test
