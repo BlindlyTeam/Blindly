@@ -52,6 +52,7 @@ class UserTest {
         private val WRONG_INPUT_FOR_LIST_INT = listOf("Int")
         private val WRONG_INPUT_FOR_LIST_DOUBLE = listOf("Int")
         private val WRONG_INPUT_SIZE = listOf(45.6, 4, 5, 6)
+        private val WRONG_INT_INPUT_SIZE = listOf(1, 2, 3)
         private val WRONG_INPUT_FOR_INT = listOf("Int")
         private const val WRONG_USERNAME_FIELD = "name"
         private val WRONG_INPUT_FOR_BOOLEAN = listOf(true)
@@ -400,7 +401,7 @@ class UserTest {
     @Test(expected = IllegalArgumentException::class)
     fun updateAgeRangeWithListWithSizeGreaterThanTwoThrowsException() {
         val user = buildUser()
-        User.updateUser(user, AGE_RANGE, WRONG_INPUT_SIZE)
+        User.updateUser(user, AGE_RANGE, WRONG_INT_INPUT_SIZE)
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -811,5 +812,13 @@ class UserTest {
         assertThat(user.recordingPath, equalTo(recordingPath))
         assertThat(user.deleted, equalTo(deleted))
         assertThat(user.reportingUsers, equalTo(reportingUsers))
+    }
+
+    @Test
+    fun testDocumentSnapshotTransformFail() {
+        val ds = Mockito.mock(DocumentSnapshot::class.java)
+        Mockito.`when`(ds.id).thenReturn(uid)
+
+        assertThat(ds.toUser(), `is`(nullValue()))
     }
 }
