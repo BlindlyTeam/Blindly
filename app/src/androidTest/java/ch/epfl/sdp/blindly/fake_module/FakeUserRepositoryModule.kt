@@ -171,24 +171,35 @@ open class FakeUserRepositoryModule {
                 return db.getOrDefault(uid, fakeUser)
             }
 
-            override suspend fun removeMatchFromAUser(
-                field: String,
+            override suspend fun removeCurrentUserFromRemovedMatch(
+                removingUserId: String,
+                removedUserId: String
+            ) {
+                val user = getUser(removedUserId)
+                if (user != null) {
+                    var updatedMatchesList = user.matches as ArrayList<String>?
+                    updatedMatchesList?.remove(removingUserId)
+                    user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
+                }
+            }
+
+            override suspend fun removeMatchFromCurrentUser(
                 userId: String,
                 matchId: String
             ) {
-                var updatedList: List<String>? = listOf()
                 val user = getUser(userId)
                 if (user != null) {
-                    when (field) {
-                        LIKES ->
-                            updatedList = user.likes
-                        MATCHES ->
-                            updatedList = user.matches
-                    }
-                    if (updatedList != null) {
-                        updatedList = updatedList - listOf(matchId)
-                    }
-                    user.uid?.let { updateProfile(it, field, updatedList) }
+                    var updatedLikesList = user.likes as ArrayList<String>?
+                    var updatedDislikesList = user.dislikes as ArrayList<String>?
+                    var updatedMatchesList = user.matches as ArrayList<String>?
+
+                    updatedLikesList?.remove(matchId)
+                    updatedDislikesList?.add(matchId)
+                    updatedMatchesList?.remove(matchId)
+
+                    user.uid?.let { updateProfile(it, LIKES, updatedLikesList) }
+                    user.uid?.let { updateProfile(it, DISLIKES, updatedDislikesList) }
+                    user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
                 }
             }
 

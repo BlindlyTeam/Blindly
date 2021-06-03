@@ -20,6 +20,7 @@ const val PASSIONS = "passions"
 const val RADIUS = "radius"
 const val MATCHES = "matches"
 const val LIKES = "likes"
+const val DISLIKES = "dislikes"
 const val RECORDING_PATH = "recordingPath"
 const val AGE_RANGE = "ageRange"
 const val REPORTING_USERS = "reportingUsers"
@@ -41,6 +42,7 @@ data class User private constructor(
     var radius: Int?,
     var matches: List<String>?,
     var likes: List<String>?,
+    var dislikes: List<String>?,
     var recordingPath: String?,
     var ageRange: List<Int>?,
     var deleted: Boolean,
@@ -79,6 +81,7 @@ data class User private constructor(
         var radius: Int? = null,
         var matches: List<String> = listOf(),
         var likes: List<String> = listOf(),
+        var dislikes: List<String>? = listOf(),
         var recordingPath: String? = null,
         var ageRange: List<Int> = listOf()
     ) {
@@ -188,6 +191,15 @@ data class User private constructor(
         }
 
         /**
+         * Set the dislikes in the UserBuilder
+         *
+         * @param dislikes the dislikes of the User. Other users are represented by their UID.
+         */
+        fun setDislikes(dislikes: List<String>) = apply {
+            this.dislikes = dislikes
+        }
+
+        /**
          * Set the recording path in the UserBuilder
          *
          * @param recordingPath the path to the recording
@@ -232,6 +244,7 @@ data class User private constructor(
                 radius,
                 matches,
                 likes,
+                dislikes,
                 recordingPath,
                 ageRange,
                 false,
@@ -261,6 +274,7 @@ data class User private constructor(
                 val radius = getField<Int>(RADIUS)!!
                 val matches = get(MATCHES) as? List<String>
                 val likes = get(LIKES) as? List<String>
+                val dislikes = get(DISLIKES) as? List<String>
                 val ageRange = get(AGE_RANGE) as? List<Long>
                 val recordingPath = getString(RECORDING_PATH)!!
                 val deleted = getField<Boolean>(DELETED)!!
@@ -278,6 +292,7 @@ data class User private constructor(
                     radius,
                     matches,
                     likes,
+                    dislikes,
                     recordingPath,
                     listOf(
                         ageRange!![0].toInt(),
@@ -362,6 +377,13 @@ data class User private constructor(
                         assertIsListOfString(newValue)
                     }
                     user.likes = newLikes
+                }
+                DISLIKES -> {
+                    val newDislikes = newValue as List<String>
+                    if (newDislikes.isNotEmpty()) { // newLikes is a non empty list, the type must be a string
+                        assertIsListOfString(newValue)
+                    }
+                    user.dislikes = newDislikes
                 }
                 RECORDING_PATH -> {
                     assertIsString(newValue)
