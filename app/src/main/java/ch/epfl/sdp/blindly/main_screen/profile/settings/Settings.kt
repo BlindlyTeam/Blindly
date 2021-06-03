@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +16,11 @@ import ch.epfl.sdp.blindly.user.AGE_RANGE
 import ch.epfl.sdp.blindly.user.RADIUS
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.UserHelper.Companion.DEFAULT_RADIUS
+import ch.epfl.sdp.blindly.utils.CheckInternet
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import com.google.android.gms.tasks.Task
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import dagger.hilt.android.AndroidEntryPoint
@@ -112,6 +115,16 @@ class Settings : AppCompatActivity() {
         ageRange.text = getAgeRangeString(ageRangeSlider)
         ageRangeSlider.addOnChangeListener { _, _, _ ->
             ageRange.text = getAgeRangeString(ageRangeSlider)
+        }
+
+        if(!CheckInternet.internetIsConnected(this)) {
+            findViewById<Button>(R.id.email_button).isClickable = false
+            findViewById<Button>(R.id.location_button).isClickable = false
+            findViewById<Slider>(R.id.location_slider).isEnabled = false
+            findViewById<Button>(R.id.show_me_button).isClickable = false
+            findViewById<RangeSlider>(R.id.age_range_slider).isEnabled = false
+            findViewById<MaterialButton>(R.id.logout_button).isClickable = false
+            findViewById<MaterialButton>(R.id.delete_account_button).isClickable = false
         }
     }
 
