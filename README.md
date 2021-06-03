@@ -19,7 +19,7 @@ If you login for the first time, you will be able to setup your account to your 
 <img src="screenshots/name.png" width="200"> <img src="screenshots/record_yourself.png" width="200"> <img src="screenshots/recording.png" width="200">
 
 ### Match
-Swipe right when yoy hear someone you like, swipe left otherwise.
+Swipe right when you hear someone you like, swipe left otherwise.
 
 <img src="screenshots/match.png" width="200"> 
 
@@ -45,13 +45,17 @@ The first two steps are required for the app to work (the login and the OpenWeat
 ### Login 
 To login into our app, we need to add the Debug variant of your SHA1 into the Firebase console of our project. To do this, go into the folder where the project has been cloned
 and open a terminal, enter:
+```
 ./gradlew signingReport
+```
 
 ### OpenWeather API Key
 You'll first need to generate an OpenWeather API key. In the local.properties file at the root of the folder add the following line:
+```
 OPEN_WEATHER_MAP_KEY="YOUR_API_KEY"
+```
 
 ### Facebook login (optional)
 If you wish to login with Facebook you will have to follow the step 6 of the [Facebook Login for Android - Quickstart](https://developers.facebook.com/docs/facebook-login/android)
- 
+Once you have generated your development key, you can reach us. We will add your key in Facebook Developers and you'll be able to use Facebook to login.
 
