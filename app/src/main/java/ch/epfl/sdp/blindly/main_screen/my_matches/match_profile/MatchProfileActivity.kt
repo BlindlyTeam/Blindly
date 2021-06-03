@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.audio.Recordings
+import ch.epfl.sdp.blindly.audio.FirebaseRecordings
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.location.AndroidLocationService.Companion.getCurrentLocationStringFromUser
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesAdapter.Companion.BUNDLE_MATCHED_UID_LABEL
@@ -41,7 +41,7 @@ class MatchProfileActivity : AppCompatActivity() {
     lateinit var assistedFactory: ViewModelAssistedFactory
 
     @Inject
-    lateinit var recordings: Recordings
+    lateinit var recordings: FirebaseRecordings
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -114,7 +114,7 @@ class MatchProfileActivity : AppCompatActivity() {
         recordings.getFile(
             audioFilePath!!,
             audioFile,
-            object : Recordings.RecordingOperationCallback() {
+            object : FirebaseRecordings.RecordingOperationCallback() {
                 override fun onSuccess() {
                     mediaPlayer = MediaPlayer()
                     mediaPlayer!!.setDataSource(this@MatchProfileActivity, Uri.fromFile(audioFile))

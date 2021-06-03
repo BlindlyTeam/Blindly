@@ -7,7 +7,7 @@ import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.audio.Recordings
+import ch.epfl.sdp.blindly.audio.FirebaseRecordings
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
 import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
@@ -26,7 +26,7 @@ private const val LOADING_MESSAGE = "Profiles are loading, please wait…"
 class TestMainToMatch {
 
     @Inject
-    lateinit var recordings: Recordings
+    lateinit var recordings: FirebaseRecordings
 
     lateinit var fragment: MatchPageFragment
 

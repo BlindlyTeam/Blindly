@@ -31,6 +31,8 @@ import javax.inject.Inject
 /**
  * Fragment containing the profile page
  */
+
+const val BUNDLE_UID = "uid"
 @AndroidEntryPoint
 class ProfilePageFragment : Fragment() {
 
@@ -41,6 +43,7 @@ class ProfilePageFragment : Fragment() {
     lateinit var assistedFactory: ViewModelAssistedFactory
 
     private lateinit var viewModel: UserViewModel
+    private var uid: String? = null
 
     companion object {
         private const val TAG = "ProfilePage"
@@ -72,7 +75,7 @@ class ProfilePageFragment : Fragment() {
             counter = requireArguments().getInt(ARG_COUNT)
         }
 
-        val uid = userHelper.getUserId()
+        uid = userHelper.getUserId()
         viewModel = UserViewModel.instantiateViewModel(
             uid,
             assistedFactory,
@@ -148,7 +151,9 @@ class ProfilePageFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             childFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<AudioPlayerFragment>(R.id.fragment_audio_container_view)
+                val bundle = Bundle()
+                bundle.putString(BUNDLE_UID, uid)
+                add(R.id.fragment_audio_container_view, AudioPlayerFragment::class.java, bundle)
             }
         }, BOUNCE_DURATION)
     }

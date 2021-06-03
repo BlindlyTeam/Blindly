@@ -23,7 +23,6 @@ import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.launch
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
@@ -297,6 +296,7 @@ open class FakeUserRepositoryModule {
 
         Mockito.`when`(user.logout(any())).thenReturn(successfulTask)
         Mockito.`when`(user.delete(any())).thenReturn(successfulTask)
+
         return user
     }
 }

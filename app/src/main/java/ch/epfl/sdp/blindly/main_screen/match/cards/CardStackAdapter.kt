@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.audio.Recordings
+import ch.epfl.sdp.blindly.audio.FirebaseRecordings
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
 
@@ -28,7 +28,7 @@ enum class MediaPlayerStates { STOP, PLAY, PAUSE }
  */
 class CardStackAdapter(
     private val profiles: List<Profile> = emptyList(),
-    private var recordings: Recordings,
+    private var recordings: FirebaseRecordings,
     private val view: View
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     private lateinit var context: Context
@@ -101,7 +101,7 @@ class CardStackAdapter(
      */
     fun playPauseAudio(position: Int) {
         val mediaPlayer = mediaPlayers[position]
-        val playPauseButton = view.findViewById<ImageView>(R.id.play_pause_button)
+        val playPauseButton = view.findViewById<ImageView>(R.id.match_play_pause_button)
         when (mediaPlayerStates[position]) {
             MediaPlayerStates.STOP -> {
                 mediaPlayer.prepare()
@@ -135,7 +135,7 @@ class CardStackAdapter(
         recordings.getFile(
             recordingPath,
             audioFile,
-            object : Recordings.RecordingOperationCallback() {
+            object : FirebaseRecordings.RecordingOperationCallback() {
                 override fun onSuccess() {
                     val mediaPlayer = mediaPlayers[position]
 
@@ -143,11 +143,11 @@ class CardStackAdapter(
                     mediaPlayer.setOnCompletionListener {
                         it.stop()
                         mediaPlayerStates[position] = MediaPlayerStates.STOP
-                        view.findViewById<ImageView>(R.id.play_pause_button)
+                        view.findViewById<ImageView>(R.id.match_play_pause_button)
                             .setImageResource(R.drawable.play_button_fab)
                     }
                     //Enable the button clicks again
-                    view.findViewById<FloatingActionButton>(R.id.play_pause_button).isClickable =
+                    view.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable =
                         true
                 }
 

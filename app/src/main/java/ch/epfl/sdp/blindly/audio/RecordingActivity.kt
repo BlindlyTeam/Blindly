@@ -31,6 +31,8 @@ import javax.inject.Inject
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 private const val DEFAULT_RECORD_AUDIO_DURATION = 90000
 
+private const val RECORDING = "Recording"
+
 /**
  * Activity that contains everything to record audio files and listen to them to select the one
  * we want to keep.
@@ -39,7 +41,7 @@ private const val DEFAULT_RECORD_AUDIO_DURATION = 90000
 class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickListener {
 
     @Inject
-    lateinit var recordings: Recordings
+    lateinit var recordings: FirebaseRecordings
 
     @Inject
     lateinit var user: UserHelper
@@ -235,7 +237,7 @@ class RecordingActivity : AppCompatActivity(), AudioLibraryAdapter.OnItemClickLi
         mediaRecorder.stop()
         recordButton.setImageResource(R.drawable.record_button)
         val newAudio = AudioRecord(
-            "Audio file ${totalNumberOfRec + 1}",
+            "$RECORDING ${totalNumberOfRec + 1}",
             recordTimer.text as String, recordFilePath, false
         )
         adapter.recordList.add(newAudio)
