@@ -1,14 +1,12 @@
 package ch.epfl.sdp.blindly.fake_module
 
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.dependency_injection.UserRepositoryModule
-import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID
-import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID2
-import ch.epfl.sdp.blindly.fake_module.FakeUserHelperModule.Companion.TEST_UID3
 import ch.epfl.sdp.blindly.location.AndroidLocationService
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatch
@@ -25,8 +23,10 @@ import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.launch
+import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.stub
 import javax.inject.Singleton
@@ -40,6 +40,12 @@ import kotlin.reflect.KSuspendFunction1
 open class FakeUserRepositoryModule {
 
     companion object {
+        const val PRIMARY_EMAIL = "test@example.com"
+        const val SECOND_EMAIL = "test2@example.com"
+        const val TEST_UID = "DBrGTHNkj9Z3VaKIeQCJrL3FANg2"
+        const val TEST_UID2 = "fdJofwEJWflhwjVREs324cdEWals"
+        const val TEST_UID3 = "adnDEO28fWLCEJWo234fwCWLjlw"
+
         private const val USER_COLLECTION: String = "usersMeta"
         private const val MULHOUSE_LAT = 47.749
         private const val MULHOUSE_LON = 7.335
@@ -263,5 +269,34 @@ open class FakeUserRepositoryModule {
                 }
             }
         }))
+    }
+
+    @Singleton
+    @Provides
+    open fun provideUserHelper(): UserHelper {
+        val user = mock(UserHelper::class.java)
+        Mockito.`when`(user.getEmail()).thenReturn(PRIMARY_EMAIL)
+
+        val taskCompletionSource = TaskCompletionSource<Void>()
+        Handler(Looper.getMainLooper()).postDelayed({ taskCompletionSource.setResult(null) }, 1000L)
+        val successfulTask = taskCompletionSource.task
+
+        Mockito.`when`(user.setEmail(SECOND_EMAIL)).thenReturn(successfulTask)
+
+        Mockito.`when`(user.getUserId()).thenReturn(TEST_UID)
+
+        user.stub {
+            onBlocking { isNewUser() }.doReturn(false)
+        }
+
+        //TODO this fakeIntent may be wrong to fake
+        val fakeIntent = mock(Intent::class.java)
+        Mockito.`when`(user.getSignInIntent()).thenReturn(fakeIntent)
+
+        Mockito.`when`(user.isLoggedIn()).thenReturn(true)
+
+        Mockito.`when`(user.logout(any())).thenReturn(successfulTask)
+        Mockito.`when`(user.delete(any())).thenReturn(successfulTask)
+        return user
     }
 }
