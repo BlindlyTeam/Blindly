@@ -1,31 +1,25 @@
 package ch.epfl.sdp.blindly.audio
 
-import android.net.Uri
 import com.google.android.gms.tasks.OnCanceledListener
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
-import com.google.firebase.storage.*
+import com.google.firebase.storage.FileDownloadTask
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import org.mockito.ArgumentMatchers
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import java.io.File
 import java.util.concurrent.CompletableFuture
-
-
-private const val NAME_AUDIO_ONE = "Audio 1"
-private const val NAME_AUDIO_TWO = "Audio 2"
-private const val DURATION_ZERO = "00:00"
-private const val DURATION_ONE = "00:01"
-private const val FILEPATH1 = "Test/myApp/file1"
-private const val FILEPATH2 = "Test/myApp/file2"
 
 class FirebaseRecordingsTest {
     private fun getFirebaseRecordings(
@@ -45,14 +39,14 @@ class FirebaseRecordingsTest {
         val storage = mock(FirebaseStorage::class.java)
         `when`(storage.reference).thenReturn(storageRef)
 
-        return FirebaseRecordings(storage)
+        return FirebaseRecordingsImpl(storage)
     }
 
 
-    private class MockedDeleteTask: MockedTask<Task<Void>> {
-        override val task: Task<Void> = mock();
+    private class MockedDeleteTask : MockedTask<Task<Void>>() {
+        override val task: Task<Void> = mock()
 
-        constructor() {
+        init {
             `when`(task.addOnCanceledListener(any())).thenAnswer {
                 val listener = it.getArgument<OnCanceledListener>(0)
                 canceledListener.add(listener)
@@ -70,10 +64,11 @@ class FirebaseRecordingsTest {
             }
         }
     }
-    private class MockedDownloadTask: MockedTask<FileDownloadTask> {
-        override val task: FileDownloadTask = mock();
 
-        constructor() {
+    private class MockedDownloadTask : MockedTask<FileDownloadTask>() {
+        override val task: FileDownloadTask = mock()
+
+        init {
             `when`(task.addOnCanceledListener(any())).thenAnswer {
                 val listener = it.getArgument<OnCanceledListener>(0)
                 canceledListener.add(listener)
@@ -92,10 +87,10 @@ class FirebaseRecordingsTest {
         }
     }
 
-    private class MockedUploadTask: MockedTask<UploadTask> {
-        override val task: UploadTask = mock();
+    private class MockedUploadTask : MockedTask<UploadTask>() {
+        override val task: UploadTask = mock()
 
-        constructor() {
+        init {
             `when`(task.addOnCanceledListener(any())).thenAnswer {
                 val listener = it.getArgument<OnCanceledListener>(0)
                 canceledListener.add(listener)
@@ -113,6 +108,7 @@ class FirebaseRecordingsTest {
             }
         }
     }
+
     private abstract class MockedTask<T> {
         protected val canceledListener = mutableListOf<OnCanceledListener>()
         protected val completedListener = mutableListOf<OnCompleteListener<T>>()
@@ -138,8 +134,8 @@ class FirebaseRecordingsTest {
     @get:Rule
     var folder = TemporaryFolder()
 
-    private fun getCallback(future: CompletableFuture<Boolean>): Recordings.RecordingOperationCallback {
-        return object : Recordings.RecordingOperationCallback() {
+    private fun getCallback(future: CompletableFuture<Boolean>): FirebaseRecordings.RecordingOperationCallback {
+        return object : FirebaseRecordings.RecordingOperationCallback() {
             override fun onSuccess() {
                 future.complete(true)
             }
@@ -151,7 +147,7 @@ class FirebaseRecordingsTest {
         }
     }
 
-    private lateinit var file1: File;
+    private lateinit var file1: File
     private val recordingPath = "test"
 
     @Before
@@ -162,27 +158,41 @@ class FirebaseRecordingsTest {
     private fun callPutFile(
         future: CompletableFuture<Boolean>,
         uploadTask: MockedUploadTask
-        ) {
-        getFirebaseRecordings(uploadTask.task, MockedDownloadTask().task, MockedDeleteTask().task).putFile(recordingPath, file1, getCallback(future))
+    ) {
+        getFirebaseRecordings(
+            uploadTask.task,
+            MockedDownloadTask().task,
+            MockedDeleteTask().task
+        ).putFile(recordingPath, file1, getCallback(future))
     }
+
     private fun callGetFile(
         future: CompletableFuture<Boolean>,
         downloadTask: MockedDownloadTask
     ) {
-        getFirebaseRecordings(MockedUploadTask().task, downloadTask.task, MockedDeleteTask().task).getFile(recordingPath, file1, getCallback(future))
+        getFirebaseRecordings(
+            MockedUploadTask().task,
+            downloadTask.task,
+            MockedDeleteTask().task
+        ).getFile(recordingPath, file1, getCallback(future))
     }
+
     private fun callDeleteFile(
         future: CompletableFuture<Boolean>,
         deleteTask: MockedDeleteTask
     ) {
-        getFirebaseRecordings(MockedUploadTask().task, MockedDownloadTask().task, deleteTask.task).deleteFile(recordingPath, getCallback(future))
+        getFirebaseRecordings(
+            MockedUploadTask().task,
+            MockedDownloadTask().task,
+            deleteTask.task
+        ).deleteFile(recordingPath, getCallback(future))
     }
 
 
     @Test
     fun putFileCompleteSucessfulCallbackIsCalled() {
         val task = MockedUploadTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callPutFile(future, task)
         task.complete(true)
         assertThat(future.get(), equalTo(true))
@@ -191,7 +201,7 @@ class FirebaseRecordingsTest {
     @Test
     fun putFileCompleteUnsucessfulCallbackIsCalled() {
         val task = MockedUploadTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callPutFile(future, task)
         task.complete(false)
         assertThat(future.get(), equalTo(false))
@@ -200,7 +210,7 @@ class FirebaseRecordingsTest {
     @Test
     fun putFileFailureCallbackIsCalled() {
         val task = MockedUploadTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callPutFile(future, task)
         task.fail()
         assertThat(future.get(), equalTo(false))
@@ -209,7 +219,7 @@ class FirebaseRecordingsTest {
     @Test
     fun putFileCancelledCallbackIsCalled() {
         val task = MockedUploadTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callPutFile(future, task)
         task.cancel()
         assertThat(future.get(), equalTo(false))
@@ -218,7 +228,7 @@ class FirebaseRecordingsTest {
     @Test
     fun getFileCompleteSucessfulCallbackIsCalled() {
         val task = MockedDownloadTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callGetFile(future, task)
         task.complete(true)
         assertThat(future.get(), equalTo(true))
@@ -227,7 +237,7 @@ class FirebaseRecordingsTest {
     @Test
     fun getFileCompleteUnsucessfulCallbackIsCalled() {
         val task = MockedDownloadTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callGetFile(future, task)
         task.complete(false)
         assertThat(future.get(), equalTo(false))
@@ -236,7 +246,7 @@ class FirebaseRecordingsTest {
     @Test
     fun getFileFailureCallbackIsCalled() {
         val task = MockedDownloadTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callGetFile(future, task)
         task.fail()
         assertThat(future.get(), equalTo(false))
@@ -245,7 +255,7 @@ class FirebaseRecordingsTest {
     @Test
     fun getFileCancelledCallbackIsCalled() {
         val task = MockedDownloadTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callGetFile(future, task)
         task.cancel()
         assertThat(future.get(), equalTo(false))
@@ -255,7 +265,7 @@ class FirebaseRecordingsTest {
     @Test
     fun deleteFileCompleteSucessfulCallbackIsCalled() {
         val task = MockedDeleteTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callDeleteFile(future, task)
         task.complete(true)
         assertThat(future.get(), equalTo(true))
@@ -264,7 +274,7 @@ class FirebaseRecordingsTest {
     @Test
     fun deleteFileCompleteUnsucessfulCallbackIsCalled() {
         val task = MockedDeleteTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callDeleteFile(future, task)
         task.complete(false)
         assertThat(future.get(), equalTo(false))
@@ -273,7 +283,7 @@ class FirebaseRecordingsTest {
     @Test
     fun deleteFileFailureCallbackIsCalled() {
         val task = MockedDeleteTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callDeleteFile(future, task)
         task.fail()
         assertThat(future.get(), equalTo(false))
@@ -282,7 +292,7 @@ class FirebaseRecordingsTest {
     @Test
     fun deleteFileCancelledCallbackIsCalled() {
         val task = MockedDeleteTask()
-        val future = CompletableFuture<Boolean>();
+        val future = CompletableFuture<Boolean>()
         callDeleteFile(future, task)
         task.cancel()
         assertThat(future.get(), equalTo(false))
