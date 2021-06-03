@@ -10,7 +10,6 @@ import org.hamcrest.Matchers.*
 import org.hamcrest.core.Is
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.kotlin.notNull
 
 class UserTest {
     companion object {
@@ -815,7 +814,6 @@ class UserTest {
         Mockito.`when`(ds.get(AGE_RANGE)).thenReturn(ageRange)
         Mockito.`when`(ds.getString(RECORDING_PATH)).thenReturn(recordingPath)
         Mockito.`when`(ds.getField<Boolean>(DELETED)).thenReturn(deleted)
-        Mockito.`when`(ds.get(REPORTING_USERS)).thenReturn(reportingUsers)
 
 
         val user = ds.toUser()
@@ -834,7 +832,6 @@ class UserTest {
         assertThat(user.ageRange, equalTo(ageRange))
         assertThat(user.recordingPath, equalTo(recordingPath))
         assertThat(user.deleted, equalTo(deleted))
-        assertThat(user.reportingUsers, equalTo(reportingUsers))
     }
 
     @Test
