@@ -35,7 +35,7 @@ class UserTest {
         private val matches: List<String> = listOf("a1", "b2")
         private val matches2: List<String> = listOf("A3Verg34vrE3")
         private val likes: List<String> = listOf("c3", "d4")
-        private val dislikes : List<String> = listOf("c1", "c2")
+        private val dislikes: List<String> = listOf("c1", "c2")
         private val emptyLikes: List<String> = listOf()
         private val emptyDislikes: List<String> = listOf()
         private val emptyMatches: List<String> = listOf()
@@ -140,7 +140,7 @@ class UserTest {
 
     @Test
     fun setEmptyDislikesListIsCorrect() {
-        val userBuilder = User.Builder().setLikes(emptyDislikes)
+        val userBuilder = User.Builder().setDislikes(emptyDislikes)
         assertThat(userBuilder.dislikes, equalTo(emptyDislikes))
     }
 
@@ -790,10 +790,34 @@ class UserTest {
             .setPassions(passions)
             .setRadius(radius)
             .setMatches(matches)
+            .setDislikes(dislikes)
             .setLikes(likes)
             .setAgeRange(ageRange)
             .setRecordingPath(recordingPath)
             .build()
+    }
+
+    @Test
+    fun builderConstructorIsCorrect() {
+        val user1 = User.Builder(
+            uid = uid,
+            username = username,
+            location = location,
+            birthday = birthday,
+            gender = gender,
+            sexualOrientations = sexualOrientations,
+            showMe = showMe,
+            passions = passions,
+            radius = radius,
+            matches = matches,
+            likes = likes,
+            dislikes = dislikes,
+            recordingPath = recordingPath,
+            ageRange = ageRange
+        )
+            .build()
+        val user2 = buildUser()
+        assertThat(user1.hashCode() == user2.hashCode(), equalTo(true))
     }
 
     @Test
