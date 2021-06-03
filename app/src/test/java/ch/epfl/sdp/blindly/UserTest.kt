@@ -40,8 +40,6 @@ class UserTest {
         private const val recordingPath = "/user/Presentation.amr"
         private const val recordingPath2 = "/user/PresentationNew.amr"
 
-        private val reportingUsers = listOf("erdgae43ergag", "Aeadhyt34j")
-
         private const val WRONG_INPUT_FOR_STRING = 5
         private const val WRONG_INPUT_FOR_LIST = "String"
         private val WRONG_INPUT_FOR_LIST_STRING = listOf(5.0, 4)
@@ -177,7 +175,6 @@ class UserTest {
         assertThat(user.ageRange, equalTo(ageRange))
         assertThat(user.recordingPath, equalTo(recordingPath))
         assertThat(user.deleted, equalTo(false))
-        assertThat(user.reportingUsers, equalTo(listOf()))
     }
 
     @Test
@@ -737,25 +734,6 @@ class UserTest {
         val user1 = buildUser()
         val user2 = user1.copy()
         assertThat(user1 == user2, equalTo(true))
-    }
-
-    @Test
-    fun updateReportingUsersIsCorrect() {
-        val user = buildUser()
-        User.updateUser(user, REPORTING_USERS, reportingUsers)
-        assertThat(user.reportingUsers, equalTo(reportingUsers))
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun updateReportingUsersWithOtherThanListThrowsException() {
-        val user = buildUser()
-        User.updateUser(user, REPORTING_USERS, WRONG_INPUT_FOR_LIST)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun updateReportingUsersWithOtherThanListOfStringThrowsException() {
-        val user = buildUser()
-        User.updateUser(user, REPORTING_USERS, WRONG_INPUT_FOR_LIST_STRING)
     }
 
     @Test
