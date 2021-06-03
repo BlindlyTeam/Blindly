@@ -15,6 +15,7 @@ import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUs
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
 import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
+import ch.epfl.sdp.blindly.matchers.EspressoTestMatchers.Companion.withDrawable
 import ch.epfl.sdp.blindly.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -81,6 +82,17 @@ class TestMainToMatch {
             val adapter = CardStackAdapter(profiles, recordings, fragment.view!!)
             assertThat(adapter.itemCount, equalTo(profiles.size))
         }
+    }
+
+    @Test
+    fun cardsHaveCorrectBackground() {
+        onView(withId(R.id.card_stack_view)).check(
+            matches(
+                hasDescendant(
+                    withDrawable(R.drawable.background)
+                )
+            )
+        )
     }
 
     @Test

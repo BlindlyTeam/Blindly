@@ -52,6 +52,7 @@ class ProfilePageTest {
     fun setup() {
         hiltRule.inject()
         goToProfileFragment()
+        Thread.sleep(1000)
         init()
     }
 
@@ -79,7 +80,7 @@ class ProfilePageTest {
 
     @Test
     fun editButtonRemoveAudioPlayerFragment() {
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
+        onView(withId(R.id.play_audio_profile_fragment_button)).perform(click())
         onView(withId(R.id.edit_info_profile_button)).perform(click())
         val audioPlayerFragment = getAudioPlayerFragment()
         assertThat(audioPlayerFragment, `is`(nullValue()))
@@ -93,7 +94,7 @@ class ProfilePageTest {
 
     @Test
     fun settingsButtonRemovesAudioPlayerFragment() {
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
+        onView(withId(R.id.play_audio_profile_fragment_button)).perform(click())
         onView(withId(R.id.settings_profile_button)).perform(click())
         val audioPlayerFragment = getAudioPlayerFragment()
         assertThat(audioPlayerFragment, `is`(nullValue()))
@@ -102,7 +103,7 @@ class ProfilePageTest {
     @Test
     fun playAudioButtonCreatesAudioPlayerFragment() {
         //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
+        onView(withId(R.id.play_audio_profile_fragment_button)).perform(click())
         val audioPlayerFragment = getAudioPlayerFragment()
         assertThat(audioPlayerFragment, `is`(notNullValue()))
         if (audioPlayerFragment != null) {
@@ -120,7 +121,7 @@ class ProfilePageTest {
     @Test
     fun clickingOutsideAudioPlayerFragmentRemovesIt() {
         //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
+        onView(withId(R.id.play_audio_profile_fragment_button)).perform(click())
         //Remove the audio player
         onView(withId(R.id.profile_relativeLayout)).perform(click())
 
@@ -130,11 +131,11 @@ class ProfilePageTest {
     @Test
     fun playAudioButtonCreateAudioPlayerFragment() {
         //Create and show the audio player
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
+        onView(withId(R.id.play_audio_profile_fragment_button)).perform(click())
         //Remove the audio player
         onView(withId(R.id.profile_relativeLayout)).perform(click())
         //Create it again
-        onView(withId(R.id.play_audio_profile_button)).perform(click())
+        onView(withId(R.id.play_audio_profile_fragment_button)).perform(click())
 
         val audioPlayerFragment = getAudioPlayerFragment()
         assertThat(audioPlayerFragment, `is`(notNullValue()))

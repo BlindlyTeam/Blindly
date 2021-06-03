@@ -2,7 +2,6 @@ package ch.epfl.sdp.blindly.main_screen.profile
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,7 +12,6 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
@@ -104,7 +102,7 @@ class ProfilePageFragment : Fragment() {
             false
         }
 
-        val playAudioButton = view.findViewById<Button>(R.id.play_audio_profile_button)
+        val playAudioButton = view.findViewById<Button>(R.id.play_audio_profile_fragment_button)
         playAudioButton.setOnClickListener {
             showAudioPlayer(playAudioButton)
         }
