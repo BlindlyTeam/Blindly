@@ -13,7 +13,6 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.audio.AudioPlayerFragment
@@ -26,11 +25,11 @@ import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+const val BUNDLE_UID = "uid"
+
 /**
  * Fragment containing the profile page
  */
-
-const val BUNDLE_UID = "uid"
 @AndroidEntryPoint
 class ProfilePageFragment : Fragment() {
 

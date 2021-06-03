@@ -118,7 +118,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
         // disable the play/pause button
         fragView.findViewById<TextView>(R.id.no_profile_text).text =
             getString(R.string.loading_profiles)
-        fragView.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable = false
+        fragView.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable =
+            false
 
         return fragView
     }
@@ -178,12 +179,13 @@ class MatchPageFragment : Fragment(), CardStackListener {
      */
     override fun onCardDisappeared(view: View, position: Int) {
         if (adapter.mediaPlayerStates[position] != MediaPlayerStates.STOP) {
-            adapter.mediaPlayers[position]?.stop()
+            adapter.mediaPlayers[position].stop()
         }
         if (position == adapter.itemCount - 1) {
             fragView.findViewById<TextView>(R.id.no_profile_text).text =
                 getString(R.string.no_more_swipes)
-            fragView.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable = false
+            fragView.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable =
+                false
         } else {
             adapter.playPauseAudio(position + 1)
         }
@@ -211,7 +213,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * Initializes the adapter
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        if(CheckInternet.internetIsConnected(this.requireActivity())) {
+        if (CheckInternet.internetIsConnected(this.requireActivity())) {
             adapter = CardStackAdapter(potentialMatches, recordings, fragView)
             setupCardStackView(fragView)
         } else {

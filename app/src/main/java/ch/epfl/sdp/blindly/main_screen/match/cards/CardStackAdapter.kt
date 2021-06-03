@@ -14,7 +14,6 @@ import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.audio.FirebaseRecordings
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
-import java.io.IOException
 
 /**
  * Enum that represents the different states of a MediaPlayer

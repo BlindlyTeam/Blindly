@@ -15,7 +15,6 @@ import androidx.viewpager2.widget.ViewPager2
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.actions.RecyclerViewChildActions
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser2
 import ch.epfl.sdp.blindly.fake_module.FakeUserRepositoryModule.Companion.fakeUser3
 import ch.epfl.sdp.blindly.main_screen.ANSWER_NO
