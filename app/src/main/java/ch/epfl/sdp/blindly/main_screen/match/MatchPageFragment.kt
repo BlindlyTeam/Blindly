@@ -211,7 +211,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * Initializes the adapter
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
-        if(CheckInternet.internetIsConnected()) {
+        if(CheckInternet.internetIsConnected(this.activity!!)) {
             adapter = CardStackAdapter(potentialMatches, recordings, fragView)
             setupCardStackView(fragView)
         } else {

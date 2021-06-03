@@ -1,17 +1,16 @@
 package ch.epfl.sdp.blindly.utils
 
-import java.net.InetAddress
+import android.content.Context
+import android.net.ConnectivityManager
 
 class CheckInternet {
 
     companion object {
-        fun internetIsConnected(): Boolean {
-            return try {
-                val ipAddr: InetAddress = InetAddress.getByName("google.com")
-                !ipAddr.equals("")
-            } catch (e: Exception) {
-                false
-            }
+        const val TAG = "CheckInternet"
+
+        fun internetIsConnected(context: Context): Boolean {
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            return cm.activeNetwork != null
         }
     }
 }

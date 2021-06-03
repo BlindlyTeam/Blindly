@@ -2,7 +2,9 @@ package ch.epfl.sdp.blindly.main_screen.profile.edit
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
@@ -10,6 +12,7 @@ import ch.epfl.sdp.blindly.user.GENDER
 import ch.epfl.sdp.blindly.user.PASSIONS
 import ch.epfl.sdp.blindly.user.SEXUAL_ORIENTATIONS
 import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.utils.CheckInternet
 import ch.epfl.sdp.blindly.utils.ChipGroupUtils.Companion.setCheckedChips
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
@@ -66,6 +69,14 @@ class EditProfile : AppCompatActivity() {
             sexualOrientationsText?.let { setCheckedChips(sexualOrientations, it, this) }
             passionsText = user.passions
             passionsText?.let { setCheckedChips(passions, it, this) }
+        }
+
+        if(!CheckInternet.internetIsConnected(this)) {
+            Log.d(TAG, "Internet is not available: can't modify profile ")
+            findViewById<Button>(R.id.username_button).isClickable = false
+            findViewById<Button>(R.id.gender_button).isClickable = false
+            findViewById<Button>(R.id.sexual_orientations_button).isClickable = false
+            findViewById<Button>(R.id.passions_button).isClickable = false
         }
     }
 
