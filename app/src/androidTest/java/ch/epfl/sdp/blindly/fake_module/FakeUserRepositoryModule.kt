@@ -209,8 +209,8 @@ open class FakeUserRepositoryModule {
                 TEST_UID2 to fakeUser2,
                 TEST_UID3 to fakeUser3,
                 TEST_UID4 to fakeUser4,
-                TEST_UID5 to fakeUser5,
-                TEST_UID6 to fakeUser6
+                /*TEST_UID5 to fakeUser5,
+                TEST_UID6 to fakeUser6*/
             )
 
             override suspend fun getUser(uid: String): User {

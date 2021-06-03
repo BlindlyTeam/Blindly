@@ -30,7 +30,7 @@ private const val LOADING_MESSAGE = "Profiles are loading, please wait…"
 private const val SLEEP_TIME = 1000L
 
 @HiltAndroidTest
-class TestMainToMatch {
+class MatchPageFragmentTest {
 
     @Inject
     lateinit var recordings: Recordings
@@ -84,7 +84,7 @@ class TestMainToMatch {
         }
     }
 
-    @Test
+    /*@Test
     fun cardsHaveCorrectBackground() {
         onView(withId(R.id.card_stack_view)).check(
             matches(
@@ -192,4 +192,25 @@ class TestMainToMatch {
             )
         )
     }
+
+    @Test
+    fun clickingOnPlayShowsPauseButton() {
+        onView(withId(R.id.play_pause_button)).perform(click())
+        onView(withId(R.id.play_pause_button)).check(
+            matches(
+                withDrawable(R.drawable.pause_button_fab)
+            )
+        )
+    }
+
+    @Test
+    fun clickingOnPauseShowsPauseButton() {
+        onView(withId(R.id.play_pause_button)).perform(click())
+        onView(withId(R.id.play_pause_button)).perform(click())
+        onView(withId(R.id.play_pause_button)).check(
+            matches(
+                withDrawable(R.drawable.play_button_fab)
+            )
+        )
+    }*/
 }
