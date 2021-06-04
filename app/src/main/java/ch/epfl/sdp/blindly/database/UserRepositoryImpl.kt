@@ -15,10 +15,8 @@ import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import kotlin.reflect.KSuspendFunction1
 
 /**
@@ -271,6 +269,11 @@ class UserRepositoryImpl constructor(
             if (snapshot != null && snapshot.exists()) {
                 Log.d(TAG, "Current data: ${snapshot.data}")
                 myMatchesUids = snapshot[MATCHES] as List<String>
+
+                runBlocking {
+                    updateLocalCacheAndDB(userId, MATCHES, myMatchesUids)
+                }
+
                 viewLifecycleOwner.lifecycleScope.launch {
                     myMatches = arrayListOf()
                     for (uid in myMatchesUids) {
