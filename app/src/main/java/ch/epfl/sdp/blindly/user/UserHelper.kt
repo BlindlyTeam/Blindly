@@ -26,7 +26,7 @@ import com.google.firebase.ktx.Firebase
 /**
  * Class that contains helpful functions regarding the user.
  */
-class UserHelper(private val userRepository: UserRepository) {
+class UserHelper(/*private val userRepository: UserRepository*/) {
     companion object {
         const val RC_SIGN_IN = 123
         private const val TAG = "UserHelper"
@@ -69,6 +69,8 @@ class UserHelper(private val userRepository: UserRepository) {
             .setFacebookButtonId(R.id.facebook_sign_in)
             .build()
 
+        Log.d(TAG, "I'm here")
+
         return AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
@@ -77,31 +79,22 @@ class UserHelper(private val userRepository: UserRepository) {
     "https://example.com/terms.html",
     "https://example.com/privacy.html")*/
             .setAuthMethodPickerLayout(customLayout)
+            .setIsSmartLockEnabled(false)
             .build()
 
     }
 
     fun getProfileSetupIntent(activity: Activity) = Intent(activity, ProfileHouseRules::class.java)
 
-    /**
-     * Handle the authentication result in onActivityResult
-     *
-     * Returns an intent to launch the account creation steps if it is a new account,
-     * otherwise an intent for main screen, also handle unsuccessful results
-     *
-     * @param activity the calling activity
-     * @param resultCode the result code the activity callback received
-     * @param data the result data
-     *
-     * @return Null if sign-in failed, an intent to be launched otherwise
-     */
-    suspend fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Intent? {
+    fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Intent? {
+        Log.d(TAG, "Back with a result")
         val response = IdpResponse.fromResultIntent(data)
-
+        Log.d(TAG, "response = $response")
         if (resultCode == Activity.RESULT_OK) {
             // Successfully signed in
-            if (isNewUser()) {
-                return getProfileSetupIntent(activity)
+            val user = FirebaseAuth.getInstance().currentUser
+            if (isNewUser(user!!)) {
+                return Intent(activity, ProfileHouseRules::class.java)
             }
             return Intent(activity, MainScreen::class.java)
         } else {
@@ -109,6 +102,7 @@ class UserHelper(private val userRepository: UserRepository) {
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
             // ...
+
             if (response != null) {
                 Toast.makeText(
                     activity.applicationContext,
@@ -123,19 +117,10 @@ class UserHelper(private val userRepository: UserRepository) {
         }
     }
 
-    /**
-     * Check is the user has already created an account
-     *
-     * @param user the user to test the condition on
-     *
-     * @return true if the user just created an account, false otherwise
-     */
-    suspend fun isNewUser(): Boolean {
-        val user = FirebaseAuth.getInstance().currentUser
-        return if (user == null)
-            true
-        else
-            userRepository.getUser(user.uid) == null
+    private fun isNewUser(user: FirebaseUser): Boolean {
+        val metadata = user.metadata
+        Log.d(TAG, "creation = ${metadata?.creationTimestamp}, last = ${metadata?.lastSignInTimestamp}")
+        return metadata?.creationTimestamp == metadata?.lastSignInTimestamp
     }
 
     fun delete(activity: Activity): Task<Void> {

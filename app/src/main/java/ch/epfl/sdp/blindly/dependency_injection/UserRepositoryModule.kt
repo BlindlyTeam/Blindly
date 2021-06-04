@@ -74,6 +74,5 @@ object UserRepositoryModule {
      */
     @Singleton
     @Provides
-    fun provideUserHelper(@ApplicationContext appContext: Context): UserHelper = UserHelper(
-        provideUserRepository(appContext))
+    fun provideUserHelper(): UserHelper = UserHelper()
 }
