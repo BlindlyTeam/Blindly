@@ -25,16 +25,14 @@ import ch.epfl.sdp.blindly.main_screen.my_matches.match_profile.MatchProfileActi
 import ch.epfl.sdp.blindly.user.UserHelper
 import kotlinx.coroutines.runBlocking
 
-
 class MyMatchesAdapter(
     var my_matches: MutableList<MyMatch>,
     private var viewHolderList: MutableList<ViewHolder>,
-    var context: Context,
+    private var context: Context,
     private val listener: OnItemClickListener,
-    val userHelper: UserHelper,
-    val userRepository: UserRepository
+    private val userHelper: UserHelper,
+    private val userRepository: UserRepository
 ) : RecyclerView.Adapter<MyMatchesAdapter.ViewHolder>() {
-
 
     companion object {
         const val BUNDLE_MATCHED_UID_LABEL = "matchedId"
@@ -57,7 +55,8 @@ class MyMatchesAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val matchedName: TextView = view.findViewById(R.id.matchedUserName)
         val userNameLayout: LinearLayout = view.findViewById(R.id.userNameLayout)
-        val expandableChatAndMapLayout: LinearLayout = view.findViewById(R.id.chatAndMapLayout)
+        val expandableChatAndMapLayout: LinearLayout =
+            view.findViewById(R.id.chatProfileMapButtonsLayout)
         val chatButton: AppCompatImageButton = view.findViewById(R.id.chatButton)
         val profileButton: AppCompatImageButton = view.findViewById(R.id.profileButton)
         val mapButton: AppCompatImageButton = view.findViewById(R.id.mapButton)

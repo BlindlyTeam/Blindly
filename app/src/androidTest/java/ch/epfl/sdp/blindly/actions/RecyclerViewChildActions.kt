@@ -41,7 +41,7 @@ class RecyclerViewChildActions {
         fun childOfViewAtPositionWithMatcher(
             childId: Int,
             position: Int,
-            childMatcher: Matcher<View>
+            childMatcher: Matcher<View?>
         ): Matcher<View> {
             return object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
                 override fun describeTo(description: Description?) {
