@@ -30,7 +30,7 @@ talk to them, and once you've plan a date, easily find them in real life thanks 
 <img src="screenshots/my_matches.png" width="200"> <img src="screenshots/profile_match.png" width="200"> <img src="screenshots/chat.png" width="200"> <img src="screenshots/map.png" width="200"> 
 
 ### Plan a date
-The weather is directly accessible from the app, so you can plan for the most perfect date and not forget about it by directly creating an event in your calendar!
+The weather is accessible from the app, so you can plan for the most perfect date and not forget about it by directly creating an event in your calendar!
 
 <img src="screenshots/weather.png" width="200"> <img src="screenshots/calendar.png" width="200"> 
 
