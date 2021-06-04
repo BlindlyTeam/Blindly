@@ -115,11 +115,12 @@ class UserRepositoryImpl constructor(
         val user = userCache.get(uid)
         if (user != null) {
             Log.d(TAG, "Updated user in local cache and localDB")
-            userCache.put(uid, User.updateUser(user, field, newValue))
+            val updatedUser = User.updateUser(user, field, newValue)
+            userCache.put(uid, updatedUser)
             if(helper.getUserId() == uid) {
                 //update only the current user in the local DB
                 withContext(Dispatchers.IO) {
-                    userDAO.updateUser(UserEntity(uid, user))
+                    userDAO.updateUser(UserEntity(uid, updatedUser))
                 }
             }
         } else {
