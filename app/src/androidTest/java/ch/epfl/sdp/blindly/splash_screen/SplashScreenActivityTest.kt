@@ -1,18 +1,14 @@
 package ch.epfl.sdp.blindly.splash_screen
 
 import android.app.Activity
-import android.app.Instrumentation
-import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.platform.app.InstrumentationRegistry
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.main_screen.MainScreen
@@ -45,13 +41,6 @@ class SplashScreenActivityTest {
         hiltRule.inject()
 
         init()
-
-        // Block the intent opening the main screen so that we have time to do our checks here
-        val instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
-        val filter: IntentFilter? = null
-        val monitor = instrumentation.addMonitor(filter, null, true)
-        intended(anyIntent())
-        instrumentation.removeMonitor(monitor)
     }
 
     @After
@@ -61,13 +50,14 @@ class SplashScreenActivityTest {
 
     @Test
     fun splashScreenDisplaysSplashscreenDotPNG() {
+        var imageView: ImageView? = null
         activityRule.scenario.onActivity { activity ->
-            val imageView: ImageView = activity.findViewById(R.id.splashscreen_heart)
-            val resIdImage: Int = R.drawable.splash_screen_foreground
+            imageView = activity.findViewById(R.id.splashscreen_heart)
+        }
+        val resIdImage: Int = R.drawable.splash_screen_foreground
 
-            if (!isImageEqualToRes(imageView, resIdImage)) {
-                fail("Expected to find splashscreen.png for splash_screen")
-            }
+        if (!imageView?.let { isImageEqualToRes(it, resIdImage) }!!) {
+            fail("Expected to find splashscreen.png for splash_screen")
         }
     }
 

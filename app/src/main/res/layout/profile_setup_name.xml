@@ -64,17 +64,14 @@
 
     <TextView
         android:id="@+id/warning2_p2"
-        android:layout_width="300dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/name_can_t_be_more_than_20_characters"
         android:textColor="#FF0000"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.626" />
+        android:layout_below="@id/text_first_name"
+        android:layout_alignStart="@id/text_first_name"
+        android:layout_marginTop="@dimen/margin" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_p2"

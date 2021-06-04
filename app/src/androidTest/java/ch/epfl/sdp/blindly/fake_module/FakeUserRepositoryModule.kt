@@ -306,10 +306,6 @@ open class FakeUserRepositoryModule {
 
         Mockito.`when`(user.getUserId()).thenReturn(TEST_UID)
 
-        user.stub {
-            onBlocking { isNewUser() }.doReturn(false)
-        }
-
         //TODO this fakeIntent may be wrong to fake
         val fakeIntent = mock(Intent::class.java)
         Mockito.`when`(user.getSignInIntent()).thenReturn(fakeIntent)

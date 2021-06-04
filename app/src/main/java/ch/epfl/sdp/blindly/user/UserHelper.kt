@@ -84,8 +84,6 @@ class UserHelper(/*private val userRepository: UserRepository*/) {
 
     }
 
-    fun getProfileSetupIntent(activity: Activity) = Intent(activity, ProfileHouseRules::class.java)
-
     fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Intent? {
         Log.d(TAG, "Back with a result")
         val response = IdpResponse.fromResultIntent(data)
