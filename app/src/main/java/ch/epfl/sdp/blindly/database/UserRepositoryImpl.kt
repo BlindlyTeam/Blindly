@@ -170,16 +170,16 @@ class UserRepositoryImpl constructor(
     override suspend fun removeFieldFromUser(field: String, uid: String) {
         if (field != MATCHES && field != LIKES)
             throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
-        var updatedList: ArrayList<String>? = null
+        var updatedList: MutableList<String>? = null
         val snapshot = db.collection(USER_COLLECTION).whereArrayContains(field, uid).get().await()
         val users = snapshot.map { s -> s.toUser() }
         users.forEach { user ->
             if (user != null) {
                 when (field) {
                     LIKES ->
-                        updatedList = user.likes as ArrayList<String>?
+                        updatedList = user.likes?.toMutableList()
                     MATCHES ->
-                        updatedList = user.matches as ArrayList<String>?
+                        updatedList = user.matches?.toMutableList()
                 }
                 updatedList?.remove(uid)
                 user.uid?.let { updateProfile(it, field, updatedList) }
@@ -200,9 +200,9 @@ class UserRepositoryImpl constructor(
     ) {
         val user = getUser(userId)
         if (user != null) {
-            var updatedLikesList = user.likes as ArrayList<String>?
-            var updatedDislikesList = user.dislikes as ArrayList<String>?
-            var updatedMatchesList = user.matches as ArrayList<String>?
+            val updatedLikesList = user.likes?.toMutableList()
+            val updatedDislikesList = user.dislikes?.toMutableList()
+            val updatedMatchesList = user.matches?.toMutableList()
 
             updatedLikesList?.remove(matchId)
             updatedDislikesList?.add(matchId)
@@ -229,7 +229,7 @@ class UserRepositoryImpl constructor(
     ) {
         val user = getUser(removedUserId)
         if (user != null) {
-            var updatedMatchesList = user.matches as ArrayList<String>?
+            val updatedMatchesList = user.matches?.toMutableList()
             updatedMatchesList?.remove(currentUserId)
             user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
         }
