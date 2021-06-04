@@ -12,6 +12,10 @@ Properties localProperties = new Properties()
 localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
+    signingConfigs {
+        release {
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 

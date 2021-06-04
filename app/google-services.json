@@ -15,11 +15,67 @@
       },
       "oauth_client": [
         {
-          "client_id": "738788434561-2o10m012enhifduvgksfl2u7lajejo0v.apps.googleusercontent.com",
+          "client_id": "738788434561-086sj07jc2k8uavu4uqvqv5c5a17142i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ch.epfl.sdp.blindly",
-            "certificate_hash": "c936401ccf45d28a5b708f429819fc60f74f0214"
+            "certificate_hash": "ca101e8cdda9bad286ce70b90f07d34fe63e9bf5"
+          }
+        },
+        {
+          "client_id": "738788434561-09vc22r12d7d17tuik2adi0l3gogl6d0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp.blindly",
+            "certificate_hash": "3b747d5a0f871c31d77558534b4175daf1b67e7d"
+          }
+        },
+        {
+          "client_id": "738788434561-4agc51djb53flavg9tfho2nl9kn80qqr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp.blindly",
+            "certificate_hash": "344b3b9338507120b264b3cf111e17035136cf4d"
+          }
+        },
+        {
+          "client_id": "738788434561-i585luroojtqoulrjuuobkqnpf145s4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp.blindly",
+            "certificate_hash": "9dbd959f78a762d5ae6cdbbff45a41d44e5b62bd"
+          }
+        },
+        {
+          "client_id": "738788434561-kga3jt7pujts5asdv5qs8al2eokts77j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp.blindly",
+            "certificate_hash": "a595819c84b2646adfd56da869ae8c94b6161d88"
+          }
+        },
+        {
+          "client_id": "738788434561-qsombl5veejdfkdmkb5mjb2vjc0f18ti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp.blindly",
+            "certificate_hash": "b1efab2d50a53b81273a362091685504a0b3e97e"
+          }
+        },
+        {
+          "client_id": "738788434561-u6fk6ldkn05v8s2agosfjj4l4bjqru35.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp.blindly",
+            "certificate_hash": "098290019bfb6a9d0106b9d29d7fb8a773053068"
+          }
+        },
+        {
+          "client_id": "738788434561-vt1r3nr5mat8gat9v3gr4ohsj4nbpeu9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp.blindly",
+            "certificate_hash": "46fe5bbc9b173d6915bcb6826749a205b28c6729"
           }
         },
         {

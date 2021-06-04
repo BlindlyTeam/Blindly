@@ -1,20 +1,15 @@
 package ch.epfl.sdp.blindly.viewmodel
 
 import android.content.Context
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Chronometer
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import androidx.test.core.app.ApplicationProvider
-import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.audio.AudioPlayerFragment
 import ch.epfl.sdp.blindly.audio.BlindlyMediaPlayer
 import ch.epfl.sdp.blindly.audio.FirebaseRecordings
 import ch.epfl.sdp.blindly.audio.PRESENTATION_AUDIO_NAME
@@ -24,10 +19,8 @@ import ch.epfl.sdp.blindly.user.UserHelper.Companion.EXTRA_UID
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import java.io.File
-import java.lang.Exception
 
 /**
  * The viewModel associated with ProfilePage, it holds the livedata for a given user
