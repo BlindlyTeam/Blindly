@@ -69,8 +69,6 @@ class UserHelper(/*private val userRepository: UserRepository*/) {
             .setFacebookButtonId(R.id.facebook_sign_in)
             .build()
 
-        Log.d(TAG, "I'm here")
-
         return AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
@@ -85,9 +83,7 @@ class UserHelper(/*private val userRepository: UserRepository*/) {
     }
 
     fun handleAuthResult(activity: Activity, resultCode: Int, data: Intent?): Intent? {
-        Log.d(TAG, "Back with a result")
         val response = IdpResponse.fromResultIntent(data)
-        Log.d(TAG, "response = $response")
         if (resultCode == Activity.RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
