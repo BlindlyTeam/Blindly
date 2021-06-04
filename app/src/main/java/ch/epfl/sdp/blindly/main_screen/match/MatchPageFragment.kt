@@ -369,7 +369,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
      */
     private suspend fun checkMatch() {
         val otherUser = userRepository.getUser(likedUserId)
-        
         if (otherUser?.likes?.contains(currentUserId)!!) {
             val otherUserUpdatedMatchList = otherUser.matches?.toMutableList()
             otherUserUpdatedMatchList?.add(currentUserId)
