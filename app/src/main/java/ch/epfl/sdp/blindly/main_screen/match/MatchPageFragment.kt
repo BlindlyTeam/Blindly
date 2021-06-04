@@ -53,6 +53,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private lateinit var likedUserId: String
     private lateinit var currentUserId: String
     private lateinit var currentUser: User
+    private lateinit var updatedLikesList: MutableList<String>
+    private lateinit var updatedDislikesList: MutableList<String>
+
     private var currentPosition = -1
 
     @Inject
@@ -140,7 +143,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
     override fun onCardSwiped(direction: Direction) {
         if (direction == Direction.Right) {
             likedUserId = currentCardUid
-            val updatedLikesList = currentUser.likes?.toMutableList()
             updatedLikesList?.add(likedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
                 userRepository.updateProfile(currentUserId, LIKES, updatedLikesList)
@@ -148,7 +150,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
             }
         } else if (direction == Direction.Left) {
             val dislikedUserId = currentCardUid
-            val updatedDislikesList = currentUser.dislikes?.toMutableList()
             updatedDislikesList?.add(dislikedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
                 userRepository.updateProfile(currentUserId, DISLIKES, updatedDislikesList)
@@ -287,6 +288,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
         currentUserId = userHelper.getUserId()!!
         currentUser = userRepository.getUser(currentUserId)!!
+        updatedLikesList = currentUser.likes?.toMutableList() ?: mutableListOf()
+        updatedDislikesList = currentUser.dislikes?.toMutableList() ?: mutableListOf()
         val profiles = ArrayList<Profile>()
         for (user in users) {
             profiles.add(
