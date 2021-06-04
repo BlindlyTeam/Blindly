@@ -179,11 +179,6 @@ class MyMatchesAdapter(
                                 my_matches[position].uid
                             )
                         }
-                    userHelper.getUserId()?.let { it1 ->
-                        userRepository.removeCurrentUserFromRemovedMatch(
-                            it1, my_matches[position].uid
-                        )
-                    }
                 }
             }
             builder.setNegativeButton(ANSWER_NO) { dialog, _ -> dialog.dismiss() }

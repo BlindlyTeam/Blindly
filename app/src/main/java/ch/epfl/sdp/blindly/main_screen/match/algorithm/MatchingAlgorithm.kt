@@ -1,8 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen.match.algorithm
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.user.User
 import ch.epfl.sdp.blindly.user.UserHelper
@@ -46,8 +44,11 @@ class MatchingAlgorithm(
 
             //Wait on the query to be done before continuing
             try {
-                val matches = userRepository.query(query)
-                    .filter { user -> user.uid != userid && !currentUser.likes!!.contains(user.uid) }
+                val matches = userRepository.query(query).filter { user ->
+                    user.uid != userid
+                    && !currentUser.likes!!.contains(user.uid)
+                    && !currentUser.dislikes!!.contains(user.uid)
+                }
                 val nonDeletedMatches = matches.filter { user -> !user.deleted }
                 val filteredList =
                     userListFilter.filterLocationAndAgeRange(currentUser, nonDeletedMatches)

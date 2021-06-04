@@ -15,10 +15,8 @@ import ch.epfl.sdp.blindly.user.User.Companion.toUser
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import kotlin.reflect.KSuspendFunction1
 
 /**
@@ -138,15 +136,20 @@ class UserRepositoryImpl constructor(
      */
     override suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         Log.d(TAG, "Updating field: $field")
-        if (newValue !is String && newValue !is List<*> && newValue !is Int && newValue !is Boolean)
+        var valueToUpdate = newValue
+        if (valueToUpdate !is String && valueToUpdate !is List<*> && valueToUpdate !is Int && valueToUpdate !is Boolean)
             throw IllegalArgumentException("Expected String, List<String> or Int")
+
+        @Suppress("UNCHECKED_CAST")
+        if (field == LIKES || field == DISLIKES || field == MATCHES)
+            valueToUpdate = ((valueToUpdate as List<*>).distinct() as T)
 
         db.collection(USER_COLLECTION)
             .document(uid)
-            .update(field, newValue)
+            .update(field, valueToUpdate)
         Log.d(TAG, "Updated user")
         //Put updated value into the local cache
-        updateLocalCacheAndDB(uid, field, newValue)
+        updateLocalCacheAndDB(uid, field, valueToUpdate)
     }
 
     /**
@@ -158,8 +161,10 @@ class UserRepositoryImpl constructor(
         removeFieldFromUser(LIKES, uid)
         updateProfile(uid, DELETED, true)
         userCache.remove(uid)
-        val user = userDAO.getUser(uid)
-        userDAO.deleteUser(UserEntity(uid, user!!))
+        withContext(Dispatchers.IO) {
+            val user = userDAO.getUser(uid)
+            userDAO.deleteUser(UserEntity(uid, user!!))
+        }
     }
 
     /**
@@ -171,16 +176,16 @@ class UserRepositoryImpl constructor(
     override suspend fun removeFieldFromUser(field: String, uid: String) {
         if (field != MATCHES && field != LIKES)
             throw java.lang.IllegalArgumentException("Expected filed to be MATCHES or LIKES")
-        var updatedList: ArrayList<String>? = null
+        var updatedList: MutableList<String>? = null
         val snapshot = db.collection(USER_COLLECTION).whereArrayContains(field, uid).get().await()
         val users = snapshot.map { s -> s.toUser() }
         users.forEach { user ->
             if (user != null) {
                 when (field) {
                     LIKES ->
-                        updatedList = user.likes as ArrayList<String>?
+                        updatedList = user.likes?.toMutableList()
                     MATCHES ->
-                        updatedList = user.matches as ArrayList<String>?
+                        updatedList = user.matches?.toMutableList()
                 }
                 updatedList?.remove(uid)
                 user.uid?.let { updateProfile(it, field, updatedList) }
@@ -201,9 +206,9 @@ class UserRepositoryImpl constructor(
     ) {
         val user = getUser(userId)
         if (user != null) {
-            var updatedLikesList = user.likes as ArrayList<String>?
-            var updatedDislikesList = user.dislikes as ArrayList<String>?
-            var updatedMatchesList = user.matches as ArrayList<String>?
+            val updatedLikesList = user.likes?.toMutableList()
+            val updatedDislikesList = user.dislikes?.toMutableList()
+            val updatedMatchesList = user.matches?.toMutableList()
 
             updatedLikesList?.remove(matchId)
             updatedDislikesList?.add(matchId)
@@ -215,26 +220,6 @@ class UserRepositoryImpl constructor(
         }
     }
 
-
-    /**
-     * Removes the current user from removed user's matches
-     * It's kept in likes of remote user so that they don't reappear
-     * in their cards
-     *
-     * @param currentUserId
-     * @param removedUserId
-     */
-    override suspend fun removeCurrentUserFromRemovedMatch(
-        currentUserId: String,
-        removedUserId: String
-    ) {
-        val user = getUser(removedUserId)
-        if (user != null) {
-            var updatedMatchesList = user.matches as ArrayList<String>?
-            updatedMatchesList?.remove(currentUserId)
-            user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
-        }
-    }
 
     /**
      * Get the collection reference of the database of users.
@@ -284,6 +269,11 @@ class UserRepositoryImpl constructor(
             if (snapshot != null && snapshot.exists()) {
                 Log.d(TAG, "Current data: ${snapshot.data}")
                 myMatchesUids = snapshot[MATCHES] as List<String>
+
+                runBlocking {
+                    updateLocalCacheAndDB(userId, MATCHES, myMatchesUids)
+                }
+
                 viewLifecycleOwner.lifecycleScope.launch {
                     myMatches = arrayListOf()
                     for (uid in myMatchesUids) {

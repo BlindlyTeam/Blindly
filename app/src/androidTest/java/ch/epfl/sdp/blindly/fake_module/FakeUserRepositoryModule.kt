@@ -49,8 +49,6 @@ open class FakeUserRepositoryModule {
         const val TEST_UID2 = "fdJofwEJWflhwjVREs324cdEWals"
         const val TEST_UID3 = "adnDEO28fWLCEJWo234fwCWLjlw"
         const val TEST_UID4 = "gaCDWOIQFJf2439dsafnqkq93"
-        const val TEST_UID5 = "DEKvqr234jhfqEDIUhfqifw53jf"
-        const val TEST_UID6 = "Fql4bc19cCQWHC214kfjq1fl"
 
         val fakeUser = User.Builder()
             .setUid(TEST_UID)
@@ -177,22 +175,10 @@ open class FakeUserRepositoryModule {
                 TEST_UID2 to fakeUser2,
                 TEST_UID3 to fakeUser3,
                 TEST_UID4 to fakeUser4,
-                /*TEST_UID5 to fakeUser5,
-                TEST_UID6 to fakeUser6*/
             )
 
             override suspend fun getUser(uid: String): User {
                 return db.getOrDefault(uid, fakeUser)
-            }
-
-            override suspend fun removeCurrentUserFromRemovedMatch(
-                removingUserId: String,
-                removedUserId: String
-            ) {
-                val user = getUser(removedUserId)
-                val updatedMatchesList = user.matches?.toMutableList()
-                updatedMatchesList?.remove(removingUserId)
-                user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
             }
 
             override suspend fun removeMatchFromCurrentUser(
