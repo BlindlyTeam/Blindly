@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import ch.epfl.sdp.blindly.BuildConfig
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.database.UserRepository
@@ -71,6 +72,7 @@ class UserHelper(private val userRepository: UserRepository) {
 
         return AuthUI.getInstance()
             .createSignInIntentBuilder()
+            .setIsSmartLockEnabled(!BuildConfig.DEBUG /* credentials */, true /* hints */)
             .setAvailableProviders(providers)
             .setTheme(R.style.Theme_Blindly) // Set theme
             /*.setTosAndPrivacyPolicyUrls(
