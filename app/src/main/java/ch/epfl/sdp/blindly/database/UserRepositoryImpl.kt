@@ -138,15 +138,20 @@ class UserRepositoryImpl constructor(
      */
     override suspend fun <T> updateProfile(uid: String, field: String, newValue: T) {
         Log.d(TAG, "Updating field: $field")
-        if (newValue !is String && newValue !is List<*> && newValue !is Int && newValue !is Boolean)
+        var valueToUpdate = newValue
+        if (valueToUpdate !is String && valueToUpdate !is List<*> && valueToUpdate !is Int && valueToUpdate !is Boolean)
             throw IllegalArgumentException("Expected String, List<String> or Int")
+
+        @Suppress("UNCHECKED_CAST")
+        if (field == LIKES || field == DISLIKES || field == MATCHES)
+            valueToUpdate = ((valueToUpdate as List<*>).distinct() as T)
 
         db.collection(USER_COLLECTION)
             .document(uid)
-            .update(field, newValue)
+            .update(field, valueToUpdate)
         Log.d(TAG, "Updated user")
         //Put updated value into the local cache
-        updateLocalCacheAndDB(uid, field, newValue)
+        updateLocalCacheAndDB(uid, field, valueToUpdate)
     }
 
     /**
