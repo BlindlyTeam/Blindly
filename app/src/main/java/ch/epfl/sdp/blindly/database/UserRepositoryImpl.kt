@@ -157,8 +157,10 @@ class UserRepositoryImpl constructor(
         removeFieldFromUser(LIKES, uid)
         updateProfile(uid, DELETED, true)
         userCache.remove(uid)
-        val user = userDAO.getUser(uid)
-        userDAO.deleteUser(UserEntity(uid, user!!))
+        withContext(Dispatchers.IO) {
+            val user = userDAO.getUser(uid)
+            userDAO.deleteUser(UserEntity(uid, user!!))
+        }
     }
 
     /**
