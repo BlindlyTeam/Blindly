@@ -24,6 +24,7 @@ const val MAIN_SCREEN_DELAY: Long = 2500
 class SplashScreen : AppCompatActivity() {
 
     private var animationFinished: Boolean = false
+    private var waitingAuthResult: Boolean = true
     private lateinit var isNewUser: Deferred<Boolean>
 
     @Inject
@@ -63,7 +64,10 @@ class SplashScreen : AppCompatActivity() {
         // so we have to be sure to run the launch the next activity
         // in order not to be blocked on this one
         if (animationFinished)
-            launchNext()
+            if (!waitingAuthResult)
+                launchNext()
+            else
+                waitingAuthResult = false
     }
 
     private fun launchNext() {
@@ -78,12 +82,14 @@ class SplashScreen : AppCompatActivity() {
             }
             }
         } else {
+            waitingAuthResult = true
             startActivityForResult(user.getSignInIntent(), UserHelper.RC_SIGN_IN)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        isNewUser = GlobalScope.async { user.isNewUser() }
         GlobalScope.launch(Dispatchers.Main) {
             val nextIntent = user.handleAuthResult(this@SplashScreen, resultCode, data)
             // Open the rest if the login is successful
