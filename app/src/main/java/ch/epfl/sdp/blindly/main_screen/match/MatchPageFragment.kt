@@ -369,21 +369,23 @@ class MatchPageFragment : Fragment(), CardStackListener {
      */
     private suspend fun checkMatch() {
         val otherUser = userRepository.getUser(likedUserId)
+        
         if (otherUser?.likes?.contains(currentUserId)!!) {
-            otherUser.matches?.toMutableList()?.let {
-                userRepository.updateProfile(
-                    likedUserId,
-                    MATCHES,
-                    it.add(currentUserId)
-                )
-            }
-            currentUser.matches?.toMutableList()?.let {
-                userRepository.updateProfile(
-                    currentUserId,
-                    MATCHES,
-                    it.add(likedUserId)
-                )
-            }
+            val otherUserUpdatedMatchList = otherUser.matches?.toMutableList()
+            otherUserUpdatedMatchList?.add(currentUserId)
+            userRepository.updateProfile(
+                likedUserId,
+                MATCHES,
+                otherUserUpdatedMatchList
+            )
+
+            val currentUserUpdatedMatchList = currentUser.matches?.toMutableList()
+            currentUserUpdatedMatchList?.add(likedUserId)
+            userRepository.updateProfile(
+                currentUserId,
+                MATCHES,
+                currentUserUpdatedMatchList
+            )
         }
     }
 }
