@@ -140,16 +140,18 @@ class MatchPageFragment : Fragment(), CardStackListener {
     override fun onCardSwiped(direction: Direction) {
         if (direction == Direction.Right) {
             likedUserId = currentCardUid
-            currentUser.likes?.toMutableList()?.add(likedUserId)
+            val updatedLikesList = currentUser.likes?.toMutableList()
+            updatedLikesList?.add(likedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
-                userRepository.updateProfile(currentUserId, LIKES, currentUser)
+                userRepository.updateProfile(currentUserId, LIKES, updatedLikesList)
                 checkMatch()
             }
         } else if (direction == Direction.Left) {
             val dislikedUserId = currentCardUid
-            currentUser.dislikes?.toMutableList()?.add(dislikedUserId)
+            val updatedDislikesList = currentUser.dislikes?.toMutableList()
+            updatedDislikesList?.add(dislikedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
-                userRepository.updateProfile(currentUserId, DISLIKES, currentUser)
+                userRepository.updateProfile(currentUserId, DISLIKES, updatedDislikesList)
             }
         }
     }
