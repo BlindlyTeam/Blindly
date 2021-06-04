@@ -21,10 +21,7 @@ import ch.epfl.sdp.blindly.main_screen.match.algorithm.MatchingAlgorithm
 import ch.epfl.sdp.blindly.main_screen.match.cards.CardStackAdapter
 import ch.epfl.sdp.blindly.main_screen.match.cards.MediaPlayerStates
 import ch.epfl.sdp.blindly.main_screen.match.cards.Profile
-import ch.epfl.sdp.blindly.user.LIKES
-import ch.epfl.sdp.blindly.user.MATCHES
-import ch.epfl.sdp.blindly.user.User
-import ch.epfl.sdp.blindly.user.UserHelper
+import ch.epfl.sdp.blindly.user.*
 import ch.epfl.sdp.blindly.utils.CheckInternet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.yuyakaido.android.cardstackview.*
@@ -147,6 +144,12 @@ class MatchPageFragment : Fragment(), CardStackListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 userRepository.updateProfile(currentUserId, LIKES, updatedLikesList)
                 checkMatch()
+            }
+        } else if (direction == Direction.Left) {
+            val dislikedUserId = currentCardUid
+            val updatedDislikesList = currentUser.dislikes?.plus(dislikedUserId)
+            viewLifecycleOwner.lifecycleScope.launch {
+                userRepository.updateProfile(currentUserId, DISLIKES, updatedDislikesList)
             }
         }
     }
