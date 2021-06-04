@@ -219,26 +219,6 @@ class UserRepositoryImpl constructor(
 
 
     /**
-     * Removes the current user from removed user's matches
-     * It's kept in likes of remote user so that they don't reappear
-     * in their cards
-     *
-     * @param currentUserId
-     * @param removedUserId
-     */
-    override suspend fun removeCurrentUserFromRemovedMatch(
-        currentUserId: String,
-        removedUserId: String
-    ) {
-        val user = getUser(removedUserId)
-        if (user != null) {
-            var updatedMatchesList = user.matches as ArrayList<String>?
-            updatedMatchesList?.remove(currentUserId)
-            user.uid?.let { updateProfile(it, MATCHES, updatedMatchesList) }
-        }
-    }
-
-    /**
      * Get the collection reference of the database of users.
      *
      * @return the reference of the database

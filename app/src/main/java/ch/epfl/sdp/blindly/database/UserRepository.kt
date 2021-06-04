@@ -54,15 +54,6 @@ interface UserRepository {
      */
     suspend fun removeMatchFromCurrentUser(userId: String, matchId: String)
 
-    /**
-     * Removes the current user from removed user's matches
-     * It's kept in likes of remote user so that they wouldn't reappear
-     * in their cards
-     *
-     * @param removingUserId
-     * @param removedUserId
-     */
-    suspend fun removeCurrentUserFromRemovedMatch(removingUserId : String, removedUserId : String)
 
     /**
      * Remove a user from either the Matches or Liked list from all user that contains them
