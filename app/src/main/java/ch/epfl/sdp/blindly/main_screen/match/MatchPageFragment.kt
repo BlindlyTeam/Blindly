@@ -140,14 +140,14 @@ class MatchPageFragment : Fragment(), CardStackListener {
     override fun onCardSwiped(direction: Direction) {
         if (direction == Direction.Right) {
             likedUserId = currentCardUid
-            val updatedLikesList = currentUser.likes?.plus(likedUserId)
+            val updatedLikesList = currentUser.likes?.toMutableList()?.add(likedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
                 userRepository.updateProfile(currentUserId, LIKES, updatedLikesList)
                 checkMatch()
             }
         } else if (direction == Direction.Left) {
             val dislikedUserId = currentCardUid
-            val updatedDislikesList = currentUser.dislikes?.plus(dislikedUserId)
+            val updatedDislikesList = currentUser.dislikes?.toMutableList()?.add(dislikedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
                 userRepository.updateProfile(currentUserId, DISLIKES, updatedDislikesList)
             }
@@ -368,16 +368,20 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private suspend fun checkMatch() {
         val otherUser = userRepository.getUser(likedUserId)
         if (otherUser?.likes?.contains(currentUserId)!!) {
-            userRepository.updateProfile(
-                likedUserId,
-                MATCHES,
-                otherUser.matches?.plus(currentUserId)
-            )
-            userRepository.updateProfile(
-                currentUserId,
-                MATCHES,
-                currentUser.matches?.plus(likedUserId)
-            )
+            otherUser.matches?.toMutableList()?.let {
+                userRepository.updateProfile(
+                    likedUserId,
+                    MATCHES,
+                    it.add(currentUserId)
+                )
+            }
+            currentUser.matches?.toMutableList()?.let {
+                userRepository.updateProfile(
+                    currentUserId,
+                    MATCHES,
+                    it.add(likedUserId)
+                )
+            }
         }
     }
 }
