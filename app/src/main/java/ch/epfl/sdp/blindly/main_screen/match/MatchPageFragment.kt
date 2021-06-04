@@ -55,6 +55,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private lateinit var currentUser: User
     private lateinit var updatedLikesList: MutableList<String>
     private lateinit var updatedDislikesList: MutableList<String>
+    private lateinit var currentUserUpdatedMatchList: MutableList<String>
+
 
     private var currentPosition = -1
 
@@ -290,6 +292,8 @@ class MatchPageFragment : Fragment(), CardStackListener {
         currentUser = userRepository.getUser(currentUserId)!!
         updatedLikesList = currentUser.likes?.toMutableList() ?: mutableListOf()
         updatedDislikesList = currentUser.dislikes?.toMutableList() ?: mutableListOf()
+        currentUserUpdatedMatchList = currentUser.matches?.toMutableList() ?: mutableListOf()
+
         val profiles = ArrayList<Profile>()
         for (user in users) {
             profiles.add(
@@ -381,7 +385,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
                 otherUserUpdatedMatchList
             )
 
-            val currentUserUpdatedMatchList = currentUser.matches?.toMutableList()
             currentUserUpdatedMatchList?.add(likedUserId)
             userRepository.updateProfile(
                 currentUserId,
