@@ -37,7 +37,8 @@
             android:textAlignment="center"
             android:textColor="@color/blindly_purple"
             android:textSize="26sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:background="@color/white"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/skip_button"

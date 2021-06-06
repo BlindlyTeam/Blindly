@@ -11,6 +11,7 @@ import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -125,6 +126,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
 
         // While waiting for the profiles to load, show a message and
         // disable the play/pause button
+        fragView.findViewById<TextView>(R.id.no_profile_text).isVisible = true
         fragView.findViewById<TextView>(R.id.no_profile_text).text =
             getString(R.string.loading_profiles)
         fragView.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable =
@@ -194,6 +196,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
             adapter.mediaPlayers[position].stop()
         }
         if (position == adapter.itemCount - 1) {
+            fragView.findViewById<TextView>(R.id.no_profile_text).isVisible = true
             fragView.findViewById<TextView>(R.id.no_profile_text).text =
                 getString(R.string.no_more_swipes)
             fragView.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable =
@@ -226,7 +229,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
      */
     private fun setupAdapterAndCardStackView(potentialMatches: List<Profile>) {
         if (CheckInternet.internetIsConnected(this.requireActivity())) {
-            adapter = CardStackAdapter(potentialMatches, recordings, fragView)
+            adapter = CardStackAdapter(potentialMatches.toMutableList(), recordings, fragView)
             setupCardStackView(fragView)
         } else {
             fragView.findViewById<View>(R.id.skip_button).isClickable = false
@@ -259,10 +262,11 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
         //Set the message text if no profiles are available
         if (adapter.itemCount == 0) {
+            fragView.findViewById<TextView>(R.id.no_profile_text).isVisible = true
             fragView.findViewById<TextView>(R.id.no_profile_text).text =
                 getString(R.string.no_available_swipe)
         } else {
-            fragView.findViewById<TextView>(R.id.no_profile_text).text = ""
+            fragView.findViewById<TextView>(R.id.no_profile_text).isVisible = false
         }
     }
 
