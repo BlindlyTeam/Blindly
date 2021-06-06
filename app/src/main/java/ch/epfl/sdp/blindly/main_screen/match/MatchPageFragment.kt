@@ -111,6 +111,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
         return fragView
     }
 
+    /**
+     * Generates the cards each time the fragment is visible
+     */
     override fun onResume() {
         setupButtons(fragView)
         setupManager()
@@ -119,6 +122,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         viewLifecycleOwner.lifecycleScope.launch {
             handleCoroutine()
         }
+
         // While waiting for the profiles to load, show a message and
         // disable the play/pause button
         fragView.findViewById<TextView>(R.id.no_profile_text).text =
@@ -147,14 +151,14 @@ class MatchPageFragment : Fragment(), CardStackListener {
     override fun onCardSwiped(direction: Direction) {
         if (direction == Direction.Right) {
             likedUserId = currentCardUid
-            updatedLikesList?.add(likedUserId)
+            updatedLikesList.add(likedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
                 userRepository.updateProfile(currentUserId, LIKES, updatedLikesList)
                 checkMatch()
             }
         } else if (direction == Direction.Left) {
             val dislikedUserId = currentCardUid
-            updatedDislikesList?.add(dislikedUserId)
+            updatedDislikesList.add(dislikedUserId)
             viewLifecycleOwner.lifecycleScope.launch {
                 userRepository.updateProfile(currentUserId, DISLIKES, updatedDislikesList)
             }
@@ -385,7 +389,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
                 otherUserUpdatedMatchList
             )
 
-            currentUserUpdatedMatchList?.add(likedUserId)
+            currentUserUpdatedMatchList.add(likedUserId)
             userRepository.updateProfile(
                 currentUserId,
                 MATCHES,
