@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly.audio
 
 import android.net.Uri
-import ch.epfl.sdp.blindly.audio.FirebaseRecordings.*
+import ch.epfl.sdp.blindly.audio.FirebaseRecordings.RecordingOperationCallback
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 

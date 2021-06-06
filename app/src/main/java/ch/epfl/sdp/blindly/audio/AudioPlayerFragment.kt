@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.Chronometer
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.main_screen.profile.BUNDLE_UID
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel

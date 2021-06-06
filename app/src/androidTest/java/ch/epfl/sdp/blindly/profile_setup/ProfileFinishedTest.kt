@@ -41,7 +41,8 @@ class ProfileFinishedTest {
     }
 
     @get:Rule
-    var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
+    var mRuntimePermissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

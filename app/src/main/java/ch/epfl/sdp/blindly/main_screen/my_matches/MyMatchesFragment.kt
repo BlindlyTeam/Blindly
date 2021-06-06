@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -111,7 +110,14 @@ class MyMatchesFragment : Fragment(), MyMatchesAdapter.OnItemClickListener {
     private fun setupRecylerView(myMatches: MutableList<MyMatch>) {
         myMatchesRecyclerView = fragView.findViewById(R.id.my_matches_recyler_view)
         myMatchesRecyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = MyMatchesAdapter(myMatches, arrayListOf(), requireContext(), this, userHelper, userRepository)
+        adapter = MyMatchesAdapter(
+            myMatches,
+            arrayListOf(),
+            requireContext(),
+            this,
+            userHelper,
+            userRepository
+        )
         myMatchesRecyclerView.adapter = adapter
     }
 

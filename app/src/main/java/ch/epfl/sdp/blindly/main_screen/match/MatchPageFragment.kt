@@ -57,7 +57,6 @@ class MatchPageFragment : Fragment(), CardStackListener {
     private lateinit var updatedDislikesList: MutableList<String>
     private lateinit var currentUserUpdatedMatchList: MutableList<String>
 
-
     private var currentPosition = -1
 
     @Inject
@@ -109,6 +108,10 @@ class MatchPageFragment : Fragment(), CardStackListener {
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.fragment_match_page, container, false)
 
+        return fragView
+    }
+
+    override fun onResume() {
         setupButtons(fragView)
         setupManager()
 
@@ -123,7 +126,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
         fragView.findViewById<FloatingActionButton>(R.id.match_play_pause_button).isClickable =
             false
 
-        return fragView
+        super.onResume()
     }
 
     /**
@@ -132,8 +135,7 @@ class MatchPageFragment : Fragment(), CardStackListener {
      * @param direction where the card is dragged (left, right)
      * @param ratio between default (0) and swiped (1)
      */
-    override fun onCardDragging(direction: Direction, ratio: Float) {
-    }
+    override fun onCardDragging(direction: Direction, ratio: Float) {}
 
     /**
      * When the card is swiped right, add the uid to the liked profiles
@@ -159,11 +161,9 @@ class MatchPageFragment : Fragment(), CardStackListener {
         }
     }
 
-    override fun onCardRewound() {
-    }
+    override fun onCardRewound() {}
 
-    override fun onCardCanceled() {
-    }
+    override fun onCardCanceled() {}
 
     /**
      * When the card appears, save the uid of the user

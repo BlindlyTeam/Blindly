@@ -10,12 +10,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
-import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.animations.RecordAnimations
-import ch.epfl.sdp.blindly.main_screen.MainScreen
-import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 import ch.epfl.sdp.blindly.profile_setup.EXTRA_USER
 import ch.epfl.sdp.blindly.profile_setup.ProfileFinished
 import ch.epfl.sdp.blindly.user.User

@@ -3,8 +3,8 @@ package ch.epfl.sdp.blindly.dependency_injection
 import android.content.Context
 import androidx.room.Room
 import ch.epfl.sdp.blindly.database.UserRepository
-import ch.epfl.sdp.blindly.database.localDB.AppDatabase
 import ch.epfl.sdp.blindly.database.UserRepositoryImpl
+import ch.epfl.sdp.blindly.database.localDB.AppDatabase
 import ch.epfl.sdp.blindly.user.UserHelper
 import ch.epfl.sdp.blindly.user.storage.UserCache
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,7 +15,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
@@ -26,6 +25,7 @@ import javax.inject.Singleton
 object UserRepositoryModule {
     val firestore get() = Firebase.firestore
     val userCache = UserCache()
+
     /**
      * Return a Firestore object to be injected
      *
@@ -75,5 +75,6 @@ object UserRepositoryModule {
     @Singleton
     @Provides
     fun provideUserHelper(@ApplicationContext appContext: Context): UserHelper = UserHelper(
-        provideUserRepository(appContext))
+        provideUserRepository(appContext)
+    )
 }

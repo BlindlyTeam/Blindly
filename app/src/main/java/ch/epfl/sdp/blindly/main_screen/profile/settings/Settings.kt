@@ -38,7 +38,6 @@ private const val DELETE_DIALOG_TITLE = "Delete account."
 private const val DELETE_DIALOG_MESSAGE = "Are you sure you want to delete your account?"
 private const val ANSWER_DELETE = "Delete account"
 
-
 /**
  * Activity class for the settings of the app and the user
  */
@@ -117,7 +116,7 @@ class Settings : AppCompatActivity() {
             ageRange.text = getAgeRangeString(ageRangeSlider)
         }
 
-        if(!CheckInternet.internetIsConnected(this)) {
+        if (!CheckInternet.internetIsConnected(this)) {
             findViewById<Button>(R.id.email_button).isClickable = false
             findViewById<Button>(R.id.location_button).isClickable = false
             findViewById<Slider>(R.id.location_slider).isEnabled = false

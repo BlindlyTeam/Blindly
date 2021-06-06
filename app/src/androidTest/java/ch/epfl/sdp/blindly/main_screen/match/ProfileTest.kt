@@ -9,7 +9,6 @@ import org.junit.Test
 
 @HiltAndroidTest
 class ProfileTest {
-
     private val andre1 = Profile("UID1", "André", 25, "Man", 42, "PathAndré")
 
     @Test

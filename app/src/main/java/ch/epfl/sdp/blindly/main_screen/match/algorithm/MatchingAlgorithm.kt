@@ -46,8 +46,8 @@ class MatchingAlgorithm(
             try {
                 val matches = userRepository.query(query).filter { user ->
                     user.uid != userid
-                    && !currentUser.likes!!.contains(user.uid)
-                    && !currentUser.dislikes!!.contains(user.uid)
+                            && !currentUser.likes!!.contains(user.uid)
+                            && !currentUser.dislikes!!.contains(user.uid)
                 }
                 val nonDeletedMatches = matches.filter { user -> !user.deleted }
                 val filteredList =

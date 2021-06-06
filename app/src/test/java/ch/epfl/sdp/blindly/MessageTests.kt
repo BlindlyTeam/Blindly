@@ -22,19 +22,24 @@ class MessagesTests {
         assertThat(
             msg.timestamp,
             allOf(
-                greaterThanOrEqualTo(timestamp-delta),
-                lessThanOrEqualTo(timestamp)))
+                greaterThanOrEqualTo(timestamp - delta),
+                lessThanOrEqualTo(timestamp)
+            )
+        )
     }
+
     @Test
     fun textMessageSetCorrectly() {
         val msg = Message(TEXT_MESSAGE, USER_ID)
         assertThat(msg.messageText, equalTo(TEXT_MESSAGE))
     }
+
     @Test
     fun locationMessageSetCorrectly() {
         val msg = Message(LOCATION_MESSAGE, USER_ID)
         assertThat(msg.messageText, equalTo(LOCATION_MESSAGE))
     }
+
     @Test
     fun emptyConstructor() {
         val msg = Message<BlindlyLatLng>()

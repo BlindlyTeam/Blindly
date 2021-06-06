@@ -9,13 +9,12 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
 import ch.epfl.sdp.blindly.location.permissions.LocationPermission
 import ch.epfl.sdp.blindly.location.permissions.LocationPermission.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import ch.epfl.sdp.blindly.location.permissions.LocationPermission.Companion.requestPermission
+import ch.epfl.sdp.blindly.main_screen.map.UserMapActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-
 import org.junit.Rule
 import org.junit.Test
 

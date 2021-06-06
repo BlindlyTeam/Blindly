@@ -22,7 +22,6 @@ import javax.inject.Inject
 
 /**
  * Activity that enables the user to edit his information (description, passions, etc)
- *
  */
 @AndroidEntryPoint
 class EditProfile : AppCompatActivity() {
@@ -71,7 +70,7 @@ class EditProfile : AppCompatActivity() {
             passionsText?.let { setCheckedChips(passions, it, this) }
         }
 
-        if(!CheckInternet.internetIsConnected(this)) {
+        if (!CheckInternet.internetIsConnected(this)) {
             Log.d(TAG, "Internet is not available: can't modify profile ")
             findViewById<Button>(R.id.username_button).isClickable = false
             findViewById<Button>(R.id.gender_button).isClickable = false

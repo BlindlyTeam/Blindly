@@ -7,7 +7,6 @@ import ch.epfl.sdp.blindly.main_screen.match.MatchPageFragment
 import ch.epfl.sdp.blindly.main_screen.my_matches.MyMatchesFragment
 import ch.epfl.sdp.blindly.main_screen.profile.ProfilePageFragment
 
-
 /**
  * This ViewPagerAdapter is used by the ViewPager in the MainScreen
  * to instantiate the fragments
@@ -34,9 +33,7 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
             else -> {
                 ProfilePageFragment.newInstance(position)
             }
-
         }
-
     }
 
     /**
@@ -45,8 +42,6 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
      * @return the number of fragments
      */
     override fun getItemCount(): Int {
-
         return 3
-
     }
 }

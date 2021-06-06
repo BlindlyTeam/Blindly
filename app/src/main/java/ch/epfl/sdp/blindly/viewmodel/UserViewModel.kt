@@ -129,7 +129,8 @@ class UserViewModel @AssistedInject constructor(
                     override fun onSuccess() {
                         filePath = Uri.fromFile(audioFile).path!!
                         // Save the audioRecord in the app directory to be available offline
-                        val newFile = File("${context.filesDir.absolutePath}/$PRESENTATION_AUDIO_NAME")
+                        val newFile =
+                            File("${context.filesDir.absolutePath}/$PRESENTATION_AUDIO_NAME")
                         audioFile.copyTo(
                             newFile,
                             overwrite = true

@@ -5,13 +5,11 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import android.util.Log
 import android.widget.Chronometer
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.lang.Exception
 
 private const val PLAYBAR_DELAY = 10L
 

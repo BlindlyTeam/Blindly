@@ -70,6 +70,7 @@ class UserMapTest {
         ActivityScenario.launch<UserMapActivity>(intent)
         onView(withId(R.id.map)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
+
     @Test
     fun openAndDisplayUserAndName() {
         val intent = Intent(
@@ -81,6 +82,7 @@ class UserMapTest {
         ActivityScenario.launch<UserMapActivity>(intent)
         onView(withId(R.id.map)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
+
     @Test
     fun activitySendsLocation() {
         // Constant to check future constant completion
@@ -101,12 +103,14 @@ class UserMapTest {
             override fun onMessageReceived(message: Message<BlindlyLatLng>) {
                 future.complete(FUTURE_COMPLETED)
             }
+
             override fun onMessageUpdated(message: Message<BlindlyLatLng>) {
                 future.complete(FUTURE_COMPLETED)
             }
         })
         assertThat(future.get(), equalTo(FUTURE_COMPLETED))
     }
+
     @Test
     fun openAndDisplayUserWithoutPoints() {
         val intent =

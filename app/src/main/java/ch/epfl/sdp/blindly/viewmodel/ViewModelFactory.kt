@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import ch.epfl.sdp.blindly.audio.FirebaseRecordings
 import ch.epfl.sdp.blindly.database.UserRepository
-import com.google.firebase.storage.FirebaseStorage
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

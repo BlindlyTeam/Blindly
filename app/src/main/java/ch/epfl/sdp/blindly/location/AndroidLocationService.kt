@@ -4,7 +4,6 @@ import android.content.Context
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
-import android.net.InetAddresses
 import android.util.Log
 import ch.epfl.sdp.blindly.user.User
 import java.net.InetAddress.getByName
@@ -104,6 +103,7 @@ class AndroidLocationService(private var context: Context) : LocationService {
         fun createLocationTableEPFL(): List<Double> {
             return listOf(EPFL_LAT, EPFL_LONG)
         }
+
         const val TAG = "AndroidLocationService"
 
         /**
@@ -117,13 +117,13 @@ class AndroidLocationService(private var context: Context) : LocationService {
         fun getCurrentLocationStringFromUser(context: Context, user: User?): String {
             if (user != null) {
                 //if(isInternetAvailable()) {
-                    Log.d("TAG", "Network is enable: can get location from geocoder")
-                    val geocoder = Geocoder(context)
-                    val lat = user.location?.get(0)
-                    val lon = user.location?.get(1)
-                    if (lat != null && lon != null) {
-                        return toAddress(geocoder, lat, lon)
-                    }
+                Log.d("TAG", "Network is enable: can get location from geocoder")
+                val geocoder = Geocoder(context)
+                val lat = user.location?.get(0)
+                val lon = user.location?.get(1)
+                if (lat != null && lon != null) {
+                    return toAddress(geocoder, lat, lon)
+                }
                 //}
             }
             return "Location not found"

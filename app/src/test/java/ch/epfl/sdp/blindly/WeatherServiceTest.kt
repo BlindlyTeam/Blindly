@@ -3,17 +3,16 @@ package ch.epfl.sdp.blindly
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
 import ch.epfl.sdp.blindly.main_screen.profile.settings.LAUSANNE_LATLNG
 import ch.epfl.sdp.blindly.weather.*
-import org.junit.Test
-
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
-import java.lang.Exception
+import org.junit.Test
 import java.util.concurrent.CompletableFuture
 
 private const val day = 1.0
 private const val morning = 2.0
 private const val evening = 3.0
 private const val night = 4.0
+
 class WeatherServiceTest {
     companion object {
         const val FUTURE_COMPLETED = "Future completed"
@@ -58,26 +57,27 @@ class WeatherServiceTest {
 
     @Test
     fun commonWeatherIcons() {
-     val icons = arrayOf(
-         "01d",
-        "02d",
-        "03d",
-        "04d",
-        "09d",
-        "10d",
-        "11d",
-        "13d",
-        "50d",
+        val icons = arrayOf(
+            "01d",
+            "02d",
+            "03d",
+            "04d",
+            "09d",
+            "10d",
+            "11d",
+            "13d",
+            "50d",
 
-        "01n",
-        "02n",
-        "03n",
-        "04n",
-        "09n",
-        "10n",
-        "11n",
-        "13n",
-        "50n")
+            "01n",
+            "02n",
+            "03n",
+            "04n",
+            "09n",
+            "10n",
+            "11n",
+            "13n",
+            "50n"
+        )
 
         icons.forEach {
             val icon = Weather("Weather", it).getIconDrawableId()

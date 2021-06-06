@@ -1,14 +1,11 @@
 package ch.epfl.sdp.blindly.main_screen
 
-
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 import org.mockito.Mockito.mock
 
-
 private const val COUNT = 3
-
 private const val MATCH_POSITION = 0
 private const val MY_MATCHES_POSITION = 1
 private const val PROFILE_POSITION = 2
@@ -21,7 +18,6 @@ class ViewPagerAdapterUnitTest {
     private val viewPagerAdapter = ViewPagerAdapter(fakeMainScreen)
 
     @Test
-
     fun fragmentCountIsCorrect() {
         assertThat(viewPagerAdapter.itemCount, equalTo(COUNT))
     }

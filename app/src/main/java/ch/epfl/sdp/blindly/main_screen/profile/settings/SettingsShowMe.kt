@@ -1,10 +1,8 @@
 package ch.epfl.sdp.blindly.main_screen.profile.settings
 
-import android.os.Build
 import android.os.Bundle
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.SHOW_ME

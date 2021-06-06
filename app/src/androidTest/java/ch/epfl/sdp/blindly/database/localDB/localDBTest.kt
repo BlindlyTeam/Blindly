@@ -51,8 +51,6 @@ class LocalDBTest {
         .setRecordingPath("bob/path")
         .build()
 
-
-
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()

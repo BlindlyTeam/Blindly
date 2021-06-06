@@ -19,7 +19,6 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallback,
     SwipeRefreshLayout.OnRefreshListener {
@@ -103,7 +102,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun setIcon(index: Int, drawableId: Int) {
         val iconId = resources.getIdentifier(
             "${WEATHER_PREFIX}${(index + 1)}_icon",
-            DEF_TYPE ,
+            DEF_TYPE,
             packageName
         )
         findViewById<ImageView>(iconId)?.setImageDrawable(
@@ -125,7 +124,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun setEvening(index: Int, text: String) {
         val evening = resources.getIdentifier(
             "${WEATHER_PREFIX}${(index + 1)}_evening",
-            DEF_TYPE ,
+            DEF_TYPE,
             packageName
         )
         findViewById<TextView>(evening)?.text = text
@@ -134,7 +133,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun setDayName(index: Int, text: String) {
         val dayName = resources.getIdentifier(
             "${WEATHER_PREFIX}${(index + 1)}_name",
-            DEF_TYPE ,
+            DEF_TYPE,
             packageName
         )
         findViewById<TextView>(dayName)?.text = text
@@ -143,7 +142,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
     private fun setContainerVisibility(index: Int, visibility: Int) {
         val containerId = resources.getIdentifier(
             "${WEATHER_PREFIX}${(index + 1)}",
-            DEF_TYPE ,
+            DEF_TYPE,
             packageName
         )
         findViewById<View>(containerId)?.visibility = visibility
@@ -247,7 +246,7 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
         for (i in 0..5) {
             val layoutId = resources.getIdentifier(
                 "${WEATHER_PREFIX}${(i + 1)}",
-                DEF_TYPE ,
+                DEF_TYPE,
                 packageName
             )
             if (i.toLong() == indexOfDay) {
@@ -268,6 +267,5 @@ class WeatherActivity : AppCompatActivity(), WeatherService.WeatherResultCallbac
             }
         }
     }
-
 }
 

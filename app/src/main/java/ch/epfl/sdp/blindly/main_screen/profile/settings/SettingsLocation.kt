@@ -1,10 +1,8 @@
 package ch.epfl.sdp.blindly.main_screen.profile.settings
 
 import android.location.Location
-import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.location.AndroidLocationService
@@ -42,7 +40,6 @@ class SettingsLocation : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var userLocation: String
     private lateinit var currentLocation: String
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

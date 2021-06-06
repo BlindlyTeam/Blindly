@@ -1,8 +1,6 @@
 package ch.epfl.sdp.blindly.main_screen.match.algorithm
 
 import android.location.Location
-import android.os.Build
-import androidx.annotation.RequiresApi
 import ch.epfl.sdp.blindly.user.User
 
 private const val ONE_KM_IN_METERS = 1000

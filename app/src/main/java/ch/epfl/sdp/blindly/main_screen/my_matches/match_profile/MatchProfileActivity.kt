@@ -22,7 +22,6 @@ import ch.epfl.sdp.blindly.viewmodel.UserViewModel
 import ch.epfl.sdp.blindly.viewmodel.UserViewModel.Companion.instantiateViewModel
 import ch.epfl.sdp.blindly.viewmodel.ViewModelAssistedFactory
 import com.google.android.material.chip.ChipGroup
-import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject

@@ -1,11 +1,9 @@
 package ch.epfl.sdp.blindly.main_screen.profile.edit
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
 import ch.epfl.sdp.blindly.user.GENDER

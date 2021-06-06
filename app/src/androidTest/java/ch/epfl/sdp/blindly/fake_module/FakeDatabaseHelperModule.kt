@@ -1,7 +1,7 @@
 package ch.epfl.sdp.blindly.fake_module
 
-import ch.epfl.sdp.blindly.dependency_injection.DatabaseHelperModule
 import ch.epfl.sdp.blindly.database.DatabaseHelper
+import ch.epfl.sdp.blindly.dependency_injection.DatabaseHelperModule
 import ch.epfl.sdp.blindly.main_screen.my_matches.chat.Message
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
@@ -18,13 +18,15 @@ import org.mockito.Mockito.*
 import org.mockito.stubbing.Answer
 import javax.inject.Singleton
 
-
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
     replaces = [DatabaseHelperModule::class]
 )
 open class FakeDatabaseHelperModule {
+    private val mockedChatDatabases = HashMap<String, DatabaseHelper.ChatLiveDatabase>(1)
+    private val mockedLocationDatabases = HashMap<String, DatabaseHelper.LocationLiveDatabase>(1)
+
     /**
      * Provide the mocked database helpers
      *
@@ -52,19 +54,19 @@ open class FakeDatabaseHelperModule {
             })
         return db
     }
-    private val mockedChatDatabases = HashMap<String, DatabaseHelper.ChatLiveDatabase>(1)
+
     private fun getChatMockDb(
         userId: String,
         otherUserId: String
     ): DatabaseHelper.ChatLiveDatabase {
-        return mockedChatDatabases.getOrPut(userId,  {
+        return mockedChatDatabases.getOrPut(userId, {
             DatabaseHelper.ChatLiveDatabase(
                 getMockedDbRef(otherUserId),
                 userId
             )
         })
     }
-    private val mockedLocationDatabases = HashMap<String, DatabaseHelper.LocationLiveDatabase>(1)
+
     private fun getLocationMockDb(
         userId: String,
         otherUserId: String
@@ -91,7 +93,8 @@ open class FakeDatabaseHelperModule {
         val alreadyDefinedEntries = HashSet<String>()
         val listeners: MutableList<ChildEventListener> = ArrayList(1)
         `when`(dbRef.addChildEventListener(any())).then(Answer<ChildEventListener> { invocationOnMock ->
-            val listener: ChildEventListener = invocationOnMock.getArgument(0, ChildEventListener::class.java)
+            val listener: ChildEventListener =
+                invocationOnMock.getArgument(0, ChildEventListener::class.java)
             listeners.add(listener)
             // We need to return the added listener for the signature to be correct
             listener
@@ -103,30 +106,30 @@ open class FakeDatabaseHelperModule {
             // Send the messages
             val dispatchMessage = { message: Message<Any> ->
 
-                    // Create a mock snapshot to give to the callback
-                    val dataSnapshot = mock(DataSnapshot::class.java)
-                    `when`(dataSnapshot.getValue(ArgumentMatchers.any(GenericTypeIndicator::class.java))).thenReturn(
-                        message
-                    )
-                    if (alreadyDefinedEntries.contains(colectionName))
-                        listeners.forEach { listener ->
-                            listener.onChildChanged(
-                                dataSnapshot,
-                                "NOT MOCKED"
-                            )
-                        }
-                    else
-                        listeners.forEach { listener ->
-                            listener.onChildAdded(
-                                dataSnapshot,
-                                "NOT MOCKED"
-                            )
-                        }
-
-
+                // Create a mock snapshot to give to the callback
+                val dataSnapshot = mock(DataSnapshot::class.java)
+                `when`(dataSnapshot.getValue(ArgumentMatchers.any(GenericTypeIndicator::class.java))).thenReturn(
+                    message
+                )
+                if (alreadyDefinedEntries.contains(colectionName)) {
+                    listeners.forEach { listener ->
+                        listener.onChildChanged(
+                            dataSnapshot,
+                            "NOT MOCKED"
+                        )
+                    }
+                } else {
+                    listeners.forEach { listener ->
+                        listener.onChildAdded(
+                            dataSnapshot,
+                            "NOT MOCKED"
+                        )
+                    }
+                }
             }
-            `when`(childRef.setValue(any())).then(Answer<Task<Void>> { invocationOnMock ->
-                val message: Message<Any> = invocationOnMock.getArgument(0, Message::class.java) as Message<Any>
+            `when`(childRef.setValue(any())).then { invOnMock ->
+                val message: Message<Any> =
+                    invOnMock.getArgument(0, Message::class.java) as Message<Any>
                 dispatchMessage(message)
                 val replyMsg: Message<Any> = Message(message.messageText as Any, otherUserId)
                 dispatchMessage(replyMsg)
@@ -134,7 +137,7 @@ open class FakeDatabaseHelperModule {
                 val taskCompletionSource = TaskCompletionSource<Void>()
                 taskCompletionSource.setResult(null)
                 taskCompletionSource.task
-            })
+            }
             childRef
         })
         return dbRef

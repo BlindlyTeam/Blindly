@@ -1,9 +1,9 @@
 package ch.epfl.sdp.blindly
 
 import ch.epfl.sdp.blindly.audio.AudioRecord
-import org.junit.Test
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.equalTo
+import org.junit.Test
 
 private const val NAME_AUDIO_ONE = "Audio 1"
 private const val NAME_AUDIO_TWO = "Audio 2"

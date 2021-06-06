@@ -11,6 +11,7 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 
 class RecyclerViewChildActions {
+
     companion object {
         /**
          * Performs an action on a view with a given id inside a RecyclerView's item

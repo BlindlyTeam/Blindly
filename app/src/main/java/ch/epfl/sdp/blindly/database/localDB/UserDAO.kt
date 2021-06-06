@@ -69,7 +69,8 @@ interface UserDAO {
         return if (ue === null) null else User.Builder().setUid(id).setUsername(ue.username!!)
             .setLocation(ue.location!!).setBirthday(ue.birthday!!).setGender(ue.gender!!)
             .setSexualOrientations(ue.sexualOrientations!!).setShowMe(ue.showMe!!)
-            .setPassions(ue.passions!!).setRadius(ue.radius!!).setMatches(ue.matches!!).setDislikes(ue.dislikes!!)
+            .setPassions(ue.passions!!).setRadius(ue.radius!!).setMatches(ue.matches!!)
+            .setDislikes(ue.dislikes!!)
             .setLikes(ue.likes!!).setRecordingPath(ue.recordingPath!!).setAgeRange(ue.ageRange!!)
             .build()
     }

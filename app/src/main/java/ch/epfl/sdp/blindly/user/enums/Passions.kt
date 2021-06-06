@@ -4,7 +4,7 @@ import ch.epfl.sdp.blindly.R
 
 enum class Passions(val asString: String, val id: Int) {
     BRUNCH("Brunch", R.id.brunch_chip),
-    WINE("Wine"  , R.id.wine_chip),
+    WINE("Wine", R.id.wine_chip),
     FASHION("Fashion", R.id.fashion_chip),
     CYCLING("Cycling", R.id.cycling_chip),
     RUNNING("Running", R.id.running_chip),

@@ -7,8 +7,8 @@ import android.widget.DatePicker
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.utils.Date
 import ch.epfl.sdp.blindly.user.User
+import ch.epfl.sdp.blindly.utils.Date
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 

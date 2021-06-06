@@ -7,7 +7,6 @@ import android.util.Log
 import android.widget.Toast
 import ch.epfl.sdp.blindly.BuildConfig
 import ch.epfl.sdp.blindly.R
-import ch.epfl.sdp.blindly.SplashScreen
 import ch.epfl.sdp.blindly.database.UserRepository
 import ch.epfl.sdp.blindly.main_screen.MainScreen
 import ch.epfl.sdp.blindly.profile_setup.MAJORITY_AGE
@@ -16,13 +15,10 @@ import ch.epfl.sdp.blindly.utils.Date
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-
 
 /**
  * Class that contains helpful functions regarding the user.
@@ -47,11 +43,7 @@ class UserHelper(private val userRepository: UserRepository) {
     fun getSignInIntent(): Intent {
         // Optionnaly get phone number to set default in login form
         val phoneProvider = AuthUI.IdpConfig.PhoneBuilder()
-        /*
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED ){
-            var tMgr: TelephonyManager = activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            phoneProvider.setDefaultNumber(tMgr.line1Number)
-        }*/
+
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
             phoneProvider.build(),
@@ -75,9 +67,6 @@ class UserHelper(private val userRepository: UserRepository) {
             .setIsSmartLockEnabled(!BuildConfig.DEBUG /* credentials */, true /* hints */)
             .setAvailableProviders(providers)
             .setTheme(R.style.Theme_Blindly) // Set theme
-            /*.setTosAndPrivacyPolicyUrls(
-    "https://example.com/terms.html",
-    "https://example.com/privacy.html")*/
             .setAuthMethodPickerLayout(customLayout)
             .build()
 
@@ -170,8 +159,8 @@ class UserHelper(private val userRepository: UserRepository) {
             val birthday = userBuilder.birthday
             val date = Date.getDate(birthday)
             var age = MAJORITY_AGE
-            if(date != null) {
-                age  = date.getAge()
+            if (date != null) {
+                age = date.getAge()
             }
             val minAge =
                 if (age >= MAJORITY_AGE + DEFAULT_RANGE)

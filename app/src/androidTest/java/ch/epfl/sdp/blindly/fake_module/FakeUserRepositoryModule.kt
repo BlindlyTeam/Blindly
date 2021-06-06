@@ -154,8 +154,7 @@ open class FakeUserRepositoryModule {
             db.collection(USER_COLLECTION)
                 .document(TEST_UID)
         ).thenReturn(document)
-        //TODO db.collection().document().get().await().toUser is a suspend function which is not the case of the real module
-        // Need to find a proper way to retrun the fakeUser after await()
+
         Mockito.`when`(
             db.collection(USER_COLLECTION)
                 .document(TEST_UID)
@@ -296,7 +295,6 @@ open class FakeUserRepositoryModule {
             onBlocking { isNewUser() }.doReturn(false)
         }
 
-        //TODO this fakeIntent may be wrong to fake
         val fakeIntent = mock(Intent::class.java)
         Mockito.`when`(user.getSignInIntent()).thenReturn(fakeIntent)
 

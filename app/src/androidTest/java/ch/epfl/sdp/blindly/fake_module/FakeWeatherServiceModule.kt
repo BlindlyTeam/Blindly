@@ -23,7 +23,7 @@ open class FakeWeatherServiceModule {
         val WEATHER = Weather("Very nice weather", "01d")
         const val DAY = "MON"
         val DAY_WEATHER = DayWeather(TEMPERATURE, arrayOf(WEATHER), DAY)
-        val WEEK_WEATHER = WeekWeather(Array(7) {DAY_WEATHER})
+        val WEEK_WEATHER = WeekWeather(Array(7) { DAY_WEATHER })
 
         fun answerResult(weekWeather: WeekWeather): Answer<Unit> {
             return Answer<Unit> { invocationOnMock ->

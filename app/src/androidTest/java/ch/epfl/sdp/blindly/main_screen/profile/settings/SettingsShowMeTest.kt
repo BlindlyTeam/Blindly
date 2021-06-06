@@ -108,10 +108,14 @@ class SettingsShowMeTest {
     }
 
     private fun launchSettingsShowMe(): ActivityScenario<SettingsShowMe> =
-         runBlocking {
-            val intent = Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
+        runBlocking {
+            val intent =
+                Intent(ApplicationProvider.getApplicationContext(), SettingsShowMe::class.java)
 
-            intent.putExtra(EXTRA_SHOW_ME, userRepository.getUser(userHelper.getUserId()!!)!!.showMe)
+            intent.putExtra(
+                EXTRA_SHOW_ME,
+                userRepository.getUser(userHelper.getUserId()!!)!!.showMe
+            )
             return@runBlocking ActivityScenario.launch(intent)
         }
 

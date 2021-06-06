@@ -1,7 +1,6 @@
 package ch.epfl.sdp.blindly.database.localDB
 
 import androidx.room.TypeConverter
-import java.lang.StringBuilder
 
 /**
  * Class that helps the local database to store complex types (lists)
@@ -24,7 +23,7 @@ class UserConverter {
     fun fromStringListToString(sl: List<String>): String {
         val len = sl.size
         val str = StringBuilder()
-        for(i in 0 until len) {
+        for (i in 0 until len) {
             str.append(sl[i])
             if (i != len - 1) {
                 str.append(",")

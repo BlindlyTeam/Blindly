@@ -62,6 +62,7 @@ open class DayWeather(
  */
 open class WeekWeather(val daily: Array<out DayWeather>) {
 }
+
 /**
  * The weather during some time
  *
@@ -177,18 +178,20 @@ class WeatherService {
         @Json(name = "timezone_offset") val timezoneOffset: Int,
         val daily: Array<OpenWeatherMapDayWeather>
     )
+
     private class OpenWeatherMapDayWeather(
         val dt: Long, @Json(name = "temp") temperature: DayTemperature,
         weather: Array<Weather>
     ) : DayWeather(
         temperature, weather, null
     )
+
     fun nextWeek(
         loc: BlindlyLatLng,
         language: String = getLanguage(),
         callback: WeatherResultCallback
     ) {
-        val u: HttpUrl? =  url.toHttpUrlOrNull()
+        val u: HttpUrl? = url.toHttpUrlOrNull()
         // URL is either always valid or never valid as it is a build-time constant
         // so if the checks pass once it will always. There therefore is no need
         // to take action on runtime if it is invalid as it always will be
@@ -240,6 +243,7 @@ class WeatherService {
 
         })
     }
+
     fun mapDate(timezoneOffset: Int, dt: Long): String {
         val cal = Calendar.getInstance()
         cal.timeInMillis = dt * 1000

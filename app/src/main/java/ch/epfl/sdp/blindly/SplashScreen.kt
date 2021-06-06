@@ -73,13 +73,13 @@ class SplashScreen : AppCompatActivity() {
     private fun launchNext() {
         if (user.isLoggedIn()) {
             GlobalScope.launch(Dispatchers.Main) {
-            if (!isNewUser.await()) {
-                val intent = Intent(this@SplashScreen, MainScreen::class.java)
-                startActivity(intent)
-            } else {
-                // If new user, setup profile page
-                startActivity(user.getProfileSetupIntent(this@SplashScreen))
-            }
+                if (!isNewUser.await()) {
+                    val intent = Intent(this@SplashScreen, MainScreen::class.java)
+                    startActivity(intent)
+                } else {
+                    // If new user, setup profile page
+                    startActivity(user.getProfileSetupIntent(this@SplashScreen))
+                }
             }
         } else {
             waitingAuthResult = true

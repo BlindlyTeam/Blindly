@@ -1,8 +1,8 @@
 package ch.epfl.sdp.blindly.database
 
 import android.util.Log
-import ch.epfl.sdp.blindly.main_screen.my_matches.chat.Message
 import ch.epfl.sdp.blindly.location.BlindlyLatLng
+import ch.epfl.sdp.blindly.main_screen.my_matches.chat.Message
 import com.google.firebase.database.*
 
 /**

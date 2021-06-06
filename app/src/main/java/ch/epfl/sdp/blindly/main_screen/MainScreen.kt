@@ -31,7 +31,6 @@ class MainScreen : AppCompatActivity() {
         R.drawable.profile_fragment_icon
     )
 
-
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager2? = null
 

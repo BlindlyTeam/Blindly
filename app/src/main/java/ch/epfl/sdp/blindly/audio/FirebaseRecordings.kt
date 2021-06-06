@@ -30,6 +30,7 @@ interface FirebaseRecordings {
 
     companion object {
         private const val PRESENTATION_AUDIO_NAME = "PresentationAudio.amr"
-        fun getPresentationAudionName(userId: String) = "Recordings/$userId-${PRESENTATION_AUDIO_NAME}"
+        fun getPresentationAudionName(userId: String) =
+            "Recordings/$userId-${PRESENTATION_AUDIO_NAME}"
     }
 }

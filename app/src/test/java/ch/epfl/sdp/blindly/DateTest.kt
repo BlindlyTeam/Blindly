@@ -1,7 +1,6 @@
 package ch.epfl.sdp.blindly
 
 import ch.epfl.sdp.blindly.utils.Date
-import ch.epfl.sdp.blindly.utils.DateInterface
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.hamcrest.core.IsEqual.equalTo
@@ -9,8 +8,9 @@ import org.hamcrest.core.IsNull.nullValue
 import org.junit.Test
 
 private val TEST_DATE = Date(5, 1, 2001)
-private val TEST_DATE_PRIME =  Date(5, 1, 2001)
-private val TEST_DATE_2 =  Date(5, 1, 2003)
+private val TEST_DATE_PRIME = Date(5, 1, 2001)
+private val TEST_DATE_2 = Date(5, 1, 2003)
+
 class DateTest {
 
     @Test

@@ -4,7 +4,6 @@ import android.location.Location
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.serialization.Serializable
 
 
 // Simple wrapper to let firebase handle it nicely
@@ -28,12 +27,14 @@ class BlindlyLatLng : Parcelable {
     }
 
     @Suppress("unused") // needed for firebase
-    constructor() {}
+    constructor() {
+    }
 
     constructor(latitude: Double?, longitude: Double?) {
         this.latitude = latitude
         this.longitude = longitude
     }
+
     constructor(latLng: LatLng) {
         latitude = latLng.latitude
         longitude = latLng.longitude
